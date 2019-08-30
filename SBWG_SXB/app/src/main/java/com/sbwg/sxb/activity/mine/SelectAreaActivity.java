@@ -10,6 +10,7 @@ import com.sbwg.sxb.AppApplication;
 import com.sbwg.sxb.AppManager;
 import com.sbwg.sxb.R;
 import com.sbwg.sxb.activity.BaseActivity;
+import com.sbwg.sxb.utils.CommonTools;
 import com.sbwg.sxb.utils.ExceptionUtil;
 import com.sbwg.sxb.utils.LogUtil;
 import com.sbwg.sxb.utils.XmlParserHandler;
@@ -93,6 +94,7 @@ public class SelectAreaActivity extends BaseActivity {
 				public void onIndexDisplayItemClick(IndexDisplay indexDisplay) {
 					if (indexDisplay != null) {
 						AreaEntity areaEn = (AreaEntity) indexDisplay;
+						CommonTools.showToast(areaEn.getName(), 1000);
 					}
 				}
 
