@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/ui_bg_color_app"
+    android:scrollbars="none">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/sign_iv_show"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@drawable/icon_default_show"
+            android:scaleType="centerCrop"/>
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_padding_15"
+            android:padding="@dimen/margin_padding_15">
+
+            <TextView
+                android:id="@+id/sign_tv_name"
+                style="@style/SignUp_TextView"
+                android:text="姓名："/>
+
+            <EditText
+                android:id="@+id/sign_et_name"
+                style="@style/SignUp_EditText"
+                android:hint="必填"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@id/sign_tv_name"
+                app:layout_constraintWidth_percent="0.75"/>
+
+            <TextView
+                android:id="@+id/sign_tv_gender"
+                style="@style/SignUp_TextView"
+                android:text="性别："
+                app:layout_constraintTop_toBottomOf="@id/sign_tv_name" />
+
+            <TextView
+                android:id="@+id/sign_tv_gender_woman"
+                style="@style/common_checkbox_min"
+                android:layout_width="wrap_content"
+                android:layout_marginLeft="@dimen/margin_padding_30"
+                android:paddingTop="@dimen/margin_padding_10"
+                android:paddingBottom="@dimen/margin_padding_10"
+                android:text="女"
+                app:layout_constraintLeft_toRightOf="@id/sign_tv_gender"
+                app:layout_constraintTop_toTopOf="@id/sign_tv_gender" />
+
+            <TextView
+                android:id="@+id/sign_tv_gender_man"
+                style="@style/common_checkbox_min"
+                android:layout_width="wrap_content"
+                android:layout_marginLeft="@dimen/margin_padding_30"
+                android:paddingTop="@dimen/margin_padding_10"
+                android:paddingBottom="@dimen/margin_padding_10"
+                android:text="男"
+                app:layout_constraintLeft_toRightOf="@id/sign_tv_gender_woman"
+                app:layout_constraintTop_toTopOf="@id/sign_tv_gender" />
+
+            <TextView
+                android:id="@+id/sign_tv_age"
+                style="@style/SignUp_TextView"
+                android:text="年龄："
+                app:layout_constraintTop_toBottomOf="@id/sign_tv_gender"/>
+
+            <EditText
+                android:id="@+id/sign_et_age"
+                style="@style/SignUp_EditText"
+                android:hint="必填"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@id/sign_tv_age"
+                app:layout_constraintWidth_percent="0.75"/>
+
+            <ImageView
+                style="@style/common_go_right"
+                android:layout_marginTop="@dimen/margin_padding_15"
+                android:layout_marginRight="@dimen/margin_padding_15"
+                app:layout_constraintRight_toRightOf="@id/sign_et_age"
+                app:layout_constraintTop_toTopOf="@id/sign_et_age"/>
+
+            <TextView
+                android:id="@+id/sign_tv_phone"
+                style="@style/SignUp_TextView"
+                android:text="电话："
+                app:layout_constraintTop_toBottomOf="@id/sign_tv_age"/>
+
+            <EditText
+                android:id="@+id/sign_et_phone"
+                style="@style/SignUp_EditText"
+                android:hint="必填"
+                android:inputType="phone"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@id/sign_tv_phone"
+                app:layout_constraintWidth_percent="0.75"/>
+
+            <TextView
+                android:id="@+id/sign_tv_cost"
+                style="@style/SignUp_TextView"
+                android:text="活动费用：0.00元"
+                app:layout_constraintTop_toBottomOf="@id/sign_tv_phone"/>
+
+            <TextView
+                android:id="@+id/sign_tv_cost_pay"
+                style="@style/common_text_button"
+                android:text="在线支付"
+                android:textColor="@color/text_color_black"
+                android:layout_marginRight="@dimen/margin_padding_20"
+                android:background="@drawable/shape_frame_white_000000_20"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@id/sign_tv_cost"/>
+
+            <TextView
+                android:id="@+id/sign_tv_explain"
+                style="@style/SignUp_TextView"
+                android:textColor="@color/text_color_black"
+                android:padding="@dimen/margin_padding_15"
+                android:background="@drawable/shape_frame_white_000000_20"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/sign_tv_cost"/>
+
+            <TextView
+                android:id="@+id/sign_tv_sign_up"
+                style="@style/common_text_button"
+                android:text="立即报名"
+                android:layout_marginTop="@dimen/margin_padding_15"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/sign_tv_explain"/>
+
+        </android.support.constraint.ConstraintLayout>
+
+    </LinearLayout>
+</ScrollView>

@@ -1,0 +1,77 @@
+<root>
+  <Country name="地区">
+    <district name="阿富汗" sign="A" />
+    <district name="安道尔" sign="A" />
+    <district name="安哥拉" sign="A" />
+    <district name="阿根廷" sign="A" />
+    <district name="爱尔兰" sign="A" />
+    <district name="澳大利亚" sign="A" />
+
+    <district name="比利时" sign="B" />
+    <district name="巴西" sign="B" />
+    <district name="博茨瓦纳" sign="B" />
+    <district name="保加利亚" sign="B" />
+    <district name="冰岛" sign="B" />
+
+    <district name="朝鲜" sign="C" />
+
+    <district name="德国" sign="D" />
+
+    <district name="俄罗斯" sign="E" />
+
+    <district name="芬兰" sign="F" />
+    <district name="法国" sign="F" />
+    <district name="梵蒂冈" sign="F" />
+
+    <district name="哥斯达黎加" sign="G" />
+    <district name="古巴" sign="G" />
+
+    <district name="韩国" sign="H" />
+
+    <district name="柬埔寨" sign="J" />
+    <district name="加拿大" sign="J" />
+
+    <district name="科特迪瓦" sign="K" />
+
+    <district name="罗马尼亚" sign="L" />
+    <district name="卢旺达" sign="L" />
+    <district name="立陶宛" sign="L" />
+
+    <district name="美国" sign="M" />
+    <district name="墨西哥" sign="M" />
+    <district name="毛里求斯" sign="M" />
+    <district name="马来西亚" sign="M" />
+    <district name="马尔代夫" sign="M" />
+
+    <district name="南非" sign="N" />
+    <district name="尼泊尔" sign="N" />
+
+    <district name="葡萄牙" sign="P" />
+
+    <district name="瑞典" sign="R" />
+    <district name="瑞士" sign="R" />
+
+    <district name="索马里" sign="S" />
+    <district name="斯里兰卡" sign="S" />
+    <district name="沙特阿拉伯" sign="S" />
+
+    <district name="泰国" sign="T" />
+    <district name="土耳其" sign="T" />
+
+    <district name="乌克兰" sign="W" />
+    <district name="乌拉圭" sign="W" />
+    <district name="委内瑞拉" sign="W" />
+    <district name="乌兹别克斯坦" sign="W" />
+
+    <district name="西班牙" sign="X" />
+    <district name="新加坡" sign="X" />
+
+    <district name="印度" sign="Y" />
+    <district name="伊朗" sign="Y" />
+    <district name="以色列" sign="Y" />
+    <district name="伊拉克" sign="Y" />
+    <district name="意大利" sign="Y" />
+
+    <district name="中国" sign="Z" />
+  </Country>
+</root>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:scrollbars="none"
+    android:background="@color/ui_bg_color_app">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/ui_bg_color_app"
+        android:orientation="vertical">
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.v4.view.ViewPager
+                android:id="@+id/fg_home_head_viewPager"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/ui_bg_color_white" />
+
+            <LinearLayout
+                android:id="@+id/fg_home_head_indicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right|bottom"
+                android:layout_marginRight="@dimen/margin_padding_15"
+                android:layout_marginBottom="@dimen/screen_margin_default"
+                android:orientation="horizontal">
+
+            </LinearLayout>
+        </FrameLayout>
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_padding_15"
+            android:padding="@dimen/margin_padding_15">
+
+            <TextView
+                style="@style/block_title_text"
+                android:text="推荐"/>
+
+        </android.support.constraint.ConstraintLayout>
+
+        <com.sbwg.sxb.widgets.ScrollViewListView
+            android:id="@+id/fg_home_items_svlv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+</ScrollView>

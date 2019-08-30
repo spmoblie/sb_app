@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/share_view_fl_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/ui_bg_color_percent_10"
+    android:gravity="center" >
+
+    <View
+        android:id="@+id/share_view_dismiss"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/ui_bg_color_percent_08"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/share_view_ll_show_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@color/ui_bg_color_white"
+        android:orientation="vertical"
+        android:visibility="gone" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/margin_padding_42"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center"
+            android:text="@string/share"
+            android:textColor="@color/share_text_color"
+            android:textSize="@dimen/text_size_18" />
+
+        <ImageView
+            style="@style/set_line_horizontal_bg"
+            android:contentDescription="@string/desc" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/screen_margin_default"
+            android:layout_marginRight="@dimen/screen_margin_default"
+            android:layout_marginTop="@dimen/screen_margin_default"
+            android:baselineAligned="false" >
+
+            <TextView
+                android:id="@+id/share_view_tv_share_qq_space"
+                style="@style/common_tab_text_assist"
+                android:drawablePadding="@dimen/margin_padding_10"
+                android:drawableTop="@mipmap/share_icon_qq_space"
+                android:text="@string/share_qq_space"
+                android:textColor="@color/share_text_color" />
+
+            <TextView
+                android:id="@+id/share_view_tv_share_qq"
+                style="@style/common_tab_text_assist"
+                android:drawablePadding="@dimen/margin_padding_10"
+                android:drawableTop="@mipmap/share_icon_qq"
+                android:text="@string/share_qq"
+                android:textColor="@color/share_text_color" />
+
+            <TextView
+                android:id="@+id/share_view_tv_share_wechat"
+                style="@style/common_tab_text_assist"
+                android:drawablePadding="@dimen/margin_padding_10"
+                android:drawableTop="@mipmap/share_icon_wechat"
+                android:text="@string/share_wechat"
+                android:textColor="@color/share_text_color" />
+            
+            <TextView
+                android:id="@+id/share_view_tv_share_friends"
+                style="@style/common_tab_text_assist"
+                android:drawablePadding="@dimen/margin_padding_10"
+                android:drawableTop="@mipmap/share_icon_friends"
+                android:text="@string/share_friends"
+                android:textColor="@color/share_text_color" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/screen_margin_default"
+            android:baselineAligned="false" >
+
+            <TextView
+                android:id="@+id/share_view_tv_share_weibo"
+                style="@style/common_tab_text_assist"
+                android:drawablePadding="@dimen/margin_padding_10"
+                android:drawableTop="@mipmap/share_icon_weibo"
+                android:text="@string/share_weibo"
+                android:textColor="@color/share_text_color" />
+
+            <TextView
+                android:id="@+id/share_view_tv_share_email"
+                style="@style/common_tab_text_assist"
+                android:drawablePadding="@dimen/margin_padding_10"
+                android:drawableTop="@mipmap/share_icon_email"
+                android:text="@string/share_email"
+                android:textColor="@color/share_text_color" />
+
+            <TextView
+                android:id="@+id/share_view_tv_share_message"
+                style="@style/common_tab_text_assist"
+                android:drawablePadding="@dimen/margin_padding_10"
+                android:drawableTop="@mipmap/share_icon_message"
+                android:text="@string/share_message"
+                android:textColor="@color/share_text_color" />
+
+            <TextView
+                android:id="@+id/share_view_tv_share_copy"
+                style="@style/common_tab_text_assist"
+                android:drawablePadding="@dimen/margin_padding_10"
+                android:drawableTop="@mipmap/share_icon_copy"
+                android:text="@string/share_copy"
+                android:textColor="@color/share_text_color" />
+        </LinearLayout>
+    </LinearLayout>
+
+</FrameLayout>

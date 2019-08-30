@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Text字体常用颜色值 -->
+    <color name="text_color_style">#000000</color><!-- 风格 -->
+    <color name="text_color_white">#FFFFFF</color><!-- 白色 -->
+    <color name="text_color_black">#000000</color><!-- 黑色 -->
+    <color name="text_color_greys">#999999</color><!-- 灰色 -->
+
+    <!-- UI背景常用颜色值 -->
+    <color name="ui_bg_color_white">#FFFFFF</color><!-- 白色 -->
+    <color name="ui_bg_color_black">#000000</color><!-- 黑色 -->
+    <color name="ui_bg_color_items">#27283C</color><!-- 子窗 -->
+    <color name="ui_bg_color_div_min_01">#E0E0E0</color><!-- 分割线颜色值:细 -->
+    <color name="ui_bg_color_div_min_10">#EAEAEA</color><!-- 分割线颜色值:淡 -->
+    <color name="ui_bg_color_percent_05">#7F000000</color><!-- 黑色50%透明度 -->
+    <color name="ui_bg_color_percent_08">#33000000</color><!-- 黑色80%透明度 -->
+    <color name="ui_bg_color_percent_10">#00000000</color><!-- 黑色100透明度 -->
+
+    <!-- 标题栏文字颜色 -->
+    <color name="title_text_color">#FFFFFF</color>
+    <!-- 内容区文字颜色 -->
+    <color name="conte_text_color">#FFFFFF</color>
+    <!-- 标识区文字颜色 -->
+    <color name="label_text_color">#999999</color>
+    <!-- 输入框文字颜色 -->
+    <color name="input_text_color">#000000</color>
+    <!-- 提示语文字颜色 -->
+    <color name="input_hint_color">#cccccc</color>
+    <!-- 禁操作文字颜色 -->
+    <color name="debar_text_color">#cccccc</color>
+    <!-- 负金额文字颜色 -->
+    <color name="lower_text_color">#10AF9A</color>
+    <!-- 红点提醒颜色值 -->
+    <color name="warns_text_color">#FF0000</color>
+    <!-- 商品价格颜色值 -->
+    <color name="price_text_color">#000000</color>
+    <!-- 分享组件颜色值 -->
+    <color name="share_text_color">#000000</color>
+
+    <!-- AppTV切换色 -->
+    <color name="tv_color_change">#999999</color>
+    <!-- HomeB切换色 -->
+    <color name="tv_color_bottom">#FFFFFF</color>
+    <!-- App按钮背景 -->
+    <color name="tv_color_button">#999999</color>
+    <!-- AppTV状态色 -->
+    <color name="tv_color_status">#999999</color>
+    <!-- AppUI状态色 -->
+    <color name="ui_color_status">#000000</color>
+    <!-- AppUI背景色 -->
+    <color name="ui_bg_color_app">#000000</color>
+    <!-- AppUI区域色 -->
+    <color name="ui_bg_color_nut">#F7F7F7</color>
+
+
+    <!-- 省、市、区选择组件 -->
+    <color name="wheel_color_province_line_border">#C7C7C7</color>
+
+    <!-- 二维码扫描组件 -->
+    <color name="zxing_color_result_view">#B0000000</color>
+    <color name="zxing_color_result_points">#C0FFFF00</color>
+    <color name="zxing_color_viewfinder_mask">#60000000</color>
+
+    <!-- video -->
+    <color name="uvv_gray">#969696</color>
+    <color name="uvv_black">@color/ui_bg_color_percent_10</color>
+    <color name="uvv_light_gray">#ffF0F0F0</color>
+    <color name="uvv_titlebar_bg">#7f000000</color>
+
+    <!-- product menu -->
+    <color name="product_menu_bg_color_dn">@color/ui_color_status</color>
+    <color name="product_menu_bg_color_up">@color/ui_bg_color_percent_10</color>
+
+</resources>

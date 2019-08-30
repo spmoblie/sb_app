@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/ui_bg_color_app"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/fg_mine_item_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/margin_padding_15"
+        android:layout_marginRight="@dimen/margin_padding_15"
+        android:layout_marginBottom="@dimen/margin_padding_20"
+        android:paddingTop="@dimen/margin_padding_2"
+        android:paddingBottom="@dimen/margin_padding_2"
+        android:background="@drawable/shape_frame_bg_app_hollow_12">
+
+        <com.sbwg.sxb.widgets.RoundImageView
+            android:id="@+id/fg_mine_item_iv_show"
+            android:layout_width="@dimen/margin_padding_120"
+            android:layout_height="@dimen/margin_padding_120"
+            android:src="@drawable/icon_default_head"
+            app:type="round" />
+
+        <TextView
+            android:id="@+id/fg_mine_item_tv_title"
+            style="@style/mine_item_text"
+            android:layout_alignTop="@+id/fg_mine_item_iv_show"
+            android:layout_margin="@dimen/margin_padding_10"
+            android:layout_toRightOf="@+id/fg_mine_item_iv_show"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:textSize="@dimen/text_size_18"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/fg_mine_item_tv_time"
+            style="@style/mine_item_text"
+            android:layout_alignLeft="@+id/fg_mine_item_tv_title"
+            android:layout_below="@id/fg_mine_item_tv_title" />
+
+        <TextView
+            android:id="@+id/fg_mine_item_tv_number"
+            style="@style/mine_item_text"
+            android:layout_alignParentRight="true"
+            android:layout_alignBottom="@+id/fg_mine_item_iv_show"
+            android:layout_marginRight="@dimen/margin_padding_10"
+            android:paddingBottom="@dimen/margin_padding_10" />
+
+    </RelativeLayout>
+</LinearLayout>
