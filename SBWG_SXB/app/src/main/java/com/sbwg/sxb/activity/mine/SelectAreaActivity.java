@@ -1,5 +1,6 @@
 package com.sbwg.sxb.activity.mine;
 
+import android.content.Intent;
 import android.content.res.AssetManager;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
@@ -7,12 +8,13 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v4.util.ArrayMap;
 
 import com.sbwg.sxb.AppApplication;
+import com.sbwg.sxb.AppConfig;
 import com.sbwg.sxb.AppManager;
 import com.sbwg.sxb.R;
 import com.sbwg.sxb.activity.BaseActivity;
-import com.sbwg.sxb.utils.CommonTools;
 import com.sbwg.sxb.utils.ExceptionUtil;
 import com.sbwg.sxb.utils.LogUtil;
+import com.sbwg.sxb.utils.StringUtil;
 import com.sbwg.sxb.utils.XmlParserHandler;
 import com.sbwg.sxb.widgets.area.AreaEntity;
 import com.sbwg.sxb.widgets.area.AreaIndexDisplayAdapter;
@@ -34,6 +36,7 @@ public class SelectAreaActivity extends BaseActivity {
 	
 	private static final String TAG = "SelectAreaActivity";
 
+	private String areaName;
 	private List<AreaEntity> areaList = new ArrayList<>();
 	private ArrayMap<String, Integer> am_index = new ArrayMap<>();
 	
@@ -77,8 +80,8 @@ public class SelectAreaActivity extends BaseActivity {
 	}
 
 	private void initView() {
-		setTitle("选择地区");
-		setRightViewText(getString(R.string.confirm));
+		setTitle(getString(R.string.mine_change_area));
+		//setRightViewText(getString(R.string.confirm));
 
 		initIndexDisplayFragment();
 	}
@@ -94,7 +97,8 @@ public class SelectAreaActivity extends BaseActivity {
 				public void onIndexDisplayItemClick(IndexDisplay indexDisplay) {
 					if (indexDisplay != null) {
 						AreaEntity areaEn = (AreaEntity) indexDisplay;
-						CommonTools.showToast(areaEn.getName(), 1000);
+						areaName = areaEn.getName();
+						finish();
 					}
 				}
 
@@ -141,9 +145,14 @@ public class SelectAreaActivity extends BaseActivity {
 		LogUtil.i(TAG, "onDestroy");
 		super.onDestroy();
 	}
-	
+
 	@Override
 	public void finish() {
+		if (!StringUtil.isNull(areaName)) {
+			Intent returnIntent = new Intent();
+			returnIntent.putExtra(AppConfig.ACTIVITY_CHANGE_USER_CONTENT, areaName);
+			setResult(RESULT_OK, returnIntent);
+		}
 		super.finish();
 	}
 	

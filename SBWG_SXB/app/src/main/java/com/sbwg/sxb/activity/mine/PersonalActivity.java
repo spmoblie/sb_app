@@ -185,8 +185,8 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
                 break;
             case R.id.personal_rl_area:
                 intent = new Intent(mContext, SelectAreaActivity.class);
-//                startActivityForResult(intent, AppConfig.ACTIVITY_CHANGE_USER_AREA);
-                break;
+                startActivityForResult(intent, AppConfig.ACTIVITY_CHANGE_USER_AREA);
+                return;
             case R.id.personal_rl_intro:
                 intent = new Intent(mContext, EditUserInfoActivity.class);
                 intent.putExtra("titleStr", getString(R.string.mine_change_intro));
@@ -400,11 +400,11 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
                 setView();
             } else if (requestCode == AppConfig.ACTIVITY_CHANGE_USER_AREA) //修改地区
             {
-                introStr = data.getExtras().getString(AppConfig.ACTIVITY_CHANGE_USER_CONTENT);
+                areaStr = data.getExtras().getString(AppConfig.ACTIVITY_CHANGE_USER_CONTENT);
                 if (infoEn != null) {
-                    infoEn.setUserArea(introStr);
+                    infoEn.setUserArea(areaStr);
                 }
-                userManager.saveUserArea(introStr);
+                userManager.saveUserArea(areaStr);
                 setView();
             } else if (requestCode == AppConfig.ACTIVITY_CHANGE_USER_INTRO) //修改简介
             {

@@ -10,7 +10,8 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/screen_margin_default">
+        android:padding="@dimen/screen_margin_default"
+        android:visibility="gone">
 
         <TextView
             android:id="@+id/area_tv_other_title"

@@ -279,6 +279,7 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
 		infoEn.setUserNick(um.getUserNick());
 		infoEn.setGenderCode(um.getUserGender());
 		infoEn.setBirthday(um.getUserBirthday());
+		infoEn.setUserArea(um.getUserArea());
 		infoEn.setUserIntro(um.getUserIntro());
 		infoEn.setUserEmail(um.getUserEmail());
 	}

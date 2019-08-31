@@ -283,6 +283,7 @@
     <string name="mine_change_nick">修改昵称</string>
     <string name="mine_input_nick">请输入昵称</string>
     <string name="mine_change_gender">修改性别</string>
+    <string name="mine_change_area">选择地区</string>
     <string name="mine_change_intro">修改签名</string>
     <string name="mine_change_email">修改邮箱</string>
     <string name="mine_change_email_notice">注意：请正确输入您本人的邮箱，如有疑问请联系官方客服。</string>
