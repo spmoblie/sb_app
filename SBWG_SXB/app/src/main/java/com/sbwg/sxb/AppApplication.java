@@ -30,6 +30,9 @@ public class AppApplication extends Application {
     private static RequestOptions showOptions, headOptions;
 //	private static PushManager pushManager;
 
+    public static String version_name = ""; //当前版本号
+    public static boolean isWXShare = false; //记录是否微信分享
+
     //必须注册，Android框架调用Application
     @Override
     public void onCreate() {
@@ -232,9 +235,10 @@ public class AppApplication extends Application {
     /**
      * 获取推送服务的权限
      */
-//	public static boolean getPushStatus() {
+	public static boolean getPushStatus() {
 //		return pushManager.getPushStatus();
-//	}
+		return false;
+	}
 
     /**
      * 注册或注销用户信息至推送服务

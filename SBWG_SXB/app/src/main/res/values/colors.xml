@@ -10,6 +10,7 @@
     <!-- UI背景常用颜色值 -->
     <color name="ui_bg_color_white">#FFFFFF</color><!-- 白色 -->
     <color name="ui_bg_color_black">#000000</color><!-- 黑色 -->
+    <color name="ui_bg_color_greys">#999999</color><!-- 灰色 -->
     <color name="ui_bg_color_items">#27283C</color><!-- 子窗 -->
     <color name="ui_bg_color_div_min_01">#E0E0E0</color><!-- 分割线颜色值:细 -->
     <color name="ui_bg_color_div_min_10">#EAEAEA</color><!-- 分割线颜色值:淡 -->

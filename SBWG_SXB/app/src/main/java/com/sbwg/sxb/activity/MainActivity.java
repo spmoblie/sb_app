@@ -23,6 +23,7 @@ import com.sbwg.sxb.activity.mine.ChildFragmentMine;
 import com.sbwg.sxb.activity.sxb.ChildFragmentSXB;
 import com.sbwg.sxb.utils.ExceptionUtil;
 import com.sbwg.sxb.utils.LogUtil;
+import com.sbwg.sxb.utils.UpdateAppVersion;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -72,7 +73,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 			manager = getSupportFragmentManager();
 			mFragmentPagerAdapter = new MyFragmentPagerAdapter(manager);
 			// 检测App版本信息
-			//UpdateAppVersion.getInstance(instance, true);
+			UpdateAppVersion.getInstance(this, true);
 		} catch (Exception e) {
 			ExceptionUtil.handle(e);
 		}

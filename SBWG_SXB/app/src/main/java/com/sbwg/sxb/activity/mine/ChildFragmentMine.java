@@ -53,6 +53,9 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
 	private static final String IMAGE_URL_HTTP = AppConfig.ENVIRONMENT_PRESENT_IMG_APP;
 	private static int screenWidth = AppApplication.getSharedPreferences().getInt(AppConfig.KEY_SCREEN_WIDTH, 0);
 
+	@BindView(R.id.fg_mine_iv_setting)
+	ImageView iv_setting;
+
 	@BindView(R.id.fg_mine_iv_head)
 	RoundImageView iv_user_head;
 
@@ -177,6 +180,7 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
 	}
 
 	private void initView() {
+		iv_setting.setOnClickListener(this);
 		iv_user_head.setOnClickListener(this);
 
 		initShowView(designEn);
@@ -287,6 +291,9 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
+			case R.id.fg_mine_iv_setting:
+				startActivity(new Intent(mContext, SettingActivity.class));
+				break;
 			case R.id.fg_mine_iv_head:
 				if (isLogin) {
 					openPersonalActivity();

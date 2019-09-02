@@ -19,14 +19,21 @@ import com.sbwg.sxb.utils.CommonTools;
 import com.sbwg.sxb.utils.LogUtil;
 import com.sbwg.sxb.utils.StringUtil;
 
+import butterknife.BindView;
+
 
 public class EditUserInfoActivity extends BaseActivity {
 	
 	private static final String TAG = "EditUserInfoActivity";
-	
-	private EditText et_content;
-	private ImageView iv_clear;
-	private TextView tv_reminder;
+
+	@BindView(R.id.edit_info_et_content)
+	EditText et_content;
+
+	@BindView(R.id.edit_info_iv_clear)
+	ImageView iv_clear;
+
+	@BindView(R.id.edit_info_tv_reminder)
+	TextView tv_reminder;
 	
 	private boolean isChange = false;
 	private boolean isPost = true;
@@ -47,14 +54,7 @@ public class EditUserInfoActivity extends BaseActivity {
 		reminderStr = intent.getExtras().getString("reminderStr");
 		changeTypeKey = intent.getExtras().getString("changeTypeKey");
 		
-		findViewById();
 		initView();
-	}
-	
-	private void findViewById() {
-		et_content = findViewById(R.id.edit_info_et_content);
-		iv_clear = findViewById(R.id.edit_info_iv_clear);
-		tv_reminder = findViewById(R.id.edit_info_tv_reminder);
 	}
 
 	private void initView() {

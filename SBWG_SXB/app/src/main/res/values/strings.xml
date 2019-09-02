@@ -171,6 +171,7 @@
     <string name="setting_feedback">意见反馈</string>
     <string name="setting_about_us">关于我们</string>
     <string name="setting_version">检查更新</string>
+    <string name="setting_push">消息推送</string>
     <string name="setting_logout">登出帐户</string>
     <string name="setting_close">关闭应用</string>
     <string name="setting_logout_confirm">&#160;确定要退出登入么？</string>

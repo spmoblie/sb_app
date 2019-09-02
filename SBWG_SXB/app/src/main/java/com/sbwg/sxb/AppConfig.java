@@ -209,6 +209,8 @@ public class AppConfig {
 	public static final String KEY_MAIN_CURRENT_INDEX = "main_current_index";
 	// 偏好设置Key-记录是否自动跳转到会员页面
 	public static final String KEY_PUSH_PAGE_MEMBER = "push_page_member";
+	// 偏好设置Key-记录最近一次更新APP版本的时间
+	public static final String KEY_UPDATE_VERSION_LAST_TIME = "update_version_last_time";
 
 	/**
 	 ******************************************* 偏好设置Key值设置结束 ******************************************

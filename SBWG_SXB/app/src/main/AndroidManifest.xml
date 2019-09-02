@@ -118,15 +118,26 @@
             android:name=".activity.home.SignUpActivity"
             android:launchMode="standard"/>
 
+        <!-- login -->
+        <activity
+            android:name=".activity.login.LoginActivity"
+            android:launchMode="singleTask"/>
+
         <!-- mine -->
         <activity
             android:name=".activity.mine.EditUserInfoActivity"
+            android:launchMode="standard"/>
+        <activity
+            android:name=".activity.mine.FeedBackActivity"
             android:launchMode="standard"/>
         <activity
             android:name=".activity.mine.PersonalActivity"
             android:launchMode="standard"/>
         <activity
             android:name=".activity.mine.SelectAreaActivity"
+            android:launchMode="standard"/>
+        <activity
+            android:name=".activity.mine.SettingActivity"
             android:launchMode="standard"/>
 
     </application>

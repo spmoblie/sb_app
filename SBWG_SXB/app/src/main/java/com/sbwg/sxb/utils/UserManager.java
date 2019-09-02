@@ -7,6 +7,7 @@ import android.content.SharedPreferences.Editor;
 import com.sbwg.sxb.AppApplication;
 import com.sbwg.sxb.AppConfig;
 import com.sbwg.sxb.entity.UserInfoEntity;
+import com.sbwg.sxb.entity.WXEntity;
 
 
 public class UserManager {
@@ -345,14 +346,14 @@ public class UserManager {
 	/**
 	 * 保存微信授权信息
 	 */
-//	public void saveWechatUserInfo(WXEntity wxEn) {
-//		if (wxEn != null) {
-//			saveWXAccessToken(wxEn.getAccess_token());
-//			saveWXOpenId(wxEn.getOpenId());
-//			saveWXUnionId(wxEn.getUnionId());
-//			saveWXRefreshToken(wxEn.getRefresh_token());
-//		}
-//	}
+	public void saveWechatUserInfo(WXEntity wxEn) {
+		if (wxEn != null) {
+			saveWXAccessToken(wxEn.getAccess_token());
+			saveWXOpenId(wxEn.getOpenid());
+			saveWXUnionId(wxEn.getUnionid());
+			saveWXRefreshToken(wxEn.getRefresh_token());
+		}
+	}
 
 	/**
 	 * 清除微信授权信息

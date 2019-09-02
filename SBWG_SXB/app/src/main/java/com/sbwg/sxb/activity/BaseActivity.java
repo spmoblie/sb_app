@@ -31,6 +31,7 @@ import com.sbwg.sxb.AppApplication;
 import com.sbwg.sxb.AppConfig;
 import com.sbwg.sxb.AppManager;
 import com.sbwg.sxb.R;
+import com.sbwg.sxb.activity.login.LoginActivity;
 import com.sbwg.sxb.dialog.DialogManager;
 import com.sbwg.sxb.dialog.LoadDialog;
 import com.sbwg.sxb.entity.ShareEntity;
@@ -42,7 +43,9 @@ import com.sina.weibo.sdk.api.share.BaseResponse;
 import com.sina.weibo.sdk.api.share.IWeiboHandler;
 import com.tencent.mm.sdk.modelbase.BaseReq;
 import com.tencent.mm.sdk.modelbase.BaseResp;
+import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
+import com.tencent.mm.sdk.openapi.WXAPIFactory;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,6 +63,7 @@ public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Res
 	protected Context mContext;
 	protected SharedPreferences shared;
 	protected Editor editor;
+	protected IWXAPI api;
 	protected DialogManager myDialog;
 	protected Boolean isInitShare = false;
 	protected int screenWidth, screenHeight, statusHeight, titleHeight;
@@ -93,6 +97,9 @@ public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Res
 		screenWidth = shared.getInt(AppConfig.KEY_SCREEN_WIDTH, 0);
 		dialogWidth = screenWidth * 2/3;
 		myDialog = DialogManager.getInstance(mContext);
+
+		api = WXAPIFactory.createWXAPI(mContext, AppConfig.WX_APP_ID);
+		api.registerApp(AppConfig.WX_APP_ID);
 
 		// 设置App字体不随系统字体变化
 		AppApplication.initDisplayMetrics();
@@ -268,6 +275,17 @@ public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Res
 		mLayoutBase.addView(view, lp);
 		//Butter Knife初始化
 		ButterKnife.bind(this);
+	}
+
+	protected void openLoginActivity(){
+		openLoginActivity(TAG);
+	}
+
+	protected void openLoginActivity(String rootPage){
+		Intent intent = new Intent(mContext, LoginActivity.class);
+		intent.putExtra("rootPage", rootPage);
+		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		startActivity(intent);
 	}
 
 	/**

@@ -15,6 +15,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+            <ImageView
+                android:id="@+id/fg_mine_iv_setting"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:contentDescription="@string/desc"
+                android:padding="@dimen/screen_margin_default"
+                android:src="@mipmap/btn_icon_setting" />
+
             <com.sbwg.sxb.widgets.RoundImageView
                 android:id="@+id/fg_mine_iv_head"
                 android:layout_width="@dimen/margin_padding_80"
