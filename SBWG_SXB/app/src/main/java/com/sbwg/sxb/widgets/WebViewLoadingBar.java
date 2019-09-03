@@ -44,16 +44,16 @@ public class WebViewLoadingBar extends ImageView{
 	}
 	
 	private void getImageResId() {
-		resIdList.add(R.mipmap.icon_locading_horizontal_01);
-		resIdList.add(R.mipmap.icon_locading_horizontal_02);
-		resIdList.add(R.mipmap.icon_locading_horizontal_03);
-		resIdList.add(R.mipmap.icon_locading_horizontal_04);
-		resIdList.add(R.mipmap.icon_locading_horizontal_05);
-		resIdList.add(R.mipmap.icon_locading_horizontal_06);
-		resIdList.add(R.mipmap.icon_locading_horizontal_07);
-		resIdList.add(R.mipmap.icon_locading_horizontal_08);
-		resIdList.add(R.mipmap.icon_locading_horizontal_09);
-		resIdList.add(R.mipmap.icon_locading_horizontal_10);
+		resIdList.add(R.mipmap.locading_horizontal_01);
+		resIdList.add(R.mipmap.locading_horizontal_02);
+		resIdList.add(R.mipmap.locading_horizontal_03);
+		resIdList.add(R.mipmap.locading_horizontal_04);
+		resIdList.add(R.mipmap.locading_horizontal_05);
+		resIdList.add(R.mipmap.locading_horizontal_06);
+		resIdList.add(R.mipmap.locading_horizontal_07);
+		resIdList.add(R.mipmap.locading_horizontal_08);
+		resIdList.add(R.mipmap.locading_horizontal_09);
+		resIdList.add(R.mipmap.locading_horizontal_10);
 		
 		scaleSize = (int)(100/resIdList.size());
 	}

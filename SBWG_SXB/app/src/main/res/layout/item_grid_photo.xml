@@ -16,7 +16,7 @@
         android:layout_height="@dimen/photo_grid_tick_size"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:background="@drawable/btn_checked_checkbox_circle"
+        android:background="@drawable/selector_checkbox_large"
         android:contentDescription="@string/desc"
         android:visibility="gone" />
 

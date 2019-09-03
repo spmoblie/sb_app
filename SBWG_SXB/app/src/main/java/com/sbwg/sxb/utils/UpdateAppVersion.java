@@ -101,6 +101,8 @@ public class UpdateAppVersion {
 //				if (baseEn != null) {
 //					versionEn = (UpdateVersionEntity) baseEn;
 //				}
+				versionEn = new UpdateVersionEntity();
+				versionEn.setVersion(curVersionName);
 			} catch (Exception e) {
 				ExceptionUtil.handle(e);
 				clearInstance();

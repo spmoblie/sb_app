@@ -111,12 +111,12 @@ public class DialogManager {
         lp.width = width;
         mDialog.getWindow().setAttributes(lp);
         // 初始化对话框中的子控件
-		final TextView content = (TextView)mDialog.findViewById(R.id.dialog_content);
+		final TextView content = mDialog.findViewById(R.id.dialog_content);
 		content.setText(contentStr);
 		if (!isCenter) { //不居中
 			content.setGravity(Gravity.LEFT| Gravity.CENTER_VERTICAL);
 		}
-		final Button ok = (Button)mDialog.findViewById(R.id.dialog_button_ok);
+		final Button ok = mDialog.findViewById(R.id.dialog_button_ok);
 		ok.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -154,17 +154,17 @@ public class DialogManager {
         lp.width = width;
         mDialog.getWindow().setAttributes(lp);
         // 初始化对话框中的子控件
-		final TextView title = (TextView) mDialog.findViewById(R.id.dialog_title);
+		final TextView title = mDialog.findViewById(R.id.dialog_title);
 		if (!StringUtil.isNull(titleStr)) {
 			title.setText(titleStr);
 			title.setVisibility(View.VISIBLE);
 		}
-		final TextView content = (TextView)mDialog.findViewById(R.id.dialog_contents);
+		final TextView content = mDialog.findViewById(R.id.dialog_contents);
 		content.setText(contentStr);
 		if (!isCenter) { //不居中
 			content.setGravity(Gravity.LEFT| Gravity.CENTER_VERTICAL);
 		}
-		final Button left = (Button)mDialog.findViewById(R.id.dialog_button_cancel);
+		final Button left = mDialog.findViewById(R.id.dialog_button_cancel);
 		if (!StringUtil.isNull(leftStr)) {
 			left.setText(leftStr);
 		}
@@ -177,7 +177,7 @@ public class DialogManager {
 				mDialog.dismiss(); 
 			}
 		});
-		final Button right = (Button)mDialog.findViewById(R.id.dialog_button_confirm);
+		final Button right = mDialog.findViewById(R.id.dialog_button_confirm);
 		if (!StringUtil.isNull(rightStr)) {
 			right.setText(rightStr);
 		}
@@ -209,14 +209,14 @@ public class DialogManager {
 		lp.width = width;
 		mDialog.getWindow().setAttributes(lp);
 		// 初始化对话框中的子控件
-		final TextView title = (TextView) mDialog.findViewById(R.id.dialog_title);
+		final TextView title = mDialog.findViewById(R.id.dialog_title);
 		if (!StringUtil.isNull(titleStr)) {
 			title.setText(titleStr);
 			title.setVisibility(View.VISIBLE);
 		}
-		final EditText et_password = (EditText) mDialog.findViewById(R.id.dialog_et_password);
+		final EditText et_password = mDialog.findViewById(R.id.dialog_et_password);
 		et_password.setInputType(inputType);
-		final Button left = (Button)mDialog.findViewById(R.id.dialog_button_cancel);
+		final Button left = mDialog.findViewById(R.id.dialog_button_cancel);
 		left.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -226,7 +226,7 @@ public class DialogManager {
 				mDialog.dismiss();
 			}
 		});
-		final Button right = (Button)mDialog.findViewById(R.id.dialog_button_confirm);
+		final Button right = mDialog.findViewById(R.id.dialog_button_confirm);
 		right.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -258,13 +258,13 @@ public class DialogManager {
         lp.width = width;
         mDialog.getWindow().setAttributes(lp);
         // 初始化对话框中的子控件
-		final TextView tv_title = (TextView)mDialog.findViewById(R.id.dialog_list_title);
+		final TextView tv_title = mDialog.findViewById(R.id.dialog_list_title);
 		tv_title.setText(title);
 		if (!isCenter) { //不居中
 			tv_title.setGravity(Gravity.LEFT| Gravity.CENTER_VERTICAL);
 		}
-		ListView lv = (ListView) mDialog.findViewById(R.id.dialog_list_lv);
-		lv.setSelector(R.color.ui_bg_color_white);
+		ListView lv = mDialog.findViewById(R.id.dialog_list_lv);
+		lv.setSelector(R.color.app_color_white);
 		List<CharSequence> itemList = Arrays.asList(items);
 		@SuppressWarnings({ "unchecked", "rawtypes" })
         ArrayAdapter adapter = new ArrayAdapter(mContext, android.R.layout.simple_list_item_1, itemList) {
@@ -272,10 +272,10 @@ public class DialogManager {
 			@Override
 			public View getView(int position, View convertView, ViewGroup parent) {
 				View view = super.getView(position, convertView, parent);
-				TextView tv_item = (TextView) view.findViewById(android.R.id.text1);
+				TextView tv_item = view.findViewById(android.R.id.text1);
 				tv_item.setPadding(30, 0, 30, 0);
 				tv_item.setTextSize(18);
-				tv_item.setTextColor(mContext.getResources().getColor(R.color.text_color_black));
+				tv_item.setTextColor(mContext.getResources().getColor(R.color.app_color_black));
 				if (!isCenter) { //不居中
 					tv_item.setGravity(Gravity.LEFT| Gravity.CENTER_VERTICAL);
 				} else {

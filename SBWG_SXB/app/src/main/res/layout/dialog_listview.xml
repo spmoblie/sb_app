@@ -2,8 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="8dp"
-    android:background="@drawable/shape_frame_white_000000_20"
+    android:background="@drawable/icon_bg_dialog"
     android:orientation="vertical" >
 
     <TextView
@@ -17,8 +16,7 @@
         android:gravity="center"
         android:ellipsize="end"
         android:lines="1"
-        android:background="@color/ui_bg_color_white"
-        android:textColor="@color/text_color_black"
+        android:textColor="@color/dialog_text_title"
         android:textSize="@dimen/text_size_18" />
 
     <ImageView

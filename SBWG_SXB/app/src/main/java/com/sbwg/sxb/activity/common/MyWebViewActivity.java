@@ -99,7 +99,7 @@ public class MyWebViewActivity extends BaseActivity implements View.OnClickListe
 	private void initShareData(Bitmap bm) {
 		if (shareEn != null) {
 			shareEn.setShareBm(bm);
-			setRightViewBackground(R.mipmap.topbar_icon_share);
+			setRightViewBackground(R.mipmap.icon_share);
 		}
 	}
 

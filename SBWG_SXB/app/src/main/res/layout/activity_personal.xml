@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/ui_bg_color_nut"
+    android:background="@color/ui_bg_color_wid"
     android:scrollbars="none">
 
     <LinearLayout
@@ -15,7 +15,7 @@
             android:id="@+id/personal_rl_head"
             android:layout_width="match_parent"
             android:layout_height="@dimen/head_size_parent"
-            android:background="@color/ui_bg_color_white">
+            android:background="@color/app_color_white">
 
             <TextView
                 android:id="@+id/personal_tv_head_title"

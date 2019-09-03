@@ -34,7 +34,7 @@
                 android:id="@+id/main_fragment_tab_tv_1"
                 style="@style/main_tab_text"
                 android:layout_gravity="center_vertical"
-                android:drawableTop="@drawable/selector_img_home_tab_1"
+                android:drawableTop="@drawable/selector_home_tab_1"
                 android:text="@string/main_tab_text_1" />
         </FrameLayout>
 
@@ -45,7 +45,7 @@
             <TextView
                 android:id="@+id/main_fragment_tab_tv_2"
                 style="@style/main_tab_text"
-                android:drawableTop="@drawable/selector_img_home_tab_2"
+                android:drawableTop="@drawable/selector_home_tab_2"
                 android:text="@string/main_tab_text_2" />
 
         </FrameLayout>
@@ -57,7 +57,7 @@
             <TextView
                 android:id="@+id/main_fragment_tab_tv_3"
                 style="@style/main_tab_text"
-                android:drawableTop="@drawable/selector_img_home_tab_3"
+                android:drawableTop="@drawable/selector_home_tab_3"
                 android:text="@string/main_tab_text_3" />
 
         </FrameLayout>

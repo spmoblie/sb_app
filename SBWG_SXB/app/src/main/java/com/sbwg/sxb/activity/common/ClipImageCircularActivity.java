@@ -40,7 +40,7 @@ public class ClipImageCircularActivity extends BaseActivity {
 	}
 	
 	private void findViewById() {
-		imageView = (ClipImageView) findViewById(R.id.clip_image_circular_src_pic);
+		imageView = findViewById(R.id.clip_image_circular_src_pic);
 	}
 	
 	private void initView() {

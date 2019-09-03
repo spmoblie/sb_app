@@ -72,7 +72,7 @@
         <item name="android:gravity">center</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">@dimen/text_size_11</item>
-        <item name="android:textColor">@color/text_color_white</item>
+        <item name="android:textColor">@color/app_color_white</item>
     </style>
 
     <!-- Top父布局样式 -->
@@ -87,7 +87,7 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:paddingLeft">@dimen/margin_padding_12</item>
-        <item name="android:src">@drawable/btn_pressed_back</item>
+        <item name="android:src">@mipmap/icon_back</item>
     </style>
 
     <!-- Top居中标题样式 -->
@@ -122,7 +122,7 @@
     <style name="setting_lay_item">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/setting_cell_height</item>
-        <item name="android:background">@color/ui_bg_color_white</item>
+        <item name="android:background">@color/app_color_white</item>
     </style>
 
     <!-- 设置页面标题文本样式 -->
@@ -135,7 +135,7 @@
         <item name="android:gravity">center_vertical</item>
         <item name="android:ellipsize">end</item>
         <item name="android:lines">1</item>
-        <item name="android:textColor">@color/text_color_black</item>
+        <item name="android:textColor">@color/app_color_black</item>
         <item name="android:textSize">@dimen/text_size_14</item>
     </style>
 
@@ -145,7 +145,7 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginRight">@dimen/screen_margin_default</item>
         <item name="android:layout_alignParentRight">true</item>
-        <item name="android:drawableRight">@mipmap/common_go_right</item>
+        <item name="android:drawableRight">@mipmap/icon_go_right</item>
         <item name="android:drawablePadding">@dimen/margin_padding_10</item>
         <item name="android:layout_centerVertical">true</item>
         <item name="android:gravity">center_vertical|right</item>
@@ -162,10 +162,10 @@
         <item name="android:layout_marginTop">@dimen/margin_padding_10</item>
         <item name="android:paddingLeft">@dimen/margin_padding_10</item>
         <item name="android:inputType">textEmailAddress</item>
-        <item name="android:background">@drawable/shape_frame_bg_app_hollow_4</item>
+        <item name="android:background">@drawable/shape_app_input_style</item>
         <item name="android:textColorHint">@color/input_text_color</item>
         <item name="android:textSize">@dimen/text_size_14</item>
-        <item name="android:textColor">@color/conte_text_color</item>
+        <item name="android:textColor">@color/shows_text_color</item>
     </style>
 
     <!-- 注册页面Button样式 -->
@@ -173,10 +173,10 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/login_bt_height_default</item>
         <item name="android:layout_marginTop">@dimen/margin_padding_30</item>
-        <item name="android:background">@drawable/shape_frame_bg_app_buttom_4</item>
+        <item name="android:background">@drawable/shape_button_style_2_04</item>
         <item name="android:gravity">center</item>
         <item name="android:textSize">@dimen/text_size_16</item>
-        <item name="android:textColor">@color/text_color_white</item>
+        <item name="android:textColor">@color/app_color_white</item>
     </style>
 
     <!-- 版块标题文本样式 -->
@@ -187,7 +187,7 @@
         <item name="android:layout_marginTop">@dimen/margin_padding_20</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">@dimen/text_size_20</item>
-        <item name="android:textColor">@color/conte_text_color</item>
+        <item name="android:textColor">@color/title_text_color</item>
     </style>
 
     <!-- 列表头像样式 -->
@@ -204,14 +204,14 @@
         <item name="android:layout_marginTop">@dimen/margin_padding_30</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">@dimen/text_size_16</item>
-        <item name="android:textColor">@color/conte_text_color</item>
+        <item name="android:textColor">@color/shows_text_color</item>
     </style>
 
     <style name="mine_item_text">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">@dimen/text_size_14</item>
-        <item name="android:textColor">@color/conte_text_color</item>
+        <item name="android:textColor">@color/shows_text_color</item>
     </style>
 
     <!-- 报名页面TextView样式 -->
@@ -222,7 +222,7 @@
         <item name="android:paddingTop">@dimen/margin_padding_10</item>
         <item name="android:paddingBottom">@dimen/margin_padding_10</item>
         <item name="android:textSize">@dimen/text_size_16</item>
-        <item name="android:textColor">@color/conte_text_color</item>
+        <item name="android:textColor">@color/shows_text_color</item>
     </style>
 
     <!-- 报名页面EditText样式 -->
@@ -234,7 +234,7 @@
         <item name="android:paddingTop">@dimen/margin_padding_10</item>
         <item name="android:paddingBottom">@dimen/margin_padding_10</item>
         <item name="android:inputType">text</item>
-        <item name="android:background">@drawable/shape_frame_white_000000_20</item>
+        <item name="android:background">@drawable/shape_frame_style_1_20</item>
         <item name="android:textColorHint">@color/input_hint_color</item>
         <item name="android:textSize">@dimen/text_size_16</item>
         <item name="android:textColor">@color/input_text_color</item>
@@ -249,7 +249,7 @@
         <item name="android:paddingTop">@dimen/margin_padding_5</item>
         <item name="android:paddingRight">@dimen/screen_margin_default</item>
         <item name="android:paddingBottom">@dimen/margin_padding_5</item>
-        <item name="android:background">@drawable/shape_frame_bg_app_hollow_4</item>
+        <item name="android:background">@drawable/shape_frame_style_1_04</item>
         <item name="android:textColor">@color/tv_color_status</item>
         <item name="android:textSize">@dimen/text_size_12</item>
     </style>
@@ -269,7 +269,7 @@
         <item name="android:layout_marginTop">@dimen/margin_padding_5</item>
         <item name="android:layout_marginLeft">@dimen/margin_padding_10</item>
         <item name="android:layout_gravity">center_horizontal</item>
-        <item name="android:background">@drawable/shape_frame_bg_red_90</item>
+        <item name="android:background">@drawable/shape_frame_style_3_90</item>
         <item name="android:visibility">gone</item>
     </style>
 
@@ -277,13 +277,13 @@
     <style name="common_warn_red_text_number">
         <item name="android:layout_width">@dimen/screen_margin_default</item>
         <item name="android:layout_height">@dimen/screen_margin_default</item>
-        <item name="android:background">@drawable/shape_frame_bg_red_90</item>
+        <item name="android:background">@drawable/shape_frame_style_3_90</item>
         <item name="android:layout_gravity">center_horizontal</item>
         <item name="android:layout_marginLeft">@dimen/margin_padding_10</item>
         <item name="android:gravity">center</item>
         <item name="android:text">@string/number_0</item>
         <item name="android:textSize">@dimen/text_size_10</item>
-        <item name="android:textColor">@color/text_color_white</item>
+        <item name="android:textColor">@color/app_color_white</item>
         <item name="android:visibility">gone</item>
     </style>
 
@@ -307,10 +307,10 @@
         <item name="android:button">@null</item>
         <item name="android:ellipsize">end</item>
         <item name="android:singleLine">true</item>
-        <item name="android:drawableLeft">@drawable/selector_img_select_hook</item>
+        <item name="android:drawableLeft">@drawable/selector_checkbox_small</item>
         <item name="android:drawablePadding">@dimen/margin_padding_3</item>
         <item name="android:textSize">@dimen/text_size_14</item>
-        <item name="android:textColor">@color/conte_text_color</item>
+        <item name="android:textColor">@color/shows_text_color</item>
     </style>
 
     <!-- 通用回顶箭头按钮 -->
@@ -320,7 +320,7 @@
         <item name="android:layout_gravity">bottom|right</item>
         <item name="android:layout_marginBottom">@dimen/to_top_margin_bottom</item>
         <item name="android:layout_marginRight">@dimen/to_top_margin_right</item>
-        <item name="android:src">@mipmap/btn_icon_to_top</item>
+        <item name="android:src">@mipmap/icon_go_top</item>
         <item name="android:visibility">gone</item>
     </style>
 
@@ -329,7 +329,7 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginRight">10dip</item>
-        <item name="android:src">@mipmap/common_go_right</item>
+        <item name="android:src">@mipmap/icon_go_right</item>
     </style>
 
     <!-- 通用文本按钮样式 -->
@@ -338,12 +338,12 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:gravity">center</item>
         <item name="android:textSize">@dimen/text_size_16</item>
-        <item name="android:textColor">@color/text_color_white</item>
+        <item name="android:textColor">@color/tv_color_button</item>
         <item name="android:paddingLeft">@dimen/margin_padding_20</item>
         <item name="android:paddingTop">@dimen/margin_padding_10</item>
         <item name="android:paddingRight">@dimen/margin_padding_20</item>
         <item name="android:paddingBottom">@dimen/margin_padding_10</item>
-        <item name="android:background">@drawable/shape_frame_bg_app_buttom_20</item>
+        <item name="android:background">@drawable/shape_button_style_2_04</item>
     </style>
 
     <!-- 水平分割线 -->

@@ -22,7 +22,7 @@
             android:layout_marginTop="@dimen/margin_padding_10"
             android:layout_marginRight="@dimen/screen_margin_default"
             android:layout_marginBottom="@dimen/margin_padding_10"
-            android:textColor="@color/tv_color_status"
+            android:textColor="@color/app_color_greys"
             android:textSize="@dimen/text_size_16" />
     </LinearLayout>
 
@@ -40,7 +40,7 @@
             android:layout_marginTop="@dimen/margin_padding_10"
             android:layout_marginRight="@dimen/screen_margin_default"
             android:layout_marginBottom="@dimen/margin_padding_10"
-            android:textColor="@color/text_color_black"
+            android:textColor="@color/app_color_black"
             android:textSize="@dimen/text_size_16" />
 
         <ImageView

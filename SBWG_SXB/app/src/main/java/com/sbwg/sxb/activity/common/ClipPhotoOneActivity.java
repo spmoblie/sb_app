@@ -45,7 +45,7 @@ public class ClipPhotoOneActivity extends BaseActivity {
 	}
 
 	private void findViewById() {
-		gv = (GridView) findViewById(R.id.clip_photo_one_gv);
+		gv = findViewById(R.id.clip_photo_one_gv);
 	}
 
 	private void initView() {

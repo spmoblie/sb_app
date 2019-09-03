@@ -96,13 +96,13 @@ public class SelectListAdapter extends AppBaseAdapter {
 			convertView = View.inflate(context, R.layout.item_list_select, null);
 			
 			holder = new ViewHolder();
-			holder.ll_item = (LinearLayout) convertView.findViewById(R.id.list_item_select_ll);
-			holder.tv_item_name = (TextView) convertView.findViewById(R.id.list_item_select_tv_item_name);
-			holder.tv_select_name = (TextView) convertView.findViewById(R.id.list_item_select_tv_select_name);
-			holder.iv_logo = (ImageView) convertView.findViewById(R.id.list_item_select_iv_logo);
-			holder.iv_go = (ImageView) convertView.findViewById(R.id.list_item_select_iv_go);
-			holder.iv_line_1 = (ImageView) convertView.findViewById(R.id.list_item_select_iv_line_1);
-			holder.iv_line_2 = (ImageView) convertView.findViewById(R.id.list_item_select_iv_line_2);
+			holder.ll_item = convertView.findViewById(R.id.list_item_select_ll);
+			holder.tv_item_name = convertView.findViewById(R.id.list_item_select_tv_item_name);
+			holder.tv_select_name = convertView.findViewById(R.id.list_item_select_tv_select_name);
+			holder.iv_logo = convertView.findViewById(R.id.list_item_select_iv_logo);
+			holder.iv_go = convertView.findViewById(R.id.list_item_select_iv_go);
+			holder.iv_line_1 = convertView.findViewById(R.id.list_item_select_iv_line_1);
+			holder.iv_line_2 = convertView.findViewById(R.id.list_item_select_iv_line_2);
 			
 			convertView.setTag(holder);
 		}else{
@@ -121,7 +121,7 @@ public class SelectListAdapter extends AppBaseAdapter {
 				holder.tv_select_name.setTextColor(context.getResources().getColor(R.color.tv_color_status));
 			}else {
 				holder.tv_select_name.setText(R.string.all);
-				holder.tv_select_name.setTextColor(context.getResources().getColor(R.color.conte_text_color));
+				holder.tv_select_name.setTextColor(context.getResources().getColor(R.color.app_color_black));
 			}
 			break;
 		case DATA_TYPE_2: //ScreenListActivity --> SelectListActivity
@@ -165,7 +165,7 @@ public class SelectListAdapter extends AppBaseAdapter {
 	 * Item选中后标记“√”
 	 */
 	private void itemChangeImgTick(ViewHolder holder, final SelectListEntity data) {
-		holder.iv_go.setImageDrawable(context.getResources().getDrawable(R.mipmap.topbar_icon_tick));
+		holder.iv_go.setImageDrawable(context.getResources().getDrawable(R.mipmap.icon_tick));
 		if (selectData != null && selectData.getChildId() == data.getChildId()) {
 			holder.iv_go.setVisibility(View.VISIBLE);
 		}else {
@@ -188,7 +188,7 @@ public class SelectListAdapter extends AppBaseAdapter {
 		if (selectData != null && selectData.getChildId() == data.getChildId()) {
 			holder.tv_item_name.setTextColor(context.getResources().getColor(R.color.tv_color_status));
 		}else {
-			holder.tv_item_name.setTextColor(context.getResources().getColor(R.color.conte_text_color));
+			holder.tv_item_name.setTextColor(context.getResources().getColor(R.color.app_color_black));
 		}
 		holder.tv_item_name.setText(data.getChildShowName());
 		holder.tv_select_name.setVisibility(View.GONE);

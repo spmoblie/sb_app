@@ -41,13 +41,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/margin_padding_20"
                 android:layout_weight="1"
-                android:drawableLeft="@mipmap/icon_login_user"
+                android:drawableLeft="@mipmap/login_user"
                 android:drawablePadding="@dimen/margin_padding_10"
                 android:background="@null"
                 android:lines="1"
                 android:hint="@string/login_user_name"
                 android:inputType="textEmailAddress"
-                android:textColor="@color/conte_text_color"
+                android:textColor="@color/shows_text_color"
                 android:textColorHint="@color/input_text_color"
                 android:textSize="@dimen/text_size_14" />
 
@@ -81,13 +81,13 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/margin_padding_20"
                 android:layout_weight="1"
-                android:drawableLeft="@mipmap/icon_login_password"
+                android:drawableLeft="@mipmap/login_password"
                 android:drawablePadding="@dimen/margin_padding_10"
                 android:background="@null"
                 android:lines="1"
                 android:hint="@string/login_password"
                 android:inputType="textPassword"
-                android:textColor="@color/conte_text_color"
+                android:textColor="@color/shows_text_color"
                 android:textColorHint="@color/input_text_color"
                 android:textSize="@dimen/text_size_14" />
 
@@ -97,7 +97,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginRight="@dimen/margin_padding_20"
                 android:contentDescription="@string/desc"
-                android:src="@drawable/selector_btn_password_check" />
+                android:src="@drawable/selector_icon_password" />
         </LinearLayout>
 
         <ImageView
@@ -135,7 +135,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/login_new_register"
-                android:textColor="@color/conte_text_color"
+                android:textColor="@color/shows_text_color"
                 android:textSize="@dimen/text_size_12" />
 
             <ImageView
@@ -150,7 +150,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="@string/login_reset_password"
-                android:textColor="@color/conte_text_color"
+                android:textColor="@color/shows_text_color"
                 android:textSize="@dimen/text_size_12" />
         </LinearLayout>
     </LinearLayout>

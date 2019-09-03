@@ -2,6 +2,7 @@ package com.sbwg.sxb.adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.provider.MediaStore;
 import android.provider.MediaStore.Images.Thumbnails;
 import android.view.LayoutInflater;
@@ -27,12 +28,17 @@ public class ClipPhotoGridAdapter extends AppBaseAdapter {
 
 	private List<ClipPhotoEntity> albumList;
 	private Context context;
+	private BitmapFactory.Options options;
 	private LinearLayout.LayoutParams imageLP;
 
 	public ClipPhotoGridAdapter(List<ClipPhotoEntity> list, Context context) {
 		super(context);
 		this.albumList = list;
 		this.context = context;
+
+		options = new BitmapFactory.Options();
+		options.inDither = false;
+		options.inPreferredConfig = Bitmap.Config.RGB_565;
 
 		int imageSize = (AppApplication.getSharedPreferences().getInt(AppConfig.KEY_SCREEN_WIDTH, 0) - CommonTools.dpToPx(context, 35)) / 2;
 		this.imageLP = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
@@ -75,7 +81,7 @@ public class ClipPhotoGridAdapter extends AppBaseAdapter {
 		}
 		/** 通过ID 获取缩略图 */
 		Bitmap bitmap = MediaStore.Images.Thumbnails.getThumbnail(context .getContentResolver(),
-				albumList.get(position).getFirstId(), Thumbnails.MINI_KIND, null);
+				albumList.get(position).getFirstId(), Thumbnails.MINI_KIND, options);
 		holder.iv.setImageBitmap(bitmap);
 		holder.tv.setText(albumList.get(position).getName() + " ( " + albumList.get(position).getCount() + " )");
 

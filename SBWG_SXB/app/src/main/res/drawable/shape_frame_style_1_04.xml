@@ -10,7 +10,7 @@
         android:type="radial" /> --> 
     
     <!-- 填充 --> 
-    <solid android:color="@color/ui_bg_color_items" />
+    <solid android:color="@color/app_color_white" />
 
     <!-- 描边 -->
     <stroke

@@ -363,12 +363,12 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
 							.with(AppApplication.getAppContext())
 							.asBitmap()
 							//.load(infoEn.getUserHead())
-							.load("https://ss0.bdstatic.com/70cFvHSh_Q1YnxGkpoWK1HF6hhy/it/u=2579044471,4108191309&fm=26&gp=0.jpg")
+							.load("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1567514197085&di=63f6e7ab81589c8cfddc677df3644cfa&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201708%2F23%2F20170823110912_ezTtH.thumb.700_0.jpeg")
 							.submit();
 					try{
 						Bitmap headBitmap = ft.get();
 						if (headBitmap != null) {
-							AppApplication.saveBitmapFile(ft.get(), new File(AppConfig.SAVE_USER_HEAD_PATH), 100);
+							AppApplication.saveBitmapFile(headBitmap, new File(AppConfig.SAVE_USER_HEAD_PATH), 100);
 							mHandler.sendEmptyMessage(1);
 						}
 					}catch (Exception e) {

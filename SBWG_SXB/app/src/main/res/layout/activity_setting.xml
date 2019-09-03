@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/ui_bg_color_white">
+    android:background="@color/app_color_white">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -14,25 +14,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
-            <RelativeLayout
-                android:id="@+id/setting_rl_feedback"
-                style="@style/setting_lay_item">
-
-                <TextView
-                    android:id="@+id/setting_tv_feedback_title"
-                    style="@style/setting_lay_text_title"
-                    android:text="@string/setting_feedback" />
-
-                <TextView
-                    android:id="@+id/setting_tv_feedback_content"
-                    style="@style/setting_lay_text_content" />
-
-                <ImageView
-                    style="@style/set_line_horizontal_bg"
-                    android:layout_alignParentBottom="true"
-                    android:contentDescription="@string/desc" />
-            </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/setting_rl_about_us"
@@ -54,13 +35,33 @@
             </RelativeLayout>
 
             <RelativeLayout
-                android:id="@+id/setting_rl_push_control"
+                android:id="@+id/setting_rl_feedback"
                 style="@style/setting_lay_item">
+
+                <TextView
+                    android:id="@+id/setting_tv_feedback_title"
+                    style="@style/setting_lay_text_title"
+                    android:text="@string/setting_feedback" />
+
+                <TextView
+                    android:id="@+id/setting_tv_feedback_content"
+                    style="@style/setting_lay_text_content" />
+
+                <ImageView
+                    style="@style/set_line_horizontal_bg"
+                    android:layout_alignParentBottom="true"
+                    android:contentDescription="@string/desc" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/setting_rl_push_control"
+                style="@style/setting_lay_item"
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/setting_tv_push_control_title"
                     style="@style/setting_lay_text_title"
-                    android:text="notification" />
+                    android:text="@string/setting_push" />
 
                 <ImageView
                     android:id="@+id/setting_iv_push_control_btn"
@@ -71,7 +72,7 @@
                     android:layout_marginRight="@dimen/screen_margin_default"
                     android:clickable="true"
                     android:contentDescription="@string/desc"
-                    android:src="@drawable/selector_btn_push_control" />
+                    android:src="@drawable/selector_icon_push" />
 
                 <ImageView
                     style="@style/set_line_horizontal_bg"

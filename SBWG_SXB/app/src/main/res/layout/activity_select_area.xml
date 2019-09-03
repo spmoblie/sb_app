@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:text="其它地区"
             android:textSize="@dimen/text_size_12"
-            android:textColor="@color/text_color_greys"/>
+            android:textColor="@color/app_color_greys"/>
 
         <TextView
             android:id="@+id/area_tv_other_name"
@@ -28,7 +28,7 @@
             android:layout_marginTop="@dimen/margin_padding_15"
             android:text="山卡拉"
             android:textSize="@dimen/text_size_16"
-            android:textColor="@color/text_color_black"
+            android:textColor="@color/app_color_black"
             app:layout_constraintTop_toBottomOf="@id/area_tv_other_title"/>
 
     </android.support.constraint.ConstraintLayout>

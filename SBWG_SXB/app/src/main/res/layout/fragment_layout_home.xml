@@ -19,7 +19,7 @@
                 android:id="@+id/fg_home_head_viewPager"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/ui_bg_color_white" />
+                android:background="@color/app_color_white" />
 
             <LinearLayout
                 android:id="@+id/fg_home_head_indicator"

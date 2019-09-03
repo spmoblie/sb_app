@@ -23,7 +23,7 @@ import java.io.File;
 
 public class AppVersionDialog {
 	
-	private static final String APK_PATH = AppConfig.SAVE_PATH_APK_DICE + "/Sbwg.apk";
+	private static final String APK_PATH = AppConfig.SAVE_PATH_APK_DICE + "/sbwg_sxb.apk";
 	private static final int DIALOG_WIDTH = AppApplication.getSharedPreferences().getInt(AppConfig.KEY_SCREEN_WIDTH, 0) * 2/3;
 	private Context mContext;
 	private DialogManager dm;

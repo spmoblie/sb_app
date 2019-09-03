@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/bg_dialog"
+    android:background="@drawable/icon_bg_dialog"
     android:gravity="center_horizontal"
     android:orientation="vertical"
     android:padding="0dp" >
@@ -17,7 +17,7 @@
         android:ellipsize="end"
         android:minLines="1"
         android:maxLines="6"
-        android:textColor="@color/conte_text_color"
+        android:textColor="@color/dialog_text_context"
         android:textSize="@dimen/text_size_16" />
 
     <Button
@@ -25,14 +25,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/screen_margin_default"
-        android:background="@drawable/shape_frame_bg_app_buttom_4"
+        android:background="@drawable/shape_button_style_2_04"
         android:gravity="center"
         android:paddingBottom="@dimen/margin_padding_5"
         android:paddingLeft="@dimen/margin_padding_30"
         android:paddingRight="@dimen/margin_padding_30"
         android:paddingTop="@dimen/margin_padding_5"
         android:text="@string/confirm"
-        android:textColor="@color/text_color_white"
+        android:textColor="@color/dialog_text_button_2"
         android:textSize="@dimen/text_size_14" />
 
 </LinearLayout>

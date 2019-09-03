@@ -2,6 +2,7 @@ package com.sbwg.sxb.adapter;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.provider.MediaStore;
 import android.provider.MediaStore.Images.Thumbnails;
 import android.view.View;
@@ -19,11 +20,16 @@ public class ClipPhotoOneAdapter extends AppBaseAdapter {
 
 	private Context context;
 	private ClipPhotoEntity album;
+	private BitmapFactory.Options options;
 
 	public ClipPhotoOneAdapter(Context context, ClipPhotoEntity album) {
 		super(context);
 		this.context = context;
 		this.album = album;
+
+		options = new BitmapFactory.Options();
+		options.inDither = false;
+		options.inPreferredConfig = Bitmap.Config.RGB_565;
 	}
 
 	@Override
@@ -53,7 +59,7 @@ public class ClipPhotoOneAdapter extends AppBaseAdapter {
 
 		// 通过ID 加载缩略图
 		Bitmap bitmap = MediaStore.Images.Thumbnails.getThumbnail(context.getContentResolver(),
-				album.getBitList().get(getCount() - 1 - position).getPhotoId(), Thumbnails.MINI_KIND, null);
+				album.getBitList().get(getCount() - 1 - position).getPhotoId(), Thumbnails.MINI_KIND, options);
 		item.SetBitmap(bitmap);
 		boolean flag = album.getBitList().get(getCount() - 1 - position).isSelect();
 		item.setChecked(flag);

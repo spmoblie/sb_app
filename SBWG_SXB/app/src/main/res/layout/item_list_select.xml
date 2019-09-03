@@ -31,7 +31,7 @@
             android:ellipsize="end"
             android:lines="1"
             android:text=""
-            android:textColor="@color/text_color_black"
+            android:textColor="@color/app_color_black"
             android:textSize="@dimen/text_size_14" />
 
         <TextView
@@ -46,7 +46,7 @@
             android:gravity="right"
             android:lines="1"
             android:text="@string/all"
-            android:textColor="@color/text_color_black"
+            android:textColor="@color/app_color_black"
             android:textSize="@dimen/text_size_14" />
 
         <ImageView
@@ -57,7 +57,7 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="@dimen/margin_padding_20"
             android:contentDescription="@string/desc"
-            android:src="@mipmap/common_go_right" />
+            android:src="@mipmap/icon_go_right" />
     </RelativeLayout>
 
     <ImageView
