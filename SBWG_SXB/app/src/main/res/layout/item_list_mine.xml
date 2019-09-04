@@ -32,7 +32,7 @@
             android:layout_toRightOf="@+id/fg_mine_item_iv_show"
             android:maxLines="2"
             android:ellipsize="end"
-            android:textSize="@dimen/text_size_18"
+            android:textSize="@dimen/app_text_size_content"
             android:textStyle="bold" />
 
         <TextView

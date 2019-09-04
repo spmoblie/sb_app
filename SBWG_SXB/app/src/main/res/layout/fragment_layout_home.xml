@@ -41,7 +41,7 @@
 
             <TextView
                 style="@style/block_title_text"
-                android:text="推荐"/>
+                android:text="@string/recommend"/>
 
         </android.support.constraint.ConstraintLayout>
 

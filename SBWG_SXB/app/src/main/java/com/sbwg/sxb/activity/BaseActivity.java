@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -82,6 +83,8 @@ public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Res
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		super.setContentView(R.layout.activity_base);
+		// 创建动画
+		overridePendingTransition(R.anim.in_from_right, R.anim.anim_no_anim);
 
 		LogUtil.i(TAG, "onCreate()");
 		AppManager.getInstance().addActivity(this);
@@ -382,6 +385,13 @@ public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Res
 		super.onDestroy();
 	}
 
+	@Override
+	public void finish() {
+		super.finish();
+		// 销毁动画
+		overridePendingTransition(R.anim.anim_no_anim, R.anim.out_to_right);
+	}
+
 	/**
 	 * 显示缓冲动画
 	 */
@@ -536,6 +546,22 @@ public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Res
 		} else {
 			return true;
 		}
+	}
+
+	/**
+	 * 隐藏软键盘
+	 */
+	protected void hideSoftInput(View view) {
+		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+		imm.hideSoftInputFromWindow(view.getWindowToken(), 0); //强制隐藏
+	}
+
+	/**
+	 * 隐藏物理键盘
+	 */
+	protected void toggleSoftInput() {
+		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+		imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
 	}
 
 }

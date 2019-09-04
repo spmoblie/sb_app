@@ -16,6 +16,6 @@
         android:gravity="center"
         android:maxLines="2"
         android:textColor="@color/app_color_white"
-        android:textSize="@dimen/text_size_16" />
+        android:textSize="@dimen/app_text_size_content" />
 
 </RelativeLayout>

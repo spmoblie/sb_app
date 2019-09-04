@@ -122,6 +122,12 @@
         <activity
             android:name=".activity.login.LoginActivity"
             android:launchMode="singleTask"/>
+        <activity
+            android:name=".activity.login.LoginPhoneActivity"
+            android:launchMode="singleTask"/>
+        <activity
+            android:name=".activity.login.RegisterActivity"
+            android:launchMode="singleTask"/>
 
         <!-- mine -->
         <activity

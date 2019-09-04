@@ -32,7 +32,7 @@
             android:lines="1"
             android:text=""
             android:textColor="@color/app_color_black"
-            android:textSize="@dimen/text_size_14" />
+            android:textSize="@dimen/app_text_size_label" />
 
         <TextView
             android:id="@+id/list_item_select_tv_select_name"
@@ -47,7 +47,7 @@
             android:lines="1"
             android:text="@string/all"
             android:textColor="@color/app_color_black"
-            android:textSize="@dimen/text_size_14" />
+            android:textSize="@dimen/app_text_size_label" />
 
         <ImageView
             android:id="@+id/list_item_select_iv_go"

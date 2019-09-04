@@ -13,7 +13,6 @@
     <string name="retry">重试</string>
     <string name="back">返回</string>
     <string name="save">保存</string>
-    <string name="dont_save">不保存</string>
     <string name="save_ok">保存成功</string>
     <string name="my_new">新建</string>
     <string name="add">添加</string>
@@ -24,6 +23,8 @@
     <string name="item_number">数量：</string>
     <string name="item_select_no">请选择：</string>
     <string name="item_select_ok">已选择：</string>
+    <string name="recommend">推荐</string>
+    <string name="login">登录</string>
     <string name="color">颜色</string>
     <string name="size">尺码</string>
     <string name="clean">清除</string>
@@ -80,7 +81,7 @@
 
     <!-- network -->
     <string name="network">网络</string>
-    <string name="network_closed">未能连接到Stylistpark</string>
+    <string name="network_closed">未能连接到%1$s</string>
     <string name="network_fault">请检查您的网络连接</string>
     <string name="network_no_wifi">检测到您当前未使用Wifi，建议您在Wifi网络下观看视频</string>
 
@@ -180,10 +181,15 @@
     <string name="setting_input_error_feedback">意见或建议不能为空~</string>
 
     <!-- Login Register -->
-    <string name="login_login">登入账户</string>
+    <string name="login_login">登录账户</string>
+    <string name="login_login_app">登录松小堡</string>
+    <string name="login_phone_login">手机号一键登录</string>
+    <string name="login_phone_register">手机号快捷注册</string>
+    <string name="login_phone_code">手机验证码登录</string>
     <string name="login_register">注册</string>
-    <string name="login_user_name">邮箱/卡号</string>
-    <string name="login_input_user_name">请输入邮箱/卡号</string>
+    <string name="login_input_phone">请输入手机号</string>
+    <string name="login_input_verify_code">短信验证码</string>
+    <string name="login_error_verify_code">验证码错误！请重新输入！</string>
     <string name="login_password">密码</string>
     <string name="login_input_password">请输入密码</string>
     <string name="login_input_password_again">请确认密码</string>
@@ -191,17 +197,14 @@
     <string name="login_input_invitation_code">输入邀请码</string>
     <string name="login_input_email">请输入邮箱</string>
     <string name="login_email_format_error">请检查邮箱格式是否正确？</string>
-    <string name="login_input_verify_code">输入验证码</string>
-    <string name="login_error_verify_code">验证码错误！请重新输入！</string>
     <string name="login_new_register">新用户注册</string>
     <string name="login_reset_password">重置密码</string>
-    <string name="login_quick">第三方账号快速登入</string>
+    <string name="login_quick">其它方式登录</string>
     <string name="login_oauth_cancel">登入取消</string>
     <string name="login_error_oauth">授权登入出现错误！请重试！</string>
     <string name="login_bound">绑定账号</string>
     <string name="login_immediately_bound">立即绑定</string>
     <string name="login_no_account">没有账号？马上去注册</string>
-    <string name="login_bound_reminder">温馨提示：如您已有SP账号，请先绑定账号。跳过将默认为您新建一个SP账号并自动绑定，请谨慎操作。</string>
     <string name="login_timeout">登入超时！请重新登入！</string>
 
     <!-- Share -->
@@ -216,7 +219,6 @@
     <string name="share_alipay">支付宝</string>
     <string name="share_copy">复制链接</string>
     <string name="share_msg_no_wechat">请先下载微信</string>
-    <string name="share_msg_no_facebook">请先下载 Facebook</string>
     <string name="share_msg_no_whatsapp">请先下载 Whatsapp</string>
     <string name="share_msg_no_line">请先下载 Line</string>
     <string name="share_msg_error_license">授权失败，请重试！</string>
@@ -291,48 +293,6 @@
     <string name="mine_send_email_ok">邮件发送成功</string>
     <string name="mine_send_email_hint">确认发送一封验证邮件至%1$s么？在您验证此邮件后方可修改邮箱地址。如有疑问请联系官方客服。</string>
 
-    <!-- Collage -->
-    <string name="collage_video_title">时尚自拍</string>
-    <string name="collage_video_desc">上传您使用Stylistpark商品的照片。</string>
-    <string name="collage_collage_title">造型拼贴</string>
-    <string name="collage_collage_desc">运用你的潮流触觉创造不同风格的搭配</string>
-    <string name="collage_multiangle_title">多角度</string>
-    <string name="collage_multiangle_desc">以不同角度，透过模特儿展示服饰</string>
-    <string name="collage_upload">立即上传</string>
-    <string name="collage_create">立即制作</string>
-    <string name="collage_create_multiangle">多角度创作</string>
-    <string name="collage_create_free">自由创作</string>
-    <string name="collage_create_template">预设创作</string>
-    <string name="collage_select_template">选择模板</string>
-    <string name="collage_select_product">搭配货品</string>
-    <string name="collage_items">搭配货品Collage Items</string>
-    <string name="collage_no_item">请选取搭配的货品</string>
-    <string name="collage_creation_edit">编辑搭配简介</string>
-    <string name="collage_creation_delete">删除搭配</string>
-    <string name="collage_creation_report">检举问题内容</string>
-    <string name="collage_info">搭配信息</string>
-    <string name="collage_description">搭配简介</string>
-    <string name="collage_msg_product_too_many">已经超出货品上限</string>
-    <string name="collage_msg_decor_too_many">已经超出素材上限</string>
-    <string name="collage_msg_over_word_max">超出字数上限</string>
-    <string name="collage_msg_fill_title_comment">请填写标题及创作解说</string>
-    <string name="collage_error_load_draft">载入失败，草稿已被删除</string>
-    <string name="collage_move_upward">上移一层</string>
-    <string name="collage_move_downward">下移一层</string>
-    <string name="collage_leave_create">离开创作</string>
-    <string name="collage_msg_leave_create">在离开前保存草稿？</string>
-    <string name="collage_msg_leave_confirm">确认离开?</string>
-    <string name="collage_continue_last_create">继续上次的创作</string>
-    <string name="collage_start_new_create">开始新创作</string>
-    <string name="collage_select_photo">选择相片</string>
-    <string name="collage_change_item">更换货品</string>
-    <string name="collage_items_select_product">请从下方选取搭配货品</string>
-    <string name="collage_need_choose_template">请选择所需的模板</string>
-    <string name="collage_select_4_image">请选择4张相片</string>
-    <string name="collage_instru_add_photo">按下方格子新增相片</string>
-    <string name="collage_instru_photo_added_1">可调整格子内相片的大小及角度</string>
-    <string name="collage_instru_photo_added_2">按下方格子可继续新增相片</string>
-
     <!-- Filter -->
     <string name="filter">筛选</string>
     <string name="filter_stroke">划</string>
@@ -349,11 +309,6 @@
     <string-array name="array_photo_choose">
         <item>@string/photo_shoot_upload</item>
         <item>@string/photo_choose_upload</item>
-    </string-array>
-
-    <string-array name="array_wechat">
-        <item >分享至联系人</item>
-        <item >发布到朋友圈</item>
     </string-array>
 
 </resources>

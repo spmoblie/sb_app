@@ -28,8 +28,8 @@
             android:layout_gravity="center_horizontal"
             android:gravity="center"
             android:text="@string/share"
-            android:textColor="@color/share_text_color"
-            android:textSize="@dimen/text_size_18" />
+            android:textColor="@color/app_color_black"
+            android:textSize="@dimen/app_text_size_title" />
 
         <ImageView
             style="@style/set_line_horizontal_bg"
@@ -48,32 +48,28 @@
                 style="@style/common_tab_text_assist"
                 android:drawablePadding="@dimen/margin_padding_10"
                 android:drawableTop="@mipmap/share_icon_qq_space"
-                android:text="@string/share_qq_space"
-                android:textColor="@color/share_text_color" />
+                android:text="@string/share_qq_space" />
 
             <TextView
                 android:id="@+id/share_view_tv_share_qq"
                 style="@style/common_tab_text_assist"
                 android:drawablePadding="@dimen/margin_padding_10"
                 android:drawableTop="@mipmap/share_icon_qq"
-                android:text="@string/share_qq"
-                android:textColor="@color/share_text_color" />
+                android:text="@string/share_qq" />
 
             <TextView
                 android:id="@+id/share_view_tv_share_wechat"
                 style="@style/common_tab_text_assist"
                 android:drawablePadding="@dimen/margin_padding_10"
                 android:drawableTop="@mipmap/share_icon_wechat"
-                android:text="@string/share_wechat"
-                android:textColor="@color/share_text_color" />
+                android:text="@string/share_wechat" />
             
             <TextView
                 android:id="@+id/share_view_tv_share_friends"
                 style="@style/common_tab_text_assist"
                 android:drawablePadding="@dimen/margin_padding_10"
                 android:drawableTop="@mipmap/share_icon_friends"
-                android:text="@string/share_friends"
-                android:textColor="@color/share_text_color" />
+                android:text="@string/share_friends" />
 
         </LinearLayout>
 
@@ -88,32 +84,28 @@
                 style="@style/common_tab_text_assist"
                 android:drawablePadding="@dimen/margin_padding_10"
                 android:drawableTop="@mipmap/share_icon_weibo"
-                android:text="@string/share_weibo"
-                android:textColor="@color/share_text_color" />
+                android:text="@string/share_weibo" />
 
             <TextView
                 android:id="@+id/share_view_tv_share_email"
                 style="@style/common_tab_text_assist"
                 android:drawablePadding="@dimen/margin_padding_10"
                 android:drawableTop="@mipmap/share_icon_email"
-                android:text="@string/share_email"
-                android:textColor="@color/share_text_color" />
+                android:text="@string/share_email" />
 
             <TextView
                 android:id="@+id/share_view_tv_share_message"
                 style="@style/common_tab_text_assist"
                 android:drawablePadding="@dimen/margin_padding_10"
                 android:drawableTop="@mipmap/share_icon_message"
-                android:text="@string/share_message"
-                android:textColor="@color/share_text_color" />
+                android:text="@string/share_message" />
 
             <TextView
                 android:id="@+id/share_view_tv_share_copy"
                 style="@style/common_tab_text_assist"
                 android:drawablePadding="@dimen/margin_padding_10"
                 android:drawableTop="@mipmap/share_icon_copy"
-                android:text="@string/share_copy"
-                android:textColor="@color/share_text_color" />
+                android:text="@string/share_copy" />
         </LinearLayout>
     </LinearLayout>
 

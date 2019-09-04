@@ -18,7 +18,7 @@
         android:minLines="1"
         android:maxLines="6"
         android:textColor="@color/dialog_text_context"
-        android:textSize="@dimen/text_size_16" />
+        android:textSize="@dimen/app_text_size_content" />
 
     <Button
         android:id="@+id/dialog_button_ok"
@@ -33,6 +33,6 @@
         android:paddingTop="@dimen/margin_padding_5"
         android:text="@string/confirm"
         android:textColor="@color/dialog_text_button_2"
-        android:textSize="@dimen/text_size_14" />
+        android:textSize="@dimen/app_text_size_button" />
 
 </LinearLayout>

@@ -1,204 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/ui_bg_color_app"
-    android:orientation="vertical">
+    android:background="@color/ui_bg_color_nut">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="3"
-        android:gravity="center"
-        android:orientation="vertical" >
+    <ImageView
+        android:id="@+id/login_iv_close"
+        android:layout_width="@dimen/title_height"
+        android:layout_height="@dimen/title_height"
+        android:contentDescription="@string/desc"
+        android:scaleType="center"
+        android:src="@mipmap/icon_close" />
 
-        <com.sbwg.sxb.widgets.RoundImageView
-            android:id="@+id/login_iv_avatar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/desc"
-            app:type="circle"
-            android:src="@drawable/icon_default_head" />
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingTop="@dimen/margin_padding_10"
-        android:paddingBottom="@dimen/margin_padding_20"
-        android:orientation="vertical" >
+        android:text="@string/login_login_app"
+        android:textColor="@color/app_color_black"
+        android:textSize="@dimen/text_size_24"
+        android:textStyle="bold"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0.2"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal" >
+    <Button
+        android:id="@+id/login_btn_login"
+        style="@style/Register_Button"
+        android:text="@string/login_phone_login"
+        app:layout_constraintWidth_percent="0.7"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0.35"/>
 
-            <EditText
-                android:id="@+id/login_et_users"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_padding_20"
-                android:layout_weight="1"
-                android:drawableLeft="@mipmap/login_user"
-                android:drawablePadding="@dimen/margin_padding_10"
-                android:background="@null"
-                android:lines="1"
-                android:hint="@string/login_user_name"
-                android:inputType="textEmailAddress"
-                android:textColor="@color/shows_text_color"
-                android:textColorHint="@color/input_text_color"
-                android:textSize="@dimen/text_size_14" />
-
-            <ImageView
-                android:id="@+id/login_iv_clear_user"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/margin_padding_20"
-                android:contentDescription="@string/desc"
-                android:src="@mipmap/icon_clear"
-                android:visibility="gone" />
-        </LinearLayout>
-
-        <ImageView
-            style="@style/set_line_horizontal_bg"
-            android:layout_marginLeft="@dimen/margin_padding_50"
-            android:layout_marginTop="@dimen/margin_padding_5"
-            android:layout_marginRight="@dimen/screen_margin_default"
-            android:contentDescription="@string/desc" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_padding_20"
-            android:gravity="center_vertical"
-            android:orientation="horizontal" >
-
-            <EditText
-                android:id="@+id/login_et_passwords"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_padding_20"
-                android:layout_weight="1"
-                android:drawableLeft="@mipmap/login_password"
-                android:drawablePadding="@dimen/margin_padding_10"
-                android:background="@null"
-                android:lines="1"
-                android:hint="@string/login_password"
-                android:inputType="textPassword"
-                android:textColor="@color/shows_text_color"
-                android:textColorHint="@color/input_text_color"
-                android:textSize="@dimen/text_size_14" />
-
-            <ImageView
-                android:id="@+id/login_iv_password_check"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginRight="@dimen/margin_padding_20"
-                android:contentDescription="@string/desc"
-                android:src="@drawable/selector_icon_password" />
-        </LinearLayout>
-
-        <ImageView
-            style="@style/set_line_horizontal_bg"
-            android:layout_marginLeft="@dimen/margin_padding_50"
-            android:layout_marginTop="@dimen/margin_padding_5"
-            android:layout_marginRight="@dimen/screen_margin_default"
-            android:contentDescription="@string/desc" />
-    </LinearLayout>
+    <TextView
+        android:id="@+id/login_tv_register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/login_phone_register"
+        android:textColor="@color/app_color_black"
+        android:textSize="@dimen/app_text_size_content"
+        android:layout_marginTop="@dimen/margin_padding_30"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/login_btn_login"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="2"
-        android:orientation="vertical" >
-
-        <Button
-            android:id="@+id/login_btn_login"
-            style="@style/Register_Button"
-            android:layout_marginTop="0dp"
-            android:layout_marginLeft="@dimen/margin_padding_20"
-            android:layout_marginRight="@dimen/margin_padding_20"
-            android:text="@string/login_login" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center_vertical"
-            android:orientation="horizontal" >
-
-            <TextView
-                android:id="@+id/login_tv_register"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/login_new_register"
-                android:textColor="@color/shows_text_color"
-                android:textSize="@dimen/text_size_12" />
-
-            <ImageView
-                style="@style/set_line_vertical_bg"
-                android:layout_height="@dimen/margin_padding_15"
-                android:contentDescription="@string/desc" />
-
-            <TextView
-                android:id="@+id/login_tv_forger_password"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="@string/login_reset_password"
-                android:textColor="@color/shows_text_color"
-                android:textSize="@dimen/text_size_12" />
-        </LinearLayout>
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="3"
-        android:orientation="vertical" >
+        android:orientation="vertical"
+        android:gravity="center_horizontal"
+        android:padding="@dimen/margin_padding_30"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHeight_percent="0.45">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_padding_10"
             android:gravity="center_vertical"
-            android:orientation="horizontal" >
+            android:orientation="horizontal">
 
             <ImageView
                 style="@style/set_line_horizontal_bg"
                 android:layout_width="0dp"
-                android:layout_marginLeft="@dimen/margin_padding_20"
-                android:layout_marginRight="@dimen/margin_padding_5"
                 android:layout_weight="1"
                 android:contentDescription="@string/desc" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_margin="@dimen/margin_padding_10"
                 android:text="@string/login_quick"
                 android:textColor="@color/label_text_color"
-                android:textSize="@dimen/text_size_12" />
+                android:textSize="@dimen/app_text_size_small" />
 
             <ImageView
                 style="@style/set_line_horizontal_bg"
                 android:layout_width="0dp"
-                android:layout_marginLeft="@dimen/margin_padding_5"
-                android:layout_marginRight="@dimen/margin_padding_20"
                 android:layout_weight="1"
                 android:contentDescription="@string/desc" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingLeft="@dimen/screen_margin_default"
-            android:paddingRight="@dimen/screen_margin_default" >
+            android:paddingRight="@dimen/screen_margin_default">
 
             <TextView
                 android:id="@+id/login_tv_wechat"
@@ -221,6 +115,13 @@
                 android:drawableTop="@mipmap/login_icon_logo_sina"
                 android:text="@string/share_weibo" />
         </LinearLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="登录即同意《松小堡用户协议》"
+            android:textColor="@color/app_color_black"
+            android:textSize="@dimen/app_text_size_small"/>
     </LinearLayout>
 
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>

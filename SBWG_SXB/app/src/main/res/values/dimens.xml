@@ -1,9 +1,6 @@
 <resources >
 
     <!-- text size -->
-    <dimen name="text_size_05">05sp</dimen>
-    <dimen name="text_size_06">06sp</dimen>
-    <dimen name="text_size_07">07sp</dimen>
     <dimen name="text_size_08">08sp</dimen>
     <dimen name="text_size_09">09sp</dimen>
     <dimen name="text_size_10">10sp</dimen>
@@ -27,6 +24,8 @@
     <dimen name="text_size_28">28sp</dimen>
     <dimen name="text_size_29">29sp</dimen>
     <dimen name="text_size_30">30sp</dimen>
+    <dimen name="text_size_31">31sp</dimen>
+    <dimen name="text_size_32">32sp</dimen>
     <dimen name="text_size_33">33sp</dimen>
     <!-- text size -->
 
@@ -52,13 +51,25 @@
     <dimen name="margin_padding_18">18dp</dimen>
     <dimen name="margin_padding_19">19dp</dimen>
     <dimen name="margin_padding_20">20dp</dimen>
+    <dimen name="margin_padding_21">21dp</dimen>
+    <dimen name="margin_padding_22">22dp</dimen>
+    <dimen name="margin_padding_23">23dp</dimen>
     <dimen name="margin_padding_24">24dp</dimen>
     <dimen name="margin_padding_25">25dp</dimen>
+    <dimen name="margin_padding_26">26dp</dimen>
+    <dimen name="margin_padding_27">27dp</dimen>
     <dimen name="margin_padding_28">28dp</dimen>
+    <dimen name="margin_padding_29">29dp</dimen>
     <dimen name="margin_padding_30">30dp</dimen>
+    <dimen name="margin_padding_31">31dp</dimen>
     <dimen name="margin_padding_32">32dp</dimen>
+    <dimen name="margin_padding_33">33dp</dimen>
+    <dimen name="margin_padding_34">34dp</dimen>
     <dimen name="margin_padding_35">35dp</dimen>
     <dimen name="margin_padding_36">36dp</dimen>
+    <dimen name="margin_padding_37">37dp</dimen>
+    <dimen name="margin_padding_38">38dp</dimen>
+    <dimen name="margin_padding_39">39dp</dimen>
     <dimen name="margin_padding_40">40dp</dimen>
     <dimen name="margin_padding_42">42dp</dimen>
     <dimen name="margin_padding_45">45dp</dimen>
@@ -89,10 +100,17 @@
     <dimen name="margin_padding_300">300dp</dimen>
     <!-- margin padding -->
 
+    <!-- text size -->
+    <dimen name="app_text_size_title">@dimen/text_size_18</dimen>
+    <dimen name="app_text_size_content">@dimen/text_size_16</dimen>
+    <dimen name="app_text_size_label">@dimen/text_size_14</dimen>
+    <dimen name="app_text_size_small">@dimen/text_size_12</dimen>
+    <dimen name="app_text_size_button">@dimen/text_size_16</dimen>
+
     <!-- title -->
     <dimen name="title_height">@dimen/margin_padding_50</dimen>
     <dimen name="title_text_size">@dimen/text_size_20</dimen>
-    <dimen name="title_text_size_right">@dimen/text_size_17</dimen>
+    <dimen name="title_text_size_right">@dimen/text_size_18</dimen>
 
     <!-- other -->
     <dimen name="screen_margin_default">@dimen/margin_padding_15</dimen>
@@ -110,7 +128,7 @@
     <dimen name="loading_dialog_height">@dimen/margin_padding_100</dimen>
 
     <!-- login -->
-    <dimen name="login_et_height_default">@dimen/margin_padding_50</dimen>
+    <dimen name="login_et_height_default">@dimen/margin_padding_40</dimen>
     <dimen name="login_bt_height_default">@dimen/margin_padding_50</dimen>
 
     <!-- photo -->

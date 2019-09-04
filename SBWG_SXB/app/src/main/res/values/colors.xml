@@ -28,8 +28,6 @@
     <color name="price_text_color">#000000</color>
     <!-- 负金额文字颜色 -->
     <color name="lower_text_color">#10AF9A</color>
-    <!-- 分享组件颜色值 -->
-    <color name="share_text_color">#000000</color>
 
     <!-- App背景主色 -->
     <color name="ui_bg_color_app">@color/app_color_black</color>

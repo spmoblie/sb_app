@@ -26,7 +26,7 @@
             android:paddingRight="@dimen/margin_padding_10"
             android:text="@string/loading_downloading"
             android:textColor="@color/app_color_black"
-            android:textSize="@dimen/text_size_16" />
+            android:textSize="@dimen/app_text_size_content" />
     </LinearLayout>
 
 </RelativeLayout>

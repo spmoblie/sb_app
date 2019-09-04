@@ -136,7 +136,7 @@
         <item name="android:ellipsize">end</item>
         <item name="android:lines">1</item>
         <item name="android:textColor">@color/app_color_black</item>
-        <item name="android:textSize">@dimen/text_size_14</item>
+        <item name="android:textSize">@dimen/app_text_size_label</item>
     </style>
 
     <!-- 设置页面简介文本样式 -->
@@ -152,31 +152,39 @@
         <item name="android:ellipsize">end</item>
         <item name="android:lines">1</item>
         <item name="android:textColor">@color/label_text_color</item>
-        <item name="android:textSize">@dimen/text_size_12</item>
+        <item name="android:textSize">@dimen/app_text_size_small</item>
     </style>
 
     <!-- 注册页面EditText样式 -->
     <style name="Register_EditText">
-        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">@dimen/login_et_height_default</item>
-        <item name="android:layout_marginTop">@dimen/margin_padding_10</item>
         <item name="android:paddingLeft">@dimen/margin_padding_10</item>
-        <item name="android:inputType">textEmailAddress</item>
-        <item name="android:background">@drawable/shape_app_input_style</item>
-        <item name="android:textColorHint">@color/input_text_color</item>
-        <item name="android:textSize">@dimen/text_size_14</item>
-        <item name="android:textColor">@color/shows_text_color</item>
+        <item name="android:inputType">phone</item>
+        <item name="android:background">@color/ui_bg_color_percent_10</item>
+        <item name="android:textColorHint">@color/input_hint_color</item>
+        <item name="android:textSize">@dimen/app_text_size_label</item>
+        <item name="android:textColor">@color/input_text_color</item>
+    </style>
+
+    <!-- 注册页面TextView样式 -->
+    <style name="Register_TextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingLeft">@dimen/margin_padding_10</item>
+        <item name="android:textSize">@dimen/app_text_size_content</item>
+        <item name="android:textColor">@color/app_color_black</item>
     </style>
 
     <!-- 注册页面Button样式 -->
     <style name="Register_Button">
-        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">@dimen/login_bt_height_default</item>
         <item name="android:layout_marginTop">@dimen/margin_padding_30</item>
-        <item name="android:background">@drawable/shape_button_style_2_04</item>
+        <item name="android:background">@drawable/shape_button_style_2_20</item>
         <item name="android:gravity">center</item>
-        <item name="android:textSize">@dimen/text_size_16</item>
-        <item name="android:textColor">@color/app_color_white</item>
+        <item name="android:textSize">@dimen/app_text_size_button</item>
+        <item name="android:textColor">@color/tv_color_button</item>
     </style>
 
     <!-- 版块标题文本样式 -->
@@ -186,7 +194,7 @@
         <item name="android:layout_marginLeft">@dimen/margin_padding_15</item>
         <item name="android:layout_marginTop">@dimen/margin_padding_20</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textSize">@dimen/text_size_20</item>
+        <item name="android:textSize">@dimen/app_text_size_title</item>
         <item name="android:textColor">@color/title_text_color</item>
     </style>
 
@@ -203,14 +211,14 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginTop">@dimen/margin_padding_30</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textSize">@dimen/text_size_16</item>
+        <item name="android:textSize">@dimen/app_text_size_label</item>
         <item name="android:textColor">@color/shows_text_color</item>
     </style>
 
     <style name="mine_item_text">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">@dimen/text_size_14</item>
+        <item name="android:textSize">@dimen/app_text_size_label</item>
         <item name="android:textColor">@color/shows_text_color</item>
     </style>
 
@@ -221,7 +229,7 @@
         <item name="android:layout_marginTop">@dimen/margin_padding_15</item>
         <item name="android:paddingTop">@dimen/margin_padding_10</item>
         <item name="android:paddingBottom">@dimen/margin_padding_10</item>
-        <item name="android:textSize">@dimen/text_size_16</item>
+        <item name="android:textSize">@dimen/app_text_size_label</item>
         <item name="android:textColor">@color/shows_text_color</item>
     </style>
 
@@ -236,7 +244,7 @@
         <item name="android:inputType">text</item>
         <item name="android:background">@drawable/shape_frame_style_1_20</item>
         <item name="android:textColorHint">@color/input_hint_color</item>
-        <item name="android:textSize">@dimen/text_size_16</item>
+        <item name="android:textSize">@dimen/app_text_size_label</item>
         <item name="android:textColor">@color/input_text_color</item>
     </style>
 
@@ -251,7 +259,7 @@
         <item name="android:paddingBottom">@dimen/margin_padding_5</item>
         <item name="android:background">@drawable/shape_frame_style_1_04</item>
         <item name="android:textColor">@color/tv_color_status</item>
-        <item name="android:textSize">@dimen/text_size_12</item>
+        <item name="android:textSize">@dimen/app_text_size_small</item>
     </style>
 
     <!-- 通用价格文本样式 -->
@@ -259,7 +267,7 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/price_text_color</item>
-        <item name="android:textSize">@dimen/text_size_12</item>
+        <item name="android:textSize">@dimen/app_text_size_small</item>
     </style>
 
     <!-- 通用红点提醒ImageView样式 -->
@@ -295,8 +303,8 @@
         <item name="android:gravity">center</item>
         <item name="android:ellipsize">end</item>
         <item name="android:singleLine">true</item>
-        <item name="android:textSize">@dimen/text_size_11</item>
-        <item name="android:textColor">@color/label_text_color</item>
+        <item name="android:textSize">@dimen/app_text_size_small</item>
+        <item name="android:textColor">@color/app_color_black</item>
     </style>
 
     <!-- 通用均分复选框样式:小 -->
@@ -309,7 +317,7 @@
         <item name="android:singleLine">true</item>
         <item name="android:drawableLeft">@drawable/selector_checkbox_small</item>
         <item name="android:drawablePadding">@dimen/margin_padding_3</item>
-        <item name="android:textSize">@dimen/text_size_14</item>
+        <item name="android:textSize">@dimen/app_text_size_label</item>
         <item name="android:textColor">@color/shows_text_color</item>
     </style>
 
@@ -337,7 +345,7 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:gravity">center</item>
-        <item name="android:textSize">@dimen/text_size_16</item>
+        <item name="android:textSize">@dimen/app_text_size_label</item>
         <item name="android:textColor">@color/tv_color_button</item>
         <item name="android:paddingLeft">@dimen/margin_padding_20</item>
         <item name="android:paddingTop">@dimen/margin_padding_10</item>

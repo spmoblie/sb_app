@@ -22,7 +22,7 @@ public class ChildFragmentSXB extends BaseFragment implements OnClickListener {
 
 	private static final String TAG = "ChildFragmentSXB";
 
-	@BindView(R.id.fg_sbwg_iv_show)
+	@BindView(R.id.fg_sxb_iv_show)
 	ImageView iv_show;
 
 	private Context mContext;
@@ -62,7 +62,7 @@ public class ChildFragmentSXB extends BaseFragment implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-			case R.id.fg_sbwg_iv_show:
+			case R.id.fg_sxb_iv_show:
 				CommonTools.showToast("功能开发中，敬请期待。。。", 3000);
 				break;
 		}

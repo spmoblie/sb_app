@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@color/ui_bg_color_app"
     android:scrollbars="none">
 
@@ -11,10 +11,10 @@
         android:orientation="vertical">
 
         <ImageView
-            android:id="@+id/fg_sbwg_iv_show"
+            android:id="@+id/fg_sxb_iv_show"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:src="@drawable/xsb_show"
+            android:layout_height="700dp"
+            android:src="@drawable/sxb_show"
             android:scaleType="fitStart"/>
 
     </LinearLayout>

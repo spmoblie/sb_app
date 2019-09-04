@@ -18,7 +18,7 @@
         android:background="@color/ui_color_status"
         android:text="@string/photo_show_save_image"
         android:textColor="@color/app_color_white"
-        android:textSize="@dimen/text_size_14"
+        android:textSize="@dimen/app_text_size_label"
         android:visibility="gone" />
     
     <TextView 
@@ -30,6 +30,6 @@
         android:background="@drawable/icon_bg_toast"
         android:gravity="center"
         android:textColor="@color/app_color_white"
-        android:textSize="@dimen/text_size_12" />
+        android:textSize="@dimen/app_text_size_small" />
 
 </FrameLayout>

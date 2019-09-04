@@ -22,7 +22,7 @@
             android:hint="@string/desc"
             android:textColor="@color/input_text_color"
             android:textColorHint="@color/input_hint_color"
-            android:textSize="@dimen/text_size_14" />
+            android:textSize="@dimen/app_text_size_label" />
 
         <ImageView
             android:id="@+id/edit_info_iv_clear"
@@ -44,6 +44,6 @@
         android:layout_height="wrap_content"
         android:padding="@dimen/screen_margin_default"
         android:textColor="@color/label_text_color"
-        android:textSize="@dimen/text_size_12" />
+        android:textSize="@dimen/app_text_size_small" />
 
 </LinearLayout>
