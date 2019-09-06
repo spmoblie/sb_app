@@ -45,20 +45,29 @@ public class CommonTools {
      * 显示Toast消息
      *
      * @param message 消息文本
+     */
+    public static void showToast(String message) {
+		showToast(message, 5000);
+    }
+
+    /**
+     * 显示Toast消息
+     *
+     * @param message 消息文本
      * @param time 消息显示的时长
      */
     public static void showToast(String message, long time) {
 		Context ctx = AppApplication.getInstance().getApplicationContext();
     	LayoutInflater inflater = (LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     	View view = inflater.inflate(R.layout.layout_toast, null);
-    	TextView text = (TextView) view.findViewById(R.id.toast_message);
+    	TextView text = view.findViewById(R.id.toast_message);
     	text.setText(message);
 
     	mHandler.removeCallbacks(r);
     	if (toast == null){ //只有mToast==null时才重新创建，否则只需更改提示文字
     		toast = new Toast(ctx);
     		toast.setDuration(Toast.LENGTH_SHORT);
-    		toast.setGravity(Gravity.BOTTOM, 0, screenHeight / 6);
+    		toast.setGravity(Gravity.BOTTOM, 0, screenHeight / 2);
     		toast.setView(view);
     	}
     	mHandler.postDelayed(r, time); //延迟隐藏toast

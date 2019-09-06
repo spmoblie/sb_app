@@ -13,6 +13,8 @@ import android.os.Message;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.res.ResourcesCompat;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,6 +25,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -39,6 +42,7 @@ import com.sbwg.sxb.entity.ShareEntity;
 import com.sbwg.sxb.utils.CommonTools;
 import com.sbwg.sxb.utils.ExceptionUtil;
 import com.sbwg.sxb.utils.LogUtil;
+import com.sbwg.sxb.utils.MyCountDownTimer;
 import com.sbwg.sxb.widgets.share.ShareView;
 import com.sina.weibo.sdk.api.share.BaseResponse;
 import com.sina.weibo.sdk.api.share.IWeiboHandler;
@@ -74,6 +78,7 @@ public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Res
 	private TextView tv_title;
 	private Button bt_right;
 	private ViewFlipper mLayoutBase;
+	private MyCountDownTimer mcdt;
 
 	private int dialogWidth;
 	private ShareView mShareView;
@@ -549,6 +554,40 @@ public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Res
 	}
 
 	/**
+	 * 切换View背景的状态
+	 */
+	protected void changeViewState(View view, boolean isState) {
+		if (view == null) return;
+		if (isState) {
+			view.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.shape_button_style_2_20, null));
+		} else {
+			view.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.shape_button_style_3_20, null));
+		}
+	}
+
+	/**
+	 * 切换密码输入框密码显示的状态
+	 */
+	protected void changeEditTextPassword(EditText et_view, boolean isShow) {
+		if (et_view == null) return;
+		if (isShow) { //显示密码
+			et_view.setInputType(InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+		}else { //隐藏密码
+			et_view.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+		}
+		et_view.setSelection(et_view.length()); //调整光标至最后
+	}
+
+	/**
+	 * 输入框获取焦点并清空内容
+	 */
+	protected void editTextFocusAndClear(EditText et_view) {
+		if (et_view == null) return;
+		et_view.setText("");
+		et_view.requestFocus();
+	}
+
+	/**
 	 * 隐藏软键盘
 	 */
 	protected void hideSoftInput(View view) {
@@ -562,6 +601,37 @@ public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Res
 	protected void toggleSoftInput() {
 		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 		imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+	}
+
+	/**
+	 * 开启倒计时
+	 */
+	protected void startTimer(TextView tv_time, long time) {
+		if (tv_time == null) return;
+		mcdt = new MyCountDownTimer(tv_time, time, 1000,
+				new MyCountDownTimer.MyTimerCallback() {
+					@Override
+					public void onFinish() {
+						onTimerFinish();
+					}
+				});
+		mcdt.start(); //开始倒计时
+	}
+
+	/**
+	 * 倒计时结束执行
+	 */
+	protected void onTimerFinish() {
+
+	}
+
+	/**
+	 * 取消倒计时
+	 */
+	protected void stopTimer() {
+		if (mcdt != null) {
+			mcdt.cancel();
+		}
 	}
 
 }
