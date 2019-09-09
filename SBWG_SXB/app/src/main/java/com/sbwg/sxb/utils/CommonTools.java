@@ -34,7 +34,7 @@ public class CommonTools {
 
 	private static Toast toast;
     private static Handler mHandler = new Handler();
-    private static Runnable r = new Runnable() {
+    private static Runnable runnable = new Runnable() {
         public void run() {
         	toast.cancel();
         	toast = null; //toast隐藏后，将其置为null
@@ -47,7 +47,7 @@ public class CommonTools {
      * @param message 消息文本
      */
     public static void showToast(String message) {
-		showToast(message, 5000);
+		showToast(message, 3000);
     }
 
     /**
@@ -63,14 +63,14 @@ public class CommonTools {
     	TextView text = view.findViewById(R.id.toast_message);
     	text.setText(message);
 
-    	mHandler.removeCallbacks(r);
-    	if (toast == null){ //只有mToast==null时才重新创建，否则只需更改提示文字
+    	mHandler.removeCallbacks(runnable);
+    	if (toast == null){ //只有mToast == null时才重新创建，否则只需更改提示文字
     		toast = new Toast(ctx);
-    		toast.setDuration(Toast.LENGTH_SHORT);
+    		toast.setDuration(Toast.LENGTH_LONG);
     		toast.setGravity(Gravity.BOTTOM, 0, screenHeight / 2);
     		toast.setView(view);
     	}
-    	mHandler.postDelayed(r, time); //延迟隐藏toast
+    	mHandler.postDelayed(runnable, time); //延迟隐藏toast
     	toast.show();
     }
 

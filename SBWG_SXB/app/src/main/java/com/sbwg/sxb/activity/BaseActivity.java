@@ -64,6 +64,7 @@ public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Res
 
 	public static final String TAG = BaseActivity.class.getSimpleName();
 	public static final String IMAGE_URL_HTTP = AppConfig.ENVIRONMENT_PRESENT_IMG_APP;
+	public static final long SEND_TIME = 60000;
 
 	protected Context mContext;
 	protected SharedPreferences shared;
@@ -71,6 +72,7 @@ public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Res
 	protected IWXAPI api;
 	protected DialogManager myDialog;
 	protected Boolean isInitShare = false;
+	protected Boolean isTimeFinish = true;
 	protected int screenWidth, screenHeight, statusHeight, titleHeight;
 
 	private LinearLayout ll_head;
@@ -608,6 +610,7 @@ public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Res
 	 */
 	protected void startTimer(TextView tv_time, long time) {
 		if (tv_time == null) return;
+		stopTimer();
 		mcdt = new MyCountDownTimer(tv_time, time, 1000,
 				new MyCountDownTimer.MyTimerCallback() {
 					@Override
@@ -616,13 +619,7 @@ public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Res
 					}
 				});
 		mcdt.start(); //开始倒计时
-	}
-
-	/**
-	 * 倒计时结束执行
-	 */
-	protected void onTimerFinish() {
-
+		isTimeFinish = false;
 	}
 
 	/**
@@ -631,7 +628,15 @@ public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Res
 	protected void stopTimer() {
 		if (mcdt != null) {
 			mcdt.cancel();
+			mcdt = null;
 		}
+	}
+
+	/**
+	 * 倒计时结束执行
+	 */
+	protected void onTimerFinish() {
+		isTimeFinish = true;
 	}
 
 }

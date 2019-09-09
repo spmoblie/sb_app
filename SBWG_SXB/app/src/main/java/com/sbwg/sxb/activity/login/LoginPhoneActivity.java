@@ -1,5 +1,6 @@
 package com.sbwg.sxb.activity.login;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -26,7 +27,6 @@ import butterknife.BindView;
 public class LoginPhoneActivity extends BaseActivity implements OnClickListener {
 
     private static final String TAG = "LoginPhoneActivity";
-    private static final long SEND_TIME = 60000;
 
     @BindView(R.id.login_phone_et_phone)
     EditText et_phone;
@@ -74,9 +74,6 @@ public class LoginPhoneActivity extends BaseActivity implements OnClickListener 
         LogUtil.i(TAG, "onCreate");
         AppManager.getInstance().addActivity(this); //添加Activity到堆栈
 
-        um = UserManager.getInstance();
-        phoneStr = um.getLoginAccount();
-
         initView();
     }
 
@@ -95,31 +92,16 @@ public class LoginPhoneActivity extends BaseActivity implements OnClickListener 
 
         initEditText();
 
-        et_phone.setText("156 9696 9696");
-        isPhone_Ok = true;
-
-        if (!isPassword) { //验证码登录
-            if (isPhone_Ok) {
-                setSendCodeState(true);
-            }
-            long send_last_time = shared.getLong(AppConfig.KEY_SEND_VERIFY_LAST_TIME, 0);
-            send_number = shared.getInt(AppConfig.KEY_SEND_VERIFY_NUMBER, 0);
-            long intervalTime = SEND_TIME; //间隔1分钟
-            if (send_number >= 3) {
-                intervalTime = SEND_TIME * 10;  //间隔10分钟
-            }
-            long surplusTime = intervalTime - (System.currentTimeMillis() - send_last_time);
-            if (surplusTime > 0) { //剩余时间大于0
-                setSendCodeState(false);
-                startTimer(tv_verify_code, surplusTime);
-            } else {
-                if (send_number >= 3) {
-                    send_number = 0;
-                    editor.putInt(AppConfig.KEY_SEND_VERIFY_NUMBER, send_number).apply();
-                }
-            }
+        // 偏好设置-手机号
+        um = UserManager.getInstance();
+        phoneStr = um.getLoginAccount();
+        String phoneNew = StringUtil.changeMobileNo(phoneStr);
+        if (!StringUtil.isNull(phoneNew)) {
+            isPhone_Ok = true;
+            setSendCodeState(true);
+            et_phone.setText(phoneNew);
+            et_phone.setSelection(et_phone.length());
         }
-
     }
 
     private void initEditText() {
@@ -143,11 +125,12 @@ public class LoginPhoneActivity extends BaseActivity implements OnClickListener 
 
             @Override
             public void afterTextChanged(Editable s) {
+                setLoginState(false);
+                setSendCodeState(false);
                 isPhone_Ok = false;
                 phoneStr = s.toString();
                 if (phoneStr.isEmpty()) {
                     iv_phone_clear.setVisibility(View.GONE);
-                    setSendCodeState(false);
                 }else {
                     iv_phone_clear.setVisibility(View.VISIBLE);
                     if (phoneStr.length() >= 13) {
@@ -162,22 +145,17 @@ public class LoginPhoneActivity extends BaseActivity implements OnClickListener 
                         }
                         isPhone_Ok = true;
                         if (!isPassword) {
-                            setSendCodeState(true);
                             editTextFocusAndClear(et_code);
+                            if (isTimeFinish) {
+                                setSendCodeState(true);
+                            }
                         } else {
                             editTextFocusAndClear(et_password);
                         }
-                    } else {
-                        setSendCodeState(false);
                     }
                 }
             }
         });
-
-        if (!StringUtil.isNull(phoneStr)) { //显示偏好设置
-            et_phone.setText(phoneStr);
-            et_phone.setSelection(et_phone.length());
-        }
 
         et_code.addTextChangedListener(new TextWatcher() {
 
@@ -193,12 +171,37 @@ public class LoginPhoneActivity extends BaseActivity implements OnClickListener 
 
             @Override
             public void afterTextChanged(Editable s) {
-                String str = s.toString();
-                if (str.isEmpty()) return;
-                if (str.length() > 6) {
-                    str = str.substring(0, 6);
-                    et_code.setText(str);
-                    et_code.setSelection(et_code.getText().length());
+                setLoginState(false);
+                if (isPhone_Ok && s.toString().length() >= 6) {
+                    setLoginState(true);
+                }
+            }
+        });
+
+        et_password.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                //获取输入框中的数据
+                String edit = et_password.getText().toString();
+                //获取过滤特殊字符后的数据
+                String stringFilter = StringUtil.stringFilter(edit);
+                if (!edit.equals(stringFilter)) {
+                    et_password.setText(stringFilter);
+                }
+                et_password.setSelection(et_password.length());
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                setLoginState(false);
+                if (isPhone_Ok && s.toString().length() >= 6) {
+                    setLoginState(true);
                 }
             }
         });
@@ -217,6 +220,11 @@ public class LoginPhoneActivity extends BaseActivity implements OnClickListener 
         if (tv_verify_code != null) {
             tv_verify_code.setText(getString(R.string.login_gain_verify_code));
         }
+    }
+
+    private void setLoginState(boolean isState) {
+        isCanLogin = isState;
+        changeViewState(btn_login, isCanLogin);
     }
 
     private void setSendCodeState(boolean isState) {
@@ -274,15 +282,18 @@ public class LoginPhoneActivity extends BaseActivity implements OnClickListener 
             case R.id.login_phone_tv_password_retrieve:
                 break;
             case R.id.login_phone_tv_register:
+                startActivity(new Intent(mContext, RegisterActivity.class));
                 break;
             case R.id.login_phone_btn_login:
-                login();
+                if (isCanLogin) {
+                    login();
+                }
                 break;
         }
     }
 
     private void login() {
-        /*phoneStr = et_phone.getText().toString();
+        //phoneStr = et_phone.getText().toString();
         // 手机非空
         if (phoneStr.isEmpty()) {
             CommonTools.showToast(getString(R.string.login_input_phone));
@@ -296,7 +307,7 @@ public class LoginPhoneActivity extends BaseActivity implements OnClickListener 
         if (!StringUtil.isMobileNO(phoneStr)) {
             CommonTools.showToast(getString(R.string.login_input_phone_error));
             return;
-        }*/
+        }
         if (isPassword) {
             // 密码非空
             passwordStr = et_password.getText().toString();
@@ -317,7 +328,8 @@ public class LoginPhoneActivity extends BaseActivity implements OnClickListener 
 
     private void postLoginData() {
         startAnimation();
-        CommonTools.showToast(phoneStr);
+        um.saveLoginAccount(phoneStr);
+        CommonTools.showToast("登陆成功");
 //		request(AppConfig.REQUEST_SV_POST_RESET_PASSWORD_CODE);
     }
 
@@ -326,7 +338,29 @@ public class LoginPhoneActivity extends BaseActivity implements OnClickListener 
         LogUtil.i(TAG, "onResume");
         // 页面开始
         AppApplication.onPageStart(this, TAG);
+        // 验证码-倒计时
+        initTimeState();
         super.onResume();
+    }
+
+    private void initTimeState() {
+        long send_last_time = shared.getLong(AppConfig.KEY_SEND_VERIFY_LAST_TIME, 0);
+        send_number = shared.getInt(AppConfig.KEY_SEND_VERIFY_NUMBER, 0);
+        long intervalTime = SEND_TIME; //间隔1分钟
+        if (send_number >= 3) {
+            intervalTime = SEND_TIME * 10;  //间隔10分钟
+        }
+        long quantumTime = System.currentTimeMillis() - send_last_time;
+        long surplusTime = intervalTime - quantumTime;
+        if (surplusTime > 0) { //剩余时间大于0
+            setSendCodeState(false);
+            startTimer(tv_verify_code, surplusTime);
+        } else {
+            if (send_number > 0 && quantumTime >= SEND_TIME * 10) { //每隔10分钟清零
+                send_number = 0;
+                editor.putInt(AppConfig.KEY_SEND_VERIFY_NUMBER, send_number).apply();
+            }
+        }
     }
 
     @Override
