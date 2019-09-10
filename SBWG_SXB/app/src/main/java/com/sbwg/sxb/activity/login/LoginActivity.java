@@ -16,7 +16,7 @@ import com.sbwg.sxb.AppConfig;
 import com.sbwg.sxb.AppManager;
 import com.sbwg.sxb.R;
 import com.sbwg.sxb.activity.BaseActivity;
-import com.sbwg.sxb.entity.LoginJsonParser;
+import com.sbwg.sxb.utils.JsonLogin;
 import com.sbwg.sxb.entity.QQEntity;
 import com.sbwg.sxb.entity.QQUserInfoEntity;
 import com.sbwg.sxb.entity.UserInfoEntity;
@@ -162,7 +162,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
      */
     private void loginWechat() {
         if (!api.isWXAppInstalled()) { //检测是否安装微信客户端
-            CommonTools.showToast(mContext.getString(R.string.share_msg_no_wechat), 1000);
+            CommonTools.showToast(mContext.getString(R.string.share_msg_no_wechat));
             return;
         }
         startAnimation();
@@ -203,7 +203,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
         @Override
         protected void onPostExecute(String result) {
             try {
-                WXEntity wxEn = LoginJsonParser.authWexiAccessToken(result);
+                WXEntity wxEn = JsonLogin.authWexiAccessToken(result);
                 if (wxEn != null && wxEn.getErrcode() == 0) { //校验有效直接登入
                     postWechatLoginRequest();
                 } else { //需要刷新或续期access_token
@@ -235,7 +235,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
         @Override
         protected void onPostExecute(String result) {
             try {
-                WXEntity wxEn = LoginJsonParser.getWexiAccessAuth(result);
+                WXEntity wxEn = JsonLogin.getWexiAccessAuth(result);
                 if (wxEn != null) { //刷新或续期access_token成功
                     wxEn.setUnionid(unionid);
                     UserManager.getInstance().saveWechatUserInfo(wxEn);
@@ -288,7 +288,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
         @Override
         protected void onPostExecute(String result) {
             try {
-                WXUserInfoEntity userInfo = LoginJsonParser.getWexiUserInfo(result);
+                WXUserInfoEntity userInfo = JsonLogin.getWexiUserInfo(result);
                 if (userInfo != null) {
                     UserInfoEntity oauthEn = new UserInfoEntity();
 //					oauthEn.setUserRankName(LOGIN_TYPE_WX);
@@ -360,7 +360,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
         public void onComplete(Object jsonObject) {
             try {
                 if (isQQLogin) {
-                    QQEntity qqEn = LoginJsonParser.getQQLoginResult(jsonObject);
+                    QQEntity qqEn = JsonLogin.getQQLoginResult(jsonObject);
                     if (mTencent != null && qqEn != null && qqEn.getErrcode() == 0) { //用户授权成功
                         mTencent.setOpenId(qqEn.getOpenid());
                         mTencent.setAccessToken(qqEn.getAccess_token(), qqEn.getExpires_in());
@@ -369,7 +369,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
                         showLoginError();
                     }
                 } else {
-                    QQUserInfoEntity userInfo = LoginJsonParser.getQQUserInfo(jsonObject);
+                    QQUserInfoEntity userInfo = JsonLogin.getQQUserInfo(jsonObject);
                     if (userInfo != null && userInfo.getErrcode() == 0) { //获取用户信息成功
                         UserInfoEntity oauthEn = new UserInfoEntity();
 //						oauthEn.setUserRankName(LOGIN_TYPE_QQ);
@@ -497,7 +497,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
      */
     private void showLoginCancel() {
         stopAnimation();
-        CommonTools.showToast(getString(R.string.login_oauth_cancel), 1000);
+        CommonTools.showToast(getString(R.string.login_oauth_cancel));
     }
 
     /**
@@ -505,7 +505,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
      */
     private void showLoginError() {
         stopAnimation();
-        CommonTools.showToast(getString(R.string.login_error_oauth), 1000);
+        CommonTools.showToast(getString(R.string.login_error_oauth));
     }
 
     /**

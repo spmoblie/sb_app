@@ -1,12 +1,18 @@
-package com.sbwg.sxb.entity;
+package com.sbwg.sxb.utils;
 
 import com.sbwg.sxb.AppConfig;
+import com.sbwg.sxb.entity.AuthResult;
+import com.sbwg.sxb.entity.QQEntity;
+import com.sbwg.sxb.entity.QQUserInfoEntity;
+import com.sbwg.sxb.entity.UserInfoEntity;
+import com.sbwg.sxb.entity.WXEntity;
+import com.sbwg.sxb.entity.WXUserInfoEntity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 
-public class LoginJsonParser {
+public class JsonLogin {
 
 
 	/**

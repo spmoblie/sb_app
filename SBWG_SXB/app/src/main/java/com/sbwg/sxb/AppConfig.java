@@ -17,19 +17,19 @@ public class AppConfig {
 	// 网络传输协议https
 	public final static String APP_HTTPS = "https://";
 	// 域名1
-	public final static String ENVIRONMENT_TEST_APP_1 = "";
+	public final static String ENVIRONMENT_TEST_APP_1 = APP_HTTP + "192.168.1.143:8092/app/";
 	// 域名2
-	public final static String ENVIRONMENT_TEST_APP_2 = "";
-	// 域名3
-	public final static String ENVIRONMENT_TEST_APP_3 = "";
+	public final static String ENVIRONMENT_TEST_APP_2 = APP_HTTP + "";
+	// Base域名
+	public final static String ENVIRONMENT_BASE_URL = ENVIRONMENT_TEST_APP_1;
 	// 图片域名
 	public final static String ENVIRONMENT_PRESENT_IMG_APP = "file:///android_asset/";
 	// 推广域名
-	public final static String ENVIRONMENT_PRESENT_SHARE_URL = APP_HTTP + ENVIRONMENT_TEST_APP_1;
+	public final static String ENVIRONMENT_PRESENT_SHARE_URL = ENVIRONMENT_TEST_APP_1;
 	// Data域名1
-	public final static String ENVIRONMENT_PRESENT_DATA_URL_1 = APP_HTTP + ENVIRONMENT_TEST_APP_1;
+	public final static String ENVIRONMENT_PRESENT_DATA_URL_1 = ENVIRONMENT_TEST_APP_1;
 	// Data域名2
-	public final static String ENVIRONMENT_PRESENT_DATA_URL_2 = APP_HTTP + ENVIRONMENT_TEST_APP_2;
+	public final static String ENVIRONMENT_PRESENT_DATA_URL_2 = ENVIRONMENT_TEST_APP_2;
 
 
 	// 信息获取URL
@@ -138,6 +138,9 @@ public class AppConfig {
 	public static final int REQUEST_SV_GET_SESSIONS_CODE = 0X0001;
 	// 检测版本更新
 	public static final int REQUEST_SV_POST_VERSION_CODE = 0X0002;
+
+	// 首頁展示数据
+	public static final int REQUEST_SV_POST_HOME_LIST = 0X1001;
 
 	/**
 	 ******************************************* RequestCode参数设置结束 ******************************************

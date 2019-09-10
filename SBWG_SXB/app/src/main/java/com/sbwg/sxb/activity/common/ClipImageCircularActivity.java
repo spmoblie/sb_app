@@ -52,7 +52,7 @@ public class ClipImageCircularActivity extends BaseActivity {
 			bm = BitmapUtil.resizeImageByWidth(bm, screenWidth);
 			imageView.setImageBitmap(bm);
 		}else {
-			CommonTools.showToast(getString(R.string.photo_select_no_data), 1000);
+			CommonTools.showToast(getString(R.string.photo_select_no_data));
 		}
 	}
 	
@@ -70,7 +70,7 @@ public class ClipImageCircularActivity extends BaseActivity {
 			AppApplication.saveBitmapFile(bm, file, 100);
 			editor.putString(AppConfig.KEY_CLIP_HEAD_PATH, file.getAbsolutePath()).apply();
 		}else {
-			CommonTools.showToast(getString(R.string.photo_clip_error), 1000);
+			CommonTools.showToast(getString(R.string.photo_clip_error));
 		}
 		if (ClipPhotoGridActivity.instance != null) {
 			ClipPhotoGridActivity.instance.finish();

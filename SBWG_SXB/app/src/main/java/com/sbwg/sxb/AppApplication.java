@@ -166,7 +166,7 @@ public class AppApplication extends Application {
      */
     public static void saveBitmapFile(Bitmap bm, File file, int compress) {
         if (bm == null || file == null) {
-            CommonTools.showToast(spApp.getResources().getString(R.string.photo_show_save_fail), 2000);
+            CommonTools.showToast(spApp.getResources().getString(R.string.photo_show_save_fail));
             return;
         }
         try {

@@ -1,72 +1,70 @@
 package com.sbwg.sxb.entity;
 
 import java.io.Serializable;
+import java.util.List;
 
-public class BaseEntity implements Serializable {
+/**
+ * 所有数据实体类的父类
+ */
+
+public class BaseEntity<T> implements Serializable {
 
     private static final long serialVersionUID = 2980439304361030908L;
 
-    private int errCode; //响应状态码
-    private String errInfo; //状态码描述
+    private int errno; //响应状态
+    private String errmsg; //状态描述
 
-    private int pageSize; //每页加载数量
-    private int dataTotal; //加载数据总量
-
+    private T data; //单个数据
+    private List<T> lists; //集合数据
 
     public BaseEntity() {
         super();
     }
 
-
-    public BaseEntity(int errCode, String errInfo) {
-        super();
-        this.errCode = errCode;
-        this.errInfo = errInfo;
+    public BaseEntity(int errno, String errmsg) {
+        this.errno = errno;
+        this.errmsg = errmsg;
     }
 
-    public String getEntityId() {
-        return "";
-    };
-
-    public int getErrCode() {
-        return errCode;
+    public int getErrno() {
+        return errno;
     }
 
-    public void setErrCode(int errCode) {
-        this.errCode = errCode;
+    public void setErrno(int errno) {
+        this.errno = errno;
     }
 
-    public String getErrInfo() {
-        return errInfo;
+    public String getErrmsg() {
+        return errmsg;
     }
 
-    public void setErrInfo(String errInfo) {
-        this.errInfo = errInfo;
+    public void setErrmsg(String errmsg) {
+        this.errmsg = errmsg;
     }
 
-    public int getPageSize() {
-        return pageSize;
+    public T getData() {
+        return data;
     }
 
-    public void setPageSize(int pageSize) {
-        this.pageSize = pageSize;
+    public void setData(T data) {
+        this.data = data;
     }
 
-    public int getDataTotal() {
-        return dataTotal;
+    public List<T> getLists() {
+        return lists;
     }
 
-    public void setDataTotal(int dataTotal) {
-        this.dataTotal = dataTotal;
+    public void setLists(List<T> lists) {
+        this.lists = lists;
     }
 
     @Override
     public String toString() {
         return "BaseEntity{" +
-                "errCode=" + errCode +
-                ", errInfo='" + errInfo + '\'' +
-                ", pageSize=" + pageSize +
-                ", dataTotal=" + dataTotal +
+                "errno=" + errno +
+                ", errmsg='" + errmsg + '\'' +
+                ", data=" + data +
+                ", lists=" + lists +
                 '}';
     }
 }

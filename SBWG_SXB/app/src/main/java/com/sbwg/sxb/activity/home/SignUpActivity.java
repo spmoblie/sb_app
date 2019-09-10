@@ -218,7 +218,7 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
      * 支付报名费
      */
     private void payCostAmount() {
-        CommonTools.showToast("功能开发中。。。", 1000);
+        CommonTools.showToast("功能开发中。。。");
     }
 
     @Override

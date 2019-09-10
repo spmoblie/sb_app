@@ -63,7 +63,7 @@ public class UpdateAppVersion {
 			}
 			new HttpTask().execute(); //异步检查版本信息
 		} else {
-			CommonTools.showToast(mContext.getString(R.string.network_fault), 1000);
+			CommonTools.showToast(mContext.getString(R.string.network_fault));
 			clearInstance();
 		}
 	}

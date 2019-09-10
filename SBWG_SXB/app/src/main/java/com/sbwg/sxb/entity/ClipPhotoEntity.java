@@ -28,11 +28,6 @@ public class ClipPhotoEntity extends BaseEntity {
 		this.photoUrl = photoUrl;
 	}
 
-	@Override
-	public String getEntityId() {
-		return String.valueOf(photoId);
-	}
-
 	public String getName() {
 		return name;
 	}

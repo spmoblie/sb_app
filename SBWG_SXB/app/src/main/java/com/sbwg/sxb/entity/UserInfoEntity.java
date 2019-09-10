@@ -75,14 +75,8 @@ public class UserInfoEntity extends BaseEntity {
 		super();
 	}
 
-
-	public UserInfoEntity(int errCode, String errInfo) {
-		super(errCode, errInfo);
-	}
-
-	@Override
-	public String getEntityId() {
-		return userId;
+	public UserInfoEntity(int errno, String errmsg) {
+		super(errno, errmsg);
 	}
 
 	public String getUserId() {

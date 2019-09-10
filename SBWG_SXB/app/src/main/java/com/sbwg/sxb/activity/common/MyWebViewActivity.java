@@ -564,7 +564,7 @@ public class MyWebViewActivity extends BaseActivity implements View.OnClickListe
 			if (!StringUtil.isNull(goodsId)) {
 //				openProductDetailActivity(StringUtil.getInteger(goodsId));
 			} else {
-				CommonTools.showToast("GoodsId is null", 1000);
+				CommonTools.showToast("GoodsId is null");
 			}
 		}
 

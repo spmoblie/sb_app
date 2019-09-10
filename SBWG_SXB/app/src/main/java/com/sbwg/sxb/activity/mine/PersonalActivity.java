@@ -28,7 +28,6 @@ import com.sbwg.sxb.activity.common.ClipImageCircularActivity;
 import com.sbwg.sxb.activity.common.ClipPhotoGridActivity;
 import com.sbwg.sxb.activity.common.SelectListActivity;
 import com.sbwg.sxb.adapter.SelectListAdapter;
-import com.sbwg.sxb.entity.BaseEntity;
 import com.sbwg.sxb.entity.SelectListEntity;
 import com.sbwg.sxb.entity.UserInfoEntity;
 import com.sbwg.sxb.utils.BitmapUtil;
@@ -43,8 +42,6 @@ import com.sbwg.sxb.widgets.RoundImageView;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
 
 
 public class PersonalActivity extends BaseActivity implements OnClickListener {
@@ -233,10 +230,10 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
                                         startActivityForResult(intent, AppConfig.ACTIVITY_GET_IMAGE_VIA_CAMERA);
                                     } catch (ActivityNotFoundException e) {
                                         ExceptionUtil.handle(e);
-                                        CommonTools.showToast(getString(R.string.photo_save_directory_error), 1000);
+                                        CommonTools.showToast(getString(R.string.photo_save_directory_error));
                                     }
                                 } else {
-                                    CommonTools.showToast(getString(R.string.photo_save_sd_error), 1000);
+                                    CommonTools.showToast(getString(R.string.photo_save_sd_error));
                                 }
                                 break;
                             case 1: //本地
@@ -477,11 +474,11 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
 
 				@Override
 				public void run() {
-					asyncImageUpload = AsyncImageUpload.getInstance(new AsyncImageUpload.AsyncImageUploadCallback() {
+					/*asyncImageUpload = AsyncImageUpload.getInstance(new AsyncImageUpload.AsyncImageUploadCallback() {
 
 						@Override
 						public void uploadImageUrls(BaseEntity baseEn) {
-							/*if (baseEn != null) {
+							if (baseEn != null) {
 								boolean isOk = baseEn.getErrCode() == 1 ? false : true;
 								if (!isOk) {
 									// 刷新头像
@@ -498,29 +495,29 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
 								}
 							}else {
 								CommonTools.showToast(getString(R.string.photo_upload_head_fail), 2000);
-							}*/
-
-                            // 将存储在旧头像替换为新头像
-                            try {
-                                Bitmap clipBitmap = BitmapFactory.decodeFile(clip_head_path);
-                                AppApplication.saveBitmapFile(clipBitmap, new File(AppConfig.SAVE_USER_HEAD_PATH), 100);
-                                setView(); //刷新头像
-                            } catch (Exception e) {
-                                ExceptionUtil.handle(e);
-                            }
-                            CommonTools.showToast(getString(R.string.photo_upload_img_ok, getString(R.string.mine_head)), 1000);
-
-							stopAnimation();
+							}
 						}
 
 					});
 					Map<String, String> postData = new HashMap<>();
 					postData.put("fileName", clip_head_path);
-					asyncImageUpload.uploadImage(AppConfig.API_UPDATE_PROFILE, postData, clip_head_path);
+					asyncImageUpload.uploadImage(AppConfig.API_UPDATE_PROFILE, postData, clip_head_path);*/
+
+                    // 将存储在旧头像替换为新头像
+                    try {
+                        Bitmap clipBitmap = BitmapFactory.decodeFile(clip_head_path);
+                        AppApplication.saveBitmapFile(clipBitmap, new File(AppConfig.SAVE_USER_HEAD_PATH), 100);
+                        setView(); //刷新头像
+                    } catch (Exception e) {
+                        ExceptionUtil.handle(e);
+                    }
+                    CommonTools.showToast(getString(R.string.photo_upload_img_ok, getString(R.string.mine_head)), 1000);
+
+                    stopAnimation();
 				}
 			}, 2000);
         } else {
-            CommonTools.showToast(getString(R.string.photo_img_url_error, getString(R.string.mine_head)), 1000);
+            CommonTools.showToast(getString(R.string.photo_img_url_error, getString(R.string.mine_head)));
         }
     }
 

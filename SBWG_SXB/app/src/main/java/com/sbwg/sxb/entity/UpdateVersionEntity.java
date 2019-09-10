@@ -15,32 +15,25 @@ public class UpdateVersionEntity extends BaseEntity {
 	}
 
 	
-	public UpdateVersionEntity(int errCode, String errInfo) {
-		super(errCode, errInfo);
+	public UpdateVersionEntity(int errno, String errmsg) {
+		super(errno, errmsg);
 	}
 
 	
-	public UpdateVersionEntity(int errCode, String errInfo,
-                               String version, String url, boolean force) {
-		super(errCode, errInfo);
+	public UpdateVersionEntity(int errno, String errmsg, String version, String url, boolean force) {
+		super(errno, errmsg);
 		this.version = version;
 		this.url = url;
 		this.force = force;
 	}
 
 	
-	public UpdateVersionEntity(int errCode, String errInfo,
-                               String description, String version, String url, boolean force) {
-		super(errCode, errInfo);
+	public UpdateVersionEntity(int errno, String errmsg, String description, String version, String url, boolean force) {
+		super(errno, errmsg);
 		this.description = description;
 		this.version = version;
 		this.url = url;
 		this.force = force;
-	}
-
-	@Override
-	public String getEntityId() {
-		return "";
 	}
 
 	public String getDescription() {

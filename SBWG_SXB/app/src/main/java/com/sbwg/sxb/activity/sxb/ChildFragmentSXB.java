@@ -63,7 +63,7 @@ public class ChildFragmentSXB extends BaseFragment implements OnClickListener {
 	public void onClick(View v) {
 		switch (v.getId()) {
 			case R.id.fg_sxb_iv_show:
-				CommonTools.showToast("功能开发中，敬请期待。。。", 3000);
+				CommonTools.showToast("功能开发中，敬请期待。。。");
 				break;
 		}
 	}

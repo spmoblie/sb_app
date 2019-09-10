@@ -23,14 +23,21 @@ import com.sbwg.sxb.activity.BaseFragment;
 import com.sbwg.sxb.activity.common.MyWebViewActivity;
 import com.sbwg.sxb.adapter.AdapterCallback;
 import com.sbwg.sxb.adapter.HomeListAdapter;
+import com.sbwg.sxb.entity.BaseEntity;
 import com.sbwg.sxb.entity.ShareEntity;
 import com.sbwg.sxb.entity.ThemeEntity;
 import com.sbwg.sxb.utils.CommonTools;
 import com.sbwg.sxb.utils.ExceptionUtil;
+import com.sbwg.sxb.utils.JsonUtils;
 import com.sbwg.sxb.utils.LogUtil;
+import com.sbwg.sxb.utils.retrofit.HttpRequests;
 import com.sbwg.sxb.widgets.ScrollViewListView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
@@ -60,11 +67,13 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
     private LinearLayout.LayoutParams indicatorsLP;
 
     private boolean vprStop = false;
+    private int page_goods = 1;
     private int idsSize, idsPosition, vprPosition;
     private ImageView[] indicators = null;
-    private ThemeEntity bannerEn, itemsEn;
-    private ArrayList<ImageView> viewLists = new ArrayList<ImageView>();
-    private ArrayList<ThemeEntity> imgEns = new ArrayList<ThemeEntity>();
+    private ThemeEntity bannerEn = new ThemeEntity();
+    private ArrayList<ImageView> viewLists = new ArrayList<>();
+    private ArrayList<ThemeEntity> imgEns = new ArrayList<>();
+    private ArrayList<ThemeEntity> showLists = new ArrayList<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -96,6 +105,7 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
             ButterKnife.bind(this, view);
 
             initData();
+            loadGoods();
             initView();
         } catch (Exception e) {
             ExceptionUtil.handle(e);
@@ -104,7 +114,6 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
     }
 
     private void initData() {
-        bannerEn = new ThemeEntity();
         ThemeEntity chEn_1 = new ThemeEntity();
         ThemeEntity chEn_2 = new ThemeEntity();
         ThemeEntity chEn_3 = new ThemeEntity();
@@ -135,7 +144,7 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
 
         bannerEn.setMainLists(mainLists);
 
-        itemsEn = new ThemeEntity();
+        /*itemsEn = new ThemeEntity();
         ThemeEntity isEn_1 = new ThemeEntity();
         ThemeEntity isEn_2 = new ThemeEntity();
         ThemeEntity isEn_3 = new ThemeEntity();
@@ -174,12 +183,12 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
         isEn_5.setUserName("北欧童话奇幻");
         isLists.add(isEn_5);
 
-        itemsEn.setMainLists(isLists);
+        itemsEn.setMainLists(isLists);*/
     }
 
     private void initView() {
         initViewPager(bannerEn);
-        initItemsView(itemsEn);
+        initItemsView();
     }
 
     private void initViewPager(ThemeEntity adEn) {
@@ -332,13 +341,12 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
         }
     }
 
-    private void initItemsView(final ThemeEntity adEn) {
-        if (adEn == null || adEn.getMainLists() == null) return;
+    private void initItemsView() {
         apCallback = new AdapterCallback() {
 
             @Override
             public void setOnClick(Object entity, int position, int type) {
-                ThemeEntity data = adEn.getMainLists().get(position);
+                ThemeEntity data = showLists.get(position);
                 if (data != null) {
                     switch (type) {
                         case 0:
@@ -349,13 +357,19 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
                             break;
                     }
                 }else {
-                    CommonTools.showToast(getString(R.string.toast_error_data_null), 1000);
+                    CommonTools.showToast(getString(R.string.toast_error_data_null));
                 }
             }
         };
-        lv_Adapter = new HomeListAdapter(mContext, adEn.getMainLists(), apCallback);
+        lv_Adapter = new HomeListAdapter(mContext, showLists, apCallback);
         svlv.setAdapter(lv_Adapter);
         svlv.setOverScrollMode(ListView.OVER_SCROLL_NEVER);
+    }
+
+    private void updateShowListDatas() {
+        if (lv_Adapter != null) {
+            lv_Adapter.updateAdapter(showLists);
+        }
     }
 
     // 跳转至WebView
@@ -442,6 +456,45 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
         super.setMenuVisibility(menuVisible);
         if (this.getView() != null)
             this.getView().setVisibility(menuVisible ? View.VISIBLE : View.GONE);
+    }
+
+    /**
+     * 加载商品数据
+     */
+    private void loadGoods() {
+        HashMap<String, String> map = new HashMap<String, String>();
+        map.put("size", "10");
+        map.put("page", String.valueOf(page_goods));
+        loadDatas("activity/list", map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_POST_HOME_LIST);
+    }
+
+    @Override
+    protected void callbackDatas(JSONObject jsonObject, int dataType) {
+        BaseEntity baseEn;
+        try {
+            switch (dataType) {
+                case AppConfig.REQUEST_SV_POST_HOME_LIST:
+                    baseEn = JsonUtils.getHomeLists(jsonObject);
+                    if (baseEn != null) {
+                        List<ThemeEntity> lists = baseEn.getLists();
+                        if (lists != null) {
+                            showLists.addAll(lists);
+                            updateShowListDatas();
+                        } else {
+                            //加载失败
+                            LogUtil.i("Retrofit", TAG + " 数据加载失败 —> " + page_goods);
+                        }
+                    } else {
+                        //加载失败
+                        LogUtil.i("Retrofit", TAG + " 数据加载失败 —> " + page_goods);
+                    }
+                    break;
+            }
+        } catch (JSONException e) {
+            ExceptionUtil.handle(e);
+        }finally {
+
+        }
     }
 
 }

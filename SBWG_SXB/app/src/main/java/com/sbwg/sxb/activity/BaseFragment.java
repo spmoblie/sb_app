@@ -15,7 +15,17 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.FrameLayout;
 
+import com.sbwg.sxb.utils.ExceptionUtil;
 import com.sbwg.sxb.utils.LogUtil;
+import com.sbwg.sxb.utils.retrofit.Fault;
+import com.sbwg.sxb.utils.retrofit.HttpRequests;
+
+import org.json.JSONObject;
+
+import java.util.HashMap;
+
+import okhttp3.ResponseBody;
+import rx.Observer;
 
 
 public class BaseFragment extends Fragment {
@@ -89,7 +99,6 @@ public class BaseFragment extends Fragment {
 	@Override
 	public void onResume() {
 		super.onResume();
-
 	}
 
 	public boolean onBackPressed() {
@@ -203,5 +212,52 @@ public class BaseFragment extends Fragment {
 
 				});
 	}
+
+	/**
+	 * 加载网络数据
+	 */
+	protected void loadDatas(String path, HashMap<String, String> map, int httpType, final int dataType) {
+		HttpRequests.getInstance()
+				.loadDatas(path, map, httpType)
+				.subscribe(new Observer<ResponseBody>() {
+					@Override
+					public void onNext(ResponseBody body) {
+						try {
+							callbackDatas(new JSONObject(body.string()), dataType);
+						} catch (Exception e) {
+							ExceptionUtil.handle(e);
+						}
+					}
+
+					@Override
+					public void onError(Throwable throwable) {
+						if (throwable instanceof Fault) {
+							Fault fault = (Fault) throwable;
+							if (fault.getErrorCode() == 404) {
+								//错误处理
+							} else
+							if (fault.getErrorCode() == 500) {
+								//错误处理
+							} else
+							if (fault.getErrorCode() == 501) {
+								//错误处理
+							}
+						} else {
+							//错误处理
+						}
+						LogUtil.i("Retrofit","error message : " + throwable.getMessage());
+					}
+
+					@Override
+					public void onCompleted() {
+						// 结束处理
+					}
+				});
+	}
+
+	/**
+	 * 回调网络数据
+	 */
+	protected void callbackDatas(JSONObject jsonObject, int dataType) {};
 
 }

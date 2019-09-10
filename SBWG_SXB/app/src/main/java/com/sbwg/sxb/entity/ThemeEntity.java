@@ -22,8 +22,8 @@ public class ThemeEntity extends BaseEntity {
 		super();
 	}
 
-	public ThemeEntity(int errCode, String errInfo) {
-		super(errCode, errInfo);
+	public ThemeEntity(int errno, String errmsg) {
+		super(errno, errmsg);
 	}
 
 	public int getId() {

@@ -43,6 +43,8 @@ import com.sbwg.sxb.utils.CommonTools;
 import com.sbwg.sxb.utils.ExceptionUtil;
 import com.sbwg.sxb.utils.LogUtil;
 import com.sbwg.sxb.utils.MyCountDownTimer;
+import com.sbwg.sxb.utils.retrofit.Fault;
+import com.sbwg.sxb.utils.retrofit.HttpRequests;
 import com.sbwg.sxb.widgets.share.ShareView;
 import com.sina.weibo.sdk.api.share.BaseResponse;
 import com.sina.weibo.sdk.api.share.IWeiboHandler;
@@ -52,10 +54,15 @@ import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.ButterKnife;
+import okhttp3.ResponseBody;
+import rx.Observer;
 
 /**
  * 所有Activity的父类
@@ -434,7 +441,7 @@ public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Res
 	 * 分享参数出错提示
 	 */
 	protected void showShareError() {
-		CommonTools.showToast(getString(R.string.share_msg_entity_error), 1000);
+		CommonTools.showToast(getString(R.string.share_msg_entity_error));
 	}
 
 	/**
@@ -638,5 +645,56 @@ public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Res
 	protected void onTimerFinish() {
 		isTimeFinish = true;
 	}
+
+	/**
+	 * 加载网络数据
+	 * @param path
+	 * @param map
+	 * @param httpType
+	 * @param dataType
+	 */
+	protected void loadDatas(String path, HashMap<String, String> map, int httpType, final int dataType) {
+		HttpRequests.getInstance()
+				.loadDatas(path, map, httpType)
+				.subscribe(new Observer<ResponseBody>() {
+					@Override
+					public void onNext(ResponseBody body) {
+						try {
+							callbackDatas(new JSONObject(body.string()), dataType);
+						} catch (Exception e) {
+							ExceptionUtil.handle(e);
+						}
+					}
+
+					@Override
+					public void onError(Throwable throwable) {
+						if (throwable instanceof Fault) {
+							Fault fault = (Fault) throwable;
+							if (fault.getErrorCode() == 404) {
+								//错误处理
+							} else
+							if (fault.getErrorCode() == 500) {
+								//错误处理
+							} else
+							if (fault.getErrorCode() == 501) {
+								//错误处理
+							}
+						} else {
+							//错误处理
+						}
+						LogUtil.i("Retrofit","error message : " + throwable.getMessage());
+					}
+
+					@Override
+					public void onCompleted() {
+						// 结束处理
+					}
+				});
+	}
+
+	/**
+	 * 回调网络数据
+	 */
+	protected void callbackDatas(JSONObject jsonObject, int dataType) {};
 
 }

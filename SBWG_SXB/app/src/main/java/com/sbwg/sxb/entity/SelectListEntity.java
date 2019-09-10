@@ -61,14 +61,8 @@ public class SelectListEntity extends BaseEntity {
 		super();
 	}
 
-
-	public SelectListEntity(int errCode, String errInfo) {
-		super(errCode, errInfo);
-	}
-
-
-	public SelectListEntity(int errCode, String errInfo, List<SelectListEntity> mainLists) {
-		super(errCode, errInfo);
+	public SelectListEntity(List<SelectListEntity> mainLists) {
+		super();
 		this.mainLists = mainLists;
 	}
 
@@ -78,11 +72,6 @@ public class SelectListEntity extends BaseEntity {
 		this.childId = childId;
 		this.childShowName = childShowName;
 		this.childLogoUrl = childLogoUrl;
-	}
-
-	@Override
-	public String getEntityId() {
-		return "";
 	}
 
 	public int getTypeId() {

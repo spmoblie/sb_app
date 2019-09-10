@@ -232,7 +232,7 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
 				if (data != null) {
 					openWebViewActivity(data.getTitle(), data.getLink());
 				}else {
-					CommonTools.showToast(getString(R.string.toast_error_data_null), 1000);
+					CommonTools.showToast(getString(R.string.toast_error_data_null));
 				}
 			}
 		};

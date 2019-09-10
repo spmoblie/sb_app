@@ -70,7 +70,7 @@ public class ClipPhotoGridActivity extends BaseActivity {
 
 		albumList = getPhotoAlbum();
 		if (albumList.size() < 1) {
-			CommonTools.showToast(getString(R.string.photo_select_no_data), 1000);
+			CommonTools.showToast(getString(R.string.photo_select_no_data));
 		}
 		gv_album.setAdapter(new ClipPhotoGridAdapter(albumList, this));
 		gv_album.setOnItemClickListener(albumClickListener);
