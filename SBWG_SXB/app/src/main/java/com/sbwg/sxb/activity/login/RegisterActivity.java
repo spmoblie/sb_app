@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.sbwg.sxb.AppApplication;
 import com.sbwg.sxb.AppConfig;
@@ -180,8 +181,8 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 				if (passwordStr.length() >= 6) {
 					// 校验密码
 					if (!StringUtil.isPassword(passwordStr)) {
-						CommonTools.showToast(getString(R.string.login_password_form));
-						//Toast.makeText(mContext, getString(R.string.login_password_form), Toast.LENGTH_LONG).show();
+						//CommonTools.showToast(getString(R.string.login_password_form));
+						Toast.makeText(mContext, getString(R.string.login_password_form), Toast.LENGTH_LONG).show();
 						return;
 					}
 					isPassw_Ok = true;
