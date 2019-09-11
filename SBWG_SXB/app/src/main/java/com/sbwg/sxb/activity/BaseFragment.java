@@ -15,6 +15,7 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.FrameLayout;
 
+import com.sbwg.sxb.utils.CommonTools;
 import com.sbwg.sxb.utils.ExceptionUtil;
 import com.sbwg.sxb.utils.LogUtil;
 import com.sbwg.sxb.utils.retrofit.Fault;
@@ -214,19 +215,45 @@ public class BaseFragment extends Fragment {
 	}
 
 	/**
+	 * 判定是否停止加载更多
+	 */
+	public static boolean isStopLoadMore(int showCount, int countTotal, int pageSize) {
+		showPageNum(showCount, countTotal, pageSize);
+		return showCount > 0 && showCount == countTotal;
+	}
+
+	/**
+	 * 提示当前页数
+	 */
+	public static void showPageNum(int showCount, int countTotal, int pageSize) {
+		if (pageSize <= 0) return;
+		int page_num = showCount / pageSize;
+		if (showCount % pageSize > 0) {
+			page_num++;
+		}
+		int page_total = countTotal / pageSize;
+		if (countTotal % pageSize > 0) {
+			page_total++;
+		}
+		CommonTools.showPageNum(page_num + "/" + page_total, 1000);
+	}
+
+	/**
 	 * 加载网络数据
 	 */
-	protected void loadDatas(String path, HashMap<String, String> map, int httpType, final int dataType) {
+	protected void loadSVData(String path, HashMap<String, String> map, int httpType, final int dataType) {
 		HttpRequests.getInstance()
 				.loadDatas(path, map, httpType)
 				.subscribe(new Observer<ResponseBody>() {
 					@Override
 					public void onNext(ResponseBody body) {
 						try {
-							callbackDatas(new JSONObject(body.string()), dataType);
+							callbackData(new JSONObject(body.string()), dataType);
 						} catch (Exception e) {
 							ExceptionUtil.handle(e);
+							loadFailHandle();
 						}
+						LogUtil.i("Retrofit","onNext");
 					}
 
 					@Override
@@ -238,19 +265,19 @@ public class BaseFragment extends Fragment {
 							} else
 							if (fault.getErrorCode() == 500) {
 								//错误处理
-							} else
-							if (fault.getErrorCode() == 501) {
-								//错误处理
 							}
 						} else {
 							//错误处理
 						}
-						LogUtil.i("Retrofit","error message : " + throwable.getMessage());
+						loadFailHandle();
+						LogUtil.i("Retrofit","onError error message : " + throwable.getMessage());
 					}
 
 					@Override
 					public void onCompleted() {
 						// 结束处理
+						stopAnimation();
+						LogUtil.i("Retrofit","onCompleted");
 					}
 				});
 	}
@@ -258,6 +285,27 @@ public class BaseFragment extends Fragment {
 	/**
 	 * 回调网络数据
 	 */
-	protected void callbackDatas(JSONObject jsonObject, int dataType) {};
+	protected void callbackData(JSONObject jsonObject, int dataType) {};
+
+	/**
+	 * 显示缓冲动画
+	 */
+	protected void loadFailHandle() {
+		stopAnimation();
+	}
+
+	/**
+	 * 显示缓冲动画
+	 */
+	protected void startAnimation() {
+
+	}
+
+	/**
+	 * 停止缓冲动画
+	 */
+	protected void stopAnimation() {
+
+	}
 
 }

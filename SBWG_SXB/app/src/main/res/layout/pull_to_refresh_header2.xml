@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:gravity="bottom"
+    android:background="@color/ui_bg_color_app"
+    android:orientation="vertical" >
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:contentDescription="@string/desc"
+        android:src="@mipmap/ic_launcher" />
+
+    <RelativeLayout
+        android:id="@+id/pull_to_refresh_header_content"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/margin_padding_60"
+        android:gravity="center_horizontal"
+        android:paddingBottom="@dimen/margin_padding_8" >
+
+        <RelativeLayout
+            android:id="@+id/pull_to_refresh_header_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true" >
+
+            <TextView
+                android:id="@+id/pull_to_refresh_header_hint_textview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:text="@string/loading_pull_refresh"
+                android:textColor="@color/label_text_color"
+                android:textSize="@dimen/text_size_12" />
+
+            <TextView
+                android:id="@+id/pull_to_refresh_last_update_time_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/pull_to_refresh_header_hint_textview"
+                android:layout_marginTop="@dimen/margin_padding_6"
+                android:text="@string/loading_update_time"
+                android:textColor="@color/label_text_color"
+                android:textSize="@dimen/text_size_12"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/pull_to_refresh_header_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/pull_to_refresh_header_hint_textview"
+                android:layout_marginLeft="@dimen/margin_padding_2"
+                android:layout_marginTop="@dimen/margin_padding_6"
+                android:layout_toRightOf="@id/pull_to_refresh_last_update_time_text"
+                android:minWidth="@dimen/loading_min_height"
+                android:textColor="@color/label_text_color"
+                android:textSize="@dimen/text_size_12"
+                android:visibility="gone" />
+        </RelativeLayout>
+
+        <FrameLayout
+            android:layout_width="@dimen/margin_padding_28"
+            android:layout_height="@dimen/margin_padding_28"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/margin_padding_8"
+            android:layout_toLeftOf="@id/pull_to_refresh_header_text" >
+
+            <ImageView
+                android:id="@+id/pull_to_refresh_header_arrow"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:src="@mipmap/icon_arrow_down"
+                android:contentDescription="@string/desc" />
+
+            <ProgressBar
+                android:id="@+id/pull_to_refresh_header_progressbar"
+                android:layout_width="@dimen/loading_small_size"
+                android:layout_height="@dimen/loading_small_size"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:indeterminate="true"
+                android:indeterminateDrawable="@anim/pull_loading_anim"
+                android:indeterminateDuration="700"
+                android:visibility="invisible" />
+        </FrameLayout>
+    </RelativeLayout>
+
+</LinearLayout>

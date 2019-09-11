@@ -407,20 +407,6 @@ public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Res
 	}
 
 	/**
-	 * 显示缓冲动画
-	 */
-	protected void startAnimation() {
-		LoadDialog.show(mContext);
-	}
-
-	/**
-	 * 停止缓冲动画
-	 */
-	protected void stopAnimation() {
-		LoadDialog.hidden();
-	}
-
-	/**
 	 * 登入超时对话框
 	 */
 	protected void showTimeOutDialog() {
@@ -653,17 +639,19 @@ public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Res
 	 * @param httpType
 	 * @param dataType
 	 */
-	protected void loadDatas(String path, HashMap<String, String> map, int httpType, final int dataType) {
+	protected void loadSVData(String path, HashMap<String, String> map, int httpType, final int dataType) {
 		HttpRequests.getInstance()
 				.loadDatas(path, map, httpType)
 				.subscribe(new Observer<ResponseBody>() {
 					@Override
 					public void onNext(ResponseBody body) {
 						try {
-							callbackDatas(new JSONObject(body.string()), dataType);
+							callbackData(new JSONObject(body.string()), dataType);
 						} catch (Exception e) {
 							ExceptionUtil.handle(e);
+							loadFailHandle();
 						}
+						LogUtil.i("Retrofit","onNext");
 					}
 
 					@Override
@@ -675,19 +663,19 @@ public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Res
 							} else
 							if (fault.getErrorCode() == 500) {
 								//错误处理
-							} else
-							if (fault.getErrorCode() == 501) {
-								//错误处理
 							}
 						} else {
 							//错误处理
 						}
+						loadFailHandle();
 						LogUtil.i("Retrofit","error message : " + throwable.getMessage());
 					}
 
 					@Override
 					public void onCompleted() {
 						// 结束处理
+						stopAnimation();
+						LogUtil.i("Retrofit","onCompleted");
 					}
 				});
 	}
@@ -695,6 +683,27 @@ public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Res
 	/**
 	 * 回调网络数据
 	 */
-	protected void callbackDatas(JSONObject jsonObject, int dataType) {};
+	protected void callbackData(JSONObject jsonObject, int dataType) {}
+
+	/**
+	 * 显示缓冲动画
+	 */
+	protected void loadFailHandle() {
+		stopAnimation();
+	}
+
+	/**
+	 * 显示缓冲动画
+	 */
+	protected void startAnimation() {
+		LoadDialog.show(mContext);
+	}
+
+	/**
+	 * 停止缓冲动画
+	 */
+	protected void stopAnimation() {
+		LoadDialog.hidden();
+	}
 
 }

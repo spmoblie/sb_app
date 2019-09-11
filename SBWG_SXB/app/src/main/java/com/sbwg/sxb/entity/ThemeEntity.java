@@ -16,7 +16,8 @@ public class ThemeEntity extends BaseEntity {
 	private String vdoUrl; //视频
 	private String number; //报名人数
 	private String explain; //活动说明
-	private List<ThemeEntity> mainLists; //数集
+	private List<ThemeEntity> headLists; //首页头部数集
+	private List<ThemeEntity> mainLists; //首页列表数集
 
 	public ThemeEntity() {
 		super();
@@ -104,6 +105,14 @@ public class ThemeEntity extends BaseEntity {
 
 	public void setExplain(String explain) {
 		this.explain = explain;
+	}
+
+	public List<ThemeEntity> getHeadLists() {
+		return headLists;
+	}
+
+	public void setHeadLists(List<ThemeEntity> headLists) {
+		this.headLists = headLists;
 	}
 
 	public List<ThemeEntity> getMainLists() {

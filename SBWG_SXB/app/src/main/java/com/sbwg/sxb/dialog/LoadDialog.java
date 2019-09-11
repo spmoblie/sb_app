@@ -44,7 +44,7 @@ public class LoadDialog extends Dialog {
 		this.getContext().setTheme(android.R.style.Theme_Light_Panel);
 		setContentView(R.layout.dailog_animation);
 
-		RelativeLayout rl_loading = findViewById(R.id.loading_anim_large_ll_main);
+		RelativeLayout rl_loading = findViewById(R.id.loading_anim_large_main);
 		rl_loading.setVisibility(View.VISIBLE);
 
 //		// 对话框背景设置

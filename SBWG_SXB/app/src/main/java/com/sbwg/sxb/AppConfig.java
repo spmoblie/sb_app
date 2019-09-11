@@ -77,6 +77,9 @@ public class AppConfig {
 	// Error状态码：登录失效
 	public static final int ERROR_CODE_LOGOUT = 999;
 
+	// 加载缓冲时间
+	public static final int LOADING_TIME = 1000;
+
 	// 动态授权-权限集
 	public static final String[] PERMISSIONS = new String[]{
 			Manifest.permission.CAMERA,
@@ -104,6 +107,10 @@ public class AppConfig {
 
 	// 缓存Cookies文件名
 	public static final String cookiesFileName = "cookies";
+	// 首页头部数据文件名
+	public static final String homeHeadFileName = "home_head";
+	// 首页列表数据文件名
+	public static final String homeListFileName = "home_list";
 	// 缓存路径应用名称
 	public static final String SAVE_APP_NAME = "SBWG";
 	// 内置SD卡路径
@@ -139,8 +146,10 @@ public class AppConfig {
 	// 检测版本更新
 	public static final int REQUEST_SV_POST_VERSION_CODE = 0X0002;
 
-	// 首頁展示数据
-	public static final int REQUEST_SV_POST_HOME_LIST = 0X1001;
+	// 首頁头部数据
+	public static final int REQUEST_SV_POST_HOME_HEAD = 0X1001;
+	// 首頁列表数据
+	public static final int REQUEST_SV_POST_HOME_LIST = 0X1002;
 
 	/**
 	 ******************************************* RequestCode参数设置结束 ******************************************
