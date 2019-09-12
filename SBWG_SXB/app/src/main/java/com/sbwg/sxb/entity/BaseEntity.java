@@ -17,6 +17,8 @@ public class BaseEntity<T> implements Serializable {
     private T data; //单个数据
     private List<T> lists; //集合数据
 
+    private int dataTotal; //数据总量
+
     public BaseEntity() {
         super();
     }
@@ -24,6 +26,10 @@ public class BaseEntity<T> implements Serializable {
     public BaseEntity(int errno, String errmsg) {
         this.errno = errno;
         this.errmsg = errmsg;
+    }
+
+    public String getEntityId() {
+        return "";
     }
 
     public int getErrno() {
@@ -58,6 +64,14 @@ public class BaseEntity<T> implements Serializable {
         this.lists = lists;
     }
 
+    public int getDataTotal() {
+        return dataTotal;
+    }
+
+    public void setDataTotal(int dataTotal) {
+        this.dataTotal = dataTotal;
+    }
+
     @Override
     public String toString() {
         return "BaseEntity{" +
@@ -65,6 +79,7 @@ public class BaseEntity<T> implements Serializable {
                 ", errmsg='" + errmsg + '\'' +
                 ", data=" + data +
                 ", lists=" + lists +
+                ", dataTotal=" + dataTotal +
                 '}';
     }
 }

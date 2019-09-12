@@ -26,6 +26,11 @@ public class DesignEntity extends BaseEntity {
 	 */
 	private List<DesignEntity> mainLists;
 
+	@Override
+	public String getEntityId() {
+		return String.valueOf(id);
+	}
+
 	public int getId() {
 		return id;
 	}

@@ -717,7 +717,7 @@ public class ShareView {
 	}
 
 	private void shareFeedback() {
-		new Share_Feedback_Task().execute(AppConfig.URL_USER_POST_URL + "?act=share");
+		new Share_Feedback_Task().execute("");
 	}
 
 	/**

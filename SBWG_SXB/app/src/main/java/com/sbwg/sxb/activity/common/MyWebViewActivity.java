@@ -165,7 +165,7 @@ public class MyWebViewActivity extends BaseActivity implements View.OnClickListe
 					FutureTarget<Bitmap> ft = Glide
 							.with(AppApplication.getAppContext())
 							.asBitmap()
-							.load(IMAGE_URL_HTTP + shareEn.getImageUrl())
+							.load(shareEn.getImageUrl())
 							.submit();
 					try{
 						shareBm = ft.get();

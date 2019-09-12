@@ -17,7 +17,7 @@ public class AppConfig {
 	// 网络传输协议https
 	public final static String APP_HTTPS = "https://";
 	// 域名1
-	public final static String ENVIRONMENT_TEST_APP_1 = APP_HTTP + "192.168.1.143:8092/app/";
+	public final static String ENVIRONMENT_TEST_APP_1 = APP_HTTP + "192.168.1.143/app/";
 	// 域名2
 	public final static String ENVIRONMENT_TEST_APP_2 = APP_HTTP + "";
 	// Base域名
@@ -26,29 +26,12 @@ public class AppConfig {
 	public final static String ENVIRONMENT_PRESENT_IMG_APP = "file:///android_asset/";
 	// 推广域名
 	public final static String ENVIRONMENT_PRESENT_SHARE_URL = ENVIRONMENT_TEST_APP_1;
-	// Data域名1
-	public final static String ENVIRONMENT_PRESENT_DATA_URL_1 = ENVIRONMENT_TEST_APP_1;
-	// Data域名2
-	public final static String ENVIRONMENT_PRESENT_DATA_URL_2 = ENVIRONMENT_TEST_APP_2;
 
+	// 获取首页banner列表
+	public final static String URL_HOME_BANNER = "home/index";
+	// 获取首页活动列表
+	public final static String URL_HOME_LIST = "activity/list";
 
-	// 信息获取URL
-	public static final String URL_USER_GET_URL = ENVIRONMENT_PRESENT_DATA_URL_2 + "my.php";
-	// 信息提交URL
-	public static final String URL_USER_POST_URL = ENVIRONMENT_PRESENT_DATA_URL_1 + "index.php";
-	// 其它通用URL
-	public static final String URL_COMMON_INDEX_URL = ENVIRONMENT_PRESENT_DATA_URL_2 + "index.php";
-	// 广告详情URL
-	public static final String URL_COMMON_TOPIC_URL = ENVIRONMENT_PRESENT_DATA_URL_1 + "topic-app.php";
-	// 专题详情URL
-	public static final String URL_COMMON_ARTICLE_URL = ENVIRONMENT_PRESENT_DATA_URL_1 + "article-app.php";
-	// 专题推广URL
-	public static final String URL_COMMON_ARTICLE_SHARE_URL = ENVIRONMENT_PRESENT_DATA_URL_1 + "article.php";
-	// 专题评论URL
-	public static final String URL_COMMON_COMMENT_URL = ENVIRONMENT_PRESENT_DATA_URL_1 + "comment.php";
-
-	// 上传头像URL
-	public static final String API_UPDATE_PROFILE = URL_USER_POST_URL + "?act=act_edit_profile";
 	// SP微信公众号
 	public static final String SP_WECHAT_PUBLIC = "http://weixin.qq.com/r/MnXVzWXE-jiBrSGu9yAg";
 	// 联系客服URL

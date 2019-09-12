@@ -20,7 +20,6 @@ import java.util.List;
 
 public class HomeListAdapter extends AppBaseAdapter {
 
-	private static final String IMAGE_URL_HTTP = AppConfig.ENVIRONMENT_PRESENT_IMG_APP;
 	private static final int screenWidth = AppApplication.getSharedPreferences().getInt(AppConfig.KEY_SCREEN_WIDTH, 0);
 	private Context context;
 	private List<ThemeEntity> datas;
@@ -86,16 +85,16 @@ public class HomeListAdapter extends AppBaseAdapter {
 		final ThemeEntity data = datas.get(position);
 
 		Glide.with(AppApplication.getAppContext())
-				.load(IMAGE_URL_HTTP + data.getImgUrl())
+				.load(data.getPicUrl())
 				.apply(AppApplication.getShowOpeions())
 				.into(holder.iv_show);
 		Glide.with(AppApplication.getAppContext())
-				.load(IMAGE_URL_HTTP + data.getUserHead())
+				.load(data.getUserHead())
 				.apply(AppApplication.getHeadOpeions())
 				.into(holder.iv_head);
 
 		holder.tv_title.setText(data.getTitle());
-		holder.tv_name.setText(data.getUserName());
+		holder.tv_name.setText(data.getStartTime());
 
 		holder.tv_sign.setOnClickListener(new OnClickListener() {
 			@Override

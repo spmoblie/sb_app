@@ -74,6 +74,11 @@ public class SelectListEntity extends BaseEntity {
 		this.childLogoUrl = childLogoUrl;
 	}
 
+	@Override
+	public String getEntityId() {
+		return String.valueOf(typeId);
+	}
+
 	public int getTypeId() {
 		return typeId;
 	}

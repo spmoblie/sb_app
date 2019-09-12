@@ -8,6 +8,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
+import android.support.v4.util.ArrayMap;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
@@ -18,7 +19,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -56,13 +56,9 @@ import butterknife.ButterKnife;
 public class ChildFragmentHome extends BaseFragment implements OnClickListener {
 
     private static final String TAG = "ChildFragmentHome";
-    private static final String IMAGE_URL_HTTP = AppConfig.ENVIRONMENT_PRESENT_IMG_APP;
 
     @BindView(R.id.fg_home_refresh_lv)
     PullToRefreshListView refresh_lv;
-
-    @BindView(R.id.loading_anim_large_main)
-    RelativeLayout rl_loading;
 
     @BindView(R.id.loading_fail_main)
     ConstraintLayout rl_load_fail;
@@ -82,14 +78,16 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
     private LinearLayout.LayoutParams indicatorsLP;
 
     private boolean vprStop = false;
-    private int dataTotal = 0; //数据总量
+    private boolean isUpdateHead = true;
+    private int data_total = 0; //数据总量
     private int current_Page = 1;  //当前列表加载页
     private int idsSize, idsPosition, vprPosition;
     private ThemeEntity headEn;
     private ImageView[] indicators = null;
     private ArrayList<ImageView> viewLists = new ArrayList<>();
-    private ArrayList<ThemeEntity> lv_head = new ArrayList<>();
-    private ArrayList<ThemeEntity> lv_show = new ArrayList<>();
+    private ArrayList<ThemeEntity> al_head = new ArrayList<>();
+    private ArrayList<ThemeEntity> al_show = new ArrayList<>();
+    private ArrayMap<String, Boolean> am_show = new ArrayMap<>();
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -130,16 +128,15 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
     private void initView() {
         tv_load_again.setOnClickListener(this);
 
-        loadHeadData();
-        loadListData();
+        loadDBData();
 
         initListView();
     }
 
     private void initListView() {
-        refresh_lv.setPullRefreshEnabled(false); //下拉刷新
-        refresh_lv.setPullLoadEnabled(false); //上拉加载
-        refresh_lv.setScrollLoadEnabled(true); //底部翻页
+        refresh_lv.setPullRefreshEnabled(true); //下拉刷新
+        refresh_lv.setPullLoadEnabled(true); //上拉加载
+        refresh_lv.setScrollLoadEnabled(false); //底部翻页
         refresh_lv.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
@@ -160,7 +157,7 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
 
                     @Override
                     public void run() {
-                        if (!isStopLoadMore(lv_show.size(), dataTotal, 0)) {
+                        if (!isStopLoadMore(al_show.size(), data_total, 0)) {
                             loadListData();
                         } else {
                             refresh_lv.onPullUpRefreshComplete();
@@ -179,22 +176,22 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
 
             @Override
             public void setOnClick(Object entity, int position, int type) {
-                ThemeEntity data = lv_show.get(position);
+                ThemeEntity data = al_show.get(position);
                 if (data != null) {
                     switch (type) {
                         case 0:
                             openWebviewActivity(data);
                             break;
                         case 1: //报名
-                            openSignUpActivity(data.getImgUrl());
+                            openSignUpActivity(data.getPicUrl());
                             break;
                     }
-                }else {
+                } else {
                     CommonTools.showToast(getString(R.string.toast_error_data_null));
                 }
             }
         };
-        lv_Adapter = new HomeListAdapter(mContext, lv_show, apCallback);
+        lv_Adapter = new HomeListAdapter(mContext, al_show, apCallback);
         mListView.setAdapter(lv_Adapter);
 
         // 添加头部View
@@ -206,29 +203,31 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
     }
 
     private void initHeadView() {
-        if (viewLists.size() == 0) {
-            initViewPager();
+        if (ll_head_main.getVisibility() == View.GONE) {
+            ll_head_main.setVisibility(View.VISIBLE);
         }
+        initViewPager();
     }
 
     private void initViewPager() {
+        if (fg_home_vp == null) return;
         if (headEn != null) {
-            lv_head.clear();
-            lv_head.addAll(headEn.getHeadLists());
+            al_head.clear();
+            al_head.addAll(headEn.getHeadLists());
         }
-        if (lv_head.size() > 0) {
-            viewLists.clear();
-            idsSize = lv_head.size();
+        if (al_head.size() > 0) {
+            clearViewPagerData();
+            idsSize = al_head.size();
             indicators = new ImageView[idsSize]; // 定义指示器数组大小
             if (idsSize == 2 || idsSize == 3) {
-                lv_head.addAll(lv_head);
+                al_head.addAll(al_head);
             }
-            for (int i = 0; i < lv_head.size(); i++) {
-                final ThemeEntity items = lv_head.get(i);
+            for (int i = 0; i < al_head.size(); i++) {
+                final ThemeEntity items = al_head.get(i);
                 ImageView imageView = new ImageView(mContext);
                 imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
-                String imgUrl = IMAGE_URL_HTTP + items.getImgUrl();
+                String imgUrl = items.getPicUrl();
                 Glide.with(AppApplication.getAppContext())
                         .load(imgUrl)
                         .apply(AppApplication.getShowOpeions())
@@ -262,26 +261,28 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
                 @NonNull
                 @Override
                 public Object instantiateItem(@NonNull ViewGroup container, int position) {
+                    if (viewLists.size() <= 1) return null;
                     View layout;
                     if (loop) {
                         layout = viewLists.get(position % viewLists.size());
                     } else {
                         layout = viewLists.get(position);
                     }
-                    fg_home_vp.addView(layout);
+                    container.addView(layout);
                     return layout;
                 }
 
                 // 销毁
                 @Override
                 public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
+                    if (viewLists.size() <= 1) return;
                     View layout;
                     if (loop) {
                         layout = viewLists.get(position % viewLists.size());
                     } else {
                         layout = viewLists.get(position);
                     }
-                    fg_home_vp.removeView(layout);
+                    container.removeView(layout);
                 }
 
                 @Override
@@ -302,6 +303,7 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
 
                 @Override
                 public void onPageSelected(final int arg0) {
+                    if (fg_home_vp == null || viewLists.size() <= 1) return;
                     if (loop) {
                         vprPosition = arg0;
                         idsPosition = arg0 % viewLists.size();
@@ -339,32 +341,44 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
             });
             if (loop) {
                 fg_home_vp.setCurrentItem(viewLists.size() * 10);
-                mPagerAction = new Runnable() {
+                if (mPagerAction == null) {
+                    mPagerAction = new Runnable() {
 
-                    @Override
-                    public void run() {
-                        if (!vprStop) {
-                            vprPosition++;
-                            if (fg_home_vp != null) {
-                                fg_home_vp.setCurrentItem(vprPosition);
+                        @Override
+                        public void run() {
+                            if (fg_home_vp == null || viewLists.size() <= 1) return;
+                            if (!vprStop) {
+                                vprPosition++;
+                                if (fg_home_vp != null) {
+                                    fg_home_vp.setCurrentItem(vprPosition);
+                                }
                             }
-                        }
-                        vprStop = false;
-                        if (fg_home_vp != null) {
+                            vprStop = false;
                             fg_home_vp.postDelayed(mPagerAction, 3000);
                         }
-                    }
-                };
-                if (fg_home_vp != null) {
-                    fg_home_vp.postDelayed(mPagerAction, 3000);
+                    };
                 }
+                fg_home_vp.post(mPagerAction);
             }
         }
     }
 
-    private void updateListDatas() {
+    private void clearViewPagerData() {
+        if (viewLists.size() > 0) {
+            viewLists.clear();
+        }
+        if (fg_home_vp != null) {
+            fg_home_vp.removeAllViews();
+            fg_home_vp.removeCallbacks(mPagerAction);
+        }
+        if (fg_home_indicator != null) {
+            fg_home_indicator.removeAllViews();
+        }
+    }
+
+    private void updateListData() {
         if (lv_Adapter != null) {
-            lv_Adapter.updateAdapter(lv_show);
+            lv_Adapter.updateAdapter(al_show);
         }
     }
 
@@ -375,13 +389,13 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
         ShareEntity shareEn = new ShareEntity();
         shareEn.setTitle(data.getTitle());
         shareEn.setText(data.getTitle());
-        shareEn.setImageUrl(data.getImgUrl());
-        shareEn.setUrl(data.getLink());
+        shareEn.setImageUrl(data.getPicUrl());
+        shareEn.setUrl(data.getLinkUrl());
         // 跳转至WebView
         Intent intent = new Intent(getActivity(), MyWebViewActivity.class);
         intent.putExtra("shareEn", shareEn);
         intent.putExtra("title", data.getTitle());
-        intent.putExtra("lodUrl", data.getLink());
+        intent.putExtra("lodUrl", data.getLinkUrl());
         startActivity(intent);
     }
 
@@ -397,8 +411,8 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.loading_fail_tv_update: //重加载
-                updateData();
+            case R.id.loading_fail_tv_update: //重新加载
+                resetData();
                 break;
         }
     }
@@ -422,16 +436,8 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
     @Override
     public void onDestroy() {
         LogUtil.i(TAG, "onDestroy");
-        // 遍历创建的View，销毁以释放内存
-        for (int i = 0; i < viewLists.size(); i++) {
-            if (viewLists.get(i) != null) {
-                viewLists.get(i).setImageBitmap(null);
-            }
-        }
-        if (fg_home_vp != null) {
-            fg_home_vp.removeAllViews();
-            fg_home_vp = null;
-        }
+        // 清除轮播数据
+        clearViewPagerData();
         super.onDestroy();
     }
 
@@ -443,17 +449,31 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
     }
 
     /**
-     * 从远程服务器加载数据
+     * 重置数据
      */
-    private void updateData() {
+    private void resetData() {
         startAnimation();
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 current_Page = 1;
+                isUpdateHead = true;
                 loadListData();
             }
         }, AppConfig.LOADING_TIME);
+    }
+
+    /**
+     * 加载列表翻页数据
+     */
+    private void loadListData() {
+        if (isUpdateHead) {
+            loadHeadData();
+        }
+        HashMap<String, String> map = new HashMap<>();
+        map.put("page", String.valueOf(current_Page));
+        map.put("size", "10");
+        loadSVData(AppConfig.URL_HOME_LIST, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_POST_HOME_LIST);
     }
 
     /**
@@ -461,17 +481,7 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
      */
     private void loadHeadData() {
         HashMap<String, String> map = new HashMap<>();
-        loadSVData("activity/head", map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_POST_HOME_HEAD);
-    }
-
-    /**
-     * 加载列表翻页数据
-     */
-    private void loadListData() {
-        HashMap<String, String> map = new HashMap<>();
-        map.put("page", String.valueOf(current_Page));
-        map.put("size", "10");
-        loadSVData("activity/list", map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_POST_HOME_LIST);
+        loadSVData(AppConfig.URL_HOME_BANNER, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_POST_HOME_HEAD);
     }
 
     @Override
@@ -484,7 +494,10 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
                     if (baseEn != null) {
                         headEn = new ThemeEntity();
                         headEn.setHeadLists(baseEn.getLists());
-                        initHeadView();
+                        if (al_show.size() > 0) {
+                            initHeadView();
+                            isUpdateHead = false;
+                        }
                         FileManager.writeFileSaveObject(AppConfig.homeHeadFileName, headEn, true);
                     } else {
                         //加载失败
@@ -495,18 +508,22 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
                 case AppConfig.REQUEST_SV_POST_HOME_LIST:
                     baseEn = JsonUtils.getHomeList(jsonObject);
                     if (baseEn != null) {
-                        if (current_Page == 1) { //缓存第1页数据
-                            lv_show.clear();
-                            ThemeEntity listEn = new ThemeEntity();
-                            listEn.setMainLists(baseEn.getLists());
-                            FileManager.writeFileSaveObject(AppConfig.homeListFileName, listEn, true);
-                        }
-                        dataTotal = 1; //加载更多数据控制符
+                        data_total = baseEn.getDataTotal(); //加载更多数据控制符
                         List<ThemeEntity> lists = baseEn.getLists();
-                        if (lists != null) {
-                            lv_show.addAll(lists);
-                            current_Page++;
-                            updateListDatas();
+                        if (lists != null && lists.size() > 0) {
+                            if (current_Page == 1) { //缓存第1页数据
+                                al_show.clear();
+                                ThemeEntity listEn = new ThemeEntity();
+                                listEn.setMainLists(lists);
+                                FileManager.writeFileSaveObject(AppConfig.homeListFileName, listEn, true);
+                            }
+                            List<BaseEntity> newLists = addNewEntity(al_show, lists, am_show);
+                            if (newLists != null) {
+                                addNewShowLists(newLists);
+                                current_Page++;
+                            }
+                            updateListData();
+                            LogUtil.i("Retrofit", TAG + " List数据加载成功 —> " + current_Page);
                         } else {
                             //加载失败
                             loadFailHandle();
@@ -525,71 +542,43 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
         }
     }
 
+    private void addNewShowLists(List<BaseEntity> showLists) {
+        al_show.clear();
+        for (int i = 0; i < showLists.size(); i++) {
+            al_show.add((ThemeEntity) showLists.get(i));
+        }
+    }
+
     @Override
     protected void loadFailHandle() {
         super.loadFailHandle();
-        if (lv_head.size() == 0) {
-            loadDBHeadData();
+        if (al_show.size() == 0) {
+            ll_head_main.setVisibility(View.GONE);
+            rl_load_fail.setVisibility(View.VISIBLE);
+        } else {
+            if (ll_head_main.getVisibility() == View.GONE) {
+                initHeadView();
+            }
         }
-        if (lv_show.size() == 0) {
-            loadDBListData();
-        }
     }
 
     /**
-     * 显示缓冲动画
+     * 加载本地缓存数据
      */
-    @Override
-    protected void startAnimation() {
-        rl_load_fail.setVisibility(View.GONE);
-        rl_loading.setVisibility(View.VISIBLE);
-    }
-
-    /**
-     * 停止缓冲动画
-     */
-    @Override
-    protected void stopAnimation() {
-        rl_loading.setVisibility(View.GONE);
-        refresh_lv.onPullUpRefreshComplete();
-    }
-
-    /**
-     * 加载本地缓存头部数据
-     */
-    private void loadDBHeadData() {
+    private void loadDBData() {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                Object obj = FileManager.readFileSaveObject(AppConfig.homeHeadFileName, true);
-                if (obj != null) {
-                    headEn = (ThemeEntity) obj;
-                } else {
-                    headEn = initData();
-                    FileManager.writeFileSaveObject(AppConfig.homeHeadFileName, headEn, true);
+                Object headObj = FileManager.readFileSaveObject(AppConfig.homeHeadFileName, true);
+                if (headObj != null) {
+                    headEn = (ThemeEntity) headObj;
+                }
+                Object listObj = FileManager.readFileSaveObject(AppConfig.homeListFileName, true);
+                if (listObj != null) {
+                    ThemeEntity listEn = (ThemeEntity) listObj;
+                    al_show.addAll(listEn.getMainLists());
                 }
                 mHandler.sendEmptyMessage(1);
-            }
-        }).start();
-    }
-
-    /**
-     * 加载本地缓存列表数据
-     */
-    private void loadDBListData() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                Object obj = FileManager.readFileSaveObject(AppConfig.homeListFileName, true);
-                if (obj != null) {
-                    ThemeEntity listEn = (ThemeEntity) obj;
-                    lv_show.addAll(listEn.getMainLists());
-                } else {
-                    //ThemeEntity listEns = initData();
-                    //lv_show.addAll(listEns.getMainLists());
-                    //FileManager.writeFileSaveObject(AppConfig.homeListFileName, listEns, true);
-                }
-                mHandler.sendEmptyMessage(2);
             }
         }).start();
     }
@@ -599,18 +588,33 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
         public void handleMessage(Message mMsg) {
             switch (mMsg.what) {
                 case 1:
-                    initHeadView();
-                    break;
-                case 2:
-                    if (lv_show.size() == 0) {
-                        rl_load_fail.setVisibility(View.VISIBLE);
-                    } else {
-                        updateListDatas();
+                    if (al_show.size() > 0) {
+                        initHeadView();
+                        updateListData();
                     }
+                    loadListData();
                     break;
             }
         }
     };
+
+    /**
+     * 显示缓冲动画
+     */
+    @Override
+    protected void startAnimation() {
+        super.startAnimation();
+        rl_load_fail.setVisibility(View.GONE);
+    }
+
+    /**
+     * 停止缓冲动画
+     */
+    @Override
+    protected void stopAnimation() {
+        super.stopAnimation();
+        refresh_lv.onPullUpRefreshComplete();
+    }
 
     private ThemeEntity initData() {
         ThemeEntity bannerEn = new ThemeEntity();
@@ -621,25 +625,25 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
         ThemeEntity chEn_5 = new ThemeEntity();
         List<ThemeEntity> mainLists = new ArrayList<>();
 
-        chEn_1.setImgUrl("banner_001.png");
+        chEn_1.setPicUrl("banner_001.png");
         chEn_1.setTitle("松小堡绘画设计大赛");
-        chEn_1.setLink("https://mp.weixin.qq.com/s/uhg0hWDZCvtkyFQUs5FguQ");
+        chEn_1.setLinkUrl("https://mp.weixin.qq.com/s/uhg0hWDZCvtkyFQUs5FguQ");
         mainLists.add(chEn_1);
-        chEn_2.setImgUrl("banner_002.jpg");
+        chEn_2.setPicUrl("banner_002.jpg");
         chEn_2.setTitle("松堡王国儿童房间，你值得拥有！");
-        chEn_2.setLink("https://mp.weixin.qq.com/s/uhg0hWDZCvtkyFQUs5FguQ");
+        chEn_2.setLinkUrl("https://mp.weixin.qq.com/s/uhg0hWDZCvtkyFQUs5FguQ");
         mainLists.add(chEn_2);
-        chEn_3.setImgUrl("banner_003.png");
+        chEn_3.setPicUrl("banner_003.png");
         chEn_3.setTitle("现场直击 |松堡王国2019深圳家具展，给你好看");
-        chEn_3.setLink("https://mp.weixin.qq.com/s/OgWdS8oSZZlSWZWRgeONow");
+        chEn_3.setLinkUrl("https://mp.weixin.qq.com/s/OgWdS8oSZZlSWZWRgeONow");
         mainLists.add(chEn_3);
-        chEn_4.setImgUrl("banner_004.png");
+        chEn_4.setPicUrl("banner_004.png");
         chEn_4.setTitle("松堡王国来博白了，尽情上演属于自己的公主王子梦⋯⋯快来耍");
-        chEn_4.setLink("https://mp.weixin.qq.com/s/iasaC_yR8_SxvwKstEfnKg");
+        chEn_4.setLinkUrl("https://mp.weixin.qq.com/s/iasaC_yR8_SxvwKstEfnKg");
         mainLists.add(chEn_4);
-        chEn_5.setImgUrl("banner_005.png");
+        chEn_5.setPicUrl("banner_005.png");
         chEn_5.setTitle("厉害了！我的松堡王国");
-        chEn_5.setLink("https://mp.weixin.qq.com/s/1YJ_sqhekFTTS23G9ZCfiA");
+        chEn_5.setLinkUrl("https://mp.weixin.qq.com/s/1YJ_sqhekFTTS23G9ZCfiA");
         mainLists.add(chEn_5);
 
         bannerEn.setHeadLists(mainLists);
@@ -651,32 +655,32 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
         ThemeEntity isEn_5 = new ThemeEntity();
         List<ThemeEntity> isLists = new ArrayList<>();
 
-        isEn_1.setImgUrl("items_001.jpg");
-        isEn_1.setLink("https://mp.weixin.qq.com/s/tMi8j08jb7oEHKtmYqdl0g");
+        isEn_1.setPicUrl("items_001.jpg");
+        isEn_1.setLinkUrl("https://mp.weixin.qq.com/s/tMi8j08jb7oEHKtmYqdl0g");
         isEn_1.setTitle("北欧教育 | 比NOKIA更震惊世界的芬兰品牌");
         isEn_1.setUserHead("head_001.jpg");
         isEn_1.setUserName("北欧教育创新中心");
         isLists.add(isEn_1);
-        isEn_2.setImgUrl("items_002.jpg");
-        isEn_2.setLink("https://mp.weixin.qq.com/s/p1j-Mv0yAW45tkVvjqLBTA");
+        isEn_2.setPicUrl("items_002.jpg");
+        isEn_2.setLinkUrl("https://mp.weixin.qq.com/s/p1j-Mv0yAW45tkVvjqLBTA");
         isEn_2.setTitle("全球都在追捧的北欧教育，到底有哪些秘密？");
         isEn_2.setUserHead("head_002.jpg");
         isEn_2.setUserName("君学海外");
         isLists.add(isEn_2);
-        isEn_3.setImgUrl("items_003.jpg");
-        isEn_3.setLink("https://mp.weixin.qq.com/s/Ln0z3fqwBxT9dUP_dJL1uQ");
+        isEn_3.setPicUrl("items_003.jpg");
+        isEn_3.setLinkUrl("https://mp.weixin.qq.com/s/Ln0z3fqwBxT9dUP_dJL1uQ");
         isEn_3.setTitle("上海妈妈在挪威，享受北欧式教育的幸福");
         isEn_3.setUserHead("head_003.jpg");
         isEn_3.setUserName("泡爸讲知识");
         isLists.add(isEn_3);
-        isEn_4.setImgUrl("items_004.jpg");
-        isEn_4.setLink("https://mp.weixin.qq.com/s/7wPFWTCMn850gxgGqaOchw");
+        isEn_4.setPicUrl("items_004.jpg");
+        isEn_4.setLinkUrl("https://mp.weixin.qq.com/s/7wPFWTCMn850gxgGqaOchw");
         isEn_4.setTitle("芬兰：北欧小国的大教育观");
         isEn_4.setUserHead("head_004.jpg");
         isEn_4.setUserName("北欧童话奇幻");
         isLists.add(isEn_4);
-        isEn_5.setImgUrl("items_005.jpeg");
-        isEn_5.setLink("http://www.sohu.com/a/195309958_100007192");
+        isEn_5.setPicUrl("items_005.jpeg");
+        isEn_5.setLinkUrl("http://www.sohu.com/a/195309958_100007192");
         isEn_5.setTitle("走进北欧教育——每个孩子都是独一无二的天使");
         isEn_5.setUserHead("head_004.jpg");
         isEn_5.setUserName("北欧童话奇幻");

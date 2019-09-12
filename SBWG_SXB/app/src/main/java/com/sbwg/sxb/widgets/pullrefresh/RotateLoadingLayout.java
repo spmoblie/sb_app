@@ -87,7 +87,7 @@ public class RotateLoadingLayout extends LoadingLayout {
     
     @Override
     protected View createLoadingView(Context context, AttributeSet attrs) {
-        View container = LayoutInflater.from(context).inflate(R.layout.pull_to_refresh_header2, null);
+        View container = LayoutInflater.from(context).inflate(R.layout.pull_to_refresh_header1, null);
         return container;
     }
 

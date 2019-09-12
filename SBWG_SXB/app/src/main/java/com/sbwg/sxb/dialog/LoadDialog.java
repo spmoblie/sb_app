@@ -3,9 +3,10 @@ package com.sbwg.sxb.dialog;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.support.constraint.ConstraintLayout;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.RelativeLayout;
+import android.view.WindowManager;
 
 import com.sbwg.sxb.R;
 import com.sbwg.sxb.utils.CommonTools;
@@ -44,8 +45,13 @@ public class LoadDialog extends Dialog {
 		this.getContext().setTheme(android.R.style.Theme_Light_Panel);
 		setContentView(R.layout.dailog_animation);
 
-		RelativeLayout rl_loading = findViewById(R.id.loading_anim_large_main);
+		ConstraintLayout rl_loading = findViewById(R.id.loading_anim_large_main);
 		rl_loading.setVisibility(View.VISIBLE);
+
+		// 设置对话框的坐标及宽高
+		WindowManager.LayoutParams lp = getWindow().getAttributes();
+		lp.y = -125;
+		getWindow().setAttributes(lp);
 
 //		// 对话框背景设置
 //		Window window = getWindow();

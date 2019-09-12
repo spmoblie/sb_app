@@ -14,6 +14,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
+import android.support.v4.util.ArrayMap;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -38,11 +39,13 @@ import com.sbwg.sxb.R;
 import com.sbwg.sxb.activity.login.LoginActivity;
 import com.sbwg.sxb.dialog.DialogManager;
 import com.sbwg.sxb.dialog.LoadDialog;
+import com.sbwg.sxb.entity.BaseEntity;
 import com.sbwg.sxb.entity.ShareEntity;
 import com.sbwg.sxb.utils.CommonTools;
 import com.sbwg.sxb.utils.ExceptionUtil;
 import com.sbwg.sxb.utils.LogUtil;
 import com.sbwg.sxb.utils.MyCountDownTimer;
+import com.sbwg.sxb.utils.StringUtil;
 import com.sbwg.sxb.utils.retrofit.Fault;
 import com.sbwg.sxb.utils.retrofit.HttpRequests;
 import com.sbwg.sxb.widgets.share.ShareView;
@@ -633,6 +636,91 @@ public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Res
 	}
 
 	/**
+	 * 数据刷新函数
+	 */
+	public static List<BaseEntity> updNewEntity(int newTotal, int oldTotal, List<? extends BaseEntity> newDatas,
+												List<? extends BaseEntity> oldDatas, ArrayMap<String, Boolean> oldMap) {
+		if (oldDatas == null || newDatas == null || oldMap == null) return null;
+		if (oldTotal < newTotal) {
+			List<BaseEntity> newLists = new ArrayList<BaseEntity>();
+			BaseEntity newEn, oldEn;
+			String dataId;
+			int newCount = newTotal - oldTotal;
+			if (newCount > newDatas.size()) {
+				newCount = newDatas.size();
+			}
+			for (int i = 0; i < newCount; i++) {
+				newEn = newDatas.get(i);
+				if (newEn != null) {
+					dataId = newEn.getEntityId();
+					if (!StringUtil.isNull(dataId) && !oldMap.containsKey(dataId)) {
+						// 添加至顶层
+						newLists.add(newEn);
+						oldMap.put(dataId, true);
+						// 移除最底层
+						if (oldDatas.size() >= 1) {
+							oldEn = oldDatas.remove(oldDatas.size()-1);
+							if (oldEn != null && oldMap.containsKey(oldEn.getEntityId())) {
+								oldMap.remove(oldEn.getEntityId());
+							}
+						}
+					}
+				}
+			}
+			newLists.addAll(oldDatas);
+			return newLists;
+		}
+		return null;
+	}
+
+	/**
+	 * 数据去重函数
+	 */
+	public static List<BaseEntity> addNewEntity(List<? extends BaseEntity> oldDatas,
+												List<? extends BaseEntity> newDatas, ArrayMap<String, Boolean> oldMap) {
+		if (oldDatas == null || newDatas == null || oldMap == null) return null;
+		List<BaseEntity> newLists = new ArrayList<BaseEntity>();
+		newLists.addAll(oldDatas);
+		BaseEntity newEn;
+		String dataId;
+		for (int i = 0; i < newDatas.size(); i++) {
+			newEn = newDatas.get(i);
+			if (newEn != null) {
+				dataId = newEn.getEntityId();
+				if (!StringUtil.isNull(dataId) && !oldMap.containsKey(dataId)) {
+					newLists.add(newEn);
+					oldMap.put(dataId, true);
+				}
+			}
+		}
+		return newLists;
+	}
+
+	/**
+	 * 判定是否停止加载更多
+	 */
+	public static boolean isStopLoadMore(int showCount, int countTotal, int pageSize) {
+		showPageNum(showCount, countTotal, pageSize);
+		return showCount > 0 && showCount == countTotal;
+	}
+
+	/**
+	 * 提示当前页数
+	 */
+	public static void showPageNum(int showCount, int countTotal, int pageSize) {
+		if (pageSize <= 0) return;
+		int page_num = showCount / pageSize;
+		if (showCount % pageSize > 0) {
+			page_num++;
+		}
+		int page_total = countTotal / pageSize;
+		if (countTotal % pageSize > 0) {
+			page_total++;
+		}
+		CommonTools.showPageNum(page_num + "/" + page_total, 1000);
+	}
+
+	/**
 	 * 加载网络数据
 	 * @param path
 	 * @param map
@@ -686,7 +774,7 @@ public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Res
 	protected void callbackData(JSONObject jsonObject, int dataType) {}
 
 	/**
-	 * 显示缓冲动画
+	 * 网络加载失败
 	 */
 	protected void loadFailHandle() {
 		stopAnimation();

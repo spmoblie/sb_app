@@ -79,6 +79,11 @@ public class UserInfoEntity extends BaseEntity {
 		super(errno, errmsg);
 	}
 
+	@Override
+	public String getEntityId() {
+		return userId;
+	}
+
 	public String getUserId() {
 		return userId;
 	}

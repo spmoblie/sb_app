@@ -3,7 +3,6 @@ package com.sbwg.sxb.activity.mine;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -72,7 +71,6 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
 	ScrollViewListView svlv;
 
 	private Context mContext;
-	private SharedPreferences shared;
 	private AdapterCallback apCallback;
 	private MineListAdapter lv_Adapter;
 	private LinearLayout.LayoutParams designItemLP;
@@ -107,7 +105,6 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
 
 		LogUtil.i(TAG, "onCreate");
 		mContext = getActivity();
-		shared = AppApplication.getSharedPreferences();
 
 		int goodsWidth = (screenWidth - CommonTools.dpToPx(mContext, 16)) / 3;
 		designItemLP = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -157,23 +154,23 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
 		ThemeEntity isEn_3 = new ThemeEntity();
 		List<ThemeEntity> isLists = new ArrayList<ThemeEntity>();
 
-		isEn_1.setImgUrl("items_006.png");
-		isEn_1.setLink("https://mp.weixin.qq.com/s/tMi8j08jb7oEHKtmYqdl0g");
+		isEn_1.setPicUrl("items_006.png");
+		isEn_1.setLinkUrl("https://mp.weixin.qq.com/s/tMi8j08jb7oEHKtmYqdl0g");
 		isEn_1.setTitle("北欧教育 | 比NOKIA更震惊世界的芬兰品牌");
-		isEn_1.setExplain("下周三18:00开始.深圳");
-		isEn_1.setNumber("268人已报名");
+		isEn_1.setDescription("下周三18:00开始.深圳");
+		isEn_1.setPeople(268);
 		isLists.add(isEn_1);
-		isEn_2.setImgUrl("items_007.png");
-		isEn_2.setLink("https://mp.weixin.qq.com/s/p1j-Mv0yAW45tkVvjqLBTA");
+		isEn_2.setPicUrl("items_007.png");
+		isEn_2.setLinkUrl("https://mp.weixin.qq.com/s/p1j-Mv0yAW45tkVvjqLBTA");
 		isEn_2.setTitle("全球都在追捧的北欧教育，到底有哪些秘密？");
-		isEn_2.setExplain("下周六13:00开始.深圳");
-		isEn_2.setNumber("1635人已报名");
+		isEn_2.setDescription("下周六13:00开始.深圳");
+		isEn_2.setPeople(1635);
 		isLists.add(isEn_2);
-		isEn_3.setImgUrl("items_008.jpg");
-		isEn_3.setLink("https://mp.weixin.qq.com/s/Ln0z3fqwBxT9dUP_dJL1uQ");
+		isEn_3.setPicUrl("items_008.jpg");
+		isEn_3.setLinkUrl("https://mp.weixin.qq.com/s/Ln0z3fqwBxT9dUP_dJL1uQ");
 		isEn_3.setTitle("上海妈妈在挪威，享受北欧式教育的幸福");
-		isEn_3.setExplain("下周日15:00开始.深圳");
-		isEn_3.setNumber("362人已报名");
+		isEn_3.setDescription("下周日15:00开始.深圳");
+		isEn_3.setPeople(362);
 		isLists.add(isEn_3);
 
 		itemsEn.setMainLists(isLists);
@@ -230,7 +227,7 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
 			public void setOnClick(Object entity, int position, int type) {
 				ThemeEntity data = adEn.getMainLists().get(position);
 				if (data != null) {
-					openWebViewActivity(data.getTitle(), data.getLink());
+					openWebViewActivity(data.getTitle(), data.getLinkUrl());
 				}else {
 					CommonTools.showToast(getString(R.string.toast_error_data_null));
 				}

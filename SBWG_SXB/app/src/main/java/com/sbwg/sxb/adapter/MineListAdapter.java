@@ -77,13 +77,13 @@ public class MineListAdapter extends AppBaseAdapter {
 		final ThemeEntity data = datas.get(position);
 
 		Glide.with(AppApplication.getAppContext())
-				.load(IMAGE_URL_HTTP + data.getImgUrl())
+				.load(IMAGE_URL_HTTP + data.getPicUrl())
 				.apply(AppApplication.getShowOpeions())
 				.into(holder.iv_show);
 
 		holder.tv_title.setText(data.getTitle());
-		holder.tv_time.setText(data.getExplain());
-		holder.tv_number.setText(data.getNumber());
+		holder.tv_time.setText(data.getDescription());
+		holder.tv_number.setText(data.getPeople() + "人已报名");
 
 		holder.rl_item.setOnClickListener(new OnClickListener() {
 			

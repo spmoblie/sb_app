@@ -6,6 +6,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.AsyncTask;
+import android.os.Handler;
 
 import com.sbwg.sxb.AppApplication;
 import com.sbwg.sxb.AppConfig;
@@ -48,10 +49,10 @@ public class UpdateAppVersion {
 	}
 
 	public void clearInstance() {
-		instance = null;
 		if (dm != null) {
 			dm.clearInstance();
 		}
+		instance = null;
 	}
 
 	private void startCheckAppVersion() {
@@ -64,7 +65,12 @@ public class UpdateAppVersion {
 			new HttpTask().execute(); //异步检查版本信息
 		} else {
 			CommonTools.showToast(mContext.getString(R.string.network_fault));
-			clearInstance();
+			new Handler().postDelayed(new Runnable() {
+				@Override
+				public void run() {
+					clearInstance();
+				}
+			}, 2000);
 		}
 	}
 
@@ -92,7 +98,7 @@ public class UpdateAppVersion {
 		protected UpdateVersionEntity doInBackground(String... url) {
 			UpdateVersionEntity versionEn = null;
 			try {
-				String uri = AppConfig.URL_COMMON_INDEX_URL + "?app=app";
+				String uri = "";
 //				List<MyNameValuePair> params = new ArrayList<MyNameValuePair>();
 //				params.add(new MyNameValuePair("id", "1"));
 //				params.add(new MyNameValuePair("version", curVersionName));

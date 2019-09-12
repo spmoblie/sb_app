@@ -24,6 +24,11 @@ public class ShareEntity extends BaseEntity {
 		
 	}
 
+	@Override
+	public String getEntityId() {
+		return String.valueOf(id);
+	}
+
 	public String getId() {
 		return id;
 	}
