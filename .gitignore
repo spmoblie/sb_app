@@ -6,6 +6,7 @@ SBWG_SXB/.idea/
 SBWG_SXB/build/
 SBWG_SXB/gradle/
 SBWG_SXB/gradlew
+SBWG_SXB/gradlew.*
 
 SBWG_SXB/weiboSDK/build/
 SBWG_SXB/weiboSDK/gradle/
