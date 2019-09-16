@@ -49,11 +49,13 @@ import butterknife.ButterKnife;
 public class ChildFragmentMine extends BaseFragment implements OnClickListener {
 
 	private static final String TAG = "ChildFragmentMine";
-	private static final String IMAGE_URL_HTTP = AppConfig.ENVIRONMENT_PRESENT_IMG_APP;
 	private static int screenWidth = AppApplication.getSharedPreferences().getInt(AppConfig.KEY_SCREEN_WIDTH, 0);
 
 	@BindView(R.id.fg_mine_iv_setting)
 	ImageView iv_setting;
+
+	@BindView(R.id.fg_mine_iv_feedback)
+	ImageView iv_feedback;
 
 	@BindView(R.id.fg_mine_iv_head)
 	RoundImageView iv_user_head;
@@ -78,7 +80,6 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
 	private DesignEntity designEn;
 	private ThemeEntity itemsEn;
 	private UserInfoEntity infoEn;
-	private boolean isLogin;
 	private ArrayList<String> urlLists = new ArrayList<String>();
 
 	private Handler mHandler = new Handler(){
@@ -178,6 +179,7 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
 
 	private void initView() {
 		iv_setting.setOnClickListener(this);
+		iv_feedback.setOnClickListener(this);
 		iv_user_head.setOnClickListener(this);
 
 		initShowView(designEn);
@@ -200,7 +202,7 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
 					ImageView imageView = new ImageView(mContext);
 					imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 					Glide.with(AppApplication.getAppContext())
-							.load(IMAGE_URL_HTTP + imgUrl)
+							.load(imgUrl)
 							.apply(AppApplication.getShowOpeions())
 							.into(imageView);
 
@@ -257,9 +259,7 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
 	}
 
 	private void checkLogin() {
-		isLogin = !UserManager.getInstance().checkIsLogin();
-		LogUtil.i("isLogin", isLogin);
-		if (isLogin) { //已登入
+		if (isLogin()) { //已登入
 			requestGetUserInfo();
 		}else {
 			infoEn = null;
@@ -291,8 +291,14 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
 			case R.id.fg_mine_iv_setting:
 				startActivity(new Intent(mContext, SettingActivity.class));
 				break;
+			case R.id.fg_mine_iv_feedback:
+				Intent intent = new Intent(getActivity(), MyWebViewActivity.class);
+				intent.putExtra("title", "吐个槽");
+				intent.putExtra("lodUrl", "https://support.qq.com/product/1221");
+				startActivity(intent);
+				break;
 			case R.id.fg_mine_iv_head:
-				if (isLogin) {
+				if (isLogin()) {
 					openPersonalActivity();
 				} else {
 

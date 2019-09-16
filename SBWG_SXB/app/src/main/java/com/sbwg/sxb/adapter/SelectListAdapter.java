@@ -196,7 +196,6 @@ public class SelectListAdapter extends AppBaseAdapter {
 		
 		if (!StringUtil.isNull(data.getChildLogoUrl())) {
 			holder.iv_logo.setVisibility(View.VISIBLE);
-//			ImageLoader.getInstance().displayImage(IMAGE_URL_HTTP + data.getChildLogoUrl(), holder.iv_logo, options);
 		}else {
 			holder.iv_logo.setVisibility(View.GONE);
 		}

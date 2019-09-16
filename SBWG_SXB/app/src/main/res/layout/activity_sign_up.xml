@@ -35,24 +35,13 @@
                 android:hint="必填"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="@id/sign_tv_name"
-                app:layout_constraintWidth_percent="0.75"/>
+                app:layout_constraintWidth_percent="0.8"/>
 
             <TextView
                 android:id="@+id/sign_tv_gender"
                 style="@style/SignUp_TextView"
                 android:text="性别："
                 app:layout_constraintTop_toBottomOf="@id/sign_tv_name" />
-
-            <TextView
-                android:id="@+id/sign_tv_gender_woman"
-                style="@style/common_checkbox_min"
-                android:layout_width="wrap_content"
-                android:layout_marginLeft="@dimen/margin_padding_30"
-                android:paddingTop="@dimen/margin_padding_10"
-                android:paddingBottom="@dimen/margin_padding_10"
-                android:text="女"
-                app:layout_constraintLeft_toRightOf="@id/sign_tv_gender"
-                app:layout_constraintTop_toTopOf="@id/sign_tv_gender" />
 
             <TextView
                 android:id="@+id/sign_tv_gender_man"
@@ -62,7 +51,18 @@
                 android:paddingTop="@dimen/margin_padding_10"
                 android:paddingBottom="@dimen/margin_padding_10"
                 android:text="男"
-                app:layout_constraintLeft_toRightOf="@id/sign_tv_gender_woman"
+                app:layout_constraintLeft_toRightOf="@id/sign_tv_gender"
+                app:layout_constraintTop_toTopOf="@id/sign_tv_gender" />
+
+            <TextView
+                android:id="@+id/sign_tv_gender_woman"
+                style="@style/common_checkbox_min"
+                android:layout_width="wrap_content"
+                android:layout_marginLeft="@dimen/margin_padding_30"
+                android:paddingTop="@dimen/margin_padding_10"
+                android:paddingBottom="@dimen/margin_padding_10"
+                android:text="女"
+                app:layout_constraintLeft_toRightOf="@id/sign_tv_gender_man"
                 app:layout_constraintTop_toTopOf="@id/sign_tv_gender" />
 
             <TextView
@@ -77,7 +77,7 @@
                 android:hint="必填"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="@id/sign_tv_age"
-                app:layout_constraintWidth_percent="0.75"/>
+                app:layout_constraintWidth_percent="0.8"/>
 
             <ImageView
                 style="@style/common_go_right"
@@ -95,11 +95,12 @@
             <EditText
                 android:id="@+id/sign_et_phone"
                 style="@style/SignUp_EditText"
+                android:maxLength="13"
                 android:hint="必填"
                 android:inputType="phone"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="@id/sign_tv_phone"
-                app:layout_constraintWidth_percent="0.75"/>
+                app:layout_constraintWidth_percent="0.8"/>
 
             <TextView
                 android:id="@+id/sign_tv_cost"
@@ -111,9 +112,8 @@
                 android:id="@+id/sign_tv_cost_pay"
                 style="@style/common_text_button"
                 android:text="在线支付"
-                android:layout_marginRight="@dimen/margin_padding_20"
-                android:textColor="@color/app_color_black"
-                android:background="@drawable/shape_button_style_1_20"
+                android:textColor="@color/app_color_white"
+                android:background="@drawable/shape_button_style_3_20"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="@id/sign_tv_cost"/>
 
@@ -134,9 +134,10 @@
                 android:layout_width="match_parent"
                 android:text="立即报名"
                 android:layout_marginTop="@dimen/margin_padding_30"
-                android:padding="@dimen/margin_padding_20"
+                android:padding="@dimen/margin_padding_15"
                 android:textColor="@color/app_color_white"
-                android:background="@drawable/shape_button_style_2_20"
+                android:textSize="@dimen/app_text_size_button"
+                android:background="@drawable/shape_button_style_3_20"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/sign_tv_explain"/>

@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.sbwg.sxb.AppApplication;
 import com.sbwg.sxb.AppConfig;
@@ -178,6 +179,11 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 				isPassw_Ok = false;
 				passwordStr = s.toString();
 				if (passwordStr.length() >= 6) {
+					// 校验格式
+					if (!StringUtil.isPassword(passwordStr)) {
+						CommonTools.showToast(getString(R.string.login_password_form), Toast.LENGTH_LONG);
+						return;
+					}
 					isPassw_Ok = true;
 					if (isPhone_Ok && isCodes_Ok) {
 						setRegisterState(true);
@@ -242,6 +248,19 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 				}
 				break;
 			case R.id.register_btn_register:
+				// 温馨提示
+				if (isPhone_Ok && isCodes_Ok && !isPassw_Ok) {
+					if (StringUtil.isNull(passwordStr)) {
+						CommonTools.showToast(getString(R.string.login_input_password));
+					} else {
+						if (passwordStr.length() < 6) {
+							CommonTools.showToast(getString(R.string.login_password_type));
+						} else {
+							CommonTools.showToast(getString(R.string.login_password_form));
+						}
+					}
+				}
+				// 提交注册
 				if (isRegister) {
 					register();
 				}
@@ -260,7 +279,7 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 		if (phoneStr.contains(" ")) {
 			phoneStr = phoneStr.replace(" ", "");
 		}
-		// 校验格式
+		// 校验手机号码格式
 		if (!StringUtil.isMobileNO(phoneStr)) {
 			CommonTools.showToast(getString(R.string.login_input_phone_error));
 			return;
@@ -275,6 +294,11 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 		passwordStr = et_password.getText().toString();
 		if (passwordStr.isEmpty()) {
 			CommonTools.showToast(getString(R.string.login_input_password));
+			return;
+		}
+		// 校验密码格式
+		if (!StringUtil.isPassword(passwordStr)) {
+			CommonTools.showToast(getString(R.string.login_password_form), Toast.LENGTH_LONG);
 			return;
 		}
 		postRegisterData();

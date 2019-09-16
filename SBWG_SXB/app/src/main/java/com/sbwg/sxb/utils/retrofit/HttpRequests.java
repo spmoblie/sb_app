@@ -52,12 +52,23 @@ public class HttpRequests extends ObjectLoader {
                     }
                     break;
                 case HTTP_POST:
-                    if (paths.split("/").length > 1) {
-                        String root = paths.split("/")[0];
-                        String path = paths.split("/")[1];
-                        observable = observe(httpService.post(root, path, map));
-                    } else {
-                        observable = observe(httpService.post(paths, map));
+                    String[] roots = paths.split("/");
+                    switch (roots.length) {
+                        case 1:
+                            observable = observe(httpService.post(paths, map));
+                            break;
+                        case 2:
+                            observable = observe(httpService.post(roots[0], roots[1], map));
+                            break;
+                        case 3:
+                            observable = observe(httpService.post(roots[0], roots[1], roots[2], map));
+                            break;
+                        case 4:
+                            observable = observe(httpService.post(roots[0], roots[1], roots[2], roots[3], map));
+                            break;
+                        default:
+                            observable = observe(httpService.post(paths, map));
+                            break;
                     }
                     break;
             }
@@ -79,6 +90,12 @@ public class HttpRequests extends ObjectLoader {
         @FormUrlEncoded
         @POST("{root}/{path}")
         Observable<ResponseBody> post(@Path("root") String root, @Path("path") String path, @FieldMap Map<String, String> map);
+        @FormUrlEncoded
+        @POST("{root1}/{root2}/{path}")
+        Observable<ResponseBody> post(@Path("root1") String root1, @Path("root2") String root2, @Path("path") String path, @FieldMap Map<String, String> map);
+        @FormUrlEncoded
+        @POST("{root1}/{root2}/{root3}/{path}")
+        Observable<ResponseBody> post(@Path("root1") String root1, @Path("root2") String root2, @Path("root3") String root3, @Path("path") String path, @FieldMap Map<String, String> map);
     }
 
 }

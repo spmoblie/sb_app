@@ -239,7 +239,6 @@
     <style name="SignUp_EditText">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginRight">@dimen/margin_padding_20</item>
         <item name="android:paddingLeft">@dimen/margin_padding_15</item>
         <item name="android:paddingTop">@dimen/margin_padding_10</item>
         <item name="android:paddingBottom">@dimen/margin_padding_10</item>
@@ -279,7 +278,7 @@
         <item name="android:layout_marginTop">@dimen/margin_padding_5</item>
         <item name="android:layout_marginLeft">@dimen/margin_padding_10</item>
         <item name="android:layout_gravity">center_horizontal</item>
-        <item name="android:background">@drawable/shape_frame_style_3_90</item>
+        <item name="android:background">@drawable/shape_frame_style_5_90</item>
         <item name="android:visibility">gone</item>
     </style>
 
@@ -287,7 +286,7 @@
     <style name="common_warn_red_text_number">
         <item name="android:layout_width">@dimen/screen_margin_default</item>
         <item name="android:layout_height">@dimen/screen_margin_default</item>
-        <item name="android:background">@drawable/shape_frame_style_3_90</item>
+        <item name="android:background">@drawable/shape_frame_style_5_90</item>
         <item name="android:layout_gravity">center_horizontal</item>
         <item name="android:layout_marginLeft">@dimen/margin_padding_10</item>
         <item name="android:gravity">center</item>

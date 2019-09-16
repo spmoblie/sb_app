@@ -27,10 +27,12 @@ public class AppConfig {
 	// 推广域名
 	public final static String ENVIRONMENT_PRESENT_SHARE_URL = ENVIRONMENT_TEST_APP_1;
 
-	// 获取首页banner列表
+	// 首页banner列表
 	public final static String URL_HOME_BANNER = "home/index";
-	// 获取首页活动列表
+	// 首页活动列表
 	public final static String URL_HOME_LIST = "activity/list";
+	// 报名数据提交
+	public final static String URL_SIGN_UP_ADD = "activity/sign_up/add";
 
 	// SP微信公众号
 	public static final String SP_WECHAT_PUBLIC = "http://weixin.qq.com/r/MnXVzWXE-jiBrSGu9yAg";
@@ -133,6 +135,8 @@ public class AppConfig {
 	public static final int REQUEST_SV_POST_HOME_HEAD = 0X1001;
 	// 首頁列表数据
 	public static final int REQUEST_SV_POST_HOME_LIST = 0X1002;
+	// 提交报名数据
+	public static final int REQUEST_SV_POST_SIGN_DATA = 0X2001;
 
 	/**
 	 ******************************************* RequestCode参数设置结束 ******************************************
@@ -184,8 +188,8 @@ public class AppConfig {
 	public static final String KEY_USER_PHONE = "user_phone";
 	// 偏好设置Key-记录用户账户余额
 	public static final String KEY_USER_MONEY = "user_money";
-	// 偏好设置Key-记录用户购物车中商品数量
-	public static final String KEY_CART_NUM = "cart_num";
+	// 偏好设置Key-记录用户报名的课程Id
+	public static final String KEY_SIGN_UP_ID = "sign_up_id";
 	// 偏好设置Key-记录用户的微信授权码
 	public static final String KEY_WX_ACCESS_TOKEN = "wx_access_token";
 	// 偏好设置Key-记录用户的微信校验码

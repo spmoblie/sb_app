@@ -3,6 +3,7 @@ package com.sbwg.sxb.activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -21,6 +22,7 @@ import com.sbwg.sxb.R;
 import com.sbwg.sxb.activity.home.ChildFragmentHome;
 import com.sbwg.sxb.activity.mine.ChildFragmentMine;
 import com.sbwg.sxb.activity.sxb.ChildFragmentSXB;
+import com.sbwg.sxb.utils.CommonTools;
 import com.sbwg.sxb.utils.ExceptionUtil;
 import com.sbwg.sxb.utils.LogUtil;
 import com.sbwg.sxb.utils.UpdateAppVersion;
@@ -56,6 +58,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 	private static String current_fragment; //当前要显示的Fragment
 	private static final String[] FRAGMENT_CONTAINER = { "fragment_1", "fragment_2", "fragment_3" };
 	private int current_index = 0; //当前要显示的Fragment下标索引
+	private boolean exit = false;
 
 
 	@Override
@@ -144,11 +147,26 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		//回到桌面
-		if (keyCode == KeyEvent.KEYCODE_BACK) {
+		/*if (keyCode == KeyEvent.KEYCODE_BACK) {
 			Intent home = new Intent(Intent.ACTION_MAIN);
 			home.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			home.addCategory(Intent.CATEGORY_HOME);
 			startActivity(home);
+			return true;
+		}*/
+		if (keyCode == KeyEvent.KEYCODE_BACK) {
+			if (exit) {
+				AppManager.getInstance().AppExit(getApplicationContext());
+			} else {
+				exit = Boolean.TRUE;
+				new Handler().postDelayed(new Runnable() {
+					@Override
+					public void run() {
+						exit = Boolean.FALSE;
+					}
+				}, 2000);
+				CommonTools.showToast(getString(R.string.toast_exit_prompt), 1000);
+			}
 			return true;
 		}
 		return super.onKeyDown(keyCode, event);
@@ -162,6 +180,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 		// 设置App字体不随系统字体变化
 		AppApplication.initDisplayMetrics();
 
+		exit = Boolean.FALSE;
 		initView();
 
 		super.onResume();
@@ -202,6 +221,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 		current_fragment = FRAGMENT_CONTAINER[current_index];
 		shared.edit().putInt(AppConfig.KEY_MAIN_CURRENT_INDEX, current_index).apply();
 		updateImageViewStatus();
+		exit = Boolean.FALSE;
 	}
 
 	/**

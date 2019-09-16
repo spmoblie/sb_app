@@ -18,7 +18,6 @@ import com.sbwg.sxb.activity.BaseActivity;
 import com.sbwg.sxb.activity.common.MyWebViewActivity;
 import com.sbwg.sxb.utils.LogUtil;
 import com.sbwg.sxb.utils.UpdateAppVersion;
-import com.sbwg.sxb.utils.UserManager;
 
 
 public class SettingActivity extends BaseActivity implements OnClickListener {
@@ -30,7 +29,6 @@ public class SettingActivity extends BaseActivity implements OnClickListener {
     private TextView tv_about_us, tv_push_title, tv_logout;
     private ImageView iv_push_status;
 
-    private boolean isLogined = false;
     private boolean pushStatus = true;
 
     @Override
@@ -118,7 +116,7 @@ public class SettingActivity extends BaseActivity implements OnClickListener {
                 UpdateAppVersion.getInstance(mContext, false);
                 break;
             case R.id.setting_rl_logout:
-                if (isLogined) {
+                if (isLogin()) {
                     showConfirmDialog(getString(R.string.setting_logout_confirm), getString(R.string.cancel),
                             getString(R.string.confirm), true, true, new Handler() {
                                 @Override
@@ -153,8 +151,7 @@ public class SettingActivity extends BaseActivity implements OnClickListener {
     }
 
     private void checkLogin() {
-        isLogined = UserManager.getInstance().checkIsLogin();
-        if (isLogined) {
+        if (isLogin()) {
             tv_logout.setText(getString(R.string.setting_logout));
         } else {
             tv_logout.setText(getString(R.string.login_login));

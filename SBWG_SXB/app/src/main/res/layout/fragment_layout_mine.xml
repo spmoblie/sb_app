@@ -18,11 +18,17 @@
             <ImageView
                 android:id="@+id/fg_mine_iv_setting"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_centerVertical="true"
-                android:contentDescription="@string/desc"
+                android:layout_height="wrap_content"
                 android:padding="@dimen/screen_margin_default"
                 android:src="@mipmap/icon_setting" />
+
+            <ImageView
+                android:id="@+id/fg_mine_iv_feedback"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/screen_margin_default"
+                android:src="@mipmap/icon_setting"
+                app:layout_constraintRight_toRightOf="parent"/>
 
             <com.sbwg.sxb.widgets.RoundImageView
                 android:id="@+id/fg_mine_iv_head"

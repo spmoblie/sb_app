@@ -257,8 +257,34 @@ public class UserManager {
 		wxRefreshToken = refreshToken;
 	}
 
-	public int getCartTotal(){
-		return sp.getInt(AppConfig.KEY_CART_NUM, 0);
+	/**
+	 * 清除课程Id
+	 */
+	public void clearCourseId() {
+		editor.putString(AppConfig.KEY_SIGN_UP_ID, "").apply();
+	}
+
+	/**
+	 * 标记课程Id
+	 * @param courseId 课程Id
+	 */
+	public void saveCourseId(int courseId) {
+		String keyStr = "_" + courseId + "_";
+		String idStr = sp.getString(AppConfig.KEY_SIGN_UP_ID, "");
+		editor.putString(AppConfig.KEY_SIGN_UP_ID, idStr + keyStr).apply();
+	}
+
+	/**
+	 * 判断课程是否已报名
+	 * @param courseId 课程Id
+	 */
+	public boolean isCourseSignUp(int courseId) {
+		String keyStr = "_" + courseId + "_";
+		String idStr = sp.getString(AppConfig.KEY_SIGN_UP_ID, "");
+		if (idStr.contains(keyStr)) {
+			return true;
+		}
+		return false;
 	}
 
 	/**

@@ -46,6 +46,7 @@ import com.sbwg.sxb.utils.ExceptionUtil;
 import com.sbwg.sxb.utils.LogUtil;
 import com.sbwg.sxb.utils.MyCountDownTimer;
 import com.sbwg.sxb.utils.StringUtil;
+import com.sbwg.sxb.utils.UserManager;
 import com.sbwg.sxb.utils.retrofit.Fault;
 import com.sbwg.sxb.utils.retrofit.HttpRequests;
 import com.sbwg.sxb.widgets.share.ShareView;
@@ -73,7 +74,6 @@ import rx.Observer;
 public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Response, IWXAPIEventHandler {
 
 	public static final String TAG = BaseActivity.class.getSimpleName();
-	public static final String IMAGE_URL_HTTP = AppConfig.ENVIRONMENT_PRESENT_IMG_APP;
 	public static final long SEND_TIME = 60000;
 
 	protected Context mContext;
@@ -295,6 +295,12 @@ public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Res
 		mLayoutBase.addView(view, lp);
 		//Butter Knife初始化
 		ButterKnife.bind(this);
+	}
+
+	protected boolean isLogin() {
+		boolean isLogin = !UserManager.getInstance().checkIsLogin();
+		LogUtil.i("isLogin", isLogin);
+		return isLogin;
 	}
 
 	protected void openLoginActivity(){

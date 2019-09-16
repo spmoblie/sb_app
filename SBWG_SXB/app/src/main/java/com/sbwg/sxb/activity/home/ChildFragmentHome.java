@@ -183,7 +183,7 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
                             openWebviewActivity(data);
                             break;
                         case 1: //报名
-                            openSignUpActivity(data.getPicUrl());
+                            openSignUpActivity(data);
                             break;
                     }
                 } else {
@@ -400,11 +400,10 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
     }
 
     // 跳转至报名页面
-    private void openSignUpActivity(String imgUrl) {
+    private void openSignUpActivity(ThemeEntity data) {
+        if (data == null) return;
         Intent intent = new Intent(getActivity(), SignUpActivity.class);
-        intent.putExtra("imgUrl", imgUrl);
-        //intent.putExtra("payAmount", 6.18);
-        //intent.putExtra("explainStr", "活动说明：\n1、费用为大赛统一报名费，主要用于场地租赁和组织等\n2、大赛时间：\n3、大赛地点：\n4、其他注意事项");
+        intent.putExtra("data", data);
         startActivity(intent);
     }
 

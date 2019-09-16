@@ -22,6 +22,7 @@ import com.sbwg.sxb.utils.CommonTools;
 import com.sbwg.sxb.utils.ExceptionUtil;
 import com.sbwg.sxb.utils.LogUtil;
 import com.sbwg.sxb.utils.StringUtil;
+import com.sbwg.sxb.utils.UserManager;
 import com.sbwg.sxb.utils.retrofit.Fault;
 import com.sbwg.sxb.utils.retrofit.HttpRequests;
 
@@ -219,6 +220,15 @@ public class BaseFragment extends Fragment {
 	}
 
 	/**
+	 * 获取登录状态
+	 */
+	protected boolean isLogin() {
+		boolean isLogin = !UserManager.getInstance().checkIsLogin();
+		LogUtil.i("isLogin", isLogin);
+		return isLogin;
+	}
+
+	/**
 	 * 数据刷新函数
 	 */
 	public static List<BaseEntity> updNewEntity(int newTotal, int oldTotal, List<? extends BaseEntity> newDatas,
@@ -262,7 +272,7 @@ public class BaseFragment extends Fragment {
 	public static List<BaseEntity> addNewEntity(List<? extends BaseEntity> oldDatas,
 												List<? extends BaseEntity> newDatas, ArrayMap<String, Boolean> oldMap) {
 		if (oldDatas == null || newDatas == null || oldMap == null) return null;
-		List<BaseEntity> newLists = new ArrayList<BaseEntity>();
+		List<BaseEntity> newLists = new ArrayList<>();
 		newLists.addAll(oldDatas);
 		BaseEntity newEn;
 		String dataId;

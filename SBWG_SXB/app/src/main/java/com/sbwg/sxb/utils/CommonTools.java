@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.graphics.Point;
 import android.graphics.PointF;
-import android.os.Handler;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.Display;
@@ -31,15 +30,16 @@ import java.util.regex.Pattern;
 public class CommonTools {
 
 	private static int screenHeight = AppApplication.getSharedPreferences().getInt(AppConfig.KEY_SCREEN_HEIGHT, 0);
-
 	private static Toast toast;
-    private static Handler mHandler = new Handler();
-    private static Runnable runnable = new Runnable() {
-        public void run() {
-        	toast.cancel();
-        	toast = null; //toast隐藏后，将其置为null
-        }
-    };
+
+	/**
+	 * 隐藏当前Toast
+	 */
+	public static void cancelToast() {
+		if (toast != null) {
+			toast.cancel();
+		}
+	}
 
     /**
      * 显示Toast消息
@@ -47,31 +47,38 @@ public class CommonTools {
      * @param message 消息文本
      */
     public static void showToast(String message) {
-		showToast(message, 3000);
+		showToast(message, Toast.LENGTH_SHORT);
     }
 
     /**
      * 显示Toast消息
      *
      * @param message 消息文本
-     * @param time 消息显示的时长
+     * @param time 消息显示的时长 Toast.LENGTH_LONG / Toast.LENGTH_SHORT
      */
     public static void showToast(String message, long time) {
+		// 隐藏Toast
+		cancelToast();
+
+		// 自定义View
 		Context ctx = AppApplication.getInstance().getApplicationContext();
     	LayoutInflater inflater = (LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     	View view = inflater.inflate(R.layout.layout_toast, null);
     	TextView text = view.findViewById(R.id.toast_message);
     	text.setText(message);
 
-    	mHandler.removeCallbacks(runnable);
-    	if (toast == null){ //只有mToast == null时才重新创建，否则只需更改提示文字
-    		toast = new Toast(ctx);
-    		toast.setDuration(Toast.LENGTH_LONG);
-    		toast.setGravity(Gravity.BOTTOM, 0, screenHeight / 2);
-    		toast.setView(view);
-    	}
-    	mHandler.postDelayed(runnable, time); //延迟隐藏toast
-    	toast.show();
+		// 创建Toast
+		toast = new Toast(ctx);
+		toast.setView(view);
+		toast.setGravity(Gravity.CENTER, 0, 0);
+		// 设置显示时长
+		if (time == Toast.LENGTH_LONG) {
+			toast.setDuration(Toast.LENGTH_LONG);
+		} else {
+			toast.setDuration(Toast.LENGTH_SHORT);
+		}
+		// 显示Toast
+		toast.show();
     }
 
 	/**
@@ -81,20 +88,26 @@ public class CommonTools {
 	 * @param time 显示的时长
 	 */
 	public static void showPageNum(String message, long time) {
+		// 隐藏Toast
+		cancelToast();
+
 		Context ctx = AppApplication.getInstance().getApplicationContext();
 		LayoutInflater inflater = (LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(R.layout.layout_toast_page_num, null);
-		TextView text = (TextView) view.findViewById(R.id.toast_message);
+		TextView text = view.findViewById(R.id.toast_message);
 		text.setText(message);
 
-		mHandler.removeCallbacks(runnable);
-		if (toast == null){ //只有mToast==null时才重新创建，否则只需更改提示文字
-			toast = new Toast(ctx);
+		// 创建Toast
+		toast = new Toast(ctx);
+		toast.setView(view);
+		toast.setGravity(Gravity.BOTTOM, 0, screenHeight / 12);
+		// 设置显示时长
+		if (time == Toast.LENGTH_LONG) {
+			toast.setDuration(Toast.LENGTH_LONG);
+		} else {
 			toast.setDuration(Toast.LENGTH_SHORT);
-			toast.setGravity(Gravity.BOTTOM, 0, screenHeight / 12);
-			toast.setView(view);
 		}
-		mHandler.postDelayed(runnable, time); //延迟隐藏toast
+		// 显示Toast
 		toast.show();
 	}
 

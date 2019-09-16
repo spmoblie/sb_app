@@ -9,7 +9,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.sbwg.sxb.AppApplication;
-import com.sbwg.sxb.AppConfig;
 import com.sbwg.sxb.R;
 import com.sbwg.sxb.entity.ThemeEntity;
 import com.sbwg.sxb.widgets.RoundImageView;
@@ -19,7 +18,6 @@ import java.util.List;
 
 public class MineListAdapter extends AppBaseAdapter {
 
-	private static final String IMAGE_URL_HTTP = AppConfig.ENVIRONMENT_PRESENT_IMG_APP;
 	private Context context;
 	private List<ThemeEntity> datas;
 	private AdapterCallback apCallback;
@@ -77,7 +75,7 @@ public class MineListAdapter extends AppBaseAdapter {
 		final ThemeEntity data = datas.get(position);
 
 		Glide.with(AppApplication.getAppContext())
-				.load(IMAGE_URL_HTTP + data.getPicUrl())
+				.load(data.getPicUrl())
 				.apply(AppApplication.getShowOpeions())
 				.into(holder.iv_show);
 

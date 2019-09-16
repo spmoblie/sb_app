@@ -15,7 +15,7 @@
         android:layout_marginBottom="@dimen/margin_padding_20"
         android:paddingTop="@dimen/margin_padding_2"
         android:paddingBottom="@dimen/margin_padding_2"
-        android:background="@drawable/shape_frame_style_2_12">
+        android:background="@drawable/shape_frame_style_3_12">
 
         <com.sbwg.sxb.widgets.RoundImageView
             android:id="@+id/fg_mine_item_iv_show"

@@ -14,6 +14,19 @@ import java.util.List;
 public class JsonUtils {
 
     /**
+     * 解析返回的状态码
+     * @param jsonObject
+     * @return
+     * @throws JSONException
+     */
+    public static BaseEntity getBaseErrorData(JSONObject jsonObject) throws JSONException {
+        if (jsonObject == null) return null;
+        BaseEntity mainEn = new BaseEntity();
+        getCommonKeyValue(mainEn, jsonObject);
+        return mainEn;
+    }
+
+    /**
      * 解析首页头部数据
      * @param jsonObject
      * @return
