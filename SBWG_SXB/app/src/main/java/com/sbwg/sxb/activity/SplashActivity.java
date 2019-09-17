@@ -7,7 +7,6 @@ import android.view.View;
 
 import com.sbwg.sxb.AppApplication;
 import com.sbwg.sxb.AppConfig;
-import com.sbwg.sxb.AppManager;
 import com.sbwg.sxb.R;
 import com.sbwg.sxb.utils.DeviceUtil;
 import com.sbwg.sxb.utils.LogUtil;
@@ -17,15 +16,12 @@ import com.sbwg.sxb.utils.LogUtil;
  */
 public class SplashActivity extends BaseActivity {
 
-	private static final String TAG = "SplashActivity";
+	public static final String TAG = SplashActivity.class.getSimpleName();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_splash);
-
-		LogUtil.i(TAG, "onCreate");
-		AppManager.getInstance().addActivity(this); //添加Activity到堆栈
 
 		// 隐藏父类组件
 		setHeadVisibility(View.GONE);
@@ -41,6 +37,7 @@ public class SplashActivity extends BaseActivity {
 		AppApplication.onPageStart(this, TAG);
 		// 延迟跳转页面
 		goHomeActivity();
+
 		super.onResume();
 	}
 
@@ -65,12 +62,12 @@ public class SplashActivity extends BaseActivity {
 		LogUtil.i(TAG, "onPause");
 		// 页面结束
 		AppApplication.onPageEnd(this, TAG);
+
 		super.onPause();
 	}
 
 	@Override
 	protected void onDestroy() {
-		LogUtil.i(TAG, "onDestroy");
 		super.onDestroy();
 	}
 

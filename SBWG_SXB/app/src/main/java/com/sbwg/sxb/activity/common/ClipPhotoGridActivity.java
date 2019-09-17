@@ -11,7 +11,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.GridView;
 
 import com.sbwg.sxb.AppApplication;
-import com.sbwg.sxb.AppManager;
 import com.sbwg.sxb.R;
 import com.sbwg.sxb.activity.BaseActivity;
 import com.sbwg.sxb.adapter.ClipPhotoGridAdapter;
@@ -30,8 +29,7 @@ import java.util.Map;
  */
 public class ClipPhotoGridActivity extends BaseActivity {
 
-	private static final String TAG = "ClipPhotoGridActivity";
-	public static ClipPhotoGridActivity instance;
+	public static final String TAG = ClipPhotoGridActivity.class.getSimpleName();
 
 	private GridView gv_album;
 	private List<ClipPhotoEntity> albumList = new ArrayList<ClipPhotoEntity>();
@@ -50,11 +48,6 @@ public class ClipPhotoGridActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_clip_photo_list);
-		
-		LogUtil.i(TAG, "onCreate");
-		AppManager.getInstance().addActivity(this);//添加Activity到堆栈
-
-		instance = this;
 
 		findViewById();
 		initView();
@@ -100,6 +93,7 @@ public class ClipPhotoGridActivity extends BaseActivity {
 		LogUtil.i(TAG, "onResume");
 		// 页面开始
 		AppApplication.onPageStart(this, TAG);
+
 		super.onResume();
 	}
 	
@@ -108,14 +102,13 @@ public class ClipPhotoGridActivity extends BaseActivity {
 		LogUtil.i(TAG, "onPause");
 		// 页面结束
 		AppApplication.onPageEnd(this, TAG);
+
 		super.onPause();
 	}
 
 	@Override
 	protected void onDestroy() {
-		LogUtil.i(TAG, "onDestroy");
 		super.onDestroy();
-		instance = null;
 	}
 	
 	/**

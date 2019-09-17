@@ -12,17 +12,24 @@ import android.widget.TextView;
 
 import com.sbwg.sxb.AppApplication;
 import com.sbwg.sxb.AppConfig;
-import com.sbwg.sxb.AppManager;
 import com.sbwg.sxb.R;
 import com.sbwg.sxb.activity.BaseActivity;
 import com.sbwg.sxb.activity.common.MyWebViewActivity;
+import com.sbwg.sxb.entity.BaseEntity;
+import com.sbwg.sxb.utils.ExceptionUtil;
+import com.sbwg.sxb.utils.JsonLogin;
 import com.sbwg.sxb.utils.LogUtil;
 import com.sbwg.sxb.utils.UpdateAppVersion;
+import com.sbwg.sxb.utils.retrofit.HttpRequests;
+
+import org.json.JSONObject;
+
+import java.util.HashMap;
 
 
 public class SettingActivity extends BaseActivity implements OnClickListener {
 
-    private static final String TAG = "SettingActivity";
+    public static final String TAG = SettingActivity.class.getSimpleName();
 
     private RelativeLayout rl_feedback, rl_version, rl_about_us, rl_logout;
     private TextView tv_feedback, tv_version_title, tv_version_no;
@@ -35,9 +42,6 @@ public class SettingActivity extends BaseActivity implements OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_setting);
-
-        AppManager.getInstance().addActivity(this); //添加Activity到堆栈
-        LogUtil.i(TAG, "onCreate");
 
         pushStatus = AppApplication.getPushStatus();
 
@@ -76,17 +80,8 @@ public class SettingActivity extends BaseActivity implements OnClickListener {
         iv_push_status.setOnClickListener(this);
     }
 
-    private void postLogouRequest() {
-        startAnimation();
-//		request(AppConfig.REQUEST_SV_POST_LOGOUT_CODE);
-    }
-
     @Override
     public void OnListenerLeft() {
-//		if (update_fragment && HomeFragmentActivity.instance != null) {
-//			update_fragment = false;
-//			HomeFragmentActivity.instance.startFragmen();
-//		}
         super.OnListenerLeft();
     }
 
@@ -125,7 +120,8 @@ public class SettingActivity extends BaseActivity implements OnClickListener {
                                         case AppConfig.DIALOG_CLICK_NO:
                                             break;
                                         case AppConfig.DIALOG_CLICK_OK:
-                                            postLogouRequest();
+                                            AppApplication.AppLogout(false);
+                                            //postSignOut();
                                             break;
                                     }
                                 }
@@ -147,6 +143,7 @@ public class SettingActivity extends BaseActivity implements OnClickListener {
         AppApplication.onPageStart(this, TAG);
 
         checkLogin();
+
         super.onResume();
     }
 
@@ -163,19 +160,45 @@ public class SettingActivity extends BaseActivity implements OnClickListener {
         LogUtil.i(TAG, "onPause");
         // 页面结束
         AppApplication.onPageEnd(this, TAG);
+
         super.onPause();
     }
 
     @Override
-    protected void onStop() {
-        LogUtil.i(TAG, "onStop");
-        super.onStop();
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+    private void postSignOut() {
+        startAnimation();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                HashMap<String, String> map = new HashMap<>();
+                loadSVData(AppConfig.URL_AUTH_LOGOUT, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_AUTH_LOGOUT);
+            }
+        }, AppConfig.LOADING_TIME);
     }
 
     @Override
-    protected void onDestroy() {
-        LogUtil.i(TAG, "onDestroy");
-        super.onDestroy();
+    protected void callbackData(JSONObject jsonObject, int dataType) {
+        BaseEntity baseEn;
+        try {
+            switch (dataType) {
+                case AppConfig.REQUEST_SV_AUTH_LOGOUT:
+                    baseEn = JsonLogin.getBaseErrorData(jsonObject);
+                    if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+                        AppApplication.AppLogout(false);
+                        finish();
+                    } else {
+                        showServerBusy(baseEn.getErrmsg());
+                    }
+                    break;
+            }
+        } catch (Exception e) {
+            loadFailHandle();
+            ExceptionUtil.handle(e);
+        }
     }
 
 }

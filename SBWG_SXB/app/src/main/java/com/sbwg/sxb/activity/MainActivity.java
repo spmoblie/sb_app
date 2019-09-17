@@ -33,7 +33,7 @@ import butterknife.ButterKnife;
 
 public class MainActivity extends FragmentActivity implements OnClickListener {
 
-	private static final String TAG = "MainActivity";
+	public static final String TAG = MainActivity.class.getSimpleName();
 
 	@BindView(R.id.main_fragment_fl_0)
 	FrameLayout fragment_0;
@@ -191,12 +191,15 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 		LogUtil.i(TAG, "onPause");
 		// 页面结束
 		AppApplication.onPageEnd(this, TAG);
+
 		super.onPause();
 	}
 
 	@Override
 	protected void onDestroy() {
 		LogUtil.i(TAG, "onDestroy");
+		AppManager.getInstance().finishActivity(this);
+
 		super.onDestroy();
 	}
 

@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.sbwg.sxb.AppApplication;
 import com.sbwg.sxb.AppConfig;
-import com.sbwg.sxb.AppManager;
 import com.sbwg.sxb.R;
 import com.sbwg.sxb.activity.BaseActivity;
 import com.sbwg.sxb.utils.CommonTools;
@@ -23,8 +22,8 @@ import butterknife.BindView;
 
 
 public class EditUserInfoActivity extends BaseActivity {
-	
-	private static final String TAG = "EditUserInfoActivity";
+
+	public static final String TAG = EditUserInfoActivity.class.getSimpleName();
 
 	@BindView(R.id.edit_info_et_content)
 	EditText et_content;
@@ -43,10 +42,7 @@ public class EditUserInfoActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_edit_info);
-		
-		AppManager.getInstance().addActivity(this); //添加Activity到堆栈
-		LogUtil.i(TAG, "onCreate");
-		
+
 		Intent intent = getIntent();
 		titleStr = intent.getExtras().getString("titleStr");
 		showStr = intent.getExtras().getString("showStr");
@@ -137,6 +133,7 @@ public class EditUserInfoActivity extends BaseActivity {
 		LogUtil.i(TAG, "onResume");
 		// 页面开始
 		AppApplication.onPageStart(this, TAG);
+
 		super.onResume();
 	}
 	
@@ -145,12 +142,12 @@ public class EditUserInfoActivity extends BaseActivity {
 		LogUtil.i(TAG, "onPause");
 		// 页面结束
 		AppApplication.onPageEnd(this, TAG);
+
 		super.onPause();
 	}
 
 	@Override
 	protected void onDestroy() {
-		LogUtil.i(TAG, "onDestroy");
 		super.onDestroy();
 	}
 	

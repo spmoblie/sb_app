@@ -7,7 +7,6 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import com.sbwg.sxb.AppApplication;
-import com.sbwg.sxb.AppManager;
 import com.sbwg.sxb.R;
 import com.sbwg.sxb.activity.BaseActivity;
 import com.sbwg.sxb.utils.CommonTools;
@@ -17,8 +16,8 @@ import butterknife.BindView;
 
 
 public class FeedBackActivity extends BaseActivity implements OnClickListener {
-	
-	private static final String TAG = "FeedBackActivity";
+
+	public static final String TAG = FeedBackActivity.class.getSimpleName();
 
 	@BindView(R.id.feed_back_et_content)
 	EditText et_feed_cotent;
@@ -32,10 +31,7 @@ public class FeedBackActivity extends BaseActivity implements OnClickListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_feed_back);
-		
-		AppManager.getInstance().addActivity(this); //添加Activity到堆栈
-		LogUtil.i(TAG, "onCreate");
-		
+
 		initView();
 	}
 
@@ -73,6 +69,7 @@ public class FeedBackActivity extends BaseActivity implements OnClickListener {
 		LogUtil.i(TAG, "onResume");
 		// 页面开始
 		AppApplication.onPageStart(this, TAG);
+
 		super.onResume();
 	}
 	
@@ -81,12 +78,12 @@ public class FeedBackActivity extends BaseActivity implements OnClickListener {
 		LogUtil.i(TAG, "onPause");
 		// 页面结束
 		AppApplication.onPageEnd(this, TAG);
+
 		super.onPause();
 	}
 
 	@Override
 	protected void onDestroy() {
-		LogUtil.i(TAG, "onDestroy");
 		super.onDestroy();
 	}
 	

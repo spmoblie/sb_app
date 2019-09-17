@@ -1,6 +1,7 @@
 package com.sbwg.sxb.activity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -16,6 +17,7 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.FrameLayout;
 
+import com.sbwg.sxb.activity.login.LoginActivity;
 import com.sbwg.sxb.dialog.LoadDialog;
 import com.sbwg.sxb.entity.BaseEntity;
 import com.sbwg.sxb.utils.CommonTools;
@@ -220,12 +222,21 @@ public class BaseFragment extends Fragment {
 	}
 
 	/**
-	 * 获取登录状态
+	 * 校验登录状态
 	 */
 	protected boolean isLogin() {
-		boolean isLogin = !UserManager.getInstance().checkIsLogin();
-		LogUtil.i("isLogin", isLogin);
-		return isLogin;
+		return UserManager.getInstance().checkIsLogin();
+	}
+
+	/**
+	 * 打开登录Activity
+	 * @param rootPage
+	 */
+	protected void openLoginActivity(String rootPage){
+		Intent intent = new Intent(getActivity(), LoginActivity.class);
+		intent.putExtra("rootPage", rootPage);
+		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		startActivity(intent);
 	}
 
 	/**
@@ -325,8 +336,8 @@ public class BaseFragment extends Fragment {
 						try {
 							callbackData(new JSONObject(body.string()), dataType);
 						} catch (Exception e) {
-							ExceptionUtil.handle(e);
 							loadFailHandle();
+							ExceptionUtil.handle(e);
 						}
 						LogUtil.i("Retrofit","onNext");
 					}

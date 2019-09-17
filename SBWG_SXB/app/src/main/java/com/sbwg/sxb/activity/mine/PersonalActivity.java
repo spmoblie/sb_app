@@ -21,7 +21,6 @@ import android.widget.TextView;
 
 import com.sbwg.sxb.AppApplication;
 import com.sbwg.sxb.AppConfig;
-import com.sbwg.sxb.AppManager;
 import com.sbwg.sxb.R;
 import com.sbwg.sxb.activity.BaseActivity;
 import com.sbwg.sxb.activity.common.ClipImageCircularActivity;
@@ -46,7 +45,7 @@ import java.util.Calendar;
 
 public class PersonalActivity extends BaseActivity implements OnClickListener {
 
-    private static final String TAG = "PersonalActivity";
+    public static final String TAG = PersonalActivity.class.getSimpleName();
 
     private RelativeLayout rl_head, rl_nick, rl_gender, rl_birthday, rl_area, rl_intro, rl_email, rl_phone;
     private RoundImageView iv_head;
@@ -64,9 +63,6 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_personal);
-
-        LogUtil.i(TAG, "onCreate");
-        AppManager.getInstance().addActivity(this); //添加Activity到堆栈
 
         infoEn = (UserInfoEntity) getIntent().getExtras().get("data");
         userManager = UserManager.getInstance();
@@ -359,7 +355,7 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
         Intent intent = new Intent(mContext, EditUserInfoActivity.class);
         intent.putExtra("titleStr", getString(R.string.mine_change_email));
         intent.putExtra("showStr", emailStr);
-        intent.putExtra("hintStr", getString(R.string.login_input_email));
+        intent.putExtra("hintStr", getString(R.string.login_email_input));
         intent.putExtra("reminderStr", getString(R.string.mine_change_email_notice));
         intent.putExtra("changeTypeKey", "email");
         startActivityForResult(intent, AppConfig.ACTIVITY_CHANGE_USER_EMAIL);
@@ -435,6 +431,7 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
             uploadImage();
             editor.putString(AppConfig.KEY_CLIP_HEAD_PATH, "").apply();
         }
+
         super.onResume();
     }
 
@@ -447,18 +444,12 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
         if (asyncImageUpload != null) {
             asyncImageUpload.clearInstance();
         }
+
         super.onPause();
     }
 
     @Override
-    protected void onStop() {
-        LogUtil.i(TAG, "onStop");
-        super.onStop();
-    }
-
-    @Override
     protected void onDestroy() {
-        LogUtil.i(TAG, "onDestroy");
         super.onDestroy();
     }
 

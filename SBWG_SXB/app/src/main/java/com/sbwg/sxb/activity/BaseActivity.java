@@ -1,6 +1,7 @@
 package com.sbwg.sxb.activity;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -30,13 +31,20 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 import com.sbwg.sxb.AppApplication;
 import com.sbwg.sxb.AppConfig;
 import com.sbwg.sxb.AppManager;
 import com.sbwg.sxb.R;
+import com.sbwg.sxb.activity.common.ClipImageCircularActivity;
+import com.sbwg.sxb.activity.common.ClipImageSquareActivity;
+import com.sbwg.sxb.activity.common.ClipPhotoGridActivity;
+import com.sbwg.sxb.activity.common.ClipPhotoOneActivity;
 import com.sbwg.sxb.activity.login.LoginActivity;
+import com.sbwg.sxb.activity.login.LoginPhoneActivity;
+import com.sbwg.sxb.activity.login.RegisterActivity;
 import com.sbwg.sxb.dialog.DialogManager;
 import com.sbwg.sxb.dialog.LoadDialog;
 import com.sbwg.sxb.entity.BaseEntity;
@@ -103,8 +111,7 @@ public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Res
 		// 创建动画
 		overridePendingTransition(R.anim.in_from_right, R.anim.anim_no_anim);
 
-		LogUtil.i(TAG, "onCreate()");
-		AppManager.getInstance().addActivity(this);
+		addActivity(this);
 
 		mContext = this;
 		shared = AppApplication.getSharedPreferences();
@@ -297,16 +304,51 @@ public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Res
 		ButterKnife.bind(this);
 	}
 
-	protected boolean isLogin() {
-		boolean isLogin = !UserManager.getInstance().checkIsLogin();
-		LogUtil.i("isLogin", isLogin);
-		return isLogin;
+	/**
+	 * 添加Activity到堆栈
+	 * @param activity
+	 */
+	protected void addActivity(Activity activity) {
+		if (activity != null) {
+			LogUtil.i(activity.getClass().getSimpleName(), "onCreate()");
+			AppManager.getInstance().addActivity(activity);
+		}
 	}
 
-	protected void openLoginActivity(){
-		openLoginActivity(TAG);
+	/**
+	 * 关闭指定的Activity
+	 * @param activity
+	 */
+	protected void finishActivity(Activity activity) {
+		if (activity != null) {
+			LogUtil.i(activity.getClass().getSimpleName(), "onDestroy()");
+			AppManager.getInstance().finishActivity(activity);
+		}
 	}
 
+	/**
+	 * 关闭相册相关Activity
+	 */
+	protected void closePhotoActivity() {
+		AppManager.getInstance().finishActivity(ClipPhotoGridActivity.class);
+		AppManager.getInstance().finishActivity(ClipPhotoOneActivity.class);
+		AppManager.getInstance().finishActivity(ClipImageSquareActivity.class);
+		AppManager.getInstance().finishActivity(ClipImageCircularActivity.class);
+	}
+
+	/**
+	 * 关闭登录相关Activity
+	 */
+	protected void closeLoginActivity() {
+		AppManager.getInstance().finishActivity(LoginActivity.class);
+		AppManager.getInstance().finishActivity(LoginPhoneActivity.class);
+		AppManager.getInstance().finishActivity(RegisterActivity.class);
+	}
+
+	/**
+	 * 打开登录Activity
+	 * @param rootPage
+	 */
 	protected void openLoginActivity(String rootPage){
 		Intent intent = new Intent(mContext, LoginActivity.class);
 		intent.putExtra("rootPage", rootPage);
@@ -404,7 +446,7 @@ public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Res
 
 	@Override
 	protected void onDestroy() {
-		LogUtil.i(TAG, "onDestroy()");
+		finishActivity(this);
 		super.onDestroy();
 	}
 
@@ -416,18 +458,29 @@ public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Res
 	}
 
 	/**
+	 * 校验登录状态
+	 */
+	protected boolean isLogin() {
+		return UserManager.getInstance().checkIsLogin();
+	}
+
+	/**
 	 * 登入超时对话框
 	 */
 	protected void showTimeOutDialog() {
-//		openLoginActivity(TAG);
+		openLoginActivity(TAG);
 	}
 
+	/**
+	 * 登入超时对话框
+	 * @param rootPage
+	 */
 	protected void showTimeOutDialog(final String rootPage) {
 		AppApplication.AppLogout(true);
 		showErrorDialog(getString(R.string.login_timeout), true, new Handler(){
 			@Override
 			public void handleMessage(Message msg) {
-//				openLoginActivity(rootPage);
+				openLoginActivity(rootPage);
 			}
 		});
 	}
@@ -442,8 +495,12 @@ public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Res
 	/**
 	 * 加载数据出错提示
 	 */
-	protected void showServerBusy() {
-		showErrorDialog(R.string.toast_server_busy);
+	protected void showServerBusy(String showStr) {
+		if (StringUtil.isNull(showStr)) {
+			showStr = getString(R.string.toast_server_busy);
+		}
+		//showErrorDialog(showStr);
+		CommonTools.showToast(showStr, Toast.LENGTH_LONG);
 	}
 
 	/**
@@ -742,8 +799,8 @@ public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Res
 						try {
 							callbackData(new JSONObject(body.string()), dataType);
 						} catch (Exception e) {
-							ExceptionUtil.handle(e);
 							loadFailHandle();
+							ExceptionUtil.handle(e);
 						}
 						LogUtil.i("Retrofit","onNext");
 					}

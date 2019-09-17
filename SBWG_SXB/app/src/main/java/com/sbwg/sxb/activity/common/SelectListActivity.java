@@ -7,7 +7,6 @@ import android.widget.ListView;
 
 import com.sbwg.sxb.AppApplication;
 import com.sbwg.sxb.AppConfig;
-import com.sbwg.sxb.AppManager;
 import com.sbwg.sxb.R;
 import com.sbwg.sxb.activity.BaseActivity;
 import com.sbwg.sxb.adapter.AdapterCallback;
@@ -22,11 +21,12 @@ import java.util.List;
  * 选择列表Activity
  */
 public class SelectListActivity extends BaseActivity {
-	
-	private static final String TAG = "SelectListActivity";
-	private int dataType = SelectListAdapter.DATA_TYPE_2;
+
+	public static final String TAG = SelectListActivity.class.getSimpleName();
+
 	private boolean isChange = false;
-	
+	private int dataType = SelectListAdapter.DATA_TYPE_2;
+
 	private ListView lv;
 	private AdapterCallback lv_Callback;
 	private SelectListAdapter lv_Adapter;
@@ -38,10 +38,7 @@ public class SelectListActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_select_list);
-		
-		AppManager.getInstance().addActivity(this); //添加Activity到堆栈
-		LogUtil.i(TAG, "onCreate");
-		
+
 		data = (SelectListEntity) getIntent().getExtras().get("data");
 		dataType = getIntent().getExtras().getInt("dataType", SelectListAdapter.DATA_TYPE_2);
 		
@@ -117,6 +114,7 @@ public class SelectListActivity extends BaseActivity {
 		LogUtil.i(TAG, "onResume");
 		// 页面开始
 		AppApplication.onPageStart(this, TAG);
+
 		super.onResume();
 	}
 	
@@ -125,12 +123,12 @@ public class SelectListActivity extends BaseActivity {
 		LogUtil.i(TAG, "onPause");
 		// 页面结束
 		AppApplication.onPageEnd(this, TAG);
+
 		super.onPause();
 	}
 
 	@Override
 	protected void onDestroy() {
-		LogUtil.i(TAG, "onDestroy");
 		super.onDestroy();
 	}
 	

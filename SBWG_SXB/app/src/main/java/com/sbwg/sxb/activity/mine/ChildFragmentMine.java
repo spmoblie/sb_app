@@ -181,6 +181,7 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
 		iv_setting.setOnClickListener(this);
 		iv_feedback.setOnClickListener(this);
 		iv_user_head.setOnClickListener(this);
+		tv_user_name.setOnClickListener(this);
 
 		initShowView(designEn);
 		initItemsView(itemsEn);
@@ -251,10 +252,12 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
 			}
 			tv_user_name.setText(infoEn.getUserNick());
 			tv_user_id.setText(getString(R.string.mine_text_user_id, infoEn.getUserId()));
+			tv_user_id.setVisibility(View.VISIBLE);
 		} else {
 			iv_user_head.setImageResource(R.drawable.icon_default_head);
-			tv_user_name.setText("用户昵称");
+			tv_user_name.setText("点击登录");
 			tv_user_id.setText(getString(R.string.mine_text_user_id, "000000"));
+			tv_user_id.setVisibility(View.GONE);
 		}
 	}
 
@@ -275,7 +278,7 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
 	private void getUserInfoData() {
 		UserManager um = UserManager.getInstance();
 		infoEn = new UserInfoEntity();
-		infoEn.setUserId("968618");
+		infoEn.setUserId(um.getUserId());
 		infoEn.setUserHead(um.getUserHead());
 		infoEn.setUserNick(um.getUserNick());
 		infoEn.setGenderCode(um.getUserGender());
@@ -298,10 +301,11 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
 				startActivity(intent);
 				break;
 			case R.id.fg_mine_iv_head:
+			case R.id.fg_mine_tv_used_name:
 				if (isLogin()) {
 					openPersonalActivity();
 				} else {
-
+					openLoginActivity(TAG);
 				}
 				break;
 		}

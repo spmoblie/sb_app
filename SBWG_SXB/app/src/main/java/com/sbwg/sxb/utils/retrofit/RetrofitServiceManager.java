@@ -8,6 +8,7 @@ import com.sbwg.sxb.AppConfig;
 import com.sbwg.sxb.utils.ExceptionUtil;
 import com.sbwg.sxb.utils.LogUtil;
 import com.sbwg.sxb.utils.NetworkUtil;
+import com.sbwg.sxb.utils.UserManager;
 
 import java.io.File;
 import java.io.IOException;
@@ -51,11 +52,9 @@ public class RetrofitServiceManager {
 
     private RetrofitServiceManager(){
         //添加公共参数拦截器
-        /*HttpCommonInterceptor commonInterceptor = new HttpCommonInterceptor.Builder()
-                .addHeaderParams("paltform","android")
-                .addHeaderParams("userToken","1234343434dfdfd3434")
-                .addHeaderParams("userId","123445")
-                .build();*/
+        HttpCommonInterceptor commonInterceptor = new HttpCommonInterceptor.Builder()
+                .addHeaderParams("X-APP-Token", UserManager.getInstance().getXAppToken())
+                .build();
         // 指定缓存路径,缓存大小100Mb
         Cache cache = new Cache(new File(AppApplication.getInstance().getApplicationContext().getCacheDir(),
                 "HttpCache"), 1024 * 1024 * 100);
@@ -63,7 +62,7 @@ public class RetrofitServiceManager {
         OkHttpClient.Builder builder = new OkHttpClient.Builder()
                 .cache(cache)
                 .retryOnConnectionFailure(true)
-                //.addInterceptor(commonInterceptor)
+                .addInterceptor(commonInterceptor)
                 .addInterceptor(sLoggingInterceptor)
                 .addInterceptor(sRewriteCacheControlInterceptor)
                 .addNetworkInterceptor(sRewriteCacheControlInterceptor)

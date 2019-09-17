@@ -13,10 +13,8 @@ import android.widget.TextView;
 
 import com.sbwg.sxb.AppApplication;
 import com.sbwg.sxb.AppConfig;
-import com.sbwg.sxb.AppManager;
 import com.sbwg.sxb.R;
 import com.sbwg.sxb.activity.BaseActivity;
-import com.sbwg.sxb.utils.JsonLogin;
 import com.sbwg.sxb.entity.QQEntity;
 import com.sbwg.sxb.entity.QQUserInfoEntity;
 import com.sbwg.sxb.entity.UserInfoEntity;
@@ -24,6 +22,7 @@ import com.sbwg.sxb.entity.WXEntity;
 import com.sbwg.sxb.entity.WXUserInfoEntity;
 import com.sbwg.sxb.utils.CommonTools;
 import com.sbwg.sxb.utils.ExceptionUtil;
+import com.sbwg.sxb.utils.JsonLogin;
 import com.sbwg.sxb.utils.LogUtil;
 import com.sbwg.sxb.utils.StringUtil;
 import com.sbwg.sxb.utils.UserManager;
@@ -49,8 +48,7 @@ import butterknife.BindView;
 
 public class LoginActivity extends BaseActivity implements OnClickListener {
 
-    public static final String TAG = "LoginActivity";
-    public static LoginActivity instance = null;
+    public static final String TAG = LoginActivity.class.getSimpleName();
 
     public static final String LOGIN_TYPE_WX = "wechat_app";
     public static final String LOGIN_TYPE_QQ = "qq";
@@ -109,10 +107,6 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
         // 创建动画
         //overridePendingTransition(R.anim.center_enlarge, R.anim.anim_no_anim);
 
-        LogUtil.i(TAG, "onCreate");
-        AppManager.getInstance().addActivity(this); //添加Activity到堆栈
-
-        instance = this;
         rootPage = getIntent().getExtras().getString("rootPage");
         um = UserManager.getInstance();
 
@@ -563,11 +557,6 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
     		LogUtil.i(TAG, "start ChildFragmentFive");
     		editor.putInt(AppConfig.KEY_HOME_CURRENT_INDEX, 4).commit();
     		startActivity(new Intent(this, HomeFragmentActivity.class));
-		}
-    	else {
-			if (CartActivity.instance != null) {
-				CartActivity.instance.finish();
-			}
 		}*/
         super.OnListenerLeft();
     }
@@ -597,6 +586,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
         LogUtil.i(TAG, "onResume");
         // 页面开始
         AppApplication.onPageStart(this, TAG);
+
         super.onResume();
     }
 
@@ -605,21 +595,22 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
         LogUtil.i(TAG, "onPause");
         // 页面结束
         AppApplication.onPageEnd(this, TAG);
+
         super.onPause();
     }
 
     @Override
     protected void onDestroy() {
-        LogUtil.i(TAG, "onDestroy");
         isStop = true;
-        instance = null;
+
         super.onDestroy();
     }
 
     @Override
     public void finish() {
-        super.finish();
         // 销毁动画
         //overridePendingTransition(R.anim.anim_no_anim, R.anim.center_narrow);
+
+        super.finish();
     }
 }

@@ -14,16 +14,27 @@ import java.util.List;
 public class JsonUtils {
 
     /**
+     * 解析通用数据
+     */
+    private static BaseEntity getCommonKeyValue(JSONObject jsonObj) throws JSONException {
+        BaseEntity baseEn = new BaseEntity();
+        if (jsonObj.has("errno")) {
+            baseEn.setErrno(jsonObj.getInt("errno"));
+        }
+        if (jsonObj.has("errmsg")) {
+            baseEn.setErrmsg(jsonObj.getString("errmsg"));
+        }
+        return baseEn;
+    }
+
+    /**
      * 解析返回的状态码
      * @param jsonObject
      * @return
      * @throws JSONException
      */
     public static BaseEntity getBaseErrorData(JSONObject jsonObject) throws JSONException {
-        if (jsonObject == null) return null;
-        BaseEntity mainEn = new BaseEntity();
-        getCommonKeyValue(mainEn, jsonObject);
-        return mainEn;
+        return getCommonKeyValue(jsonObject);
     }
 
     /**
@@ -33,9 +44,7 @@ public class JsonUtils {
      * @throws JSONException
      */
     public static BaseEntity getHomeHead(JSONObject jsonObject) throws JSONException {
-        if (jsonObject == null) return null;
-        BaseEntity mainEn = new BaseEntity();
-        getCommonKeyValue(mainEn, jsonObject);
+        BaseEntity mainEn = getCommonKeyValue(jsonObject);
 
         JSONObject jsonData = jsonObject.getJSONObject("data");
         if (StringUtil.notNull(jsonData, "banner")) {
@@ -63,9 +72,7 @@ public class JsonUtils {
      * @throws JSONException
      */
     public static BaseEntity getHomeList(JSONObject jsonObject) throws JSONException {
-        if (jsonObject == null) return null;
-        BaseEntity mainEn = new BaseEntity();
-        getCommonKeyValue(mainEn, jsonObject);
+        BaseEntity mainEn = getCommonKeyValue(jsonObject);
 
         JSONObject jsonData = jsonObject.getJSONObject("data");
         if (StringUtil.notNull(jsonData, "total")) {
@@ -87,8 +94,8 @@ public class JsonUtils {
                 childEn.setUserHead(item.getString("avatar"));
                 childEn.setSynopsis(item.getString("synopsis"));
                 childEn.setDescription(item.getString("description"));
-                childEn.setStartTime(analysisTimeString(item.getString("startTime")));
-                childEn.setEndTime(analysisTimeString(item.getString("endTime")));
+                childEn.setStartTime(item.getString("startTime"));
+                childEn.setEndTime(item.getString("endTime"));
                 childEn.setQuantity(item.getInt("quantity"));
                 childEn.setPeople(item.getInt("people"));
                 childEn.setStatus(item.getInt("status"));
@@ -98,38 +105,6 @@ public class JsonUtils {
             mainEn.setLists(lists);
         }
         return mainEn;
-    }
-
-    /**
-     * 解析通用数据
-     * @param baseEn
-     * @param jsonObj
-     * @throws JSONException
-     */
-    private static void getCommonKeyValue(BaseEntity baseEn, JSONObject jsonObj) throws JSONException {
-        if (jsonObj.has("errno")) {
-            baseEn.setErrno(jsonObj.getInt("errno"));
-        }
-        if (jsonObj.has("errmsg")) {
-            baseEn.setErrmsg(jsonObj.getString("errmsg"));
-        }
-    }
-
-    /**
-     * 解析时间戳格式数据
-     * @param timeStr 2019-09-09T09:09:09.000+0000
-     * @return 2019-09-09 09:09:09
-     */
-    private static String analysisTimeString(String timeStr) {
-        String time_1;
-        String time_2;
-        if (timeStr.contains("T") && timeStr.contains(".")) {
-            time_1 = timeStr.substring(0, timeStr.indexOf("T"));
-            time_2 = timeStr.substring(timeStr.indexOf("T") + 1, timeStr.indexOf("."));
-        } else {
-            return timeStr;
-        }
-        return time_1 + " " + time_2;
     }
 
 }

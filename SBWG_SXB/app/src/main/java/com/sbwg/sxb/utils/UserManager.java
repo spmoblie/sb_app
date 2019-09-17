@@ -8,6 +8,7 @@ import com.sbwg.sxb.AppApplication;
 import com.sbwg.sxb.AppConfig;
 import com.sbwg.sxb.entity.UserInfoEntity;
 import com.sbwg.sxb.entity.WXEntity;
+import com.sbwg.sxb.widgets.share.weibo.AccessTokenKeeper;
 
 
 public class UserManager {
@@ -28,6 +29,9 @@ public class UserManager {
 	private String mUserEmail = null;
 	private String mUserPhone = null;
 	private String mUserMoney = null;
+
+	private String xAppToken = null;
+	private String xAppTokenExpire = null;
 
 	private String wxAccessToken = null;
 	private String wxOpenId = null;
@@ -209,6 +213,19 @@ public class UserManager {
 		mUserMoney = userMoney;
 	}
 
+	public String getXAppToken(){
+		if(StringUtil.isNull(xAppToken)){
+			//xAppToken = sp.getString(AppConfig.KEY_X_APP_TOKEN, null);
+			xAppToken = "dtcb6bor0v0aq73cbebtvj063mkym5kw";
+		}
+		return xAppToken;
+	}
+
+	public void saveXAppToken(String app_token){
+		editor.putString(AppConfig.KEY_X_APP_TOKEN, app_token).apply();
+		xAppToken = app_token;
+	}
+
 	public String getWXAccessToken(){
 		if(StringUtil.isNull(wxAccessToken)){
 			wxAccessToken = sp.getString(AppConfig.KEY_WX_ACCESS_TOKEN, null);
@@ -291,22 +308,18 @@ public class UserManager {
 	 * 判定是否登录
 	 */
 	public boolean checkIsLogin(){
-		return !StringUtil.isNull(getUserId()) && !getUserId().equals("0");
+		return !StringUtil.isNull(getXAppToken())
+			&& !StringUtil.isNull(getUserId())
+			&& !getUserId().equals("0");
 	}
 
 	/**
 	 * 登入成功保存状态
 	 */
-	public void saveUserLoginSuccess(String userId){
+	public void saveUserLoginSuccess(String userId, String token){
 		saveUserId(userId);
+		saveXAppToken(token);
 		changeAllDataStatus();
-	}
-
-	/**
-	 * 刷新所有登录状态下的数据
-	 */
-	private void changeAllDataStatus() {
-
 	}
 
 	/**
@@ -318,11 +331,37 @@ public class UserManager {
 		// 清空微信授权信息
 		clearWechatUserInfo();
 		// 清空微博授权信息
-//		AccessTokenKeeper.clear(ctx);
+		AccessTokenKeeper.clear(ctx);
 		// 清空缓存的用户信息
 		clearUserLoginInfo();
 		// 刷新所有登录状态下的数据
 		changeAllDataStatus();
+	}
+
+	/**
+	 * 刷新所有登录状态下的数据
+	 */
+	private void changeAllDataStatus() {
+
+	}
+
+	/**
+	 * 清空用户信息
+	 */
+	private void clearUserLoginInfo(){
+		saveUserId(null);
+		saveShareId(null);
+		saveUserName(null);
+		saveUserPhone(null);
+		saveUserEmail(null);
+		saveUserNick(null);
+		saveUserHead(null);
+		saveUserIntro(null);
+		saveUserGender(0);
+		saveUserBirthday(null);
+		saveUserArea(null);
+		saveUserMoney("0.00");
+		saveXAppToken(null);
 	}
 
 	/**
@@ -341,6 +380,7 @@ public class UserManager {
 			saveUserGender(infoEn.getGenderCode());
 			saveUserBirthday(infoEn.getBirthday());
 			saveUserArea(infoEn.getUserArea());
+			saveXAppToken(infoEn.getAppToken());
 			if (StringUtil.isNull(infoEn.getMoney())) {
 				saveUserMoney("0.00");
 			} else {
@@ -349,24 +389,6 @@ public class UserManager {
 			// 绑定用户信息至推送服务
 			AppApplication.onPushRegister(true);
 		}
-	}
-
-	/**
-	 * 清空缓存的用户信息
-	 */
-	private void clearUserLoginInfo(){
-		saveUserId(null);
-		saveShareId(null);
-		saveUserName(null);
-		saveUserPhone(null);
-		saveUserEmail(null);
-		saveUserNick(null);
-		saveUserHead(null);
-		saveUserIntro(null);
-		saveUserGender(0);
-		saveUserBirthday(null);
-		saveUserArea(null);
-		saveUserMoney("0.00");
 	}
 
 	/**

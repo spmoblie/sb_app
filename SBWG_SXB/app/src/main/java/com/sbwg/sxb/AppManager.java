@@ -5,11 +5,12 @@ import android.content.Context;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 
-
 import com.sbwg.sxb.utils.CleanDataManager;
 import com.sbwg.sxb.utils.ExceptionUtil;
 import com.sbwg.sxb.utils.UserManager;
 
+import java.lang.ref.WeakReference;
+import java.util.Iterator;
 import java.util.Stack;
 
 /**
@@ -17,11 +18,11 @@ import java.util.Stack;
  */
 public class AppManager {
 	
-	private static Stack<Activity> mActivityStack;
+	private static Stack<WeakReference<Activity>> mActivityStack;
 	private static AppManager mAppManager;
 
 	private AppManager() {
-		
+
 	}
 
 	/**
@@ -29,7 +30,11 @@ public class AppManager {
 	 */
 	public static AppManager getInstance() {
 		if (mAppManager == null) {
-			mAppManager = new AppManager();
+			synchronized (AppManager.class) {
+				if (mAppManager == null) {
+					mAppManager = new AppManager();
+				}
+			}
 		}
 		return mAppManager;
 	}
@@ -39,42 +44,88 @@ public class AppManager {
 	 */
 	public void addActivity(Activity activity) {
 		if (mActivityStack == null) {
-			mActivityStack = new Stack<Activity>();
+			mActivityStack = new Stack<>();
 		}
-		mActivityStack.add(activity);
+		mActivityStack.add(new WeakReference<>(activity));
 	}
 
 	/**
-	 * 获取栈顶Activity（堆栈中最后一个压入的）
+	 * 检查弱引用是否释放，若释放，则从栈中清理掉该元素
+	 */
+	public void checkWeakReference() {
+		if (mActivityStack != null) {
+			// 使用迭代器进行安全删除
+			for (Iterator<WeakReference<Activity>> it = mActivityStack.iterator(); it.hasNext(); ) {
+				WeakReference<Activity> activityReference = it.next();
+				Activity temp = activityReference.get();
+				if (temp == null) {
+					it.remove();
+				}
+			}
+		}
+	}
+
+	/**
+	 * 获取当前Activity（栈中最后一个压入的）
 	 */
 	public Activity getTopActivity() {
-		return mActivityStack.lastElement();
+		checkWeakReference();
+		if (mActivityStack != null && !mActivityStack.isEmpty()) {
+			return mActivityStack.lastElement().get();
+		}
+		return null;
 	}
-
 	/**
-	 * 结束栈顶Activity（堆栈中最后一个压入的）
+	 * 关闭当前Activity（栈中最后一个压入的）
 	 */
-	public void killTopActivity() {
-		killActivity(mActivityStack.lastElement());
-	}
-
-	/**
-	 * 结束指定的Activity
-	 */
-	public void killActivity(Activity activity) {
+	public void closeTopActivity() {
+		Activity activity = getTopActivity();
 		if (activity != null) {
-			mActivityStack.remove(activity);
+			finishActivity(activity);
+		}
+	}
+
+	/**
+	 * 关闭指定的Activity
+	 * @param activity
+	 */
+	public void finishActivity(Activity activity) {
+		if (activity != null && mActivityStack != null) {
+			// 使用迭代器进行安全删除
+			for (Iterator<WeakReference<Activity>> it = mActivityStack.iterator(); it.hasNext(); ) {
+				WeakReference<Activity> activityReference = it.next();
+				Activity temp = activityReference.get();
+				// 清理掉已经释放的activity
+				if (temp == null) {
+					it.remove();
+					continue;
+				}
+				if (temp == activity) {
+					it.remove();
+				}
+			}
 			activity.finish();
 		}
 	}
 
 	/**
-	 * 结束指定类名的Activity
+	 * 关闭指定类名的所有Activity
 	 */
-	public void killActivity(Class<?> cls) {
-		for (Activity activity : mActivityStack) {
-			if (activity.getClass().equals(cls)) {
-				killActivity(activity);
+	public void finishActivity(Class<?> cls) {
+		if (mActivityStack != null) {
+			// 使用迭代器进行安全删除
+			for (Iterator<WeakReference<Activity>> it = mActivityStack.iterator(); it.hasNext(); ) {
+				WeakReference<Activity> activityReference = it.next();
+				Activity activity = activityReference.get();
+				// 清理掉已经释放的activity
+				if (activity == null) {
+					it.remove();
+					continue;
+				}
+				if (activity.getClass().equals(cls)) {
+					it.remove();
+					activity.finish();
+				}
 			}
 		}
 	}
@@ -82,13 +133,16 @@ public class AppManager {
 	/**
 	 * 结束所有Activity
 	 */
-	public void killAllActivity() {
-		for (int i = 0, size = mActivityStack.size(); i < size; i++) {
-			if (null != mActivityStack.get(i)) {
-				mActivityStack.get(i).finish();
+	public void finishAllActivity() {
+		if (mActivityStack != null) {
+			for (WeakReference<Activity> activityReference : mActivityStack) {
+				Activity activity = activityReference.get();
+				if (activity != null) {
+					activity.finish();
+				}
 			}
+			mActivityStack.clear();
 		}
-		mActivityStack.clear();
 	}
 
 	/**
@@ -96,12 +150,14 @@ public class AppManager {
 	 */
 	public void AppExit(Context context) {
 		try {
-			//清除临时缓存
+			// 清除临时缓存
 			CleanDataManager.cleanAppTemporaryData(context);
-			killAllActivity();
-//			ActivityManager activityMgr = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
-//			activityMgr.restartPackage(context.getPackageName());
+			// 关闭所有Activity
+			finishAllActivity();
+			// 退出JVM,释放所占内存资源,0表示正常退出
 			System.exit(0);
+			// 从系统中kill掉应用程序
+			android.os.Process.killProcess(android.os.Process.myPid());
 		} catch (Exception e) {
 			ExceptionUtil.handle(e);
 		}
@@ -110,9 +166,9 @@ public class AppManager {
 	/**
 	 * App注销登录
 	 */
-	public void AppLogout(final Context ctx) {
-		UserManager.getInstance().clearUserLoginInfo(ctx);
+	public void AppLogout(Context ctx) {
 		clearAllCookie(ctx);
+		UserManager.getInstance().clearUserLoginInfo(ctx);
 	}
 	
 	/**
@@ -124,4 +180,5 @@ public class AppManager {
 		CookieSyncManager.getInstance().startSync(); 
         CookieManager.getInstance().removeAllCookie();
 	}
+
 }

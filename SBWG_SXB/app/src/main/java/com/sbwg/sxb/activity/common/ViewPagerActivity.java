@@ -3,6 +3,8 @@ package com.sbwg.sxb.activity.common;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.util.ArrayMap;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -16,11 +18,13 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.sbwg.sxb.AppApplication;
+import com.sbwg.sxb.AppConfig;
 import com.sbwg.sxb.R;
 import com.sbwg.sxb.activity.BaseActivity;
 import com.sbwg.sxb.utils.BitmapUtil;
 import com.sbwg.sxb.utils.CommonTools;
 import com.sbwg.sxb.utils.ExceptionUtil;
+import com.sbwg.sxb.utils.LogUtil;
 import com.sbwg.sxb.widgets.DragImageView;
 import com.sbwg.sxb.widgets.IViewPager;
 
@@ -32,11 +36,11 @@ import java.util.ArrayList;
  */
 public class ViewPagerActivity extends BaseActivity {
 
+	public static final String TAG = ViewPagerActivity.class.getSimpleName();
+
 	public static final String EXTRA_IMAGE_INDEX = "image_index";
 	public static final String EXTRA_IMAGE_URLS = "image_urls";
-	public static final String HASHMAP_KEY_IMG = "img";
-	public static final String HASHMAP_KEY_BAR = "bar";
-	public static final String HASHMAP_KEY_BTM = "btm";
+	public static final String HASH_MAP_KEY_BTM = "btm";
 	
 	private ArrayList<String> urlLists;
 	private ArrayList<View> viewLists = new ArrayList<View>();
@@ -73,35 +77,19 @@ public class ViewPagerActivity extends BaseActivity {
 	private void initViewPager() {
 		setHeadVisibility(View.GONE);
 		if (urlLists == null) {
-//			showErrorDialog(null, false, new Handler() {
-//				@Override
-//				public void handleMessage(Message msg) {
-//					switch (msg.what) {
-//						case DIALOG_CONFIRM_CLICK:
-//							finish();
-//							break;
-//					}
-//				}
-//			});
+			showErrorDialog(null, false, new Handler() {
+				@Override
+				public void handleMessage(Message msg) {
+					switch (msg.what) {
+						case AppConfig.DIALOG_CLICK_OK:
+							finish();
+							break;
+					}
+				}
+			});
 			return;
 		}
 		setPageNum(urlLists.size());
-		// 创建网络图片加载器
-//		asyncImageLoader = AsyncImageLoader.getInstance(new AsyncImageLoaderCallback() {
-//
-//			@Override
-//			public void imageLoaded(String path, String cachePath, Bitmap bm) {
-//				DragImageView imgView = am_img.get(HASHMAP_KEY_IMG + path);
-//				if (imgView != null && bm != null) {
-//					am_btm.put(HASHMAP_KEY_BTM + path, bm); //记录图片
-//					imgView.setImageBitmap(bm);
-//				}
-//				ProgressBar progress = am_bar.get(HASHMAP_KEY_BAR + path);
-//				if (progress != null) {
-//					progress.setVisibility(View.GONE);
-//				}
-//			}
-//		});
 		// 设置布局参数
 		FrameLayout.LayoutParams lp_w = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 		lp_w.gravity = Gravity.CENTER;
@@ -129,21 +117,11 @@ public class ViewPagerActivity extends BaseActivity {
 				Bitmap bm = BitmapFactory.decodeStream(getAssets().open(imgUrl));
 				if (bm != null) {
                     imageView.setImageBitmap(bm);
-                    am_btm.put(HASHMAP_KEY_BTM + imgUrl, bm); //记录图片
+                    am_btm.put(HASH_MAP_KEY_BTM + imgUrl, bm); //记录图片
                 }
 			} catch (Exception e) {
 				ExceptionUtil.handle(e);
 			}
-//			ImageLoadTask task = asyncImageLoader.loadImage(imgUrl, 0);
-//			if (task != null && task.getBitmap() != null) {
-//				imageView.setImageBitmap(task.getBitmap());
-//				am_btm.put(HASHMAP_KEY_BTM + imgUrl, task.getBitmap()); //记录图片
-//			}else {
-//				imageView.setImageResource(R.drawable.bg_img_white);
-//				progress.setVisibility(View.VISIBLE);
-//				am_bar.put(HASHMAP_KEY_BAR + imgUrl, progress); //记录加载动画
-//				am_img.put(HASHMAP_KEY_IMG + imgUrl, imageView); //记录View
-//			}
 			imageView.setImgOnMoveListener(new DragImageView.ImgOnMoveListener() {
 				@Override
 				public void onMove(boolean isToLeft, boolean isChange) {
@@ -233,10 +211,10 @@ public class ViewPagerActivity extends BaseActivity {
 			
 			@Override
 			public void onClick(View v) {
-				Bitmap bm = am_btm.get(HASHMAP_KEY_BTM + urlLists.get(mCurrentItem));
+				Bitmap bm = am_btm.get(HASH_MAP_KEY_BTM + urlLists.get(mCurrentItem));
 				File file = BitmapUtil.createPath(BitmapUtil.filterPath(urlLists.get(mCurrentItem)), true);
 				if (file == null) {
-//	            	showErrorDialog(R.string.photo_show_save_fail);
+	            	showErrorDialog(R.string.photo_show_save_fail);
 	    			return;
 				}
 				AppApplication.saveBitmapFile(bm, file, 100);
@@ -261,20 +239,20 @@ public class ViewPagerActivity extends BaseActivity {
 
 	@Override
 	protected void onResume() {
+		LogUtil.i(TAG, "onResume");
 		// 页面开始
 		AppApplication.onPageStart(this, TAG);
+
 		super.onResume();
 	}
 
 	@Override
 	protected void onPause() {
-		super.onPause();
+		LogUtil.i(TAG, "onPause");
 		// 页面结束
 		AppApplication.onPageEnd(this, TAG);
-		// 销毁对象
-//        if (asyncImageLoader != null) {
-//        	asyncImageLoader.clearInstance();
-//		}
+
+		super.onPause();
 	}
 
 	@Override
@@ -282,6 +260,7 @@ public class ViewPagerActivity extends BaseActivity {
 		am_img.clear();
 		am_bar.clear();
 		am_btm.clear();
+
 		super.onDestroy();
 	}
 

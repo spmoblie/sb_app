@@ -9,7 +9,6 @@ import android.support.v4.util.ArrayMap;
 
 import com.sbwg.sxb.AppApplication;
 import com.sbwg.sxb.AppConfig;
-import com.sbwg.sxb.AppManager;
 import com.sbwg.sxb.R;
 import com.sbwg.sxb.activity.BaseActivity;
 import com.sbwg.sxb.utils.ExceptionUtil;
@@ -33,8 +32,8 @@ import javax.xml.parsers.SAXParserFactory;
 
 
 public class SelectAreaActivity extends BaseActivity {
-	
-	private static final String TAG = "SelectAreaActivity";
+
+	public static final String TAG = SelectAreaActivity.class.getSimpleName();
 
 	private String areaName;
 	private List<AreaEntity> areaList = new ArrayList<>();
@@ -44,9 +43,6 @@ public class SelectAreaActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_select_area);
-
-		LogUtil.i(TAG, "onCreate");
-		AppManager.getInstance().addActivity(this); //添加Activity到堆栈
 
 		initData();
 		initView();
@@ -129,6 +125,7 @@ public class SelectAreaActivity extends BaseActivity {
 		LogUtil.i(TAG, "onResume");
 		// 页面开始
 		AppApplication.onPageStart(this, TAG);
+
 		super.onResume();
 	}
 	
@@ -137,12 +134,12 @@ public class SelectAreaActivity extends BaseActivity {
 		LogUtil.i(TAG, "onPause");
 		// 页面结束
 		AppApplication.onPageEnd(this, TAG);
+
 		super.onPause();
 	}
 
 	@Override
 	protected void onDestroy() {
-		LogUtil.i(TAG, "onDestroy");
 		super.onDestroy();
 	}
 

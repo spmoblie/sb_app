@@ -6,7 +6,6 @@ import android.os.Bundle;
 
 import com.sbwg.sxb.AppApplication;
 import com.sbwg.sxb.AppConfig;
-import com.sbwg.sxb.AppManager;
 import com.sbwg.sxb.R;
 import com.sbwg.sxb.activity.BaseActivity;
 import com.sbwg.sxb.utils.BitmapUtil;
@@ -18,9 +17,9 @@ import java.io.File;
 
 
 public class ClipImageCircularActivity extends BaseActivity {
-	
-	public static ClipImageCircularActivity instance;
-	
+
+	public static final String TAG = ClipImageCircularActivity.class.getSimpleName();
+
 	private String photoPath;
 	private ClipImageView imageView;
 
@@ -29,10 +28,6 @@ public class ClipImageCircularActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_clip_image_circular);
 
-		LogUtil.i(TAG, "onCreate");
-		AppManager.getInstance().addActivity(this);// 添加Activity到堆栈
-
-		instance = this;
 		photoPath = getIntent().getExtras().getString(AppConfig.ACTIVITY_CLIP_PHOTO_PATH);
 		
 		findViewById();
@@ -72,13 +67,7 @@ public class ClipImageCircularActivity extends BaseActivity {
 		}else {
 			CommonTools.showToast(getString(R.string.photo_clip_error));
 		}
-		if (ClipPhotoGridActivity.instance != null) {
-			ClipPhotoGridActivity.instance.finish();
-		}
-		if (ClipPhotoOneActivity.instance != null) {
-			ClipPhotoOneActivity.instance.finish();
-		}
-		finish();
+		closePhotoActivity();
 	}
 
 	@Override
@@ -86,12 +75,21 @@ public class ClipImageCircularActivity extends BaseActivity {
 		LogUtil.i(TAG, "onResume");
 		// 页面开始
 		AppApplication.onPageStart(this, TAG);
+
 		super.onResume();
+	}
+
+	@Override
+	protected void onPause() {
+		LogUtil.i(TAG, "onPause");
+		// 页面结束
+		AppApplication.onPageEnd(this, TAG);
+
+		super.onPause();
 	}
 
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		instance = null;
 	}
 }

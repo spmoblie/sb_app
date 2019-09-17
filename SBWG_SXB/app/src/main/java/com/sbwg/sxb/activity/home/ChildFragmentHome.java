@@ -41,7 +41,6 @@ import com.sbwg.sxb.utils.retrofit.HttpRequests;
 import com.sbwg.sxb.widgets.pullrefresh.PullToRefreshBase;
 import com.sbwg.sxb.widgets.pullrefresh.PullToRefreshListView;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -490,52 +489,39 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
             switch (dataType) {
                 case AppConfig.REQUEST_SV_POST_HOME_HEAD:
                     baseEn = JsonUtils.getHomeHead(jsonObject);
-                    if (baseEn != null) {
-                        headEn = new ThemeEntity();
-                        headEn.setHeadLists(baseEn.getLists());
-                        if (al_show.size() > 0) {
-                            initHeadView();
-                            isUpdateHead = false;
-                        }
-                        FileManager.writeFileSaveObject(AppConfig.homeHeadFileName, headEn, true);
-                    } else {
-                        //加载失败
-                        loadFailHandle();
-                        LogUtil.i("Retrofit", TAG + " Head数据加载失败");
+                    headEn = new ThemeEntity();
+                    headEn.setHeadLists(baseEn.getLists());
+                    if (al_show.size() > 0) {
+                        initHeadView();
+                        isUpdateHead = false;
                     }
+                    FileManager.writeFileSaveObject(AppConfig.homeHeadFileName, headEn, true);
                     break;
                 case AppConfig.REQUEST_SV_POST_HOME_LIST:
                     baseEn = JsonUtils.getHomeList(jsonObject);
-                    if (baseEn != null) {
-                        data_total = baseEn.getDataTotal(); //加载更多数据控制符
-                        List<ThemeEntity> lists = baseEn.getLists();
-                        if (lists != null && lists.size() > 0) {
-                            if (current_Page == 1) { //缓存第1页数据
-                                al_show.clear();
-                                ThemeEntity listEn = new ThemeEntity();
-                                listEn.setMainLists(lists);
-                                FileManager.writeFileSaveObject(AppConfig.homeListFileName, listEn, true);
-                            }
-                            List<BaseEntity> newLists = addNewEntity(al_show, lists, am_show);
-                            if (newLists != null) {
-                                addNewShowLists(newLists);
-                                current_Page++;
-                            }
-                            updateListData();
-                            LogUtil.i("Retrofit", TAG + " List数据加载成功 —> " + current_Page);
-                        } else {
-                            //加载失败
-                            loadFailHandle();
-                            LogUtil.i("Retrofit", TAG + " List数据加载失败 —> " + current_Page);
+                    data_total = baseEn.getDataTotal(); //加载更多数据控制符
+                    List<ThemeEntity> lists = baseEn.getLists();
+                    if (lists != null && lists.size() > 0) {
+                        if (current_Page == 1) { //缓存第1页数据
+                            al_show.clear();
+                            ThemeEntity listEn = new ThemeEntity();
+                            listEn.setMainLists(lists);
+                            FileManager.writeFileSaveObject(AppConfig.homeListFileName, listEn, true);
                         }
+                        List<BaseEntity> newLists = addNewEntity(al_show, lists, am_show);
+                        if (newLists != null) {
+                            addNewShowLists(newLists);
+                            current_Page++;
+                        }
+                        updateListData();
+                        LogUtil.i("Retrofit", TAG + " List数据加载成功 —> " + current_Page);
                     } else {
-                        //加载失败
                         loadFailHandle();
                         LogUtil.i("Retrofit", TAG + " List数据加载失败 —> " + current_Page);
                     }
                     break;
             }
-        } catch (JSONException e) {
+        } catch (Exception e) {
             loadFailHandle();
             ExceptionUtil.handle(e);
         }
@@ -559,6 +545,24 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
                 initHeadView();
             }
         }
+    }
+
+    /**
+     * 显示缓冲动画
+     */
+    @Override
+    protected void startAnimation() {
+        super.startAnimation();
+        rl_load_fail.setVisibility(View.GONE);
+    }
+
+    /**
+     * 停止缓冲动画
+     */
+    @Override
+    protected void stopAnimation() {
+        super.stopAnimation();
+        refresh_lv.onPullUpRefreshComplete();
     }
 
     /**
@@ -596,24 +600,6 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
             }
         }
     };
-
-    /**
-     * 显示缓冲动画
-     */
-    @Override
-    protected void startAnimation() {
-        super.startAnimation();
-        rl_load_fail.setVisibility(View.GONE);
-    }
-
-    /**
-     * 停止缓冲动画
-     */
-    @Override
-    protected void stopAnimation() {
-        super.stopAnimation();
-        refresh_lv.onPullUpRefreshComplete();
-    }
 
     private ThemeEntity initData() {
         ThemeEntity bannerEn = new ThemeEntity();

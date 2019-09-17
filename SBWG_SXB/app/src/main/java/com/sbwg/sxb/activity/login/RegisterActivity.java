@@ -1,6 +1,7 @@
 package com.sbwg.sxb.activity.login;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -13,19 +14,28 @@ import android.widget.Toast;
 
 import com.sbwg.sxb.AppApplication;
 import com.sbwg.sxb.AppConfig;
-import com.sbwg.sxb.AppManager;
 import com.sbwg.sxb.R;
 import com.sbwg.sxb.activity.BaseActivity;
+import com.sbwg.sxb.entity.BaseEntity;
+import com.sbwg.sxb.entity.UserInfoEntity;
 import com.sbwg.sxb.utils.CommonTools;
+import com.sbwg.sxb.utils.ExceptionUtil;
+import com.sbwg.sxb.utils.JsonLogin;
 import com.sbwg.sxb.utils.LogUtil;
 import com.sbwg.sxb.utils.StringUtil;
+import com.sbwg.sxb.utils.UserManager;
+import com.sbwg.sxb.utils.retrofit.HttpRequests;
+
+import org.json.JSONObject;
+
+import java.util.HashMap;
 
 import butterknife.BindView;
 
 
 public class RegisterActivity extends BaseActivity implements OnClickListener {
-	
-	private static final String TAG = "RegisterActivity";
+
+	public static final String TAG = RegisterActivity.class.getSimpleName();
 
 	@BindView(R.id.register_et_phone)
 	EditText et_phone;
@@ -60,10 +70,7 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_register);
-		
-		AppManager.getInstance().addActivity(this); //添加Activity到堆栈
-		LogUtil.i(TAG, "onCreate");
-		
+
 		initView();
 	}
 
@@ -116,7 +123,7 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 						}
 						// 校验格式
 						if (!StringUtil.isMobileNO(phoneStr)) {
-							CommonTools.showToast(getString(R.string.login_input_phone_error));
+							CommonTools.showToast(getString(R.string.login_phone_input_error));
 							return;
 						}
 						isPhone_Ok = true;
@@ -204,7 +211,7 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 			editor.putInt(AppConfig.KEY_SEND_VERIFY_NUMBER, send_number).apply();
 		}
 		if (tv_verify_code != null) {
-			tv_verify_code.setText(getString(R.string.login_gain_verify_code));
+			tv_verify_code.setText(getString(R.string.login_verify_code_gain));
 		}
 	}
 
@@ -227,12 +234,13 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 			case R.id.register_tv_verify_code:
 				if (isSendCode) {
 					setSendCodeState(false);
+					sendMessageAuth();
 					send_number++;
 					if (send_number < 3) {
 						startTimer(tv_verify_code, SEND_TIME);
 					} else {
 						startTimer(tv_verify_code, SEND_TIME * 10);
-						CommonTools.showToast(getString(R.string.login_send_verify_code));
+						CommonTools.showToast(getString(R.string.login_verify_code_send_3));
 					}
 					editor.putInt(AppConfig.KEY_SEND_VERIFY_NUMBER, send_number).apply();
 					editor.putLong(AppConfig.KEY_SEND_VERIFY_LAST_TIME, System.currentTimeMillis()).apply();
@@ -251,7 +259,7 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 				// 温馨提示
 				if (isPhone_Ok && isCodes_Ok && !isPassw_Ok) {
 					if (StringUtil.isNull(passwordStr)) {
-						CommonTools.showToast(getString(R.string.login_input_password));
+						CommonTools.showToast(getString(R.string.login_password_input));
 					} else {
 						if (passwordStr.length() < 6) {
 							CommonTools.showToast(getString(R.string.login_password_type));
@@ -272,7 +280,7 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 		//phoneStr = et_phone.getText().toString();
 		// 手机非空
 		if (phoneStr.isEmpty()) {
-			CommonTools.showToast(getString(R.string.login_input_phone));
+			CommonTools.showToast(getString(R.string.login_phone_input));
 			return;
 		}
 		// 手机去空
@@ -281,19 +289,19 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 		}
 		// 校验手机号码格式
 		if (!StringUtil.isMobileNO(phoneStr)) {
-			CommonTools.showToast(getString(R.string.login_input_phone_error));
+			CommonTools.showToast(getString(R.string.login_phone_input_error));
 			return;
 		}
 		// 验证码非空
 		verifyCodeStr = et_code.getText().toString();
 		if (verifyCodeStr.isEmpty()) {
-			CommonTools.showToast(getString(R.string.login_input_verify_code));
+			CommonTools.showToast(getString(R.string.login_verify_code_input));
 			return;
 		}
 		// 密码非空
 		passwordStr = et_password.getText().toString();
 		if (passwordStr.isEmpty()) {
-			CommonTools.showToast(getString(R.string.login_input_password));
+			CommonTools.showToast(getString(R.string.login_password_input));
 			return;
 		}
 		// 校验密码格式
@@ -304,11 +312,6 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 		postRegisterData();
 	}
 
-	private void postRegisterData() {
-		startAnimation();
-//		request(AppConfig.REQUEST_SV_POST_RESET_PASSWORD_CODE);
-	}
-
 	@Override
 	protected void onResume() {
 		LogUtil.i(TAG, "onResume");
@@ -316,6 +319,7 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 		AppApplication.onPageStart(this, TAG);
 		// 验证码-倒计时
 		initTimeState();
+
 		super.onResume();
 	}
 
@@ -344,13 +348,64 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 		LogUtil.i(TAG, "onPause");
 		// 页面结束
 		AppApplication.onPageEnd(this, TAG);
+
 		super.onPause();
 	}
 
 	@Override
 	protected void onDestroy() {
-		LogUtil.i(TAG, "onDestroy");
 		super.onDestroy();
+	}
+
+	private void sendMessageAuth() {
+		HashMap<String, String> map = new HashMap<>();
+		map.put("mobile", phoneStr);
+		loadSVData(AppConfig.URL_AUTH_MESSAGE, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_AUTH_MESSAGE);
+	}
+
+	private void postRegisterData() {
+		startAnimation();
+		new Handler().postDelayed(new Runnable() {
+			@Override
+			public void run() {
+				HashMap<String, String> map = new HashMap<>();
+				map.put("mobile", phoneStr);
+				map.put("code", verifyCodeStr);
+				map.put("password", passwordStr);
+				loadSVData(AppConfig.URL_AUTH_REGISTER, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_AUTH_REGISTER);
+			}
+		}, AppConfig.LOADING_TIME);
+	}
+
+	@Override
+	protected void callbackData(JSONObject jsonObject, int dataType) {
+		BaseEntity baseEn;
+		try {
+			switch (dataType) {
+				case AppConfig.REQUEST_SV_AUTH_MESSAGE:
+					baseEn = JsonLogin.getBaseErrorData(jsonObject);
+					if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+						CommonTools.showToast(getString(R.string.login_verify_code_send));
+					} else {
+						showServerBusy(baseEn.getErrmsg());
+					}
+					break;
+				case AppConfig.REQUEST_SV_AUTH_REGISTER:
+					baseEn = JsonLogin.getLoginData(jsonObject);
+					if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+						CommonTools.showToast(getString(R.string.login_register_ok));
+						UserInfoEntity userInfo = (UserInfoEntity) baseEn.getData();
+						UserManager.getInstance().saveUserInfo(userInfo);
+						closeLoginActivity();
+					} else {
+						showServerBusy(baseEn.getErrmsg());
+					}
+					break;
+			}
+		} catch (Exception e) {
+			loadFailHandle();
+			ExceptionUtil.handle(e);
+		}
 	}
 
 }

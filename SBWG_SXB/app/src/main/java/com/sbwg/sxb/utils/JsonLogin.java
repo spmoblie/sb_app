@@ -2,6 +2,7 @@ package com.sbwg.sxb.utils;
 
 import com.sbwg.sxb.AppConfig;
 import com.sbwg.sxb.entity.AuthResult;
+import com.sbwg.sxb.entity.BaseEntity;
 import com.sbwg.sxb.entity.QQEntity;
 import com.sbwg.sxb.entity.QQUserInfoEntity;
 import com.sbwg.sxb.entity.UserInfoEntity;
@@ -13,6 +14,56 @@ import org.json.JSONObject;
 
 
 public class JsonLogin {
+
+	/**
+	 * 解析通用数据
+	 */
+	private static BaseEntity getCommonKeyValue(JSONObject jsonObj) throws JSONException {
+		BaseEntity baseEn = new BaseEntity();
+		if (jsonObj.has("errno")) {
+			baseEn.setErrno(jsonObj.getInt("errno"));
+		}
+		if (jsonObj.has("errmsg")) {
+			baseEn.setErrmsg(jsonObj.getString("errmsg"));
+		}
+		return baseEn;
+	}
+
+	/**
+	 * 解析返回的状态码
+	 * @param jsonObject
+	 * @return
+	 * @throws JSONException
+	 */
+	public static BaseEntity getBaseErrorData(JSONObject jsonObject) throws JSONException {
+		return getCommonKeyValue(jsonObject);
+	}
+
+	/**
+	 * 解析登录返回数据
+	 * @param jsonObject
+	 * @return
+	 * @throws JSONException
+	 */
+	public static BaseEntity getLoginData(JSONObject jsonObject) throws JSONException {
+		BaseEntity mainEn = getCommonKeyValue(jsonObject);
+
+		UserInfoEntity userInfo = new UserInfoEntity();
+		JSONObject jsonData = jsonObject.getJSONObject("data");
+		if (StringUtil.notNull(jsonData, "userInfo")) {
+			JSONObject data = jsonData.getJSONObject("userInfo");
+			userInfo.setUserId(data.getString("songbaoId"));
+			userInfo.setUserNick(data.getString("nickName"));
+			userInfo.setUserHead(data.getString("avatarUrl"));
+			//userInfo.setUserIntro(data.getString("signature"));
+			userInfo.setGenderCode(data.getInt("gender"));
+		}
+		if (StringUtil.notNull(jsonData, "token")) {
+			userInfo.setAppToken(jsonData.getString("token"));
+		}
+		mainEn.setData(userInfo);
+		return mainEn;
+	}
 
 
 	/**

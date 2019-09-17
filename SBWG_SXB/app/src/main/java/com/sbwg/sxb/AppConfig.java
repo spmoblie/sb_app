@@ -27,6 +27,15 @@ public class AppConfig {
 	// 推广域名
 	public final static String ENVIRONMENT_PRESENT_SHARE_URL = ENVIRONMENT_TEST_APP_1;
 
+	// 短信验证码
+	public final static String URL_AUTH_MESSAGE = "auth/regCaptcha";
+	// 提交注册
+	public final static String URL_AUTH_REGISTER = "auth/register";
+	// 提交登录
+	public final static String URL_AUTH_LOGIN = "auth/login";
+	// 提交注销
+	public final static String URL_AUTH_LOGOUT = "auth/logout";
+
 	// 首页banner列表
 	public final static String URL_HOME_BANNER = "home/index";
 	// 首页活动列表
@@ -58,7 +67,7 @@ public class AppConfig {
 	public static final int PHOTO_TYPE_SQUARE = 702;
 
 	// Error状态码：加载成功
-	public static final int ERROR_CODE_SUCCESS = 1;
+	public static final int ERROR_CODE_SUCCESS = 0;
 	// Error状态码：登录失效
 	public static final int ERROR_CODE_LOGOUT = 999;
 
@@ -131,12 +140,21 @@ public class AppConfig {
 	// 检测版本更新
 	public static final int REQUEST_SV_POST_VERSION_CODE = 0X0002;
 
+	// 短信验证码
+	public static final int REQUEST_SV_AUTH_MESSAGE = 0X1001;
+	// 提交注册
+	public static final int REQUEST_SV_AUTH_REGISTER = 0X1002;
+	// 提交登录
+	public static final int REQUEST_SV_AUTH_LOGIN = 0X1003;
+	// 提交注销
+	public static final int REQUEST_SV_AUTH_LOGOUT = 0X1004;
+
 	// 首頁头部数据
-	public static final int REQUEST_SV_POST_HOME_HEAD = 0X1001;
+	public static final int REQUEST_SV_POST_HOME_HEAD = 0X2001;
 	// 首頁列表数据
-	public static final int REQUEST_SV_POST_HOME_LIST = 0X1002;
+	public static final int REQUEST_SV_POST_HOME_LIST = 0X2002;
 	// 提交报名数据
-	public static final int REQUEST_SV_POST_SIGN_DATA = 0X2001;
+	public static final int REQUEST_SV_POST_SIGN_DATA = 0X3001;
 
 	/**
 	 ******************************************* RequestCode参数设置结束 ******************************************
@@ -190,6 +208,8 @@ public class AppConfig {
 	public static final String KEY_USER_MONEY = "user_money";
 	// 偏好设置Key-记录用户报名的课程Id
 	public static final String KEY_SIGN_UP_ID = "sign_up_id";
+	// 偏好设置Key-记录用户登录授权码
+	public static final String KEY_X_APP_TOKEN = "x_app_token";
 	// 偏好设置Key-记录用户的微信授权码
 	public static final String KEY_WX_ACCESS_TOKEN = "wx_access_token";
 	// 偏好设置Key-记录用户的微信校验码

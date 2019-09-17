@@ -17,9 +17,9 @@ import java.io.File;
 
 
 public class ClipImageSquareActivity extends BaseActivity {
-	
-	public static ClipImageSquareActivity instance;
-	
+
+	public static final String TAG = ClipImageSquareActivity.class.getSimpleName();
+
 	private String photoPath;
 	private ClipImageView imageView;
 
@@ -28,7 +28,6 @@ public class ClipImageSquareActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_clip_image_square);
 		
-		instance = this;
 		photoPath = getIntent().getExtras().getString(AppConfig.ACTIVITY_CLIP_PHOTO_PATH);
 		
 		findViewById();
@@ -36,7 +35,7 @@ public class ClipImageSquareActivity extends BaseActivity {
 	}
 	
 	private void findViewById() {
-		imageView = (ClipImageView) findViewById(R.id.clip_image_square_src_pic);
+		imageView = findViewById(R.id.clip_image_square_src_pic);
 	}
 	
 	private void initView() {
@@ -68,13 +67,7 @@ public class ClipImageSquareActivity extends BaseActivity {
 		}else {
 			CommonTools.showToast(getString(R.string.photo_clip_error));
 		}
-		if (ClipPhotoGridActivity.instance != null) {
-			ClipPhotoGridActivity.instance.finish();
-		}
-		if (ClipPhotoOneActivity.instance != null) {
-			ClipPhotoOneActivity.instance.finish();
-		}
-		finish();
+		closePhotoActivity();
 	}
 
 	@Override
@@ -82,12 +75,21 @@ public class ClipImageSquareActivity extends BaseActivity {
 		LogUtil.i(TAG, "onResume");
 		// 页面开始
 		AppApplication.onPageStart(this, TAG);
+
 		super.onResume();
+	}
+
+	@Override
+	protected void onPause() {
+		LogUtil.i(TAG, "onPause");
+		// 页面结束
+		AppApplication.onPageEnd(this, TAG);
+
+		super.onPause();
 	}
 
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-		instance = null;
 	}
 }

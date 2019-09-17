@@ -9,7 +9,7 @@
         android:id="@+id/login_phone_et_phone"
         style="@style/Register_EditText"
         android:maxLength="13"
-        android:hint="@string/login_input_phone"
+        android:hint="@string/login_phone_input"
         android:layout_marginTop="0dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -56,7 +56,7 @@
         android:layout_height="@dimen/login_et_height_default"
         android:layout_marginTop="@dimen/margin_padding_20"
         android:gravity="center"
-        android:text="@string/login_gain_verify_code"
+        android:text="@string/login_verify_code_gain"
         android:textColor="@color/app_color_white"
         android:textSize="@dimen/app_text_size_content"
         android:background="@drawable/shape_button_style_3_20"
@@ -133,7 +133,7 @@
         style="@style/Register_TextView"
         android:layout_marginRight="@dimen/margin_padding_10"
         android:layout_marginBottom="@dimen/margin_padding_50"
-        android:text="@string/login_reset_password"
+        android:text="@string/login_password_reset"
         app:layout_constraintRight_toLeftOf="@id/login_phone_iv_line_vertical"
         app:layout_constraintBottom_toBottomOf="parent"/>
 

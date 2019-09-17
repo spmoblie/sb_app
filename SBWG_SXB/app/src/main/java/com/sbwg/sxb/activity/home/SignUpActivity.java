@@ -17,7 +17,6 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.sbwg.sxb.AppApplication;
 import com.sbwg.sxb.AppConfig;
-import com.sbwg.sxb.AppManager;
 import com.sbwg.sxb.R;
 import com.sbwg.sxb.activity.BaseActivity;
 import com.sbwg.sxb.entity.BaseEntity;
@@ -30,7 +29,6 @@ import com.sbwg.sxb.utils.StringUtil;
 import com.sbwg.sxb.utils.UserManager;
 import com.sbwg.sxb.utils.retrofit.HttpRequests;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -39,7 +37,7 @@ import butterknife.BindView;
 
 public class SignUpActivity extends BaseActivity implements View.OnClickListener {
 
-    private static final String TAG = "SignUpActivity";
+    private static final String TAG = SignUpActivity.class.getSimpleName();
 
     @BindView(R.id.sign_iv_show)
     ImageView sign_iv_show;
@@ -103,10 +101,6 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
-        AppManager.getInstance().addActivity(this);//添加Activity到堆栈
-        LogUtil.i(TAG, "onCreate");
-
-        mContext = this;
         data = (ThemeEntity) getIntent().getExtras().getSerializable("data");
         if (data != null) {
             courseId = data.getId();
@@ -205,7 +199,7 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
                     }
                     // 校验格式
                     if (!StringUtil.isMobileNO(phoneStr)) {
-                        CommonTools.showToast(getString(R.string.login_input_phone_error));
+                        CommonTools.showToast(getString(R.string.login_phone_input));
                         return;
                     }
                     isPhone_Ok = true;
@@ -356,7 +350,7 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
         }
         // 校验格式
         if (!StringUtil.isMobileNO(phoneStr)) {
-            CommonTools.showToast(getString(R.string.login_input_phone_error));
+            CommonTools.showToast(getString(R.string.login_phone_input));
             return false;
         }
         // 校验支付
@@ -378,63 +372,6 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
         checkState();
     }
 
-    /**
-     * 提交报名数据
-     */
-    private void postSignUpData() {
-        if (data == null) return;
-        startAnimation();
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                HashMap<String, String> map = new HashMap<>();
-                map.put("activityId", String.valueOf(courseId));
-                map.put("name", nameStr);
-                map.put("gender", String.valueOf(genderCode));
-                //map.put("userId", UserManager.getInstance().getUserId());
-                map.put("userId", "968618");
-                map.put("age_stage", ageStr);
-                map.put("mobile", phoneStr);
-                map.put("paymentType", "0");
-                loadSVData(AppConfig.URL_SIGN_UP_ADD, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_POST_SIGN_DATA);
-            }
-        }, AppConfig.LOADING_TIME);
-    }
-
-    @Override
-    protected void callbackData(JSONObject jsonObject, int dataType) {
-        BaseEntity baseEn;
-        try {
-            switch (dataType) {
-                case AppConfig.REQUEST_SV_POST_SIGN_DATA:
-                    baseEn = JsonUtils.getBaseErrorData(jsonObject);
-                    if (baseEn != null) {
-                        if (baseEn.getErrno() == 0) {
-                            isSignUp = true;
-                            setSignState("已报名", false);
-                            UserManager.getInstance().saveCourseId(courseId);
-                            CommonTools.showToast("报名成功");
-                        } else {
-                            CommonTools.showToast(baseEn.getErrmsg(), Toast.LENGTH_LONG);
-                        }
-                    } else {
-                        //加载失败
-                        loadFailHandle();
-                        LogUtil.i("Retrofit", TAG + " 提交报名失败");
-                    }
-                    break;
-            }
-        } catch (JSONException e) {
-            loadFailHandle();
-            ExceptionUtil.handle(e);
-        }
-    }
-
-    @Override
-    protected void loadFailHandle() {
-        super.loadFailHandle();
-    }
-
     @Override
     protected void onResume() {
         LogUtil.i(TAG, "onResume");
@@ -453,16 +390,60 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
 
     @Override
     protected void onPause() {
-        super.onPause();
         LogUtil.i(TAG, "onPause");
         // 页面结束
         AppApplication.onPageEnd(this, TAG);
+
+        super.onPause();
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        LogUtil.i(TAG, "onDestroy");
+    }
+
+    /**
+     * 提交报名数据
+     */
+    private void postSignUpData() {
+        if (data == null) return;
+        startAnimation();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                HashMap<String, String> map = new HashMap<>();
+                map.put("activityId", String.valueOf(courseId));
+                map.put("name", nameStr);
+                map.put("gender", String.valueOf(genderCode));
+                map.put("ageStage", ageStr);
+                map.put("mobile", phoneStr);
+                map.put("paymentType", "0");
+                loadSVData(AppConfig.URL_SIGN_UP_ADD, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_POST_SIGN_DATA);
+            }
+        }, AppConfig.LOADING_TIME);
+    }
+
+    @Override
+    protected void callbackData(JSONObject jsonObject, int dataType) {
+        BaseEntity baseEn;
+        try {
+            switch (dataType) {
+                case AppConfig.REQUEST_SV_POST_SIGN_DATA:
+                    baseEn = JsonUtils.getBaseErrorData(jsonObject);
+                    if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+                        isSignUp = true;
+                        setSignState("已报名", false);
+                        UserManager.getInstance().saveCourseId(courseId);
+                        CommonTools.showToast("报名成功");
+                    } else {
+                        showServerBusy(baseEn.getErrmsg());
+                    }
+                    break;
+            }
+        } catch (Exception e) {
+            loadFailHandle();
+            ExceptionUtil.handle(e);
+        }
     }
 
 }

@@ -15,16 +15,19 @@ import android.util.DisplayMetrics;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.sbwg.sxb.activity.MainActivity;
 import com.sbwg.sxb.config.SharedConfig;
 import com.sbwg.sxb.utils.BitmapUtil;
 import com.sbwg.sxb.utils.CommonTools;
 import com.sbwg.sxb.utils.DeviceUtil;
 import com.sbwg.sxb.utils.ExceptionUtil;
 import com.sbwg.sxb.utils.LogUtil;
+import com.sbwg.sxb.utils.retrofit.HttpRequests;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Calendar;
+import java.util.HashMap;
 
 public class AppApplication extends Application {
 
@@ -270,7 +273,9 @@ public class AppApplication extends Application {
     public static void AppLogout(boolean isSend) {
         AppManager.getInstance().AppLogout(spApp);
         if (isSend) {
-            //通知服务器登出
+            //通知服务器退出账号
+            HashMap<String, String> map = new HashMap<>();
+            HttpRequests.getInstance().loadDatas(AppConfig.URL_AUTH_LOGOUT, map, HttpRequests.HTTP_POST);
         }
     }
 
@@ -283,12 +288,12 @@ public class AppApplication extends Application {
 
     // 重启应用
     public void restartApp() {
-        /*Intent intent = new Intent(spApp, MainActivity.class);
+        Intent intent = new Intent(spApp, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		spApp.startActivity(intent);
 		AppManager.getInstance().AppExit(spApp);
 		// 结束进程之前可以把你程序的注销或者退出代码放在这段代码之前
-		android.os.Process.killProcess(android.os.Process.myPid());*/
+		android.os.Process.killProcess(android.os.Process.myPid());
     }
 
 }

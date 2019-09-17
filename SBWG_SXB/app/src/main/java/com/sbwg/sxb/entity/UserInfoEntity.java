@@ -5,70 +5,20 @@ public class UserInfoEntity extends BaseEntity {
 	
 	private static final long serialVersionUID = 1L;
 	
-	/**
-	 * 用户Id
-	 */
-	private String userId;
-
-	/**
-	 * 推广Id
-	 */
-	private String shareId;
-	
-	/**
-	 * 用户姓名
-	 */
-	private String userName;
-
-	/**
-	 * 用户昵称
-	 */
-	private String userNick;
-	
-	/**
-	 * 用户头像
-	 */
-	private String userHead;
-
-	/**
-	 * 用户简介
-	 */
-	private String userIntro;
-	
-	/**
-	 * 性别代码(0:保密/1:男/2:女)
-	 */
-	private int genderCode;
-	
-	/**
-	 * 用户生日
-	 */
-	private String birthday;
-
-	/**
-	 * 用户地区
-	 */
-	private String userArea;
-
-	/**
-	 * 用户邮箱
-	 */
-	private String userEmail;
-
-	/**
-	 * 用户手机
-	 */
-	private String userPhone;
-
-	/**
-	 * 账户余额
-	 */
-	private String money;
-	
-	/**
-	 * 优惠券
-	 */
-	private String coupon;
+	private String userId; //用户Id
+	private String shareId; //推广Id
+	private String userName; //用户姓名
+	private String userNick; //用户昵称
+	private String userHead; //用户头像
+	private String userIntro; //用户简介
+	private String birthday; //用户生日
+	private String userArea; //用户地区
+	private String userEmail; //用户邮箱
+	private String userPhone; //用户手机
+	private String money; //账户余额
+	private String coupon; //优惠券
+	private String appToken; //登录授权码
+	private int genderCode; //性别代码(0:保密/1:男/2:女)
 
 	
 	public UserInfoEntity() {
@@ -132,14 +82,6 @@ public class UserInfoEntity extends BaseEntity {
 		this.userIntro = userIntro;
 	}
 
-	public int getGenderCode() {
-		return genderCode;
-	}
-
-	public void setGenderCode(int genderCode) {
-		this.genderCode = genderCode;
-	}
-
 	public String getBirthday() {
 		return birthday;
 	}
@@ -186,6 +128,22 @@ public class UserInfoEntity extends BaseEntity {
 
 	public void setCoupon(String coupon) {
 		this.coupon = coupon;
+	}
+
+	public String getAppToken() {
+		return appToken;
+	}
+
+	public void setAppToken(String appToken) {
+		this.appToken = appToken;
+	}
+
+	public int getGenderCode() {
+		return genderCode;
+	}
+
+	public void setGenderCode(int genderCode) {
+		this.genderCode = genderCode;
 	}
 
 }
