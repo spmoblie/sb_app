@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.sbwg.sxb.AppApplication;
 import com.sbwg.sxb.R;
@@ -44,7 +45,7 @@ public class FeedBackActivity extends BaseActivity implements OnClickListener {
 		cotentStr = et_feed_cotent.getText().toString();
 		// 输入非空
 		if (cotentStr.isEmpty()) {
-			CommonTools.showToast(getString(R.string.setting_input_error_feedback), 1000);
+			CommonTools.showToast(getString(R.string.setting_input_error_feedback), Toast.LENGTH_SHORT);
 			return;
 		}
 		postResetData();

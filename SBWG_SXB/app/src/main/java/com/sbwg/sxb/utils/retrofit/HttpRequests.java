@@ -38,6 +38,13 @@ public class HttpRequests extends ObjectLoader {
     }
 
     /**
+     * 销毁对象
+     */
+    public static void clearInstance() {
+        instance = null;
+    }
+
+    /**
      * Http请求
      */
     public Observable<ResponseBody> loadDatas(String paths, Map<String, String> map, int httpType) {

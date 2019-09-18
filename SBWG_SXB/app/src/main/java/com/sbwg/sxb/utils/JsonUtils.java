@@ -2,6 +2,7 @@ package com.sbwg.sxb.utils;
 
 import com.sbwg.sxb.entity.BaseEntity;
 import com.sbwg.sxb.entity.ThemeEntity;
+import com.sbwg.sxb.entity.UserInfoEntity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -104,6 +105,31 @@ public class JsonUtils {
             }
             mainEn.setLists(lists);
         }
+        return mainEn;
+    }
+
+    /**
+     * 解析用户资料数据
+     * @param jsonObject
+     * @return
+     * @throws JSONException
+     */
+    public static BaseEntity getUserInfo(JSONObject jsonObject) throws JSONException {
+        BaseEntity mainEn = getCommonKeyValue(jsonObject);
+
+        UserInfoEntity userInfo = new UserInfoEntity();
+        if (StringUtil.notNull(jsonObject, "data")) {
+            JSONObject jsonData = jsonObject.getJSONObject("data");
+            if (StringUtil.notNull(jsonData, "userInfo")) {
+                JSONObject data = jsonData.getJSONObject("userInfo");
+                userInfo.setUserNick(data.getString("nickname"));
+                userInfo.setUserHead(data.getString("avatar"));
+                userInfo.setGenderCode(data.getInt("gender"));
+                //userInfo.setBirthday(data.getString("birthday"));
+                userInfo.setUserIntro(data.getString("signature"));
+            }
+        }
+        mainEn.setData(userInfo);
         return mainEn;
     }
 

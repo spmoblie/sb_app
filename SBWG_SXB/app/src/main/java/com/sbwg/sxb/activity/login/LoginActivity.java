@@ -574,7 +574,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 						exit = Boolean.FALSE;
 					}
 				}, 2000);
-				CommonTools.showToast(getString(R.string.toast_exit_prompt), 1000);
+				CommonTools.showToast(getString(R.string.toast_exit_prompt), Toast.LENGTH_SHORT);
 			}
 			return true;
 		}*/

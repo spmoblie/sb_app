@@ -6,7 +6,7 @@ import android.content.Context;
 import android.support.constraint.ConstraintLayout;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.WindowManager;
+import android.widget.Toast;
 
 import com.sbwg.sxb.R;
 import com.sbwg.sxb.utils.CommonTools;
@@ -49,24 +49,24 @@ public class LoadDialog extends Dialog {
 		rl_loading.setVisibility(View.VISIBLE);
 
 		// 设置对话框的坐标及宽高
-		WindowManager.LayoutParams lp = getWindow().getAttributes();
+		/*WindowManager.LayoutParams lp = getWindow().getAttributes();
 		lp.y = -125;
-		getWindow().setAttributes(lp);
+		getWindow().setAttributes(lp);*/
 
-//		// 对话框背景设置
-//		Window window = getWindow();
-//		WindowManager.LayoutParams attributesParams = window.getAttributes();
-//		attributesParams.flags = WindowManager.LayoutParams.FLAG_DIM_BEHIND;
-//		attributesParams.dimAmount = 0.5f;
-//
-//		window.setLayout(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		// 对话框背景设置
+		/*Window window = getWindow();
+		WindowManager.LayoutParams attributesParams = window.getAttributes();
+		attributesParams.flags = WindowManager.LayoutParams.FLAG_DIM_BEHIND;
+		attributesParams.dimAmount = 0.5f;
+
+		window.setLayout(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);*/
 	}
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
 			if (canNotCancel) {
-				CommonTools.showToast(tipMsg, 1000);
+				CommonTools.showToast(tipMsg, Toast.LENGTH_SHORT);
 				return true;
 			}
 		}

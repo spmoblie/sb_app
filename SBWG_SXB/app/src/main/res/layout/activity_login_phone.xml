@@ -39,6 +39,17 @@
         app:layout_constraintTop_toBottomOf="@id/login_phone_et_phone"
         app:layout_constraintWidth_percent="0.8"/>
 
+    <TextView
+        android:id="@+id/login_phone_tv_phone_error"
+        style="@style/Register_TextView"
+        android:layout_marginTop="@dimen/margin_padding_10"
+        android:text="@string/login_phone_input_error"
+        android:textSize="@dimen/app_text_size_small"
+        android:textColor="@color/app_color_r_red"
+        app:layout_constraintTop_toBottomOf="@id/login_phone_et_phone"
+        app:layout_constraintLeft_toLeftOf="@id/login_phone_et_phone"
+        android:visibility="gone"/>
+
     <EditText
         android:id="@+id/login_phone_et_code"
         style="@style/Register_EditText"
@@ -54,7 +65,7 @@
         android:id="@+id/login_phone_tv_verify_code"
         android:layout_width="0dp"
         android:layout_height="@dimen/login_et_height_default"
-        android:layout_marginTop="@dimen/margin_padding_20"
+        android:layout_marginTop="@dimen/margin_padding_30"
         android:gravity="center"
         android:text="@string/login_verify_code_gain"
         android:textColor="@color/app_color_white"
@@ -83,7 +94,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:contentDescription="@string/desc"
-        android:layout_marginTop="@dimen/margin_padding_32"
+        android:layout_marginTop="@dimen/margin_padding_42"
         android:src="@drawable/selector_icon_password"
         app:layout_constraintTop_toBottomOf="@id/login_phone_et_phone"
         app:layout_constraintRight_toRightOf="@id/login_phone_et_phone"
@@ -92,7 +103,7 @@
     <ImageView
         style="@style/set_line_horizontal_bg"
         android:layout_width="0dp"
-        android:layout_marginTop="@dimen/margin_padding_65"
+        android:layout_marginTop="@dimen/margin_padding_75"
         android:contentDescription="@string/desc"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
@@ -102,7 +113,7 @@
     <TextView
         android:id="@+id/login_phone_tv_password_change"
         style="@style/Register_TextView"
-        android:layout_marginTop="@dimen/margin_padding_80"
+        android:layout_marginTop="@dimen/margin_padding_100"
         android:text="@string/login_mode_password"
         app:layout_constraintTop_toBottomOf="@id/login_phone_et_phone"
         app:layout_constraintLeft_toLeftOf="@id/login_phone_et_phone"/>
@@ -116,6 +127,7 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintVertical_bias="0.6"
         app:layout_constraintWidth_percent="0.43"/>
 
     <ImageView
@@ -129,7 +141,7 @@
         app:layout_constraintBottom_toBottomOf="parent"/>
 
     <TextView
-        android:id="@+id/login_phone_tv_password_retrieve"
+        android:id="@+id/login_phone_tv_password_reset"
         style="@style/Register_TextView"
         android:layout_marginRight="@dimen/margin_padding_10"
         android:layout_marginBottom="@dimen/margin_padding_50"

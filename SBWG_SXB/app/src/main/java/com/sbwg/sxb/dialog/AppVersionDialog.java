@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.Html;
 import android.view.KeyEvent;
+import android.widget.Toast;
 
 import com.sbwg.sxb.AppApplication;
 import com.sbwg.sxb.AppConfig;
@@ -140,7 +141,7 @@ public class AppVersionDialog {
 							exit = Boolean.FALSE;
 						}
 					}, 2000);
-					CommonTools.showToast(mContext.getString(R.string.toast_exit_prompt), 1000);
+					CommonTools.showToast(mContext.getString(R.string.toast_exit_prompt), Toast.LENGTH_SHORT);
 				}
 			}
 			return true;

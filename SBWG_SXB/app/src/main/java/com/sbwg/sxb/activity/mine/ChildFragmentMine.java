@@ -27,18 +27,24 @@ import com.sbwg.sxb.activity.common.MyWebViewActivity;
 import com.sbwg.sxb.activity.common.ViewPagerActivity;
 import com.sbwg.sxb.adapter.AdapterCallback;
 import com.sbwg.sxb.adapter.MineListAdapter;
+import com.sbwg.sxb.entity.BaseEntity;
 import com.sbwg.sxb.entity.DesignEntity;
 import com.sbwg.sxb.entity.ThemeEntity;
 import com.sbwg.sxb.entity.UserInfoEntity;
 import com.sbwg.sxb.utils.CommonTools;
 import com.sbwg.sxb.utils.ExceptionUtil;
+import com.sbwg.sxb.utils.JsonUtils;
 import com.sbwg.sxb.utils.LogUtil;
 import com.sbwg.sxb.utils.UserManager;
+import com.sbwg.sxb.utils.retrofit.HttpRequests;
 import com.sbwg.sxb.widgets.RoundImageView;
 import com.sbwg.sxb.widgets.ScrollViewListView;
 
+import org.json.JSONObject;
+
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
@@ -80,6 +86,7 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
 	private DesignEntity designEn;
 	private ThemeEntity itemsEn;
 	private UserInfoEntity infoEn;
+	private UserManager userManager;
 	private ArrayList<String> urlLists = new ArrayList<String>();
 
 	private Handler mHandler = new Handler(){
@@ -106,6 +113,7 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
 
 		LogUtil.i(TAG, "onCreate");
 		mContext = getActivity();
+		userManager = UserManager.getInstance();
 
 		int goodsWidth = (screenWidth - CommonTools.dpToPx(mContext, 16)) / 3;
 		designItemLP = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -263,29 +271,27 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
 
 	private void checkLogin() {
 		if (isLogin()) { //已登入
-			requestGetUserInfo();
+			infoEn = getUserInfoData();
+			if (shared.getBoolean(AppConfig.KEY_UPDATE_USER_DATA, true)) {
+				requestGetUserInfo();
+			}
 		}else {
 			infoEn = null;
-			initHeadView();
 		}
-	}
-
-	private void requestGetUserInfo() {
-		getUserInfoData();
 		initHeadView();
 	}
 
-	private void getUserInfoData() {
-		UserManager um = UserManager.getInstance();
-		infoEn = new UserInfoEntity();
-		infoEn.setUserId(um.getUserId());
-		infoEn.setUserHead(um.getUserHead());
-		infoEn.setUserNick(um.getUserNick());
-		infoEn.setGenderCode(um.getUserGender());
-		infoEn.setBirthday(um.getUserBirthday());
-		infoEn.setUserArea(um.getUserArea());
-		infoEn.setUserIntro(um.getUserIntro());
-		infoEn.setUserEmail(um.getUserEmail());
+	private UserInfoEntity getUserInfoData() {
+		UserInfoEntity userEn = new UserInfoEntity();
+		userEn.setUserId(userManager.getUserId());
+		userEn.setUserHead(userManager.getUserHead());
+		userEn.setUserNick(userManager.getUserNick());
+		userEn.setGenderCode(userManager.getUserGender());
+		userEn.setBirthday(userManager.getUserBirthday());
+		userEn.setUserArea(userManager.getUserArea());
+		userEn.setUserIntro(userManager.getUserIntro());
+		userEn.setUserEmail(userManager.getUserEmail());
+		return userEn;
 	}
 
 	@Override
@@ -369,8 +375,8 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
 					FutureTarget<Bitmap> ft = Glide
 							.with(AppApplication.getAppContext())
 							.asBitmap()
-							//.load(infoEn.getUserHead())
-							.load("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1567514197085&di=63f6e7ab81589c8cfddc677df3644cfa&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201708%2F23%2F20170823110912_ezTtH.thumb.700_0.jpeg")
+							.load(infoEn.getUserHead())
+							//.load("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1567514197085&di=63f6e7ab81589c8cfddc677df3644cfa&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201708%2F23%2F20170823110912_ezTtH.thumb.700_0.jpeg")
 							.submit();
 					try{
 						Bitmap headBitmap = ft.get();
@@ -386,5 +392,38 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
 		}
 	}
 
+	private void requestGetUserInfo() {
+		HashMap<String, String> map = new HashMap<>();
+		map.put("userId", userManager.getUserId());
+		loadSVData(AppConfig.URL_USER_GET, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_POST_USER_GET);
+	}
+
+	@Override
+	protected void callbackData(JSONObject jsonObject, int dataType) {
+		BaseEntity baseEn;
+		try {
+			switch (dataType) {
+				case AppConfig.REQUEST_SV_POST_USER_GET:
+					baseEn = JsonUtils.getUserInfo(jsonObject);
+					if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+						UserInfoEntity userInfo = (UserInfoEntity) baseEn.getData();
+						UserManager.getInstance().saveUserInfo(userInfo);
+						infoEn = getUserInfoData();
+						initHeadView();
+						loadUserHead();
+						editor.putBoolean(AppConfig.KEY_UPDATE_USER_DATA, false).apply();
+					}
+					break;
+			}
+		} catch (Exception e) {
+			loadFailHandle();
+			ExceptionUtil.handle(e);
+		}
+	}
+
+	@Override
+	protected void loadFailHandle() {
+		super.loadFailHandle();
+	}
 }
 

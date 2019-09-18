@@ -18,6 +18,7 @@ import android.view.View.OnClickListener;
 import android.widget.DatePicker;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.sbwg.sxb.AppApplication;
 import com.sbwg.sxb.AppConfig;
@@ -459,7 +460,7 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
     private void uploadImage() {
         if (!StringUtil.isNull(clip_head_path)) {
             startAnimation();
-            CommonTools.showToast(getString(R.string.photo_upload_img, getString(R.string.mine_head)), 1000);
+            CommonTools.showToast(getString(R.string.photo_upload_img, getString(R.string.mine_head)));
             // 开启上传线程...
             new Handler().postDelayed(new Runnable() {
 
@@ -476,16 +477,16 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
                                     editor.putBoolean(AppConfig.KEY_IS_UPDATE_HEAD, true).apply();
 									// 清除图片缓存
 									AppApplication.clearGlideCache();
-									CommonTools.showToast(getString(R.string.photo_upload_img_ok, getString(R.string.mine_head)), 1000);
+									CommonTools.showToast(getString(R.string.photo_upload_img_ok, getString(R.string.mine_head)), Toast.LENGTH_SHORT);
 								} else {
 									if (!StringUtil.isNull(baseEn.getErrInfo())) {
-										CommonTools.showToast(baseEn.getErrInfo(), 2000);
+										CommonTools.showToast(baseEn.getErrInfo());
 									} else {
-										CommonTools.showToast(getString(R.string.photo_upload_head_fail), 2000);
+										CommonTools.showToast(getString(R.string.photo_upload_head_fail));
 									}
 								}
 							}else {
-								CommonTools.showToast(getString(R.string.photo_upload_head_fail), 2000);
+								CommonTools.showToast(getString(R.string.photo_upload_head_fail));
 							}
 						}
 
@@ -502,7 +503,7 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
                     } catch (Exception e) {
                         ExceptionUtil.handle(e);
                     }
-                    CommonTools.showToast(getString(R.string.photo_upload_img_ok, getString(R.string.mine_head)), 1000);
+                    CommonTools.showToast(getString(R.string.photo_upload_img_ok, getString(R.string.mine_head)), Toast.LENGTH_SHORT);
 
                     stopAnimation();
 				}

@@ -128,6 +128,9 @@
         <activity
             android:name=".activity.login.RegisterActivity"
             android:launchMode="singleTask"/>
+        <activity
+            android:name=".activity.login.ResetPasswordActivity"
+            android:launchMode="singleTask"/>
 
         <!-- mine -->
         <activity

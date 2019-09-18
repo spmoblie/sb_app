@@ -31,7 +31,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 import android.widget.ViewFlipper;
 
 import com.sbwg.sxb.AppApplication;
@@ -476,7 +475,7 @@ public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Res
 	 * @param rootPage
 	 */
 	protected void showTimeOutDialog(final String rootPage) {
-		AppApplication.AppLogout(true);
+		AppApplication.AppLogout();
 		showErrorDialog(getString(R.string.login_timeout), true, new Handler(){
 			@Override
 			public void handleMessage(Message msg) {
@@ -500,7 +499,7 @@ public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Res
 			showStr = getString(R.string.toast_server_busy);
 		}
 		//showErrorDialog(showStr);
-		CommonTools.showToast(showStr, Toast.LENGTH_LONG);
+		CommonTools.showToast(showStr);
 	}
 
 	/**

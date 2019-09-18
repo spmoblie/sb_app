@@ -2,9 +2,11 @@ package com.sbwg.sxb.activity;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -17,6 +19,7 @@ import android.view.ViewGroup;
 import android.view.ViewTreeObserver.OnGlobalLayoutListener;
 import android.widget.FrameLayout;
 
+import com.sbwg.sxb.AppApplication;
 import com.sbwg.sxb.activity.login.LoginActivity;
 import com.sbwg.sxb.dialog.LoadDialog;
 import com.sbwg.sxb.entity.BaseEntity;
@@ -41,6 +44,10 @@ import rx.Observer;
 public class BaseFragment extends Fragment {
 
 	String TAG = BaseFragment.class.getSimpleName();
+
+	protected SharedPreferences shared;
+	protected SharedPreferences.Editor editor;
+
 	ShowErrDialogListener showErrDialogListener;
 	LoadingListener loadingListener;
 	SoftKeyBoardListener softKeyBoardListener;
@@ -90,6 +97,13 @@ public class BaseFragment extends Fragment {
 	public void setRequestBlockingListener(
 			RequestBlockingListener requestBlockingListener) {
 		this.requestBlockingListener = requestBlockingListener;
+	}
+
+	@Override
+	public void onCreate(@Nullable Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		shared = AppApplication.getSharedPreferences();
+		editor = shared.edit();
 	}
 
 	@Override

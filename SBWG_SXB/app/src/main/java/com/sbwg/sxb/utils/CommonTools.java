@@ -47,7 +47,7 @@ public class CommonTools {
      * @param message 消息文本
      */
     public static void showToast(String message) {
-		showToast(message, Toast.LENGTH_SHORT);
+		showToast(message, Toast.LENGTH_LONG);
     }
 
     /**
@@ -70,7 +70,7 @@ public class CommonTools {
 		// 创建Toast
 		toast = new Toast(ctx);
 		toast.setView(view);
-		toast.setGravity(Gravity.CENTER, 0, 0);
+		toast.setGravity(Gravity.CENTER, 0, screenHeight / 3);
 		// 设置显示时长
 		if (time == Toast.LENGTH_LONG) {
 			toast.setDuration(Toast.LENGTH_LONG);
@@ -100,7 +100,7 @@ public class CommonTools {
 		// 创建Toast
 		toast = new Toast(ctx);
 		toast.setView(view);
-		toast.setGravity(Gravity.BOTTOM, 0, screenHeight / 12);
+		toast.setGravity(Gravity.CENTER, 0, screenHeight / 3);
 		// 设置显示时长
 		if (time == Toast.LENGTH_LONG) {
 			toast.setDuration(Toast.LENGTH_LONG);

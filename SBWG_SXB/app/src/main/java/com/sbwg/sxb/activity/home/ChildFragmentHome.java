@@ -260,28 +260,28 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
                 @NonNull
                 @Override
                 public Object instantiateItem(@NonNull ViewGroup container, int position) {
-                    if (viewLists.size() <= 1) return null;
+                    if (fg_home_vp == null || viewLists.size() <= 1) return null;
                     View layout;
                     if (loop) {
                         layout = viewLists.get(position % viewLists.size());
                     } else {
                         layout = viewLists.get(position);
                     }
-                    container.addView(layout);
+                    fg_home_vp.addView(layout);
                     return layout;
                 }
 
                 // 销毁
                 @Override
                 public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
-                    if (viewLists.size() <= 1) return;
+                    if (fg_home_vp == null || viewLists.size() <= 1) return;
                     View layout;
                     if (loop) {
                         layout = viewLists.get(position % viewLists.size());
                     } else {
                         layout = viewLists.get(position);
                     }
-                    container.removeView(layout);
+                    fg_home_vp.removeView(layout);
                 }
 
                 @Override

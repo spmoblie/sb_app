@@ -55,6 +55,7 @@ public class RetrofitServiceManager {
         HttpCommonInterceptor commonInterceptor = new HttpCommonInterceptor.Builder()
                 .addHeaderParams("X-APP-Token", UserManager.getInstance().getXAppToken())
                 .build();
+        LogUtil.i("Retrofit", "X-APP-Token " + UserManager.getInstance().getXAppToken());
         // 指定缓存路径,缓存大小100Mb
         Cache cache = new Cache(new File(AppApplication.getInstance().getApplicationContext().getCacheDir(),
                 "HttpCache"), 1024 * 1024 * 100);

@@ -8,6 +8,7 @@ import com.sbwg.sxb.AppApplication;
 import com.sbwg.sxb.AppConfig;
 import com.sbwg.sxb.entity.UserInfoEntity;
 import com.sbwg.sxb.entity.WXEntity;
+import com.sbwg.sxb.utils.retrofit.HttpRequests;
 import com.sbwg.sxb.widgets.share.weibo.AccessTokenKeeper;
 
 
@@ -31,7 +32,6 @@ public class UserManager {
 	private String mUserMoney = null;
 
 	private String xAppToken = null;
-	private String xAppTokenExpire = null;
 
 	private String wxAccessToken = null;
 	private String wxOpenId = null;
@@ -59,7 +59,7 @@ public class UserManager {
 
 	public String getUserId(){
 		if(StringUtil.isNull(mUserId)){
-			mUserId = sp.getString(AppConfig.KEY_USER_ID, null);
+			mUserId = sp.getString(AppConfig.KEY_USER_ID, "");
 		}
 		LogUtil.i("isLogin", "getUserId = " + mUserId);
 		return mUserId;
@@ -73,7 +73,7 @@ public class UserManager {
 
 	public String getShareId(){
 		if(StringUtil.isNull(shareId)){
-			shareId = sp.getString(AppConfig.KEY_SHARE_ID, null);
+			shareId = sp.getString(AppConfig.KEY_SHARE_ID, "");
 		}
 		LogUtil.i("isLogin", "getShareId = " + shareId);
 		return shareId;
@@ -111,7 +111,7 @@ public class UserManager {
 
 	public String getUserPhone(){
 		if(StringUtil.isNull(mUserPhone)){
-			mUserPhone = sp.getString(AppConfig.KEY_USER_PHONE, null);
+			mUserPhone = sp.getString(AppConfig.KEY_USER_PHONE, "");
 		}
 		return mUserPhone;
 	}
@@ -215,8 +215,7 @@ public class UserManager {
 
 	public String getXAppToken(){
 		if(StringUtil.isNull(xAppToken)){
-			//xAppToken = sp.getString(AppConfig.KEY_X_APP_TOKEN, null);
-			xAppToken = "dtcb6bor0v0aq73cbebtvj063mkym5kw";
+			xAppToken = sp.getString(AppConfig.KEY_X_APP_TOKEN, "");
 		}
 		return xAppToken;
 	}
@@ -228,7 +227,7 @@ public class UserManager {
 
 	public String getWXAccessToken(){
 		if(StringUtil.isNull(wxAccessToken)){
-			wxAccessToken = sp.getString(AppConfig.KEY_WX_ACCESS_TOKEN, null);
+			wxAccessToken = sp.getString(AppConfig.KEY_WX_ACCESS_TOKEN, "");
 		}
 		return wxAccessToken;
 	}
@@ -240,7 +239,7 @@ public class UserManager {
 
 	public String getWXOpenId(){
 		if(StringUtil.isNull(wxOpenId)){
-			wxOpenId = sp.getString(AppConfig.KEY_WX_OPEN_ID, null);
+			wxOpenId = sp.getString(AppConfig.KEY_WX_OPEN_ID, "");
 		}
 		return wxOpenId;
 	}
@@ -252,7 +251,7 @@ public class UserManager {
 
 	public String getWXUnionId(){
 		if(StringUtil.isNull(wxUnionId)){
-			wxUnionId = sp.getString(AppConfig.KEY_WX_UNION_ID, null);
+			wxUnionId = sp.getString(AppConfig.KEY_WX_UNION_ID, "");
 		}
 		return wxUnionId;
 	}
@@ -264,7 +263,7 @@ public class UserManager {
 
 	public String getWXRefreshToken(){
 		if(StringUtil.isNull(wxRefreshToken)){
-			wxRefreshToken = sp.getString(AppConfig.KEY_WX_REFRESH_TOKEN, null);
+			wxRefreshToken = sp.getString(AppConfig.KEY_WX_REFRESH_TOKEN, "");
 		}
 		return wxRefreshToken;
 	}
@@ -316,10 +315,14 @@ public class UserManager {
 	/**
 	 * 登入成功保存状态
 	 */
-	public void saveUserLoginSuccess(String userId, String token){
-		saveUserId(userId);
-		saveXAppToken(token);
-		changeAllDataStatus();
+	public void saveUserLoginSuccess(UserInfoEntity infoEn){
+		if (infoEn != null) {
+			saveUserId(infoEn.getUserId());
+			saveUserNick(infoEn.getUserNick());
+			saveUserHead(infoEn.getUserHead());
+			saveXAppToken(infoEn.getAppToken());
+			changeAllDataStatus();
+		}
 	}
 
 	/**
@@ -334,34 +337,34 @@ public class UserManager {
 		AccessTokenKeeper.clear(ctx);
 		// 清空缓存的用户信息
 		clearUserLoginInfo();
-		// 刷新所有登录状态下的数据
+		// 刷新所有状态数据
 		changeAllDataStatus();
 	}
 
 	/**
-	 * 刷新所有登录状态下的数据
+	 * 刷新所有状态数据
 	 */
 	private void changeAllDataStatus() {
-
+		HttpRequests.clearInstance(); //刷新Token
 	}
 
 	/**
 	 * 清空用户信息
 	 */
 	private void clearUserLoginInfo(){
-		saveUserId(null);
-		saveShareId(null);
-		saveUserName(null);
-		saveUserPhone(null);
-		saveUserEmail(null);
-		saveUserNick(null);
-		saveUserHead(null);
-		saveUserIntro(null);
+		saveUserId("");
+		saveShareId("");
+		saveUserName("");
+		saveUserPhone("");
+		saveUserEmail("");
+		saveUserNick("");
+		saveUserHead("");
+		saveUserIntro("");
 		saveUserGender(0);
-		saveUserBirthday(null);
-		saveUserArea(null);
+		saveUserBirthday("");
+		saveUserArea("");
 		saveUserMoney("0.00");
-		saveXAppToken(null);
+		saveXAppToken("");
 	}
 
 	/**
@@ -369,7 +372,6 @@ public class UserManager {
 	 */
 	public void saveUserInfo(UserInfoEntity infoEn) {
 		if (infoEn != null) {
-			saveUserId(infoEn.getUserId());
 			saveShareId(infoEn.getShareId());
 			saveUserName(infoEn.getUserName());
 			saveUserPhone(infoEn.getUserPhone());
@@ -380,7 +382,6 @@ public class UserManager {
 			saveUserGender(infoEn.getGenderCode());
 			saveUserBirthday(infoEn.getBirthday());
 			saveUserArea(infoEn.getUserArea());
-			saveXAppToken(infoEn.getAppToken());
 			if (StringUtil.isNull(infoEn.getMoney())) {
 				saveUserMoney("0.00");
 			} else {
@@ -407,10 +408,10 @@ public class UserManager {
 	 * 清除微信授权信息
 	 */
 	private void clearWechatUserInfo() {
-		saveWXAccessToken(null);
-		saveWXOpenId(null);
-		saveWXUnionId(null);
-		saveWXRefreshToken(null);
+		saveWXAccessToken("");
+		saveWXOpenId("");
+		saveWXUnionId("");
+		saveWXRefreshToken("");
 	}
 
 }

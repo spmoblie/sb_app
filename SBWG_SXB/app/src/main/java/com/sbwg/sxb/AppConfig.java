@@ -31,6 +31,8 @@ public class AppConfig {
 	public final static String URL_AUTH_MESSAGE = "auth/regCaptcha";
 	// 提交注册
 	public final static String URL_AUTH_REGISTER = "auth/register";
+	// 提交重置
+	public final static String URL_AUTH_RESET = "auth/reset";
 	// 提交登录
 	public final static String URL_AUTH_LOGIN = "auth/login";
 	// 提交注销
@@ -42,6 +44,9 @@ public class AppConfig {
 	public final static String URL_HOME_LIST = "activity/list";
 	// 报名数据提交
 	public final static String URL_SIGN_UP_ADD = "activity/sign_up/add";
+
+	// 获取用户资料
+	public final static String URL_USER_GET = "user/get";
 
 	// SP微信公众号
 	public static final String SP_WECHAT_PUBLIC = "http://weixin.qq.com/r/MnXVzWXE-jiBrSGu9yAg";
@@ -57,19 +62,21 @@ public class AppConfig {
 	 */
 
 	// 全局对话框“确定”
-	public static final int DIALOG_CLICK_OK = 656;
+	public static final int DIALOG_CLICK_OK = 0X0666;
 	// 全局对话框“取消”
-	public static final int DIALOG_CLICK_NO = 787;
+	public static final int DIALOG_CLICK_NO = 0X0999;
 
 	// 相片类型-圆形
-	public static final int PHOTO_TYPE_ROUND = 701;
+	public static final int PHOTO_TYPE_ROUND = 0X0011;
 	// 相片类型-方形
-	public static final int PHOTO_TYPE_SQUARE = 702;
+	public static final int PHOTO_TYPE_SQUARE = 0X0022;
 
 	// Error状态码：加载成功
 	public static final int ERROR_CODE_SUCCESS = 0;
-	// Error状态码：登录失效
-	public static final int ERROR_CODE_LOGOUT = 999;
+	// Error状态码：手机号已注册
+	public static final int ERROR_CODE_PHONE_REGISTERED = 705;
+	// Error状态码：手机号未注册
+	public static final int ERROR_CODE_PHONE_UNREGISTERED = 706;
 
 	// 加载缓冲时间
 	public static final int LOADING_TIME = 1000;
@@ -136,25 +143,29 @@ public class AppConfig {
 	 */
 
 	// 校验Sessions
-	public static final int REQUEST_SV_GET_SESSIONS_CODE = 0X0001;
+	public static final int REQUEST_SV_GET_SESSIONS_CODE = 0X1001;
 	// 检测版本更新
-	public static final int REQUEST_SV_POST_VERSION_CODE = 0X0002;
-
+	public static final int REQUEST_SV_POST_VERSION_CODE = 0X1002;
 	// 短信验证码
-	public static final int REQUEST_SV_AUTH_MESSAGE = 0X1001;
+	public static final int REQUEST_SV_AUTH_MESSAGE = 0X1003;
 	// 提交注册
-	public static final int REQUEST_SV_AUTH_REGISTER = 0X1002;
+	public static final int REQUEST_SV_AUTH_REGISTER = 0X1004;
+	// 提交重置
+	public static final int REQUEST_SV_AUTH_RESET = 0X1005;
 	// 提交登录
-	public static final int REQUEST_SV_AUTH_LOGIN = 0X1003;
+	public static final int REQUEST_SV_AUTH_LOGIN = 0X1006;
 	// 提交注销
-	public static final int REQUEST_SV_AUTH_LOGOUT = 0X1004;
+	public static final int REQUEST_SV_AUTH_LOGOUT = 0X1007;
 
 	// 首頁头部数据
 	public static final int REQUEST_SV_POST_HOME_HEAD = 0X2001;
 	// 首頁列表数据
 	public static final int REQUEST_SV_POST_HOME_LIST = 0X2002;
 	// 提交报名数据
-	public static final int REQUEST_SV_POST_SIGN_DATA = 0X3001;
+	public static final int REQUEST_SV_POST_SIGN_DATA = 0X2003;
+
+	// 获取用户资料
+	public static final int REQUEST_SV_POST_USER_GET = 0X3001;
 
 	/**
 	 ******************************************* RequestCode参数设置结束 ******************************************
@@ -220,8 +231,8 @@ public class AppConfig {
 	public static final String KEY_WX_UNION_ID = "wx_union_id";
 	// 偏好设置Key-记录同步远程服务器数据的日期
 	public static final String KEY_LOAD_SV_DATA_DAY = "load_sv_data_day";
-	// 偏好设置Key-记录是否重加载分类数据
-	public static final String KEY_LOAD_SORT_DATA = "load_sort_data";
+	// 偏好设置Key-记录刷新用户资料
+	public static final String KEY_UPDATE_USER_DATA = "update_user_data";
 	// 偏好设置Key-记录推送服务的开关状态
 	public static final String KEY_PUSH_STATUS = "push_status";
 	// 偏好设置Key-记录首页当前的下标索引
@@ -247,14 +258,12 @@ public class AppConfig {
 	public static final String ACTIVITY_CHANGE_USER_CONTENT = "change_user_content";
 	public static final String ACTIVITY_SELECT_LIST_POSITION = "select_list_position";
 
-	public static final int ACTIVITY_SELECT_PHOTO_PICKER = 0X9001;
-	public static final int ACTIVITY_SHOW_PHOTO_PICKER = 0X9002;
-	public static final int ACTIVITY_GET_IMAGE_VIA_CAMERA = 0X9003;
-	public static final int ACTIVITY_CHANGE_USER_NICK = 0X9004;
-	public static final int ACTIVITY_CHANGE_USER_GENDER = 0X9005;
-	public static final int ACTIVITY_CHANGE_USER_AREA = 0X9006;
-	public static final int ACTIVITY_CHANGE_USER_INTRO = 0X9007;
-	public static final int ACTIVITY_CHANGE_USER_EMAIL = 0X9008;
+	public static final int ACTIVITY_GET_IMAGE_VIA_CAMERA = 0X9001;
+	public static final int ACTIVITY_CHANGE_USER_NICK = 0X9002;
+	public static final int ACTIVITY_CHANGE_USER_GENDER = 0X9003;
+	public static final int ACTIVITY_CHANGE_USER_AREA = 0X9004;
+	public static final int ACTIVITY_CHANGE_USER_INTRO = 0X9005;
+	public static final int ACTIVITY_CHANGE_USER_EMAIL = 0X9006;
 
 	/**
 	 ******************************************* Activity传参设置结束 ******************************************

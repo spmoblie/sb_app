@@ -32,36 +32,36 @@ import java.util.HashMap;
 import butterknife.BindView;
 
 
-public class RegisterActivity extends BaseActivity implements OnClickListener {
+public class ResetPasswordActivity extends BaseActivity implements OnClickListener {
 
-	public static final String TAG = RegisterActivity.class.getSimpleName();
+	public static final String TAG = ResetPasswordActivity.class.getSimpleName();
 
-	@BindView(R.id.register_et_phone)
+	@BindView(R.id.reset_password_et_phone)
 	EditText et_phone;
 
-	@BindView(R.id.register_et_code)
+	@BindView(R.id.reset_password_et_code)
 	EditText et_code;
 
-	@BindView(R.id.register_et_password)
+	@BindView(R.id.reset_password_et_password)
 	EditText et_password;
 
-	@BindView(R.id.register_iv_phone_clear)
+	@BindView(R.id.reset_password_iv_phone_clear)
 	ImageView iv_phone_clear;
 
-	@BindView(R.id.register_iv_password_check)
+	@BindView(R.id.reset_password_iv_password_check)
 	ImageView iv_password_check;
 
-	@BindView(R.id.register_tv_phone_error)
+	@BindView(R.id.reset_password_tv_phone_error)
 	TextView tv_phone_error;
 
-	@BindView(R.id.register_tv_password_error)
+	@BindView(R.id.reset_password_tv_password_error)
 	TextView tv_password_error;
 
-	@BindView(R.id.register_tv_verify_code)
+	@BindView(R.id.reset_password_tv_verify_code)
 	TextView tv_verify_code;
 
-	@BindView(R.id.register_btn_register)
-	Button btn_register;
+	@BindView(R.id.reset_password_btn_reset)
+	Button btn_reset;
 
 	private int send_number = 0;
 	private boolean isPhone_Ok = false;
@@ -69,25 +69,25 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 	private boolean isPassword_Ok = false;
 	private boolean send_Again = true;
 	private boolean isSendCode = false;
-	private boolean isRegister = false;
+	private boolean isReset = false;
 	private String phoneStr, codeStr, passwordStr;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_register);
+		setContentView(R.layout.activity_reset_password);
 
 		initView();
 	}
 
 	private void initView() {
-		setTitle(R.string.login_phone_register);
+		setTitle(R.string.login_password_reset);
 
 		iv_phone_clear.setOnClickListener(this);
 		tv_verify_code.setOnClickListener(this);
 		iv_password_check.setOnClickListener(this);
 		iv_password_check.setSelected(false);//设置默认隐藏密码
-		btn_register.setOnClickListener(this);
+		btn_reset.setOnClickListener(this);
 
 		initEditText();
 	}
@@ -114,7 +114,7 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 			@Override
 			public void afterTextChanged(Editable s) {
 				setSendCodeState(false);
-				setRegisterState(false);
+				setResetState(false);
 				isPhone_Ok = false;
 				phoneStr = s.toString();
 				if (phoneStr.isEmpty()) {
@@ -138,7 +138,11 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 						if (isTimeFinish) {
 							setSendCodeState(true);
 						}
-						editTextFocusAndClear(et_code);
+						if (isPassword_Ok) {
+							editTextFocusAndClear(et_code);
+						} else {
+							editTextFocusAndClear(et_password);
+						}
 					}
 				}
 			}
@@ -158,13 +162,13 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 
 			@Override
 			public void afterTextChanged(Editable s) {
-				setRegisterState(false);
+				setResetState(false);
 				isCodes_Ok = false;
 				if (s.toString().length() >= 6) {
 					isCodes_Ok = true;
 					if (isPhone_Ok) {
 						if (isPassword_Ok) {
-							setRegisterState(true);
+							setResetState(true);
 						} else {
 							editTextFocusAndClear(et_password);
 						}
@@ -194,7 +198,7 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 
 			@Override
 			public void afterTextChanged(Editable s) {
-				setRegisterState(false);
+				setResetState(false);
 				isPassword_Ok = false;
 				passwordStr = s.toString();
 				if (passwordStr.length() >= 6) {
@@ -207,7 +211,7 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 					}
 					isPassword_Ok = true;
 					if (isPhone_Ok && isCodes_Ok) {
-						setRegisterState(true);
+						setResetState(true);
 					}
 				}
 			}
@@ -229,9 +233,9 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 		}
 	}
 
-	private void setRegisterState(boolean isState) {
-		isRegister = isState;
-		changeViewState(btn_register, isRegister);
+	private void setResetState(boolean isState) {
+		isReset = isState;
+		changeViewState(btn_reset, isReset);
 	}
 
 	private void setSendCodeState(boolean isState) {
@@ -242,10 +246,10 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-			case R.id.register_iv_phone_clear:
+			case R.id.reset_password_iv_phone_clear:
 				editTextFocusAndClear(et_phone);
 				break;
-			case R.id.register_tv_verify_code:
+			case R.id.reset_password_tv_verify_code:
 				if (send_number >= 3) {
 					CommonTools.showToast(getString(R.string.login_verify_code_send_3));
 				}
@@ -254,7 +258,7 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 					sendMessageAuth();
 				}
 				break;
-			case R.id.register_iv_password_check:
+			case R.id.reset_password_iv_password_check:
 				if (!iv_password_check.isSelected()) {
 					iv_password_check.setSelected(true);
 					changeEditTextPassword(et_password, true);
@@ -263,9 +267,9 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 					changeEditTextPassword(et_password, false);
 				}
 				break;
-			case R.id.register_btn_register:
-				if (checkData() && isRegister) {
-					postRegisterData();
+			case R.id.reset_password_btn_reset:
+				if (checkData() && isReset) {
+					postResetData();
 				}
 				break;
 		}
@@ -301,7 +305,7 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 			CommonTools.showToast(getString(R.string.login_verify_code_error));
 			return false;
 		}
-		// 密码非空
+		// 验证非空
 		passwordStr = et_password.getText().toString();
 		if (passwordStr.isEmpty()) {
 			CommonTools.showToast(getString(R.string.login_password_input));
@@ -368,7 +372,7 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 		loadSVData(AppConfig.URL_AUTH_MESSAGE, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_AUTH_MESSAGE);
 	}
 
-	private void postRegisterData() {
+	private void postResetData() {
 		startAnimation();
 		new Handler().postDelayed(new Runnable() {
 			@Override
@@ -377,7 +381,7 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 				map.put("mobile", phoneStr);
 				map.put("code", codeStr);
 				map.put("password", passwordStr);
-				loadSVData(AppConfig.URL_AUTH_REGISTER, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_AUTH_REGISTER);
+				loadSVData(AppConfig.URL_AUTH_RESET, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_AUTH_RESET);
 			}
 		}, AppConfig.LOADING_TIME);
 	}
@@ -405,17 +409,17 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 						showServerBusy(baseEn.getErrmsg());
 					}
 					break;
-				case AppConfig.REQUEST_SV_AUTH_REGISTER:
+				case AppConfig.REQUEST_SV_AUTH_RESET:
 					baseEn = JsonLogin.getLoginData(jsonObject);
 					if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
-						CommonTools.showToast(getString(R.string.login_register_ok));
+						CommonTools.showToast(getString(R.string.login_reset_ok));
 						UserInfoEntity userInfo = (UserInfoEntity) baseEn.getData();
 						UserManager.getInstance().saveUserLoginSuccess(userInfo);
 						closeLoginActivity();
 					} else
-					if (baseEn.getErrno() == AppConfig.ERROR_CODE_PHONE_REGISTERED) {
+					if (baseEn.getErrno() == AppConfig.ERROR_CODE_PHONE_UNREGISTERED) {
 						tv_phone_error.setVisibility(View.VISIBLE);
-						tv_phone_error.setText(getString(R.string.login_phone_registered));
+						tv_phone_error.setText(getString(R.string.login_phone_unregistered));
 					} else {
 						showServerBusy(baseEn.getErrmsg());
 					}

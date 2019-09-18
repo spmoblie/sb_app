@@ -14,6 +14,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.sbwg.sxb.AppApplication;
 import com.sbwg.sxb.AppConfig;
@@ -165,7 +166,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 						exit = Boolean.FALSE;
 					}
 				}, 2000);
-				CommonTools.showToast(getString(R.string.toast_exit_prompt), 1000);
+				CommonTools.showToast(getString(R.string.toast_exit_prompt), Toast.LENGTH_SHORT);
 			}
 			return true;
 		}

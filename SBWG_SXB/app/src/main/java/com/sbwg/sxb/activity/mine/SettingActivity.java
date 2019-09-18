@@ -15,16 +15,8 @@ import com.sbwg.sxb.AppConfig;
 import com.sbwg.sxb.R;
 import com.sbwg.sxb.activity.BaseActivity;
 import com.sbwg.sxb.activity.common.MyWebViewActivity;
-import com.sbwg.sxb.entity.BaseEntity;
-import com.sbwg.sxb.utils.ExceptionUtil;
-import com.sbwg.sxb.utils.JsonLogin;
 import com.sbwg.sxb.utils.LogUtil;
 import com.sbwg.sxb.utils.UpdateAppVersion;
-import com.sbwg.sxb.utils.retrofit.HttpRequests;
-
-import org.json.JSONObject;
-
-import java.util.HashMap;
 
 
 public class SettingActivity extends BaseActivity implements OnClickListener {
@@ -120,8 +112,15 @@ public class SettingActivity extends BaseActivity implements OnClickListener {
                                         case AppConfig.DIALOG_CLICK_NO:
                                             break;
                                         case AppConfig.DIALOG_CLICK_OK:
-                                            AppApplication.AppLogout(false);
-                                            //postSignOut();
+                                            AppApplication.AppLogout();
+                                            startAnimation();
+                                            new Handler().postDelayed(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    stopAnimation();
+                                                    finish();
+                                                }
+                                            }, AppConfig.LOADING_TIME);
                                             break;
                                     }
                                 }
@@ -167,38 +166,6 @@ public class SettingActivity extends BaseActivity implements OnClickListener {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-    }
-
-    private void postSignOut() {
-        startAnimation();
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                HashMap<String, String> map = new HashMap<>();
-                loadSVData(AppConfig.URL_AUTH_LOGOUT, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_AUTH_LOGOUT);
-            }
-        }, AppConfig.LOADING_TIME);
-    }
-
-    @Override
-    protected void callbackData(JSONObject jsonObject, int dataType) {
-        BaseEntity baseEn;
-        try {
-            switch (dataType) {
-                case AppConfig.REQUEST_SV_AUTH_LOGOUT:
-                    baseEn = JsonLogin.getBaseErrorData(jsonObject);
-                    if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
-                        AppApplication.AppLogout(false);
-                        finish();
-                    } else {
-                        showServerBusy(baseEn.getErrmsg());
-                    }
-                    break;
-            }
-        } catch (Exception e) {
-            loadFailHandle();
-            ExceptionUtil.handle(e);
-        }
     }
 
 }

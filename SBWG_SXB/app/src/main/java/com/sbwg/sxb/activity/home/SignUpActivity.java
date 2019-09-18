@@ -12,7 +12,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.sbwg.sxb.AppApplication;
@@ -355,7 +354,7 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
         }
         // 校验支付
         if (isPay && !isPay_Ok) {
-            CommonTools.showToast(getString(R.string.sign_up_cost_pay, String.valueOf(payAmount)), Toast.LENGTH_LONG);
+            CommonTools.showToast(getString(R.string.sign_up_cost_pay, String.valueOf(payAmount)));
             return false;
         }
         return true;
@@ -380,7 +379,7 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
 
         // 报名状态
         isSignUp = UserManager.getInstance().isCourseSignUp(courseId);
-        if (isSignUp) {
+        if (isLogin() && isSignUp) {
             setPayState(false);
             setSignState("已报名", false);
         }

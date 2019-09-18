@@ -22,6 +22,7 @@ import com.sbwg.sxb.utils.CommonTools;
 import com.sbwg.sxb.utils.DeviceUtil;
 import com.sbwg.sxb.utils.ExceptionUtil;
 import com.sbwg.sxb.utils.LogUtil;
+import com.sbwg.sxb.utils.UserManager;
 import com.sbwg.sxb.utils.retrofit.HttpRequests;
 
 import java.io.File;
@@ -82,6 +83,7 @@ public class AppApplication extends Application {
 
         // Facebook SDK初始化
         //FacebookSdk.sdkInitialize(getApplicationContext());
+        shared.edit().putBoolean(AppConfig.KEY_UPDATE_USER_DATA, true).apply();
     }
 
     public static synchronized AppApplication getInstance() {
@@ -138,7 +140,6 @@ public class AppApplication extends Application {
 //				CleanDataManager.cleanCustomCache(AppConfig.SAVE_PATH_MEDIA_DICE); //清除视频缓存
             }
         }).start();
-        shared.edit().putBoolean(AppConfig.KEY_LOAD_SORT_DATA, true).apply();
     }
 
     /**
@@ -270,13 +271,13 @@ public class AppApplication extends Application {
     /**
      * App注销登出统一入口
      */
-    public static void AppLogout(boolean isSend) {
+    public static void AppLogout() {
+        // 远程退出
+        HashMap<String, String> map = new HashMap<>();
+        map.put("userId", UserManager.getInstance().getUserId());
+        HttpRequests.getInstance().loadDatas(AppConfig.URL_AUTH_LOGOUT, map, HttpRequests.HTTP_POST);
+        // 本地退出
         AppManager.getInstance().AppLogout(spApp);
-        if (isSend) {
-            //通知服务器退出账号
-            HashMap<String, String> map = new HashMap<>();
-            HttpRequests.getInstance().loadDatas(AppConfig.URL_AUTH_LOGOUT, map, HttpRequests.HTTP_POST);
-        }
     }
 
     // 创建服务用于捕获崩溃异常

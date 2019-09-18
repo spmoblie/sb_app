@@ -1,6 +1,5 @@
 package com.sbwg.sxb.utils;
 
-import com.sbwg.sxb.AppConfig;
 import com.sbwg.sxb.entity.AuthResult;
 import com.sbwg.sxb.entity.BaseEntity;
 import com.sbwg.sxb.entity.QQEntity;
@@ -49,35 +48,20 @@ public class JsonLogin {
 		BaseEntity mainEn = getCommonKeyValue(jsonObject);
 
 		UserInfoEntity userInfo = new UserInfoEntity();
-		JSONObject jsonData = jsonObject.getJSONObject("data");
-		if (StringUtil.notNull(jsonData, "userInfo")) {
-			JSONObject data = jsonData.getJSONObject("userInfo");
-			userInfo.setUserId(data.getString("songbaoId"));
-			userInfo.setUserNick(data.getString("nickName"));
-			userInfo.setUserHead(data.getString("avatarUrl"));
-			//userInfo.setUserIntro(data.getString("signature"));
-			userInfo.setGenderCode(data.getInt("gender"));
-		}
-		if (StringUtil.notNull(jsonData, "token")) {
-			userInfo.setAppToken(jsonData.getString("token"));
+		if (StringUtil.notNull(jsonObject, "data")) {
+			JSONObject jsonData = jsonObject.getJSONObject("data");
+			if (StringUtil.notNull(jsonData, "userInfo")) {
+				JSONObject data = jsonData.getJSONObject("userInfo");
+				userInfo.setUserId(data.getString("songbaoId"));
+				userInfo.setUserNick(data.getString("nickName"));
+				userInfo.setUserHead(data.getString("avatarUrl"));
+			}
+			if (StringUtil.notNull(jsonData, "token")) {
+				userInfo.setAppToken(jsonData.getString("token"));
+			}
 		}
 		mainEn.setData(userInfo);
 		return mainEn;
-	}
-
-
-	/**
-	 * 获取用户登录校验结果
-	 */
-	public static UserInfoEntity postAccountLoginData(String jsonStr) throws JSONException {
-		JSONObject jsonObject = new JSONObject(jsonStr);
-		int errCode = Integer.valueOf(jsonObject.getString("error"));
-		String errInfo = jsonObject.getString("message");
-		UserInfoEntity infoEn = new UserInfoEntity(errCode, errInfo);
-		if (errCode == AppConfig.ERROR_CODE_SUCCESS) { //校验通过
-			infoEn.setUserId(jsonObject.getString("user_id"));
-		}
-		return infoEn;
 	}
 
 	/**
