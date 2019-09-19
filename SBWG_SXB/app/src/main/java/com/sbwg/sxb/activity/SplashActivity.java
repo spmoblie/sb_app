@@ -35,6 +35,8 @@ public class SplashActivity extends BaseActivity {
 		LogUtil.i(TAG, "onResume");
 		// 页面开始
 		AppApplication.onPageStart(this, TAG);
+		// 检查授权
+		checkPermission();
 		// 延迟跳转页面
 		goHomeActivity();
 

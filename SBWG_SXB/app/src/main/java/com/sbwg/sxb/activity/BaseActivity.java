@@ -65,13 +65,18 @@ import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 import butterknife.ButterKnife;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import rx.Observer;
 
@@ -791,7 +796,76 @@ public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Res
 	 */
 	protected void loadSVData(String path, HashMap<String, String> map, int httpType, final int dataType) {
 		HttpRequests.getInstance()
-				.loadDatas(path, map, httpType)
+				.loadData(path, map, httpType)
+				.subscribe(new Observer<ResponseBody>() {
+					@Override
+					public void onNext(ResponseBody body) {
+						try {
+							callbackData(new JSONObject(body.string()), dataType);
+						} catch (Exception e) {
+							loadFailHandle();
+							ExceptionUtil.handle(e);
+						}
+						LogUtil.i("Retrofit","onNext");
+					}
+
+					@Override
+					public void onError(Throwable throwable) {
+						if (throwable instanceof Fault) {
+							Fault fault = (Fault) throwable;
+							if (fault.getErrorCode() == 404) {
+								//错误处理
+							} else
+							if (fault.getErrorCode() == 500) {
+								//错误处理
+							}
+						} else {
+							//错误处理
+						}
+						loadFailHandle();
+						LogUtil.i("Retrofit","error message : " + throwable.getMessage());
+					}
+
+					@Override
+					public void onCompleted() {
+						// 结束处理
+						stopAnimation();
+						LogUtil.i("Retrofit","onCompleted");
+					}
+				});
+	}
+
+	/**
+	 * 上传文件到服务器
+	 * @param fileName
+	 * @param fileType
+	 * @param dataType
+	 */
+	protected void uploadPushFile(File fileName, int fileType, final int dataType) {
+
+		//1.创建MultipartBody.Builder对象
+		MultipartBody.Builder builder = new MultipartBody.Builder()
+				.setType(MultipartBody.FORM);
+
+		//2.获取图片，创建请求体
+        RequestBody body=RequestBody.create(MediaType.parse("multipart/form-data"), fileName);//表单类型
+
+		//3.调用MultipartBody.Builder的addFormDataPart()方法添加表单数据
+		builder.addFormDataPart("file", fileName.getName(), body); //添加图片数据，body创建的请求体
+		JSONObject jsonObj =new JSONObject();
+		try {
+			jsonObj.put("type", fileType);
+		} catch (JSONException e) {
+			ExceptionUtil.handle(e);
+		}
+		builder.addFormDataPart("json", jsonObj.toString()); //传入服务器需要的key，和相应value值
+
+		//4.创建List<MultipartBody.Part> 集合，
+		List<MultipartBody.Part> parts = builder.build().parts();
+
+		//5.最后进行HTTP请求，传入parts即可
+		HttpRequests.getInstance()
+				.uploadFile(AppConfig.URL_UPLOAD_PUSH, parts)
 				.subscribe(new Observer<ResponseBody>() {
 					@Override
 					public void onNext(ResponseBody body) {

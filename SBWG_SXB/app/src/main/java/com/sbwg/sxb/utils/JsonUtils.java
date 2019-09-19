@@ -49,11 +49,11 @@ public class JsonUtils {
 
         JSONObject jsonData = jsonObject.getJSONObject("data");
         if (StringUtil.notNull(jsonData, "banner")) {
-            JSONArray datas = jsonData.getJSONArray("banner");
+            JSONArray data = jsonData.getJSONArray("banner");
             ThemeEntity childEn;
             List<ThemeEntity> lists = new ArrayList<>();
-            for (int j = 0; j < datas.length(); j++) {
-                JSONObject item = datas.getJSONObject(j);
+            for (int j = 0; j < data.length(); j++) {
+                JSONObject item = data.getJSONObject(j);
                 childEn = new ThemeEntity();
                 childEn.setId(item.getInt("id"));
                 childEn.setTitle(item.getString("name"));
@@ -80,11 +80,11 @@ public class JsonUtils {
             mainEn.setDataTotal(jsonData.getInt("total"));
         }
         if (StringUtil.notNull(jsonData, "activityList")) {
-            JSONArray datas = jsonData.getJSONArray("activityList");
+            JSONArray data = jsonData.getJSONArray("activityList");
             ThemeEntity childEn;
             List<ThemeEntity> lists = new ArrayList<>();
-            for (int j = 0; j < datas.length(); j++) {
-                JSONObject item = datas.getJSONObject(j);
+            for (int j = 0; j < data.length(); j++) {
+                JSONObject item = data.getJSONObject(j);
                 childEn = new ThemeEntity();
                 childEn.setId(item.getInt("id"));
                 childEn.setTitle(item.getString("title"));
@@ -125,11 +125,27 @@ public class JsonUtils {
                 userInfo.setUserNick(data.getString("nickname"));
                 userInfo.setUserHead(data.getString("avatar"));
                 userInfo.setGenderCode(data.getInt("gender"));
-                //userInfo.setBirthday(data.getString("birthday"));
+                userInfo.setBirthday(data.getString("birthdayValue"));
                 userInfo.setUserIntro(data.getString("signature"));
             }
         }
         mainEn.setData(userInfo);
+        return mainEn;
+    }
+
+    /**
+     * 解析用户资料数据
+     * @param jsonObject
+     * @return
+     * @throws JSONException
+     */
+    public static BaseEntity getUploadResult(JSONObject jsonObject) throws JSONException {
+        BaseEntity mainEn = getCommonKeyValue(jsonObject);
+
+        if (StringUtil.notNull(jsonObject, "data")) {
+            JSONObject jsonData = jsonObject.getJSONObject("data");
+            mainEn.setOthers(jsonData.getString("url"));
+        }
         return mainEn;
     }
 

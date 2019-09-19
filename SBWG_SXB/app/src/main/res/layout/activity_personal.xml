@@ -30,7 +30,6 @@
                 android:layout_toLeftOf="@+id/personal_tv_head_content"
                 android:contentDescription="@string/desc"
                 android:src="@drawable/icon_default_head"
-                android:scaleType="centerCrop"
                 app:type="circle" />
 
             <TextView

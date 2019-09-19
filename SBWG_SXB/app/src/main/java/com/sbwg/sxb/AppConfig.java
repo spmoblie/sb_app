@@ -17,6 +17,7 @@ public class AppConfig {
 	// 网络传输协议https
 	public final static String APP_HTTPS = "https://";
 	// 域名1
+	//public final static String ENVIRONMENT_TEST_APP_1 = APP_HTTP + "www.girlbdf.cn:9090/app/";
 	public final static String ENVIRONMENT_TEST_APP_1 = APP_HTTP + "192.168.1.143/app/";
 	// 域名2
 	public final static String ENVIRONMENT_TEST_APP_2 = APP_HTTP + "";
@@ -47,7 +48,11 @@ public class AppConfig {
 
 	// 获取用户资料
 	public final static String URL_USER_GET = "user/get";
+	// 修改用户资料
+	public final static String URL_USER_SAVE = "user/save";
 
+	// 上传接口
+	public final static String URL_UPLOAD_PUSH = "upload/push";
 	// SP微信公众号
 	public static final String SP_WECHAT_PUBLIC = "http://weixin.qq.com/r/MnXVzWXE-jiBrSGu9yAg";
 	// 联系客服URL
@@ -164,8 +169,12 @@ public class AppConfig {
 	// 提交报名数据
 	public static final int REQUEST_SV_POST_SIGN_DATA = 0X2003;
 
+	// 上传用户头像
+	public static final int REQUEST_SV_POST_UPLOAD_HEAD = 0X3001;
 	// 获取用户资料
-	public static final int REQUEST_SV_POST_USER_GET = 0X3001;
+	public static final int REQUEST_SV_POST_USER_GET = 0X3002;
+	// 修改用户资料
+	public static final int REQUEST_SV_POST_USER_SAVE = 0X3003;
 
 	/**
 	 ******************************************* RequestCode参数设置结束 ******************************************

@@ -465,12 +465,12 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
      * 加载列表翻页数据
      */
     private void loadListData() {
-        if (isUpdateHead) {
+        if (isUpdateHead) { //加载头部数据
             loadHeadData();
         }
         HashMap<String, String> map = new HashMap<>();
         map.put("page", String.valueOf(current_Page));
-        map.put("size", "10");
+        map.put("size", "3");
         loadSVData(AppConfig.URL_HOME_LIST, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_POST_HOME_LIST);
     }
 
@@ -491,10 +491,8 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
                     baseEn = JsonUtils.getHomeHead(jsonObject);
                     headEn = new ThemeEntity();
                     headEn.setHeadLists(baseEn.getLists());
-                    if (al_show.size() > 0) {
-                        initHeadView();
-                        isUpdateHead = false;
-                    }
+                    initHeadView();
+                    isUpdateHead = false;
                     FileManager.writeFileSaveObject(AppConfig.homeHeadFileName, headEn, true);
                     break;
                 case AppConfig.REQUEST_SV_POST_HOME_LIST:
@@ -594,8 +592,10 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
                     if (al_show.size() > 0) {
                         initHeadView();
                         updateListData();
+                        loadListData();
+                    } else {
+                        resetData();
                     }
-                    loadListData();
                     break;
             }
         }

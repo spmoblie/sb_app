@@ -8,7 +8,6 @@ import com.sbwg.sxb.AppApplication;
 import com.sbwg.sxb.AppConfig;
 import com.sbwg.sxb.entity.UserInfoEntity;
 import com.sbwg.sxb.entity.WXEntity;
-import com.sbwg.sxb.utils.retrofit.HttpRequests;
 import com.sbwg.sxb.widgets.share.weibo.AccessTokenKeeper;
 
 
@@ -345,7 +344,7 @@ public class UserManager {
 	 * 刷新所有状态数据
 	 */
 	private void changeAllDataStatus() {
-		HttpRequests.clearInstance(); //刷新Token
+		AppApplication.updateUserData();
 	}
 
 	/**

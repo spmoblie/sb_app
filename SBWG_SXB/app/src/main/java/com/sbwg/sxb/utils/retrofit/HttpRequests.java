@@ -2,13 +2,17 @@ package com.sbwg.sxb.utils.retrofit;
 
 import com.sbwg.sxb.utils.ExceptionUtil;
 
+import java.util.List;
 import java.util.Map;
 
+import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.QueryMap;
 import rx.Observable;
@@ -38,16 +42,9 @@ public class HttpRequests extends ObjectLoader {
     }
 
     /**
-     * 销毁对象
+     * 加载数据
      */
-    public static void clearInstance() {
-        instance = null;
-    }
-
-    /**
-     * Http请求
-     */
-    public Observable<ResponseBody> loadDatas(String paths, Map<String, String> map, int httpType) {
+    public Observable<ResponseBody> loadData(String paths, Map<String, String> map, int httpType) {
         Observable<ResponseBody> observable = null;
         try {
             switch (httpType) {
@@ -85,7 +82,35 @@ public class HttpRequests extends ObjectLoader {
         return observable;
     }
 
+    /**
+     * 上传文件
+     */
+    public Observable<ResponseBody> uploadFile(String paths, List<MultipartBody.Part> partList) {
+        Observable<ResponseBody> observable = null;
+        try {
+            String[] roots = paths.split("/");
+            switch (roots.length) {
+                case 1:
+                    observable = observe(httpService.uploadFile(roots[0], partList));
+                    break;
+                case 2:
+                    observable = observe(httpService.uploadFile(roots[0], roots[1], partList));
+                    break;
+                case 3:
+                    observable = observe(httpService.uploadFile(roots[0], roots[1], roots[2], partList));
+                    break;
+                default:
+                    observable = observe(httpService.uploadFile(roots[0], partList));
+                    break;
+            }
+        } catch (Exception e) {
+            ExceptionUtil.handle(e);
+        }
+        return observable;
+    }
+
     public interface HttpService {
+
         @GET("{path}")
         Observable<ResponseBody> get(@Path("path") String path);
         @GET("{path}")
@@ -103,6 +128,16 @@ public class HttpRequests extends ObjectLoader {
         @FormUrlEncoded
         @POST("{root1}/{root2}/{root3}/{path}")
         Observable<ResponseBody> post(@Path("root1") String root1, @Path("root2") String root2, @Path("root3") String root3, @Path("path") String path, @FieldMap Map<String, String> map);
+
+        @Multipart
+        @POST("{path}")
+        Observable<ResponseBody> uploadFile(@Path("path") String path, @Part List<MultipartBody.Part> partList);
+        @Multipart
+        @POST("{root}/{path}")
+        Observable<ResponseBody> uploadFile(@Path("root") String root, @Path("path") String path, @Part List<MultipartBody.Part> partList);
+        @Multipart
+        @POST("{root1}/{root2}/{path}")
+        Observable<ResponseBody> uploadFile(@Path("root1") String root1, @Path("root2") String root2, @Path("path") String path, @Part List<MultipartBody.Part> partList);
     }
 
 }

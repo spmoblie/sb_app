@@ -13,6 +13,7 @@ public class BaseEntity<T> implements Serializable {
 
     private int errno; //响应状态
     private String errmsg; //状态描述
+    private String others; //其它内容
 
     private T data; //单个数据
     private List<T> lists; //集合数据
@@ -48,6 +49,14 @@ public class BaseEntity<T> implements Serializable {
         this.errmsg = errmsg;
     }
 
+    public String getOthers() {
+        return others;
+    }
+
+    public void setOthers(String others) {
+        this.others = others;
+    }
+
     public T getData() {
         return data;
     }
@@ -77,6 +86,7 @@ public class BaseEntity<T> implements Serializable {
         return "BaseEntity{" +
                 "errno=" + errno +
                 ", errmsg='" + errmsg + '\'' +
+                ", others='" + others + '\'' +
                 ", data=" + data +
                 ", lists=" + lists +
                 ", dataTotal=" + dataTotal +

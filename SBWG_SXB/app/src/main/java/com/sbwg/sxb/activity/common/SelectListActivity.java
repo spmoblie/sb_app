@@ -11,9 +11,16 @@ import com.sbwg.sxb.R;
 import com.sbwg.sxb.activity.BaseActivity;
 import com.sbwg.sxb.adapter.AdapterCallback;
 import com.sbwg.sxb.adapter.SelectListAdapter;
+import com.sbwg.sxb.entity.BaseEntity;
 import com.sbwg.sxb.entity.SelectListEntity;
+import com.sbwg.sxb.utils.ExceptionUtil;
+import com.sbwg.sxb.utils.JsonUtils;
 import com.sbwg.sxb.utils.LogUtil;
+import com.sbwg.sxb.utils.retrofit.HttpRequests;
 
+import org.json.JSONObject;
+
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -33,6 +40,7 @@ public class SelectListActivity extends BaseActivity {
 	
 	private SelectListEntity data, selectEn;
 	private List<SelectListEntity> lv_lists;
+	private String userKey, userValue;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -85,7 +93,9 @@ public class SelectListActivity extends BaseActivity {
 				switch (dataType) {
 				case SelectListAdapter.DATA_TYPE_5: //PersonalActivity --> SelectListActivity
 					if (selectEn != null) {
-						postChangeContent();
+						userKey = "gender";
+						userValue = String.valueOf(selectEn.getChildId());
+						saveUserInfo();
 					}else {
 						finish();
 					}
@@ -102,13 +112,6 @@ public class SelectListActivity extends BaseActivity {
 		lv.setOverScrollMode(ListView.OVER_SCROLL_NEVER);
 	}
 
-	private void postChangeContent() {
-//		request(AppConfig.REQUEST_SV_POST_EDIT_USER_INFO_CODE);
-		//Evan临时修改
-		isChange = true;
-		finish();
-	}
-	
 	@Override
 	protected void onResume() {
 		LogUtil.i(TAG, "onResume");
@@ -140,6 +143,42 @@ public class SelectListActivity extends BaseActivity {
 			setResult(RESULT_OK, returnIntent);
 		}
 		super.finish();
+	}
+
+	/**
+	 * 修改用户资料
+	 */
+	private void saveUserInfo() {
+		HashMap<String, String> map = new HashMap<>();
+		map.put(userKey, userValue);
+		loadSVData(AppConfig.URL_USER_SAVE, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_POST_USER_SAVE);
+	}
+
+	@Override
+	protected void callbackData(JSONObject jsonObject, int dataType) {
+		BaseEntity baseEn;
+		try {
+			switch (dataType) {
+				case AppConfig.REQUEST_SV_POST_USER_SAVE:
+					baseEn = JsonUtils.getUploadResult(jsonObject);
+					if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+						isChange = true;
+						finish();
+					} else {
+						showServerBusy(baseEn.getErrmsg());
+					}
+					break;
+			}
+		} catch (Exception e) {
+			loadFailHandle();
+			ExceptionUtil.handle(e);
+		}
+	}
+
+	@Override
+	protected void loadFailHandle() {
+		super.loadFailHandle();
+		showServerBusy("");
 	}
 	
 }

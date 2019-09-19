@@ -1,5 +1,8 @@
 package com.sbwg.sxb.utils.retrofit;
 
+import com.sbwg.sxb.utils.LogUtil;
+import com.sbwg.sxb.utils.UserManager;
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -31,16 +34,17 @@ public class HttpCommonInterceptor implements Interceptor {
                 .host(oldRequest.url().host());*/
 
         // 新的请求
-
+        String appToken = UserManager.getInstance().getXAppToken();
         Request.Builder requestBuilder =  oldRequest.newBuilder();
         requestBuilder.method(oldRequest.method(), oldRequest.body());
+        requestBuilder.header("X-APP-Token", appToken);
+        LogUtil.i("Retrofit", "X-APP-Token -> " + appToken);
         //添加公共参数,添加到header中
         if(mHeaderParamsMap.size() > 0){
             for(Map.Entry<String,String> params:mHeaderParamsMap.entrySet()){
                 requestBuilder.header(params.getKey(),params.getValue());
             }
         }
-
         Request newRequest = requestBuilder.build();
 
         return chain.proceed(newRequest);

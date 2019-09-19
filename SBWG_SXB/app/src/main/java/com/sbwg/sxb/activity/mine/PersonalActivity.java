@@ -28,20 +28,25 @@ import com.sbwg.sxb.activity.common.ClipImageCircularActivity;
 import com.sbwg.sxb.activity.common.ClipPhotoGridActivity;
 import com.sbwg.sxb.activity.common.SelectListActivity;
 import com.sbwg.sxb.adapter.SelectListAdapter;
+import com.sbwg.sxb.entity.BaseEntity;
 import com.sbwg.sxb.entity.SelectListEntity;
 import com.sbwg.sxb.entity.UserInfoEntity;
 import com.sbwg.sxb.utils.BitmapUtil;
 import com.sbwg.sxb.utils.CommonTools;
 import com.sbwg.sxb.utils.ExceptionUtil;
+import com.sbwg.sxb.utils.JsonUtils;
 import com.sbwg.sxb.utils.LogUtil;
 import com.sbwg.sxb.utils.StringUtil;
 import com.sbwg.sxb.utils.UserManager;
-import com.sbwg.sxb.utils.image.AsyncImageUpload;
+import com.sbwg.sxb.utils.retrofit.HttpRequests;
 import com.sbwg.sxb.widgets.RoundImageView;
+
+import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 
 
 public class PersonalActivity extends BaseActivity implements OnClickListener {
@@ -52,13 +57,12 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
     private RoundImageView iv_head;
     private TextView tv_nick, tv_gender, tv_birthday, tv_area, tv_intro, tv_email, tv_phone;
     private String nickStr, genderStr, birthdayStr, areaStr, introStr, emailStr, phoneStr;
-    private String changeStr, changeTypeKey, clip_head_path;
+    private String changeStr, userKey, clip_head_path;
     private File saveFile;
     private int genderCode = 0;
 
     private UserInfoEntity infoEn;
     private UserManager userManager;
-    private AsyncImageUpload asyncImageUpload;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -160,11 +164,11 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
                 break;
             case R.id.personal_rl_nick:
                 intent = new Intent(mContext, EditUserInfoActivity.class);
-                intent.putExtra("titleStr", getString(R.string.mine_change_nick));
-                intent.putExtra("showStr", nickStr);
-                intent.putExtra("hintStr", getString(R.string.mine_input_nick));
-                intent.putExtra("reminderStr", "");
-                intent.putExtra("changeTypeKey", "nickname");
+                intent.putExtra(EditUserInfoActivity.KEY_TITLE, getString(R.string.mine_change_nick));
+                intent.putExtra(EditUserInfoActivity.KEY_SHOW, nickStr);
+                intent.putExtra(EditUserInfoActivity.KEY_HINT, getString(R.string.mine_input_nick));
+                intent.putExtra(EditUserInfoActivity.KEY_TIPS, "");
+                intent.putExtra(EditUserInfoActivity.KEY_USER, "nickname");
                 startActivityForResult(intent, AppConfig.ACTIVITY_CHANGE_USER_NICK);
                 return;
             case R.id.personal_rl_gender:
@@ -183,11 +187,11 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
                 return;
             case R.id.personal_rl_intro:
                 intent = new Intent(mContext, EditUserInfoActivity.class);
-                intent.putExtra("titleStr", getString(R.string.mine_change_intro));
-                intent.putExtra("showStr", introStr);
-                intent.putExtra("hintStr", getString(R.string.mine_intro_hint));
-                intent.putExtra("reminderStr", "");
-                intent.putExtra("changeTypeKey", "intro");
+                intent.putExtra(EditUserInfoActivity.KEY_TITLE, getString(R.string.mine_change_intro));
+                intent.putExtra(EditUserInfoActivity.KEY_SHOW, introStr);
+                intent.putExtra(EditUserInfoActivity.KEY_HINT, getString(R.string.mine_intro_hint));
+                intent.putExtra(EditUserInfoActivity.KEY_TIPS, "");
+                intent.putExtra(EditUserInfoActivity.KEY_USER, "signature");
                 startActivityForResult(intent, AppConfig.ACTIVITY_CHANGE_USER_INTRO);
                 return;
             case R.id.personal_rl_phone:
@@ -289,19 +293,10 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
                 setView();
                 // 修改服务器生日
                 changeStr = year + "-" + (monthOfYear + 1) + "-" + dayOfMonth;
-                changeTypeKey = "birthday";
-                postChangeUserContent();
+                userKey = "birthday";
+                saveUserInfo();
             }
         }, year, month, day).show();
-    }
-
-    /**
-     * 提交修改用户资料
-     */
-    private void postChangeUserContent() {
-        if (!StringUtil.isNull(changeStr) && !StringUtil.isNull(changeTypeKey)) {
-//			request(AppConfig.REQUEST_SV_POST_EDIT_USER_INFO_CODE);
-        }
     }
 
     /**
@@ -354,11 +349,11 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
      */
     private void startChangeEmail() {
         Intent intent = new Intent(mContext, EditUserInfoActivity.class);
-        intent.putExtra("titleStr", getString(R.string.mine_change_email));
-        intent.putExtra("showStr", emailStr);
-        intent.putExtra("hintStr", getString(R.string.login_email_input));
-        intent.putExtra("reminderStr", getString(R.string.mine_change_email_notice));
-        intent.putExtra("changeTypeKey", "email");
+        intent.putExtra(EditUserInfoActivity.KEY_TITLE, getString(R.string.mine_change_email));
+        intent.putExtra(EditUserInfoActivity.KEY_SHOW, emailStr);
+        intent.putExtra(EditUserInfoActivity.KEY_HINT, getString(R.string.login_email_input));
+        intent.putExtra(EditUserInfoActivity.KEY_TIPS, getString(R.string.mine_change_email_notice));
+        intent.putExtra(EditUserInfoActivity.KEY_USER, "email");
         startActivityForResult(intent, AppConfig.ACTIVITY_CHANGE_USER_EMAIL);
     }
 
@@ -429,7 +424,7 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
 
         clip_head_path = shared.getString(AppConfig.KEY_CLIP_HEAD_PATH, "");
         if (!StringUtil.isNull(clip_head_path)) { //上传修改的头像
-            uploadImage();
+            uploadHead();
             editor.putString(AppConfig.KEY_CLIP_HEAD_PATH, "").apply();
         }
 
@@ -441,10 +436,6 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
         LogUtil.i(TAG, "onPause");
         // 页面结束
         AppApplication.onPageEnd(this, TAG);
-        // 销毁对象
-        if (asyncImageUpload != null) {
-            asyncImageUpload.clearInstance();
-        }
 
         super.onPause();
     }
@@ -452,65 +443,6 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-    }
-
-    /**
-     * 上传头像到服务器
-     */
-    private void uploadImage() {
-        if (!StringUtil.isNull(clip_head_path)) {
-            startAnimation();
-            CommonTools.showToast(getString(R.string.photo_upload_img, getString(R.string.mine_head)));
-            // 开启上传线程...
-            new Handler().postDelayed(new Runnable() {
-
-				@Override
-				public void run() {
-					/*asyncImageUpload = AsyncImageUpload.getInstance(new AsyncImageUpload.AsyncImageUploadCallback() {
-
-						@Override
-						public void uploadImageUrls(BaseEntity baseEn) {
-							if (baseEn != null) {
-								boolean isOk = baseEn.getErrCode() == 1 ? false : true;
-								if (!isOk) {
-									// 刷新头像
-                                    editor.putBoolean(AppConfig.KEY_IS_UPDATE_HEAD, true).apply();
-									// 清除图片缓存
-									AppApplication.clearGlideCache();
-									CommonTools.showToast(getString(R.string.photo_upload_img_ok, getString(R.string.mine_head)), Toast.LENGTH_SHORT);
-								} else {
-									if (!StringUtil.isNull(baseEn.getErrInfo())) {
-										CommonTools.showToast(baseEn.getErrInfo());
-									} else {
-										CommonTools.showToast(getString(R.string.photo_upload_head_fail));
-									}
-								}
-							}else {
-								CommonTools.showToast(getString(R.string.photo_upload_head_fail));
-							}
-						}
-
-					});
-					Map<String, String> postData = new HashMap<>();
-					postData.put("fileName", clip_head_path);
-					asyncImageUpload.uploadImage(AppConfig.API_UPDATE_PROFILE, postData, clip_head_path);*/
-
-                    // 将存储在旧头像替换为新头像
-                    try {
-                        Bitmap clipBitmap = BitmapFactory.decodeFile(clip_head_path);
-                        AppApplication.saveBitmapFile(clipBitmap, new File(AppConfig.SAVE_USER_HEAD_PATH), 100);
-                        setView(); //刷新头像
-                    } catch (Exception e) {
-                        ExceptionUtil.handle(e);
-                    }
-                    CommonTools.showToast(getString(R.string.photo_upload_img_ok, getString(R.string.mine_head)), Toast.LENGTH_SHORT);
-
-                    stopAnimation();
-				}
-			}, 2000);
-        } else {
-            CommonTools.showToast(getString(R.string.photo_img_url_error, getString(R.string.mine_head)));
-        }
     }
 
     /**
@@ -545,6 +477,74 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
         }
         selectEn.setChildLists(childLists);
         return selectEn;
+    }
+
+    /**
+     * 上传头像
+     */
+    private void uploadHead() {
+        if (!StringUtil.isNull(clip_head_path)) {
+            startAnimation();
+            CommonTools.showToast(getString(R.string.photo_upload_img, getString(R.string.mine_head)));
+            uploadPushFile(new File(clip_head_path), 1, AppConfig.REQUEST_SV_POST_UPLOAD_HEAD);
+        } else {
+            CommonTools.showToast(getString(R.string.photo_img_url_error, getString(R.string.mine_head)));
+        }
+    }
+
+    /**
+     * 修改用户资料
+     */
+    private void saveUserInfo() {
+        if (!StringUtil.isNull(changeStr) && !StringUtil.isNull(userKey)) {
+            HashMap<String, String> map = new HashMap<>();
+            map.put(userKey, changeStr);
+            loadSVData(AppConfig.URL_USER_SAVE, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_POST_USER_SAVE);
+        }
+    }
+
+    @Override
+    protected void callbackData(JSONObject jsonObject, int dataType) {
+        BaseEntity baseEn;
+        try {
+            switch (dataType) {
+                case AppConfig.REQUEST_SV_POST_UPLOAD_HEAD:
+                    baseEn = JsonUtils.getUploadResult(jsonObject);
+                    if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+                        changeStr = baseEn.getOthers();
+                        userKey = "avatar";
+                        saveUserInfo();
+                    } else {
+                        showServerBusy(baseEn.getErrmsg());
+                    }
+                    break;
+                case AppConfig.REQUEST_SV_POST_USER_SAVE:
+                    baseEn = JsonUtils.getUploadResult(jsonObject);
+                    if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+                        if (userKey.equals("avatar")) {
+                            // 替换头像
+                            Bitmap clipBitmap = BitmapFactory.decodeFile(clip_head_path);
+                            AppApplication.saveBitmapFile(clipBitmap, new File(AppConfig.SAVE_USER_HEAD_PATH), 100);
+                            // 刷新头像
+                            setView();
+                            AppApplication.updateUserData();
+                            CommonTools.showToast(getString(R.string.photo_upload_img_ok, getString(R.string.mine_head)), Toast.LENGTH_SHORT);
+                        }
+                    } else {
+                        showServerBusy(baseEn.getErrmsg());
+                    }
+                    break;
+            }
+        } catch (Exception e) {
+            loadFailHandle();
+            ExceptionUtil.handle(e);
+        }
+    }
+
+    @Override
+    protected void loadFailHandle() {
+        super.loadFailHandle();
+        showServerBusy("");
     }
 
 }

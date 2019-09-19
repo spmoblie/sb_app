@@ -83,7 +83,8 @@ public class AppApplication extends Application {
 
         // Facebook SDK初始化
         //FacebookSdk.sdkInitialize(getApplicationContext());
-        shared.edit().putBoolean(AppConfig.KEY_UPDATE_USER_DATA, true).apply();
+
+        updateUserData();
     }
 
     public static synchronized AppApplication getInstance() {
@@ -125,6 +126,13 @@ public class AppApplication extends Application {
                     .error(R.drawable.icon_default_head); //图片加载失败后，显示的图片
         }
         return headOptions;
+    }
+
+    /**
+     * 刷新用户信息-状态标记
+     */
+    public static void updateUserData() {
+        shared.edit().putBoolean(AppConfig.KEY_UPDATE_USER_DATA, true).apply();
     }
 
     /**
@@ -275,7 +283,7 @@ public class AppApplication extends Application {
         // 远程退出
         HashMap<String, String> map = new HashMap<>();
         map.put("userId", UserManager.getInstance().getUserId());
-        HttpRequests.getInstance().loadDatas(AppConfig.URL_AUTH_LOGOUT, map, HttpRequests.HTTP_POST);
+        HttpRequests.getInstance().loadData(AppConfig.URL_AUTH_LOGOUT, map, HttpRequests.HTTP_POST);
         // 本地退出
         AppManager.getInstance().AppLogout(spApp);
     }

@@ -27,7 +27,7 @@ public class TimeUtil {
     }
 
     /**
-     * 将秒格式的时间换成自定义的字串格式：0s - 86400s
+     * 将毫秒格式的时间换成自定义的字串格式：0s - 86400s
      * @param time 毫秒格式
      * @return 0s - 86400s
      */
@@ -38,7 +38,7 @@ public class TimeUtil {
     }
 
     /**
-     * 将秒格式的时间换成自定义的字串格式：1分1秒
+     * 将毫秒格式的时间换成自定义的字串格式：1分1秒
      */
     public static String getTextTimeMinuteSecond(long time) {
         Context ctx = AppApplication.getInstance().getApplicationContext();
@@ -58,7 +58,7 @@ public class TimeUtil {
     }
 
     /**
-     * 将秒格式的时间换成自定义的字串格式：1天1时1分1秒
+     * 将毫秒格式的时间换成自定义的字串格式：1天1时1分1秒
      */
     public static String getTextTime(long time) {
         Context ctx = AppApplication.getInstance().getApplicationContext();
@@ -74,7 +74,7 @@ public class TimeUtil {
     }
 
     /**
-     * 将秒格式的时间换成自定义的格式：[天,时,分,秒]
+     * 将毫秒格式的时间换成自定义的格式：[天,时,分,秒]
      */
     public static Integer[] getArrayIntegerTime(long time) {
         Integer[] times = new Integer[4];
@@ -282,12 +282,12 @@ public class TimeUtil {
     /**
      * 根据用户传入的时间表示格式，返回当前时间的格式 如果是yyyyMMdd，注意字母y不能大写。
      *
-     * @param sformat yyyyMMddhhmmss
+     * @param pattern yyyyMMddhhmmss
      * @return
      */
-    public static String getUserDate(String sformat) {
+    public static String getUserDate(String pattern) {
         Date currentTime = new Date();
-        SimpleDateFormat formatter = new SimpleDateFormat(sformat);
+        SimpleDateFormat formatter = new SimpleDateFormat(pattern);
         String dateString = formatter.format(currentTime);
         return dateString;
     }
@@ -347,11 +347,11 @@ public class TimeUtil {
     /**
      * 得到一个时间延后或前移几天的时间,nowdate为时间,delay为前移或后延的天数
      */
-    public static String getNextDay(String nowdate, String delay) {
+    public static String getNextDay(String nowDate, String delay) {
         try {
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
             String mdate = "";
-            Date d = strToDate(nowdate);
+            Date d = strToDate(nowDate);
             long myTime = (d.getTime() / 1000) + Integer.parseInt(delay) * 24 * 60 * 60;
             d.setTime(myTime * 1000);
             mdate = format.format(d);
@@ -364,16 +364,16 @@ public class TimeUtil {
     /**
      * 判断是否润年
      *
-     * @param ddate
+     * @param date
      * @return
      */
-    public static boolean isLeapYear(String ddate) {
+    public static boolean isLeapYear(String date) {
 
         /**
          * 详细设计： 1.被400整除是闰年，否则： 2.不能被4整除则不是闰年 3.能被4整除同时不能被100整除则是闰年
          * 3.能被4整除同时能被100整除则不是闰年
          */
-        Date d = strToDate(ddate);
+        Date d = strToDate(date);
         GregorianCalendar gc = (GregorianCalendar) Calendar.getInstance();
         gc.setTime(d);
         int year = gc.get(Calendar.YEAR);

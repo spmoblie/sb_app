@@ -14,9 +14,17 @@ import com.sbwg.sxb.AppApplication;
 import com.sbwg.sxb.AppConfig;
 import com.sbwg.sxb.R;
 import com.sbwg.sxb.activity.BaseActivity;
+import com.sbwg.sxb.entity.BaseEntity;
 import com.sbwg.sxb.utils.CommonTools;
+import com.sbwg.sxb.utils.ExceptionUtil;
+import com.sbwg.sxb.utils.JsonUtils;
 import com.sbwg.sxb.utils.LogUtil;
 import com.sbwg.sxb.utils.StringUtil;
+import com.sbwg.sxb.utils.retrofit.HttpRequests;
+
+import org.json.JSONObject;
+
+import java.util.HashMap;
 
 import butterknife.BindView;
 
@@ -24,6 +32,11 @@ import butterknife.BindView;
 public class EditUserInfoActivity extends BaseActivity {
 
 	public static final String TAG = EditUserInfoActivity.class.getSimpleName();
+	public static final String KEY_TITLE = "titleStr";
+	public static final String KEY_SHOW = "showStr";
+	public static final String KEY_HINT = "hintStr";
+	public static final String KEY_TIPS = "tipsStr";
+	public static final String KEY_USER = "userKey";
 
 	@BindView(R.id.edit_info_et_content)
 	EditText et_content;
@@ -36,7 +49,7 @@ public class EditUserInfoActivity extends BaseActivity {
 	
 	private boolean isChange = false;
 	private boolean isPost = true;
-	private String titleStr, showStr, hintStr, reminderStr, changeTypeKey;
+	private String titleStr, showStr, hintStr, tipsStr, userKey;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -44,11 +57,11 @@ public class EditUserInfoActivity extends BaseActivity {
 		setContentView(R.layout.activity_edit_info);
 
 		Intent intent = getIntent();
-		titleStr = intent.getExtras().getString("titleStr");
-		showStr = intent.getExtras().getString("showStr");
-		hintStr = intent.getExtras().getString("hintStr");
-		reminderStr = intent.getExtras().getString("reminderStr");
-		changeTypeKey = intent.getExtras().getString("changeTypeKey");
+		titleStr = intent.getExtras().getString(KEY_TITLE);
+		showStr = intent.getExtras().getString(KEY_SHOW);
+		hintStr = intent.getExtras().getString(KEY_HINT);
+		tipsStr = intent.getExtras().getString(KEY_TIPS);
+		userKey = intent.getExtras().getString(KEY_USER);
 		
 		initView();
 	}
@@ -83,8 +96,8 @@ public class EditUserInfoActivity extends BaseActivity {
 		if (!StringUtil.isNull(showStr)) {
 			et_content.setSelection(showStr.length());
 		}
-		if (!StringUtil.isNull(reminderStr)) {
-			tv_reminder.setText(reminderStr);
+		if (!StringUtil.isNull(tipsStr)) {
+			tv_reminder.setText(tipsStr);
 		}
 		
 		iv_clear.setOnClickListener(new OnClickListener() {
@@ -96,6 +109,19 @@ public class EditUserInfoActivity extends BaseActivity {
 			}
 		});
 	}
+
+	private boolean checkData() {
+		showStr = et_content.getText().toString();
+		if (showStr.isEmpty()) {
+			CommonTools.showToast(hintStr);
+			return false;
+		}
+		if ("email".equals(userKey) && !StringUtil.isEmail(showStr)) {
+			CommonTools.showToast(getString(R.string.login_email_format_error));
+			return false;
+		}
+		return true;
+	}
 	
 	@Override
 	public void OnListenerLeft() {
@@ -106,25 +132,9 @@ public class EditUserInfoActivity extends BaseActivity {
 	@Override
 	public void OnListenerRight() {
 		super.OnListenerRight();
-		showStr = et_content.getText().toString();
-		if (showStr.isEmpty()) {
-			CommonTools.showToast(hintStr);
-			return;
-		}
-		if ("email".equals(changeTypeKey) && !StringUtil.isEmail(showStr)) {
-			CommonTools.showToast(getString(R.string.login_email_format_error));
-			return;
-		}
-		postChangeContent();
-	}
-
-	private void postChangeContent() {
-		if (isPost) {
-//			request(AppConfig.REQUEST_SV_POST_EDIT_USER_INFO_CODE);
-//			isPost = false;
-			//Evan临时修改
-			isChange = true;
-			finish();
+		if (checkData() && isPost) {
+			isPost = false;
+			saveUserInfo();
 		}
 	}
 
@@ -159,6 +169,44 @@ public class EditUserInfoActivity extends BaseActivity {
 			setResult(RESULT_OK, returnIntent);
 		}
 		super.finish();
+	}
+
+	/**
+	 * 修改用户资料
+	 */
+	private void saveUserInfo() {
+		HashMap<String, String> map = new HashMap<>();
+		map.put(userKey, showStr);
+		loadSVData(AppConfig.URL_USER_SAVE, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_POST_USER_SAVE);
+	}
+
+	@Override
+	protected void callbackData(JSONObject jsonObject, int dataType) {
+		BaseEntity baseEn;
+		try {
+			switch (dataType) {
+				case AppConfig.REQUEST_SV_POST_USER_SAVE:
+					isPost = true;
+					baseEn = JsonUtils.getUploadResult(jsonObject);
+					if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+						isChange = true;
+						finish();
+					} else {
+						showServerBusy(baseEn.getErrmsg());
+					}
+					break;
+			}
+		} catch (Exception e) {
+			loadFailHandle();
+			ExceptionUtil.handle(e);
+		}
+	}
+
+	@Override
+	protected void loadFailHandle() {
+		super.loadFailHandle();
+		isPost = true;
+		showServerBusy("");
 	}
 	
 }
