@@ -16,6 +16,7 @@ import java.net.URLDecoder;
 import java.security.KeyStore;
 import java.security.SecureRandom;
 import java.security.cert.CertificateFactory;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import javax.net.ssl.HostnameVerifier;
@@ -25,6 +26,7 @@ import javax.net.ssl.TrustManagerFactory;
 
 import okhttp3.Cache;
 import okhttp3.CacheControl;
+import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
@@ -62,6 +64,7 @@ public class RetrofitServiceManager {
                 .cache(cache)
                 .retryOnConnectionFailure(true)
                 .addInterceptor(commonInterceptor)
+                .addInterceptor(sBaseUrlInterceptor)
                 .addInterceptor(sLoggingInterceptor)
                 .addInterceptor(sRewriteCacheControlInterceptor)
                 .addNetworkInterceptor(sRewriteCacheControlInterceptor)
@@ -76,7 +79,7 @@ public class RetrofitServiceManager {
                 .client(builder.build())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create()) //添加转换器Converter(将Json转为JavaBean)
-                .baseUrl(AppConfig.ENVIRONMENT_BASE_URL)
+                .baseUrl(AppConfig.BASE_URL_1)
                 .build();
     }
 
@@ -106,6 +109,51 @@ public class RetrofitServiceManager {
             ExceptionUtil.handle(e);
         }
     }
+
+    /**
+     * BaseUrl拦截器
+     */
+    private static final Interceptor sBaseUrlInterceptor = new Interceptor() {
+
+        @Override
+        public Response intercept(Chain chain) throws IOException {
+            //获取request
+            Request request = chain.request();
+            //获取request的创建者builder
+            Request.Builder builder = request.newBuilder();
+            //从request中获取headers，通过给定的键url_name
+            List<String> headerValues = request.headers("url_head");
+            if (headerValues != null && headerValues.size() > 0) {
+                //匹配获得新的BaseUrl
+                String headerValue = headerValues.get(0);
+                HttpUrl newBaseUrl;
+                if ("base_2".equals(headerValue)) {
+                    newBaseUrl = HttpUrl.parse(AppConfig.BASE_URL_2);
+                } else {
+                    return chain.proceed(request);
+                }
+                LogUtil.i("Retrofit", "BaseUrl value -> " + headerValue);
+
+                //如果有这个header，先将配置的header删除，因此header仅用作app和okhttp之间使用
+                //builder.removeHeader(HttpConfig.HEADER_KEY);
+
+                //从request中获取原有的HttpUrl实例oldHttpUrl
+                HttpUrl oldHttpUrl = request.url();
+                //重建新的HttpUrl，修改需要修改的url部分
+                HttpUrl newFullUrl = oldHttpUrl
+                        .newBuilder()
+                        .scheme(newBaseUrl.scheme())
+                        .host(newBaseUrl.host())
+                        .port(newBaseUrl.port())
+                        .build();
+
+                //重建这个request，通过builder.url(newFullUrl).build(),然后返回一个response至此结束修改
+                return chain.proceed(builder.url(newFullUrl).build());
+            } else {
+                return chain.proceed(request);
+            }
+        }
+    };
 
     /**
      * Log信息打印拦截器

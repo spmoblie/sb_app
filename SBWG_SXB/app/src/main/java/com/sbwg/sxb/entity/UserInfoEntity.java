@@ -17,6 +17,7 @@ public class UserInfoEntity extends BaseEntity {
 	private String userPhone; //用户手机
 	private String money; //账户余额
 	private String coupon; //优惠券
+	private String signUpId; //已报名课程
 	private String appToken; //登录授权码
 	private int genderCode; //性别代码(0:保密/1:男/2:女)
 
@@ -128,6 +129,14 @@ public class UserInfoEntity extends BaseEntity {
 
 	public void setCoupon(String coupon) {
 		this.coupon = coupon;
+	}
+
+	public String getSignUpId() {
+		return signUpId;
+	}
+
+	public void setSignUpId(String signUpId) {
+		this.signUpId = signUpId;
 	}
 
 	public String getAppToken() {

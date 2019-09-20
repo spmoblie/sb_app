@@ -11,6 +11,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
@@ -44,6 +45,7 @@ import com.sbwg.sxb.activity.common.ClipPhotoOneActivity;
 import com.sbwg.sxb.activity.login.LoginActivity;
 import com.sbwg.sxb.activity.login.LoginPhoneActivity;
 import com.sbwg.sxb.activity.login.RegisterActivity;
+import com.sbwg.sxb.activity.login.ResetPasswordActivity;
 import com.sbwg.sxb.dialog.DialogManager;
 import com.sbwg.sxb.dialog.LoadDialog;
 import com.sbwg.sxb.entity.BaseEntity;
@@ -86,13 +88,13 @@ import rx.Observer;
 public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Response, IWXAPIEventHandler {
 
 	public static final String TAG = BaseActivity.class.getSimpleName();
-	public static final long SEND_TIME = 60000;
 
 	protected Context mContext;
 	protected SharedPreferences shared;
 	protected Editor editor;
 	protected IWXAPI api;
 	protected DialogManager myDialog;
+	protected UserManager userManager;
 	protected Boolean isInitShare = false;
 	protected Boolean isTimeFinish = true;
 	protected int screenWidth, screenHeight, statusHeight, titleHeight;
@@ -102,7 +104,7 @@ public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Res
 	private TextView tv_title;
 	private Button bt_right;
 	private ViewFlipper mLayoutBase;
-	private MyCountDownTimer mcdt;
+	private MyCountDownTimer myTimer;
 
 	private int dialogWidth;
 	private ShareView mShareView;
@@ -121,6 +123,8 @@ public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Res
 		shared = AppApplication.getSharedPreferences();
 		editor = shared.edit();
 		editor.apply();
+
+		userManager = UserManager.getInstance();
 
 		titleHeight = shared.getInt(AppConfig.KEY_TITLE_HEIGHT, 0);
 		statusHeight = shared.getInt(AppConfig.KEY_STATUS_HEIGHT, 0);
@@ -347,6 +351,7 @@ public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Res
 		AppManager.getInstance().finishActivity(LoginActivity.class);
 		AppManager.getInstance().finishActivity(LoginPhoneActivity.class);
 		AppManager.getInstance().finishActivity(RegisterActivity.class);
+		AppManager.getInstance().finishActivity(ResetPasswordActivity.class);
 	}
 
 	/**
@@ -427,6 +432,50 @@ public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Res
 
 	}
 
+	/**
+	 * 动态检查权限
+	 */
+	protected boolean checkPermission() {
+		List<String> mPermissionList = new ArrayList<>();
+		String[] permissions = AppConfig.PERMISSIONS;
+		// 判断哪些权限未授予
+		for (int i = 0; i < permissions.length; i++) {
+			if (ContextCompat.checkSelfPermission(this, permissions[i]) != PackageManager.PERMISSION_GRANTED) {
+				mPermissionList.add(permissions[i]);
+			}
+		}
+		if (!mPermissionList.isEmpty()) {
+			// 请求授权
+			String[] permissions_new = mPermissionList.toArray(new String[mPermissionList.size()]);
+			ActivityCompat.requestPermissions(this, permissions_new, AppConfig.REQUEST_CORD_PERMISSION);
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	@Override
+	public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+		if (requestCode == AppConfig.REQUEST_CORD_PERMISSION) {
+			if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {//允许
+				LogUtil.i("Permissions", "PERMISSION_GRANTED 允许");
+				permissionsResultCallback(true);
+				return;
+			} else
+			if (grantResults[0] == PackageManager.PERMISSION_DENIED) {//拒绝
+				LogUtil.i("Permissions", "PERMISSION_DENIED 拒绝");
+				permissionsResultCallback(false);
+			}
+			return;
+		}
+		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+	}
+
+	/**
+	 * 授权结果回调
+	 */
+	protected void permissionsResultCallback(boolean result) {}
+
 	@Override
 	protected void onResume() {
 		LogUtil.i(TAG, "onResume()");
@@ -469,10 +518,29 @@ public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Res
 	}
 
 	/**
+	 * 处理网络请求返回状态码
+	 * @param baseEn
+	 */
+	protected void handleErrorCode(BaseEntity baseEn) {
+		if (baseEn != null) {
+			switch (baseEn.getErrno()) {
+				case AppConfig.ERROR_CODE_TIMEOUT: //登录超时
+					showTimeOutDialog();
+					break;
+				default:
+					showServerBusy(baseEn.getErrmsg());
+					break;
+			}
+		} else {
+			showServerBusy("");
+		}
+	}
+
+	/**
 	 * 登入超时对话框
 	 */
 	protected void showTimeOutDialog() {
-		openLoginActivity(TAG);
+		showTimeOutDialog(TAG);
 	}
 
 	/**
@@ -597,28 +665,6 @@ public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Res
 	}
 
 	/**
-	 * 动态检查权限
-	 */
-	protected boolean checkPermission() {
-		List<String> mPermissionList = new ArrayList<>();
-		String[] permissions = AppConfig.PERMISSIONS;
-		// 判断哪些权限未授予
-		for (int i = 0; i < permissions.length; i++) {
-			if (ContextCompat.checkSelfPermission(this, permissions[i]) != PackageManager.PERMISSION_GRANTED) {
-				mPermissionList.add(permissions[i]);
-			}
-		}
-		if (!mPermissionList.isEmpty()) {
-			// 请求授权
-			String[] permissions_new = mPermissionList.toArray(new String[mPermissionList.size()]);
-			ActivityCompat.requestPermissions(this, permissions_new, 1);
-			return false;
-		} else {
-			return true;
-		}
-	}
-
-	/**
 	 * 切换View背景的状态
 	 */
 	protected void changeViewState(View view, boolean isState) {
@@ -674,14 +720,14 @@ public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Res
 	protected void startTimer(TextView tv_time, long time) {
 		if (tv_time == null) return;
 		stopTimer();
-		mcdt = new MyCountDownTimer(tv_time, time, 1000,
+		myTimer = new MyCountDownTimer(tv_time, time, 1000,
 				new MyCountDownTimer.MyTimerCallback() {
 					@Override
 					public void onFinish() {
 						onTimerFinish();
 					}
 				});
-		mcdt.start(); //开始倒计时
+		myTimer.start(); //开始倒计时
 		isTimeFinish = false;
 	}
 
@@ -689,9 +735,9 @@ public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Res
 	 * 取消倒计时
 	 */
 	protected void stopTimer() {
-		if (mcdt != null) {
-			mcdt.cancel();
-			mcdt = null;
+		if (myTimer != null) {
+			myTimer.cancel();
+			myTimer = null;
 		}
 	}
 
@@ -796,7 +842,7 @@ public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Res
 	 */
 	protected void loadSVData(String path, HashMap<String, String> map, int httpType, final int dataType) {
 		HttpRequests.getInstance()
-				.loadData(path, map, httpType)
+				.loadData("base_2", path, map, httpType)
 				.subscribe(new Observer<ResponseBody>() {
 					@Override
 					public void onNext(ResponseBody body) {
@@ -865,7 +911,7 @@ public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Res
 
 		//5.最后进行HTTP请求，传入parts即可
 		HttpRequests.getInstance()
-				.uploadFile(AppConfig.URL_UPLOAD_PUSH, parts)
+				.uploadFile("base_1", AppConfig.URL_UPLOAD_PUSH, parts)
 				.subscribe(new Observer<ResponseBody>() {
 					@Override
 					public void onNext(ResponseBody body) {

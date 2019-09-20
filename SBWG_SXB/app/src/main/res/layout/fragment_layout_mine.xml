@@ -23,11 +23,11 @@
                 android:src="@mipmap/icon_setting" />
 
             <ImageView
-                android:id="@+id/fg_mine_iv_feedback"
+                android:id="@+id/fg_mine_iv_debunk"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/screen_margin_default"
-                android:src="@mipmap/icon_setting"
+                android:src="@mipmap/icon_debunk"
                 app:layout_constraintRight_toRightOf="parent"/>
 
             <com.sbwg.sxb.widgets.RoundImageView

@@ -35,7 +35,7 @@ public class AppApplication extends Application {
     private static AppApplication spApp = null;
     private static SharedPreferences shared;
     private static RequestOptions showOptions, headOptions;
-//	private static PushManager pushManager;
+	//private static PushManager pushManager;
 
     public static String version_name = ""; //当前版本号
     public static boolean isWXShare = false; //记录是否微信分享
@@ -46,16 +46,17 @@ public class AppApplication extends Application {
         super.onCreate();
         spApp = this;
         shared = getSharedPreferences();
-//		pushManager = PushManager.getInstance();
-//		// 初始化推送服务SDK
-//		pushManager.initPushService();
-//		// 初始化应用统计SDK
-//		MobclickAgent.setDebugMode(!AppConfig.IS_PUBLISH); //设置调试模式
-//		// 设置是否对日志信息进行加密, 默认false(不加密).
-//		MobclickAgent.enableEncrypt(true);
-//		// 禁止默认的页面统计方式，在onResume()和onPause()手动添加代码统计;
-//		MobclickAgent.openActivityDurationTrack(false);
-//		MobclickAgent.setScenarioType(spApp, MobclickAgent.EScenarioType.E_UM_NORMAL);
+
+		/*pushManager = PushManager.getInstance();
+		// 初始化推送服务SDK
+		pushManager.initPushService();
+		// 初始化应用统计SDK
+		MobclickAgent.setDebugMode(!AppConfig.IS_PUBLISH); //设置调试模式
+		// 设置是否对日志信息进行加密, 默认false(不加密).
+		MobclickAgent.enableEncrypt(true);
+		// 禁止默认的页面统计方式，在onResume()和onPause()手动添加代码统计;
+		MobclickAgent.openActivityDurationTrack(false);
+		MobclickAgent.setScenarioType(spApp, MobclickAgent.EScenarioType.E_UM_NORMAL);*/
 
         Editor editor = shared.edit();
         // 获取手机型号及屏幕的宽高
@@ -83,7 +84,6 @@ public class AppApplication extends Application {
 
         // Facebook SDK初始化
         //FacebookSdk.sdkInitialize(getApplicationContext());
-
         updateUserData();
     }
 
@@ -105,7 +105,7 @@ public class AppApplication extends Application {
     /**
      * 全局展示图片加载器
      */
-    public static RequestOptions getShowOpeions() {
+    public static RequestOptions getShowOptions() {
         if (showOptions == null) {
             showOptions = new RequestOptions()
                     .placeholder(R.drawable.icon_default_show) //图片加载出来前，显示的图片
@@ -118,7 +118,7 @@ public class AppApplication extends Application {
     /**
      * 全局头像图片加载器
      */
-    public static RequestOptions getHeadOpeions() {
+    public static RequestOptions getHeadOptions() {
         if (headOptions == null) {
             headOptions = new RequestOptions()
                     .placeholder(R.drawable.icon_default_head) //图片加载出来前，显示的图片
@@ -139,15 +139,15 @@ public class AppApplication extends Application {
      * 清除联网加载数据控制符的缓存
      */
     public void clearSharedLoadSVData() {
-        new Thread(new Runnable() {
+        /*new Thread(new Runnable() {
             @Override
             public void run() {
-//				SortDBService.getInstance(spApp).deleteAll(); //清空数据库
-//				clearGlideCache(); //清除图片缓存
-//				CleanDataManager.cleanAppTemporaryData(spApp); //清除临时缓存
-//				CleanDataManager.cleanCustomCache(AppConfig.SAVE_PATH_MEDIA_DICE); //清除视频缓存
+				SortDBService.getInstance(spApp).deleteAll(); //清空数据库
+				clearGlideCache(); //清除图片缓存
+				CleanDataManager.cleanAppTemporaryData(spApp); //清除临时缓存
+				CleanDataManager.cleanCustomCache(AppConfig.SAVE_PATH_MEDIA_DICE); //清除视频缓存
             }
-        }).start();
+        }).start();*/
     }
 
     /**
@@ -222,46 +222,46 @@ public class AppApplication extends Application {
      * 应用数据统计之页面启动
      */
     public static void onPageStart(Activity activity, String pageName) {
-//        if (activity != null) {
-//            MobclickAgent.onResume(activity);
-//        }
-//        MobclickAgent.onPageStart(pageName);
+        /*if (activity != null) {
+            MobclickAgent.onResume(activity);
+        }
+        MobclickAgent.onPageStart(pageName);*/
     }
 
     /**
      * 应用数据统计之页面关闭
      */
     public static void onPageEnd(Context ctx, String pageName) {
-//		MobclickAgent.onPageEnd(pageName);
-//		MobclickAgent.onPause(ctx);
+		/*MobclickAgent.onPageEnd(pageName);
+		MobclickAgent.onPause(ctx);*/
     }
 
     /**
      * 推送服务统计应用启动数据
      */
     public static void onPushAppStartData() {
-//		pushManager.onPushAppStartData();
+		//pushManager.onPushAppStartData();
     }
 
     /**
      * 初始化推送服务状态
      */
     public static void onPushDefaultStatus() {
-//		pushManager.onPushDefaultStatus();
+		//pushManager.onPushDefaultStatus();
     }
 
     /**
      * 设置推送服务的权限
      */
     public static void setPushStatus(boolean isStatus) {
-//		pushManager.setPushStatus(isStatus);
+		//pushManager.setPushStatus(isStatus);
     }
 
     /**
      * 获取推送服务的权限
      */
 	public static boolean getPushStatus() {
-//		return pushManager.getPushStatus();
+		//return pushManager.getPushStatus();
 		return false;
 	}
 
@@ -269,11 +269,11 @@ public class AppApplication extends Application {
      * 注册或注销用户信息至推送服务
      */
     public static void onPushRegister(boolean isRegister) {
-//		if (isRegister) {
-//			pushManager.registerPush();
-//		} else {
-//			pushManager.unregisterPush();
-//		}
+		/*if (isRegister) {
+			pushManager.registerPush();
+		} else {
+			pushManager.unregisterPush();
+		}*/
     }
 
     /**
@@ -283,7 +283,7 @@ public class AppApplication extends Application {
         // 远程退出
         HashMap<String, String> map = new HashMap<>();
         map.put("userId", UserManager.getInstance().getUserId());
-        HttpRequests.getInstance().loadData(AppConfig.URL_AUTH_LOGOUT, map, HttpRequests.HTTP_POST);
+        HttpRequests.getInstance().loadData("url_head:pay", AppConfig.URL_AUTH_LOGOUT, map, HttpRequests.HTTP_POST);
         // 本地退出
         AppManager.getInstance().AppLogout(spApp);
     }
@@ -300,7 +300,7 @@ public class AppApplication extends Application {
         Intent intent = new Intent(spApp, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 		spApp.startActivity(intent);
-		AppManager.getInstance().AppExit(spApp);
+		AppManager.getInstance().AppExit(getAppContext());
 		// 结束进程之前可以把你程序的注销或者退出代码放在这段代码之前
 		android.os.Process.killProcess(android.os.Process.myPid());
     }

@@ -343,7 +343,7 @@ public class BaseFragment extends Fragment {
 	 */
 	protected void loadSVData(String path, HashMap<String, String> map, int httpType, final int dataType) {
 		HttpRequests.getInstance()
-				.loadData(path, map, httpType)
+				.loadData("base_2", path, map, httpType)
 				.subscribe(new Observer<ResponseBody>() {
 					@Override
 					public void onNext(ResponseBody body) {

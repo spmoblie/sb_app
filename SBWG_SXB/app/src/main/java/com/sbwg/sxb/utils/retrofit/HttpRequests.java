@@ -10,6 +10,7 @@ import okhttp3.ResponseBody;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
@@ -44,34 +45,34 @@ public class HttpRequests extends ObjectLoader {
     /**
      * 加载数据
      */
-    public Observable<ResponseBody> loadData(String paths, Map<String, String> map, int httpType) {
+    public Observable<ResponseBody> loadData(String head, String paths, Map<String, String> map, int httpType) {
         Observable<ResponseBody> observable = null;
         try {
             switch (httpType) {
                 case HTTP_GET:
                     if (map != null) {
-                        observable = observe(httpService.get(paths, map));
+                        observable = observe(httpService.get(head, paths, map));
                     } else {
-                        observable = observe(httpService.get(paths));
+                        observable = observe(httpService.get(head, paths));
                     }
                     break;
                 case HTTP_POST:
                     String[] roots = paths.split("/");
                     switch (roots.length) {
                         case 1:
-                            observable = observe(httpService.post(paths, map));
+                            observable = observe(httpService.post(head, paths, map));
                             break;
                         case 2:
-                            observable = observe(httpService.post(roots[0], roots[1], map));
+                            observable = observe(httpService.post(head, roots[0], roots[1], map));
                             break;
                         case 3:
-                            observable = observe(httpService.post(roots[0], roots[1], roots[2], map));
+                            observable = observe(httpService.post(head, roots[0], roots[1], roots[2], map));
                             break;
                         case 4:
-                            observable = observe(httpService.post(roots[0], roots[1], roots[2], roots[3], map));
+                            observable = observe(httpService.post(head, roots[0], roots[1], roots[2], roots[3], map));
                             break;
                         default:
-                            observable = observe(httpService.post(paths, map));
+                            observable = observe(httpService.post(head, paths, map));
                             break;
                     }
                     break;
@@ -85,22 +86,22 @@ public class HttpRequests extends ObjectLoader {
     /**
      * 上传文件
      */
-    public Observable<ResponseBody> uploadFile(String paths, List<MultipartBody.Part> partList) {
+    public Observable<ResponseBody> uploadFile(String head, String paths, List<MultipartBody.Part> partList) {
         Observable<ResponseBody> observable = null;
         try {
             String[] roots = paths.split("/");
             switch (roots.length) {
                 case 1:
-                    observable = observe(httpService.uploadFile(roots[0], partList));
+                    observable = observe(httpService.uploadFile(head, roots[0], partList));
                     break;
                 case 2:
-                    observable = observe(httpService.uploadFile(roots[0], roots[1], partList));
+                    observable = observe(httpService.uploadFile(head, roots[0], roots[1], partList));
                     break;
                 case 3:
-                    observable = observe(httpService.uploadFile(roots[0], roots[1], roots[2], partList));
+                    observable = observe(httpService.uploadFile(head, roots[0], roots[1], roots[2], partList));
                     break;
                 default:
-                    observable = observe(httpService.uploadFile(roots[0], partList));
+                    observable = observe(httpService.uploadFile(head, roots[0], partList));
                     break;
             }
         } catch (Exception e) {
@@ -112,32 +113,32 @@ public class HttpRequests extends ObjectLoader {
     public interface HttpService {
 
         @GET("{path}")
-        Observable<ResponseBody> get(@Path("path") String path);
+        Observable<ResponseBody> get(@Header("url_head") String head, @Path("path") String path);
         @GET("{path}")
-        Observable<ResponseBody> get(@Path("path") String path, @QueryMap Map<String, String> map);
+        Observable<ResponseBody> get(@Header("url_head") String head, @Path("path") String path, @QueryMap Map<String, String> map);
 
         @FormUrlEncoded
         @POST("{path}")
-        Observable<ResponseBody> post(@Path("path") String path, @FieldMap Map<String, String> map);
+        Observable<ResponseBody> post(@Header("url_head") String head, @Path("path") String path, @FieldMap Map<String, String> map);
         @FormUrlEncoded
         @POST("{root}/{path}")
-        Observable<ResponseBody> post(@Path("root") String root, @Path("path") String path, @FieldMap Map<String, String> map);
+        Observable<ResponseBody> post(@Header("url_head") String head, @Path("root") String root, @Path("path") String path, @FieldMap Map<String, String> map);
         @FormUrlEncoded
         @POST("{root1}/{root2}/{path}")
-        Observable<ResponseBody> post(@Path("root1") String root1, @Path("root2") String root2, @Path("path") String path, @FieldMap Map<String, String> map);
+        Observable<ResponseBody> post(@Header("url_head") String head, @Path("root1") String root1, @Path("root2") String root2, @Path("path") String path, @FieldMap Map<String, String> map);
         @FormUrlEncoded
         @POST("{root1}/{root2}/{root3}/{path}")
-        Observable<ResponseBody> post(@Path("root1") String root1, @Path("root2") String root2, @Path("root3") String root3, @Path("path") String path, @FieldMap Map<String, String> map);
+        Observable<ResponseBody> post(@Header("url_head") String head, @Path("root1") String root1, @Path("root2") String root2, @Path("root3") String root3, @Path("path") String path, @FieldMap Map<String, String> map);
 
         @Multipart
         @POST("{path}")
-        Observable<ResponseBody> uploadFile(@Path("path") String path, @Part List<MultipartBody.Part> partList);
+        Observable<ResponseBody> uploadFile(@Header("url_head") String head, @Path("path") String path, @Part List<MultipartBody.Part> partList);
         @Multipart
         @POST("{root}/{path}")
-        Observable<ResponseBody> uploadFile(@Path("root") String root, @Path("path") String path, @Part List<MultipartBody.Part> partList);
+        Observable<ResponseBody> uploadFile(@Header("url_head") String head, @Path("root") String root, @Path("path") String path, @Part List<MultipartBody.Part> partList);
         @Multipart
         @POST("{root1}/{root2}/{path}")
-        Observable<ResponseBody> uploadFile(@Path("root1") String root1, @Path("root2") String root2, @Path("path") String path, @Part List<MultipartBody.Part> partList);
+        Observable<ResponseBody> uploadFile(@Header("url_head") String head, @Path("root1") String root1, @Path("root2") String root2, @Path("path") String path, @Part List<MultipartBody.Part> partList);
     }
 
 }

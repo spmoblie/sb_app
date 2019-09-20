@@ -96,6 +96,7 @@
     <string name="loading_downloading">奋力下载中&#8230;&#8230;</string>
     <string name="loading_no_more">没有更多了</string>
     <string name="loading_no_data">暂无%1$s</string>
+    <string name="loading_process">正在%1$s</string>
     <string name="loading_click_load">重新加载</string>
     <string name="loading_submit_fail">上载失败</string>
 
@@ -180,6 +181,7 @@
     <string name="setting_close_confirm">&#160;确定要关闭应用么？</string>
     <string name="setting_input_hint_feedback">写下您的意见或建议</string>
     <string name="setting_input_error_feedback">意见或建议不能为空~</string>
+    <string name="setting_feedback_post_ok">提交成功^_^感谢您的宝贵意见^_^</string>
 
     <!-- Login Register -->
     <string name="login_login">登录账户</string>
@@ -211,7 +213,7 @@
     <string name="login_register_ok">注册成功</string>
     <string name="login_register_login">注册并登录</string>
     <string name="login_reset_login">修改并登录</string>
-    <string name="login_reset_ok">密码已修改</string>
+    <string name="login_reset_ok">密码修改成功</string>
     <string name="login_quick">其它方式登录</string>
     <string name="login_oauth_cancel">登入取消</string>
     <string name="login_error_oauth">授权登入出现错误！请重试！</string>

@@ -132,9 +132,13 @@ public class EditUserInfoActivity extends BaseActivity {
 	@Override
 	public void OnListenerRight() {
 		super.OnListenerRight();
-		if (checkData() && isPost) {
-			isPost = false;
-			saveUserInfo();
+		if (checkData()) {
+			if (isPost) {
+				isPost = false;
+				saveUserInfo();
+			} else {
+				CommonTools.showToast(getString(R.string.loading_process, getString(R.string.save)));
+			}
 		}
 	}
 
@@ -192,7 +196,7 @@ public class EditUserInfoActivity extends BaseActivity {
 						isChange = true;
 						finish();
 					} else {
-						showServerBusy(baseEn.getErrmsg());
+						handleErrorCode(baseEn);
 					}
 					break;
 			}
@@ -206,7 +210,7 @@ public class EditUserInfoActivity extends BaseActivity {
 	protected void loadFailHandle() {
 		super.loadFailHandle();
 		isPost = true;
-		showServerBusy("");
+		handleErrorCode(null);
 	}
 	
 }

@@ -139,42 +139,6 @@
                 android:singleLine="true" />
         </RelativeLayout>
 
-        <RelativeLayout
-            android:id="@+id/personal_rl_phone"
-            style="@style/setting_lay_item"
-            android:layout_marginTop="@dimen/margin_padding_10"
-            android:visibility="gone">
-
-            <TextView
-                android:id="@+id/personal_tv_phone_title"
-                style="@style/setting_lay_text_title"
-                android:text="@string/address_phone_number" />
-
-            <TextView
-                android:id="@+id/personal_tv_phone_content"
-                style="@style/setting_lay_text_content" />
-
-            <ImageView
-                style="@style/set_line_horizontal_bg"
-                android:layout_alignParentBottom="true"
-                android:contentDescription="@string/desc" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/personal_rl_email"
-            style="@style/setting_lay_item"
-            android:layout_marginTop="@dimen/margin_padding_10">
-
-            <TextView
-                android:id="@+id/personal_tv_email_title"
-                style="@style/setting_lay_text_title"
-                android:text="@string/address_email_address" />
-
-            <TextView
-                android:id="@+id/personal_tv_email_content"
-                style="@style/setting_lay_text_content" />
-        </RelativeLayout>
-
     </LinearLayout>
 
 </ScrollView>

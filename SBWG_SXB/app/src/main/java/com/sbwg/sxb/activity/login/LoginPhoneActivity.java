@@ -1,6 +1,5 @@
 package com.sbwg.sxb.activity.login;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Editable;
@@ -23,7 +22,6 @@ import com.sbwg.sxb.utils.ExceptionUtil;
 import com.sbwg.sxb.utils.JsonLogin;
 import com.sbwg.sxb.utils.LogUtil;
 import com.sbwg.sxb.utils.StringUtil;
-import com.sbwg.sxb.utils.UserManager;
 import com.sbwg.sxb.utils.retrofit.HttpRequests;
 
 import org.json.JSONObject;
@@ -31,6 +29,8 @@ import org.json.JSONObject;
 import java.util.HashMap;
 
 import butterknife.BindView;
+
+import static com.sbwg.sxb.AppConfig.SEND_TIME;
 
 
 public class LoginPhoneActivity extends BaseActivity implements OnClickListener {
@@ -104,7 +104,7 @@ public class LoginPhoneActivity extends BaseActivity implements OnClickListener 
         initEditText();
 
         // 偏好设置-手机号
-        phoneStr = UserManager.getInstance().getLoginAccount();
+        phoneStr = userManager.getLoginAccount();
         String phoneNew = StringUtil.changeMobileNo(phoneStr);
         if (!StringUtil.isNull(phoneNew)) {
             isPhone_Ok = true;
@@ -288,10 +288,10 @@ public class LoginPhoneActivity extends BaseActivity implements OnClickListener 
                 }
                 break;
             case R.id.login_phone_tv_password_reset:
-                startActivity(new Intent(mContext, ResetPasswordActivity.class));
+                openActivity(ResetPasswordActivity.class);
                 break;
             case R.id.login_phone_tv_register:
-                startActivity(new Intent(mContext, RegisterActivity.class));
+                openActivity(RegisterActivity.class);
                 break;
             case R.id.login_phone_btn_login:
                 if (checkData() && isCanLogin) {
@@ -431,22 +431,21 @@ public class LoginPhoneActivity extends BaseActivity implements OnClickListener 
                         editor.putLong(AppConfig.KEY_SEND_VERIFY_LAST_TIME, System.currentTimeMillis()).apply();
                         CommonTools.showToast(getString(R.string.login_verify_code_send));
                     } else {
-                        showServerBusy(baseEn.getErrmsg());
+                        handleErrorCode(baseEn);
                     }
                     break;
                 case AppConfig.REQUEST_SV_AUTH_LOGIN:
                     baseEn = JsonLogin.getLoginData(jsonObject);
                     if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
-                        UserInfoEntity userInfo = (UserInfoEntity) baseEn.getData();
-                        UserManager.getInstance().saveLoginAccount(phoneStr);
-                        UserManager.getInstance().saveUserLoginSuccess(userInfo);
+                        userManager.saveLoginAccount(phoneStr);
+                        userManager.saveUserLoginSuccess((UserInfoEntity) baseEn.getData());
                         closeLoginActivity();
                     } else
                     if (baseEn.getErrno() == AppConfig.ERROR_CODE_PHONE_UNREGISTERED) {
                         tv_phone_error.setVisibility(View.VISIBLE);
                         tv_phone_error.setText(getString(R.string.login_phone_unregistered));
                     } else {
-                        showServerBusy(baseEn.getErrmsg());
+                        handleErrorCode(baseEn);
                     }
                     break;
             }
@@ -460,6 +459,6 @@ public class LoginPhoneActivity extends BaseActivity implements OnClickListener 
     protected void loadFailHandle() {
         super.loadFailHandle();
         send_Again = true;
-        showServerBusy("");
+        handleErrorCode(null);
     }
 }

@@ -25,7 +25,6 @@ import com.sbwg.sxb.utils.ExceptionUtil;
 import com.sbwg.sxb.utils.JsonUtils;
 import com.sbwg.sxb.utils.LogUtil;
 import com.sbwg.sxb.utils.StringUtil;
-import com.sbwg.sxb.utils.UserManager;
 import com.sbwg.sxb.utils.retrofit.HttpRequests;
 
 import org.json.JSONObject;
@@ -130,7 +129,7 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
         sign_iv_show.setLayoutParams(showImgLP);
         Glide.with(AppApplication.getAppContext())
                 .load(imgUrl)
-                .apply(AppApplication.getShowOpeions())
+                .apply(AppApplication.getShowOptions())
                 .into(sign_iv_show);
 
         if (payAmount > 0) {
@@ -378,7 +377,7 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
         AppApplication.onPageStart(this, TAG);
 
         // 报名状态
-        isSignUp = UserManager.getInstance().isCourseSignUp(courseId);
+        isSignUp = userManager.isCourseSignUp(courseId);
         if (isLogin() && isSignUp) {
             setPayState(false);
             setSignState("已报名", false);
@@ -432,10 +431,10 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
                     if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
                         isSignUp = true;
                         setSignState("已报名", false);
-                        UserManager.getInstance().saveCourseId(courseId);
+                        userManager.saveCourseId(courseId);
                         CommonTools.showToast("报名成功");
                     } else {
-                        showServerBusy(baseEn.getErrmsg());
+                        handleErrorCode(baseEn);
                     }
                     break;
             }

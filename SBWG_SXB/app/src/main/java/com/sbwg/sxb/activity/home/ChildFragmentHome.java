@@ -197,8 +197,8 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
         ll_head_main = (LinearLayout) FrameLayout.inflate(mContext, R.layout.layout_list_head_home, null);
         fg_home_vp = ll_head_main.findViewById(R.id.fg_home_head_viewPager);
         fg_home_indicator = ll_head_main.findViewById(R.id.fg_home_head_indicator);
+        ll_head_main.setVisibility(View.GONE);
         mListView.addHeaderView(ll_head_main);
-        initHeadView();
     }
 
     private void initHeadView() {
@@ -229,7 +229,7 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
                 String imgUrl = items.getPicUrl();
                 Glide.with(AppApplication.getAppContext())
                         .load(imgUrl)
-                        .apply(AppApplication.getShowOpeions())
+                        .apply(AppApplication.getShowOptions())
                         .into(imageView);
 
                 imageView.setOnClickListener(new OnClickListener() {

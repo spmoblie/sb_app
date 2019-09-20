@@ -67,7 +67,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 		super.onCreate(arg0);
 		try {
 			setContentView(R.layout.activity_main);
-			//Butter Knife初始化
+			// ButterKnife初始化
 			ButterKnife.bind(this);
 
 			LogUtil.i(TAG, "onCreate");
@@ -157,7 +157,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 		}*/
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
 			if (exit) {
-				AppManager.getInstance().AppExit(getApplicationContext());
+				finish();
 			} else {
 				exit = Boolean.TRUE;
 				new Handler().postDelayed(new Runnable() {

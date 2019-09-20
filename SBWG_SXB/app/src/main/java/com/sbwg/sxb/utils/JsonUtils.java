@@ -126,7 +126,9 @@ public class JsonUtils {
                 userInfo.setUserHead(data.getString("avatar"));
                 userInfo.setGenderCode(data.getInt("gender"));
                 userInfo.setBirthday(data.getString("birthdayValue"));
+                userInfo.setUserArea(data.getString("address"));
                 userInfo.setUserIntro(data.getString("signature"));
+                userInfo.setSignUpId(data.getString("activityValues"));
             }
         }
         mainEn.setData(userInfo);

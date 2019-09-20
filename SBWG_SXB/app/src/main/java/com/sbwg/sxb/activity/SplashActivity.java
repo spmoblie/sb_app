@@ -1,6 +1,5 @@
 package com.sbwg.sxb.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -36,9 +35,10 @@ public class SplashActivity extends BaseActivity {
 		// 页面开始
 		AppApplication.onPageStart(this, TAG);
 		// 检查授权
-		checkPermission();
-		// 延迟跳转页面
-		goHomeActivity();
+		if (checkPermission()) {
+			// 延迟跳转页面
+			goHomeActivity();
+		}
 
 		super.onResume();
 	}
@@ -51,7 +51,7 @@ public class SplashActivity extends BaseActivity {
 				int statusHeight = DeviceUtil.getStatusBarHeight(SplashActivity.this);
 				editor.putInt(AppConfig.KEY_STATUS_HEIGHT, statusHeight).apply();
 
-				startActivity(new Intent(SplashActivity.this, MainActivity.class));
+				openActivity(MainActivity.class);
 				finish();
 				// 设置Activity的切换效果
 				overridePendingTransition(R.anim.in_from_right, R.anim.out_to_left);
@@ -73,4 +73,13 @@ public class SplashActivity extends BaseActivity {
 		super.onDestroy();
 	}
 
+	@Override
+	protected void permissionsResultCallback(boolean result) {
+		if (result) {
+			// 延迟跳转页面
+			goHomeActivity();
+		} else {
+			finish();
+		}
+	}
 }

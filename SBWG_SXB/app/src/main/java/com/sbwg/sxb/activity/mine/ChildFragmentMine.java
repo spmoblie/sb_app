@@ -60,8 +60,8 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
 	@BindView(R.id.fg_mine_iv_setting)
 	ImageView iv_setting;
 
-	@BindView(R.id.fg_mine_iv_feedback)
-	ImageView iv_feedback;
+	@BindView(R.id.fg_mine_iv_debunk)
+	ImageView iv_debunk;
 
 	@BindView(R.id.fg_mine_iv_head)
 	RoundImageView iv_user_head;
@@ -187,7 +187,7 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
 
 	private void initView() {
 		iv_setting.setOnClickListener(this);
-		iv_feedback.setOnClickListener(this);
+		iv_debunk.setOnClickListener(this);
 		iv_user_head.setOnClickListener(this);
 		tv_user_name.setOnClickListener(this);
 
@@ -212,7 +212,7 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
 					imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 					Glide.with(AppApplication.getAppContext())
 							.load(imgUrl)
-							.apply(AppApplication.getShowOpeions())
+							.apply(AppApplication.getShowOptions())
 							.into(imageView);
 
 					imageView.setOnClickListener(new OnClickListener() {
@@ -300,7 +300,7 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
 			case R.id.fg_mine_iv_setting:
 				startActivity(new Intent(mContext, SettingActivity.class));
 				break;
-			case R.id.fg_mine_iv_feedback:
+			case R.id.fg_mine_iv_debunk:
 				Intent intent = new Intent(getActivity(), MyWebViewActivity.class);
 				intent.putExtra("title", "吐个槽");
 				intent.putExtra("lodUrl", "https://support.qq.com/product/1221");
@@ -376,7 +376,6 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
 							.with(AppApplication.getAppContext())
 							.asBitmap()
 							.load(infoEn.getUserHead())
-							//.load("https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1567514197085&di=63f6e7ab81589c8cfddc677df3644cfa&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201708%2F23%2F20170823110912_ezTtH.thumb.700_0.jpeg")
 							.submit();
 					try{
 						Bitmap headBitmap = ft.get();
@@ -406,12 +405,15 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
 				case AppConfig.REQUEST_SV_POST_USER_GET:
 					baseEn = JsonUtils.getUserInfo(jsonObject);
 					if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
-						UserInfoEntity userInfo = (UserInfoEntity) baseEn.getData();
-						UserManager.getInstance().saveUserInfo(userInfo);
+						userManager.saveUserInfo((UserInfoEntity) baseEn.getData());
 						infoEn = getUserInfoData();
 						initHeadView();
 						loadUserHead();
 						editor.putBoolean(AppConfig.KEY_UPDATE_USER_DATA, false).apply();
+					} else
+					if (baseEn.getErrno() == AppConfig.ERROR_CODE_TIMEOUT) {
+						AppApplication.AppLogout();
+						checkLogin();
 					}
 					break;
 			}

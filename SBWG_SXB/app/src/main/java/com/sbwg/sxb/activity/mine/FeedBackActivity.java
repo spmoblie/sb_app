@@ -1,6 +1,7 @@
 package com.sbwg.sxb.activity.mine;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -8,6 +9,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.sbwg.sxb.AppApplication;
+import com.sbwg.sxb.AppConfig;
 import com.sbwg.sxb.R;
 import com.sbwg.sxb.activity.BaseActivity;
 import com.sbwg.sxb.utils.CommonTools;
@@ -21,12 +23,12 @@ public class FeedBackActivity extends BaseActivity implements OnClickListener {
 	public static final String TAG = FeedBackActivity.class.getSimpleName();
 
 	@BindView(R.id.feed_back_et_content)
-	EditText et_feed_cotent;
+	EditText et_content;
 
 	@BindView(R.id.feed_back_btn_submit)
 	Button btn_submit;
 
-	private String cotentStr;
+	private String contentStr;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -41,26 +43,23 @@ public class FeedBackActivity extends BaseActivity implements OnClickListener {
 		btn_submit.setOnClickListener(this);
 	}
 
-	private void backSubmit() {
-		cotentStr = et_feed_cotent.getText().toString();
-		// 输入非空
-		if (cotentStr.isEmpty()) {
+	private boolean checkData() {
+		contentStr = et_content.getText().toString();
+		// 校验非空
+		if (contentStr.isEmpty()) {
 			CommonTools.showToast(getString(R.string.setting_input_error_feedback), Toast.LENGTH_SHORT);
-			return;
+			return false;
 		}
-		postResetData();
-	}
-	
-	private void postResetData() {
-		startAnimation();
-//		request(AppConfig.REQUEST_SV_POST_FEED_BACK_CODE);
+		return true;
 	}
 
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.feed_back_btn_submit:
-			backSubmit();
+			if (checkData()) {
+				postData();
+			}
 			break;
 		}
 	}
@@ -86,6 +85,17 @@ public class FeedBackActivity extends BaseActivity implements OnClickListener {
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
+	}
+
+	private void postData() {
+		startAnimation();
+		new Handler().postDelayed(new Runnable() {
+			@Override
+			public void run() {
+				CommonTools.showToast(getString(R.string.setting_feedback_post_ok));
+				stopAnimation();
+			}
+		}, AppConfig.LOADING_TIME);
 	}
 	
 }

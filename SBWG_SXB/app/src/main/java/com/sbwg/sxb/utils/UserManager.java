@@ -364,6 +364,7 @@ public class UserManager {
 		saveUserArea("");
 		saveUserMoney("0.00");
 		saveXAppToken("");
+		clearCourseId();
 	}
 
 	/**
@@ -381,11 +382,17 @@ public class UserManager {
 			saveUserGender(infoEn.getGenderCode());
 			saveUserBirthday(infoEn.getBirthday());
 			saveUserArea(infoEn.getUserArea());
+
 			if (StringUtil.isNull(infoEn.getMoney())) {
 				saveUserMoney("0.00");
 			} else {
 				saveUserMoney(infoEn.getMoney());
 			}
+
+			String signUpId = infoEn.getSignUpId();
+			if (!StringUtil.isNull(signUpId)) {
+			}
+
 			// 绑定用户信息至推送服务
 			AppApplication.onPushRegister(true);
 		}

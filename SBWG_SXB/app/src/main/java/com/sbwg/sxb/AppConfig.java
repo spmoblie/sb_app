@@ -12,21 +12,18 @@ public class AppConfig {
 
 	// 是否正式发布
 	public static final boolean IS_PUBLISH = false;
-	// 网络传输协议http
+	// http协议
 	public final static String APP_HTTP = "http://";
-	// 网络传输协议https
-	public final static String APP_HTTPS = "https://";
-	// 域名1
-	//public final static String ENVIRONMENT_TEST_APP_1 = APP_HTTP + "www.girlbdf.cn:9090/app/";
-	public final static String ENVIRONMENT_TEST_APP_1 = APP_HTTP + "192.168.1.143/app/";
-	// 域名2
-	public final static String ENVIRONMENT_TEST_APP_2 = APP_HTTP + "";
 	// Base域名
-	public final static String ENVIRONMENT_BASE_URL = ENVIRONMENT_TEST_APP_1;
+	public final static String BASE_URL_1 = APP_HTTP + "www.girlbdf.cn:9090/app/";
+	// Base域名
+	public final static String BASE_URL_2 = APP_HTTP + "192.168.1.143/app/";
 	// 图片域名
-	public final static String ENVIRONMENT_PRESENT_IMG_APP = "file:///android_asset/";
+	public final static String IMAGE_URL = "file:///android_asset/";
 	// 推广域名
-	public final static String ENVIRONMENT_PRESENT_SHARE_URL = ENVIRONMENT_TEST_APP_1;
+	public final static String SHARE_URL = BASE_URL_1;
+	// 关于我们
+	public final static String ABOUT_US = "https://www.sbwg.cn/";
 
 	// 短信验证码
 	public final static String URL_AUTH_MESSAGE = "auth/regCaptcha";
@@ -53,10 +50,6 @@ public class AppConfig {
 
 	// 上传接口
 	public final static String URL_UPLOAD_PUSH = "upload/push";
-	// SP微信公众号
-	public static final String SP_WECHAT_PUBLIC = "http://weixin.qq.com/r/MnXVzWXE-jiBrSGu9yAg";
-	// 联系客服URL
-	public static final String API_CUSTOMER_SERVICE = "http://webim.qiao.baidu.com/im/gateway?siteid=3888057&type=n&ucid=6374202";
 
 	/**
 	 ******************************************* URL设置结束 ******************************************
@@ -78,6 +71,8 @@ public class AppConfig {
 
 	// Error状态码：加载成功
 	public static final int ERROR_CODE_SUCCESS = 0;
+	// Error状态码：登录超时
+	public static final int ERROR_CODE_TIMEOUT = 501;
 	// Error状态码：手机号已注册
 	public static final int ERROR_CODE_PHONE_REGISTERED = 705;
 	// Error状态码：手机号未注册
@@ -85,6 +80,8 @@ public class AppConfig {
 
 	// 加载缓冲时间
 	public static final int LOADING_TIME = 1000;
+	// 验证码倒计时
+	public static final long SEND_TIME = 60000;
 
 	// 动态授权-权限集
 	public static final String[] PERMISSIONS = new String[]{
@@ -147,10 +144,12 @@ public class AppConfig {
 	 ******************************************* RequestCode参数设置开始 ******************************************
 	 */
 
+	// 授权监听
+	public static final int REQUEST_CORD_PERMISSION = 0X1000;
 	// 校验Sessions
-	public static final int REQUEST_SV_GET_SESSIONS_CODE = 0X1001;
+	public static final int REQUEST_SV_GET_SESSIONS = 0X1001;
 	// 检测版本更新
-	public static final int REQUEST_SV_POST_VERSION_CODE = 0X1002;
+	public static final int REQUEST_SV_POST_VERSION = 0X1002;
 	// 短信验证码
 	public static final int REQUEST_SV_AUTH_MESSAGE = 0X1003;
 	// 提交注册
@@ -159,8 +158,6 @@ public class AppConfig {
 	public static final int REQUEST_SV_AUTH_RESET = 0X1005;
 	// 提交登录
 	public static final int REQUEST_SV_AUTH_LOGIN = 0X1006;
-	// 提交注销
-	public static final int REQUEST_SV_AUTH_LOGOUT = 0X1007;
 
 	// 首頁头部数据
 	public static final int REQUEST_SV_POST_HOME_HEAD = 0X2001;

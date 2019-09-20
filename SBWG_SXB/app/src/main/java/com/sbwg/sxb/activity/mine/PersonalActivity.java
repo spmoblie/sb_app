@@ -37,7 +37,6 @@ import com.sbwg.sxb.utils.ExceptionUtil;
 import com.sbwg.sxb.utils.JsonUtils;
 import com.sbwg.sxb.utils.LogUtil;
 import com.sbwg.sxb.utils.StringUtil;
-import com.sbwg.sxb.utils.UserManager;
 import com.sbwg.sxb.utils.retrofit.HttpRequests;
 import com.sbwg.sxb.widgets.RoundImageView;
 
@@ -53,16 +52,15 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
 
     public static final String TAG = PersonalActivity.class.getSimpleName();
 
-    private RelativeLayout rl_head, rl_nick, rl_gender, rl_birthday, rl_area, rl_intro, rl_email, rl_phone;
+    private RelativeLayout rl_head, rl_nick, rl_gender, rl_birthday, rl_area, rl_intro;
     private RoundImageView iv_head;
-    private TextView tv_nick, tv_gender, tv_birthday, tv_area, tv_intro, tv_email, tv_phone;
-    private String nickStr, genderStr, birthdayStr, areaStr, introStr, emailStr, phoneStr;
+    private TextView tv_nick, tv_gender, tv_birthday, tv_area, tv_intro;
+    private String nickStr, genderStr, birthdayStr, areaStr, introStr;
     private String changeStr, userKey, clip_head_path;
     private File saveFile;
     private int genderCode = 0;
 
     private UserInfoEntity infoEn;
-    private UserManager userManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +68,6 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
         setContentView(R.layout.activity_personal);
 
         infoEn = (UserInfoEntity) getIntent().getExtras().get("data");
-        userManager = UserManager.getInstance();
 
         findViewById();
         initView();
@@ -83,16 +80,12 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
         rl_birthday = findViewById(R.id.personal_rl_birthday);
         rl_area = findViewById(R.id.personal_rl_area);
         rl_intro = findViewById(R.id.personal_rl_intro);
-        rl_email = findViewById(R.id.personal_rl_email);
-        rl_phone = findViewById(R.id.personal_rl_phone);
         iv_head = findViewById(R.id.personal_iv_head);
         tv_nick = findViewById(R.id.personal_tv_nick_content);
         tv_gender = findViewById(R.id.personal_tv_gender_content);
         tv_birthday = findViewById(R.id.personal_tv_birthday_content);
         tv_area = findViewById(R.id.personal_tv_area_content);
         tv_intro = findViewById(R.id.personal_tv_intro_content);
-        tv_email = findViewById(R.id.personal_tv_email_content);
-        tv_phone = findViewById(R.id.personal_tv_phone_content);
     }
 
     private void initView() {
@@ -102,11 +95,8 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
         rl_birthday.setOnClickListener(this);
         rl_area.setOnClickListener(this);
         rl_intro.setOnClickListener(this);
-        rl_email.setOnClickListener(this);
-        rl_phone.setOnClickListener(this);
 
         setTitle(R.string.mine_page);
-        setView();
     }
 
     private void setView() {
@@ -116,16 +106,12 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
             birthdayStr = infoEn.getBirthday();
             areaStr = infoEn.getUserArea();
             introStr = infoEn.getUserIntro();
-            emailStr = infoEn.getUserEmail();
-            phoneStr = infoEn.getUserPhone();
         } else {
             nickStr = userManager.getUserNick();
             genderCode = userManager.getUserGender();
             birthdayStr = userManager.getUserBirthday();
             areaStr = userManager.getUserArea();
             introStr = userManager.getUserIntro();
-            emailStr = userManager.getUserEmail();
-            phoneStr = userManager.getUserPhone();
         }
         switch (genderCode) { //定义性别
             case 1:
@@ -143,8 +129,6 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
         tv_birthday.setText(birthdayStr);
         tv_area.setText(areaStr);
         tv_intro.setText(introStr);
-        tv_email.setText(emailStr);
-        tv_phone.setText(phoneStr);
         // 头像
         Bitmap headBitmap = BitmapFactory.decodeFile(AppConfig.SAVE_USER_HEAD_PATH);
         if (headBitmap != null) {
@@ -194,14 +178,6 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
                 intent.putExtra(EditUserInfoActivity.KEY_USER, "signature");
                 startActivityForResult(intent, AppConfig.ACTIVITY_CHANGE_USER_INTRO);
                 return;
-            case R.id.personal_rl_phone:
-                startChangePhone();
-                return;
-            case R.id.personal_rl_email:
-//                checkEmailStatus();
-                //Evan临时修改
-                startChangeEmail();
-                return;
         }
         if (intent != null) {
             startActivity(intent);
@@ -238,7 +214,7 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
                                 }
                                 break;
                             case 1: //本地
-                                startActivity(new Intent(mContext, ClipPhotoGridActivity.class));
+                                openActivity(ClipPhotoGridActivity.class);
                                 break;
                         }
                     }
@@ -292,46 +268,11 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
                 userManager.saveUserBirthday(birthdayStr);
                 setView();
                 // 修改服务器生日
-                changeStr = year + "-" + (monthOfYear + 1) + "-" + dayOfMonth;
-                userKey = "birthday";
+                changeStr = birthdayStr;
+                userKey = "birthdayValue";
                 saveUserInfo();
             }
         }, year, month, day).show();
-    }
-
-    /**
-     * 检测邮箱可修改状态
-     */
-    private void checkEmailStatus() {
-        startAnimation();
-//		request(AppConfig.REQUEST_SV_CHECK_USER_EMAIL_STATUS);
-    }
-
-    /**
-     * 发送邮件给用户
-     */
-    private void sendEmailToUser() {
-//		request(AppConfig.REQUEST_SV_SEND_EMAIL_TO_USER);
-    }
-
-    /**
-     * 弹出对话框发送邮件确认修改
-     */
-    private void showSendEmailDialog() {
-        showConfirmDialog(null, getString(R.string.mine_send_email_hint, emailStr),
-                getString(R.string.cancel), getString(R.string.send_confirm),
-                screenWidth * 5 / 6, false, false, new Handler() {
-                    @Override
-                    public void handleMessage(Message msg) {
-                        switch (msg.what) {
-                            case AppConfig.DIALOG_CLICK_NO:
-                                break;
-                            case AppConfig.DIALOG_CLICK_OK:
-                                sendEmailToUser();
-                                break;
-                        }
-                    }
-                });
     }
 
     /**
@@ -342,26 +283,6 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
         intent.putExtra(AppConfig.ACTIVITY_CLIP_PHOTO_PATH, path);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
-    }
-
-    /**
-     * 跳转至修改邮箱页面
-     */
-    private void startChangeEmail() {
-        Intent intent = new Intent(mContext, EditUserInfoActivity.class);
-        intent.putExtra(EditUserInfoActivity.KEY_TITLE, getString(R.string.mine_change_email));
-        intent.putExtra(EditUserInfoActivity.KEY_SHOW, emailStr);
-        intent.putExtra(EditUserInfoActivity.KEY_HINT, getString(R.string.login_email_input));
-        intent.putExtra(EditUserInfoActivity.KEY_TIPS, getString(R.string.mine_change_email_notice));
-        intent.putExtra(EditUserInfoActivity.KEY_USER, "email");
-        startActivityForResult(intent, AppConfig.ACTIVITY_CHANGE_USER_EMAIL);
-    }
-
-    /**
-     * 修改手机号码
-     */
-    private void startChangePhone() {
-
     }
 
     @Override
@@ -395,6 +316,9 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
                 }
                 userManager.saveUserArea(areaStr);
                 setView();
+                userKey = "address";
+                changeStr = areaStr;
+                saveUserInfo();
             } else if (requestCode == AppConfig.ACTIVITY_CHANGE_USER_INTRO) //修改简介
             {
                 introStr = data.getExtras().getString(AppConfig.ACTIVITY_CHANGE_USER_CONTENT);
@@ -402,14 +326,6 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
                     infoEn.setUserIntro(introStr);
                 }
                 userManager.saveUserIntro(introStr);
-                setView();
-            } else if (requestCode == AppConfig.ACTIVITY_CHANGE_USER_EMAIL) //修改邮箱
-            {
-                emailStr = data.getExtras().getString(AppConfig.ACTIVITY_CHANGE_USER_CONTENT);
-                if (infoEn != null) {
-                    infoEn.setUserEmail(emailStr);
-                }
-                userManager.saveUserEmail(emailStr);
                 setView();
             }
         }
@@ -422,6 +338,7 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
         // 页面开始
         AppApplication.onPageStart(this, TAG);
 
+        setView();
         clip_head_path = shared.getString(AppConfig.KEY_CLIP_HEAD_PATH, "");
         if (!StringUtil.isNull(clip_head_path)) { //上传修改的头像
             uploadHead();
@@ -515,7 +432,7 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
                         userKey = "avatar";
                         saveUserInfo();
                     } else {
-                        showServerBusy(baseEn.getErrmsg());
+                        handleErrorCode(baseEn);
                     }
                     break;
                 case AppConfig.REQUEST_SV_POST_USER_SAVE:
@@ -531,7 +448,7 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
                             CommonTools.showToast(getString(R.string.photo_upload_img_ok, getString(R.string.mine_head)), Toast.LENGTH_SHORT);
                         }
                     } else {
-                        showServerBusy(baseEn.getErrmsg());
+                        handleErrorCode(baseEn);
                     }
                     break;
             }
@@ -544,7 +461,7 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
     @Override
     protected void loadFailHandle() {
         super.loadFailHandle();
-        showServerBusy("");
+        handleErrorCode(null);
     }
 
 }

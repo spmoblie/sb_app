@@ -89,7 +89,7 @@ public class SettingActivity extends BaseActivity implements OnClickListener {
             case R.id.setting_rl_about_us:
                 intent = new Intent(mContext, MyWebViewActivity.class);
                 intent.putExtra("title", getString(R.string.setting_about_us));
-                intent.putExtra("lodUrl", "https://www.sbwg.cn/");
+                intent.putExtra("lodUrl", AppConfig.ABOUT_US);
                 break;
             case R.id.setting_rl_feedback:
                 intent = new Intent(mContext, FeedBackActivity.class);

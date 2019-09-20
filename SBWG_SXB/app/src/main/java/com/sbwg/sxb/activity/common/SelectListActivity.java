@@ -165,7 +165,7 @@ public class SelectListActivity extends BaseActivity {
 						isChange = true;
 						finish();
 					} else {
-						showServerBusy(baseEn.getErrmsg());
+						handleErrorCode(baseEn);
 					}
 					break;
 			}
@@ -178,7 +178,7 @@ public class SelectListActivity extends BaseActivity {
 	@Override
 	protected void loadFailHandle() {
 		super.loadFailHandle();
-		showServerBusy("");
+		handleErrorCode(null);
 	}
 	
 }

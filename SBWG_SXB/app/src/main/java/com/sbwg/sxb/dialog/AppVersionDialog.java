@@ -132,7 +132,7 @@ public class AppVersionDialog {
 		public boolean onKey(DialogInterface dialog, int keyCode, KeyEvent event) {
 			if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
 				if (exit) {
-					AppManager.getInstance().AppExit(mContext);
+					AppManager.getInstance().AppExit(AppApplication.getAppContext());
 				} else {
 					exit = Boolean.TRUE;
 					new Handler().postDelayed(new Runnable() {

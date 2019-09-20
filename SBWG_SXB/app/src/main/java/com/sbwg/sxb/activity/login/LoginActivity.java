@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -25,7 +24,6 @@ import com.sbwg.sxb.utils.ExceptionUtil;
 import com.sbwg.sxb.utils.JsonLogin;
 import com.sbwg.sxb.utils.LogUtil;
 import com.sbwg.sxb.utils.StringUtil;
-import com.sbwg.sxb.utils.UserManager;
 import com.sbwg.sxb.widgets.share.weibo.AccessTokenKeeper;
 import com.sina.weibo.sdk.auth.AuthInfo;
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
@@ -72,9 +70,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
     @BindView(R.id.login_tv_weibo)
     TextView login_tv_weibo;
 
-    private UserManager um;
     private UserInfoEntity fbOauthEn;
-    private boolean exit = false;
     private boolean isStop = false;
     private String rootPage, loginType, postUid;
     // WX
@@ -104,11 +100,8 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        // 创建动画
-        //overridePendingTransition(R.anim.center_enlarge, R.anim.anim_no_anim);
 
         rootPage = getIntent().getExtras().getString("rootPage");
-        um = UserManager.getInstance();
 
         // QQ
         mTencent = Tencent.createInstance(QQ_APP_ID, mContext);
@@ -134,10 +127,10 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
                 finish();
                 break;
             case R.id.login_btn_login:
-                startActivity(new Intent(mContext, LoginPhoneActivity.class));
+                openActivity(LoginPhoneActivity.class);
                 break;
             case R.id.login_tv_register:
-                startActivity(new Intent(mContext, RegisterActivity.class));
+                openActivity(RegisterActivity.class);
                 break;
             case R.id.login_tv_wechat:
 //                loginWechat();
@@ -232,7 +225,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
                 WXEntity wxEn = JsonLogin.getWexiAccessAuth(result);
                 if (wxEn != null) { //刷新或续期access_token成功
                     wxEn.setUnionid(unionid);
-                    UserManager.getInstance().saveWechatUserInfo(wxEn);
+                    userManager.saveWechatUserInfo(wxEn);
                     postWechatLoginRequest();
                 } else {
                     showLoginError();
@@ -249,10 +242,10 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
      */
     public void postWechatLoginRequest() {
         loginType = LOGIN_TYPE_WX;
-        access_token = um.getWXAccessToken();
-        openid = um.getWXOpenId();
-        unionid = um.getWXUnionId();
-        refresh_token = um.getWXRefreshToken();
+        access_token = userManager.getWXAccessToken();
+        openid = userManager.getWXOpenId();
+        unionid = userManager.getWXUnionId();
+        refresh_token = userManager.getWXRefreshToken();
         postUid = unionid;
         requestThirdPartiesLogin();
     }
@@ -562,26 +555,6 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
     }
 
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-		/*if (keyCode == KeyEvent.KEYCODE_BACK) {
-			if (exit) {
-				AppManager.getInstance().AppExit(getApplicationContext());
-			} else {
-				exit = Boolean.TRUE;
-				new Handler().postDelayed(new Runnable() {
-					@Override
-					public void run() {
-						exit = Boolean.FALSE;
-					}
-				}, 2000);
-				CommonTools.showToast(getString(R.string.toast_exit_prompt), Toast.LENGTH_SHORT);
-			}
-			return true;
-		}*/
-        return super.onKeyDown(keyCode, event);
-    }
-
-    @Override
     protected void onResume() {
         LogUtil.i(TAG, "onResume");
         // 页面开始
@@ -606,11 +579,4 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
         super.onDestroy();
     }
 
-    @Override
-    public void finish() {
-        // 销毁动画
-        //overridePendingTransition(R.anim.anim_no_anim, R.anim.center_narrow);
-
-        super.finish();
-    }
 }

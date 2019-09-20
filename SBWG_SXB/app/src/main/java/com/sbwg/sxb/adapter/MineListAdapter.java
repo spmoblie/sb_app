@@ -76,7 +76,7 @@ public class MineListAdapter extends AppBaseAdapter {
 
 		Glide.with(AppApplication.getAppContext())
 				.load(data.getPicUrl())
-				.apply(AppApplication.getShowOpeions())
+				.apply(AppApplication.getShowOptions())
 				.into(holder.iv_show);
 
 		holder.tv_title.setText(data.getTitle());

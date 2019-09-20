@@ -86,15 +86,15 @@ public class HomeListAdapter extends AppBaseAdapter {
 
 		Glide.with(AppApplication.getAppContext())
 				.load(data.getPicUrl())
-				.apply(AppApplication.getShowOpeions())
+				.apply(AppApplication.getShowOptions())
 				.into(holder.iv_show);
 		Glide.with(AppApplication.getAppContext())
 				.load(data.getUserHead())
-				.apply(AppApplication.getHeadOpeions())
+				.apply(AppApplication.getHeadOptions())
 				.into(holder.iv_head);
 
 		holder.tv_title.setText(data.getTitle());
-		holder.tv_name.setText(data.getStartTime());
+		holder.tv_name.setText(data.getUserName());
 
 		holder.tv_sign.setOnClickListener(new OnClickListener() {
 			@Override

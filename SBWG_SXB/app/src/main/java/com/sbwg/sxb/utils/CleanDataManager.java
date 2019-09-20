@@ -106,7 +106,7 @@ public class CleanDataManager {
     
     /**
      * 清除本应用临时缓存的数据
-     * 
+     *
      * @param context
      */
     public static void cleanAppTemporaryData(Context context){
