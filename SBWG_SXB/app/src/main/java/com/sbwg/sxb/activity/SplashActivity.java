@@ -31,7 +31,7 @@ public class SplashActivity extends BaseActivity {
 
 	@Override
 	protected void onResume() {
-		LogUtil.i(TAG, "onResume");
+		LogUtil.i(LogUtil.LOG_TAG, TAG + ": onResume");
 		// 页面开始
 		AppApplication.onPageStart(this, TAG);
 		// 检查授权
@@ -49,7 +49,7 @@ public class SplashActivity extends BaseActivity {
 			@Override
 			public void run() {
 				int statusHeight = DeviceUtil.getStatusBarHeight(SplashActivity.this);
-				editor.putInt(AppConfig.KEY_STATUS_HEIGHT, statusHeight).apply();
+				shared.edit().putInt(AppConfig.KEY_STATUS_HEIGHT, statusHeight).apply();
 
 				openActivity(MainActivity.class);
 				finish();
@@ -61,7 +61,7 @@ public class SplashActivity extends BaseActivity {
 
 	@Override
 	protected void onPause() {
-		LogUtil.i(TAG, "onPause");
+		LogUtil.i(LogUtil.LOG_TAG, TAG + ": onPause");
 		// 页面结束
 		AppApplication.onPageEnd(this, TAG);
 

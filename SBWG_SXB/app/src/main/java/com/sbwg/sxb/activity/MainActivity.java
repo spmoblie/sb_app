@@ -70,7 +70,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 			// ButterKnife初始化
 			ButterKnife.bind(this);
 
-			LogUtil.i(TAG, "onCreate");
+			LogUtil.i(LogUtil.LOG_TAG, TAG + ": onCreate");
 			AppManager.getInstance().addActivity(this);// 添加Activity到堆栈
 
 			shared = AppApplication.getSharedPreferences();
@@ -175,7 +175,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 
 	@Override
 	protected void onResume() {
-		LogUtil.i(TAG, "onResume");
+		LogUtil.i(LogUtil.LOG_TAG, TAG + ": onResume");
 		// 页面开始
 		AppApplication.onPageStart(this, TAG);
 		// 设置App字体不随系统字体变化
@@ -189,7 +189,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 
 	@Override
 	protected void onPause() {
-		LogUtil.i(TAG, "onPause");
+		LogUtil.i(LogUtil.LOG_TAG, TAG + ": onPause");
 		// 页面结束
 		AppApplication.onPageEnd(this, TAG);
 
@@ -198,7 +198,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 
 	@Override
 	protected void onDestroy() {
-		LogUtil.i(TAG, "onDestroy");
+		LogUtil.i(LogUtil.LOG_TAG, TAG + ": onDestroy");
 		AppManager.getInstance().finishActivity(this);
 
 		super.onDestroy();

@@ -29,7 +29,7 @@ import java.util.List;
  */
 public class SelectListActivity extends BaseActivity {
 
-	public static final String TAG = SelectListActivity.class.getSimpleName();
+	String TAG = SelectListActivity.class.getSimpleName();
 
 	private boolean isChange = false;
 	private int dataType = SelectListAdapter.DATA_TYPE_2;
@@ -114,7 +114,7 @@ public class SelectListActivity extends BaseActivity {
 
 	@Override
 	protected void onResume() {
-		LogUtil.i(TAG, "onResume");
+		LogUtil.i(LogUtil.LOG_TAG, TAG + ": onResume");
 		// 页面开始
 		AppApplication.onPageStart(this, TAG);
 
@@ -123,7 +123,7 @@ public class SelectListActivity extends BaseActivity {
 	
 	@Override
 	protected void onPause() {
-		LogUtil.i(TAG, "onPause");
+		LogUtil.i(LogUtil.LOG_TAG, TAG + ": onPause");
 		// 页面结束
 		AppApplication.onPageEnd(this, TAG);
 

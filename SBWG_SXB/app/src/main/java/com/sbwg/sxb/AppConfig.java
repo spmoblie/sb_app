@@ -15,7 +15,7 @@ public class AppConfig {
 	// http协议
 	public final static String APP_HTTP = "http://";
 	// Base域名
-	public final static String BASE_URL_1 = APP_HTTP + "www.girlbdf.cn:9090/app/";
+	public final static String BASE_URL_1 = APP_HTTP + "www.girlbdf.cn:9092/app/";
 	// Base域名
 	public final static String BASE_URL_2 = APP_HTTP + "192.168.1.143/app/";
 	// 图片域名
@@ -86,8 +86,8 @@ public class AppConfig {
 	// 动态授权-权限集
 	public static final String[] PERMISSIONS = new String[]{
 			Manifest.permission.CAMERA,
-			Manifest.permission.WRITE_EXTERNAL_STORAGE,
-			Manifest.permission.READ_EXTERNAL_STORAGE };
+			Manifest.permission.READ_EXTERNAL_STORAGE,
+			Manifest.permission.WRITE_EXTERNAL_STORAGE,};
 
 	// QQ AppID
 	public static final String QQ_APP_ID = "1104891333";
@@ -106,7 +106,6 @@ public class AppConfig {
 	// 微博授权接口参数：Scope权限
 	public static final String WB_SCOPE = "email,direct_messages_read,direct_messages_write,friendships_groups_read,"
 			+ "friendships_groups_write,statuses_to_me_read,follow_app_official_microblog,invitation_write";
-
 
 	// 缓存Cookies文件名
 	public static final String cookiesFileName = "cookies";

@@ -50,11 +50,12 @@ import java.util.HashMap;
 
 public class PersonalActivity extends BaseActivity implements OnClickListener {
 
-    public static final String TAG = PersonalActivity.class.getSimpleName();
+    String TAG = PersonalActivity.class.getSimpleName();
 
-    private RelativeLayout rl_head, rl_nick, rl_gender, rl_birthday, rl_area, rl_intro;
-    private RoundImageView iv_head;
-    private TextView tv_nick, tv_gender, tv_birthday, tv_area, tv_intro;
+    RelativeLayout rl_head, rl_nick, rl_gender, rl_birthday, rl_area, rl_intro;
+    RoundImageView iv_head;
+    TextView tv_nick, tv_gender, tv_birthday, tv_area, tv_intro;
+
     private String nickStr, genderStr, birthdayStr, areaStr, introStr;
     private String changeStr, userKey, clip_head_path;
     private File saveFile;
@@ -186,7 +187,7 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
 
     private void changeHead() {
         // 标记裁剪相片的类型为圆形
-        editor.putInt(AppConfig.KEY_CLIP_PHOTO_TYPE, AppConfig.PHOTO_TYPE_ROUND).apply();
+        shared.edit().putInt(AppConfig.KEY_CLIP_PHOTO_TYPE, AppConfig.PHOTO_TYPE_ROUND).apply();
         showListDialog(R.string.photo_change_head, getResources().getStringArray(R.array.array_photo_choose),
                 screenWidth * 1 / 2, true, new Handler() {
 
@@ -334,7 +335,7 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
 
     @Override
     protected void onResume() {
-        LogUtil.i(TAG, "onResume");
+        LogUtil.i(LogUtil.LOG_TAG, TAG + ": onResume");
         // 页面开始
         AppApplication.onPageStart(this, TAG);
 
@@ -342,7 +343,7 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
         clip_head_path = shared.getString(AppConfig.KEY_CLIP_HEAD_PATH, "");
         if (!StringUtil.isNull(clip_head_path)) { //上传修改的头像
             uploadHead();
-            editor.putString(AppConfig.KEY_CLIP_HEAD_PATH, "").apply();
+            shared.edit().putString(AppConfig.KEY_CLIP_HEAD_PATH, "").apply();
         }
 
         super.onResume();
@@ -350,7 +351,7 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
 
     @Override
     protected void onPause() {
-        LogUtil.i(TAG, "onPause");
+        LogUtil.i(LogUtil.LOG_TAG, TAG + ": onPause");
         // 页面结束
         AppApplication.onPageEnd(this, TAG);
 

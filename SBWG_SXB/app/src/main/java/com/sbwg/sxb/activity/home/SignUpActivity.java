@@ -35,7 +35,7 @@ import butterknife.BindView;
 
 public class SignUpActivity extends BaseActivity implements View.OnClickListener {
 
-    private static final String TAG = SignUpActivity.class.getSimpleName();
+    String TAG = SignUpActivity.class.getSimpleName();
 
     @BindView(R.id.sign_iv_show)
     ImageView sign_iv_show;
@@ -79,7 +79,7 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
     @BindView(R.id.sign_tv_sign_up)
     TextView sign_tv_sign_up;
 
-    private LinearLayout.LayoutParams showImgLP;
+    LinearLayout.LayoutParams showImgLP;
 
     private ThemeEntity data;
     private double payAmount = 0.00;
@@ -372,14 +372,16 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
 
     @Override
     protected void onResume() {
-        LogUtil.i(TAG, "onResume");
+        LogUtil.i(LogUtil.LOG_TAG, TAG + ": onResume");
         // 页面开始
         AppApplication.onPageStart(this, TAG);
 
         // 报名状态
         isSignUp = userManager.isCourseSignUp(courseId);
         if (isLogin() && isSignUp) {
-            setPayState(false);
+            if (isPay) {
+                setPayState("已支付", false);
+            }
             setSignState("已报名", false);
         }
 
@@ -388,7 +390,7 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
 
     @Override
     protected void onPause() {
-        LogUtil.i(TAG, "onPause");
+        LogUtil.i(LogUtil.LOG_TAG, TAG + ": onPause");
         // 页面结束
         AppApplication.onPageEnd(this, TAG);
 

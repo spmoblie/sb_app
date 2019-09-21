@@ -35,7 +35,7 @@ import static com.sbwg.sxb.AppConfig.SEND_TIME;
 
 public class LoginPhoneActivity extends BaseActivity implements OnClickListener {
 
-    public static final String TAG = LoginPhoneActivity.class.getSimpleName();
+    String TAG = LoginPhoneActivity.class.getSimpleName();
 
     @BindView(R.id.login_phone_et_phone)
     EditText et_phone;
@@ -107,11 +107,12 @@ public class LoginPhoneActivity extends BaseActivity implements OnClickListener 
         phoneStr = userManager.getLoginAccount();
         String phoneNew = StringUtil.changeMobileNo(phoneStr);
         if (!StringUtil.isNull(phoneNew)) {
+            isPassword = true;
             isPhone_Ok = true;
-            setSendCodeState(true);
             et_phone.setText(phoneNew);
             et_phone.setSelection(et_phone.length());
         }
+        changeViewState();
     }
 
     private void initEditText() {
@@ -228,7 +229,7 @@ public class LoginPhoneActivity extends BaseActivity implements OnClickListener 
         }
         if (send_number >= 3) {
             send_number = 0;
-            editor.putInt(AppConfig.KEY_SEND_VERIFY_NUMBER, send_number).apply();
+            shared.edit().putInt(AppConfig.KEY_SEND_VERIFY_NUMBER, send_number).apply();
         }
         if (tv_verify_code != null) {
             tv_verify_code.setText(getString(R.string.login_verify_code_gain));
@@ -243,6 +244,29 @@ public class LoginPhoneActivity extends BaseActivity implements OnClickListener 
     private void setSendCodeState(boolean isState) {
         isSendCode = isState;
         changeViewState(tv_verify_code, isSendCode);
+    }
+
+    private void changeViewState() {
+        if (isPassword) {
+            setTitle(R.string.login_phone_password);
+            et_code.setVisibility(View.GONE);
+            tv_verify_code.setVisibility(View.GONE);
+            et_password.setVisibility(View.VISIBLE);
+            iv_password_check.setVisibility(View.VISIBLE);
+            tv_password_change.setText(getString(R.string.login_mode_verify_code));
+            editTextFocusAndClear(et_password);
+        } else {
+            setTitle(R.string.login_phone_login);
+            et_code.setVisibility(View.VISIBLE);
+            tv_verify_code.setVisibility(View.VISIBLE);
+            et_password.setVisibility(View.GONE);
+            iv_password_check.setVisibility(View.GONE);
+            tv_password_change.setText(getString(R.string.login_mode_password));
+            editTextFocusAndClear(et_code);
+            if (isPhone_Ok && isTimeFinish) {
+                setSendCodeState(true);
+            }
+        }
     }
 
     @Override
@@ -271,21 +295,7 @@ public class LoginPhoneActivity extends BaseActivity implements OnClickListener 
                 break;
             case R.id.login_phone_tv_password_change:
                 isPassword = !isPassword;
-                if (isPassword) {
-                    et_code.setVisibility(View.GONE);
-                    tv_verify_code.setVisibility(View.GONE);
-                    et_password.setVisibility(View.VISIBLE);
-                    iv_password_check.setVisibility(View.VISIBLE);
-                    editTextFocusAndClear(et_password);
-                    tv_password_change.setText(getString(R.string.login_mode_verify_code));
-                } else {
-                    et_code.setVisibility(View.VISIBLE);
-                    tv_verify_code.setVisibility(View.VISIBLE);
-                    et_password.setVisibility(View.GONE);
-                    iv_password_check.setVisibility(View.GONE);
-                    editTextFocusAndClear(et_code);
-                    tv_password_change.setText(getString(R.string.login_mode_password));
-                }
+                changeViewState();
                 break;
             case R.id.login_phone_tv_password_reset:
                 openActivity(ResetPasswordActivity.class);
@@ -348,7 +358,7 @@ public class LoginPhoneActivity extends BaseActivity implements OnClickListener 
 
     @Override
     protected void onResume() {
-        LogUtil.i(TAG, "onResume");
+        LogUtil.i(LogUtil.LOG_TAG, TAG + ": onResume");
         // 页面开始
         AppApplication.onPageStart(this, TAG);
         // 验证码-倒计时
@@ -372,14 +382,14 @@ public class LoginPhoneActivity extends BaseActivity implements OnClickListener 
         } else {
             if (send_number > 0 && quantumTime >= SEND_TIME * 10) { //每隔10分钟清零
                 send_number = 0;
-                editor.putInt(AppConfig.KEY_SEND_VERIFY_NUMBER, send_number).apply();
+                shared.edit().putInt(AppConfig.KEY_SEND_VERIFY_NUMBER, send_number).apply();
             }
         }
     }
 
     @Override
     protected void onPause() {
-        LogUtil.i(TAG, "onPause");
+        LogUtil.i(LogUtil.LOG_TAG, TAG + ": onPause");
         // 页面结束
         AppApplication.onPageEnd(this, TAG);
 
@@ -427,8 +437,8 @@ public class LoginPhoneActivity extends BaseActivity implements OnClickListener 
                         } else {
                             startTimer(tv_verify_code, SEND_TIME * 10);
                         }
-                        editor.putInt(AppConfig.KEY_SEND_VERIFY_NUMBER, send_number).apply();
-                        editor.putLong(AppConfig.KEY_SEND_VERIFY_LAST_TIME, System.currentTimeMillis()).apply();
+                        shared.edit().putInt(AppConfig.KEY_SEND_VERIFY_NUMBER, send_number).apply();
+                        shared.edit().putLong(AppConfig.KEY_SEND_VERIFY_LAST_TIME, System.currentTimeMillis()).apply();
                         CommonTools.showToast(getString(R.string.login_verify_code_send));
                     } else {
                         handleErrorCode(baseEn);

@@ -32,6 +32,8 @@ import java.util.HashMap;
 
 public class AppApplication extends Application {
 
+    String TAG = AppApplication.class.getSimpleName();
+
     private static AppApplication spApp = null;
     private static SharedPreferences shared;
     private static RequestOptions showOptions, headOptions;
@@ -44,6 +46,8 @@ public class AppApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        LogUtil.i(LogUtil.LOG_TAG, TAG + ": onCreate");
+
         spApp = this;
         shared = getSharedPreferences();
 
@@ -85,6 +89,27 @@ public class AppApplication extends Application {
         // Facebook SDK初始化
         //FacebookSdk.sdkInitialize(getApplicationContext());
         updateUserData();
+    }
+
+    @Override
+    public void onTerminate() {
+        // 程序终止的时候执行
+        LogUtil.i(LogUtil.LOG_TAG, TAG + ": onTerminate");
+        super.onTerminate();
+    }
+
+    @Override
+    public void onLowMemory() {
+        // 低内存的时候执行
+        LogUtil.i(LogUtil.LOG_TAG, TAG + ": onLowMemory");
+        super.onLowMemory();
+    }
+
+    @Override
+    public void onTrimMemory(int level) {
+        // 程序在内存清理的时候执行
+        LogUtil.i(LogUtil.LOG_TAG, TAG + ": onTrimMemory");
+        super.onTrimMemory(level);
     }
 
     public static synchronized AppApplication getInstance() {
@@ -129,6 +154,21 @@ public class AppApplication extends Application {
     }
 
     /**
+     * 清除Glide图片缓存
+     */
+    public static void clearGlideCache() {
+        // clearMemory()方法必须运行在主线程
+        Glide.get(getAppContext()).clearMemory();
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                // clearDiskCache()方法必须运行在子线程
+                Glide.get(AppApplication.getAppContext()).clearDiskCache();
+            }
+        }).start();
+    }
+
+    /**
      * 刷新用户信息-状态标记
      */
     public static void updateUserData() {
@@ -156,21 +196,6 @@ public class AppApplication extends Application {
     public static void initDisplayMetrics() {
         DisplayMetrics displayMetrics = spApp.getResources().getDisplayMetrics();
         displayMetrics.scaledDensity = displayMetrics.density;
-    }
-
-    /**
-     * 清除Glide图片缓存
-     */
-    public static void clearGlideCache() {
-        // clearMemory()方法必须运行在主线程
-        Glide.get(getAppContext()).clearMemory();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                // clearDiskCache()方法必须运行在子线程
-                Glide.get(AppApplication.getAppContext()).clearDiskCache();
-            }
-        }).start();
     }
 
     /**

@@ -33,7 +33,7 @@ import javax.xml.parsers.SAXParserFactory;
 
 public class SelectAreaActivity extends BaseActivity {
 
-	public static final String TAG = SelectAreaActivity.class.getSimpleName();
+	String TAG = SelectAreaActivity.class.getSimpleName();
 
 	private String areaName;
 	private List<AreaEntity> areaList = new ArrayList<>();
@@ -122,7 +122,7 @@ public class SelectAreaActivity extends BaseActivity {
 
 	@Override
 	protected void onResume() {
-		LogUtil.i(TAG, "onResume");
+		LogUtil.i(LogUtil.LOG_TAG, TAG + ": onResume");
 		// 页面开始
 		AppApplication.onPageStart(this, TAG);
 
@@ -131,7 +131,7 @@ public class SelectAreaActivity extends BaseActivity {
 	
 	@Override
 	protected void onPause() {
-		LogUtil.i(TAG, "onPause");
+		LogUtil.i(LogUtil.LOG_TAG, TAG + ": onPause");
 		// 页面结束
 		AppApplication.onPageEnd(this, TAG);
 

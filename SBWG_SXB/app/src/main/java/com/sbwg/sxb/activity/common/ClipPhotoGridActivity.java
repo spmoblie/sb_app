@@ -29,7 +29,7 @@ import java.util.Map;
  */
 public class ClipPhotoGridActivity extends BaseActivity {
 
-	public static final String TAG = ClipPhotoGridActivity.class.getSimpleName();
+	String TAG = ClipPhotoGridActivity.class.getSimpleName();
 
 	private GridView gv_album;
 	private List<ClipPhotoEntity> albumList = new ArrayList<ClipPhotoEntity>();
@@ -90,7 +90,7 @@ public class ClipPhotoGridActivity extends BaseActivity {
 	
 	@Override
 	protected void onResume() {
-		LogUtil.i(TAG, "onResume");
+		LogUtil.i(LogUtil.LOG_TAG, TAG + ": onResume");
 		// 页面开始
 		AppApplication.onPageStart(this, TAG);
 
@@ -99,7 +99,7 @@ public class ClipPhotoGridActivity extends BaseActivity {
 	
 	@Override
 	protected void onPause() {
-		LogUtil.i(TAG, "onPause");
+		LogUtil.i(LogUtil.LOG_TAG, TAG + ": onPause");
 		// 页面结束
 		AppApplication.onPageEnd(this, TAG);
 

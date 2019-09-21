@@ -31,7 +31,8 @@ import butterknife.BindView;
 
 public class EditUserInfoActivity extends BaseActivity {
 
-	public static final String TAG = EditUserInfoActivity.class.getSimpleName();
+	String TAG = EditUserInfoActivity.class.getSimpleName();
+
 	public static final String KEY_TITLE = "titleStr";
 	public static final String KEY_SHOW = "showStr";
 	public static final String KEY_HINT = "hintStr";
@@ -144,7 +145,7 @@ public class EditUserInfoActivity extends BaseActivity {
 
 	@Override
 	protected void onResume() {
-		LogUtil.i(TAG, "onResume");
+		LogUtil.i(LogUtil.LOG_TAG, TAG + ": onResume");
 		// 页面开始
 		AppApplication.onPageStart(this, TAG);
 
@@ -153,7 +154,7 @@ public class EditUserInfoActivity extends BaseActivity {
 	
 	@Override
 	protected void onPause() {
-		LogUtil.i(TAG, "onPause");
+		LogUtil.i(LogUtil.LOG_TAG, TAG + ": onPause");
 		// 页面结束
 		AppApplication.onPageEnd(this, TAG);
 

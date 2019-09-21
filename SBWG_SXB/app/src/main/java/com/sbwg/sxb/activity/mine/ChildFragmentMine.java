@@ -54,8 +54,7 @@ import butterknife.ButterKnife;
 @SuppressLint("NewApi")
 public class ChildFragmentMine extends BaseFragment implements OnClickListener {
 
-	private static final String TAG = "ChildFragmentMine";
-	private static int screenWidth = AppApplication.getSharedPreferences().getInt(AppConfig.KEY_SCREEN_WIDTH, 0);
+	String TAG = ChildFragmentMine.class.getSimpleName();
 
 	@BindView(R.id.fg_mine_iv_setting)
 	ImageView iv_setting;
@@ -82,8 +81,8 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
 	private AdapterCallback apCallback;
 	private MineListAdapter lv_Adapter;
 	private LinearLayout.LayoutParams designItemLP;
-
 	private DesignEntity designEn;
+
 	private ThemeEntity itemsEn;
 	private UserInfoEntity infoEn;
 	private UserManager userManager;
@@ -111,10 +110,11 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-		LogUtil.i(TAG, "onCreate");
+		LogUtil.i(LogUtil.LOG_TAG, TAG + ": onCreate");
 		mContext = getActivity();
 		userManager = UserManager.getInstance();
 
+		int screenWidth = AppApplication.getSharedPreferences().getInt(AppConfig.KEY_SCREEN_WIDTH, 0);
 		int goodsWidth = (screenWidth - CommonTools.dpToPx(mContext, 16)) / 3;
 		designItemLP = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 		designItemLP.setMargins(8, 0, 8, 0);
@@ -144,15 +144,15 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
 		DesignEntity chEn_5 = new DesignEntity();
 		List<DesignEntity> mainLists = new ArrayList<DesignEntity>();
 
-		chEn_1.setImgUrl("design_001.png");
+		chEn_1.setImgUrl(AppConfig.IMAGE_URL+ "design_001.png");
 		mainLists.add(chEn_1);
-		chEn_2.setImgUrl("design_002.png");
+		chEn_2.setImgUrl(AppConfig.IMAGE_URL+ "design_002.png");
 		mainLists.add(chEn_2);
-		chEn_3.setImgUrl("design_003.png");
+		chEn_3.setImgUrl(AppConfig.IMAGE_URL+ "design_003.png");
 		mainLists.add(chEn_3);
-		chEn_4.setImgUrl("design_004.png");
+		chEn_4.setImgUrl(AppConfig.IMAGE_URL+ "design_004.png");
 		mainLists.add(chEn_4);
-		chEn_5.setImgUrl("design_005.png");
+		chEn_5.setImgUrl(AppConfig.IMAGE_URL+ "design_005.png");
 		mainLists.add(chEn_5);
 
 		designEn.setMainLists(mainLists);
@@ -163,19 +163,19 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
 		ThemeEntity isEn_3 = new ThemeEntity();
 		List<ThemeEntity> isLists = new ArrayList<ThemeEntity>();
 
-		isEn_1.setPicUrl("items_006.png");
+		isEn_1.setPicUrl(AppConfig.IMAGE_URL+ "items_006.png");
 		isEn_1.setLinkUrl("https://mp.weixin.qq.com/s/tMi8j08jb7oEHKtmYqdl0g");
 		isEn_1.setTitle("北欧教育 | 比NOKIA更震惊世界的芬兰品牌");
 		isEn_1.setDescription("下周三18:00开始.深圳");
 		isEn_1.setPeople(268);
 		isLists.add(isEn_1);
-		isEn_2.setPicUrl("items_007.png");
+		isEn_2.setPicUrl(AppConfig.IMAGE_URL+ "items_007.png");
 		isEn_2.setLinkUrl("https://mp.weixin.qq.com/s/p1j-Mv0yAW45tkVvjqLBTA");
 		isEn_2.setTitle("全球都在追捧的北欧教育，到底有哪些秘密？");
 		isEn_2.setDescription("下周六13:00开始.深圳");
 		isEn_2.setPeople(1635);
 		isLists.add(isEn_2);
-		isEn_3.setPicUrl("items_008.jpg");
+		isEn_3.setPicUrl(AppConfig.IMAGE_URL+ "items_008.jpg");
 		isEn_3.setLinkUrl("https://mp.weixin.qq.com/s/Ln0z3fqwBxT9dUP_dJL1uQ");
 		isEn_3.setTitle("上海妈妈在挪威，享受北欧式教育的幸福");
 		isEn_3.setDescription("下周日15:00开始.深圳");
@@ -336,7 +336,7 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
 
 	@Override
 	public void onResume() {
-		LogUtil.i(TAG, "onResume");
+		LogUtil.i(LogUtil.LOG_TAG, TAG + ": onResume");
 		// 页面开始
 		AppApplication.onPageStart(TAG);
 		checkLogin();
@@ -345,7 +345,7 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
 
 	@Override
 	public void onPause() {
-		LogUtil.i(TAG, "onPause");
+		LogUtil.i(LogUtil.LOG_TAG, TAG + ": onPause");
 		// 页面结束
 		AppApplication.onPageEnd(getActivity(), TAG);
 		super.onPause();
@@ -353,7 +353,7 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
 
 	@Override
 	public void onDestroy() {
-		LogUtil.i(TAG, "onDestroy");
+		LogUtil.i(LogUtil.LOG_TAG, TAG + ": onDestroy");
 		super.onDestroy();
 	}
 
@@ -409,7 +409,7 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
 						infoEn = getUserInfoData();
 						initHeadView();
 						loadUserHead();
-						editor.putBoolean(AppConfig.KEY_UPDATE_USER_DATA, false).apply();
+						shared.edit().putBoolean(AppConfig.KEY_UPDATE_USER_DATA, false).apply();
 					} else
 					if (baseEn.getErrno() == AppConfig.ERROR_CODE_TIMEOUT) {
 						AppApplication.AppLogout();

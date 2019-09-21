@@ -54,7 +54,7 @@ import butterknife.ButterKnife;
 @SuppressLint("UseSparseArrays")
 public class ChildFragmentHome extends BaseFragment implements OnClickListener {
 
-    private static final String TAG = "ChildFragmentHome";
+    String TAG = ChildFragmentHome.class.getSimpleName();
 
     @BindView(R.id.fg_home_refresh_lv)
     PullToRefreshListView refresh_lv;
@@ -99,7 +99,7 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        LogUtil.i(TAG, "onCreate");
+        LogUtil.i(LogUtil.LOG_TAG, TAG + ": onCreate");
         mContext = getActivity();
 
         // 动态调整宽高
@@ -260,28 +260,37 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
                 @NonNull
                 @Override
                 public Object instantiateItem(@NonNull ViewGroup container, int position) {
-                    if (fg_home_vp == null || viewLists.size() <= 1) return null;
-                    View layout;
-                    if (loop) {
-                        layout = viewLists.get(position % viewLists.size());
-                    } else {
-                        layout = viewLists.get(position);
+                    if (viewLists.size() <= 0) return null;
+                    try {
+                        View layout;
+                        if (loop) {
+                            layout = viewLists.get(position % viewLists.size());
+                        } else {
+                            layout = viewLists.get(position);
+                        }
+                        container.addView(layout);
+                        return layout;
+                    } catch (Exception e) {
+                        ExceptionUtil.handle(e);
+                        return null;
                     }
-                    fg_home_vp.addView(layout);
-                    return layout;
                 }
 
                 // 销毁
                 @Override
                 public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
-                    if (fg_home_vp == null || viewLists.size() <= 1) return;
-                    View layout;
-                    if (loop) {
-                        layout = viewLists.get(position % viewLists.size());
-                    } else {
-                        layout = viewLists.get(position);
+                    if (viewLists.size() <= 0) return;
+                    try {
+                        View layout;
+                        if (loop) {
+                            layout = viewLists.get(position % viewLists.size());
+                        } else {
+                            layout = viewLists.get(position);
+                        }
+                        container.removeView(layout);
+                    } catch (Exception e) {
+                        ExceptionUtil.handle(e);
                     }
-                    fg_home_vp.removeView(layout);
                 }
 
                 @Override
@@ -417,7 +426,7 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
 
     @Override
     public void onResume() {
-        LogUtil.i(TAG, "onResume");
+        LogUtil.i(LogUtil.LOG_TAG, TAG + ": onResume");
         // 页面开始
         AppApplication.onPageStart(TAG);
         super.onResume();
@@ -425,7 +434,7 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
 
     @Override
     public void onPause() {
-        LogUtil.i(TAG, "onPause");
+        LogUtil.i(LogUtil.LOG_TAG, TAG + ": onPause");
         // 页面结束
         AppApplication.onPageEnd(getActivity(), TAG);
         super.onPause();
@@ -433,7 +442,7 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
 
     @Override
     public void onDestroy() {
-        LogUtil.i(TAG, "onDestroy");
+        LogUtil.i(LogUtil.LOG_TAG, TAG + ": onDestroy");
         // 清除轮播数据
         clearViewPagerData();
         super.onDestroy();
@@ -589,6 +598,10 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
         public void handleMessage(Message mMsg) {
             switch (mMsg.what) {
                 case 1:
+                    if (headEn == null || al_show.size() <= 0) {
+                        headEn = initData();
+                        al_show.addAll(headEn.getMainLists());
+                    }
                     if (al_show.size() > 0) {
                         initHeadView();
                         updateListData();
@@ -610,23 +623,23 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
         ThemeEntity chEn_5 = new ThemeEntity();
         List<ThemeEntity> mainLists = new ArrayList<>();
 
-        chEn_1.setPicUrl("banner_001.png");
+        chEn_1.setPicUrl(AppConfig.IMAGE_URL+ "banner_001.png");
         chEn_1.setTitle("松小堡绘画设计大赛");
         chEn_1.setLinkUrl("https://mp.weixin.qq.com/s/uhg0hWDZCvtkyFQUs5FguQ");
         mainLists.add(chEn_1);
-        chEn_2.setPicUrl("banner_002.jpg");
+        chEn_2.setPicUrl(AppConfig.IMAGE_URL+ "banner_002.jpg");
         chEn_2.setTitle("松堡王国儿童房间，你值得拥有！");
         chEn_2.setLinkUrl("https://mp.weixin.qq.com/s/uhg0hWDZCvtkyFQUs5FguQ");
         mainLists.add(chEn_2);
-        chEn_3.setPicUrl("banner_003.png");
+        chEn_3.setPicUrl(AppConfig.IMAGE_URL+ "banner_003.png");
         chEn_3.setTitle("现场直击 |松堡王国2019深圳家具展，给你好看");
         chEn_3.setLinkUrl("https://mp.weixin.qq.com/s/OgWdS8oSZZlSWZWRgeONow");
         mainLists.add(chEn_3);
-        chEn_4.setPicUrl("banner_004.png");
+        chEn_4.setPicUrl(AppConfig.IMAGE_URL+ "banner_004.png");
         chEn_4.setTitle("松堡王国来博白了，尽情上演属于自己的公主王子梦⋯⋯快来耍");
         chEn_4.setLinkUrl("https://mp.weixin.qq.com/s/iasaC_yR8_SxvwKstEfnKg");
         mainLists.add(chEn_4);
-        chEn_5.setPicUrl("banner_005.png");
+        chEn_5.setPicUrl(AppConfig.IMAGE_URL+ "banner_005.png");
         chEn_5.setTitle("厉害了！我的松堡王国");
         chEn_5.setLinkUrl("https://mp.weixin.qq.com/s/1YJ_sqhekFTTS23G9ZCfiA");
         mainLists.add(chEn_5);
@@ -640,34 +653,34 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
         ThemeEntity isEn_5 = new ThemeEntity();
         List<ThemeEntity> isLists = new ArrayList<>();
 
-        isEn_1.setPicUrl("items_001.jpg");
+        isEn_1.setPicUrl(AppConfig.IMAGE_URL+ "items_001.jpg");
         isEn_1.setLinkUrl("https://mp.weixin.qq.com/s/tMi8j08jb7oEHKtmYqdl0g");
         isEn_1.setTitle("北欧教育 | 比NOKIA更震惊世界的芬兰品牌");
-        isEn_1.setUserHead("head_001.jpg");
+        isEn_1.setUserHead(AppConfig.IMAGE_URL+ "head_001.jpg");
         isEn_1.setUserName("北欧教育创新中心");
         isLists.add(isEn_1);
-        isEn_2.setPicUrl("items_002.jpg");
+        isEn_2.setPicUrl(AppConfig.IMAGE_URL+ "items_002.jpg");
         isEn_2.setLinkUrl("https://mp.weixin.qq.com/s/p1j-Mv0yAW45tkVvjqLBTA");
         isEn_2.setTitle("全球都在追捧的北欧教育，到底有哪些秘密？");
-        isEn_2.setUserHead("head_002.jpg");
+        isEn_2.setUserHead(AppConfig.IMAGE_URL+ "head_002.jpg");
         isEn_2.setUserName("君学海外");
         isLists.add(isEn_2);
-        isEn_3.setPicUrl("items_003.jpg");
+        isEn_3.setPicUrl(AppConfig.IMAGE_URL+ "items_003.jpg");
         isEn_3.setLinkUrl("https://mp.weixin.qq.com/s/Ln0z3fqwBxT9dUP_dJL1uQ");
         isEn_3.setTitle("上海妈妈在挪威，享受北欧式教育的幸福");
-        isEn_3.setUserHead("head_003.jpg");
+        isEn_3.setUserHead(AppConfig.IMAGE_URL+ "head_003.jpg");
         isEn_3.setUserName("泡爸讲知识");
         isLists.add(isEn_3);
-        isEn_4.setPicUrl("items_004.jpg");
+        isEn_4.setPicUrl(AppConfig.IMAGE_URL+ "items_004.jpg");
         isEn_4.setLinkUrl("https://mp.weixin.qq.com/s/7wPFWTCMn850gxgGqaOchw");
         isEn_4.setTitle("芬兰：北欧小国的大教育观");
-        isEn_4.setUserHead("head_004.jpg");
+        isEn_4.setUserHead(AppConfig.IMAGE_URL+ "head_004.jpg");
         isEn_4.setUserName("北欧童话奇幻");
         isLists.add(isEn_4);
-        isEn_5.setPicUrl("items_005.jpeg");
+        isEn_5.setPicUrl(AppConfig.IMAGE_URL+ "items_005.jpeg");
         isEn_5.setLinkUrl("http://www.sohu.com/a/195309958_100007192");
         isEn_5.setTitle("走进北欧教育——每个孩子都是独一无二的天使");
-        isEn_5.setUserHead("head_004.jpg");
+        isEn_5.setUserHead(AppConfig.IMAGE_URL+ "head_004.jpg");
         isEn_5.setUserName("北欧童话奇幻");
         isLists.add(isEn_5);
 

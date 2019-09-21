@@ -20,7 +20,7 @@ import butterknife.BindView;
 
 public class FeedBackActivity extends BaseActivity implements OnClickListener {
 
-	public static final String TAG = FeedBackActivity.class.getSimpleName();
+	String TAG = FeedBackActivity.class.getSimpleName();
 
 	@BindView(R.id.feed_back_et_content)
 	EditText et_content;
@@ -66,7 +66,7 @@ public class FeedBackActivity extends BaseActivity implements OnClickListener {
 
 	@Override
 	protected void onResume() {
-		LogUtil.i(TAG, "onResume");
+		LogUtil.i(LogUtil.LOG_TAG, TAG + ": onResume");
 		// 页面开始
 		AppApplication.onPageStart(this, TAG);
 
@@ -75,7 +75,7 @@ public class FeedBackActivity extends BaseActivity implements OnClickListener {
 	
 	@Override
 	protected void onPause() {
-		LogUtil.i(TAG, "onPause");
+		LogUtil.i(LogUtil.LOG_TAG, TAG + ": onPause");
 		// 页面结束
 		AppApplication.onPageEnd(this, TAG);
 

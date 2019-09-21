@@ -20,7 +20,7 @@ import com.sbwg.sxb.utils.LogUtil;
  */
 public class ClipPhotoOneActivity extends BaseActivity {
 
-	public static final String TAG = ClipPhotoOneActivity.class.getSimpleName();
+	String TAG = ClipPhotoOneActivity.class.getSimpleName();
 
 	private GridView gv;
 	private ClipPhotoEntity album, photoItem;
@@ -82,7 +82,7 @@ public class ClipPhotoOneActivity extends BaseActivity {
 
 	@Override
 	protected void onResume() {
-		LogUtil.i(TAG, "onResume");
+		LogUtil.i(LogUtil.LOG_TAG, TAG + ": onResume");
 		// 页面开始
 		AppApplication.onPageStart(this, TAG);
 
@@ -91,7 +91,7 @@ public class ClipPhotoOneActivity extends BaseActivity {
 
 	@Override
 	protected void onPause() {
-		LogUtil.i(TAG, "onPause");
+		LogUtil.i(LogUtil.LOG_TAG, TAG + ": onPause");
 		// 页面结束
 		AppApplication.onPageEnd(this, TAG);
 

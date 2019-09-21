@@ -2,7 +2,7 @@ ext.deps = [:]
 
 def versions = [:]
 versions.android_gradle_plugin = "3.0.1"
-versions.support = "27.0.2"
+versions.support = "27.1.1"
 versions.constraint_layout = "1.1.3"
 versions.multidex = "1.0.2"
 
@@ -18,18 +18,29 @@ versions.arouter_api = "1.4.1"
 
 versions.eventbus = "3.1.1"
 
-versions.rxjava2 = "2.2.0"
-versions.rxandroid = "2.0.2"
-versions.adapter_rxjava2 = "2.4.0"
-//versions.converter_gson = "2.5.0"
-versions.converter_gson = "2.4.0"
-versions.logging_interceptor = "3.9.1"
+//ButterKnife
+versions.butterknife = "8.2.1"
+versions.butterknife_compiler = "8.2.1"
+
+//Glide
+versions.glide = "4.6.1"
+
+//Retrofit
+versions.gson = "2.6.2"
+versions.retrofit = "2.1.0"
+
+//RxJava
+versions.rxjava = "1.1.0"
+versions.rxandroid = "1.1.0"
+versions.converter_gson = "2.1.0"
+versions.adapter_rxjava = "2.1.0"
+
+//Okhttp
+versions.okhttp = "3.4.1"
+versions.logging_interceptor = "3.4.1"
 
 versions.dagger = "2.13"
 versions.dagger_compiler = "2.13"
-
-versions.glide = "4.8.0"
-versions.glide_compiler = "4.8.0"
 
 versions.EasyPopup = "1.1.2"
 
@@ -42,7 +53,7 @@ versions.rxlifecycle_components = "2.2.1"
 versions.nohttp = "1.1.4"
 versions.nohttp_ok = "1.1.4"
 
-versions.stetho =  "1.3.1";
+versions.stetho =  "1.3.1"
 
 def deps = [:]
 //gradle插件依赖
@@ -57,12 +68,12 @@ deps.testespresso = "com.android.support.test.espresso:espresso-core:$versions.t
 def support = [:]
 support.annotations = "com.android.support:support-annotations:$versions.support"
 support.app_compat = "com.android.support:appcompat-v7:$versions.support"
+support.v4 = "com.android.support:support-v4:$versions.support"
 support.v13 = "com.android.support:support-v13:$versions.support"
 support.percent = "com.android.support:percent:$versions.support"
-support.recyclerview = "com.android.support:recyclerview-v7:$versions.support"
 support.cardview = "com.android.support:cardview-v7:$versions.support"
+support.recyclerview = "com.android.support:recyclerview-v7:$versions.support"
 support.design = "com.android.support:design:$versions.support"
-support.v4 = "com.android.support:support-v4:$versions.support"
 support.core_utils = "com.android.support:support-core-utils:$versions.support"
 support.multidex = "com.android.support:multidex:$versions.multidex"
 support.constraint_layout = "com.android.support.constraint:constraint-layout:$versions.constraint_layout"
@@ -75,17 +86,29 @@ deps.rxpermissions = "com.github.tbruyelle:rxpermissions:$versions.rxpermissions
 deps.MultiImageSelector = "com.github.lovetuzitong:MultiImageSelector:$versions.MultiImageSelector"
 deps.eventbus = "org.greenrobot:eventbus:$versions.eventbus"
 
-deps.rxjava2 = "io.reactivex.rxjava2:rxjava:$versions.rxjava2"
-deps.rxandroid = "io.reactivex.rxjava2:rxandroid:$versions.rxandroid"
-deps.adapter_rxjava2 = "com.squareup.retrofit2:adapter-rxjava2:$versions.adapter_rxjava2"
+//ButterKnife
+deps.butterknife = "com.jakewharton:butterknife:$versions.butterknife"
+deps.butterknife_compiler = "com.jakewharton:butterknife-compiler:$versions.butterknife_compiler"
+
+//Glide
+deps.glide = "com.github.bumptech.glide:glide:$versions.glide"
+
+//Retrofit
+deps.gson = "com.google.code.gson:gson:$versions.gson"
+deps.retrofit = "com.squareup.retrofit2:retrofit:$versions.retrofit"
+
+//RxJava
+deps.rxjava = "io.reactivex:rxjava:$versions.rxjava"
+deps.rxandroid = "io.reactivex:rxandroid:$versions.rxandroid"
 deps.converter_gson = "com.squareup.retrofit2:converter-gson:$versions.converter_gson"
+deps.adapter_rxjava = "com.squareup.retrofit2:adapter-rxjava:$versions.adapter_rxjava"
+
+//Okhttp
+deps.okhttp = "com.squareup.okhttp3:okhttp:$versions.okhttp"
 deps.logging_interceptor = "com.squareup.okhttp3:logging-interceptor:$versions.logging_interceptor"
 
 deps.dagger = "com.google.dagger:dagger:$versions.dagger"
 deps.dagger_compiler = "com.google.dagger:dagger-compiler:$versions.dagger_compiler"
-
-deps.glide = "com.github.bumptech.glide:glide:$versions.glide"
-deps.glide_compiler = "com.github.bumptech.glide:compiler:$versions.glide_compiler"
 
 deps.EasyPopup = "com.github.zyyoona7:EasyPopup:$versions.EasyPopup"
 
@@ -100,18 +123,16 @@ deps.rxlifecycle_components = "com.trello.rxlifecycle2:rxlifecycle-components:$v
 deps.nohttp = "com.yanzhenjie.nohttp:nohttp:$versions.nohttp"
 deps.nohttp_ok = "com.yanzhenjie.nohttp:okhttp:$versions.nohttp_ok"
 
-deps.stetho = "com.facebook.stetho:stetho:$versions.stetho"
-
 ext.deps = deps
 
 def build_versions = [:]
-build_versions.min_sdk = 16
-build_versions.target_sdk = 27
+build_versions.min_sdk = 14
+build_versions.target_sdk = 28
 ext.build_versions = build_versions
 
 def app_version = [:]
-app_version.version_code = 100
-app_version.version_name = "1.0.0"
+app_version.version_code = 1
+app_version.version_name = "1.0.1"
 ext.app_version = app_version
 
 

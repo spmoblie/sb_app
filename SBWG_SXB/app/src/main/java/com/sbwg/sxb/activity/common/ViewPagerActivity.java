@@ -37,7 +37,7 @@ import java.util.ArrayList;
  */
 public class ViewPagerActivity extends BaseActivity {
 
-	public static final String TAG = ViewPagerActivity.class.getSimpleName();
+	String TAG = ViewPagerActivity.class.getSimpleName();
 
 	public static final String EXTRA_IMAGE_INDEX = "image_index";
 	public static final String EXTRA_IMAGE_URLS = "image_urls";
@@ -115,6 +115,9 @@ public class ViewPagerActivity extends BaseActivity {
 			imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
 			// 加载图片对象
 			try {
+				if (imgUrl.contains(AppConfig.IMAGE_URL)) {
+					imgUrl = imgUrl.replace(AppConfig.IMAGE_URL, "");
+				}
 				Bitmap bm = BitmapFactory.decodeStream(getAssets().open(imgUrl));
 				if (bm != null) {
                     imageView.setImageBitmap(bm);
@@ -240,7 +243,7 @@ public class ViewPagerActivity extends BaseActivity {
 
 	@Override
 	protected void onResume() {
-		LogUtil.i(TAG, "onResume");
+		LogUtil.i(LogUtil.LOG_TAG, TAG + ": onResume");
 		// 页面开始
 		AppApplication.onPageStart(this, TAG);
 
@@ -249,7 +252,7 @@ public class ViewPagerActivity extends BaseActivity {
 
 	@Override
 	protected void onPause() {
-		LogUtil.i(TAG, "onPause");
+		LogUtil.i(LogUtil.LOG_TAG, TAG + ": onPause");
 		// 页面结束
 		AppApplication.onPageEnd(this, TAG);
 

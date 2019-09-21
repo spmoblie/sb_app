@@ -36,6 +36,8 @@ import com.sina.weibo.sdk.openapi.models.User;
 import com.tencent.connect.UserInfo;
 import com.tencent.connect.common.Constants;
 import com.tencent.mm.sdk.modelmsg.SendAuth;
+import com.tencent.mm.sdk.openapi.IWXAPI;
+import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
 import com.tencent.tauth.UiError;
@@ -46,7 +48,7 @@ import butterknife.BindView;
 
 public class LoginActivity extends BaseActivity implements OnClickListener {
 
-    public static final String TAG = LoginActivity.class.getSimpleName();
+    String TAG = LoginActivity.class.getSimpleName();
 
     public static final String LOGIN_TYPE_WX = "wechat_app";
     public static final String LOGIN_TYPE_QQ = "qq";
@@ -74,6 +76,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
     private boolean isStop = false;
     private String rootPage, loginType, postUid;
     // WX
+    private IWXAPI api;
     private static final String WX_APP_ID = AppConfig.WX_APP_ID;
     private String access_token, openid, unionid, refresh_token;
     // QQ
@@ -103,6 +106,9 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 
         rootPage = getIntent().getExtras().getString("rootPage");
 
+        // WX
+        api = WXAPIFactory.createWXAPI(mContext, AppConfig.WX_APP_ID);
+        api.registerApp(AppConfig.WX_APP_ID);
         // QQ
         mTencent = Tencent.createInstance(QQ_APP_ID, mContext);
 
@@ -539,7 +545,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 
     @Override
     public void OnListenerLeft() {
-        LogUtil.i(TAG, "rootPage = " + rootPage);
+        LogUtil.i(LogUtil.LOG_TAG, TAG + ": rootPage = " + rootPage);
         /*if (!rootPage.equals("ProductDetailActivity")
          && !rootPage.equals("ShowListHeadActivity")
     	 && !rootPage.equals("HomeFragmentActivity")
@@ -556,7 +562,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 
     @Override
     protected void onResume() {
-        LogUtil.i(TAG, "onResume");
+        LogUtil.i(LogUtil.LOG_TAG, TAG + ": onResume");
         // 页面开始
         AppApplication.onPageStart(this, TAG);
 
@@ -565,7 +571,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 
     @Override
     protected void onPause() {
-        LogUtil.i(TAG, "onPause");
+        LogUtil.i(LogUtil.LOG_TAG, TAG + ": onPause");
         // 页面结束
         AppApplication.onPageEnd(this, TAG);
 

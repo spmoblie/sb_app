@@ -20,7 +20,7 @@ import butterknife.ButterKnife;
 
 public class ChildFragmentSXB extends BaseFragment implements OnClickListener {
 
-	private static final String TAG = "ChildFragmentSXB";
+	String TAG = ChildFragmentSXB.class.getSimpleName();
 
 	@BindView(R.id.fg_sxb_iv_show)
 	ImageView iv_show;
@@ -39,7 +39,7 @@ public class ChildFragmentSXB extends BaseFragment implements OnClickListener {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 							 Bundle savedInstanceState) {
 
-		LogUtil.i(TAG, "onCreate");
+		LogUtil.i(LogUtil.LOG_TAG, TAG + ": onCreate");
 		mContext = getActivity();
 
 		View view = null;
@@ -70,7 +70,7 @@ public class ChildFragmentSXB extends BaseFragment implements OnClickListener {
 
 	@Override
 	public void onResume() {
-		LogUtil.i(TAG, "onResume");
+		LogUtil.i(LogUtil.LOG_TAG, TAG + ": onResume");
 		// 页面开始
 		AppApplication.onPageStart(TAG);
 		super.onResume();
@@ -79,7 +79,7 @@ public class ChildFragmentSXB extends BaseFragment implements OnClickListener {
 	@Override
 	public void onPause() {
 		super.onPause();
-		LogUtil.i(TAG, "onPause");
+		LogUtil.i(LogUtil.LOG_TAG, TAG + ": onPause");
 		// 页面结束
 		AppApplication.onPageEnd(getActivity(), TAG);
 	}
@@ -87,7 +87,7 @@ public class ChildFragmentSXB extends BaseFragment implements OnClickListener {
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-		LogUtil.i(TAG, "onDestroy");
+		LogUtil.i(LogUtil.LOG_TAG, TAG + ": onDestroy");
 	}
 
 	@Override

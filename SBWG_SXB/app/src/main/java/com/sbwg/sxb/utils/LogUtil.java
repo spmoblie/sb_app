@@ -6,6 +6,8 @@ import com.sbwg.sxb.AppConfig;
 
 
 public class LogUtil {
+
+  public static final String LOG_TAG = "log_activity";
 	
   public static void i(String tag, String msg)
   {

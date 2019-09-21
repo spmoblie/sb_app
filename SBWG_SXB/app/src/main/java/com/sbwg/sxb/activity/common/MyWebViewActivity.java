@@ -34,7 +34,8 @@ import butterknife.BindView;
  */
 public class MyWebViewActivity extends BaseActivity {
 
-	public static final String TAG = MyWebViewActivity.class.getSimpleName();
+	String TAG = MyWebViewActivity.class.getSimpleName();
+
 	private static final int TYPE_LOAD_URL_SUCCESS = 1001;
 	private static final int TYPE_LOAD_IMG_SUCCESS = 1002;
 
@@ -228,7 +229,7 @@ public class MyWebViewActivity extends BaseActivity {
 
 	@Override
 	protected void onResume() {
-		LogUtil.i(TAG, "onResume");
+		LogUtil.i(LogUtil.LOG_TAG, TAG + ": onResume");
 		// 页面开始
 		AppApplication.onPageStart(this, TAG);
 
@@ -237,7 +238,7 @@ public class MyWebViewActivity extends BaseActivity {
 	
 	@Override
 	protected void onPause() {
-		LogUtil.i(TAG, "onPause");
+		LogUtil.i(LogUtil.LOG_TAG, TAG + ": onPause");
 		// 页面结束
 		AppApplication.onPageEnd(this, TAG);
 

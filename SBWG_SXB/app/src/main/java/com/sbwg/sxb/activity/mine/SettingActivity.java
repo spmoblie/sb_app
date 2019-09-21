@@ -21,12 +21,12 @@ import com.sbwg.sxb.utils.UpdateAppVersion;
 
 public class SettingActivity extends BaseActivity implements OnClickListener {
 
-    public static final String TAG = SettingActivity.class.getSimpleName();
+    String TAG = SettingActivity.class.getSimpleName();
 
-    private RelativeLayout rl_feedback, rl_version, rl_about_us, rl_logout;
-    private TextView tv_feedback, tv_version_title, tv_version_no;
-    private TextView tv_about_us, tv_push_title, tv_logout;
-    private ImageView iv_push_status;
+    RelativeLayout rl_feedback, rl_version, rl_about_us, rl_logout;
+    TextView tv_feedback, tv_version_title, tv_version_no;
+    TextView tv_about_us, tv_push_title, tv_logout;
+    ImageView iv_push_status;
 
     private boolean pushStatus = true;
 
@@ -137,7 +137,7 @@ public class SettingActivity extends BaseActivity implements OnClickListener {
 
     @Override
     protected void onResume() {
-        LogUtil.i(TAG, "onResume");
+        LogUtil.i(LogUtil.LOG_TAG, TAG + ": onResume");
         // 页面开始
         AppApplication.onPageStart(this, TAG);
 
@@ -156,7 +156,7 @@ public class SettingActivity extends BaseActivity implements OnClickListener {
 
     @Override
     protected void onPause() {
-        LogUtil.i(TAG, "onPause");
+        LogUtil.i(LogUtil.LOG_TAG, TAG + ": onPause");
         // 页面结束
         AppApplication.onPageEnd(this, TAG);
 

@@ -18,7 +18,7 @@ import java.io.File;
 
 public class ClipImageCircularActivity extends BaseActivity {
 
-	public static final String TAG = ClipImageCircularActivity.class.getSimpleName();
+	String TAG = ClipImageCircularActivity.class.getSimpleName();
 
 	private String photoPath;
 	private ClipImageView imageView;
@@ -63,7 +63,7 @@ public class ClipImageCircularActivity extends BaseActivity {
     			return;
 			}
 			AppApplication.saveBitmapFile(bm, file, 100);
-			editor.putString(AppConfig.KEY_CLIP_HEAD_PATH, file.getAbsolutePath()).apply();
+			shared.edit().putString(AppConfig.KEY_CLIP_HEAD_PATH, file.getAbsolutePath()).apply();
 		}else {
 			CommonTools.showToast(getString(R.string.photo_clip_error));
 		}
@@ -72,7 +72,7 @@ public class ClipImageCircularActivity extends BaseActivity {
 
 	@Override
 	protected void onResume() {
-		LogUtil.i(TAG, "onResume");
+		LogUtil.i(LogUtil.LOG_TAG, TAG + ": onResume");
 		// 页面开始
 		AppApplication.onPageStart(this, TAG);
 
@@ -81,7 +81,7 @@ public class ClipImageCircularActivity extends BaseActivity {
 
 	@Override
 	protected void onPause() {
-		LogUtil.i(TAG, "onPause");
+		LogUtil.i(LogUtil.LOG_TAG, TAG + ": onPause");
 		// 页面结束
 		AppApplication.onPageEnd(this, TAG);
 

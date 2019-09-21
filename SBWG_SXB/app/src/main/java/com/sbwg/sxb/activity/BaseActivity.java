@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -63,9 +62,7 @@ import com.sina.weibo.sdk.api.share.BaseResponse;
 import com.sina.weibo.sdk.api.share.IWeiboHandler;
 import com.tencent.mm.sdk.modelbase.BaseReq;
 import com.tencent.mm.sdk.modelbase.BaseResp;
-import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
-import com.tencent.mm.sdk.openapi.WXAPIFactory;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -82,17 +79,16 @@ import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import rx.Observer;
 
+
 /**
  * 所有Activity的父类
  */
 public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Response, IWXAPIEventHandler {
 
-	public static final String TAG = BaseActivity.class.getSimpleName();
+	String TAG = BaseActivity.class.getSimpleName();
 
 	protected Context mContext;
 	protected SharedPreferences shared;
-	protected Editor editor;
-	protected IWXAPI api;
 	protected DialogManager myDialog;
 	protected UserManager userManager;
 	protected Boolean isInitShare = false;
@@ -117,12 +113,11 @@ public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Res
 		// 创建动画
 		overridePendingTransition(R.anim.in_from_right, R.anim.anim_no_anim);
 
+		LogUtil.i(LogUtil.LOG_TAG, TAG + ": onCreate");
 		addActivity(this);
 
 		mContext = this;
 		shared = AppApplication.getSharedPreferences();
-		editor = shared.edit();
-		editor.apply();
 
 		userManager = UserManager.getInstance();
 
@@ -132,9 +127,6 @@ public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Res
 		screenWidth = shared.getInt(AppConfig.KEY_SCREEN_WIDTH, 0);
 		dialogWidth = screenWidth * 2/3;
 		myDialog = DialogManager.getInstance(mContext);
-
-		api = WXAPIFactory.createWXAPI(mContext, AppConfig.WX_APP_ID);
-		api.registerApp(AppConfig.WX_APP_ID);
 
 		// 设置App字体不随系统字体变化
 		AppApplication.initDisplayMetrics();
@@ -164,7 +156,6 @@ public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Res
 		mLayoutBase = findViewById(R.id.base_ll_container);
 	}
 
-	@SuppressWarnings("static-access")
 	private void initView() {
 		iv_left.setOnClickListener(new OnClickListener() {
 
@@ -318,7 +309,7 @@ public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Res
 	 */
 	protected void addActivity(Activity activity) {
 		if (activity != null) {
-			LogUtil.i(activity.getClass().getSimpleName(), "onCreate()");
+			LogUtil.i(LogUtil.LOG_TAG, activity.getClass().getSimpleName() + ": onCreate()");
 			AppManager.getInstance().addActivity(activity);
 		}
 	}
@@ -329,7 +320,7 @@ public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Res
 	 */
 	protected void finishActivity(Activity activity) {
 		if (activity != null) {
-			LogUtil.i(activity.getClass().getSimpleName(), "onDestroy()");
+			LogUtil.i(LogUtil.LOG_TAG, activity.getClass().getSimpleName() + ": onDestroy()");
 			AppManager.getInstance().finishActivity(activity);
 		}
 	}
@@ -478,7 +469,7 @@ public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Res
 
 	@Override
 	protected void onResume() {
-		LogUtil.i(TAG, "onResume()");
+		LogUtil.i(LogUtil.LOG_TAG, TAG + ": onResume()");
 		// 设置App字体不随系统字体变化
 		AppApplication.initDisplayMetrics();
 		super.onResume();
@@ -486,19 +477,20 @@ public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Res
 
 	@Override
 	protected void onPause() {
-		LogUtil.i(TAG, "onPause()");
+		LogUtil.i(LogUtil.LOG_TAG, TAG + ": onPause()");
 		if (myDialog != null) {
 			myDialog.clearInstance();
 		}
 		// 缓存标题View高度
 		if (titleHeight <= 0) {
-			editor.putInt(AppConfig.KEY_TITLE_HEIGHT, ll_head.getHeight()).apply();
+			shared.edit().putInt(AppConfig.KEY_TITLE_HEIGHT, ll_head.getHeight()).apply();
 		}
 		super.onPause();
 	}
 
 	@Override
 	protected void onDestroy() {
+		LogUtil.i(LogUtil.LOG_TAG, TAG + ": onDestroy");
 		finishActivity(this);
 		super.onDestroy();
 	}
@@ -751,7 +743,7 @@ public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Res
 	/**
 	 * 数据刷新函数
 	 */
-	public static List<BaseEntity> updNewEntity(int newTotal, int oldTotal, List<? extends BaseEntity> newDatas,
+	protected List<BaseEntity> updNewEntity(int newTotal, int oldTotal, List<? extends BaseEntity> newDatas,
 												List<? extends BaseEntity> oldDatas, ArrayMap<String, Boolean> oldMap) {
 		if (oldDatas == null || newDatas == null || oldMap == null) return null;
 		if (oldTotal < newTotal) {
@@ -789,7 +781,7 @@ public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Res
 	/**
 	 * 数据去重函数
 	 */
-	public static List<BaseEntity> addNewEntity(List<? extends BaseEntity> oldDatas,
+	protected List<BaseEntity> addNewEntity(List<? extends BaseEntity> oldDatas,
 												List<? extends BaseEntity> newDatas, ArrayMap<String, Boolean> oldMap) {
 		if (oldDatas == null || newDatas == null || oldMap == null) return null;
 		List<BaseEntity> newLists = new ArrayList<BaseEntity>();
@@ -812,7 +804,7 @@ public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Res
 	/**
 	 * 判定是否停止加载更多
 	 */
-	public static boolean isStopLoadMore(int showCount, int countTotal, int pageSize) {
+	protected boolean isStopLoadMore(int showCount, int countTotal, int pageSize) {
 		showPageNum(showCount, countTotal, pageSize);
 		return showCount > 0 && showCount == countTotal;
 	}
@@ -820,7 +812,7 @@ public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Res
 	/**
 	 * 提示当前页数
 	 */
-	public static void showPageNum(int showCount, int countTotal, int pageSize) {
+	protected void showPageNum(int showCount, int countTotal, int pageSize) {
 		if (pageSize <= 0) return;
 		int page_num = showCount / pageSize;
 		if (showCount % pageSize > 0) {

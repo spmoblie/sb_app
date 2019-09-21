@@ -35,7 +35,7 @@ import static com.sbwg.sxb.AppConfig.SEND_TIME;
 
 public class RegisterActivity extends BaseActivity implements OnClickListener {
 
-	public static final String TAG = RegisterActivity.class.getSimpleName();
+	String TAG = RegisterActivity.class.getSimpleName();
 
 	@BindView(R.id.register_et_phone)
 	EditText et_phone;
@@ -223,7 +223,7 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 		}
 		if (send_number >= 3) {
 			send_number = 0;
-			editor.putInt(AppConfig.KEY_SEND_VERIFY_NUMBER, send_number).apply();
+			shared.edit().putInt(AppConfig.KEY_SEND_VERIFY_NUMBER, send_number).apply();
 		}
 		if (tv_verify_code != null) {
 			tv_verify_code.setText(getString(R.string.login_verify_code_gain));
@@ -320,7 +320,7 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 
 	@Override
 	protected void onResume() {
-		LogUtil.i(TAG, "onResume");
+		LogUtil.i(LogUtil.LOG_TAG, TAG + ": onResume");
 		// 页面开始
 		AppApplication.onPageStart(this, TAG);
 		// 验证码-倒计时
@@ -344,14 +344,14 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 		} else {
 			if (send_number > 0 && quantumTime >= SEND_TIME * 10) { //每隔10分钟清零
 				send_number = 0;
-				editor.putInt(AppConfig.KEY_SEND_VERIFY_NUMBER, send_number).apply();
+				shared.edit().putInt(AppConfig.KEY_SEND_VERIFY_NUMBER, send_number).apply();
 			}
 		}
 	}
 
 	@Override
 	protected void onPause() {
-		LogUtil.i(TAG, "onPause");
+		LogUtil.i(LogUtil.LOG_TAG, TAG + ": onPause");
 		// 页面结束
 		AppApplication.onPageEnd(this, TAG);
 
@@ -399,8 +399,8 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 						} else {
 							startTimer(tv_verify_code, SEND_TIME * 10);
 						}
-						editor.putInt(AppConfig.KEY_SEND_VERIFY_NUMBER, send_number).apply();
-						editor.putLong(AppConfig.KEY_SEND_VERIFY_LAST_TIME, System.currentTimeMillis()).apply();
+						shared.edit().putInt(AppConfig.KEY_SEND_VERIFY_NUMBER, send_number).apply();
+						shared.edit().putLong(AppConfig.KEY_SEND_VERIFY_LAST_TIME, System.currentTimeMillis()).apply();
 						CommonTools.showToast(getString(R.string.login_verify_code_send));
 					} else {
 						handleErrorCode(baseEn);

@@ -124,7 +124,7 @@
     <string name="title_qr_code_scan">二维码扫描</string>
     <string name="title_fragment_four">我的购物车</string>
     <string name="title_product_detail">商品详情</string>
-    <string name="title_login">用户登入</string>
+    <string name="title_login">用户登录</string>
     <string name="title_register">邮箱注册</string>
     <string name="title_delivery_info">收货信息</string>
     <string name="title_order_confirm">确认订单</string>
@@ -187,6 +187,7 @@
     <string name="login_login">登录账户</string>
     <string name="login_login_app">登录松小堡</string>
     <string name="login_phone_login">手机号一键登录</string>
+    <string name="login_phone_password">手机号密码登录</string>
     <string name="login_phone_register">手机号快捷注册</string>
     <string name="login_phone_registered">此手机号已注册</string>
     <string name="login_phone_unregistered">此手机号未注册</string>
@@ -215,12 +216,12 @@
     <string name="login_reset_login">修改并登录</string>
     <string name="login_reset_ok">密码修改成功</string>
     <string name="login_quick">其它方式登录</string>
-    <string name="login_oauth_cancel">登入取消</string>
-    <string name="login_error_oauth">授权登入出现错误！请重试！</string>
+    <string name="login_oauth_cancel">登录取消</string>
+    <string name="login_error_oauth">授权登录出现错误！请重试！</string>
     <string name="login_bound">绑定账号</string>
     <string name="login_immediately_bound">立即绑定</string>
     <string name="login_no_account">没有账号？马上去注册</string>
-    <string name="login_timeout">登入超时！请重新登入！</string>
+    <string name="login_timeout">登录失效(T_T)请重新登录(^_^)</string>
 
     <!-- Share -->
     <string name="share">分享</string>

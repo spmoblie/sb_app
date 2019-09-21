@@ -273,13 +273,6 @@ public class UserManager {
 	}
 
 	/**
-	 * 清除课程Id
-	 */
-	public void clearCourseId() {
-		editor.putString(AppConfig.KEY_SIGN_UP_ID, "").apply();
-	}
-
-	/**
 	 * 标记课程Id
 	 * @param courseId 课程Id
 	 */
@@ -287,6 +280,26 @@ public class UserManager {
 		String keyStr = "_" + courseId + "_";
 		String idStr = sp.getString(AppConfig.KEY_SIGN_UP_ID, "");
 		editor.putString(AppConfig.KEY_SIGN_UP_ID, idStr + keyStr).apply();
+	}
+
+	/**
+	 * 标记所有课程Id
+	 * @param idStr
+	 */
+	private void saveAllCourseId(String idStr) {
+		if (!StringUtil.isNull(idStr)) {
+			String[] ids = idStr.split(",");
+			for (int i = 0; i < ids.length; i++) {
+				saveCourseId(Integer.valueOf(ids[i]));
+			}
+		}
+	}
+
+	/**
+	 * 清除课程Id
+	 */
+	private void clearAllCourseId() {
+		editor.putString(AppConfig.KEY_SIGN_UP_ID, "").apply();
 	}
 
 	/**
@@ -320,7 +333,10 @@ public class UserManager {
 			saveUserNick(infoEn.getUserNick());
 			saveUserHead(infoEn.getUserHead());
 			saveXAppToken(infoEn.getAppToken());
+			saveAllCourseId(infoEn.getSignUpId());
 			changeAllDataStatus();
+			// 绑定用户信息至推送服务
+			AppApplication.onPushRegister(true);
 		}
 	}
 
@@ -352,6 +368,8 @@ public class UserManager {
 	 */
 	private void clearUserLoginInfo(){
 		saveUserId("");
+		saveXAppToken("");
+		clearAllCourseId();
 		saveShareId("");
 		saveUserName("");
 		saveUserPhone("");
@@ -363,8 +381,6 @@ public class UserManager {
 		saveUserBirthday("");
 		saveUserArea("");
 		saveUserMoney("0.00");
-		saveXAppToken("");
-		clearCourseId();
 	}
 
 	/**
@@ -382,19 +398,13 @@ public class UserManager {
 			saveUserGender(infoEn.getGenderCode());
 			saveUserBirthday(infoEn.getBirthday());
 			saveUserArea(infoEn.getUserArea());
+			saveAllCourseId(infoEn.getSignUpId());
 
 			if (StringUtil.isNull(infoEn.getMoney())) {
 				saveUserMoney("0.00");
 			} else {
 				saveUserMoney(infoEn.getMoney());
 			}
-
-			String signUpId = infoEn.getSignUpId();
-			if (!StringUtil.isNull(signUpId)) {
-			}
-
-			// 绑定用户信息至推送服务
-			AppApplication.onPushRegister(true);
 		}
 	}
 
