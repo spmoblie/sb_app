@@ -31,6 +31,11 @@
             </intent-filter>
         </activity>
 
+        <!-- java.lang.NoClassDefFoundError: Failed resolution of: Lorg/apache/http/conn/scheme/SchemeRegistry; -->
+        <uses-library
+            android:name="org.apache.http.legacy"
+            android:required="false" />
+
         <!-- API23以上调用系统相机需配置 -->
         <provider
             android:name="android.support.v4.content.FileProvider"

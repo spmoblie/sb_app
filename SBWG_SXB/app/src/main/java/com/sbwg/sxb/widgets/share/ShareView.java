@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -56,9 +55,6 @@ import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
 import com.tencent.tauth.UiError;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
-
 
 public class ShareView {
 
@@ -102,11 +98,7 @@ public class ShareView {
 	private static final String WB_APP_ID = AppConfig.WB_APP_ID;
 	private static final String WB_REDIRECT_URL = AppConfig.WB_REDIRECT_URL;
 	private static final String WB_SCOPE = AppConfig.WB_SCOPE;
-	// FB implementation 'com.facebook.android:facebook-android-sdk:4.38.1'
-	//private CallbackManager callbackManager;
-	//private ShareDialog shareDialog;
 
-	
 	public ShareView(Context context, Activity activity, View rootView, ShareVewButtonListener listener){
 		this.mContext = context;
 		this.mActivity = activity;
@@ -121,10 +113,6 @@ public class ShareView {
 		// WX
 		mWXApi = WXAPIFactory.createWXAPI(activity, WX_APP_ID, false);
 		mWXApi.registerApp(WX_APP_ID);
-		// FB
-		//callbackManager = CallbackManager.Factory.create();
-		//shareDialog = new ShareDialog(activity);
-		//shareDialog.registerCallback(callbackManager, new FaceBookCallBackListener());
 
 		initView();
 		createAnimation();
@@ -345,39 +333,6 @@ public class ShareView {
 				}
 			}
 		});
-		/*tv_Share_Facebook = rootView.findViewById(R.id.share_view_tv_share_facebook);
-		tv_Share_Facebook.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				if(listener != null){
-					listener.onClick_Share_Facebook();
-				}else {
-					facebookShare();
-				}
-			}
-		});
-		tv_Share_WhatsApp = rootView.findViewById(R.id.share_view_tv_share_whatsApp);
-		tv_Share_WhatsApp.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				if(listener != null){
-					listener.onClick_Share_WhatsApp();
-				}else {
-					whatsAppShare();
-				}
-			}
-		});
-		tv_Share_Line = rootView.findViewById(R.id.share_view_tv_share_line);
-		tv_Share_Line.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				if(listener != null){
-					listener.onClick_Share_Line();
-				}else {
-					lineShare();
-				}
-			}
-		});*/
 		tv_Share_Copy = rootView.findViewById(R.id.share_view_tv_share_copy);
 		tv_Share_Copy.setOnClickListener(new View.OnClickListener() {
 			
@@ -598,78 +553,6 @@ public class ShareView {
 		}
 	}
 
-	private void facebookShare() {
-		/*if (shareDialog != null && mShareEn != null) {
-			//showShareLayer(false);
-			ShareLinkContent linkContent = new ShareLinkContent.Builder()
-					.setContentTitle(mShareEn.getTitle())
-					.setContentDescription(mShareEn.getText())
-					.setContentUrl(Uri.parse(mShareEn.getUrl()))
-					.build();
-			shareDialog.show(linkContent);
-		}else {
-			showEntityError();
-		}*/
-	}
-
-	/*private class FaceBookCallBackListener implements FacebookCallback<Sharer.Result> {
-		@Override
-		public void onSuccess(Sharer.Result sharerResult) {
-			LogUtil.i(TAG, "fb share success");
-			showShareSuccess();
-		}
-
-		@Override
-		public void onCancel() {
-			LogUtil.i(TAG, "fb share cancel");
-			showShareCancel();
-		}
-
-		@Override
-		public void onError(FacebookException e) {
-			LogUtil.i(TAG, "fb share error");
-			ExceptionUtil.handle(e);
-			showEntityError();
-		}
-	}*/
-	
-	private void whatsAppShare() {
-		if(!DeviceUtil.checkAppInstalled(mContext, "com.whatsapp")){ //检测是否安装WhatsApp
-			CommonTools.showToast(mContext.getString(R.string.share_msg_no_whatsapp), Toast.LENGTH_SHORT);
-			return;
-		}
-		if (mShareEn != null) {
-			//showShareLayer(false);
-			Intent sendIntent = new Intent();
-			sendIntent.setAction(Intent.ACTION_SEND);
-			sendIntent.setPackage("com.whatsapp");
-			sendIntent.putExtra(Intent.EXTRA_TEXT, mShareEn.getTitle() + "\n" + mShareEn.getText() + "\n" + mShareEn.getUrl());
-			sendIntent.setType("text/plain");
-			mContext.startActivity(sendIntent);
-		}else {
-			showEntityError();
-		}
-	}
-
-	private void lineShare() {
-		if(!DeviceUtil.checkAppInstalled(mContext, "jp.naver.line.android")){ //检测是否安装Line
-			CommonTools.showToast(mContext.getString(R.string.share_msg_no_line), Toast.LENGTH_SHORT);
-			return;
-		}
-		if (mShareEn != null) {
-			//showShareLayer(false);
-			String share_Msg_For_Line = mShareEn.getTitle() + "\n" + mShareEn.getText() + "\n" + mShareEn.getUrl();
-			try {
-                share_Msg_For_Line = URLEncoder.encode(share_Msg_For_Line, "UTF-8");
-            } catch (UnsupportedEncodingException e) {
-				ExceptionUtil.handle(e);
-            }
-			mContext.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("line://msg/text/" + share_Msg_For_Line)));
-		}else {
-			showEntityError();
-		}
-	}
-
 	@SuppressWarnings("deprecation")
 	private void urlCopy() {
 		if (mShareEn != null) {
@@ -755,10 +638,6 @@ public class ShareView {
 		if (mSsoHandler != null) {
             mSsoHandler.authorizeCallBack(requestCode, resultCode, data);
         }
-		// FB
-		/*if (callbackManager != null) {
-			callbackManager.onActivityResult(requestCode, resultCode, data);
-		}*/
 	}
 	
 	/**

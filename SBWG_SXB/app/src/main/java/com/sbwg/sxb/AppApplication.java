@@ -85,10 +85,6 @@ public class AppApplication extends Application {
 
         // 设置App字体不随系统字体变化
         initDisplayMetrics();
-
-        // Facebook SDK初始化
-        //FacebookSdk.sdkInitialize(getApplicationContext());
-        updateUserData();
     }
 
     @Override
