@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.sbwg.sxb.AppApplication;
+import com.sbwg.sxb.AppConfig;
 import com.sbwg.sxb.activity.login.LoginActivity;
 import com.sbwg.sxb.dialog.LoadDialog;
 import com.sbwg.sxb.entity.BaseEntity;
@@ -83,11 +84,10 @@ public class BaseFragment extends Fragment {
 
 	/**
 	 * 打开登录Activity
-	 * @param rootPage
 	 */
-	protected void openLoginActivity(String rootPage){
+	protected void openLoginActivity(){
+		shared.edit().putBoolean(AppConfig.KEY_JUMP_PAGE, true).apply();
 		Intent intent = new Intent(getActivity(), LoginActivity.class);
-		intent.putExtra("rootPage", rootPage);
 		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		startActivity(intent);
 	}
@@ -245,6 +245,21 @@ public class BaseFragment extends Fragment {
 	 */
 	protected void stopAnimation() {
 		LoadDialog.hidden();
+	}
+
+	/**
+	 * 处理网络请求返回状态码
+	 * @param baseEn
+	 */
+	protected void handleErrorCode(BaseEntity baseEn) {
+		if (baseEn != null) {
+			switch (baseEn.getErrno()) {
+				case AppConfig.ERROR_CODE_TIMEOUT: //登录超时
+					AppApplication.AppLogout();
+					openLoginActivity();
+					break;
+			}
+		}
 	}
 
 }

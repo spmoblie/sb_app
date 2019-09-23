@@ -258,7 +258,7 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
                 break;
             case R.id.sign_tv_cost_pay:
                 if (!isLogin()) {
-                    openLoginActivity(TAG);
+                    openLoginActivity();
                     return;
                 }
                 if (isSignUp) return;
@@ -272,7 +272,7 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
                 break;
             case R.id.sign_tv_sign_up:
                 if (!isLogin()) {
-                    openLoginActivity(TAG);
+                    openLoginActivity();
                     return;
                 }
                 if (isSignUp) return;

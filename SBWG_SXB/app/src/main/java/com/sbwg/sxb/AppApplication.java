@@ -184,6 +184,7 @@ public class AppApplication extends Application {
 				CleanDataManager.cleanCustomCache(AppConfig.SAVE_PATH_MEDIA_DICE); //清除视频缓存
             }
         }).start();*/
+        updateUserData();
     }
 
     /**

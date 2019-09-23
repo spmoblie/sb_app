@@ -47,6 +47,11 @@ public class AppConfig {
 	public final static String URL_USER_GET = "user/get";
 	// 修改用户资料
 	public final static String URL_USER_SAVE = "user/save";
+	// 获取我的课程
+	public final static String URL_USER_ACTIVITY = "user/activity";
+
+	// 获取我的设计
+	public final static String URL_DESIGN_ALL = "design/all";
 
 	// 上传接口
 	public final static String URL_UPLOAD_PUSH = "upload/push";
@@ -113,6 +118,10 @@ public class AppConfig {
 	public static final String homeHeadFileName = "home_head";
 	// 首页列表数据文件名
 	public static final String homeListFileName = "home_list";
+	// 我的头部数据文件名
+	public static final String mineHeadFileName = "mine_head";
+	// 我的列表数据文件名
+	public static final String mineListFileName = "mine_list";
 	// 缓存路径应用名称
 	public static final String SAVE_APP_NAME = "SBWG";
 	// 内置SD卡路径
@@ -171,6 +180,10 @@ public class AppConfig {
 	public static final int REQUEST_SV_POST_USER_GET = 0X3002;
 	// 修改用户资料
 	public static final int REQUEST_SV_POST_USER_SAVE = 0X3003;
+	// 获取我的课程
+	public static final int REQUEST_SV_POST_USER_ACTIVITY = 0X3004;
+	// 获取我的设计
+	public static final int REQUEST_SV_POST_DESIGN_ALL = 0X3005;
 
 	/**
 	 ******************************************* RequestCode参数设置结束 ******************************************
@@ -242,8 +255,8 @@ public class AppConfig {
 	public static final String KEY_PUSH_STATUS = "push_status";
 	// 偏好设置Key-记录首页当前的下标索引
 	public static final String KEY_MAIN_CURRENT_INDEX = "main_current_index";
-	// 偏好设置Key-记录是否自动跳转到会员页面
-	public static final String KEY_PUSH_PAGE_MEMBER = "push_page_member";
+	// 偏好设置Key-记录是否跳转子页面
+	public static final String KEY_JUMP_PAGE = "jump_page";
 	// 偏好设置Key-记录发送短信验证码的累计次数
 	public static final String KEY_SEND_VERIFY_NUMBER = "send_verify_number";
 	// 偏好设置Key-记录最近一次发送短信验证码的时间

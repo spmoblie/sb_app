@@ -22,6 +22,7 @@
             android:layout_width="@dimen/margin_padding_120"
             android:layout_height="@dimen/margin_padding_120"
             android:src="@drawable/icon_default_head"
+            android:scaleType="center"
             app:type="round" />
 
         <TextView

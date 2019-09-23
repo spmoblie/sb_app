@@ -254,7 +254,11 @@ public class LoginPhoneActivity extends BaseActivity implements OnClickListener 
             et_password.setVisibility(View.VISIBLE);
             iv_password_check.setVisibility(View.VISIBLE);
             tv_password_change.setText(getString(R.string.login_mode_verify_code));
-            editTextFocusAndClear(et_password);
+            if (isPhone_Ok) {
+                editTextFocusAndClear(et_password);
+            } else {
+                editTextFocusAndClear(et_phone);
+            }
         } else {
             setTitle(R.string.login_phone_login);
             et_code.setVisibility(View.VISIBLE);
@@ -262,9 +266,14 @@ public class LoginPhoneActivity extends BaseActivity implements OnClickListener 
             et_password.setVisibility(View.GONE);
             iv_password_check.setVisibility(View.GONE);
             tv_password_change.setText(getString(R.string.login_mode_password));
-            editTextFocusAndClear(et_code);
-            if (isPhone_Ok && isTimeFinish) {
-                setSendCodeState(true);
+            if (isPhone_Ok) {
+                editTextFocusAndClear(et_code);
+                if (isTimeFinish) {
+                    setSendCodeState(true);
+                }
+            } else {
+                editTextFocusAndClear(et_phone);
+                setSendCodeState(false);
             }
         }
     }

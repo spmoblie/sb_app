@@ -74,7 +74,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 
     private UserInfoEntity fbOauthEn;
     private boolean isStop = false;
-    private String rootPage, loginType, postUid;
+    private String loginType, postUid;
     // WX
     private IWXAPI api;
     private static final String WX_APP_ID = AppConfig.WX_APP_ID;
@@ -103,8 +103,6 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
-        rootPage = getIntent().getExtras().getString("rootPage");
 
         // WX
         api = WXAPIFactory.createWXAPI(mContext, AppConfig.WX_APP_ID);
@@ -545,18 +543,6 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 
     @Override
     public void OnListenerLeft() {
-        LogUtil.i(LogUtil.LOG_TAG, TAG + ": rootPage = " + rootPage);
-        /*if (!rootPage.equals("ProductDetailActivity")
-         && !rootPage.equals("ShowListHeadActivity")
-    	 && !rootPage.equals("HomeFragmentActivity")
-    	 && !rootPage.equals("MyWebViewActivity")
-    	 && !rootPage.equals("CartActivity")
-    	 && !rootPage.equals("SettingActivity"))
-    	{
-    		LogUtil.i(TAG, "start ChildFragmentFive");
-    		editor.putInt(AppConfig.KEY_HOME_CURRENT_INDEX, 4).commit();
-    		startActivity(new Intent(this, HomeFragmentActivity.class));
-		}*/
         super.OnListenerLeft();
     }
 

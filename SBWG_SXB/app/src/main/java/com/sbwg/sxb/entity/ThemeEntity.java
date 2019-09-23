@@ -15,6 +15,7 @@ public class ThemeEntity extends BaseEntity {
 	private String userHead; //用户头像
 	private String synopsis; //简介
 	private String description; //活动说明
+	private String address; //活动地址
 	private String startTime; //活动开始时间
 	private String endTime; //活动结束时间
 	private int quantity; //限制报名数量
@@ -108,6 +109,14 @@ public class ThemeEntity extends BaseEntity {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
 	}
 
 	public String getStartTime() {

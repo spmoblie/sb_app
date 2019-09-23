@@ -65,9 +65,9 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
     @BindView(R.id.loading_fail_tv_update)
     TextView tv_load_again;
 
-    private ListView mListView;
-    private ViewPager fg_home_vp;
-    private LinearLayout ll_head_main, fg_home_indicator;
+    ListView mListView;
+    ViewPager fg_home_vp;
+    LinearLayout ll_head_main, fg_home_indicator;
 
     private Context mContext;
     private Runnable mPagerAction;
@@ -128,7 +128,6 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
         tv_load_again.setOnClickListener(this);
 
         loadDBData();
-
         initListView();
     }
 
@@ -593,27 +592,6 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
         }).start();
     }
 
-    private Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message mMsg) {
-            switch (mMsg.what) {
-                case 1:
-                    if (headEn == null || al_show.size() <= 0) {
-                        headEn = initData();
-                        al_show.addAll(headEn.getMainLists());
-                    }
-                    if (al_show.size() > 0) {
-                        initHeadView();
-                        updateListData();
-                        loadListData();
-                    } else {
-                        resetData();
-                    }
-                    break;
-            }
-        }
-    };
-
     private ThemeEntity initData() {
         ThemeEntity bannerEn = new ThemeEntity();
         ThemeEntity chEn_1 = new ThemeEntity();
@@ -627,7 +605,7 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
         chEn_1.setTitle("松小堡绘画设计大赛");
         chEn_1.setLinkUrl("https://mp.weixin.qq.com/s/uhg0hWDZCvtkyFQUs5FguQ");
         mainLists.add(chEn_1);
-        chEn_2.setPicUrl(AppConfig.IMAGE_URL+ "banner_002.jpg");
+        chEn_2.setPicUrl(AppConfig.IMAGE_URL+ "banner_002.png");
         chEn_2.setTitle("松堡王国儿童房间，你值得拥有！");
         chEn_2.setLinkUrl("https://mp.weixin.qq.com/s/uhg0hWDZCvtkyFQUs5FguQ");
         mainLists.add(chEn_2);
@@ -653,41 +631,57 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
         ThemeEntity isEn_5 = new ThemeEntity();
         List<ThemeEntity> isLists = new ArrayList<>();
 
-        isEn_1.setPicUrl(AppConfig.IMAGE_URL+ "items_001.jpg");
+        isEn_1.setPicUrl(AppConfig.IMAGE_URL+ "items_001.png");
         isEn_1.setLinkUrl("https://mp.weixin.qq.com/s/tMi8j08jb7oEHKtmYqdl0g");
         isEn_1.setTitle("北欧教育 | 比NOKIA更震惊世界的芬兰品牌");
-        isEn_1.setUserHead(AppConfig.IMAGE_URL+ "head_001.jpg");
-        isEn_1.setUserName("北欧教育创新中心");
+        isEn_1.setUserName("松堡王国设计部");
         isLists.add(isEn_1);
-        isEn_2.setPicUrl(AppConfig.IMAGE_URL+ "items_002.jpg");
+        isEn_2.setPicUrl(AppConfig.IMAGE_URL+ "items_002.png");
         isEn_2.setLinkUrl("https://mp.weixin.qq.com/s/p1j-Mv0yAW45tkVvjqLBTA");
         isEn_2.setTitle("全球都在追捧的北欧教育，到底有哪些秘密？");
-        isEn_2.setUserHead(AppConfig.IMAGE_URL+ "head_002.jpg");
-        isEn_2.setUserName("君学海外");
+        isEn_2.setUserName("松小堡线下运营");
         isLists.add(isEn_2);
-        isEn_3.setPicUrl(AppConfig.IMAGE_URL+ "items_003.jpg");
+        isEn_3.setPicUrl(AppConfig.IMAGE_URL+ "items_003.png");
         isEn_3.setLinkUrl("https://mp.weixin.qq.com/s/Ln0z3fqwBxT9dUP_dJL1uQ");
         isEn_3.setTitle("上海妈妈在挪威，享受北欧式教育的幸福");
-        isEn_3.setUserHead(AppConfig.IMAGE_URL+ "head_003.jpg");
-        isEn_3.setUserName("泡爸讲知识");
+        isEn_3.setUserName("安安和全全");
         isLists.add(isEn_3);
-        isEn_4.setPicUrl(AppConfig.IMAGE_URL+ "items_004.jpg");
+        isEn_4.setPicUrl(AppConfig.IMAGE_URL+ "items_004.png");
         isEn_4.setLinkUrl("https://mp.weixin.qq.com/s/7wPFWTCMn850gxgGqaOchw");
         isEn_4.setTitle("芬兰：北欧小国的大教育观");
-        isEn_4.setUserHead(AppConfig.IMAGE_URL+ "head_004.jpg");
-        isEn_4.setUserName("北欧童话奇幻");
+        isEn_4.setUserName("Sampo");
         isLists.add(isEn_4);
-        isEn_5.setPicUrl(AppConfig.IMAGE_URL+ "items_005.jpeg");
+        isEn_5.setPicUrl(AppConfig.IMAGE_URL+ "items_005.png");
         isEn_5.setLinkUrl("http://www.sohu.com/a/195309958_100007192");
         isEn_5.setTitle("走进北欧教育——每个孩子都是独一无二的天使");
-        isEn_5.setUserHead(AppConfig.IMAGE_URL+ "head_004.jpg");
-        isEn_5.setUserName("北欧童话奇幻");
+        isEn_5.setUserName("松堡王国设计部");
         isLists.add(isEn_5);
 
         bannerEn.setMainLists(isLists);
 
         return bannerEn;
     }
+
+    private Handler mHandler = new Handler() {
+        @Override
+        public void handleMessage(Message mMsg) {
+            switch (mMsg.what) {
+                case 1:
+                    if (headEn == null || al_show.size() <= 0) {
+                        headEn = initData();
+                        al_show.addAll(headEn.getMainLists());
+                    }
+                    if (al_show.size() > 0) {
+                        initHeadView();
+                        updateListData();
+                        loadListData();
+                    } else {
+                        resetData();
+                    }
+                    break;
+            }
+        }
+    };
 
 }
 

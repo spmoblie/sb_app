@@ -126,7 +126,7 @@ public class SettingActivity extends BaseActivity implements OnClickListener {
                                 }
                             });
                 } else {
-                    openLoginActivity(TAG);
+                    openLoginActivity();
                 }
                 break;
         }

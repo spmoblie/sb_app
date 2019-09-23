@@ -1,6 +1,7 @@
 package com.sbwg.sxb.utils;
 
 import com.sbwg.sxb.entity.BaseEntity;
+import com.sbwg.sxb.entity.DesignEntity;
 import com.sbwg.sxb.entity.ThemeEntity;
 import com.sbwg.sxb.entity.UserInfoEntity;
 
@@ -147,6 +148,73 @@ public class JsonUtils {
         if (StringUtil.notNull(jsonObject, "data")) {
             JSONObject jsonData = jsonObject.getJSONObject("data");
             mainEn.setOthers(jsonData.getString("url"));
+        }
+        return mainEn;
+    }
+
+    /**
+     * 解析我的设计数据
+     * @param jsonObject
+     * @return
+     * @throws JSONException
+     */
+    public static BaseEntity getDesignData(JSONObject jsonObject) throws JSONException {
+        BaseEntity mainEn = getCommonKeyValue(jsonObject);
+
+        JSONObject jsonData = jsonObject.getJSONObject("data");
+        if (StringUtil.notNull(jsonData, "design")) {
+            JSONArray data = jsonData.getJSONArray("design");
+            DesignEntity childEn;
+            List<DesignEntity> lists = new ArrayList<>();
+            for (int j = 0; j < data.length(); j++) {
+                JSONObject item = data.getJSONObject(j);
+                childEn = new DesignEntity();
+                childEn.setId(item.getInt("id"));
+                childEn.setImgUrl(item.getString("url"));
+                lists.add(childEn);
+            }
+            mainEn.setLists(lists);
+        }
+        return mainEn;
+    }
+
+    /**
+     * 解析我的课程数据
+     * @param jsonObject
+     * @return
+     * @throws JSONException
+     */
+    public static BaseEntity getMineList(JSONObject jsonObject) throws JSONException {
+        BaseEntity mainEn = getCommonKeyValue(jsonObject);
+
+        JSONObject jsonData = jsonObject.getJSONObject("data");
+        if (StringUtil.notNull(jsonData, "total")) {
+            mainEn.setDataTotal(jsonData.getInt("total"));
+        }
+        if (StringUtil.notNull(jsonData, "activityList")) {
+            JSONArray data = jsonData.getJSONArray("activityList");
+            ThemeEntity childEn;
+            List<ThemeEntity> lists = new ArrayList<>();
+            for (int j = 0; j < data.length(); j++) {
+                JSONObject item = data.getJSONObject(j);
+                childEn = new ThemeEntity();
+                childEn.setId(item.getInt("id"));
+                childEn.setTitle(item.getString("title"));
+                childEn.setPicUrl(item.getString("picUrl"));
+                childEn.setLinkUrl(item.getString("linkUrl"));
+                childEn.setUserId(item.getString("adminId"));
+                childEn.setSynopsis(item.getString("synopsis"));
+                childEn.setDescription(item.getString("description"));
+                childEn.setAddress(item.getString("address"));
+                childEn.setStartTime(item.getString("startTime"));
+                childEn.setEndTime(item.getString("endTime"));
+                childEn.setQuantity(item.getInt("quantity"));
+                childEn.setPeople(item.getInt("people"));
+                childEn.setStatus(item.getInt("status"));
+                childEn.setFees(item.getDouble("fee"));
+                lists.add(childEn);
+            }
+            mainEn.setLists(lists);
         }
         return mainEn;
     }

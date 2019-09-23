@@ -347,11 +347,10 @@ public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Res
 
 	/**
 	 * 打开登录Activity
-	 * @param rootPage
 	 */
-	protected void openLoginActivity(String rootPage){
+	protected void openLoginActivity(){
+		shared.edit().putBoolean(AppConfig.KEY_JUMP_PAGE, false).apply();
 		Intent intent = new Intent(mContext, LoginActivity.class);
-		intent.putExtra("rootPage", rootPage);
 		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		startActivity(intent);
 	}
@@ -532,19 +531,11 @@ public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Res
 	 * 登入超时对话框
 	 */
 	protected void showTimeOutDialog() {
-		showTimeOutDialog(TAG);
-	}
-
-	/**
-	 * 登入超时对话框
-	 * @param rootPage
-	 */
-	protected void showTimeOutDialog(final String rootPage) {
 		AppApplication.AppLogout();
 		showErrorDialog(getString(R.string.login_timeout), true, new Handler(){
 			@Override
 			public void handleMessage(Message msg) {
-				openLoginActivity(rootPage);
+				openLoginActivity();
 			}
 		});
 	}

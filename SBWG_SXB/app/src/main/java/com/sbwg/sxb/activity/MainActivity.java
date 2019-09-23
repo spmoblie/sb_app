@@ -21,12 +21,14 @@ import com.sbwg.sxb.AppConfig;
 import com.sbwg.sxb.AppManager;
 import com.sbwg.sxb.R;
 import com.sbwg.sxb.activity.home.ChildFragmentHome;
+import com.sbwg.sxb.activity.login.LoginActivity;
 import com.sbwg.sxb.activity.mine.ChildFragmentMine;
 import com.sbwg.sxb.activity.sxb.ChildFragmentSXB;
 import com.sbwg.sxb.utils.CommonTools;
 import com.sbwg.sxb.utils.ExceptionUtil;
 import com.sbwg.sxb.utils.LogUtil;
 import com.sbwg.sxb.utils.UpdateAppVersion;
+import com.sbwg.sxb.utils.UserManager;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -88,11 +90,12 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 		fragment_2.setOnClickListener(this);
 		fragment_3.setOnClickListener(this);
 
-		boolean isPushOpen = shared.getBoolean(AppConfig.KEY_PUSH_PAGE_MEMBER, false);
+		boolean isJump = shared.getBoolean(AppConfig.KEY_JUMP_PAGE, false);
 		int open_index = shared.getInt(AppConfig.KEY_MAIN_CURRENT_INDEX, 0);
-		LogUtil.i(TAG, "current_index = " + current_index + " open_index = " + open_index);
-		// 页面出现错误时重启Home
-		if (!isPushOpen && current_index != open_index) {
+		LogUtil.i(LogUtil.LOG_TAG, TAG + ": current_index = " + current_index
+				             + " open_index = " + open_index + " isJump = " + isJump);
+		// 非跳转页面时出现错误 重启Home
+		if (!isJump && current_index != open_index) {
 			startFragmen();
 			return;
 		}
@@ -111,6 +114,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 			fragment_1.performClick();
 			break;
 		}
+		shared.edit().putBoolean(AppConfig.KEY_JUMP_PAGE, false).apply();
 	}
 
 	/**
@@ -215,6 +219,10 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 			current_index = 1;
 			break;
 		case R.id.main_fragment_fl_3:
+			if (!UserManager.getInstance().checkIsLogin()) {
+				openLoginActivity();
+				return;
+			}
 			if (current_index == 2) return;
 			current_index = 2;
 			break;
@@ -226,6 +234,16 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 		shared.edit().putInt(AppConfig.KEY_MAIN_CURRENT_INDEX, current_index).apply();
 		updateImageViewStatus();
 		exit = Boolean.FALSE;
+	}
+
+	/**
+	 * 打开登录Activity
+	 */
+	protected void openLoginActivity(){
+		shared.edit().putBoolean(AppConfig.KEY_JUMP_PAGE, true).apply();
+		Intent intent = new Intent(this, LoginActivity.class);
+		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		startActivity(intent);
 	}
 
 	/**
