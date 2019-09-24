@@ -445,7 +445,7 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
                             AppApplication.saveBitmapFile(clipBitmap, new File(AppConfig.SAVE_USER_HEAD_PATH), 100);
                             // 刷新头像
                             setView();
-                            AppApplication.updateUserData();
+                            AppApplication.updateUserData(true);
                             CommonTools.showToast(getString(R.string.photo_upload_img_ok, getString(R.string.mine_head)), Toast.LENGTH_SHORT);
                         }
                     } else {

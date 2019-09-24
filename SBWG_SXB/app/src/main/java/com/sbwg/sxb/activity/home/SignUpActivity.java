@@ -84,7 +84,8 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
     private ThemeEntity data;
     private double payAmount = 0.00;
     private int courseId; //课程Id
-    private int genderCode = 1; //1:男，2:女
+    private int status; //1:报名中, 2:已截止
+    private int genderCode = 1; //1:男, 2:女
     private boolean isSignUp = false;
     private boolean isPay = false;
     private boolean isPay_Ok = false;
@@ -102,6 +103,7 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
         data = (ThemeEntity) getIntent().getExtras().getSerializable("data");
         if (data != null) {
             courseId = data.getId();
+            status = data.getStatus();
             imgUrl = data.getPicUrl();
             payAmount = data.getFees();
             explainStr = data.getDescription();
@@ -257,26 +259,28 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
                 selectAge();
                 break;
             case R.id.sign_tv_cost_pay:
-                if (!isLogin()) {
+                if (!isLogin()) { //未登录
                     openLoginActivity();
                     return;
                 }
-                if (isSignUp) return;
+                if (isSignUp) return; //已报名
                 if (isPay) {
                     if (isPay_Ok) {
                         CommonTools.showToast("您已完成支付，请勿重复支付。");
                     } else {
-                        payCostAmount();
+                        if (status == 1) { //报名中
+                            payCostAmount();
+                        }
                     }
                 }
                 break;
             case R.id.sign_tv_sign_up:
-                if (!isLogin()) {
+                if (!isLogin()) { //未登录
                     openLoginActivity();
                     return;
                 }
-                if (isSignUp) return;
-                if (checkData() && isPostData) {
+                if (isSignUp) return; //已报名
+                if (status == 1 && checkData() && isPostData) {
                     postSignUpData();
                 }
                 break;
@@ -378,11 +382,18 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
 
         // 报名状态
         isSignUp = userManager.isCourseSignUp(courseId);
-        if (isLogin() && isSignUp) {
-            if (isPay) {
-                setPayState("已支付", false);
+        if (isLogin()) {
+            if (isSignUp) { //已报名
+                if (isPay) {
+                    setPayState("已支付", false);
+                }
+                setSignState("已报名", false);
+            } else {
+                if (status == 2) { //已截止
+                    setPayState(false);
+                    setSignState("已截止", false);
+                }
             }
-            setSignState("已报名", false);
         }
 
         super.onResume();
@@ -435,6 +446,7 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
                         setSignState("已报名", false);
                         userManager.saveCourseId(courseId);
                         CommonTools.showToast("报名成功");
+                        AppApplication.updateMineData(true);
                     } else {
                         handleErrorCode(baseEn);
                     }

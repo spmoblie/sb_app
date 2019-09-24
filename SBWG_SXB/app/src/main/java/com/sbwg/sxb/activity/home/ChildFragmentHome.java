@@ -478,7 +478,7 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
         }
         HashMap<String, String> map = new HashMap<>();
         map.put("page", String.valueOf(current_Page));
-        map.put("size", "3");
+        map.put("size", "10");
         loadSVData(AppConfig.URL_HOME_LIST, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_POST_HOME_LIST);
     }
 

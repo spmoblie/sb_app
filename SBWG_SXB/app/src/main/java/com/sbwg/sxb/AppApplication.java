@@ -167,8 +167,15 @@ public class AppApplication extends Application {
     /**
      * 刷新用户信息-状态标记
      */
-    public static void updateUserData() {
-        shared.edit().putBoolean(AppConfig.KEY_UPDATE_USER_DATA, true).apply();
+    public static void updateUserData(boolean isState) {
+        shared.edit().putBoolean(AppConfig.KEY_UPDATE_USER_DATA, isState).apply();
+    }
+
+    /**
+     * 刷新"我的"数据-状态标记
+     */
+    public static void updateMineData(boolean isState) {
+        shared.edit().putBoolean(AppConfig.KEY_UPDATE_MINE_DATA, isState).apply();
     }
 
     /**
@@ -184,7 +191,7 @@ public class AppApplication extends Application {
 				CleanDataManager.cleanCustomCache(AppConfig.SAVE_PATH_MEDIA_DICE); //清除视频缓存
             }
         }).start();*/
-        updateUserData();
+        updateUserData(true);
     }
 
     /**

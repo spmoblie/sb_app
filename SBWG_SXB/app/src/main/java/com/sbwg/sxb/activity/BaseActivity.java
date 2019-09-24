@@ -825,7 +825,7 @@ public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Res
 	 */
 	protected void loadSVData(String path, HashMap<String, String> map, int httpType, final int dataType) {
 		HttpRequests.getInstance()
-				.loadData("base_2", path, map, httpType)
+				.loadData("base_1", path, map, httpType)
 				.subscribe(new Observer<ResponseBody>() {
 					@Override
 					public void onNext(ResponseBody body) {

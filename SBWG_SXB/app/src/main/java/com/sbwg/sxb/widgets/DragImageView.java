@@ -6,7 +6,6 @@ import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
-import android.util.FloatMath;
 import android.view.MotionEvent;
 import android.view.animation.ScaleAnimation;
 
@@ -518,19 +517,19 @@ public class DragImageView extends AppCompatImageView {
 	
 	public interface ImgOnMoveListener{
 		
-		public void onMove(boolean isToLeft, boolean isChange);
+		void onMove(boolean isToLeft, boolean isChange);
 		
 	}
 
 	public interface ImgOnClickListener{
 
-		public void onClick();
+		void onClick();
 
 	}
 
 	public interface ImgOnLongClickListener{
 		
-		public void onLongClick();
+		void onLongClick();
 		
 	}
 	

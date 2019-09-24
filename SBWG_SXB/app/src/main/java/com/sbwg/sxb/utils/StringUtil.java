@@ -64,9 +64,32 @@ public class StringUtil {
 	}
 
 	/**
+	 * 输入手机号时添加空格
+	 * @param mobile
+	 */
+	public static String enterAddSpaces(String mobile) {
+		if (isNull(mobile)) return "";
+		mobile = mobile.replace(" ", "");
+		int lens = mobile.length();
+		if (lens == 3 || lens == 7) {
+			StringBuilder sb = new StringBuilder();
+			for (int i = 0; i < lens + 1; i++) {
+				if (i == 3 || i == 7) {
+					sb.append(" ");
+				}
+				if (i < lens) {
+					sb.append(mobile.charAt(i));
+				}
+			}
+			return sb.toString();
+		}
+		return mobile;
+	}
+
+	/**
 	 * 转换手机号格式
 	 * @param mobile
-	 * @return 188 **** 8888
+	 * @return 188 8888 8888
 	 */
 	public static String changeMobileNo(String mobile) {
 		if (isNull(mobile) || !StringUtil.isMobileNO(mobile)) return "";

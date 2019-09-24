@@ -251,6 +251,8 @@ public class AppConfig {
 	public static final String KEY_LOAD_SV_DATA_DAY = "load_sv_data_day";
 	// 偏好设置Key-记录刷新用户资料
 	public static final String KEY_UPDATE_USER_DATA = "update_user_data";
+	// 偏好设置Key-记录刷新"我的"数据
+	public static final String KEY_UPDATE_MINE_DATA = "update_mine_data";
 	// 偏好设置Key-记录推送服务的开关状态
 	public static final String KEY_PUSH_STATUS = "push_status";
 	// 偏好设置Key-记录首页当前的下标索引

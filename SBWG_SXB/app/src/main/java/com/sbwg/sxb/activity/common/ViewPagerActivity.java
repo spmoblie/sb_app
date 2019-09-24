@@ -1,7 +1,6 @@
 package com.sbwg.sxb.activity.common;
 
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -22,9 +21,9 @@ import com.sbwg.sxb.AppApplication;
 import com.sbwg.sxb.AppConfig;
 import com.sbwg.sxb.R;
 import com.sbwg.sxb.activity.BaseActivity;
+import com.sbwg.sxb.utils.AsyncImageLoader;
 import com.sbwg.sxb.utils.BitmapUtil;
 import com.sbwg.sxb.utils.CommonTools;
-import com.sbwg.sxb.utils.ExceptionUtil;
 import com.sbwg.sxb.utils.LogUtil;
 import com.sbwg.sxb.widgets.DragImageView;
 import com.sbwg.sxb.widgets.IViewPager;
@@ -41,6 +40,8 @@ public class ViewPagerActivity extends BaseActivity {
 
 	public static final String EXTRA_IMAGE_INDEX = "image_index";
 	public static final String EXTRA_IMAGE_URLS = "image_urls";
+	public static final String HASH_MAP_KEY_IMG = "img";
+	public static final String HASH_MAP_KEY_BAR = "bar";
 	public static final String HASH_MAP_KEY_BTM = "btm";
 	
 	private ArrayList<String> urlLists;
@@ -55,6 +56,7 @@ public class ViewPagerActivity extends BaseActivity {
 	private ProgressBar progress;
 	private DragImageView imageView, showView;
 	private IViewPager viewPager;
+	private AsyncImageLoader asyncImageLoader;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -91,6 +93,22 @@ public class ViewPagerActivity extends BaseActivity {
 			return;
 		}
 		setPageNum(urlLists.size());
+		// 创建网络图片加载器
+		asyncImageLoader = AsyncImageLoader.getInstance(new AsyncImageLoader.AsyncImageLoaderCallback() {
+
+			@Override
+			public void imageLoaded(String path, String cachePath, Bitmap bm) {
+				DragImageView imgView = am_img.get(HASH_MAP_KEY_IMG + path);
+				if (imgView != null && bm != null) {
+					am_btm.put(HASH_MAP_KEY_BTM + path, bm); //记录图片
+					imgView.setImageBitmap(bm);
+				}
+				ProgressBar progress = am_bar.get(HASH_MAP_KEY_BAR + path);
+				if (progress != null) {
+					progress.setVisibility(View.GONE);
+				}
+			}
+		});
 		// 设置布局参数
 		FrameLayout.LayoutParams lp_w = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 		lp_w.gravity = Gravity.CENTER;
@@ -114,17 +132,19 @@ public class ViewPagerActivity extends BaseActivity {
 			imageView.setScreen_W(screenWidth);
 			imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
 			// 加载图片对象
-			try {
-				if (imgUrl.contains(AppConfig.IMAGE_URL)) {
-					imgUrl = imgUrl.replace(AppConfig.IMAGE_URL, "");
+			AsyncImageLoader.ImageLoadTask task = asyncImageLoader.loadImage(imgUrl);
+			if (task != null) {
+				if (task.getBitmap() != null) {
+					imageView.setImageBitmap(task.getBitmap());
+					am_btm.put(HASH_MAP_KEY_BTM + imgUrl, task.getBitmap()); //记录图片
+				}else {
+					imageView.setImageResource(R.drawable.icon_default_null);
+					progress.setVisibility(View.VISIBLE);
+					am_bar.put(HASH_MAP_KEY_BAR + imgUrl, progress); //记录加载动画
+					am_img.put(HASH_MAP_KEY_IMG + imgUrl, imageView); //记录View
 				}
-				Bitmap bm = BitmapFactory.decodeStream(getAssets().open(imgUrl));
-				if (bm != null) {
-                    imageView.setImageBitmap(bm);
-                    am_btm.put(HASH_MAP_KEY_BTM + imgUrl, bm); //记录图片
-                }
-			} catch (Exception e) {
-				ExceptionUtil.handle(e);
+			} else {
+				imageView.setImageResource(R.drawable.icon_default_null);
 			}
 			imageView.setImgOnMoveListener(new DragImageView.ImgOnMoveListener() {
 				@Override
@@ -255,6 +275,10 @@ public class ViewPagerActivity extends BaseActivity {
 		LogUtil.i(LogUtil.LOG_TAG, TAG + ": onPause");
 		// 页面结束
 		AppApplication.onPageEnd(this, TAG);
+		// 销毁对象
+		if (asyncImageLoader != null) {
+			asyncImageLoader.clearInstance();
+		}
 
 		super.onPause();
 	}

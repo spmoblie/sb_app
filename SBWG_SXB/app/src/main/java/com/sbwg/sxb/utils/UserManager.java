@@ -367,7 +367,7 @@ public class UserManager {
 	 * 刷新所有状态数据
 	 */
 	private void changeAllDataStatus() {
-		AppApplication.updateUserData();
+		AppApplication.updateUserData(true);
 	}
 
 	/**

@@ -1,8 +1,15 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        android_studio_app {
+            keyAlias 'sxb'
+            keyPassword '123456'
+            storeFile file('E:/Android/Tools/KeyStore/sxb.jks')
+            storePassword '123456'
+        }
+    }
     compileSdkVersion build_versions.target_sdk
-
     defaultConfig {
         applicationId "com.sbwg.sxb"
         minSdkVersion build_versions.min_sdk
@@ -16,6 +23,9 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+        debug {
+            signingConfig signingConfigs.android_studio_app
+        }
     }
 }
 
@@ -23,35 +33,28 @@ dependencies {
     androidTestCompile(deps.support.app_compat) {
         force = true
     }
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation deps.support.app_compat
     implementation deps.support.constraint_layout
     testImplementation deps.junit
     androidTestImplementation deps.testrunner
     androidTestImplementation deps.testespresso
-
     implementation project(':weiboSDK')
-
     compile files('libs/libammsdk.jar')
     compile files('libs/open_sdk_r6137_lite.jar')
-
     // ButterKnife
     implementation deps.butterknife
     annotationProcessor deps.butterknife_compiler
-
     // Glide
     implementation deps.glide
-
     // Retrofit
     implementation deps.gson
     implementation deps.retrofit
-
     // RxJava
     implementation deps.rxjava
     implementation deps.rxandroid
     implementation deps.converter_gson
     implementation deps.adapter_rxjava
-
     // Okhttp
     implementation deps.okhttp
     implementation deps.logging_interceptor

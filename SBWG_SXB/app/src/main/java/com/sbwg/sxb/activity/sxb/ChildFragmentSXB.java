@@ -44,7 +44,7 @@ public class ChildFragmentSXB extends BaseFragment implements OnClickListener {
 
 		View view = null;
 		try {
-			view = inflater.inflate(R.layout.fragment_layout_sbwg, null);
+			view = inflater.inflate(R.layout.fragment_layout_sxb, null);
 			//Butter Knife初始化
 			ButterKnife.bind(this, view);
 

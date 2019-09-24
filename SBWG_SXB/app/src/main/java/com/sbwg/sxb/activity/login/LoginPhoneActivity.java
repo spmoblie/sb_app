@@ -144,7 +144,8 @@ public class LoginPhoneActivity extends BaseActivity implements OnClickListener 
                     iv_phone_clear.setVisibility(View.GONE);
                 }else {
                     iv_phone_clear.setVisibility(View.VISIBLE);
-                    if (phoneStr.length() >= 13) {
+                    int length = phoneStr.length();
+                    if (length >= 13) {
                         // 号码去空
                         if (phoneStr.contains(" ")) {
                             phoneStr = phoneStr.replace(" ", "");
@@ -166,6 +167,13 @@ public class LoginPhoneActivity extends BaseActivity implements OnClickListener 
                         } else {
                             editTextFocusAndClear(et_password);
                         }
+                    } else {
+                        /*if (length == 3 || length == 8) {
+                            String newStr = StringUtil.enterAddSpaces(phoneStr);
+                            et_phone.setText(newStr);
+                            et_phone.setSelection(et_phone.getText().length());
+                            LogUtil.i("Retrofit", "length == " + length + " newStr = " + newStr);
+                        }*/
                     }
                 }
             }

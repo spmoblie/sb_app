@@ -94,7 +94,7 @@ public class MyWebViewActivity extends BaseActivity {
 	private void initView() {
 		setTitle(titleStr);
 
-		loadShareImg();
+		//loadShareImg();
 		initWebview();
 	}
 

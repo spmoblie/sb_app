@@ -75,7 +75,7 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
 	private UserManager userManager;
 	private int data_total = 0; //数据总量
 	private int current_Page = 1;  //当前列表加载页
-	private boolean isUpdateDesign = true;
+	private boolean isDesignOk = false;
 	private ArrayList<String> urlLists = new ArrayList<String>();
 	private ArrayList<DesignEntity> al_design = new ArrayList<>();
 	private ArrayList<ThemeEntity> al_show = new ArrayList<>();
@@ -95,6 +95,8 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
 		LogUtil.i(LogUtil.LOG_TAG, TAG + ": onCreate");
 		mContext = getActivity();
 		userManager = UserManager.getInstance();
+
+		AppApplication.updateMineData(true);
 
 		int screenWidth = AppApplication.getSharedPreferences().getInt(AppConfig.KEY_SCREEN_WIDTH, 0);
 		int goodsWidth = (screenWidth - CommonTools.dpToPx(mContext, 16)) / 3;
@@ -225,30 +227,29 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
 
 		for (int i = 0; i < 4; i++) {
 			final int idsPosition = i;
-			DesignEntity items;
-			if (i < al_design.size()) {
-				items = al_design.get(i);
-			} else {
-				items = new DesignEntity();
-				if (i < 3) {
-					items.setImgUrl(null);
+			DesignEntity items = new DesignEntity();
+			if (i < 3) {
+				if (i < al_design.size()) {
+					items = al_design.get(i);
 				} else {
-					items.setImgUrl("");
+					items.setImgUrl(null);
 				}
+			} else {
+				items.setImgUrl("");
 			}
 			if (items != null) {
 				String imgUrl = items.getImgUrl();
-				if (i < 3) {
-					urlLists.add(imgUrl);
-				}
-
 				ImageView imageView = new ImageView(mContext);
 				imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-				Glide.with(AppApplication.getAppContext())
-						.load(imgUrl)
-						.apply(AppApplication.getShowOptions())
-						.into(imageView);
-
+				if (i < 3) {
+					urlLists.add(imgUrl);
+					Glide.with(AppApplication.getAppContext())
+							.load(imgUrl)
+							.apply(AppApplication.getShowOptions())
+							.into(imageView);
+				} else {
+					imageView.setImageDrawable(getResources().getDrawable(R.drawable.icon_more, null));
+				}
 				imageView.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View v) {
@@ -324,6 +325,9 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
 			if (shared.getBoolean(AppConfig.KEY_UPDATE_USER_DATA, true)) {
 				requestGetUserInfo();
 			}
+			if (shared.getBoolean(AppConfig.KEY_UPDATE_MINE_DATA, true)) {
+				resetData();
+			}
 		}
 		super.onResume();
 	}
@@ -347,6 +351,15 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
 		super.setMenuVisibility(menuVisible);
 		if (this.getView() != null)
 			this.getView().setVisibility(menuVisible ? View.VISIBLE : View.GONE);
+	}
+
+	/**
+	 * 重置数据
+	 */
+	private void resetData() {
+		current_Page = 1;
+		isDesignOk = false;
+		loadListData();
 	}
 
 	/**
@@ -398,12 +411,12 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
 	 * 加载列表翻页数据
 	 */
 	private void loadListData() {
-		if (isUpdateDesign) { //加载设计数据
+		if (!isDesignOk) { //加载设计数据
 			loadDesignData();
 		}
 		HashMap<String, String> map = new HashMap<>();
 		map.put("page", String.valueOf(current_Page));
-		map.put("size", "3");
+		map.put("size", "10");
 		map.put("userId", userManager.getUserId());
 		loadSVData(AppConfig.URL_USER_ACTIVITY, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_POST_USER_ACTIVITY);
 	}
@@ -420,7 +433,7 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
 						infoEn = getUserInfoData();
 						initHeadView();
 						loadUserHead();
-						shared.edit().putBoolean(AppConfig.KEY_UPDATE_USER_DATA, false).apply();
+						AppApplication.updateUserData(false);
 					}
 					break;
 				case AppConfig.REQUEST_SV_POST_DESIGN_ALL:
@@ -428,7 +441,7 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
 					if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
 						al_design.addAll(baseEn.getLists());
 						initDesignView();
-						isUpdateDesign = false;
+						isDesignOk = true;
 						FileManager.writeFileSaveObject(AppConfig.mineHeadFileName, baseEn, true);
 					}
 					break;
@@ -437,24 +450,29 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
 					if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
 						data_total = baseEn.getDataTotal(); //加载更多数据控制符
 						List<ThemeEntity> lists = baseEn.getLists();
-						if (lists != null && lists.size() > 0) {
-							if (current_Page == 1) { //缓存第1页数据
-								al_show.clear();
-								ThemeEntity listEn = new ThemeEntity();
-								listEn.setMainLists(lists);
-								FileManager.writeFileSaveObject(AppConfig.mineListFileName, listEn, true);
+						if (lists != null) {
+							if (lists.size() > 0) {
+								if (current_Page == 1) { //缓存第1页数据
+									al_show.clear();
+									ThemeEntity listEn = new ThemeEntity();
+									listEn.setMainLists(lists);
+									FileManager.writeFileSaveObject(AppConfig.mineListFileName, listEn, true);
+								}
+								List<BaseEntity> newLists = addNewEntity(al_show, lists, am_show);
+								if (newLists != null) {
+									addNewShowLists(newLists);
+									current_Page++;
+								}
+								updateListData();
+								LogUtil.i("Retrofit", TAG + " List数据加载成功 —> " + current_Page);
+							} else {
+								LogUtil.i("Retrofit", TAG + " List数据没有更多 —> " + current_Page);
 							}
-							List<BaseEntity> newLists = addNewEntity(al_show, lists, am_show);
-							if (newLists != null) {
-								addNewShowLists(newLists);
-								current_Page++;
-							}
-							updateListData();
-							LogUtil.i("Retrofit", TAG + " List数据加载成功 —> " + current_Page);
 						} else {
 							loadFailHandle();
 							LogUtil.i("Retrofit", TAG + " List数据加载失败 —> " + current_Page);
 						}
+						AppApplication.updateMineData(false);
 					}
 					break;
 			}
@@ -507,7 +525,7 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
 					BaseEntity baseEn = (BaseEntity) headObj;
 					al_design.addAll(baseEn.getLists());
 				}
-				// 我的课程
+				// 我的活动
 				Object listObj = FileManager.readFileSaveObject(AppConfig.mineListFileName, true);
 				if (listObj != null) {
 					ThemeEntity listEn = (ThemeEntity) listObj;
@@ -540,14 +558,14 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
 		DesignEntity chEn_3 = new DesignEntity();
 		DesignEntity chEn_4 = new DesignEntity();
 
-		chEn_1.setImgUrl(null);
-		mainLists.add(chEn_1);
+		chEn_1.setImgUrl(AppConfig.IMAGE_URL+ "design_001.png");
+		//mainLists.add(chEn_1);
 		chEn_2.setImgUrl(null);
-		mainLists.add(chEn_2);
+		//mainLists.add(chEn_2);
 		chEn_3.setImgUrl(null);
-		mainLists.add(chEn_3);
+		//mainLists.add(chEn_3);
 		chEn_4.setImgUrl("");
-		mainLists.add(chEn_4);
+		//mainLists.add(chEn_4);
 
 		return mainLists;
 	}
@@ -571,14 +589,14 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
 		isEn_2.setStartTime("2019-10-18");
 		isEn_2.setAddress("深圳");
 		isEn_2.setPeople(8);
-		mainLists.add(isEn_2);
+		//mainLists.add(isEn_2);
 		isEn_3.setPicUrl(AppConfig.IMAGE_URL+ "items_003.png");
 		isEn_3.setLinkUrl("https://mp.weixin.qq.com/s/Ln0z3fqwBxT9dUP_dJL1uQ");
 		isEn_3.setTitle("上海妈妈在挪威，享受北欧式教育的幸福");
 		isEn_3.setStartTime("2019-10-20");
 		isEn_3.setAddress("深圳");
 		isEn_3.setPeople(10);
-		mainLists.add(isEn_3);
+		//mainLists.add(isEn_3);
 
 		return mainLists;
 	}
@@ -588,16 +606,14 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
 		public void handleMessage(Message mMsg) {
 			switch (mMsg.what) {
 				case 1:
-					/*if (al_design.size() <= 0) {
+					if (al_design.size() <= 0) {
 						al_design.addAll(initDesignData());
-					}*/
+					}
 					initHeadView();
 					if (al_show.size() <= 0) {
 						al_show.addAll(initItemsData());
 					}
 					updateListData();
-
-					loadListData();
 					break;
 			}
 		}
