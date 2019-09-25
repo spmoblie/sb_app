@@ -94,13 +94,14 @@ public class JsonUtils {
                     childEn.setTitle(item.getString("title"));
                     childEn.setPicUrl(item.getString("picUrl"));
                     childEn.setLinkUrl(item.getString("linkUrl"));
-                    childEn.setUserId(item.getString("adminId"));
+                    //childEn.setUserId(item.getString("adminId"));
                     childEn.setUserName(item.getString("userName"));
                     childEn.setUserHead(item.getString("avatar"));
                     childEn.setSynopsis(item.getString("synopsis"));
                     childEn.setDescription(item.getString("description"));
-                    childEn.setStartTime(item.getString("startTime"));
-                    childEn.setEndTime(item.getString("endTime"));
+                    childEn.setAddress(item.getString("address"));
+                    childEn.setStartTime(item.getString("startTimeValue"));
+                    childEn.setEndTime(item.getString("endTimeValue"));
                     childEn.setQuantity(item.getInt("quantity"));
                     childEn.setPeople(item.getInt("people"));
                     childEn.setStatus(item.getInt("status"));
@@ -200,10 +201,12 @@ public class JsonUtils {
             if (StringUtil.notNull(jsonData, "activityList")) {
                 JSONArray data = jsonData.getJSONArray("activityList");
                 ThemeEntity childEn;
+                UserInfoEntity userEn;
                 List<ThemeEntity> lists = new ArrayList<>();
                 for (int j = 0; j < data.length(); j++) {
                     JSONObject item = data.getJSONObject(j);
                     childEn = new ThemeEntity();
+                    userEn = new UserInfoEntity();
                     childEn.setId(item.getInt("id"));
                     childEn.setTitle(item.getString("title"));
                     childEn.setPicUrl(item.getString("picUrl"));
@@ -218,6 +221,13 @@ public class JsonUtils {
                     childEn.setPeople(item.getInt("people"));
                     childEn.setStatus(item.getInt("status"));
                     childEn.setFees(item.getDouble("fee"));
+
+                    userEn.setUserName(item.getString("name"));
+                    userEn.setGenderCode(item.getInt("gender"));
+                    userEn.setBirthday(item.getString("ageStage"));
+                    userEn.setUserPhone(item.getString("mobile"));
+                    childEn.setUserData(userEn);
+
                     lists.add(childEn);
                 }
                 mainEn.setLists(lists);

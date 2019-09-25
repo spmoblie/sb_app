@@ -27,6 +27,7 @@ import com.sbwg.sxb.R;
 import com.sbwg.sxb.activity.BaseFragment;
 import com.sbwg.sxb.activity.common.MyWebViewActivity;
 import com.sbwg.sxb.activity.common.ViewPagerActivity;
+import com.sbwg.sxb.activity.home.SignUpActivity;
 import com.sbwg.sxb.adapter.AdapterCallback;
 import com.sbwg.sxb.adapter.MineListAdapter;
 import com.sbwg.sxb.entity.BaseEntity;
@@ -186,7 +187,8 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
 			public void setOnClick(Object entity, int position, int type) {
 				ThemeEntity data = al_show.get(position);
 				if (data != null) {
-					openWebViewActivity(data.getTitle(), data.getLinkUrl());
+					openSignUpActivity(data);
+					//openWebViewActivity(data.getTitle(), data.getLinkUrl());
 				} else {
 					CommonTools.showToast(getString(R.string.toast_error_data_null));
 				}
@@ -214,7 +216,7 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
 			tv_user_id.setVisibility(View.VISIBLE);
 		} else {
 			iv_user_head.setImageResource(R.drawable.icon_default_head);
-			tv_user_name.setText("点击登录");
+			tv_user_name.setText(getString(R.string.mine_text_login));
 			tv_user_id.setText(getString(R.string.mine_text_user_id, "000000"));
 			tv_user_id.setVisibility(View.GONE);
 		}
@@ -225,10 +227,11 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
 		urlLists.clear();
 		ll_design_main.removeAllViews();
 
-		for (int i = 0; i < 4; i++) {
+		for (int i = 0; i < al_design.size(); i++) {
 			final int idsPosition = i;
-			DesignEntity items = new DesignEntity();
-			if (i < 3) {
+			//DesignEntity items = new DesignEntity();
+			DesignEntity items = al_design.get(i);
+			/*if (i < 3) {
 				if (i < al_design.size()) {
 					items = al_design.get(i);
 				} else {
@@ -236,12 +239,17 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
 				}
 			} else {
 				items.setImgUrl("");
-			}
+			}*/
 			if (items != null) {
 				String imgUrl = items.getImgUrl();
 				ImageView imageView = new ImageView(mContext);
 				imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-				if (i < 3) {
+				urlLists.add(imgUrl);
+				Glide.with(AppApplication.getAppContext())
+						.load(imgUrl)
+						.apply(AppApplication.getShowOptions())
+						.into(imageView);
+				/*if (i < 3) {
 					urlLists.add(imgUrl);
 					Glide.with(AppApplication.getAppContext())
 							.load(imgUrl)
@@ -249,18 +257,18 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
 							.into(imageView);
 				} else {
 					imageView.setImageDrawable(getResources().getDrawable(R.drawable.icon_more, null));
-				}
+				}*/
 				imageView.setOnClickListener(new OnClickListener() {
 					@Override
 					public void onClick(View v) {
-						if (idsPosition < 3) {
-							Intent intent = new Intent(mContext, ViewPagerActivity.class);
-							intent.putExtra(ViewPagerActivity.EXTRA_IMAGE_URLS, urlLists);
-							intent.putExtra(ViewPagerActivity.EXTRA_IMAGE_INDEX, idsPosition);
-							startActivity(intent);
+						Intent intent = new Intent(mContext, ViewPagerActivity.class);
+						intent.putExtra(ViewPagerActivity.EXTRA_IMAGE_URLS, urlLists);
+						intent.putExtra(ViewPagerActivity.EXTRA_IMAGE_INDEX, idsPosition);
+						startActivity(intent);
+						/*if (idsPosition < 3) {
 						} else {
 							CommonTools.showToast("没有更多了");
-						}
+						}*/
 					}
 				});
 				ll_design_main.addView(imageView, designItemLP);
@@ -281,10 +289,7 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
 				startActivity(new Intent(mContext, SettingActivity.class));
 				break;
 			case R.id.fg_mine_iv_debunk:
-				Intent intent = new Intent(getActivity(), MyWebViewActivity.class);
-				intent.putExtra("title", "吐个槽");
-				intent.putExtra("lodUrl", "https://support.qq.com/product/1221");
-				startActivity(intent);
+				openWebViewActivity(getString(R.string.setting_question), "https://support.qq.com/product/1221");
 				break;
 			case R.id.fg_mine_iv_head:
 			case R.id.fg_mine_tv_used_name:
@@ -311,6 +316,15 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
 		Intent intent = new Intent(getActivity(), MyWebViewActivity.class);
 		intent.putExtra("title", title);
 		intent.putExtra("lodUrl", url);
+		startActivity(intent);
+	}
+
+	// 跳转至报名页面
+	private void openSignUpActivity(ThemeEntity data) {
+		if (data == null) return;
+		Intent intent = new Intent(getActivity(), SignUpActivity.class);
+		intent.putExtra("type", 2);
+		intent.putExtra("data", data);
 		startActivity(intent);
 	}
 
@@ -557,15 +571,18 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
 		DesignEntity chEn_2 = new DesignEntity();
 		DesignEntity chEn_3 = new DesignEntity();
 		DesignEntity chEn_4 = new DesignEntity();
+		DesignEntity chEn_5 = new DesignEntity();
 
 		chEn_1.setImgUrl(AppConfig.IMAGE_URL+ "design_001.png");
-		//mainLists.add(chEn_1);
-		chEn_2.setImgUrl(null);
-		//mainLists.add(chEn_2);
-		chEn_3.setImgUrl(null);
-		//mainLists.add(chEn_3);
-		chEn_4.setImgUrl("");
-		//mainLists.add(chEn_4);
+		mainLists.add(chEn_1);
+		chEn_2.setImgUrl(AppConfig.IMAGE_URL+ "design_002.png");
+		mainLists.add(chEn_2);
+		chEn_3.setImgUrl(AppConfig.IMAGE_URL+ "design_003.png");
+		mainLists.add(chEn_3);
+		chEn_4.setImgUrl(AppConfig.IMAGE_URL+ "design_004.png");
+		mainLists.add(chEn_4);
+		chEn_5.setImgUrl(AppConfig.IMAGE_URL+ "design_005.png");
+		mainLists.add(chEn_5);
 
 		return mainLists;
 	}
@@ -610,9 +627,9 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
 						al_design.addAll(initDesignData());
 					}
 					initHeadView();
-					if (al_show.size() <= 0) {
+					/*if (al_show.size() <= 0) {
 						al_show.addAll(initItemsData());
-					}
+					}*/
 					updateListData();
 					break;
 			}

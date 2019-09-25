@@ -1,12 +1,16 @@
 apply plugin: 'com.android.application'
 
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
 android {
     signingConfigs {
         android_studio_app {
-            keyAlias 'sxb'
-            keyPassword '123456'
-            storeFile file('E:/Android/Tools/KeyStore/sxb.jks')
-            storePassword '123456'
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
         }
     }
     compileSdkVersion build_versions.target_sdk

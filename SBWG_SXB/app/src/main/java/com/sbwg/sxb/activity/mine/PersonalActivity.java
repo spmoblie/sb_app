@@ -439,13 +439,13 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
                 case AppConfig.REQUEST_SV_POST_USER_SAVE:
                     baseEn = JsonUtils.getUploadResult(jsonObject);
                     if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+                        AppApplication.updateUserData(true);
                         if (userKey.equals("avatar")) {
                             // 替换头像
                             Bitmap clipBitmap = BitmapFactory.decodeFile(clip_head_path);
                             AppApplication.saveBitmapFile(clipBitmap, new File(AppConfig.SAVE_USER_HEAD_PATH), 100);
                             // 刷新头像
                             setView();
-                            AppApplication.updateUserData(true);
                             CommonTools.showToast(getString(R.string.photo_upload_img_ok, getString(R.string.mine_head)), Toast.LENGTH_SHORT);
                         }
                     } else {

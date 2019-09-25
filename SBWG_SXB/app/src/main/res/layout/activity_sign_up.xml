@@ -118,7 +118,7 @@
                 app:layout_constraintTop_toTopOf="@id/sign_tv_cost"/>
 
             <TextView
-                android:id="@+id/sign_tv_explain"
+                android:id="@+id/sign_tv_show"
                 style="@style/SignUp_TextView"
                 android:layout_width="match_parent"
                 android:textColor="@color/app_color_black"
@@ -127,6 +127,17 @@
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/sign_tv_cost"/>
+
+            <TextView
+                android:id="@+id/sign_tv_explain"
+                style="@style/SignUp_TextView"
+                android:layout_width="match_parent"
+                android:textColor="@color/app_color_black"
+                android:padding="@dimen/margin_padding_15"
+                android:background="@drawable/shape_frame_style_1_20"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/sign_tv_show"/>
 
             <TextView
                 android:id="@+id/sign_tv_sign_up"

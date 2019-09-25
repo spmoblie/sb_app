@@ -388,6 +388,8 @@ public class UserManager {
 		saveUserBirthday("");
 		saveUserArea("");
 		saveUserMoney("0.00");
+		// 清除缓存的头像
+		CleanDataManager.cleanCustomCache(AppConfig.SAVE_USER_HEAD_PATH);
 	}
 
 	/**

@@ -162,6 +162,7 @@ public class SelectListActivity extends BaseActivity {
 				case AppConfig.REQUEST_SV_POST_USER_SAVE:
 					baseEn = JsonUtils.getUploadResult(jsonObject);
 					if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+						AppApplication.updateUserData(true);
 						isChange = true;
 						finish();
 					} else {

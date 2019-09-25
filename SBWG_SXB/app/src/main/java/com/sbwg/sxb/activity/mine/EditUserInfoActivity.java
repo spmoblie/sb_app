@@ -194,6 +194,7 @@ public class EditUserInfoActivity extends BaseActivity {
 					isPost = true;
 					baseEn = JsonUtils.getUploadResult(jsonObject);
 					if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+						AppApplication.updateUserData(true);
 						isChange = true;
 						finish();
 					} else {

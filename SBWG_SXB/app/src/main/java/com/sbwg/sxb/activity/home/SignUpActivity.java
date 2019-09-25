@@ -20,6 +20,7 @@ import com.sbwg.sxb.R;
 import com.sbwg.sxb.activity.BaseActivity;
 import com.sbwg.sxb.entity.BaseEntity;
 import com.sbwg.sxb.entity.ThemeEntity;
+import com.sbwg.sxb.entity.UserInfoEntity;
 import com.sbwg.sxb.utils.CommonTools;
 import com.sbwg.sxb.utils.ExceptionUtil;
 import com.sbwg.sxb.utils.JsonUtils;
@@ -73,6 +74,9 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
     @BindView(R.id.sign_tv_cost_pay)
     TextView sign_tv_cost_pay;
 
+    @BindView(R.id.sign_tv_show)
+    TextView sign_tv_show;
+
     @BindView(R.id.sign_tv_explain)
     TextView sign_tv_explain;
 
@@ -83,6 +87,7 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
 
     private ThemeEntity data;
     private double payAmount = 0.00;
+    private int pageType = 0; //2:查看我的活动
     private int courseId; //课程Id
     private int status; //1:报名中, 2:已截止
     private int genderCode = 1; //1:男, 2:女
@@ -93,27 +98,28 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
     private boolean isAge_Ok = false;
     private boolean isPhone_Ok = false;
     private boolean isPostData = false;
-    private String imgUrl, nameStr, ageStr, phoneStr, explainStr;
+    private String imgUrl, nameStr, ageStr, phoneStr, showStr, explainStr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
+        pageType = getIntent().getIntExtra("type", 0);
         data = (ThemeEntity) getIntent().getExtras().getSerializable("data");
         if (data != null) {
             courseId = data.getId();
             status = data.getStatus();
             imgUrl = data.getPicUrl();
             payAmount = data.getFees();
-            explainStr = data.getDescription();
+            explainStr = data.getSynopsis();
         }
 
         initView();
     }
 
     private void initView() {
-        setTitle("我要报名");
+        setTitle(getString(R.string.sign_up_title));
 
         selectGender(genderCode);
         sign_tv_gender_man.setOnClickListener(this);
@@ -145,7 +151,31 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
         }
         sign_tv_explain.setText(explainStr);
 
+        if (data != null) {
+            showStr = "时间：" + data.getStartTime() + " 至 " + data.getEndTime() +
+                    "\n" + "地点：" + data.getAddress() +
+                    "\n" + "人数：" + "已报名" + data.getPeople() + "人/限" + data.getQuantity() + "人报名";
+        } else {
+            showStr = "时间：\n地点：\n人数：";
+        }
+        sign_tv_show.setText(showStr);
+
         initEditText();
+
+        if (pageType == 2) { //查看我的活动
+            setTitle(getString(R.string.mine_text_activity));
+            UserInfoEntity userData = data.getUserData();
+            if (userData != null) {
+                sign_et_name.setFocusable(false);
+                sign_et_name.setFocusableInTouchMode(false);
+                sign_et_name.setText(userData.getUserName());
+                selectGender(userData.getGenderCode());
+                sign_et_age.setText(userData.getBirthday());
+                sign_et_phone.setFocusable(false);
+                sign_et_phone.setFocusableInTouchMode(false);
+                sign_et_phone.setText(userData.getUserPhone());
+            }
+        }
     }
 
     private void initEditText() {
@@ -250,12 +280,15 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.sign_tv_gender_man:
+                if (pageType == 2) return;
                 selectGender(1);
                 break;
             case R.id.sign_tv_gender_woman:
+                if (pageType == 2) return;
                 selectGender(2);
                 break;
             case R.id.sign_et_age:
+                if (pageType == 2) return;
                 selectAge();
                 break;
             case R.id.sign_tv_cost_pay:
@@ -266,7 +299,7 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
                 if (isSignUp) return; //已报名
                 if (isPay) {
                     if (isPay_Ok) {
-                        CommonTools.showToast("您已完成支付，请勿重复支付。");
+                        CommonTools.showToast(getString(R.string.sign_up_cost_pay_hint));
                     } else {
                         if (status == 1) { //报名中
                             payCostAmount();
@@ -368,8 +401,8 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
      */
     private void payCostAmount() {
         isPay_Ok = true;
-        CommonTools.showToast("模拟支付成功");
-        setPayState("已支付", false);
+        CommonTools.showToast(getString(R.string.sign_up_cost_pay_success));
+        setPayState(getString(R.string.sign_up_cost_pay_ok), false);
 
         checkState();
     }
@@ -385,13 +418,13 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
         if (isLogin()) {
             if (isSignUp) { //已报名
                 if (isPay) {
-                    setPayState("已支付", false);
+                    setPayState(getString(R.string.sign_up_cost_pay_ok), false);
                 }
-                setSignState("已报名", false);
+                setSignState(getString(R.string.sign_up_already), false);
             } else {
                 if (status == 2) { //已截止
                     setPayState(false);
-                    setSignState("已截止", false);
+                    setSignState(getString(R.string.sign_up_end), false);
                 }
             }
         }
@@ -443,10 +476,16 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
                     baseEn = JsonUtils.getBaseErrorData(jsonObject);
                     if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
                         isSignUp = true;
-                        setSignState("已报名", false);
+                        setSignState(getString(R.string.sign_up_already), false);
                         userManager.saveCourseId(courseId);
-                        CommonTools.showToast("报名成功");
                         AppApplication.updateMineData(true);
+                        CommonTools.showToast(getString(R.string.sign_up_success));
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                finish();
+                            }
+                        }, 500);
                     } else {
                         handleErrorCode(baseEn);
                     }

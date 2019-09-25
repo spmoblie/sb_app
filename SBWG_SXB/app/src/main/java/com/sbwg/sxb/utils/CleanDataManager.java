@@ -113,6 +113,7 @@ public class CleanDataManager {
     	cleanCustomCache(AppConfig.SAVE_PATH_APK_DICE);
     	cleanCustomCache(AppConfig.SAVE_PATH_TXT_DICE);
         cleanCustomCache(AppConfig.SAVE_PATH_IMAGE_DICE);
+        cleanCustomCache(AppConfig.SAVE_PATH_MEDIA_DICE);
     }
   
     /** 

@@ -106,15 +106,23 @@
     <string name="main_tab_text_3">我的</string>
 
     <!-- mine -->
+    <string name="mine_text_login">点击登录</string>
     <string name="mine_text_user_id">松小堡ID:%1$s</string>
+    <string name="mine_text_activity">我的活动</string>
 
     <!-- Sign Up -->
     <string name="sign_up_title">我要报名</string>
+    <string name="sign_up_already">您已报名</string>
+    <string name="sign_up_end">报名已截止</string>
+    <string name="sign_up_success">报名成功</string>
     <string name="sign_up_input_name">请输入姓名</string>
     <string name="sign_up_input_age">请选择年龄范围</string>
     <string name="sign_up_input_phone">请输入手机号码</string>
     <string name="sign_up_input_phone_error">请输入正确的11位数手机号码</string>
     <string name="sign_up_cost_pay">请在线支付%1$s元活动费用，谢谢！</string>
+    <string name="sign_up_cost_pay_ok">已支付</string>
+    <string name="sign_up_cost_pay_hint">您已完成支付，请勿重复支付。</string>
+    <string name="sign_up_cost_pay_success">模拟支付成功</string>
     <string name="sign_up_cost_show">活动费用：%1$s元</string>
     <string name="sign_up_cost_hint">活动说明：\n\n1、费用为大赛统一报名费，主要用于场地租赁和组织等;</string>
 
@@ -171,8 +179,9 @@
     <string name="photo_camera_authority">您已禁用摄像头权限，请到设置或手机管家的权限管理中重新配置权限。</string>
 
     <!-- Setting Page -->
-    <string name="setting_feedback">意见反馈</string>
     <string name="setting_about_us">关于我们</string>
+    <string name="setting_feedback">意见反馈</string>
+    <string name="setting_question">问题反馈</string>
     <string name="setting_version">检查更新</string>
     <string name="setting_push">消息推送</string>
     <string name="setting_logout">退出帐户</string>
@@ -222,6 +231,7 @@
     <string name="login_immediately_bound">立即绑定</string>
     <string name="login_no_account">没有账号？马上去注册</string>
     <string name="login_timeout">登录失效(T_T)请重新登录(^_^)</string>
+    <string name="login_treaty">登录即同意《松小堡用户协议》</string>
 
     <!-- Share -->
     <string name="share">分享</string>
