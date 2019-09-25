@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/ui_bg_color_nut"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/details_iv_show"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scaleType="centerCrop"
+                android:src="@drawable/icon_default_show" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_padding_15"
+                android:layout_marginLeft="@dimen/margin_padding_15"
+                android:text="活动信息"
+                android:textColor="@color/app_color_black"
+                android:textSize="@dimen/app_text_size_content"/>
+
+            <TextView
+                android:id="@+id/details_tv_information"
+                style="@style/SignUp_TextView"
+                android:layout_marginTop="0dp"
+                android:padding="@dimen/margin_padding_15"
+                android:textColor="@color/app_color_black" />
+
+            <ImageView
+                style="@style/set_line_horizontal_bg"
+                android:contentDescription="@string/desc" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_padding_15"
+                android:layout_marginLeft="@dimen/margin_padding_15"
+                android:text="活动简介"
+                android:textColor="@color/app_color_black"
+                android:textSize="@dimen/app_text_size_content"/>
+
+            <TextView
+                android:id="@+id/details_tv_explain"
+                style="@style/SignUp_TextView"
+                android:layout_marginTop="0dp"
+                android:padding="@dimen/margin_padding_15"
+                android:textColor="@color/app_color_black" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <ImageView
+        style="@style/set_line_horizontal_bg"
+        android:contentDescription="@string/desc" />
+
+    <TextView
+        android:id="@+id/details_tv_sign_up"
+        style="@style/common_text_button"
+        android:layout_width="match_parent"
+        android:layout_margin="@dimen/margin_padding_15"
+        android:background="@drawable/shape_button_style_2_20"
+        android:padding="@dimen/margin_padding_15"
+        android:text="@string/sign_up_title"
+        android:textColor="@color/app_color_white"
+        android:textSize="@dimen/app_text_size_button" />
+
+</LinearLayout>

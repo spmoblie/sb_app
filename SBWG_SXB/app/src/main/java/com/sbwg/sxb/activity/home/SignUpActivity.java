@@ -41,14 +41,8 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
     @BindView(R.id.sign_iv_show)
     ImageView sign_iv_show;
 
-    @BindView(R.id.sign_tv_name)
-    TextView sign_tv_name;
-
     @BindView(R.id.sign_et_name)
     EditText sign_et_name;
-
-    @BindView(R.id.sign_tv_gender)
-    TextView sign_tv_gender;
 
     @BindView(R.id.sign_tv_gender_man)
     TextView sign_tv_gender_man;
@@ -56,14 +50,8 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
     @BindView(R.id.sign_tv_gender_woman)
     TextView sign_tv_gender_woman;
 
-    @BindView(R.id.sign_tv_age)
-    TextView sign_tv_age;
-
     @BindView(R.id.sign_et_age)
     EditText sign_et_age;
-
-    @BindView(R.id.sign_tv_phone)
-    TextView sign_tv_phone;
 
     @BindView(R.id.sign_et_phone)
     EditText sign_et_phone;
@@ -74,8 +62,8 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
     @BindView(R.id.sign_tv_cost_pay)
     TextView sign_tv_cost_pay;
 
-    @BindView(R.id.sign_tv_show)
-    TextView sign_tv_show;
+    @BindView(R.id.sign_tv_information)
+    TextView sign_tv_information;
 
     @BindView(R.id.sign_tv_explain)
     TextView sign_tv_explain;
@@ -98,7 +86,7 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
     private boolean isAge_Ok = false;
     private boolean isPhone_Ok = false;
     private boolean isPostData = false;
-    private String imgUrl, nameStr, ageStr, phoneStr, showStr, explainStr;
+    private String imgUrl, nameStr, ageStr, phoneStr, informationStr, explainStr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -152,13 +140,13 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
         sign_tv_explain.setText(explainStr);
 
         if (data != null) {
-            showStr = "时间：" + data.getStartTime() + " 至 " + data.getEndTime() +
+            informationStr = "时间：" + data.getStartTime() + " 至 " + data.getEndTime() +
                     "\n" + "地点：" + data.getAddress() +
                     "\n" + "人数：" + "已报名" + data.getPeople() + "人/限" + data.getQuantity() + "人报名";
         } else {
-            showStr = "时间：\n地点：\n人数：";
+            informationStr = "时间：\n地点：\n人数：";
         }
-        sign_tv_show.setText(showStr);
+        sign_tv_information.setText(informationStr);
 
         initEditText();
 

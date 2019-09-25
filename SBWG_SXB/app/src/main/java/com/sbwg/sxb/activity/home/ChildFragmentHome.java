@@ -178,7 +178,8 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
                 if (data != null) {
                     switch (type) {
                         case 0:
-                            openWebviewActivity(data);
+                            //openWebviewActivity(data);
+                            openDetailsActivity(data);
                             break;
                         case 1: //报名
                             openSignUpActivity(data);
@@ -403,6 +404,14 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
         intent.putExtra("shareEn", shareEn);
         intent.putExtra("title", data.getTitle());
         intent.putExtra("lodUrl", data.getLinkUrl());
+        startActivity(intent);
+    }
+
+    // 跳转至详情页面
+    private void openDetailsActivity(ThemeEntity data) {
+        if (data == null) return;
+        Intent intent = new Intent(getActivity(), DetailsActivity.class);
+        intent.putExtra("data", data);
         startActivity(intent);
     }
 

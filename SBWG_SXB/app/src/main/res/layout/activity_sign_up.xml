@@ -27,12 +27,12 @@
             <TextView
                 android:id="@+id/sign_tv_name"
                 style="@style/SignUp_TextView"
-                android:text="姓名："/>
+                android:text="@string/sign_up_name"/>
 
             <EditText
                 android:id="@+id/sign_et_name"
                 style="@style/SignUp_EditText"
-                android:hint="必填"
+                android:hint="@string/must_fill"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="@id/sign_tv_name"
                 app:layout_constraintWidth_percent="0.8"/>
@@ -40,7 +40,7 @@
             <TextView
                 android:id="@+id/sign_tv_gender"
                 style="@style/SignUp_TextView"
-                android:text="性别："
+                android:text="@string/sign_up_gender"
                 app:layout_constraintTop_toBottomOf="@id/sign_tv_name" />
 
             <TextView
@@ -50,7 +50,7 @@
                 android:layout_marginLeft="@dimen/margin_padding_30"
                 android:paddingTop="@dimen/margin_padding_10"
                 android:paddingBottom="@dimen/margin_padding_10"
-                android:text="男"
+                android:text="@string/mine_gender_male"
                 app:layout_constraintLeft_toRightOf="@id/sign_tv_gender"
                 app:layout_constraintTop_toTopOf="@id/sign_tv_gender" />
 
@@ -61,20 +61,20 @@
                 android:layout_marginLeft="@dimen/margin_padding_30"
                 android:paddingTop="@dimen/margin_padding_10"
                 android:paddingBottom="@dimen/margin_padding_10"
-                android:text="女"
+                android:text="@string/mine_gender_female"
                 app:layout_constraintLeft_toRightOf="@id/sign_tv_gender_man"
                 app:layout_constraintTop_toTopOf="@id/sign_tv_gender" />
 
             <TextView
                 android:id="@+id/sign_tv_age"
                 style="@style/SignUp_TextView"
-                android:text="年龄："
+                android:text="@string/sign_up_age"
                 app:layout_constraintTop_toBottomOf="@id/sign_tv_gender"/>
 
             <EditText
                 android:id="@+id/sign_et_age"
                 style="@style/SignUp_EditText"
-                android:hint="必填"
+                android:hint="@string/must_fill"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="@id/sign_tv_age"
                 app:layout_constraintWidth_percent="0.8"/>
@@ -89,14 +89,14 @@
             <TextView
                 android:id="@+id/sign_tv_phone"
                 style="@style/SignUp_TextView"
-                android:text="电话："
+                android:text="@string/sign_up_phone"
                 app:layout_constraintTop_toBottomOf="@id/sign_tv_age"/>
 
             <EditText
                 android:id="@+id/sign_et_phone"
                 style="@style/SignUp_EditText"
                 android:maxLength="13"
-                android:hint="必填"
+                android:hint="@string/must_fill"
                 android:inputType="phone"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="@id/sign_tv_phone"
@@ -105,20 +105,20 @@
             <TextView
                 android:id="@+id/sign_tv_cost"
                 style="@style/SignUp_TextView"
-                android:text="活动费用：0.00元"
+                android:text="@string/sign_up_cost"
                 app:layout_constraintTop_toBottomOf="@id/sign_tv_phone"/>
 
             <TextView
                 android:id="@+id/sign_tv_cost_pay"
                 style="@style/common_text_button"
-                android:text="在线支付"
+                android:text="@string/sign_up_cost_pay_line"
                 android:textColor="@color/app_color_white"
                 android:background="@drawable/shape_button_style_3_20"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="@id/sign_tv_cost"/>
 
             <TextView
-                android:id="@+id/sign_tv_show"
+                android:id="@+id/sign_tv_information"
                 style="@style/SignUp_TextView"
                 android:layout_width="match_parent"
                 android:textColor="@color/app_color_black"
@@ -137,13 +137,13 @@
                 android:background="@drawable/shape_frame_style_1_20"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/sign_tv_show"/>
+                app:layout_constraintTop_toBottomOf="@id/sign_tv_information"/>
 
             <TextView
                 android:id="@+id/sign_tv_sign_up"
                 style="@style/common_text_button"
                 android:layout_width="match_parent"
-                android:text="立即报名"
+                android:text="@string/sign_up_now"
                 android:layout_marginTop="@dimen/margin_padding_30"
                 android:padding="@dimen/margin_padding_15"
                 android:textColor="@color/app_color_white"
