@@ -5,8 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -14,7 +14,6 @@ import com.sbwg.sxb.AppApplication;
 import com.sbwg.sxb.R;
 import com.sbwg.sxb.activity.BaseActivity;
 import com.sbwg.sxb.entity.ThemeEntity;
-import com.sbwg.sxb.entity.UserInfoEntity;
 import com.sbwg.sxb.utils.LogUtil;
 import com.sbwg.sxb.utils.StringUtil;
 
@@ -23,41 +22,48 @@ import rx.Observable;
 import rx.Observer;
 import rx.Subscriber;
 
-public class DetailsActivity extends BaseActivity implements View.OnClickListener {
+public class ReserveActivity extends BaseActivity implements View.OnClickListener {
 
-    String TAG = DetailsActivity.class.getSimpleName();
+    String TAG = ReserveActivity.class.getSimpleName();
 
-    @BindView(R.id.details_iv_show)
+    @BindView(R.id.reserve_iv_show)
     ImageView iv_show;
 
-    @BindView(R.id.details_tv_title)
+    @BindView(R.id.reserve_tv_title)
     TextView tv_title;
 
-    @BindView(R.id.details_tv_info)
+    @BindView(R.id.reserve_tv_author)
+    TextView tv_author;
+
+    @BindView(R.id.reserve_tv_info)
     TextView tv_info;
 
-    @BindView(R.id.details_tv_explain)
+    @BindView(R.id.reserve_tv_data)
+    TextView tv_data;
+
+    @BindView(R.id.reserve_tv_time)
+    TextView tv_time;
+
+    @BindView(R.id.reserve_tv_explain)
     TextView tv_explain;
 
-    @BindView(R.id.details_tv_sign_up)
+    @BindView(R.id.reserve_tv_sign_up)
     TextView tv_sign_up;
 
-    FrameLayout.LayoutParams showImgLP;
+    LinearLayout.LayoutParams showImgLP;
 
     private ThemeEntity data;
-    private int pageType = 0; //2:查看我的活动
     private int courseId; //课程Id
     private int status; //1:报名中, 2:已截止
     private boolean isSignUp = false;
     private boolean isOnClick = true;
-    private String imgUrl, titleStr, infoStr, explainStr;
+    private String imgUrl, titleStr, authorStr, infoStr, explainStr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_details);
+        setContentView(R.layout.activity_reserve);
 
-        pageType = getIntent().getIntExtra("type", 0);
         data = (ThemeEntity) getIntent().getExtras().getSerializable("data");
         if (data != null) {
             courseId = data.getId();
@@ -75,7 +81,7 @@ public class DetailsActivity extends BaseActivity implements View.OnClickListene
 
         tv_sign_up.setOnClickListener(this);
 
-        showImgLP = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        showImgLP = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         showImgLP.height = screenWidth / 2;
         iv_show.setLayoutParams(showImgLP);
         Glide.with(AppApplication.getAppContext())
@@ -84,18 +90,19 @@ public class DetailsActivity extends BaseActivity implements View.OnClickListene
                 .into(iv_show);
 
         tv_title.setText(titleStr);
+        tv_author.setText("此处是老师的信息");
 
-        String suit = getString(R.string.suit);
-        String time = getString(R.string.time);
-        String place = getString(R.string.place);
-        String number = getString(R.string.number_p);
+        String time = getString(R.string.reserve_time);
+        String place = getString(R.string.reserve_place);
+        String suit = getString(R.string.reserve_suit);
+        String empty = getString(R.string.reserve_empty);
         if (data != null) {
-            infoStr = time + getString(R.string.sign_up_info_time, data.getStartTime(), data.getEndTime()) +
+            infoStr = time + "09:00-10:30" + "  " + "11:00-12:30" +
+                    "\n" + empty + "13:00-14:30" + "  " + "16:00-17:30" +
                     "\n" + place + data.getAddress() +
-                    "\n" + number + getString(R.string.sign_up_info_number, data.getPeople(), data.getQuantity()) +
                     "\n" + suit + data.getSuit();
         } else {
-            infoStr = time + "\n" + place + "\n" + number + "\n" + suit;
+            infoStr = time + "\n" + place + "\n" + suit;
         }
         tv_info.setText(infoStr);
 
@@ -121,14 +128,6 @@ public class DetailsActivity extends BaseActivity implements View.OnClickListene
 
             }
         });
-
-        if (pageType == 2) { //查看我的活动
-            setTitle(getString(R.string.mine_text_activity));
-            UserInfoEntity userData = data.getUserData();
-            if (userData != null) {
-
-            }
-        }
     }
 
     private void setSignState(String text, boolean isState) {

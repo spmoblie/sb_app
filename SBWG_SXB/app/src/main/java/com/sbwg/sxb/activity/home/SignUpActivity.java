@@ -39,37 +39,34 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
     String TAG = SignUpActivity.class.getSimpleName();
 
     @BindView(R.id.sign_iv_show)
-    ImageView sign_iv_show;
+    ImageView iv_show;
 
     @BindView(R.id.sign_et_name)
-    EditText sign_et_name;
+    EditText et_name;
 
     @BindView(R.id.sign_tv_gender_man)
-    TextView sign_tv_gender_man;
+    TextView tv_gender_man;
 
     @BindView(R.id.sign_tv_gender_woman)
-    TextView sign_tv_gender_woman;
+    TextView tv_gender_woman;
 
     @BindView(R.id.sign_et_age)
-    EditText sign_et_age;
+    EditText et_age;
 
     @BindView(R.id.sign_et_phone)
-    EditText sign_et_phone;
+    EditText et_phone;
 
     @BindView(R.id.sign_tv_cost)
-    TextView sign_tv_cost;
+    TextView tv_cost;
 
     @BindView(R.id.sign_tv_cost_pay)
-    TextView sign_tv_cost_pay;
-
-    @BindView(R.id.sign_tv_information)
-    TextView sign_tv_information;
+    TextView tv_cost_pay;
 
     @BindView(R.id.sign_tv_explain)
-    TextView sign_tv_explain;
+    TextView tv_explain;
 
     @BindView(R.id.sign_tv_sign_up)
-    TextView sign_tv_sign_up;
+    TextView tv_sign_up;
 
     LinearLayout.LayoutParams showImgLP;
 
@@ -86,7 +83,7 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
     private boolean isAge_Ok = false;
     private boolean isPhone_Ok = false;
     private boolean isPostData = false;
-    private String imgUrl, nameStr, ageStr, phoneStr, informationStr, explainStr;
+    private String imgUrl, nameStr, ageStr, phoneStr, infoStr, explainStr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,7 +97,7 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
             status = data.getStatus();
             imgUrl = data.getPicUrl();
             payAmount = data.getFees();
-            explainStr = data.getSynopsis();
+            explainStr = data.getDescription();
         }
 
         initView();
@@ -110,43 +107,49 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
         setTitle(getString(R.string.sign_up_title));
 
         selectGender(genderCode);
-        sign_tv_gender_man.setOnClickListener(this);
-        sign_tv_gender_woman.setOnClickListener(this);
+        tv_gender_man.setOnClickListener(this);
+        tv_gender_woman.setOnClickListener(this);
 
-        sign_et_age.setFocusable(false);
-        sign_et_age.setFocusableInTouchMode(false);
-        sign_et_age.setOnClickListener(this);
+        et_age.setFocusable(false);
+        et_age.setFocusableInTouchMode(false);
+        et_age.setOnClickListener(this);
 
-        sign_tv_sign_up.setOnClickListener(this);
-        sign_tv_cost_pay.setOnClickListener(this);
+        tv_sign_up.setOnClickListener(this);
+        tv_cost_pay.setOnClickListener(this);
 
         showImgLP = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         showImgLP.height = screenWidth / 2;
-        sign_iv_show.setLayoutParams(showImgLP);
+        iv_show.setLayoutParams(showImgLP);
         Glide.with(AppApplication.getAppContext())
                 .load(imgUrl)
                 .apply(AppApplication.getShowOptions())
-                .into(sign_iv_show);
+                .into(iv_show);
 
         if (payAmount > 0) {
             isPay = true;
         }
         setPayState(isPay);
-        sign_tv_cost.setText(getString(R.string.sign_up_cost_show, String.valueOf(payAmount)));
+        tv_cost.setText(getString(R.string.sign_up_cost_show, String.valueOf(payAmount)));
 
+        String explain = getString(R.string.other);
+        String suit = getString(R.string.suit);
+        String time = getString(R.string.time);
+        String place = getString(R.string.place);
+        String number = getString(R.string.number_p);
+        if (data != null) {
+            infoStr = time + getString(R.string.sign_up_info_time, data.getStartTime(), data.getEndTime()) +
+                    "\n" + place + data.getAddress() +
+                    "\n" + number + getString(R.string.sign_up_info_number, data.getPeople(), data.getQuantity()) +
+                    "\n" + suit + data.getSuit();
+        } else {
+            infoStr = time + "\n" + place + "\n" + number + "\n" + suit;
+        }
         if (StringUtil.isNull(explainStr)) {
             explainStr = getString(R.string.sign_up_cost_hint);
         }
-        sign_tv_explain.setText(explainStr);
-
-        if (data != null) {
-            informationStr = "时间：" + data.getStartTime() + " 至 " + data.getEndTime() +
-                    "\n" + "地点：" + data.getAddress() +
-                    "\n" + "人数：" + "已报名" + data.getPeople() + "人/限" + data.getQuantity() + "人报名";
-        } else {
-            informationStr = "时间：\n地点：\n人数：";
-        }
-        sign_tv_information.setText(informationStr);
+        tv_explain.setText(getString(R.string.sign_up_show) + "\n" +
+                           "\n" + infoStr + "\n" +
+                           "\n" + explain + explainStr);
 
         initEditText();
 
@@ -154,20 +157,20 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
             setTitle(getString(R.string.mine_text_activity));
             UserInfoEntity userData = data.getUserData();
             if (userData != null) {
-                sign_et_name.setFocusable(false);
-                sign_et_name.setFocusableInTouchMode(false);
-                sign_et_name.setText(userData.getUserName());
+                et_name.setFocusable(false);
+                et_name.setFocusableInTouchMode(false);
+                et_name.setText(userData.getUserName());
                 selectGender(userData.getGenderCode());
-                sign_et_age.setText(userData.getBirthday());
-                sign_et_phone.setFocusable(false);
-                sign_et_phone.setFocusableInTouchMode(false);
-                sign_et_phone.setText(userData.getUserPhone());
+                et_age.setText(userData.getBirthday());
+                et_phone.setFocusable(false);
+                et_phone.setFocusableInTouchMode(false);
+                et_phone.setText(userData.getUserPhone());
             }
         }
     }
 
     private void initEditText() {
-        sign_et_name.addTextChangedListener(new TextWatcher() {
+        et_name.addTextChangedListener(new TextWatcher() {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
@@ -188,15 +191,15 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
                 checkState();
             }
         });
-        sign_et_phone.addTextChangedListener(new TextWatcher() {
+        et_phone.addTextChangedListener(new TextWatcher() {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (count == 1) {
                     int length = s.toString().length();
                     if (length == 3 || length == 8) {
-                        sign_et_phone.setText(s + " ");
-                        sign_et_phone.setSelection(sign_et_phone.getText().length());
+                        et_phone.setText(s + " ");
+                        et_phone.setSelection(et_phone.getText().length());
                     }
                 }
             }
@@ -247,10 +250,10 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
 
     private void setSignState(String text, boolean isState) {
         if (!StringUtil.isNull(text)) {
-            sign_tv_sign_up.setText(text);
+            tv_sign_up.setText(text);
         }
         isPostData = isState;
-        changeViewState(sign_tv_sign_up, isPostData);
+        changeViewState(tv_sign_up, isPostData);
     }
 
     private void setPayState(boolean isState) {
@@ -259,9 +262,9 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
 
     private void setPayState(String text, boolean isState) {
         if (!StringUtil.isNull(text)) {
-            sign_tv_cost_pay.setText(text);
+            tv_cost_pay.setText(text);
         }
-        changeViewState(sign_tv_cost_pay, isState);
+        changeViewState(tv_cost_pay, isState);
     }
 
     @Override
@@ -287,7 +290,7 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
                 if (isSignUp) return; //已报名
                 if (isPay) {
                     if (isPay_Ok) {
-                        CommonTools.showToast(getString(R.string.sign_up_cost_pay_hint));
+                        CommonTools.showToast(getString(R.string.pay_hint));
                     } else {
                         if (status == 1) { //报名中
                             payCostAmount();
@@ -314,12 +317,12 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
     private void selectGender(int code) {
         switch (code) {
             case 1:
-                sign_tv_gender_man.setSelected(true);
-                sign_tv_gender_woman.setSelected(false);
+                tv_gender_man.setSelected(true);
+                tv_gender_woman.setSelected(false);
                 break;
             case 2:
-                sign_tv_gender_man.setSelected(false);
-                sign_tv_gender_woman.setSelected(true);
+                tv_gender_man.setSelected(false);
+                tv_gender_woman.setSelected(true);
                 break;
         }
         genderCode = code;
@@ -336,8 +339,8 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
             public void handleMessage(Message msg) {
                 if (msg == null) return;
                 String ageStr = items[msg.what].toString();
-                if (sign_et_age != null) {
-                    sign_et_age.setText(ageStr);
+                if (et_age != null) {
+                    et_age.setText(ageStr);
                     isAge_Ok = true;
                 }
             }
@@ -350,19 +353,19 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
      */
     private boolean checkData() {
         // 姓名非空
-        nameStr = sign_et_name.getText().toString();
+        nameStr = et_name.getText().toString();
         if (nameStr.isEmpty()) {
             CommonTools.showToast(getString(R.string.sign_up_input_name));
             return false;
         }
         // 年龄非空
-        ageStr = sign_et_age.getText().toString();
+        ageStr = et_age.getText().toString();
         if (ageStr.isEmpty()) {
             CommonTools.showToast(getString(R.string.sign_up_input_age));
             return false;
         }
         // 电话非空
-        phoneStr = sign_et_phone.getText().toString();
+        phoneStr = et_phone.getText().toString();
         if (phoneStr.isEmpty()) {
             CommonTools.showToast(getString(R.string.sign_up_input_phone));
             return false;
@@ -389,8 +392,8 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
      */
     private void payCostAmount() {
         isPay_Ok = true;
-        CommonTools.showToast(getString(R.string.sign_up_cost_pay_success));
-        setPayState(getString(R.string.sign_up_cost_pay_ok), false);
+        CommonTools.showToast(getString(R.string.pay_success));
+        setPayState(getString(R.string.pay_ok), false);
 
         checkState();
     }
@@ -406,7 +409,7 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
         if (isLogin()) {
             if (isSignUp) { //已报名
                 if (isPay) {
-                    setPayState(getString(R.string.sign_up_cost_pay_ok), false);
+                    setPayState(getString(R.string.pay_ok), false);
                 }
                 setSignState(getString(R.string.sign_up_already), false);
             } else {

@@ -13,8 +13,10 @@ public class ThemeEntity extends BaseEntity {
 	private String userId; //用户Id
 	private String userName; //用户名称
 	private String userHead; //用户头像
-	private String synopsis; //简介
+	private String suit; //适用人群
+	private String synopsis; //活动简介
 	private String description; //活动说明
+	private String area; //活动地区
 	private String address; //活动地址
 	private String startTime; //活动开始时间
 	private String endTime; //活动结束时间
@@ -96,6 +98,14 @@ public class ThemeEntity extends BaseEntity {
 		this.userHead = userHead;
 	}
 
+	public String getSuit() {
+		return suit;
+	}
+
+	public void setSuit(String suit) {
+		this.suit = suit;
+	}
+
 	public String getSynopsis() {
 		return synopsis;
 	}
@@ -110,6 +120,14 @@ public class ThemeEntity extends BaseEntity {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public String getArea() {
+		return area;
+	}
+
+	public void setArea(String area) {
+		this.area = area;
 	}
 
 	public String getAddress() {

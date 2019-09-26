@@ -214,7 +214,8 @@ public class JsonUtils {
                     childEn.setUserId(item.getString("adminId"));
                     childEn.setSynopsis(item.getString("synopsis"));
                     childEn.setDescription(item.getString("description"));
-                    childEn.setAddress(item.getString("areaName"));
+                    childEn.setArea(item.getString("areaName"));
+                    childEn.setAddress(item.getString("address"));
                     childEn.setStartTime(item.getString("startTime"));
                     childEn.setEndTime(item.getString("endTime"));
                     childEn.setQuantity(item.getInt("quantity"));

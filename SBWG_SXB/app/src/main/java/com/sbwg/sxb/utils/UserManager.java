@@ -390,6 +390,8 @@ public class UserManager {
 		saveUserMoney("0.00");
 		// 清除缓存的头像
 		CleanDataManager.cleanCustomCache(AppConfig.SAVE_USER_HEAD_PATH);
+		// 清除缓存的数据
+		CleanDataManager.cleanCustomCache(AppConfig.SAVE_USER_DATA_PATH);
 	}
 
 	/**

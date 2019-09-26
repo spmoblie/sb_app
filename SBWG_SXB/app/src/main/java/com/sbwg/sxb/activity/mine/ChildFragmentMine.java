@@ -7,7 +7,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.support.v4.util.ArrayMap;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -53,185 +52,188 @@ import java.util.HashMap;
 import java.util.List;
 
 import butterknife.ButterKnife;
+import rx.Observable;
+import rx.Observer;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 
 @SuppressLint("NewApi")
 public class ChildFragmentMine extends BaseFragment implements OnClickListener {
 
-	String TAG = ChildFragmentMine.class.getSimpleName();
+    String TAG = ChildFragmentMine.class.getSimpleName();
 
-	PullToRefreshListView refresh_lv;
-	ListView mListView;
-	RoundImageView iv_user_head;
-	ImageView iv_setting, iv_debunk;
-	TextView tv_user_name, tv_user_id;
-	LinearLayout ll_design_main, ll_head_main;
+    PullToRefreshListView refresh_lv;
+    ListView mListView;
+    RoundImageView iv_user_head;
+    ImageView iv_setting, iv_debunk;
+    TextView tv_user_name, tv_user_id;
+    LinearLayout ll_design_main, ll_head_main;
 
-	private Context mContext;
-	private AdapterCallback apCallback;
-	private MineListAdapter lv_Adapter;
-	private LinearLayout.LayoutParams designItemLP;
+    private Context mContext;
+    private AdapterCallback apCallback;
+    private MineListAdapter lv_Adapter;
+    private LinearLayout.LayoutParams designItemLP;
 
-	private UserInfoEntity infoEn;
-	private UserManager userManager;
-	private int data_total = 0; //数据总量
-	private int current_Page = 1;  //当前列表加载页
-	private boolean isDesignOk = false;
-	private ArrayList<String> urlLists = new ArrayList<String>();
-	private ArrayList<DesignEntity> al_design = new ArrayList<>();
-	private ArrayList<ThemeEntity> al_show = new ArrayList<>();
-	private ArrayMap<String, Boolean> am_show = new ArrayMap<>();
+    private UserInfoEntity infoEn;
+    private UserManager userManager;
+    private int data_total = 0; //数据总量
+    private int current_Page = 1;  //当前列表加载页
+    private boolean isDesignOk = false;
+    private ArrayList<String> urlLists = new ArrayList<String>();
+    private ArrayList<DesignEntity> al_design = new ArrayList<>();
+    private ArrayList<ThemeEntity> al_show = new ArrayList<>();
+    private ArrayMap<String, Boolean> am_show = new ArrayMap<>();
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-	}
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
 
-	/**
-	 * 与Activity不一样
-	 */
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    /**
+     * 与Activity不一样
+     */
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-		LogUtil.i(LogUtil.LOG_TAG, TAG + ": onCreate");
-		mContext = getActivity();
-		userManager = UserManager.getInstance();
+        LogUtil.i(LogUtil.LOG_TAG, TAG + ": onCreate");
+        mContext = getActivity();
+        userManager = UserManager.getInstance();
 
-		AppApplication.updateMineData(true);
+        AppApplication.updateMineData(true);
 
-		int screenWidth = AppApplication.getSharedPreferences().getInt(AppConfig.KEY_SCREEN_WIDTH, 0);
-		int goodsWidth = (screenWidth - CommonTools.dpToPx(mContext, 16)) / 3;
-		designItemLP = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-		designItemLP.setMargins(8, 0, 8, 0);
-		designItemLP.width = goodsWidth;
-		designItemLP.height = goodsWidth;
+        int screenWidth = AppApplication.getSharedPreferences().getInt(AppConfig.KEY_SCREEN_WIDTH, 0);
+        int goodsWidth = (screenWidth - CommonTools.dpToPx(mContext, 16)) / 3;
+        designItemLP = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        designItemLP.setMargins(8, 0, 8, 0);
+        designItemLP.width = goodsWidth;
+        designItemLP.height = goodsWidth;
 
-		View view = null;
-		try {
-			view = inflater.inflate(R.layout.fragment_layout_mine, null);
-			//Butter Knife初始化
-			ButterKnife.bind(this, view);
+        View view = null;
+        try {
+            view = inflater.inflate(R.layout.fragment_layout_mine, null);
+            //Butter Knife初始化
+            ButterKnife.bind(this, view);
 
-			findViewById(view);
-			initView();
-		} catch (Exception e) {
-			ExceptionUtil.handle(e);
-		}
-		return view;
-	}
+            findViewById(view);
+            initView();
+        } catch (Exception e) {
+            ExceptionUtil.handle(e);
+        }
+        return view;
+    }
 
-	private void findViewById(View view) {
-		refresh_lv = view.findViewById(R.id.fg_mine_refresh_lv);
+    private void findViewById(View view) {
+        refresh_lv = view.findViewById(R.id.fg_mine_refresh_lv);
 
-		ll_head_main = (LinearLayout) FrameLayout.inflate(mContext, R.layout.layout_list_head_mine, null);
-		iv_setting = ll_head_main.findViewById(R.id.fg_mine_iv_setting);
-		iv_debunk = ll_head_main.findViewById(R.id.fg_mine_iv_debunk);
-		iv_user_head = ll_head_main.findViewById(R.id.fg_mine_iv_head);
-		tv_user_name = ll_head_main.findViewById(R.id.fg_mine_tv_used_name);
-		tv_user_id = ll_head_main.findViewById(R.id.fg_mine_tv_used_id);
-		ll_design_main = ll_head_main.findViewById(R.id.fg_mine_ll_design_main);
-	}
+        ll_head_main = (LinearLayout) FrameLayout.inflate(mContext, R.layout.layout_list_head_mine, null);
+        iv_setting = ll_head_main.findViewById(R.id.fg_mine_iv_setting);
+        iv_debunk = ll_head_main.findViewById(R.id.fg_mine_iv_debunk);
+        iv_user_head = ll_head_main.findViewById(R.id.fg_mine_iv_head);
+        tv_user_name = ll_head_main.findViewById(R.id.fg_mine_tv_used_name);
+        tv_user_id = ll_head_main.findViewById(R.id.fg_mine_tv_used_id);
+        ll_design_main = ll_head_main.findViewById(R.id.fg_mine_ll_design_main);
+    }
 
-	private void initView() {
-		iv_setting.setOnClickListener(this);
-		iv_debunk.setOnClickListener(this);
-		iv_user_head.setOnClickListener(this);
-		tv_user_name.setOnClickListener(this);
+    private void initView() {
+        iv_setting.setOnClickListener(this);
+        iv_debunk.setOnClickListener(this);
+        iv_user_head.setOnClickListener(this);
+        tv_user_name.setOnClickListener(this);
 
-		loadDBData();
-		initListView();
-	}
+        initListView();
+        loadDBData();
+    }
 
-	private void initListView() {
-		refresh_lv.setPullRefreshEnabled(true); //下拉刷新
-		refresh_lv.setPullLoadEnabled(true); //上拉加载
-		refresh_lv.setScrollLoadEnabled(false); //底部翻页
-		refresh_lv.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
-			@Override
-			public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-				// 下拉刷新
-				new Handler().postDelayed(new Runnable() {
+    private void initListView() {
+        refresh_lv.setPullRefreshEnabled(true); //下拉刷新
+        refresh_lv.setPullLoadEnabled(true); //上拉加载
+        refresh_lv.setScrollLoadEnabled(false); //底部翻页
+        refresh_lv.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
+            @Override
+            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+                // 下拉刷新
+                new Handler().postDelayed(new Runnable() {
 
-					@Override
-					public void run() {
-						refresh_lv.onPullDownRefreshComplete();
-					}
-				}, AppConfig.LOADING_TIME);
-			}
+                    @Override
+                    public void run() {
+                        refresh_lv.onPullDownRefreshComplete();
+                    }
+                }, AppConfig.LOADING_TIME);
+            }
 
-			@Override
-			public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-				// 加载更多
-				new Handler().postDelayed(new Runnable() {
+            @Override
+            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+                // 加载更多
+                new Handler().postDelayed(new Runnable() {
 
-					@Override
-					public void run() {
-						if (!isStopLoadMore(al_show.size(), data_total, 0)) {
-							loadListData();
-						} else {
-							refresh_lv.onPullUpRefreshComplete();
-							refresh_lv.setHasMoreData(false);
-						}
-					}
-				}, AppConfig.LOADING_TIME);
-			}
-		});
-		mListView = refresh_lv.getRefreshableView();
-		mListView.setDivider(null);
-		mListView.setVerticalScrollBarEnabled(false);
+                    @Override
+                    public void run() {
+                        if (!isStopLoadMore(al_show.size(), data_total, 0)) {
+                            loadListData();
+                        } else {
+                            refresh_lv.onPullUpRefreshComplete();
+                            refresh_lv.setHasMoreData(false);
+                        }
+                    }
+                }, AppConfig.LOADING_TIME);
+            }
+        });
+        mListView = refresh_lv.getRefreshableView();
+        mListView.setDivider(null);
+        mListView.setVerticalScrollBarEnabled(false);
 
-		// 配置适配器
-		apCallback = new AdapterCallback() {
+        // 配置适配器
+        apCallback = new AdapterCallback() {
 
-			@Override
-			public void setOnClick(Object entity, int position, int type) {
-				ThemeEntity data = al_show.get(position);
-				if (data != null) {
-					openSignUpActivity(data);
-					//openWebViewActivity(data.getTitle(), data.getLinkUrl());
-				} else {
-					CommonTools.showToast(getString(R.string.toast_error_data_null));
-				}
-			}
-		};
-		lv_Adapter = new MineListAdapter(mContext, al_show, apCallback);
-		mListView.setAdapter(lv_Adapter);
+            @Override
+            public void setOnClick(Object entity, int position, int type) {
+                ThemeEntity data = al_show.get(position);
+                if (data != null) {
+                    openSignUpActivity(data);
+                    //openWebViewActivity(data.getTitle(), data.getLinkUrl());
+                } else {
+                    CommonTools.showToast(getString(R.string.toast_error_data_null));
+                }
+            }
+        };
+        lv_Adapter = new MineListAdapter(mContext, al_show, apCallback);
+        mListView.setAdapter(lv_Adapter);
 
-		// 添加头部View
-		mListView.addHeaderView(ll_head_main);
-		initHeadView();
-	}
+        // 添加头部View
+        mListView.addHeaderView(ll_head_main);
+    }
 
-	private void initHeadView() {
-		if (infoEn != null) {
-			Bitmap headBitmap = BitmapFactory.decodeFile(AppConfig.SAVE_USER_HEAD_PATH);
-			if (headBitmap != null) {
-				iv_user_head.setImageBitmap(headBitmap);
-			} else {
-				loadUserHead();
-				iv_user_head.setImageResource(R.drawable.icon_default_head);
-			}
-			tv_user_name.setText(infoEn.getUserNick());
-			tv_user_id.setText(getString(R.string.mine_text_user_id, infoEn.getUserId()));
-			tv_user_id.setVisibility(View.VISIBLE);
-		} else {
-			iv_user_head.setImageResource(R.drawable.icon_default_head);
-			tv_user_name.setText(getString(R.string.mine_text_login));
-			tv_user_id.setText(getString(R.string.mine_text_user_id, "000000"));
-			tv_user_id.setVisibility(View.GONE);
-		}
-		initDesignView();
-	}
+    private void initUserView() {
+        if (infoEn != null) {
+            Bitmap headBitmap = BitmapFactory.decodeFile(AppConfig.SAVE_USER_HEAD_PATH);
+            if (headBitmap != null) {
+                iv_user_head.setImageBitmap(headBitmap);
+            } else {
+                loadUserHead();
+                iv_user_head.setImageResource(R.drawable.icon_default_head);
+            }
+            tv_user_name.setText(infoEn.getUserNick());
+            tv_user_id.setText(getString(R.string.mine_text_user_id, infoEn.getUserId()));
+            tv_user_id.setVisibility(View.VISIBLE);
+        } else {
+            iv_user_head.setImageResource(R.drawable.icon_default_head);
+            tv_user_name.setText(getString(R.string.mine_text_login));
+            tv_user_id.setText(getString(R.string.mine_text_user_id, "000000"));
+            tv_user_id.setVisibility(View.GONE);
+        }
+    }
 
-	private void initDesignView() {
-		urlLists.clear();
-		ll_design_main.removeAllViews();
+    private void initDesignView() {
+        urlLists.clear();
+        ll_design_main.removeAllViews();
 
-		for (int i = 0; i < al_design.size(); i++) {
-			final int idsPosition = i;
-			//DesignEntity items = new DesignEntity();
-			DesignEntity items = al_design.get(i);
-			/*if (i < 3) {
+        for (int i = 0; i < al_design.size(); i++) {
+            final int idsPosition = i;
+            //DesignEntity items = new DesignEntity();
+            DesignEntity items = al_design.get(i);
+            /*if (i < 3) {
 				if (i < al_design.size()) {
 					items = al_design.get(i);
 				} else {
@@ -240,15 +242,15 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
 			} else {
 				items.setImgUrl("");
 			}*/
-			if (items != null) {
-				String imgUrl = items.getImgUrl();
-				ImageView imageView = new ImageView(mContext);
-				imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-				urlLists.add(imgUrl);
-				Glide.with(AppApplication.getAppContext())
-						.load(imgUrl)
-						.apply(AppApplication.getShowOptions())
-						.into(imageView);
+            if (items != null) {
+                String imgUrl = items.getImgUrl();
+                ImageView imageView = new ImageView(mContext);
+                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                urlLists.add(imgUrl);
+                Glide.with(AppApplication.getAppContext())
+                        .load(imgUrl)
+                        .apply(AppApplication.getShowOptions())
+                        .into(imageView);
 				/*if (i < 3) {
 					urlLists.add(imgUrl);
 					Glide.with(AppApplication.getAppContext())
@@ -258,383 +260,390 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
 				} else {
 					imageView.setImageDrawable(getResources().getDrawable(R.drawable.icon_more, null));
 				}*/
-				imageView.setOnClickListener(new OnClickListener() {
-					@Override
-					public void onClick(View v) {
-						Intent intent = new Intent(mContext, ViewPagerActivity.class);
-						intent.putExtra(ViewPagerActivity.EXTRA_IMAGE_URLS, urlLists);
-						intent.putExtra(ViewPagerActivity.EXTRA_IMAGE_INDEX, idsPosition);
-						startActivity(intent);
+                imageView.setOnClickListener(new OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(mContext, ViewPagerActivity.class);
+                        intent.putExtra(ViewPagerActivity.EXTRA_IMAGE_URLS, urlLists);
+                        intent.putExtra(ViewPagerActivity.EXTRA_IMAGE_INDEX, idsPosition);
+                        startActivity(intent);
 						/*if (idsPosition < 3) {
 						} else {
 							CommonTools.showToast("没有更多了");
 						}*/
-					}
-				});
-				ll_design_main.addView(imageView, designItemLP);
-			}
-		}
-	}
+                    }
+                });
+                ll_design_main.addView(imageView, designItemLP);
+            }
+        }
+    }
 
-	private void updateListData() {
-		if (lv_Adapter != null) {
-			lv_Adapter.updateAdapter(al_show);
-		}
-	}
+    private void updateListData() {
+        if (lv_Adapter != null) {
+            lv_Adapter.updateAdapter(al_show);
+        }
+    }
 
-	@Override
-	public void onClick(View v) {
-		switch (v.getId()) {
-			case R.id.fg_mine_iv_setting:
-				startActivity(new Intent(mContext, SettingActivity.class));
-				break;
-			case R.id.fg_mine_iv_debunk:
-				openWebViewActivity(getString(R.string.setting_question), "https://support.qq.com/product/1221");
-				break;
-			case R.id.fg_mine_iv_head:
-			case R.id.fg_mine_tv_used_name:
-				if (isLogin()) {
-					openPersonalActivity();
-				} else {
-					openLoginActivity();
-				}
-				break;
-		}
-	}
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.fg_mine_iv_setting:
+                startActivity(new Intent(mContext, SettingActivity.class));
+                break;
+            case R.id.fg_mine_iv_debunk:
+                openWebViewActivity(getString(R.string.setting_question), "https://support.qq.com/product/1221");
+                break;
+            case R.id.fg_mine_iv_head:
+            case R.id.fg_mine_tv_used_name:
+                if (isLogin()) {
+                    openPersonalActivity();
+                } else {
+                    openLoginActivity();
+                }
+                break;
+        }
+    }
 
-	/**
-	 * 跳转个人专页
-	 */
-	private void openPersonalActivity() {
-		Intent intent = new Intent(mContext, PersonalActivity.class);
-		intent.putExtra("data", infoEn);
-		startActivity(intent);
-	}
+    /**
+     * 跳转个人专页
+     */
+    private void openPersonalActivity() {
+        Intent intent = new Intent(mContext, PersonalActivity.class);
+        intent.putExtra("data", infoEn);
+        startActivity(intent);
+    }
 
-	// 跳转至WebView
-	private void openWebViewActivity(String title, String url) {
-		Intent intent = new Intent(getActivity(), MyWebViewActivity.class);
-		intent.putExtra("title", title);
-		intent.putExtra("lodUrl", url);
-		startActivity(intent);
-	}
+    // 跳转至WebView
+    private void openWebViewActivity(String title, String url) {
+        Intent intent = new Intent(getActivity(), MyWebViewActivity.class);
+        intent.putExtra("title", title);
+        intent.putExtra("lodUrl", url);
+        startActivity(intent);
+    }
 
-	// 跳转至报名页面
-	private void openSignUpActivity(ThemeEntity data) {
-		if (data == null) return;
-		Intent intent = new Intent(getActivity(), SignUpActivity.class);
-		intent.putExtra("type", 2);
-		intent.putExtra("data", data);
-		startActivity(intent);
-	}
+    // 跳转至报名页面
+    private void openSignUpActivity(ThemeEntity data) {
+        if (data == null) return;
+        Intent intent = new Intent(getActivity(), SignUpActivity.class);
+        intent.putExtra("type", 2);
+        intent.putExtra("data", data);
+        startActivity(intent);
+    }
 
-	@Override
-	public void onResume() {
-		LogUtil.i(LogUtil.LOG_TAG, TAG + ": onResume");
-		// 页面开始
-		AppApplication.onPageStart(TAG);
-		// 用户信息
-		if (isLogin()) {
-			infoEn = getUserInfoData();
-			if (shared.getBoolean(AppConfig.KEY_UPDATE_USER_DATA, true)) {
-				requestGetUserInfo();
-			}
-			if (shared.getBoolean(AppConfig.KEY_UPDATE_MINE_DATA, true)) {
-				resetData();
-			}
-		}
-		super.onResume();
-	}
+    @Override
+    public void onResume() {
+        LogUtil.i(LogUtil.LOG_TAG, TAG + ": onResume");
+        // 页面开始
+        AppApplication.onPageStart(TAG);
+        // 用户信息
+        if (isLogin()) {
+            if (shared.getBoolean(AppConfig.KEY_UPDATE_USER_DATA, true)) {
+                loadUserInfo();
+            }
+            if (shared.getBoolean(AppConfig.KEY_UPDATE_MINE_DATA, true)) {
+                resetData();
+            }
+            if (infoEn == null) {
+                infoEn = getUserInfoData();
+                initUserView();
+            }
+        }
+        super.onResume();
+    }
 
-	@Override
-	public void onPause() {
-		LogUtil.i(LogUtil.LOG_TAG, TAG + ": onPause");
-		// 页面结束
-		AppApplication.onPageEnd(getActivity(), TAG);
-		super.onPause();
-	}
+    @Override
+    public void onPause() {
+        LogUtil.i(LogUtil.LOG_TAG, TAG + ": onPause");
+        // 页面结束
+        AppApplication.onPageEnd(getActivity(), TAG);
+        super.onPause();
+    }
 
-	@Override
-	public void onDestroy() {
-		LogUtil.i(LogUtil.LOG_TAG, TAG + ": onDestroy");
-		super.onDestroy();
-	}
+    @Override
+    public void onDestroy() {
+        LogUtil.i(LogUtil.LOG_TAG, TAG + ": onDestroy");
+        super.onDestroy();
+    }
 
-	@Override
-	public void setMenuVisibility(boolean menuVisible) {
-		super.setMenuVisibility(menuVisible);
-		if (this.getView() != null)
-			this.getView().setVisibility(menuVisible ? View.VISIBLE : View.GONE);
-	}
+    @Override
+    public void setMenuVisibility(boolean menuVisible) {
+        super.setMenuVisibility(menuVisible);
+        if (this.getView() != null)
+            this.getView().setVisibility(menuVisible ? View.VISIBLE : View.GONE);
+    }
 
-	/**
-	 * 重置数据
-	 */
-	private void resetData() {
-		current_Page = 1;
-		isDesignOk = false;
-		loadListData();
-	}
+    /**
+     * 重置数据
+     */
+    private void resetData() {
+        current_Page = 1;
+        isDesignOk = false;
+        loadListData();
+    }
 
-	/**
-	 * 下载用户头像
-	 */
-	private void loadUserHead() {
-		if (infoEn != null) {
-			new Thread(new Runnable() {
-				@Override
-				public void run() {
-					FutureTarget<Bitmap> ft = Glide
-							.with(AppApplication.getAppContext())
-							.asBitmap()
-							.load(infoEn.getUserHead())
-							.submit();
-					try{
-						Bitmap headBitmap = ft.get();
-						if (headBitmap != null) {
-							AppApplication.saveBitmapFile(headBitmap, new File(AppConfig.SAVE_USER_HEAD_PATH), 100);
-							mHandler.sendEmptyMessage(1);
-						}
-					}catch (Exception e) {
-						ExceptionUtil.handle(e);
-					}
-				}
-			}).start();
-		}
-	}
+    /**
+     * 获取用户信息
+     */
+    private void loadUserInfo() {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("userId", userManager.getUserId());
+        loadSVData(AppConfig.URL_USER_GET, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_POST_USER_GET);
+    }
 
-	/**
-	 * 获取用户信息
-	 */
-	private void requestGetUserInfo() {
-		HashMap<String, String> map = new HashMap<>();
-		map.put("userId", userManager.getUserId());
-		loadSVData(AppConfig.URL_USER_GET, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_POST_USER_GET);
-	}
+    /**
+     * 加载头部展示数据
+     */
+    private void loadDesignData() {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("userId", userManager.getUserId());
+        loadSVData(AppConfig.URL_DESIGN_ALL, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_POST_DESIGN_ALL);
+    }
 
-	/**
-	 * 加载头部展示数据
-	 */
-	private void loadDesignData() {
-		HashMap<String, String> map = new HashMap<>();
-		map.put("userId", userManager.getUserId());
-		loadSVData(AppConfig.URL_DESIGN_ALL, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_POST_DESIGN_ALL);
-	}
+    /**
+     * 加载列表翻页数据
+     */
+    private void loadListData() {
+        if (!isDesignOk) { //加载设计数据
+            loadDesignData();
+        }
+        HashMap<String, String> map = new HashMap<>();
+        map.put("page", String.valueOf(current_Page));
+        map.put("size", "10");
+        map.put("userId", userManager.getUserId());
+        loadSVData(AppConfig.URL_USER_ACTIVITY, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_POST_USER_ACTIVITY);
+    }
 
-	/**
-	 * 加载列表翻页数据
-	 */
-	private void loadListData() {
-		if (!isDesignOk) { //加载设计数据
-			loadDesignData();
-		}
-		HashMap<String, String> map = new HashMap<>();
-		map.put("page", String.valueOf(current_Page));
-		map.put("size", "10");
-		map.put("userId", userManager.getUserId());
-		loadSVData(AppConfig.URL_USER_ACTIVITY, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_POST_USER_ACTIVITY);
-	}
+    @Override
+    protected void callbackData(JSONObject jsonObject, int dataType) {
+        BaseEntity baseEn = null;
+        try {
+            switch (dataType) {
+                case AppConfig.REQUEST_SV_POST_USER_GET:
+                    baseEn = JsonUtils.getUserInfo(jsonObject);
+                    if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+                        userManager.saveUserInfo((UserInfoEntity) baseEn.getData());
+                        infoEn = getUserInfoData();
+                        initUserView();
+                        loadUserHead();
+                        AppApplication.updateUserData(false);
+                    }
+                    break;
+                case AppConfig.REQUEST_SV_POST_DESIGN_ALL:
+                    baseEn = JsonUtils.getDesignData(jsonObject);
+                    if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+                        List<DesignEntity> lists = baseEn.getLists();
+                        if (lists != null && lists.size() > 0) {
+                            al_design.clear();
+                            al_design.addAll(lists);
+                        }
+                        isDesignOk = true;
+                        initDesignView();
+                        FileManager.writeFileSaveObject(AppConfig.mineHeadFileName, baseEn, 2);
+                    }
+                    break;
+                case AppConfig.REQUEST_SV_POST_USER_ACTIVITY:
+                    baseEn = JsonUtils.getMineList(jsonObject);
+                    if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+                        data_total = baseEn.getDataTotal(); //加载更多数据控制符
+                        List<ThemeEntity> lists = baseEn.getLists();
+                        if (lists != null) {
+                            if (lists.size() > 0) {
+                                if (current_Page == 1) { //缓存第1页数据
+                                    al_show.clear();
+                                    am_show.clear();
+                                    ThemeEntity listEn = new ThemeEntity();
+                                    listEn.setMainLists(lists);
+                                    FileManager.writeFileSaveObject(AppConfig.mineListFileName, listEn, 2);
+                                }
+                                List<BaseEntity> newLists = addNewEntity(al_show, lists, am_show);
+                                if (newLists != null) {
+                                    addNewShowLists(newLists);
+                                    current_Page++;
+                                }
+                                updateListData();
+                                LogUtil.i("Retrofit", TAG + " List数据加载成功 —> " + current_Page + " size = " + newLists.size());
+                            } else {
+                                LogUtil.i("Retrofit", TAG + " List数据没有更多 —> " + current_Page);
+                            }
+                        } else {
+                            loadFailHandle();
+                            LogUtil.i("Retrofit", TAG + " List数据加载失败 —> " + current_Page);
+                        }
+                        AppApplication.updateMineData(false);
+                    }
+                    break;
+            }
+            handleErrorCode(baseEn);
+        } catch (Exception e) {
+            loadFailHandle();
+            ExceptionUtil.handle(e);
+        }
+    }
 
-	@Override
-	protected void callbackData(JSONObject jsonObject, int dataType) {
-		BaseEntity baseEn = null;
-		try {
-			switch (dataType) {
-				case AppConfig.REQUEST_SV_POST_USER_GET:
-					baseEn = JsonUtils.getUserInfo(jsonObject);
-					if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
-						userManager.saveUserInfo((UserInfoEntity) baseEn.getData());
-						infoEn = getUserInfoData();
-						initHeadView();
-						loadUserHead();
-						AppApplication.updateUserData(false);
-					}
-					break;
-				case AppConfig.REQUEST_SV_POST_DESIGN_ALL:
-					baseEn = JsonUtils.getDesignData(jsonObject);
-					if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
-						al_design.addAll(baseEn.getLists());
-						initDesignView();
-						isDesignOk = true;
-						FileManager.writeFileSaveObject(AppConfig.mineHeadFileName, baseEn, true);
-					}
-					break;
-				case AppConfig.REQUEST_SV_POST_USER_ACTIVITY:
-					baseEn = JsonUtils.getMineList(jsonObject);
-					if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
-						data_total = baseEn.getDataTotal(); //加载更多数据控制符
-						List<ThemeEntity> lists = baseEn.getLists();
-						if (lists != null) {
-							if (lists.size() > 0) {
-								if (current_Page == 1) { //缓存第1页数据
-									al_show.clear();
-									ThemeEntity listEn = new ThemeEntity();
-									listEn.setMainLists(lists);
-									FileManager.writeFileSaveObject(AppConfig.mineListFileName, listEn, true);
-								}
-								List<BaseEntity> newLists = addNewEntity(al_show, lists, am_show);
-								if (newLists != null) {
-									addNewShowLists(newLists);
-									current_Page++;
-								}
-								updateListData();
-								LogUtil.i("Retrofit", TAG + " List数据加载成功 —> " + current_Page);
-							} else {
-								LogUtil.i("Retrofit", TAG + " List数据没有更多 —> " + current_Page);
-							}
-						} else {
-							loadFailHandle();
-							LogUtil.i("Retrofit", TAG + " List数据加载失败 —> " + current_Page);
-						}
-						AppApplication.updateMineData(false);
-					}
-					break;
-			}
-			handleErrorCode(baseEn);
-		} catch (Exception e) {
-			loadFailHandle();
-			ExceptionUtil.handle(e);
-		}
-	}
+    private void addNewShowLists(List<BaseEntity> showLists) {
+        al_show.clear();
+        for (int i = 0; i < showLists.size(); i++) {
+            al_show.add((ThemeEntity) showLists.get(i));
+        }
+    }
 
-	private void addNewShowLists(List<BaseEntity> showLists) {
-		al_show.clear();
-		for (int i = 0; i < showLists.size(); i++) {
-			al_show.add((ThemeEntity) showLists.get(i));
-		}
-	}
+    @Override
+    protected void loadFailHandle() {
+        super.loadFailHandle();
+    }
 
-	@Override
-	protected void loadFailHandle() {
-		super.loadFailHandle();
-	}
+    /**
+     * 显示缓冲动画
+     */
+    @Override
+    protected void startAnimation() {
+        super.startAnimation();
+    }
 
-	/**
-	 * 显示缓冲动画
-	 */
-	@Override
-	protected void startAnimation() {
-		super.startAnimation();
-	}
+    /**
+     * 停止缓冲动画
+     */
+    @Override
+    protected void stopAnimation() {
+        super.stopAnimation();
+        refresh_lv.onPullUpRefreshComplete();
+    }
 
-	/**
-	 * 停止缓冲动画
-	 */
-	@Override
-	protected void stopAnimation() {
-		super.stopAnimation();
-		refresh_lv.onPullUpRefreshComplete();
-	}
+    /**
+     * 加载本地缓存数据
+     */
+    private void loadDBData() {
+        Observable.create(new Observable.OnSubscribe<BaseEntity>() {
+            @Override
+            public void call(Subscriber<? super BaseEntity> subscriber) {
+                // 我的设计
+                BaseEntity baseEn = (BaseEntity) FileManager.readFileSaveObject(AppConfig.mineHeadFileName, 2);
+                if (baseEn == null) {
+                    baseEn = new BaseEntity();
+                }
+                // 我的活动
+                ThemeEntity listEn = (ThemeEntity) FileManager.readFileSaveObject(AppConfig.mineListFileName, 2);
+                baseEn.setData(listEn);
+                subscriber.onNext(baseEn);
+            }
+        })
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<BaseEntity>() {
+            @Override
+            public void onCompleted() {
 
-	/**
-	 * 加载本地缓存数据
-	 */
-	private void loadDBData() {
-		new Thread(new Runnable() {
-			@Override
-			public void run() {
-				// 我的设计
-				Object headObj = FileManager.readFileSaveObject(AppConfig.mineHeadFileName, true);
-				if (headObj != null) {
-					BaseEntity baseEn = (BaseEntity) headObj;
-					al_design.addAll(baseEn.getLists());
-				}
-				// 我的活动
-				Object listObj = FileManager.readFileSaveObject(AppConfig.mineListFileName, true);
-				if (listObj != null) {
-					ThemeEntity listEn = (ThemeEntity) listObj;
-					al_show.addAll(listEn.getMainLists());
-				}
-				mHandler.sendEmptyMessage(1);
-			}
-		}).start();
-	}
-	/**
-	 * 获取缓存用户信息
-	 */
-	private UserInfoEntity getUserInfoData() {
-		UserInfoEntity userEn = new UserInfoEntity();
-		userEn.setUserId(userManager.getUserId());
-		userEn.setUserHead(userManager.getUserHead());
-		userEn.setUserNick(userManager.getUserNick());
-		userEn.setGenderCode(userManager.getUserGender());
-		userEn.setBirthday(userManager.getUserBirthday());
-		userEn.setUserArea(userManager.getUserArea());
-		userEn.setUserIntro(userManager.getUserIntro());
-		userEn.setUserEmail(userManager.getUserEmail());
-		return userEn;
-	}
+            }
 
-	private List<DesignEntity> initDesignData() {
-		List<DesignEntity> mainLists = new ArrayList<>();
-		DesignEntity chEn_1 = new DesignEntity();
-		DesignEntity chEn_2 = new DesignEntity();
-		DesignEntity chEn_3 = new DesignEntity();
-		DesignEntity chEn_4 = new DesignEntity();
-		DesignEntity chEn_5 = new DesignEntity();
+            @Override
+            public void onError(Throwable e) {
 
-		chEn_1.setImgUrl(AppConfig.IMAGE_URL+ "design_001.png");
-		mainLists.add(chEn_1);
-		chEn_2.setImgUrl(AppConfig.IMAGE_URL+ "design_002.png");
-		mainLists.add(chEn_2);
-		chEn_3.setImgUrl(AppConfig.IMAGE_URL+ "design_003.png");
-		mainLists.add(chEn_3);
-		chEn_4.setImgUrl(AppConfig.IMAGE_URL+ "design_004.png");
-		mainLists.add(chEn_4);
-		chEn_5.setImgUrl(AppConfig.IMAGE_URL+ "design_005.png");
-		mainLists.add(chEn_5);
+            }
 
-		return mainLists;
-	}
+            @Override
+            public void onNext(BaseEntity baseEn) {
+                if (baseEn != null) {
+                    if (baseEn.getLists() != null) {
+                        al_design.addAll(baseEn.getLists());
+                    }
+                    ThemeEntity listEn = (ThemeEntity) baseEn.getData();
+                    if (listEn != null) {
+                        al_show.addAll(listEn.getMainLists());
+                    }
+                }
+                if (al_design.size() <= 0) {
+                    al_design.addAll(initDesignData());
+                }
+                initDesignView();
+                updateListData();
+            }
+        });
+    }
 
-	private List<ThemeEntity> initItemsData() {
-		List<ThemeEntity> mainLists = new ArrayList<>();
-		ThemeEntity isEn_1 = new ThemeEntity();
-		ThemeEntity isEn_2 = new ThemeEntity();
-		ThemeEntity isEn_3 = new ThemeEntity();
+    /**
+     * 下载用户头像
+     */
+    private void loadUserHead() {
+        if (infoEn != null) {
+            Observable.create(new Observable.OnSubscribe<Bitmap>() {
+                @Override
+                public void call(Subscriber<? super Bitmap> subscriber) {
+                    FutureTarget<Bitmap> ft = Glide
+                            .with(AppApplication.getAppContext())
+                            .asBitmap()
+                            .load(infoEn.getUserHead())
+                            .submit();
+                    try {
+                        Bitmap headBitmap = ft.get();
+                        if (headBitmap != null) {
+                            AppApplication.saveBitmapFile(headBitmap, new File(AppConfig.SAVE_USER_HEAD_PATH), 100);
+                            subscriber.onNext(headBitmap);
+                        }
+                    } catch (Exception e) {
+                        ExceptionUtil.handle(e);
+                    }
+                }
+            })
+                    .subscribeOn(Schedulers.newThread())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Observer<Bitmap>() {
+                        @Override
+                        public void onCompleted() {
 
-		isEn_1.setPicUrl(AppConfig.IMAGE_URL+ "items_001.png");
-		isEn_1.setLinkUrl("https://mp.weixin.qq.com/s/tMi8j08jb7oEHKtmYqdl0g");
-		isEn_1.setTitle("北欧教育 | 比NOKIA更震惊世界的芬兰品牌");
-		isEn_1.setStartTime("2019-10-16");
-		isEn_1.setAddress("深圳");
-		isEn_1.setPeople(6);
-		mainLists.add(isEn_1);
-		isEn_2.setPicUrl(AppConfig.IMAGE_URL+ "items_002.png");
-		isEn_2.setLinkUrl("https://mp.weixin.qq.com/s/p1j-Mv0yAW45tkVvjqLBTA");
-		isEn_2.setTitle("全球都在追捧的北欧教育，到底有哪些秘密？");
-		isEn_2.setStartTime("2019-10-18");
-		isEn_2.setAddress("深圳");
-		isEn_2.setPeople(8);
-		//mainLists.add(isEn_2);
-		isEn_3.setPicUrl(AppConfig.IMAGE_URL+ "items_003.png");
-		isEn_3.setLinkUrl("https://mp.weixin.qq.com/s/Ln0z3fqwBxT9dUP_dJL1uQ");
-		isEn_3.setTitle("上海妈妈在挪威，享受北欧式教育的幸福");
-		isEn_3.setStartTime("2019-10-20");
-		isEn_3.setAddress("深圳");
-		isEn_3.setPeople(10);
-		//mainLists.add(isEn_3);
+                        }
 
-		return mainLists;
-	}
+                        @Override
+                        public void onError(Throwable e) {
 
-	private Handler mHandler = new Handler() {
-		@Override
-		public void handleMessage(Message mMsg) {
-			switch (mMsg.what) {
-				case 1:
-					if (al_design.size() <= 0) {
-						al_design.addAll(initDesignData());
-					}
-					initHeadView();
-					/*if (al_show.size() <= 0) {
-						al_show.addAll(initItemsData());
-					}*/
-					updateListData();
-					break;
-			}
-		}
-	};
+                        }
+
+                        @Override
+                        public void onNext(Bitmap bitmap) {
+                            if (bitmap != null) {
+                                iv_user_head.setImageBitmap(bitmap);
+                            }
+                        }
+                    });
+        }
+    }
+
+    /**
+     * 获取缓存用户信息
+     */
+    private UserInfoEntity getUserInfoData() {
+        UserInfoEntity userEn = new UserInfoEntity();
+        userEn.setUserId(userManager.getUserId());
+        userEn.setUserHead(userManager.getUserHead());
+        userEn.setUserNick(userManager.getUserNick());
+        userEn.setGenderCode(userManager.getUserGender());
+        userEn.setBirthday(userManager.getUserBirthday());
+        userEn.setUserArea(userManager.getUserArea());
+        userEn.setUserIntro(userManager.getUserIntro());
+        userEn.setUserEmail(userManager.getUserEmail());
+        return userEn;
+    }
+
+    private List<DesignEntity> initDesignData() {
+        List<DesignEntity> mainLists = new ArrayList<>();
+        DesignEntity chEn_1 = new DesignEntity();
+        DesignEntity chEn_2 = new DesignEntity();
+        DesignEntity chEn_3 = new DesignEntity();
+        DesignEntity chEn_4 = new DesignEntity();
+        DesignEntity chEn_5 = new DesignEntity();
+
+        chEn_1.setImgUrl(AppConfig.IMAGE_URL + "design_001.png");
+        mainLists.add(chEn_1);
+        chEn_2.setImgUrl(AppConfig.IMAGE_URL + "design_002.png");
+        mainLists.add(chEn_2);
+        chEn_3.setImgUrl(AppConfig.IMAGE_URL + "design_003.png");
+        mainLists.add(chEn_3);
+        chEn_4.setImgUrl(AppConfig.IMAGE_URL + "design_004.png");
+        mainLists.add(chEn_4);
+        chEn_5.setImgUrl(AppConfig.IMAGE_URL + "design_005.png");
+        mainLists.add(chEn_5);
+
+        return mainLists;
+    }
 
 }
 

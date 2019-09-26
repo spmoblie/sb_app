@@ -5,7 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@color/ui_bg_color_app"
-    android:padding="@dimen/margin_padding_15">
+    android:paddingTop="@dimen/margin_padding_15"
+    android:paddingLeft="@dimen/margin_padding_15"
+    android:paddingRight="@dimen/margin_padding_15">
 
     <ImageView
         android:id="@+id/fg_home_item_iv"
@@ -44,7 +46,7 @@
         android:id="@+id/fg_home_item_tv_sign"
         style="@style/home_item_text"
         android:layout_width="@dimen/margin_padding_100"
-        android:layout_height="@dimen/margin_padding_80"
+        android:layout_height="@dimen/margin_padding_70"
         android:layout_marginTop="0dp"
         android:gravity="right|center"
         android:text="@string/sign_up_title"

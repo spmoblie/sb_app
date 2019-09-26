@@ -168,6 +168,9 @@ public class AppManager {
 	 */
 	public void AppLogout(Context ctx) {
 		clearAllCookie(ctx);
+		// 清除临时缓存
+		CleanDataManager.cleanAppTemporaryData(ctx);
+		// 清除用户数据
 		UserManager.getInstance().clearUserLoginInfo(ctx);
 	}
 	

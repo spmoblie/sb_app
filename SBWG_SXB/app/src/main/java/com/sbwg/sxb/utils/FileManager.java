@@ -109,18 +109,26 @@ public class FileManager {
 	 * 
 	 * @param fileName 文件名
 	 * @param obj 写入对象
-	 * @param isSave 是否保存
+	 * @param pathType 0 : AppConfig.SAVE_PATH_TXT_DICE
+	 *                 1 : AppConfig.SAVE_PATH_TXT_SAVE
+	 *                 2 : AppConfig.SAVE_USER_DATA_PATH
 	 */
-    public static void writeFileSaveObject(String fileName, Object obj, boolean isSave) {
+    public static void writeFileSaveObject(String fileName, Object obj, int pathType) {
 		if (StringUtil.isNull(fileName) || obj == null) return;
 		ObjectOutputStream objOut = null;
     	FileOutputStream fos = null;
         try {
-        	String path = "";
-			if (isSave) {
-				path = AppConfig.SAVE_PATH_TXT_SAVE + fileName;
-			}else {
-				path = AppConfig.SAVE_PATH_TXT_DICE + fileName;
+        	String path;
+			switch (pathType) {
+				case 1:
+					path = AppConfig.SAVE_PATH_TXT_SAVE + fileName;
+					break;
+				case 2:
+					path = AppConfig.SAVE_USER_DATA_PATH + fileName;
+					break;
+				default:
+					path = AppConfig.SAVE_PATH_TXT_DICE + fileName;
+					break;
 			}
 			checkFilePath(path);
 			fos = new FileOutputStream(new File(path));
@@ -147,18 +155,27 @@ public class FileManager {
 	 * 读取数据（Object）
 	 * 
 	 * @param fileName 文件名
-	 * @param isSave 是否保存
+	 * @param pathType 0 : AppConfig.SAVE_PATH_TXT_DICE
+	 *                 1 : AppConfig.SAVE_PATH_TXT_SAVE
+	 *                 2 : AppConfig.SAVE_USER_DATA_PATH
+	 * @return
 	 */
-    public static Object readFileSaveObject(String fileName, boolean isSave) {
+    public static Object readFileSaveObject(String fileName, int pathType) {
         Object temp = null;
         FileInputStream in = null;
         ObjectInputStream objIn = null;
         try {
-        	String path = "";
-        	if (isSave) {
-				path = AppConfig.SAVE_PATH_TXT_SAVE + fileName;
-			}else {
-				path = AppConfig.SAVE_PATH_TXT_DICE + fileName;
+			String path;
+			switch (pathType) {
+				case 1:
+					path = AppConfig.SAVE_PATH_TXT_SAVE + fileName;
+					break;
+				case 2:
+					path = AppConfig.SAVE_USER_DATA_PATH + fileName;
+					break;
+				default:
+					path = AppConfig.SAVE_PATH_TXT_DICE + fileName;
+					break;
 			}
         	File file = new File(path);
 			if (file.exists()) {

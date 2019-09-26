@@ -123,24 +123,26 @@ public class AppConfig {
 	// 我的列表数据文件名
 	public static final String mineListFileName = "mine_list";
 	// 缓存路径应用名称
-	public static final String SAVE_APP_NAME = "SBWG";
+	public static final String SAVE_APP_NAME = "Song_Bao";
 	// 内置SD卡路径
-	public static final String SDPATH = Environment.getExternalStorageDirectory().toString() + "/" + SAVE_APP_NAME + "/";
-	// Apk临时缓存路径（应用关闭时须清除）
-	public static final String SAVE_PATH_APK_DICE = SDPATH + "apk/" + SAVE_APP_NAME + "_AD/";
+	public static final String SD_PATH = Environment.getExternalStorageDirectory().toString() + "/" + SAVE_APP_NAME + "/";
+	// Apk临时缓存路径（应用关闭时清除）
+	public static final String SAVE_PATH_APK_DICE = SD_PATH + "apk/" + SAVE_APP_NAME + "_AD/";
 	// 文本长久保存路径
-	public static final String SAVE_PATH_TXT_SAVE = SDPATH + "txt/" + SAVE_APP_NAME + "_TS/";
-	// 文本临时缓存路径（应用关闭时须清除）
-	public static final String SAVE_PATH_TXT_DICE = SDPATH + "txt/" + SAVE_APP_NAME + "_TD/";
+	public static final String SAVE_PATH_TXT_SAVE = SD_PATH + "txt/" + SAVE_APP_NAME + "_TS/";
+	// 文本临时缓存路径（应用关闭时清除）
+	public static final String SAVE_PATH_TXT_DICE = SD_PATH + "txt/" + SAVE_APP_NAME + "_TD/";
 	// 图片长久保存路径
-	public static final String SAVE_PATH_IMAGE_SAVE = SDPATH + "image/" + SAVE_APP_NAME + "_IS/";
-	// 图片临时缓存路径（应用关闭时须清除）
-	public static final String SAVE_PATH_IMAGE_DICE = SDPATH + "image/" + SAVE_APP_NAME + "_ID/";
+	public static final String SAVE_PATH_IMAGE_SAVE = SD_PATH + "image/" + SAVE_APP_NAME + "_IS/";
+	// 图片临时缓存路径（应用关闭时清除）
+	public static final String SAVE_PATH_IMAGE_DICE = SD_PATH + "image/" + SAVE_APP_NAME + "_ID/";
 	// 媒体长久保存路径
-	public static final String SAVE_PATH_MEDIA_SAVE = SDPATH + "media/" + SAVE_APP_NAME + "_MS/";
-	// 媒体临时缓存路径（应用关闭时须清除）
-	public static final String SAVE_PATH_MEDIA_DICE = SDPATH + "media/" + SAVE_APP_NAME + "_MD/";
+	public static final String SAVE_PATH_MEDIA_SAVE = SD_PATH + "media/" + SAVE_APP_NAME + "_MS/";
+	// 媒体临时缓存路径（应用关闭时清除）
+	public static final String SAVE_PATH_MEDIA_DICE = SD_PATH + "media/" + SAVE_APP_NAME + "_MD/";
 
+	// 用户数据存储路径
+	public static final String SAVE_USER_DATA_PATH = SD_PATH + "user/";
 	// 用户头像存储路径
 	public static final String SAVE_USER_HEAD_PATH = SAVE_PATH_IMAGE_SAVE + "user_head.png";
 

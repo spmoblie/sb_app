@@ -34,6 +34,12 @@
     <string name="sign_semicolon">：</string>
     <string name="time_divided">:</string>
     <string name="multiplication">×</string>
+    <string name="explain">说明：</string>
+    <string name="other">其他：</string>
+    <string name="suit">适用：</string>
+    <string name="time">时间：</string>
+    <string name="place">地点：</string>
+    <string name="number_p">人数：</string>
     <string name="number_0">0</string>
     <string name="price_00">0.00</string>
     <string name="num_total">共%1$d件</string>
@@ -53,7 +59,6 @@
     <string name="must_fill">必填</string>
     <string name="not_empty">不能为空</string>
     <string name="setting">设置</string>
-    <string name="other">其它</string>
     <string name="error">错误</string>
     <string name="post">发布</string>
     <string name="title">标题</string>
@@ -110,6 +115,13 @@
     <string name="mine_text_login">点击登录</string>
     <string name="mine_text_user_id">松小堡ID:%1$s</string>
     <string name="mine_text_activity">我的活动</string>
+    <string name="mine_text_sign_num">%1$d人已报名</string>
+
+    <!-- reserve -->
+    <string name="reserve_time">预约时段：</string>
+    <string name="reserve_place">课程地点：</string>
+    <string name="reserve_suit">适用人群：</string>
+    <string name="reserve_empty">\t\t\t\t\t\t\t\t\t\t</string>
 
     <!-- Sign Up -->
     <string name="sign_up_title">我要报名</string>
@@ -125,32 +137,17 @@
     <string name="sign_up_phone">电话：</string>
     <string name="sign_up_input_phone">请输入手机号码</string>
     <string name="sign_up_input_phone_error">请输入正确的11位数手机号码</string>
+    <string name="sign_up_show">活动说明：</string>
+    <string name="sign_up_explain">活动简介</string>
+    <string name="sign_up_info">活动信息</string>
+    <string name="sign_up_info_time">%1$s 至 %2$s</string>
+    <string name="sign_up_info_number">"已报名%1$d人/限%2$d人报名"</string>
     <string name="sign_up_cost">活动费用：0.00元</string>
     <string name="sign_up_cost_pay">请在线支付%1$s元活动费用，谢谢！</string>
-    <string name="sign_up_cost_pay_ok">已支付</string>
-    <string name="sign_up_cost_pay_line">在线支付</string>
-    <string name="sign_up_cost_pay_hint">您已完成支付，请勿重复支付。</string>
-    <string name="sign_up_cost_pay_success">模拟支付成功</string>
     <string name="sign_up_cost_show">活动费用：%1$s元</string>
-    <string name="sign_up_cost_hint">活动说明：\n\n1、费用为大赛统一报名费，主要用于场地租赁和组织等;</string>
-
-    <!-- title -->
-    <string name="title_sort">分类</string>
-    <string name="title_screen">筛选</string>
-    <string name="title_qr_code_scan">二维码扫描</string>
-    <string name="title_fragment_four">我的购物车</string>
-    <string name="title_product_detail">商品详情</string>
-    <string name="title_login">用户登录</string>
-    <string name="title_register">邮箱注册</string>
-    <string name="title_delivery_info">收货信息</string>
-    <string name="title_order_confirm">确认订单</string>
-    <string name="title_order_detail">订单详情</string>
+    <string name="sign_up_cost_hint">费用为大赛统一报名费，主要用于场地租赁和组织等;</string>
 
     <!-- Find -->
-    <string name="find_top_tab_1">全部</string>
-    <string name="find_top_tab_2">视频</string>
-    <string name="find_top_tab_3">专题</string>
-    <string name="find_no_data">暂无发现，\n可能是栏目出错啦！</string>
     <string name="find_comment">评论</string>
     <string name="find_comment_participate">参与评论</string>
     <string name="find_comment_total">共%1$d条评论</string>
@@ -263,6 +260,12 @@
     <string name="share_msg_copy_link_ok">链接已复制</string>
     <string name="share_msg_entity_error">分享参数出错，请重新加载页面。</string>
 
+    <!-- Pay -->
+    <string name="pay_ok">已支付</string>
+    <string name="pay_line">在线支付</string>
+    <string name="pay_hint">您已完成支付，请勿重复支付。</string>
+    <string name="pay_success">模拟支付成功</string>
+
     <!-- Address -->
     <string name="address_store_pickup">上门自取</string>
     <string name="address_store_pickup_phone">请输入本人联系电话</string>
@@ -303,18 +306,9 @@
     <string name="mine_area">地区</string>
     <string name="mine_intro">签名</string>
     <string name="mine_intro_hint">填写个性签名更容易获得别人的关注哦</string>
-    <string name="mine_revenue">已收入</string>
-    <string name="mine_wait_pending">待收入</string>
-    <string name="mine_wait_pay">待付款</string>
-    <string name="mine_wait_delivery">配货中</string>
-    <string name="mine_wait_receive">已发货</string>
-    <string name="mine_repair_return">退换货</string>
     <string name="mine_account_money">我的钱包</string>
     <string name="mine_my_address">地址管理</string>
     <string name="mine_collection">我的关注</string>
-    <string name="mine_concerns_goods">关注的商品</string>
-    <string name="mine_history">浏览记录</string>
-    <string name="mine_history_no_data">浏览商品的记录</string>
     <string name="mine_call">联系客服</string>
     <string name="mine_submit_audit">提交审核</string>
     <string name="mine_change_nick">修改昵称</string>

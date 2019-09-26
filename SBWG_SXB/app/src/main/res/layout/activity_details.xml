@@ -16,24 +16,41 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <ImageView
-                android:id="@+id/details_iv_show"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:scaleType="centerCrop"
-                android:src="@drawable/icon_default_show" />
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/details_iv_show"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/icon_default_show" />
+
+                <TextView
+                    android:id="@+id/details_tv_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/shape_frame_style_4_00"
+                    android:layout_gravity="bottom"
+                    android:padding="@dimen/margin_padding_10"
+                    android:textColor="@color/app_color_white"
+                    android:textSize="@dimen/app_text_size_title"
+                    android:textStyle="bold" />
+
+            </FrameLayout>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_padding_15"
                 android:layout_marginLeft="@dimen/margin_padding_15"
-                android:text="活动信息"
+                android:layout_marginTop="@dimen/margin_padding_15"
+                android:text="@string/sign_up_info"
                 android:textColor="@color/app_color_black"
-                android:textSize="@dimen/app_text_size_content"/>
+                android:textSize="@dimen/app_text_size_content" />
 
             <TextView
-                android:id="@+id/details_tv_information"
+                android:id="@+id/details_tv_info"
                 style="@style/SignUp_TextView"
                 android:layout_marginTop="0dp"
                 android:padding="@dimen/margin_padding_15"
@@ -46,11 +63,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_padding_15"
                 android:layout_marginLeft="@dimen/margin_padding_15"
-                android:text="活动简介"
+                android:layout_marginTop="@dimen/margin_padding_15"
+                android:text="@string/sign_up_explain"
                 android:textColor="@color/app_color_black"
-                android:textSize="@dimen/app_text_size_content"/>
+                android:textSize="@dimen/app_text_size_content" />
 
             <TextView
                 android:id="@+id/details_tv_explain"

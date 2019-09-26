@@ -64,7 +64,7 @@ public class HomeListAdapter extends AppBaseAdapter {
 	/**代表了ListView中的一个item对象*/
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
-		ViewHolder holder = null;
+		ViewHolder holder;
 		if(convertView == null){
 			convertView = View.inflate(context, R.layout.item_list_home, null);
 			
@@ -80,7 +80,7 @@ public class HomeListAdapter extends AppBaseAdapter {
 
 			convertView.setTag(holder);
 		}else{
-			holder=(ViewHolder)convertView.getTag();
+			holder = (ViewHolder)convertView.getTag();
 		}
 		final ThemeEntity data = datas.get(position);
 

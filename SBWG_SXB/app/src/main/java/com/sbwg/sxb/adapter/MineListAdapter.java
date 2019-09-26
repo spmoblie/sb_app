@@ -80,8 +80,8 @@ public class MineListAdapter extends AppBaseAdapter {
 				.into(holder.iv_show);
 
 		holder.tv_title.setText(data.getTitle());
-		holder.tv_time.setText(data.getStartTime() + " • " + data.getAddress());
-		holder.tv_number.setText(data.getPeople() + "人已报名");
+		holder.tv_time.setText(data.getStartTime() + " • " + data.getArea());
+		holder.tv_number.setText(context.getString(R.string.mine_text_sign_num, data.getPeople()));
 
 		holder.rl_item.setOnClickListener(new OnClickListener() {
 			

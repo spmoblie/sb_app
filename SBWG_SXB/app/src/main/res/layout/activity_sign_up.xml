@@ -111,22 +111,11 @@
             <TextView
                 android:id="@+id/sign_tv_cost_pay"
                 style="@style/common_text_button"
-                android:text="@string/sign_up_cost_pay_line"
+                android:text="@string/pay_line"
                 android:textColor="@color/app_color_white"
                 android:background="@drawable/shape_button_style_3_20"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="@id/sign_tv_cost"/>
-
-            <TextView
-                android:id="@+id/sign_tv_information"
-                style="@style/SignUp_TextView"
-                android:layout_width="match_parent"
-                android:textColor="@color/app_color_black"
-                android:padding="@dimen/margin_padding_15"
-                android:background="@drawable/shape_frame_style_1_20"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/sign_tv_cost"/>
 
             <TextView
                 android:id="@+id/sign_tv_explain"
@@ -137,7 +126,7 @@
                 android:background="@drawable/shape_frame_style_1_20"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/sign_tv_information"/>
+                app:layout_constraintTop_toBottomOf="@id/sign_tv_cost"/>
 
             <TextView
                 android:id="@+id/sign_tv_sign_up"

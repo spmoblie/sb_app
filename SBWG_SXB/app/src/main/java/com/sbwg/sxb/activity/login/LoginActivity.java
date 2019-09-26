@@ -114,7 +114,6 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
     }
 
     private void initView() {
-        setTitle(R.string.title_login);
         setHeadVisibility(View.GONE);
         login_btn_login.setOnClickListener(this);
         login_iv_close.setOnClickListener(this);

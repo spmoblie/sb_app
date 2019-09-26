@@ -178,7 +178,6 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
                 if (data != null) {
                     switch (type) {
                         case 0:
-                            //openWebviewActivity(data);
                             openDetailsActivity(data);
                             break;
                         case 1: //报名
@@ -410,7 +409,7 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
     // 跳转至详情页面
     private void openDetailsActivity(ThemeEntity data) {
         if (data == null) return;
-        Intent intent = new Intent(getActivity(), DetailsActivity.class);
+        Intent intent = new Intent(getActivity(), ReserveActivity.class);
         intent.putExtra("data", data);
         startActivity(intent);
     }
@@ -510,7 +509,7 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
                     headEn.setHeadLists(baseEn.getLists());
                     initHeadView();
                     isUpdateHead = false;
-                    FileManager.writeFileSaveObject(AppConfig.homeHeadFileName, headEn, true);
+                    FileManager.writeFileSaveObject(AppConfig.homeHeadFileName, headEn, 1);
                     break;
                 case AppConfig.REQUEST_SV_POST_HOME_LIST:
                     baseEn = JsonUtils.getHomeList(jsonObject);
@@ -519,9 +518,10 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
                     if (lists != null && lists.size() > 0) {
                         if (current_Page == 1) { //缓存第1页数据
                             al_show.clear();
+                            am_show.clear();
                             ThemeEntity listEn = new ThemeEntity();
                             listEn.setMainLists(lists);
-                            FileManager.writeFileSaveObject(AppConfig.homeListFileName, listEn, true);
+                            FileManager.writeFileSaveObject(AppConfig.homeListFileName, listEn, 1);
                         }
                         List<BaseEntity> newLists = addNewEntity(al_show, lists, am_show);
                         if (newLists != null) {
@@ -587,11 +587,11 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
         new Thread(new Runnable() {
             @Override
             public void run() {
-                Object headObj = FileManager.readFileSaveObject(AppConfig.homeHeadFileName, true);
+                Object headObj = FileManager.readFileSaveObject(AppConfig.homeHeadFileName, 1);
                 if (headObj != null) {
                     headEn = (ThemeEntity) headObj;
                 }
-                Object listObj = FileManager.readFileSaveObject(AppConfig.homeListFileName, true);
+                Object listObj = FileManager.readFileSaveObject(AppConfig.homeListFileName, 1);
                 if (listObj != null) {
                     ThemeEntity listEn = (ThemeEntity) listObj;
                     al_show.addAll(listEn.getMainLists());

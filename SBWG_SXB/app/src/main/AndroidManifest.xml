@@ -124,6 +124,9 @@
             android:name=".activity.home.DetailsActivity"
             android:launchMode="standard"/>
         <activity
+            android:name=".activity.home.ReserveActivity"
+            android:launchMode="standard"/>
+        <activity
             android:name=".activity.home.SignUpActivity"
             android:launchMode="standard"/>
 
