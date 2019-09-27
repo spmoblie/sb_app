@@ -15,7 +15,7 @@ public class AppConfig {
 	// http协议
 	public final static String APP_HTTP = "http://";
 	// Base域名
-	public final static String BASE_URL_1 = APP_HTTP + "www.girlbdf.cn:9092/app/";
+	public final static String BASE_URL_1 = APP_HTTP + "119.145.16.116:8080/app/";
 	// Base域名
 	public final static String BASE_URL_2 = APP_HTTP + "192.168.1.143/app/";
 	// 图片域名

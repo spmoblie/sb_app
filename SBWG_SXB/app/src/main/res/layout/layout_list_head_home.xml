@@ -21,7 +21,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right|bottom"
-            android:layout_marginRight="@dimen/margin_padding_15"
+            android:layout_marginRight="@dimen/screen_margin_default"
             android:layout_marginBottom="@dimen/screen_margin_default"
             android:orientation="horizontal">
 
@@ -31,8 +31,8 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_padding_15"
-        android:padding="@dimen/margin_padding_15">
+        android:layout_marginTop="@dimen/screen_margin_default"
+        android:padding="@dimen/screen_margin_default">
 
         <TextView
             style="@style/block_title_text"

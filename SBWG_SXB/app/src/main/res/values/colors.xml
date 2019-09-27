@@ -8,7 +8,9 @@
     <color name="app_color_d_ark">#666666</color><!-- 深灰 -->
     <color name="app_color_greys">#999999</color><!-- 灰色 -->
     <color name="app_color_light">#F7F7F7</color><!-- 淡灰 -->
+    <color name="app_color_green">#60BA8D</color><!-- 绿色 -->
     <color name="app_color_r_red">#FF0000</color><!-- 红色 -->
+    <color name="app_color_orange">#FC7451</color><!-- 橙色 -->
 
     <!-- 标题栏文字颜色 -->
     <color name="title_text_color">#FFFFFF</color>

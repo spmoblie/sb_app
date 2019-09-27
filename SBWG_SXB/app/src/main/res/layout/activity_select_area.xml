@@ -25,7 +25,7 @@
             android:id="@+id/area_tv_other_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_padding_15"
+            android:layout_marginTop="@dimen/screen_margin_default"
             android:text="山卡拉"
             android:textSize="@dimen/app_text_size_content"
             android:textColor="@color/app_color_black"

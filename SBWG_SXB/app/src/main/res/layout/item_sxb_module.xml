@@ -3,7 +3,7 @@
     android:id="@+id/sxb_module_main"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="@dimen/margin_padding_15"
+    android:paddingTop="@dimen/screen_margin_default"
     android:paddingBottom="@dimen/margin_padding_10"
     android:background="@color/ui_bg_color_app">
 

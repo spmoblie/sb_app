@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.util.ArrayMap;
@@ -49,6 +48,11 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import rx.Observable;
+import rx.Observer;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 
 @SuppressLint("UseSparseArrays")
@@ -77,11 +81,10 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
     private LinearLayout.LayoutParams indicatorsLP;
 
     private boolean vprStop = false;
-    private boolean isUpdateHead = true;
+    private boolean isLoadHead = true;
     private int data_total = 0; //数据总量
     private int current_Page = 1;  //当前列表加载页
     private int idsSize, idsPosition, vprPosition;
-    private ThemeEntity headEn;
     private ImageView[] indicators = null;
     private ArrayList<ImageView> viewLists = new ArrayList<>();
     private ArrayList<ThemeEntity> al_head = new ArrayList<>();
@@ -127,8 +130,8 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
     private void initView() {
         tv_load_again.setOnClickListener(this);
 
-        loadDBData();
         initListView();
+        loadDBData();
     }
 
     private void initListView() {
@@ -185,7 +188,7 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
                             break;
                     }
                 } else {
-                    CommonTools.showToast(getString(R.string.toast_error_data_null));
+                    CommonTools.showToast(getString(R.string.toast_error_data_page));
                 }
             }
         };
@@ -209,10 +212,6 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
 
     private void initViewPager() {
         if (fg_home_vp == null) return;
-        if (headEn != null) {
-            al_head.clear();
-            al_head.addAll(headEn.getHeadLists());
-        }
         if (al_head.size() > 0) {
             clearViewPagerData();
             idsSize = al_head.size();
@@ -471,7 +470,7 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
             @Override
             public void run() {
                 current_Page = 1;
-                isUpdateHead = true;
+                isLoadHead = true;
                 loadListData();
             }
         }, AppConfig.LOADING_TIME);
@@ -481,7 +480,7 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
      * 加载列表翻页数据
      */
     private void loadListData() {
-        if (isUpdateHead) { //加载头部数据
+        if (isLoadHead) { //加载头部数据
             loadHeadData();
         }
         HashMap<String, String> map = new HashMap<>();
@@ -505,34 +504,54 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
             switch (dataType) {
                 case AppConfig.REQUEST_SV_POST_HOME_HEAD:
                     baseEn = JsonUtils.getHomeHead(jsonObject);
-                    headEn = new ThemeEntity();
-                    headEn.setHeadLists(baseEn.getLists());
-                    initHeadView();
-                    isUpdateHead = false;
-                    FileManager.writeFileSaveObject(AppConfig.homeHeadFileName, headEn, 1);
+                    if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+                        List<ThemeEntity> lists = baseEn.getLists();
+                        if (lists != null && lists.size() > 0) {
+                            ThemeEntity headEn = new ThemeEntity();
+                            headEn.setHeadLists(lists);
+                            al_head.clear();
+                            al_head.addAll(lists);
+                            initHeadView();
+                            isLoadHead = false;
+                            FileManager.writeFileSaveObject(AppConfig.homeHeadFileName, headEn, 1);
+                        } else {
+                            loadFailHandle();
+                            LogUtil.i(LogUtil.LOG_HTTP, TAG + " Head数据加载失败 —> null or size is 0");
+                        }
+                    } else {
+                        loadFailHandle();
+                        LogUtil.i(LogUtil.LOG_HTTP, TAG + " Head数据加载失败 —> " + baseEn.getErrmsg());
+                    }
                     break;
                 case AppConfig.REQUEST_SV_POST_HOME_LIST:
                     baseEn = JsonUtils.getHomeList(jsonObject);
-                    data_total = baseEn.getDataTotal(); //加载更多数据控制符
-                    List<ThemeEntity> lists = baseEn.getLists();
-                    if (lists != null && lists.size() > 0) {
-                        if (current_Page == 1) { //缓存第1页数据
-                            al_show.clear();
-                            am_show.clear();
-                            ThemeEntity listEn = new ThemeEntity();
-                            listEn.setMainLists(lists);
-                            FileManager.writeFileSaveObject(AppConfig.homeListFileName, listEn, 1);
+                    if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+                        data_total = baseEn.getDataTotal(); //加载更多数据控制符
+                        List<ThemeEntity> lists = baseEn.getLists();
+                        if (lists != null && lists.size() > 0) {
+                            if (current_Page == 1) { //缓存第1页数据
+                                al_show.clear();
+                                am_show.clear();
+                                ThemeEntity listEn = new ThemeEntity();
+                                listEn.setMainLists(lists);
+                                FileManager.writeFileSaveObject(AppConfig.homeListFileName, listEn, 1);
+                            }
+                            List<BaseEntity> newLists = addNewEntity(al_show, lists, am_show);
+                            if (newLists != null) {
+                                addNewShowLists(newLists);
+                                current_Page++;
+                            }
+                            updateListData();
+                            LogUtil.i(LogUtil.LOG_HTTP, TAG + " List数据加载成功 —> page = " + current_Page);
+                        } else {
+                            loadFailHandle();
+                            LogUtil.i(LogUtil.LOG_HTTP, TAG + " List数据加载失败 —> page = "
+                                    + current_Page + " error msg = null or size is 0");
                         }
-                        List<BaseEntity> newLists = addNewEntity(al_show, lists, am_show);
-                        if (newLists != null) {
-                            addNewShowLists(newLists);
-                            current_Page++;
-                        }
-                        updateListData();
-                        LogUtil.i("Retrofit", TAG + " List数据加载成功 —> " + current_Page);
                     } else {
                         loadFailHandle();
-                        LogUtil.i("Retrofit", TAG + " List数据加载失败 —> " + current_Page);
+                        LogUtil.i(LogUtil.LOG_HTTP, TAG + " List数据加载失败 —> page = "
+                                + current_Page + " error msg = " + baseEn.getErrmsg());
                     }
                     break;
             }
@@ -584,113 +603,142 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
      * 加载本地缓存数据
      */
     private void loadDBData() {
-        new Thread(new Runnable() {
+        Observable.create(new Observable.OnSubscribe<ThemeEntity>() {
             @Override
-            public void run() {
-                Object headObj = FileManager.readFileSaveObject(AppConfig.homeHeadFileName, 1);
-                if (headObj != null) {
-                    headEn = (ThemeEntity) headObj;
+            public void call(Subscriber<? super ThemeEntity> subscriber) {
+                // Head
+                ThemeEntity baseEn = (ThemeEntity) FileManager.readFileSaveObject(AppConfig.homeHeadFileName, 1);
+                if (baseEn == null) {
+                    baseEn = new ThemeEntity();
                 }
-                Object listObj = FileManager.readFileSaveObject(AppConfig.homeListFileName, 1);
-                if (listObj != null) {
-                    ThemeEntity listEn = (ThemeEntity) listObj;
-                    al_show.addAll(listEn.getMainLists());
+                // List
+                ThemeEntity listEn = (ThemeEntity) FileManager.readFileSaveObject(AppConfig.homeListFileName, 1);
+                if (listEn != null) {
+                    baseEn.setMainLists(listEn.getMainLists());
                 }
-                mHandler.sendEmptyMessage(1);
+                subscriber.onNext(baseEn);
             }
-        }).start();
+        })
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<ThemeEntity>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        initData(null);
+                    }
+
+                    @Override
+                    public void onNext(ThemeEntity baseEn) {
+                        initData(baseEn);
+                    }
+                });
     }
 
-    private ThemeEntity initData() {
-        ThemeEntity bannerEn = new ThemeEntity();
+    /**
+     * 初始化缓存数据
+     */
+    private void initData(ThemeEntity baseEn) {
+        ThemeEntity demoData = getDemoData();
+        if (baseEn == null) {
+            baseEn = demoData;
+        } else {
+            if (baseEn.getHeadLists() == null) {
+                baseEn.setHeadLists(demoData.getHeadLists());
+            }
+            if (baseEn.getMainLists() == null) {
+                baseEn.setMainLists(demoData.getMainLists());
+            }
+        }
+        al_head.addAll(baseEn.getHeadLists());
+        al_show.addAll(baseEn.getMainLists());
+
+        if (al_show.size() > 0) {
+            initHeadView();
+            updateListData();
+            loadListData();
+        } else {
+            resetData();
+        }
+
+    }
+
+    /**
+     * 构建Demo数据
+     */
+    private ThemeEntity getDemoData() {
+        ThemeEntity baseEn = new ThemeEntity();
         ThemeEntity chEn_1 = new ThemeEntity();
         ThemeEntity chEn_2 = new ThemeEntity();
         ThemeEntity chEn_3 = new ThemeEntity();
         ThemeEntity chEn_4 = new ThemeEntity();
         ThemeEntity chEn_5 = new ThemeEntity();
-        List<ThemeEntity> mainLists = new ArrayList<>();
+        List<ThemeEntity> headLists = new ArrayList<>();
 
         chEn_1.setPicUrl(AppConfig.IMAGE_URL+ "banner_001.png");
         chEn_1.setTitle("松小堡绘画设计大赛");
         chEn_1.setLinkUrl("https://mp.weixin.qq.com/s/uhg0hWDZCvtkyFQUs5FguQ");
-        mainLists.add(chEn_1);
+        headLists.add(chEn_1);
         chEn_2.setPicUrl(AppConfig.IMAGE_URL+ "banner_002.png");
         chEn_2.setTitle("松堡王国儿童房间，你值得拥有！");
         chEn_2.setLinkUrl("https://mp.weixin.qq.com/s/uhg0hWDZCvtkyFQUs5FguQ");
-        mainLists.add(chEn_2);
+        headLists.add(chEn_2);
         chEn_3.setPicUrl(AppConfig.IMAGE_URL+ "banner_003.png");
         chEn_3.setTitle("现场直击 |松堡王国2019深圳家具展，给你好看");
         chEn_3.setLinkUrl("https://mp.weixin.qq.com/s/OgWdS8oSZZlSWZWRgeONow");
-        mainLists.add(chEn_3);
+        headLists.add(chEn_3);
         chEn_4.setPicUrl(AppConfig.IMAGE_URL+ "banner_004.png");
         chEn_4.setTitle("松堡王国来博白了，尽情上演属于自己的公主王子梦⋯⋯快来耍");
         chEn_4.setLinkUrl("https://mp.weixin.qq.com/s/iasaC_yR8_SxvwKstEfnKg");
-        mainLists.add(chEn_4);
+        headLists.add(chEn_4);
         chEn_5.setPicUrl(AppConfig.IMAGE_URL+ "banner_005.png");
         chEn_5.setTitle("厉害了！我的松堡王国");
         chEn_5.setLinkUrl("https://mp.weixin.qq.com/s/1YJ_sqhekFTTS23G9ZCfiA");
-        mainLists.add(chEn_5);
+        headLists.add(chEn_5);
 
-        bannerEn.setHeadLists(mainLists);
+        baseEn.setHeadLists(headLists);
 
         ThemeEntity isEn_1 = new ThemeEntity();
         ThemeEntity isEn_2 = new ThemeEntity();
         ThemeEntity isEn_3 = new ThemeEntity();
         ThemeEntity isEn_4 = new ThemeEntity();
         ThemeEntity isEn_5 = new ThemeEntity();
-        List<ThemeEntity> isLists = new ArrayList<>();
+        List<ThemeEntity> mainLists = new ArrayList<>();
 
         isEn_1.setPicUrl(AppConfig.IMAGE_URL+ "items_001.png");
         isEn_1.setLinkUrl("https://mp.weixin.qq.com/s/tMi8j08jb7oEHKtmYqdl0g");
         isEn_1.setTitle("北欧教育 | 比NOKIA更震惊世界的芬兰品牌");
         isEn_1.setUserName("松堡王国设计部");
-        isLists.add(isEn_1);
+        mainLists.add(isEn_1);
         isEn_2.setPicUrl(AppConfig.IMAGE_URL+ "items_002.png");
         isEn_2.setLinkUrl("https://mp.weixin.qq.com/s/p1j-Mv0yAW45tkVvjqLBTA");
         isEn_2.setTitle("全球都在追捧的北欧教育，到底有哪些秘密？");
         isEn_2.setUserName("松小堡线下运营");
-        isLists.add(isEn_2);
+        mainLists.add(isEn_2);
         isEn_3.setPicUrl(AppConfig.IMAGE_URL+ "items_003.png");
         isEn_3.setLinkUrl("https://mp.weixin.qq.com/s/Ln0z3fqwBxT9dUP_dJL1uQ");
         isEn_3.setTitle("上海妈妈在挪威，享受北欧式教育的幸福");
         isEn_3.setUserName("安安和全全");
-        isLists.add(isEn_3);
+        mainLists.add(isEn_3);
         isEn_4.setPicUrl(AppConfig.IMAGE_URL+ "items_004.png");
         isEn_4.setLinkUrl("https://mp.weixin.qq.com/s/7wPFWTCMn850gxgGqaOchw");
         isEn_4.setTitle("芬兰：北欧小国的大教育观");
         isEn_4.setUserName("Sampo");
-        isLists.add(isEn_4);
+        mainLists.add(isEn_4);
         isEn_5.setPicUrl(AppConfig.IMAGE_URL+ "items_005.png");
         isEn_5.setLinkUrl("http://www.sohu.com/a/195309958_100007192");
         isEn_5.setTitle("走进北欧教育——每个孩子都是独一无二的天使");
         isEn_5.setUserName("松堡王国设计部");
-        isLists.add(isEn_5);
+        mainLists.add(isEn_5);
 
-        bannerEn.setMainLists(isLists);
+        baseEn.setMainLists(mainLists);
 
-        return bannerEn;
+        return baseEn;
     }
-
-    private Handler mHandler = new Handler() {
-        @Override
-        public void handleMessage(Message mMsg) {
-            switch (mMsg.what) {
-                case 1:
-                    if (headEn == null || al_show.size() <= 0) {
-                        headEn = initData();
-                        al_show.addAll(headEn.getMainLists());
-                    }
-                    if (al_show.size() > 0) {
-                        initHeadView();
-                        updateListData();
-                        loadListData();
-                    } else {
-                        resetData();
-                    }
-                    break;
-            }
-        }
-    };
 
 }
 

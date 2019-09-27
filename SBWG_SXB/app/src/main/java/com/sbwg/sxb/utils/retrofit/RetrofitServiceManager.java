@@ -132,7 +132,7 @@ public class RetrofitServiceManager {
                 } else {
                     return chain.proceed(request);
                 }
-                LogUtil.i("Retrofit", "BaseUrl value -> " + headerValue);
+                LogUtil.i(LogUtil.LOG_HTTP, "BaseUrl value -> " + headerValue);
 
                 //如果有这个header，先将配置的header删除，因此header仅用作app和okhttp之间使用
                 //builder.removeHeader(HttpConfig.HEADER_KEY);
@@ -167,15 +167,15 @@ public class RetrofitServiceManager {
             if (request.body() != null) {
                 request.body().writeTo(requestBuffer);
             } else {
-                LogUtil.i("Retrofit", "request.body() is null");
+                LogUtil.i(LogUtil.LOG_HTTP, "request.body() is null");
             }
             //打印Path信息
-            LogUtil.i("Retrofit", "Path : " + request.url() + (request.body() != null ? "?" + _parseParams(request.body(), requestBuffer) : ""));
+            LogUtil.i(LogUtil.LOG_HTTP, "Path : " + request.url() + (request.body() != null ? "?" + _parseParams(request.body(), requestBuffer) : ""));
             Response response = chain.proceed(request);
             MediaType mediaType = response.body().contentType();
             //打印Body信息
             String body = response.body().string();
-            LogUtil.i("Retrofit", "Body : " + body);
+            LogUtil.i(LogUtil.LOG_HTTP, "Body : " + body);
             return response.newBuilder().body(ResponseBody.create(mediaType, body)).build();
         }
     };
@@ -199,7 +199,7 @@ public class RetrofitServiceManager {
             Request request = chain.request();
             if (!NetworkUtil.isNetworkAvailable()) {
                 request = request.newBuilder().cacheControl(CacheControl.FORCE_CACHE).build();
-                LogUtil.i("Retrofit", "no network");
+                LogUtil.i(LogUtil.LOG_HTTP, "no network");
             }
             Response originalResponse = chain.proceed(request);
             if (NetworkUtil.isNetworkAvailable()) {

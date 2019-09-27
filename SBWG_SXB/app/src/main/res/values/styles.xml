@@ -86,7 +86,7 @@
     <style name="top_left_back">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">match_parent</item>
-        <item name="android:paddingLeft">@dimen/margin_padding_12</item>
+        <item name="android:paddingLeft">@dimen/screen_margin_default</item>
         <item name="android:src">@mipmap/icon_back</item>
     </style>
 
@@ -204,7 +204,7 @@
     <style name="item_head_image">
         <item name="android:layout_width">@dimen/margin_padding_40</item>
         <item name="android:layout_height">@dimen/margin_padding_40</item>
-        <item name="android:layout_marginTop">@dimen/margin_padding_15</item>
+        <item name="android:layout_marginTop">@dimen/screen_margin_default</item>
         <item name="android:src">@drawable/icon_default_head</item>
     </style>
 
@@ -253,7 +253,7 @@
     <style name="SignUp_TextView">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginTop">@dimen/margin_padding_15</item>
+        <item name="android:layout_marginTop">@dimen/screen_margin_default</item>
         <item name="android:paddingTop">@dimen/margin_padding_10</item>
         <item name="android:paddingBottom">@dimen/margin_padding_10</item>
         <item name="android:textSize">@dimen/app_text_size_label</item>
@@ -264,7 +264,7 @@
     <style name="SignUp_EditText">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:paddingLeft">@dimen/margin_padding_15</item>
+        <item name="android:paddingLeft">@dimen/screen_margin_default</item>
         <item name="android:paddingTop">@dimen/margin_padding_10</item>
         <item name="android:paddingBottom">@dimen/margin_padding_10</item>
         <item name="android:inputType">text</item>
@@ -371,8 +371,8 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:gravity">center</item>
-        <item name="android:textSize">@dimen/app_text_size_label</item>
         <item name="android:textColor">@color/tv_color_button</item>
+        <item name="android:textSize">@dimen/app_text_size_button</item>
         <item name="android:paddingLeft">@dimen/margin_padding_20</item>
         <item name="android:paddingTop">@dimen/margin_padding_10</item>
         <item name="android:paddingRight">@dimen/margin_padding_20</item>
@@ -384,9 +384,9 @@
     <style name="set_line_margin">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/margin_padding_05</item>
-        <item name="android:layout_marginTop">@dimen/margin_padding_15</item>
-        <item name="android:layout_marginLeft">@dimen/margin_padding_15</item>
-        <item name="android:layout_marginRight">@dimen/margin_padding_15</item>
+        <item name="android:layout_marginTop">@dimen/screen_margin_default</item>
+        <item name="android:layout_marginLeft">@dimen/screen_margin_default</item>
+        <item name="android:layout_marginRight">@dimen/screen_margin_default</item>
         <item name="android:background">@color/ui_bg_color_div_min_01</item>
     </style>
 

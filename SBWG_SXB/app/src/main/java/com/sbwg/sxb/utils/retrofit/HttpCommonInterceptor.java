@@ -38,7 +38,7 @@ public class HttpCommonInterceptor implements Interceptor {
         Request.Builder requestBuilder =  oldRequest.newBuilder();
         requestBuilder.method(oldRequest.method(), oldRequest.body());
         requestBuilder.header("X-APP-Token", appToken);
-        LogUtil.i("Retrofit", "X-APP-Token -> " + appToken);
+        LogUtil.i(LogUtil.LOG_HTTP, "X-APP-Token -> " + appToken);
         //添加公共参数,添加到header中
         if(mHeaderParamsMap.size() > 0){
             for(Map.Entry<String,String> params:mHeaderParamsMap.entrySet()){

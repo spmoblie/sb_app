@@ -42,7 +42,7 @@
             android:id="@+id/fg_mine_tv_used_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_padding_15"
+            android:layout_marginTop="@dimen/screen_margin_default"
             android:textStyle="bold"
             android:textSize="@dimen/text_size_20"
             android:textColor="@color/app_color_white"

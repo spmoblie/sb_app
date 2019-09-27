@@ -192,9 +192,8 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
                 ThemeEntity data = al_show.get(position);
                 if (data != null) {
                     openSignUpActivity(data);
-                    //openWebViewActivity(data.getTitle(), data.getLinkUrl());
                 } else {
-                    CommonTools.showToast(getString(R.string.toast_error_data_null));
+                    CommonTools.showToast(getString(R.string.toast_error_data_page));
                 }
             }
         };
@@ -461,13 +460,13 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
                                     current_Page++;
                                 }
                                 updateListData();
-                                LogUtil.i("Retrofit", TAG + " List数据加载成功 —> " + current_Page + " size = " + newLists.size());
+                                LogUtil.i(LogUtil.LOG_HTTP, TAG + " List数据加载成功 —> " + current_Page + " size = " + newLists.size());
                             } else {
-                                LogUtil.i("Retrofit", TAG + " List数据没有更多 —> " + current_Page);
+                                LogUtil.i(LogUtil.LOG_HTTP, TAG + " List数据没有更多 —> " + current_Page);
                             }
                         } else {
                             loadFailHandle();
-                            LogUtil.i("Retrofit", TAG + " List数据加载失败 —> " + current_Page);
+                            LogUtil.i(LogUtil.LOG_HTTP, TAG + " List数据加载失败 —> " + current_Page);
                         }
                         AppApplication.updateMineData(false);
                     }

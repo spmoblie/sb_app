@@ -164,7 +164,7 @@ public class DetailsActivity extends BaseActivity implements View.OnClickListene
         AppApplication.onPageStart(this, TAG);
 
         // 报名状态
-        isSignUp = userManager.isCourseSignUp(courseId);
+        isSignUp = userManager.isThemeSignUp(courseId);
         if (isLogin()) {
             if (isSignUp) { //已报名
                 setSignState(getString(R.string.sign_up_already), false);

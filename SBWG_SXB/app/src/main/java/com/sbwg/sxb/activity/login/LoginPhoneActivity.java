@@ -172,7 +172,6 @@ public class LoginPhoneActivity extends BaseActivity implements OnClickListener 
                             String newStr = StringUtil.enterAddSpaces(phoneStr);
                             et_phone.setText(newStr);
                             et_phone.setSelection(et_phone.getText().length());
-                            LogUtil.i("Retrofit", "length == " + length + " newStr = " + newStr);
                         }*/
                     }
                 }

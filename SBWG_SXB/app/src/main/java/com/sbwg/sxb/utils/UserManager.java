@@ -274,10 +274,10 @@ public class UserManager {
 
 	/**
 	 * 标记课程Id
-	 * @param courseId 课程Id
+	 * @param themeId 课程Id
 	 */
-	public void saveCourseId(int courseId) {
-		String keyStr = "_" + courseId + "_";
+	public void saveThemeId(int themeId) {
+		String keyStr = "_" + themeId + "_";
 		String idStr = sp.getString(AppConfig.KEY_SIGN_UP_ID, "");
 		editor.putString(AppConfig.KEY_SIGN_UP_ID, idStr + keyStr).apply();
 	}
@@ -286,11 +286,11 @@ public class UserManager {
 	 * 标记所有课程Id
 	 * @param idStr
 	 */
-	private void saveAllCourseId(String idStr) {
+	private void saveAllThemeId(String idStr) {
 		if (!StringUtil.isNull(idStr)) {
 			String[] ids = idStr.split(",");
 			for (int i = 0; i < ids.length; i++) {
-				saveCourseId(Integer.valueOf(ids[i]));
+				saveThemeId(Integer.valueOf(ids[i]));
 			}
 		}
 	}
@@ -298,16 +298,16 @@ public class UserManager {
 	/**
 	 * 清除课程Id
 	 */
-	private void clearAllCourseId() {
+	private void clearAllThemeId() {
 		editor.putString(AppConfig.KEY_SIGN_UP_ID, "").apply();
 	}
 
 	/**
 	 * 判断课程是否已报名
-	 * @param courseId 课程Id
+	 * @param themeId 课程Id
 	 */
-	public boolean isCourseSignUp(int courseId) {
-		String keyStr = "_" + courseId + "_";
+	public boolean isThemeSignUp(int themeId) {
+		String keyStr = "_" + themeId + "_";
 		String idStr = sp.getString(AppConfig.KEY_SIGN_UP_ID, "");
 		if (idStr.contains(keyStr)) {
 			return true;
@@ -333,7 +333,7 @@ public class UserManager {
 			saveUserNick(infoEn.getUserNick());
 			saveUserHead(infoEn.getUserHead());
 			saveXAppToken(infoEn.getAppToken());
-			saveAllCourseId(infoEn.getSignUpId());
+			saveAllThemeId(infoEn.getSignUpId());
 			changeAllDataStatus();
 			// 绑定用户信息至推送服务
 			AppApplication.onPushRegister(true);
@@ -376,7 +376,7 @@ public class UserManager {
 	private void clearUserLoginInfo(){
 		saveUserId("");
 		saveXAppToken("");
-		clearAllCourseId();
+		clearAllThemeId();
 		saveShareId("");
 		saveUserName("");
 		saveUserPhone("");
@@ -409,7 +409,7 @@ public class UserManager {
 			saveUserGender(infoEn.getGenderCode());
 			saveUserBirthday(infoEn.getBirthday());
 			saveUserArea(infoEn.getUserArea());
-			saveAllCourseId(infoEn.getSignUpId());
+			saveAllThemeId(infoEn.getSignUpId());
 
 			if (StringUtil.isNull(infoEn.getMoney())) {
 				saveUserMoney("0.00");

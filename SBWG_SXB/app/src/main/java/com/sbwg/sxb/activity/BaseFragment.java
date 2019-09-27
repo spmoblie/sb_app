@@ -192,7 +192,7 @@ public class BaseFragment extends Fragment {
 							loadFailHandle();
 							ExceptionUtil.handle(e);
 						}
-						LogUtil.i("Retrofit","onNext");
+						LogUtil.i(LogUtil.LOG_HTTP,"onNext");
 					}
 
 					@Override
@@ -209,14 +209,14 @@ public class BaseFragment extends Fragment {
 							//错误处理
 						}
 						loadFailHandle();
-						LogUtil.i("Retrofit","onError error message : " + throwable.getMessage());
+						LogUtil.i(LogUtil.LOG_HTTP,"onError error message : " + throwable.getMessage());
 					}
 
 					@Override
 					public void onCompleted() {
 						// 结束处理
 						stopAnimation();
-						LogUtil.i("Retrofit","onCompleted");
+						LogUtil.i(LogUtil.LOG_HTTP,"onCompleted");
 					}
 				});
 	}

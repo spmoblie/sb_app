@@ -75,8 +75,9 @@
 
     <!-- Toast -->
     <string name="toast_exit_prompt">再按一次退出程序</string>
-    <string name="toast_server_busy">服务器繁忙！请稍后再试！</string>
-    <string name="toast_error_data_null">数据出现错误！请重新加载页面！</string>
+    <string name="toast_server_busy">服务器繁忙(T_T) 请稍后再试(T_T)</string>
+    <string name="toast_error_data_app">数据出错了(T_T) 请重启App应用(T_T)</string>
+    <string name="toast_error_data_page">数据出错了(T_T) 请重新加载页面(T_T)</string>
 
     <!-- Dialog -->
     <string name="dialog_version_new">当前版本已是最新版本</string>
@@ -122,6 +123,10 @@
     <string name="reserve_place">课程地点：</string>
     <string name="reserve_suit">适用人群：</string>
     <string name="reserve_empty">\t\t\t\t\t\t\t\t\t\t</string>
+    <string name="reserve_choice">请选择场次</string>
+
+    <!-- choice -->
+    <string name="choice_date">选择时间</string>
 
     <!-- Sign Up -->
     <string name="sign_up_title">我要报名</string>

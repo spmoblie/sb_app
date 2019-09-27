@@ -73,7 +73,7 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
     private ThemeEntity data;
     private double payAmount = 0.00;
     private int pageType = 0; //2:查看我的活动
-    private int courseId; //课程Id
+    private int themeId; //课程Id
     private int status; //1:报名中, 2:已截止
     private int genderCode = 1; //1:男, 2:女
     private boolean isSignUp = false;
@@ -93,7 +93,7 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
         pageType = getIntent().getIntExtra("type", 0);
         data = (ThemeEntity) getIntent().getExtras().getSerializable("data");
         if (data != null) {
-            courseId = data.getId();
+            themeId = data.getId();
             status = data.getStatus();
             imgUrl = data.getPicUrl();
             payAmount = data.getFees();
@@ -405,7 +405,7 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
         AppApplication.onPageStart(this, TAG);
 
         // 报名状态
-        isSignUp = userManager.isCourseSignUp(courseId);
+        isSignUp = userManager.isThemeSignUp(themeId);
         if (isLogin()) {
             if (isSignUp) { //已报名
                 if (isPay) {
@@ -441,13 +441,16 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
      * 提交报名数据
      */
     private void postSignUpData() {
-        if (data == null) return;
+        if (data == null || themeId <= 0) {
+            CommonTools.showToast(getString(R.string.toast_error_data_app));
+            return;
+        }
         startAnimation();
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 HashMap<String, String> map = new HashMap<>();
-                map.put("activityId", String.valueOf(courseId));
+                map.put("activityId", String.valueOf(themeId));
                 map.put("name", nameStr);
                 map.put("gender", String.valueOf(genderCode));
                 map.put("ageStage", ageStr);
@@ -468,7 +471,7 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
                     if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
                         isSignUp = true;
                         setSignState(getString(R.string.sign_up_already), false);
-                        userManager.saveCourseId(courseId);
+                        userManager.saveThemeId(themeId);
                         AppApplication.updateMineData(true);
                         CommonTools.showToast(getString(R.string.sign_up_success));
                         new Handler().postDelayed(new Runnable() {

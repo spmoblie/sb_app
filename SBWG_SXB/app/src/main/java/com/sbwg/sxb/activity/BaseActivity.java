@@ -30,6 +30,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
@@ -96,6 +97,7 @@ public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Res
 	protected int screenWidth, screenHeight, statusHeight, titleHeight;
 
 	private LinearLayout ll_head;
+	private RelativeLayout rl_left;
 	private ImageView iv_left;
 	private TextView tv_title;
 	private Button bt_right;
@@ -150,6 +152,7 @@ public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Res
 
 	private void findViewById() {
 		ll_head = findViewById(R.id.top_bar_head_ll_main);
+		rl_left = findViewById(R.id.top_bar_left_main);
 		iv_left = findViewById(R.id.top_bar_left);
 		tv_title = findViewById(R.id.top_bar_title);
 		bt_right = findViewById(R.id.top_bar_right);
@@ -157,7 +160,7 @@ public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Res
 	}
 
 	private void initView() {
-		iv_left.setOnClickListener(new OnClickListener() {
+		rl_left.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
@@ -276,7 +279,6 @@ public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Res
 		} else {
 			finish();
 		}
-		finish();
 	}
 
 	/**
@@ -835,7 +837,7 @@ public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Res
 							loadFailHandle();
 							ExceptionUtil.handle(e);
 						}
-						LogUtil.i("Retrofit","onNext");
+						LogUtil.i(LogUtil.LOG_HTTP,"onNext");
 					}
 
 					@Override
@@ -852,14 +854,14 @@ public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Res
 							//错误处理
 						}
 						loadFailHandle();
-						LogUtil.i("Retrofit","error message : " + throwable.getMessage());
+						LogUtil.i(LogUtil.LOG_HTTP,"error message : " + throwable.getMessage());
 					}
 
 					@Override
 					public void onCompleted() {
 						// 结束处理
 						stopAnimation();
-						LogUtil.i("Retrofit","onCompleted");
+						LogUtil.i(LogUtil.LOG_HTTP,"onCompleted");
 					}
 				});
 	}
@@ -904,7 +906,7 @@ public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Res
 							loadFailHandle();
 							ExceptionUtil.handle(e);
 						}
-						LogUtil.i("Retrofit","onNext");
+						LogUtil.i(LogUtil.LOG_HTTP,"onNext");
 					}
 
 					@Override
@@ -921,14 +923,14 @@ public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Res
 							//错误处理
 						}
 						loadFailHandle();
-						LogUtil.i("Retrofit","error message : " + throwable.getMessage());
+						LogUtil.i(LogUtil.LOG_HTTP,"error message : " + throwable.getMessage());
 					}
 
 					@Override
 					public void onCompleted() {
 						// 结束处理
 						stopAnimation();
-						LogUtil.i("Retrofit","onCompleted");
+						LogUtil.i(LogUtil.LOG_HTTP,"onCompleted");
 					}
 				});
 	}

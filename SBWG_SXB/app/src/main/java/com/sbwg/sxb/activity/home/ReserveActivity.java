@@ -3,6 +3,8 @@ package com.sbwg.sxb.activity.home;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -18,9 +20,6 @@ import com.sbwg.sxb.utils.LogUtil;
 import com.sbwg.sxb.utils.StringUtil;
 
 import butterknife.BindView;
-import rx.Observable;
-import rx.Observer;
-import rx.Subscriber;
 
 public class ReserveActivity extends BaseActivity implements View.OnClickListener {
 
@@ -47,14 +46,20 @@ public class ReserveActivity extends BaseActivity implements View.OnClickListene
     @BindView(R.id.reserve_tv_explain)
     TextView tv_explain;
 
-    @BindView(R.id.reserve_tv_sign_up)
-    TextView tv_sign_up;
+    @BindView(R.id.reserve_tv_cost)
+    TextView tv_cost;
+
+    @BindView(R.id.reserve_tv_reserve)
+    TextView tv_reserve;
 
     LinearLayout.LayoutParams showImgLP;
 
     private ThemeEntity data;
-    private int courseId; //课程Id
+    private int themeId; //课程Id
     private int status; //1:报名中, 2:已截止
+    private boolean isPayOk = false;
+    private boolean isDateOk = false;
+    private boolean isTimeOk = false;
     private boolean isSignUp = false;
     private boolean isOnClick = true;
     private String imgUrl, titleStr, authorStr, infoStr, explainStr;
@@ -66,7 +71,7 @@ public class ReserveActivity extends BaseActivity implements View.OnClickListene
 
         data = (ThemeEntity) getIntent().getExtras().getSerializable("data");
         if (data != null) {
-            courseId = data.getId();
+            themeId = data.getId();
             status = data.getStatus();
             imgUrl = data.getPicUrl();
             titleStr = data.getTitle();
@@ -79,7 +84,9 @@ public class ReserveActivity extends BaseActivity implements View.OnClickListene
     private void initView() {
         setTitle(getString(R.string.sign_up_title));
 
-        tv_sign_up.setOnClickListener(this);
+        tv_data.setOnClickListener(this);
+        tv_time.setOnClickListener(this);
+        tv_reserve.setOnClickListener(this);
 
         showImgLP = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         showImgLP.height = screenWidth / 2;
@@ -91,6 +98,7 @@ public class ReserveActivity extends BaseActivity implements View.OnClickListene
 
         tv_title.setText(titleStr);
         tv_author.setText("此处是老师的信息");
+        tv_cost.setText("￥199.00");
 
         String time = getString(R.string.reserve_time);
         String place = getString(R.string.reserve_place);
@@ -106,54 +114,49 @@ public class ReserveActivity extends BaseActivity implements View.OnClickListene
         }
         tv_info.setText(infoStr);
 
-        Observable.create(new Observable.OnSubscribe<String>() {
+        new Thread(new Runnable() {
             @Override
-            public void call(Subscriber<? super String> subscriber) {
-                subscriber.onNext(StringUtil.htmlDecode(explainStr));
+            public void run() {
+                String showStr = StringUtil.htmlDecode(explainStr);
+                Message msg = new Message();
+                msg.what = 1;
+                msg.obj = showStr;
+                mHandler.handleMessage(msg);
             }
-        }).subscribe(new Observer<String>() {
-
-            @Override
-            public void onNext(String s) {
-                tv_explain.setText(s);
-            }
-
-            @Override
-            public void onError(Throwable e) {
-
-            }
-
-            @Override
-            public void onCompleted() {
-
-            }
-        });
+        }).start();
     }
 
     private void setSignState(String text, boolean isState) {
         if (!StringUtil.isNull(text)) {
-            tv_sign_up.setText(text);
+            tv_reserve.setText(text);
         }
         isOnClick = isState;
-        changeViewState(tv_sign_up, isOnClick);
-    }
-
-    // 跳转至报名页面
-    private void openSignUpActivity(ThemeEntity data) {
-        if (data == null) return;
-        Intent intent = new Intent(mContext, SignUpActivity.class);
-        intent.putExtra("data", data);
-        startActivity(intent);
+        changeViewState(tv_reserve, isOnClick);
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.details_tv_sign_up:
-                if (!isOnClick) return; //已报名
-                openSignUpActivity(data);
+            case R.id.reserve_tv_data:
+            case R.id.reserve_tv_time:
+                openChoiceDateActivity(data);
+                break;
+            case R.id.reserve_tv_reserve:
+                if (!isDateOk || !isTimeOk) {
+                    openChoiceDateActivity(data);
+                } else {
+
+                }
                 break;
         }
+    }
+
+    // 跳转至选择时间页面
+    private void openChoiceDateActivity(ThemeEntity data) {
+        if (data == null) return;
+        Intent intent = new Intent(mContext, ChoiceDateActivity.class);
+        intent.putExtra("data", data);
+        startActivity(intent);
     }
 
     @Override
@@ -163,7 +166,7 @@ public class ReserveActivity extends BaseActivity implements View.OnClickListene
         AppApplication.onPageStart(this, TAG);
 
         // 报名状态
-        isSignUp = userManager.isCourseSignUp(courseId);
+        isSignUp = userManager.isThemeSignUp(themeId);
         if (isLogin()) {
             if (isSignUp) { //已报名
                 setSignState(getString(R.string.sign_up_already), false);
@@ -190,5 +193,16 @@ public class ReserveActivity extends BaseActivity implements View.OnClickListene
     protected void onDestroy() {
         super.onDestroy();
     }
+
+    private Handler mHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 1:
+                    tv_explain.setText((String)msg.obj);
+                    break;
+            }
+        }
+    };
 
 }

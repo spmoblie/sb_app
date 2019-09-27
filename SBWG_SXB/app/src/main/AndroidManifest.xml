@@ -121,6 +121,9 @@
 
         <!-- home -->
         <activity
+            android:name=".activity.home.ChoiceDateActivity"
+            android:launchMode="standard"/>
+        <activity
             android:name=".activity.home.DetailsActivity"
             android:launchMode="standard"/>
         <activity

@@ -43,8 +43,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_padding_15"
-                android:layout_marginTop="@dimen/margin_padding_15"
+                android:layout_marginLeft="@dimen/screen_margin_default"
+                android:layout_marginTop="@dimen/screen_margin_default"
                 android:text="@string/sign_up_info"
                 android:textColor="@color/app_color_black"
                 android:textSize="@dimen/app_text_size_content" />
@@ -53,7 +53,7 @@
                 android:id="@+id/details_tv_info"
                 style="@style/SignUp_TextView"
                 android:layout_marginTop="0dp"
-                android:padding="@dimen/margin_padding_15"
+                android:padding="@dimen/screen_margin_default"
                 android:textColor="@color/app_color_black" />
 
             <ImageView
@@ -63,8 +63,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/margin_padding_15"
-                android:layout_marginTop="@dimen/margin_padding_15"
+                android:layout_marginLeft="@dimen/screen_margin_default"
+                android:layout_marginTop="@dimen/screen_margin_default"
                 android:text="@string/sign_up_explain"
                 android:textColor="@color/app_color_black"
                 android:textSize="@dimen/app_text_size_content" />
@@ -73,7 +73,7 @@
                 android:id="@+id/details_tv_explain"
                 style="@style/SignUp_TextView"
                 android:layout_marginTop="0dp"
-                android:padding="@dimen/margin_padding_15"
+                android:padding="@dimen/screen_margin_default"
                 android:textColor="@color/app_color_black" />
 
         </LinearLayout>
@@ -88,11 +88,9 @@
         android:id="@+id/details_tv_sign_up"
         style="@style/common_text_button"
         android:layout_width="match_parent"
-        android:layout_margin="@dimen/margin_padding_15"
+        android:layout_margin="@dimen/screen_margin_default"
         android:background="@drawable/shape_button_style_2_20"
         android:padding="@dimen/margin_padding_15"
-        android:text="@string/sign_up_title"
-        android:textColor="@color/app_color_white"
-        android:textSize="@dimen/app_text_size_button" />
+        android:text="@string/sign_up_title" />
 
 </LinearLayout>
