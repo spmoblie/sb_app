@@ -170,7 +170,7 @@ public class EditUserInfoActivity extends BaseActivity {
 	public void finish() {
 		if (isChange && !StringUtil.isNull(showStr)) {
 			Intent returnIntent = new Intent();
-			returnIntent.putExtra(AppConfig.ACTIVITY_CHANGE_USER_CONTENT, showStr);
+			returnIntent.putExtra(AppConfig.ACTIVITY_KEY_USER_INFO, showStr);
 			setResult(RESULT_OK, returnIntent);
 		}
 		super.finish();

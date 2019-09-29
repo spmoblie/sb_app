@@ -3,6 +3,6 @@ package com.sbwg.sxb.adapter;
 
 public interface AdapterCallback {
 	
-	void setOnClick(Object entity, int position, int type);
+	void setOnClick(Object data, int position, int type);
 
 }

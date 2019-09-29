@@ -176,15 +176,15 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
         apCallback = new AdapterCallback() {
 
             @Override
-            public void setOnClick(Object entity, int position, int type) {
-                ThemeEntity data = al_show.get(position);
-                if (data != null) {
+            public void setOnClick(Object data, int position, int type) {
+                ThemeEntity themeEn = al_show.get(position);
+                if (themeEn != null) {
                     switch (type) {
                         case 0:
-                            openDetailsActivity(data);
+                            openDetailsActivity(themeEn);
                             break;
                         case 1: //报名
-                            openSignUpActivity(data);
+                            openSignUpActivity(themeEn);
                             break;
                     }
                 } else {

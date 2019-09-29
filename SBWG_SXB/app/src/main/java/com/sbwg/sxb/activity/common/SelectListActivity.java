@@ -88,8 +88,8 @@ public class SelectListActivity extends BaseActivity {
 		lv_Callback = new AdapterCallback() {
 			
 			@Override
-			public void setOnClick(Object entity, int position, int type) {
-				selectEn = (SelectListEntity) entity;
+			public void setOnClick(Object data, int position, int type) {
+				selectEn = (SelectListEntity) data;
 				switch (dataType) {
 				case SelectListAdapter.DATA_TYPE_5: //PersonalActivity --> SelectListActivity
 					if (selectEn != null) {
@@ -139,7 +139,7 @@ public class SelectListActivity extends BaseActivity {
 	public void finish() {
 		if (isChange && selectEn != null) { 
 			Intent returnIntent = new Intent();
-			returnIntent.putExtra(AppConfig.ACTIVITY_SELECT_LIST_POSITION, selectEn.getChildId());
+			returnIntent.putExtra(AppConfig.ACTIVITY_KEY_SELECT_LIST, selectEn.getChildId());
 			setResult(RESULT_OK, returnIntent);
 		}
 		super.finish();

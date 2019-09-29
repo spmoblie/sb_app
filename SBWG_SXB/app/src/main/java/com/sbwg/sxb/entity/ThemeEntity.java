@@ -24,6 +24,7 @@ public class ThemeEntity extends BaseEntity {
 	private int people; //报名人数
 	private int status; //1:报名中,2:已截止
 	private double fees; //费用
+	private OptionEntity option; //课程场次
 	private UserInfoEntity userData; //报名信息
 	private List<ThemeEntity> headLists; //首页头部数集
 	private List<ThemeEntity> mainLists; //首页列表数集
@@ -184,6 +185,14 @@ public class ThemeEntity extends BaseEntity {
 
 	public void setFees(double fees) {
 		this.fees = fees;
+	}
+
+	public OptionEntity getOption() {
+		return option;
+	}
+
+	public void setOption(OptionEntity option) {
+		this.option = option;
 	}
 
 	public UserInfoEntity getUserData() {

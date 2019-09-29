@@ -46,14 +46,12 @@
                 android:contentDescription="@string/desc" />
 
             <TextView
-                android:id="@+id/reserve_tv_data"
-                style="@style/reserve_lay_text_go"
-                android:text="预约日期：" />
+                android:id="@+id/reserve_tv_date"
+                style="@style/reserve_lay_text_go" />
 
             <TextView
                 android:id="@+id/reserve_tv_time"
-                style="@style/reserve_lay_text_go"
-                android:text="预约时间：" />
+                style="@style/reserve_lay_text_go" />
 
             <ImageView
                 style="@style/set_line_margin"

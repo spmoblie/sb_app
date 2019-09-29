@@ -35,6 +35,7 @@
         <attr name="mSelectTextColor" format="color" />          <!--选中日期字体颜色-->
         <attr name="mSelectBg" format="color" />                 <!--选中日期背景-->
         <attr name="mSelectRadius" format="dimension" />         <!--选中日期背景半径-->
+        <attr name="mSelectNot" format="color" />                <!--不可选日期字体颜色-->
         <attr name="mCurrentBg" format="color" />                <!--当天日期背景-->
         <attr name="mCurrentBgStrokeWidth" format="dimension" /> <!--当天日期背景虚线宽度-->
         <attr name="mCurrentBgDashPath" format="reference" />    <!--当天日期背景虚线数组-->

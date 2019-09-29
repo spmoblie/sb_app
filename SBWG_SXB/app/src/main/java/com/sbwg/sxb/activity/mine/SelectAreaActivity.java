@@ -147,7 +147,7 @@ public class SelectAreaActivity extends BaseActivity {
 	public void finish() {
 		if (!StringUtil.isNull(areaName)) {
 			Intent returnIntent = new Intent();
-			returnIntent.putExtra(AppConfig.ACTIVITY_CHANGE_USER_CONTENT, areaName);
+			returnIntent.putExtra(AppConfig.ACTIVITY_KEY_USER_INFO, areaName);
 			setResult(RESULT_OK, returnIntent);
 		}
 		super.finish();

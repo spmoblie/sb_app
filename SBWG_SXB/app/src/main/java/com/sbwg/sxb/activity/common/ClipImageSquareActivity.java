@@ -28,7 +28,7 @@ public class ClipImageSquareActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_clip_image_square);
 		
-		photoPath = getIntent().getExtras().getString(AppConfig.ACTIVITY_CLIP_PHOTO_PATH);
+		photoPath = getIntent().getExtras().getString(AppConfig.ACTIVITY_KEY_PHOTO_PATH);
 		
 		findViewById();
 		initView();

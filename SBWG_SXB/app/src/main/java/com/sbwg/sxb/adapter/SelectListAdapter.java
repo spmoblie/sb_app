@@ -91,12 +91,12 @@ public class SelectListAdapter extends AppBaseAdapter {
 	/**代表了ListView中的一个item对象*/
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
-		ViewHolder holder = null;
+		ViewHolder holder;
 		if(convertView == null){
 			convertView = View.inflate(context, R.layout.item_list_select, null);
 			
 			holder = new ViewHolder();
-			holder.ll_item = convertView.findViewById(R.id.list_item_select_ll);
+			holder.ll_item = convertView.findViewById(R.id.list_item_select_main);
 			holder.tv_item_name = convertView.findViewById(R.id.list_item_select_tv_item_name);
 			holder.tv_select_name = convertView.findViewById(R.id.list_item_select_tv_select_name);
 			holder.iv_logo = convertView.findViewById(R.id.list_item_select_iv_logo);

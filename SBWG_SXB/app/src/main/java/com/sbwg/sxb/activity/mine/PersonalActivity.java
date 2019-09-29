@@ -154,21 +154,21 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
                 intent.putExtra(EditUserInfoActivity.KEY_HINT, getString(R.string.mine_input_nick));
                 intent.putExtra(EditUserInfoActivity.KEY_TIPS, "");
                 intent.putExtra(EditUserInfoActivity.KEY_USER, "nickname");
-                startActivityForResult(intent, AppConfig.ACTIVITY_CHANGE_USER_NICK);
+                startActivityForResult(intent, AppConfig.ACTIVITY_CODE_USER_NICK);
                 return;
             case R.id.personal_rl_gender:
                 SelectListEntity selectEn = getGenderListEntity();
                 intent = new Intent(mContext, SelectListActivity.class);
                 intent.putExtra("data", selectEn);
                 intent.putExtra("dataType", SelectListAdapter.DATA_TYPE_5);
-                startActivityForResult(intent, AppConfig.ACTIVITY_CHANGE_USER_GENDER);
+                startActivityForResult(intent, AppConfig.ACTIVITY_CODE_USER_GENDER);
                 return;
             case R.id.personal_rl_birthday:
                 showDateDialog();
                 break;
             case R.id.personal_rl_area:
                 intent = new Intent(mContext, SelectAreaActivity.class);
-                startActivityForResult(intent, AppConfig.ACTIVITY_CHANGE_USER_AREA);
+                startActivityForResult(intent, AppConfig.ACTIVITY_CODE_USER_AREA);
                 return;
             case R.id.personal_rl_intro:
                 intent = new Intent(mContext, EditUserInfoActivity.class);
@@ -177,7 +177,7 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
                 intent.putExtra(EditUserInfoActivity.KEY_HINT, getString(R.string.mine_intro_hint));
                 intent.putExtra(EditUserInfoActivity.KEY_TIPS, "");
                 intent.putExtra(EditUserInfoActivity.KEY_USER, "signature");
-                startActivityForResult(intent, AppConfig.ACTIVITY_CHANGE_USER_INTRO);
+                startActivityForResult(intent, AppConfig.ACTIVITY_CODE_USER_INTRO);
                 return;
         }
         if (intent != null) {
@@ -205,7 +205,7 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
                                         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                                         intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
                                         intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
-                                        startActivityForResult(intent, AppConfig.ACTIVITY_GET_IMAGE_VIA_CAMERA);
+                                        startActivityForResult(intent, AppConfig.ACTIVITY_CODE_VIA_CAMERA);
                                     } catch (ActivityNotFoundException e) {
                                         ExceptionUtil.handle(e);
                                         CommonTools.showToast(getString(R.string.photo_save_directory_error));
@@ -281,7 +281,7 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
      */
     private void startClipImageActivity(String path) {
         Intent intent = new Intent(this, ClipImageCircularActivity.class);
-        intent.putExtra(AppConfig.ACTIVITY_CLIP_PHOTO_PATH, path);
+        intent.putExtra(AppConfig.ACTIVITY_KEY_PHOTO_PATH, path);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
@@ -289,29 +289,29 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
-            if (requestCode == AppConfig.ACTIVITY_GET_IMAGE_VIA_CAMERA) //拍照
+            if (requestCode == AppConfig.ACTIVITY_CODE_VIA_CAMERA) //拍照
             {
                 AppApplication.updatePhoto(saveFile);
                 startClipImageActivity(saveFile.getAbsolutePath());
-            } else if (requestCode == AppConfig.ACTIVITY_CHANGE_USER_NICK) //修改昵称
+            } else if (requestCode == AppConfig.ACTIVITY_CODE_USER_NICK) //修改昵称
             {
-                nickStr = data.getExtras().getString(AppConfig.ACTIVITY_CHANGE_USER_CONTENT);
+                nickStr = data.getExtras().getString(AppConfig.ACTIVITY_KEY_USER_INFO);
                 if (infoEn != null) {
                     infoEn.setUserNick(nickStr);
                 }
                 userManager.saveUserNick(nickStr);
                 setView();
-            } else if (requestCode == AppConfig.ACTIVITY_CHANGE_USER_GENDER) //修改性别
+            } else if (requestCode == AppConfig.ACTIVITY_CODE_USER_GENDER) //修改性别
             {
-                genderCode = data.getExtras().getInt(AppConfig.ACTIVITY_SELECT_LIST_POSITION, 1);
+                genderCode = data.getExtras().getInt(AppConfig.ACTIVITY_KEY_SELECT_LIST, 1);
                 if (infoEn != null) {
                     infoEn.setGenderCode(genderCode);
                 }
                 userManager.saveUserGender(genderCode);
                 setView();
-            } else if (requestCode == AppConfig.ACTIVITY_CHANGE_USER_AREA) //修改地区
+            } else if (requestCode == AppConfig.ACTIVITY_CODE_USER_AREA) //修改地区
             {
-                areaStr = data.getExtras().getString(AppConfig.ACTIVITY_CHANGE_USER_CONTENT);
+                areaStr = data.getExtras().getString(AppConfig.ACTIVITY_KEY_USER_INFO);
                 if (infoEn != null) {
                     infoEn.setUserArea(areaStr);
                 }
@@ -320,9 +320,9 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
                 userKey = "address";
                 changeStr = areaStr;
                 saveUserInfo();
-            } else if (requestCode == AppConfig.ACTIVITY_CHANGE_USER_INTRO) //修改简介
+            } else if (requestCode == AppConfig.ACTIVITY_CODE_USER_INTRO) //修改简介
             {
-                introStr = data.getExtras().getString(AppConfig.ACTIVITY_CHANGE_USER_CONTENT);
+                introStr = data.getExtras().getString(AppConfig.ACTIVITY_KEY_USER_INFO);
                 if (infoEn != null) {
                     infoEn.setUserIntro(introStr);
                 }

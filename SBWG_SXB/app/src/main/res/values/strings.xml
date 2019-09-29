@@ -127,6 +127,9 @@
 
     <!-- choice -->
     <string name="choice_date">选择时间</string>
+    <string name="choice_select_option">可选场次</string>
+    <string name="choice_reserve_yes">可预约</string>
+    <string name="choice_reserve_no">不可预约</string>
 
     <!-- Sign Up -->
     <string name="sign_up_title">我要报名</string>
@@ -142,6 +145,8 @@
     <string name="sign_up_phone">电话：</string>
     <string name="sign_up_input_phone">请输入手机号码</string>
     <string name="sign_up_input_phone_error">请输入正确的11位数手机号码</string>
+    <string name="sign_up_reserve_date">预约日期：%1$s</string>
+    <string name="sign_up_reserve_time">预约时间：%1$s</string>
     <string name="sign_up_show">活动说明：</string>
     <string name="sign_up_explain">活动简介</string>
     <string name="sign_up_info">活动信息</string>

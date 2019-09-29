@@ -13,8 +13,10 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.sbwg.sxb.AppApplication;
+import com.sbwg.sxb.AppConfig;
 import com.sbwg.sxb.R;
 import com.sbwg.sxb.activity.BaseActivity;
+import com.sbwg.sxb.entity.OptionEntity;
 import com.sbwg.sxb.entity.ThemeEntity;
 import com.sbwg.sxb.utils.LogUtil;
 import com.sbwg.sxb.utils.StringUtil;
@@ -37,8 +39,8 @@ public class ReserveActivity extends BaseActivity implements View.OnClickListene
     @BindView(R.id.reserve_tv_info)
     TextView tv_info;
 
-    @BindView(R.id.reserve_tv_data)
-    TextView tv_data;
+    @BindView(R.id.reserve_tv_date)
+    TextView tv_date;
 
     @BindView(R.id.reserve_tv_time)
     TextView tv_time;
@@ -84,7 +86,7 @@ public class ReserveActivity extends BaseActivity implements View.OnClickListene
     private void initView() {
         setTitle(getString(R.string.sign_up_title));
 
-        tv_data.setOnClickListener(this);
+        tv_date.setOnClickListener(this);
         tv_time.setOnClickListener(this);
         tv_reserve.setOnClickListener(this);
 
@@ -114,6 +116,9 @@ public class ReserveActivity extends BaseActivity implements View.OnClickListene
         }
         tv_info.setText(infoStr);
 
+        tv_date.setText(getString(R.string.sign_up_reserve_date, ""));
+        tv_time.setText(getString(R.string.sign_up_reserve_time, ""));
+
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -137,7 +142,7 @@ public class ReserveActivity extends BaseActivity implements View.OnClickListene
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.reserve_tv_data:
+            case R.id.reserve_tv_date:
             case R.id.reserve_tv_time:
                 openChoiceDateActivity(data);
                 break;
@@ -156,7 +161,21 @@ public class ReserveActivity extends BaseActivity implements View.OnClickListene
         if (data == null) return;
         Intent intent = new Intent(mContext, ChoiceDateActivity.class);
         intent.putExtra("data", data);
-        startActivity(intent);
+        startActivityForResult(intent, AppConfig.ACTIVITY_CODE_CHOICE_DATE);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            if (requestCode == AppConfig.ACTIVITY_CODE_CHOICE_DATE) {
+                OptionEntity optionEn = (OptionEntity) data.getSerializableExtra(AppConfig.ACTIVITY_KEY_CHOICE_DATE);
+                if (optionEn != null) {
+                    tv_date.setText(getString(R.string.sign_up_reserve_date, optionEn.getDate()));
+                    tv_time.setText(getString(R.string.sign_up_reserve_time, optionEn.getTime()));
+                }
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override

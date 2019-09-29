@@ -188,10 +188,10 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
         apCallback = new AdapterCallback() {
 
             @Override
-            public void setOnClick(Object entity, int position, int type) {
-                ThemeEntity data = al_show.get(position);
-                if (data != null) {
-                    openSignUpActivity(data);
+            public void setOnClick(Object data, int position, int type) {
+                ThemeEntity themeEn = al_show.get(position);
+                if (themeEn != null) {
+                    openSignUpActivity(themeEn);
                 } else {
                     CommonTools.showToast(getString(R.string.toast_error_data_page));
                 }

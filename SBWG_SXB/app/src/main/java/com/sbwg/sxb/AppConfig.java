@@ -276,16 +276,17 @@ public class AppConfig {
 	 ******************************************* Activity传参设置开始 ******************************************
 	 */
 
-	public static final String ACTIVITY_CLIP_PHOTO_PATH = "clip_photo_path";
-	public static final String ACTIVITY_CHANGE_USER_CONTENT = "change_user_content";
-	public static final String ACTIVITY_SELECT_LIST_POSITION = "select_list_position";
+	public static final String ACTIVITY_KEY_PHOTO_PATH = "photo_path";
+	public static final String ACTIVITY_KEY_USER_INFO = "user_info";
+	public static final String ACTIVITY_KEY_SELECT_LIST = "select_list";
+	public static final String ACTIVITY_KEY_CHOICE_DATE = "choice_date";
 
-	public static final int ACTIVITY_GET_IMAGE_VIA_CAMERA = 0X9001;
-	public static final int ACTIVITY_CHANGE_USER_NICK = 0X9002;
-	public static final int ACTIVITY_CHANGE_USER_GENDER = 0X9003;
-	public static final int ACTIVITY_CHANGE_USER_AREA = 0X9004;
-	public static final int ACTIVITY_CHANGE_USER_INTRO = 0X9005;
-	public static final int ACTIVITY_CHANGE_USER_EMAIL = 0X9006;
+	public static final int ACTIVITY_CODE_VIA_CAMERA = 0X9001;
+	public static final int ACTIVITY_CODE_USER_NICK = 0X9002;
+	public static final int ACTIVITY_CODE_USER_GENDER = 0X9003;
+	public static final int ACTIVITY_CODE_USER_AREA = 0X9004;
+	public static final int ACTIVITY_CODE_USER_INTRO = 0X9005;
+	public static final int ACTIVITY_CODE_CHOICE_DATE = 0X9006;
 
 	/**
 	 ******************************************* Activity传参设置结束 ******************************************

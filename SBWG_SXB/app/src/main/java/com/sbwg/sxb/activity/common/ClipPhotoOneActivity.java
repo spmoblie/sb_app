@@ -75,7 +75,7 @@ public class ClipPhotoOneActivity extends BaseActivity {
 			intent = new Intent(this, ClipImageCircularActivity.class);
 			break;
 		}
-		intent.putExtra(AppConfig.ACTIVITY_CLIP_PHOTO_PATH, photoItem.getPhotoUrl());
+		intent.putExtra(AppConfig.ACTIVITY_KEY_PHOTO_PATH, photoItem.getPhotoUrl());
 		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		startActivity(intent);
 	}
