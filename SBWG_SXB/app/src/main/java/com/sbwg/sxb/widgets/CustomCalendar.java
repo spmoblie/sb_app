@@ -60,10 +60,10 @@ public class CustomCalendar extends View {
     private float mSelectRadius, mCurrentBgStrokeWidth;
     private float[] mCurrentBgDashPath;
 
-    /** 行间距*/
-    private float mLineSpac;
-    /** 字体上下间距*/
-    private float mTextSpac;
+    /** 日期行上间距*/
+    private float mDayUpSpac;
+    /** 日期行下间距*/
+    private float mDayDnSpac;
 
     private Paint mPaint;
     private Paint bgPaint;
@@ -75,8 +75,8 @@ public class CustomCalendar extends View {
     private Date month, assignMonth;
     //展示的月份是否是当前月
     private boolean isCurrentMonth;
-    //当前日期、指定日期、选中的日期、上一次选中的日期（避免造成重复回调请求）
-    private int currentDay, assignDay, selectDay, lastSelectDay;
+    //当前日期、指定日期、选中的日期
+    private int currentDay, assignDay, selectDay;
 
     private int dayOfMonth;    //月份天数
     private int firstIndex;    //当月第一天位置索引
@@ -102,15 +102,13 @@ public class CustomCalendar extends View {
         mBgDay = a.getColor(R.styleable.CustomCalendar_mBgDay, Color.TRANSPARENT);
         mBgPre = a.getColor(R.styleable.CustomCalendar_mBgPre, Color.TRANSPARENT);
 
-        mMonthRowL = a.getResourceId(R.styleable.CustomCalendar_mMonthRowL, R.mipmap.icon_calendar_left);
-        mMonthRowR = a.getResourceId(R.styleable.CustomCalendar_mMonthRowR, R.mipmap.icon_calendar_right);
+        mMonthRowL = a.getResourceId(R.styleable.CustomCalendar_mMonthRowL, R.mipmap.icon_go_left);
+        mMonthRowR = a.getResourceId(R.styleable.CustomCalendar_mMonthRowR, R.mipmap.icon_go_right);
         mMonthRowSpac = a.getDimension(R.styleable.CustomCalendar_mMonthRowSpac, 20);
         mTextColorMonth = a.getColor(R.styleable.CustomCalendar_mTextColorMonth, Color.BLACK);
         mTextSizeMonth = a.getDimension(R.styleable.CustomCalendar_mTextSizeMonth, 100);
-        mMonthSpac = a.getDimension(R.styleable.CustomCalendar_mMonthSpac, 20);
         mTextColorWeek = a.getColor(R.styleable.CustomCalendar_mTextColorWeek, Color.BLACK);
         mSelectWeekTextColor = a.getColor(R.styleable.CustomCalendar_mSelectWeekTextColor, Color.BLACK);
-
         mTextSizeWeek = a.getDimension(R.styleable.CustomCalendar_mTextSizeWeek, 70);
         mTextColorDay = a.getColor(R.styleable.CustomCalendar_mTextColorDay, Color.GRAY);
         mTextSizeDay = a.getDimension(R.styleable.CustomCalendar_mTextSizeDay, 70);
@@ -132,11 +130,12 @@ public class CustomCalendar extends View {
             mCurrentBgDashPath = new float[]{2, 3, 2, 3};
         }
         mSelectBg = a.getColor(R.styleable.CustomCalendar_mSelectBg, Color.YELLOW);
-        mSelectRadius = a.getDimension(R.styleable.CustomCalendar_mSelectRadius, 20);
+        mSelectRadius = a.getDimension(R.styleable.CustomCalendar_mSelectRadius, 15);
         mSelectNot = a.getColor(R.styleable.CustomCalendar_mSelectNot, Color.GRAY);
         mCurrentBgStrokeWidth = a.getDimension(R.styleable.CustomCalendar_mCurrentBgStrokeWidth, 5);
-        mLineSpac = a.getDimension(R.styleable.CustomCalendar_mLineSpac, 20);
-        mTextSpac = a.getDimension(R.styleable.CustomCalendar_mTextSpac, 20);
+        mMonthSpac = a.getDimension(R.styleable.CustomCalendar_mMonthSpac, 20);
+        mDayUpSpac = a.getDimension(R.styleable.CustomCalendar_mDayUpSpac, 15);
+        mDayDnSpac = a.getDimension(R.styleable.CustomCalendar_mDayDnSpac, 15);
         a.recycle();  //注意回收
 
         initCompute();
@@ -163,8 +162,9 @@ public class CustomCalendar extends View {
         //次数字体高度
         mPaint.setTextSize(mTextSizePre);
         preHeight = FontUtil.getFontHeight(mPaint);
-        //每行高度 = 行间距 + 日期字体高度 + 字间距 + 次数字体高度
-        oneHeight = mLineSpac + dayHeight + mTextSpac + preHeight;
+        //每行高度 = 行上间距 + 日期字体高度 + 行下间距 + 次数字体高度
+        //oneHeight = mDayUpSpac + dayHeight + mDayDnSpac + preHeight;
+        oneHeight = mDayUpSpac + dayHeight + mDayDnSpac;
 
         //默认当前月份
         String cDateStr = getMonthStr(new Date());
@@ -186,11 +186,16 @@ public class CustomCalendar extends View {
         //判断是否为当月
         if(cM.getTime() == month.getTime()){
             isCurrentMonth = true;
-            selectDay = currentDay;//当月默认选中当前日
+            if (assignMonth == null) { //未指定月份
+                selectDay = currentDay;//当月默认选中当前日
+            } else {
+                selectDay = 0;
+            }
         }else{
             isCurrentMonth = false;
             selectDay = 0;
         }
+        //判断是否为指定月
         if (assignMonth != null && assignMonth.getTime() == month.getTime()) {
             selectDay = assignDay;
         }
@@ -314,18 +319,18 @@ public class CustomCalendar extends View {
      */
     private void drawDayAndPre(Canvas canvas, float top, int count, int overDay, int startIndex){
         //背景
-        float topPre = top + mLineSpac + dayHeight;
+        float topPre = top + mDayUpSpac + dayHeight;
         bgPaint.setColor(mBgDay);
         RectF rect = new RectF(0, top, getWidth(), topPre);
         canvas.drawRect(rect, bgPaint);
 
         bgPaint.setColor(mBgPre);
-        rect = new RectF(0, topPre, getWidth(), topPre + mTextSpac + dayHeight);
+        rect = new RectF(0, topPre, getWidth(), topPre + mDayDnSpac + dayHeight);
         canvas.drawRect(rect, bgPaint);
 
         mPaint.setTextSize(mTextSizeDay);
         float dayTextLeading = FontUtil.getFontLeading(mPaint);
-        mPaint.setTextSize(mTextSizePre);
+        //mPaint.setTextSize(mTextSizePre);
         //float preTextLeading = FontUtil.getFontLeading(mPaint);
         for(int i = 0; i<count; i++){
             int left = (startIndex + i)*columnWidth;
@@ -342,7 +347,7 @@ public class CustomCalendar extends View {
                 bgPaint.setPathEffect(effect); //设置画笔曲线间隔
                 bgPaint.setStrokeWidth(mCurrentBgStrokeWidth); //画笔宽度
                 //绘制空心圆背景
-                canvas.drawCircle(left+columnWidth/2, top + mLineSpac +dayHeight/2,
+                canvas.drawCircle(left+columnWidth/2, top + mDayUpSpac +dayHeight/2,
                         mSelectRadius-mCurrentBgStrokeWidth, bgPaint);
             }
             //绘制完后将画笔还原，避免脏笔
@@ -356,7 +361,11 @@ public class CustomCalendar extends View {
                 mPaint.setColor(mSelectTextColor);
                 bgPaint.setColor(mSelectBg);
                 //绘制橙色圆背景，参数一是中心点的x轴，参数二是中心点的y轴，参数三是半径，参数四是paint对象；
-                canvas.drawCircle(left+columnWidth/2, top + mLineSpac +dayHeight/2, mSelectRadius, bgPaint);
+                canvas.drawCircle(left+columnWidth/2, top + mDayUpSpac +dayHeight/2, mSelectRadius, bgPaint);
+                //响应选中日期事件
+                if (listener != null && !responseWhenEnd) {
+                    listener.onDayClick(selectDay, getCalendarStr(month, selectDay), map.get(selectDay));
+                }
             }else{
                 if (isSelect(day)) {
                     mPaint.setColor(mTextColorDay);
@@ -367,7 +376,7 @@ public class CustomCalendar extends View {
 
             int len = (int)FontUtil.getFontlength(mPaint, day+"");
             int x = left + (columnWidth - len)/2;
-            canvas.drawText(day+"", x, top + mLineSpac + dayTextLeading, mPaint);
+            canvas.drawText(day+"", x, top + mDayUpSpac + dayTextLeading, mPaint);
 
             //绘制次数
             /*mPaint.setTextSize(mTextSizePre);
@@ -515,7 +524,7 @@ public class CustomCalendar extends View {
 
     /**焦点滑动*/
     public void touchFocusMove(final PointF point, boolean eventEnd) {
-        LogUtil.i(TAG, "点击坐标：("+point.x+" ，"+point.y+"),事件是否结束："+eventEnd);
+        LogUtil.i(TAG, "点击坐标：(" + point.x + " ，" + point.y + "),事件是否结束：" + eventEnd);
         /**标题和星期只有在事件结束后才响应*/
         if(point.y<=titleHeight){
             //事件在标题上
@@ -606,12 +615,8 @@ public class CustomCalendar extends View {
         LogUtil.i(TAG, "选中：" + day + "  事件是否结束"+eventEnd);
         if (!isSelect(day)) return; //拦截不可选日期点击事件
         selectDay = day;
-        invalidate();
-        if (listener!=null && eventEnd && responseWhenEnd && lastSelectDay!=selectDay) {
-            lastSelectDay = selectDay;
-            listener.onDayClick(selectDay, getCalendarStr(month, selectDay), map.get(selectDay));
-        }
         responseWhenEnd = !eventEnd;
+        invalidate();
     }
 
     /****************************事件处理↑↑↑↑↑↑↑****************************/
@@ -649,11 +654,12 @@ public class CustomCalendar extends View {
     }
 
     /**
-     * 设置选中日期
+     * 设置指定日期
      * @param date 2019年09月
      * @param day 29
      */
     public void setSelectDate(String date, int day){
+        if (!date.contains("年") || !date.contains("月") || day <= 0 || day > 31) return;
         assignDay = day;
         assignMonth = str2Date(date);
         String month = getMonthStr(assignMonth);

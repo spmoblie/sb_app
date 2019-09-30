@@ -81,10 +81,14 @@ public class ChoiceListAdapter extends AppBaseAdapter {
 		final OptionEntity data = datas.get(position);
 		holder.tv_time.setText(data.getTime());
 		if (data.isState()) {
-			holder.tv_state.setText(context.getString(R.string.choice_reserve_yes));
+			holder.tv_state.setText(context.getString(R.string.choice_reserve_ok));
 			holder.tv_state.setTextColor(context.getResources().getColor(R.color.app_color_r_red));
 		} else {
-			holder.tv_state.setText(context.getString(R.string.choice_reserve_no));
+			if (data.isReserve()) {
+				holder.tv_state.setText(context.getString(R.string.choice_reserve_yes));
+			} else {
+				holder.tv_state.setText(context.getString(R.string.choice_reserve_no));
+			}
 			holder.tv_state.setTextColor(context.getResources().getColor(R.color.debar_text_color));
 		}
 		holder.iv_select.setSelected(data.isSelect());

@@ -123,7 +123,7 @@ public class AppConfig {
 	// 我的列表数据文件名
 	public static final String mineListFileName = "mine_list";
 	// 缓存路径应用名称
-	public static final String SAVE_APP_NAME = "Song_Bao";
+	public static final String SAVE_APP_NAME = "SongBao";
 	// 内置SD卡路径
 	public static final String SD_PATH = Environment.getExternalStorageDirectory().toString() + "/" + SAVE_APP_NAME + "/";
 	// Apk临时缓存路径（应用关闭时清除）

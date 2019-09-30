@@ -11,6 +11,7 @@ public class OptionEntity extends BaseEntity {
 	private String time; //时间段
 	private boolean isState; //是否可选
 	private boolean isSelect; //是否已选
+	private boolean isReserve; //预约与否
 	private List<OptionEntity> mainLists; //数集
 
 	public OptionEntity() {
@@ -65,6 +66,14 @@ public class OptionEntity extends BaseEntity {
 
 	public void setSelect(boolean select) {
 		isSelect = select;
+	}
+
+	public boolean isReserve() {
+		return isReserve;
+	}
+
+	public void setReserve(boolean reserve) {
+		isReserve = reserve;
 	}
 
 	public List<OptionEntity> getMainLists() {

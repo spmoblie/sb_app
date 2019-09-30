@@ -15,21 +15,30 @@
         android:background="@drawable/shape_frame_style_3_04"
         android:padding="@dimen/margin_padding_10">
 
+        <ImageView
+            android:id="@+id/list_item_choice_iv_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/icon_time"
+            android:layout_marginTop="2dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
             android:id="@+id/list_item_choice_tv_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableLeft="@mipmap/selector_checkbox_small_ok"
-            android:drawablePadding="@dimen/margin_padding_5" />
+            android:layout_marginLeft="@dimen/margin_padding_5"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/list_item_choice_iv_time"/>
 
         <TextView
             android:id="@+id/list_item_choice_tv_state"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/margin_padding_20"
             android:textColor="@color/app_color_r_red"
             android:textSize="@dimen/app_text_size_small"
-            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintLeft_toLeftOf="@id/list_item_choice_tv_time"
             app:layout_constraintTop_toBottomOf="@id/list_item_choice_tv_time" />
 
         <ImageView

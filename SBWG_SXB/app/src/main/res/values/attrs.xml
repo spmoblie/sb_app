@@ -5,7 +5,7 @@
             <enum name="circle" value="1"/>
             <enum name="round" value="2"/>
         </attr>
-        <attr name="radius" format="dimension"/>ssss
+        <attr name="radius" format="dimension"/>
     </declare-styleable>
 
     <declare-styleable name="CustomCalendar">
@@ -40,8 +40,8 @@
         <attr name="mCurrentBgStrokeWidth" format="dimension" /> <!--当天日期背景虚线宽度-->
         <attr name="mCurrentBgDashPath" format="reference" />    <!--当天日期背景虚线数组-->
 
-        <attr name="mMonthSpac" format="dimension" />            <!--标题月份上下间隔-->
-        <attr name="mLineSpac" format="dimension" />             <!--日期行间距-->
-        <attr name="mTextSpac" format="dimension" />             <!--日期和任务次数字体上下间距-->
+        <attr name="mMonthSpac" format="dimension" />            <!--月份上下间隔-->
+        <attr name="mDayUpSpac" format="dimension" />            <!--日期行上间距-->
+        <attr name="mDayDnSpac" format="dimension" />            <!--日期行下间距-->
     </declare-styleable>
 </resources>

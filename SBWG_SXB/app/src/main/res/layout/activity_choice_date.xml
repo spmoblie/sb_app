@@ -28,12 +28,14 @@
                 openxu:mCurrentBgDashPath="@array/customCalendar_currentDay"
                 openxu:mCurrentBgStrokeWidth="1.5dip"
 
-                openxu:mLineSpac="@dimen/margin_padding_10"
-                openxu:mMonthRowL="@mipmap/icon_calendar_left"
-                openxu:mMonthRowR="@mipmap/icon_calendar_right"
+                openxu:mMonthRowL="@mipmap/icon_go_left"
+                openxu:mMonthRowR="@mipmap/icon_go_right"
                 openxu:mMonthRowSpac="@dimen/margin_padding_100"
 
                 openxu:mMonthSpac="@dimen/margin_padding_20"
+                openxu:mDayUpSpac="@dimen/margin_padding_10"
+                openxu:mDayDnSpac="@dimen/margin_padding_10"
+
                 openxu:mSelectBg="@color/app_color_orange"
                 openxu:mSelectNot="@color/debar_text_color"
                 openxu:mSelectRadius="@dimen/margin_padding_15"
@@ -50,8 +52,7 @@
                 openxu:mTextSizeDay="@dimen/text_size_16"
                 openxu:mTextSizeMonth="@dimen/text_size_18"
                 openxu:mTextSizePre="@dimen/text_size_10"
-                openxu:mTextSizeWeek="@dimen/text_size_16"
-                openxu:mTextSpac="@dimen/margin_padding_5" />
+                openxu:mTextSizeWeek="@dimen/text_size_16" />
 
             <ImageView
                 style="@style/set_line_horizontal_bg"

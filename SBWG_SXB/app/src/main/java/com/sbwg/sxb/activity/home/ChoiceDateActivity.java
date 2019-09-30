@@ -45,9 +45,10 @@ public class ChoiceDateActivity extends BaseActivity implements View.OnClickList
     private AdapterCallback apCallback;
     private ChoiceListAdapter lv_Adapter;
     private ThemeEntity data;
-    private boolean isChange = false;
+    private OptionEntity optionEn;
     private int themeId; //课程Id
-    private String selectDay, selectTime;
+    private boolean isChange = false;
+    private String selectDay, assignDay, selectTime, assignTime;
     private ArrayList<OptionEntity> al_show = new ArrayList<>();
 
     @Override
@@ -58,8 +59,8 @@ public class ChoiceDateActivity extends BaseActivity implements View.OnClickList
         data = (ThemeEntity) getIntent().getExtras().getSerializable("data");
         if (data != null) {
             themeId = data.getId();
+            optionEn = data.getOption();
         }
-        selectDay = TimeUtil.getStringDateShort();
 
         initView();
     }
@@ -68,24 +69,40 @@ public class ChoiceDateActivity extends BaseActivity implements View.OnClickList
         setTitle(getString(R.string.choice_date));
 
         tv_confirm.setOnClickListener(this);
-        calendar.setSelectDate("2019年10月", 28);
+
+        if (optionEn != null && !StringUtil.isNull(optionEn.getDate())) {
+            assignDay = optionEn.getDate();
+            assignTime = optionEn.getTime();
+            if (assignDay.contains("-")) {
+                String[] dates = assignDay.split("-");
+                if (dates.length > 2) {
+                    String date = dates[0] + "年" + dates[1] + "月";
+                    int day = Integer.valueOf(dates[2]);
+                    calendar.setSelectDate(date, day); //指定日期
+                }
+            }
+            selectDay = assignDay;
+        } else {
+            selectDay = TimeUtil.getStringDateShort();
+        }
+
         calendar.setOnClickListener(new CustomCalendar.onClickListener() {
 
             @Override
             public void onLeftRowClick() {
                 calendar.monthChange(-1);
+                clearData();
             }
 
             @Override
             public void onRightRowClick() {
                 calendar.monthChange(1);
+                clearData();
             }
 
             @Override
             public void onTitleClick(String monthStr, Date month) {
                 LogUtil.i(LogUtil.LOG_TAG, TAG + " 点击了标题：" + monthStr);
-                al_show.clear();
-                initListView();
             }
 
             @Override
@@ -96,20 +113,21 @@ public class ChoiceDateActivity extends BaseActivity implements View.OnClickList
             @Override
             public void onDayClick(int day, String dayStr, DayFinish finish) {
                 LogUtil.i(LogUtil.LOG_TAG, TAG + " 点击了日期：" + dayStr);
-                selectDay = dayStr;
                 clearData();
+                selectDay = dayStr;
                 getTimeData();
             }
         });
 
-        initListView();
+        getTimeData();
     }
 
     private void initListView() {
+        reviseData();
         apCallback = new AdapterCallback() {
             @Override
             public void setOnClick(Object data, int position, int type) {
-                updateListViewState(position);
+                updateItemState(position);
             }
         };
         lv_Adapter = new ChoiceListAdapter(mContext, al_show, apCallback);
@@ -118,7 +136,29 @@ public class ChoiceDateActivity extends BaseActivity implements View.OnClickList
         updateViewSate();
     }
 
-    private void updateListViewState(int position) {
+    /**
+     * 勾选已预约场次
+     */
+    private void reviseData() {
+        if (!StringUtil.isNull(assignDay)
+                && !StringUtil.isNull(assignTime)
+                && assignDay.equals(selectDay)) {
+            for (int i = 0; i < al_show.size(); i++) {
+                String time = al_show.get(i).getTime();
+                if (assignTime.equals(time)) {
+                    al_show.get(i).setReserve(true); //已预约
+                    al_show.get(i).setSelect(true);  //勾选中
+                    al_show.get(i).setState(false);  //不可选
+                }
+            }
+        }
+    }
+
+    /**
+     * 刷新Item勾选状态
+     * @param position
+     */
+    private void updateItemState(int position) {
         for (int i = 0; i < al_show.size(); i++) {
             OptionEntity optionEn = al_show.get(i);
             if (optionEn != null && optionEn.isState()) {
@@ -138,6 +178,9 @@ public class ChoiceDateActivity extends BaseActivity implements View.OnClickList
         initListView();
     }
 
+    /**
+     * 刷新“确定”状态
+     */
     private void updateViewSate() {
         if (StringUtil.isNull(selectTime)) {
             tv_confirm.setBackgroundColor(getResources().getColor(R.color.debar_text_color));
@@ -193,8 +236,10 @@ public class ChoiceDateActivity extends BaseActivity implements View.OnClickList
     }
 
     private void clearData() {
+        selectDay = "";
         selectTime = "";
         al_show.clear();
+        initListView();
     }
 
     private void getTimeData() {
@@ -203,8 +248,12 @@ public class ChoiceDateActivity extends BaseActivity implements View.OnClickList
     }
 
     private void checkData() {
+        if (StringUtil.isNull(selectDay)) {
+            CommonTools.showToast(getString(R.string.choice_select_date));
+            return;
+        }
         if (StringUtil.isNull(selectTime)) {
-            CommonTools.showToast("请选择场次");
+            CommonTools.showToast(getString(R.string.choice_select_time));
             return;
         }
         isChange = true;
@@ -221,7 +270,7 @@ public class ChoiceDateActivity extends BaseActivity implements View.OnClickList
 
         OptionEntity option_2 = new OptionEntity();
         option_2.setTime("11:00-12:30");
-        option_2.setState(false);
+        option_2.setState(true);
         lists.add(option_2);
 
         OptionEntity option_3 = new OptionEntity();
