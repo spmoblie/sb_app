@@ -58,13 +58,11 @@ public class ReserveActivity extends BaseActivity implements View.OnClickListene
 
     private ThemeEntity data;
     private int themeId; //课程Id
-    private int status; //1:报名中, 2:已截止
     private boolean isPayOk = false;
     private boolean isDateOk = false;
     private boolean isTimeOk = false;
-    private boolean isSignUp = false;
     private boolean isOnClick = true;
-    private String imgUrl, titleStr, authorStr, infoStr, explainStr;
+    private String imgUrl, titleStr, authorStr, infoStr, dateStr, timeStr, explainStr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +72,6 @@ public class ReserveActivity extends BaseActivity implements View.OnClickListene
         data = (ThemeEntity) getIntent().getExtras().getSerializable("data");
         if (data != null) {
             themeId = data.getId();
-            status = data.getStatus();
             imgUrl = data.getPicUrl();
             titleStr = data.getTitle();
             explainStr = data.getSynopsis();
@@ -147,16 +144,26 @@ public class ReserveActivity extends BaseActivity implements View.OnClickListene
                 openChoiceDateActivity(data);
                 break;
             case R.id.reserve_tv_reserve:
-                if (!isDateOk || !isTimeOk) {
-                    openChoiceDateActivity(data);
+                if (isDateOk && isTimeOk) {
+                    toPay();
                 } else {
-
+                    openChoiceDateActivity(data);
                 }
                 break;
         }
     }
 
-    // 跳转至选择时间页面
+    /**
+     * 在线支付
+     */
+    private void toPay() {
+        showSuccessDialog(getString(R.string.reserve_success));
+    }
+
+    /**
+     * 跳转至选择时间页面
+     * @param data
+     */
     private void openChoiceDateActivity(ThemeEntity data) {
         if (data == null) return;
         Intent intent = new Intent(mContext, ChoiceDateActivity.class);
@@ -170,12 +177,37 @@ public class ReserveActivity extends BaseActivity implements View.OnClickListene
             if (requestCode == AppConfig.ACTIVITY_CODE_CHOICE_DATE) {
                 OptionEntity optionEn = (OptionEntity) data.getSerializableExtra(AppConfig.ACTIVITY_KEY_CHOICE_DATE);
                 if (optionEn != null) {
-                    tv_date.setText(getString(R.string.sign_up_reserve_date, optionEn.getDate()));
-                    tv_time.setText(getString(R.string.sign_up_reserve_time, optionEn.getTime()));
+                    dateStr = optionEn.getDate();
+                    timeStr = optionEn.getTime();
+                    checkDateState();
                 }
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void checkDateState() {
+        if (StringUtil.isNull(dateStr)) {
+            dateStr = "";
+            isDateOk = false;
+        } else {
+            isDateOk = true;
+        }
+        tv_date.setText(getString(R.string.sign_up_reserve_date, dateStr));
+
+        if (StringUtil.isNull(timeStr)) {
+            timeStr = "";
+            isTimeOk = false;
+        } else {
+            isTimeOk = true;
+        }
+        tv_time.setText(getString(R.string.sign_up_reserve_time, timeStr));
+
+        if (isDateOk && isTimeOk) {
+            tv_reserve.setText(getString(R.string.pay_now));
+        } else {
+            tv_reserve.setText(getString(R.string.reserve_choice));
+        }
     }
 
     @Override
@@ -183,18 +215,6 @@ public class ReserveActivity extends BaseActivity implements View.OnClickListene
         LogUtil.i(LogUtil.LOG_TAG, TAG + ": onResume");
         // 页面开始
         AppApplication.onPageStart(this, TAG);
-
-        // 报名状态
-        isSignUp = userManager.isThemeSignUp(themeId);
-        if (isLogin()) {
-            if (isSignUp) { //已报名
-                setSignState(getString(R.string.sign_up_already), false);
-            } else {
-                if (status == 2) { //已截止
-                    setSignState(getString(R.string.sign_up_end), false);
-                }
-            }
-        }
 
         super.onResume();
     }

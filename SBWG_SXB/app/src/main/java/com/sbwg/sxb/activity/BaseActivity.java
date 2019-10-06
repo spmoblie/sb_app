@@ -179,6 +179,101 @@ public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Res
 		outAnim = new AnimationUtils().loadAnimation(mContext, R.anim.out_to_left);
 	}
 
+	@Override
+	public void setContentView(int layoutResID) {
+		View view = LayoutInflater.from(this).inflate(layoutResID, null);
+		setContentView(view);
+	}
+
+	@Override
+	public void setContentView(View view) {
+		if (mLayoutBase.getChildCount() > 1) {
+			mLayoutBase.removeViewAt(1);
+		}
+		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT, 1);
+		mLayoutBase.addView(view, lp);
+		//Butter Knife初始化
+		ButterKnife.bind(this);
+	}
+
+	@Override
+	protected void onResume() {
+		LogUtil.i(LogUtil.LOG_TAG, TAG + ": onResume()");
+		// 设置App字体不随系统字体变化
+		AppApplication.initDisplayMetrics();
+
+		super.onResume();
+	}
+
+	@Override
+	protected void onPause() {
+		LogUtil.i(LogUtil.LOG_TAG, TAG + ": onPause()");
+		if (myDialog != null) {
+			myDialog.clearInstance();
+		}
+		// 缓存标题View高度
+		if (titleHeight <= 0) {
+			shared.edit().putInt(AppConfig.KEY_TITLE_HEIGHT, ll_head.getHeight()).apply();
+		}
+		super.onPause();
+	}
+
+	@Override
+	protected void onDestroy() {
+		LogUtil.i(LogUtil.LOG_TAG, TAG + ": onDestroy");
+		finishActivity(this);
+
+		super.onDestroy();
+	}
+
+	@Override
+	public void finish() {
+		super.finish();
+		// 销毁动画
+		overridePendingTransition(R.anim.anim_no_anim, R.anim.out_to_right);
+	}
+
+	@Override
+	public void onBackPressed() {
+		if (mShareView != null && mShareView.isShowing()) {
+			mShareView.showShareLayer(false);
+		} else {
+			super.onBackPressed();
+		}
+		super.onBackPressed();
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (mShareView != null) {
+			mShareView.onActivityResult(requestCode, resultCode, data);
+		}
+		super.onActivityResult(requestCode, resultCode, data);
+	}
+
+	@Override
+	protected void onNewIntent(Intent intent) {
+		if (mShareView != null) {
+			mShareView.onNewIntent(intent, this, this);
+		}
+		super.onNewIntent(intent);
+	}
+
+	@Override
+	public void onReq(BaseReq arg0) {
+
+	}
+
+	@Override
+	public void onResp(BaseResp arg0) {
+
+	}
+
+	@Override
+	public void onResponse(BaseResponse arg0) {
+
+	}
+
 	/**
 	 * 设置头部是否可见
 	 */
@@ -210,7 +305,7 @@ public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Res
 	/**
 	 * 设置左边按钮是否可见
 	 */
-	protected void setBtnLeftGone(int visibility){
+	protected void setLeftViewGone(int visibility){
 		iv_left.setVisibility(visibility);
 	}
 
@@ -219,55 +314,6 @@ public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Res
 	 */
 	protected void setRightViewGone(int visibility){
 		bt_right.setVisibility(visibility);
-	}
-
-	/**
-	 * 设置标题（文本资源Id）
-	 */
-	public void setTitle(int titleId) {
-		setTitle(getString(titleId));
-	}
-
-	/**
-	 * 设置标题（文本对象）
-	 */
-	public void setTitle(String title) {
-		tv_title.setText(title);
-	}
-
-	/**
-	 * 设置右边按钮背景图片资源对象
-	 */
-	@SuppressLint("NewApi")
-	protected void setRightViewBackground(Drawable btnRight) {
-		setRightViewGone(View.VISIBLE);
-		bt_right.setBackground(btnRight);
-	}
-
-	/**
-	 * 设置右边按钮背景图片资源Id
-	 */
-	protected void setRightViewBackground(int drawableId){
-		setRightViewGone(View.VISIBLE);
-		bt_right.setBackgroundResource(drawableId);
-	}
-
-	/**
-	 * 设置右边按钮显示文本
-	 */
-	protected void setRightViewText(String text){
-		setRightViewGone(View.VISIBLE);
-		bt_right.setText(text);
-	}
-
-	@Override
-	public void onBackPressed() {
-		if (mShareView != null && mShareView.isShowing()) {
-			mShareView.showShareLayer(false);
-		} else {
-			super.onBackPressed();
-		}
-		super.onBackPressed();
 	}
 
 	/**
@@ -288,21 +334,43 @@ public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Res
 
 	}
 
-	@Override
-	public void setContentView(int layoutResID) {
-		View view = LayoutInflater.from(this).inflate(layoutResID, null);
-		setContentView(view);
+	/**
+	 * 设置标题（文本资源Id）
+	 */
+	public void setTitle(int titleId) {
+		setTitle(getString(titleId));
 	}
 
-	@Override
-	public void setContentView(View view) {
-		if (mLayoutBase.getChildCount() > 1) {
-			mLayoutBase.removeViewAt(1);
-		}
-		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT, 1);
-		mLayoutBase.addView(view, lp);
-		//Butter Knife初始化
-		ButterKnife.bind(this);
+	/**
+	 * 设置标题（文本对象）
+	 */
+	public void setTitle(String title) {
+		tv_title.setText(title);
+	}
+
+	/**
+	 * 设置右边按钮显示文本
+	 */
+	protected void setRightViewText(String text){
+		setRightViewGone(View.VISIBLE);
+		bt_right.setText(text);
+	}
+
+	/**
+	 * 设置右边按钮背景图片资源Id
+	 */
+	protected void setRightViewBackground(int drawableId){
+		setRightViewGone(View.VISIBLE);
+		bt_right.setBackgroundResource(drawableId);
+	}
+
+	/**
+	 * 设置右边按钮背景图片资源对象
+	 */
+	@SuppressLint("NewApi")
+	protected void setRightViewBackground(Drawable btnRight) {
+		setRightViewGone(View.VISIBLE);
+		bt_right.setBackground(btnRight);
 	}
 
 	/**
@@ -393,37 +461,6 @@ public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Res
 		startActivity(intent);
 	}
 
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		if (mShareView != null) {
-			mShareView.onActivityResult(requestCode, resultCode, data);
-		}
-		super.onActivityResult(requestCode, resultCode, data);
-	}
-
-	@Override
-	protected void onNewIntent(Intent intent) {
-		if (mShareView != null) {
-			mShareView.onNewIntent(intent, this, this);
-		}
-		super.onNewIntent(intent);
-	}
-
-	@Override
-	public void onReq(BaseReq arg0) {
-
-	}
-
-	@Override
-	public void onResp(BaseResp arg0) {
-
-	}
-
-	@Override
-	public void onResponse(BaseResponse arg0) {
-
-	}
-
 	/**
 	 * 动态检查权限
 	 */
@@ -467,41 +504,6 @@ public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Res
 	 * 授权结果回调
 	 */
 	protected void permissionsResultCallback(boolean result) {}
-
-	@Override
-	protected void onResume() {
-		LogUtil.i(LogUtil.LOG_TAG, TAG + ": onResume()");
-		// 设置App字体不随系统字体变化
-		AppApplication.initDisplayMetrics();
-		super.onResume();
-	}
-
-	@Override
-	protected void onPause() {
-		LogUtil.i(LogUtil.LOG_TAG, TAG + ": onPause()");
-		if (myDialog != null) {
-			myDialog.clearInstance();
-		}
-		// 缓存标题View高度
-		if (titleHeight <= 0) {
-			shared.edit().putInt(AppConfig.KEY_TITLE_HEIGHT, ll_head.getHeight()).apply();
-		}
-		super.onPause();
-	}
-
-	@Override
-	protected void onDestroy() {
-		LogUtil.i(LogUtil.LOG_TAG, TAG + ": onDestroy");
-		finishActivity(this);
-		super.onDestroy();
-	}
-
-	@Override
-	public void finish() {
-		super.finish();
-		// 销毁动画
-		overridePendingTransition(R.anim.anim_no_anim, R.anim.out_to_right);
-	}
 
 	/**
 	 * 校验登录状态
@@ -576,6 +578,11 @@ public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Res
 		myDialog.showOneBtnDialog(content, dialogWidth, true, isVanish, handler, null);
 	}
 
+	protected void showSuccessDialog(String content) {
+		content = (TextUtils.isEmpty(content)) ? getString(R.string.dialog_error_msg) : content;
+		myDialog.showSuccessDialog(content, dialogWidth);
+	}
+
 	/**
 	 * 双按钮确认对话框
 	 */
@@ -638,10 +645,10 @@ public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Res
 			if (mShareView.isShowing()) {
 				mShareView.showShareLayer(false);
 			} else {
-//				if (!UserManager.getInstance().checkIsLogined()) {
-//					openLoginActivity();
-//					return;
-//				}
+				/*if (!UserManager.getInstance().checkIsLogined()) {
+					openLoginActivity();
+					return;
+				}*/
 				mShareView.showShareLayer(true);
 			}
 		}else {
@@ -652,6 +659,7 @@ public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Res
 	/**
 	 * 切换View背景的状态
 	 */
+	@SuppressLint("NewApi")
 	protected void changeViewState(View view, boolean isState) {
 		if (view == null) return;
 		if (isState) {

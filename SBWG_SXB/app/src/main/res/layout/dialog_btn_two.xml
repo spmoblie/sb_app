@@ -19,7 +19,7 @@
         android:visibility="gone" />
 
     <TextView
-        android:id="@+id/dialog_contents"
+        android:id="@+id/dialog_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/screen_margin_default"
@@ -28,7 +28,7 @@
         android:ellipsize="end"
         android:minLines="1"
         android:maxLines="6"
-        android:textColor="@color/dialog_text_context"
+        android:textColor="@color/dialog_text_content"
         android:textSize="@dimen/app_text_size_content" />
 
     <LinearLayout

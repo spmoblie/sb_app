@@ -3,6 +3,8 @@ package com.sbwg.sxb.activity.home;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
@@ -19,9 +21,6 @@ import com.sbwg.sxb.utils.LogUtil;
 import com.sbwg.sxb.utils.StringUtil;
 
 import butterknife.BindView;
-import rx.Observable;
-import rx.Observer;
-import rx.Subscriber;
 
 public class DetailsActivity extends BaseActivity implements View.OnClickListener {
 
@@ -99,28 +98,16 @@ public class DetailsActivity extends BaseActivity implements View.OnClickListene
         }
         tv_info.setText(infoStr);
 
-        Observable.create(new Observable.OnSubscribe<String>() {
+        new Thread(new Runnable() {
             @Override
-            public void call(Subscriber<? super String> subscriber) {
-                subscriber.onNext(StringUtil.htmlDecode(explainStr));
+            public void run() {
+                String showStr = StringUtil.htmlDecode(explainStr);
+                Message msg = new Message();
+                msg.what = 1;
+                msg.obj = showStr;
+                mHandler.handleMessage(msg);
             }
-        }).subscribe(new Observer<String>() {
-
-            @Override
-            public void onNext(String s) {
-                tv_explain.setText(s);
-            }
-
-            @Override
-            public void onError(Throwable e) {
-
-            }
-
-            @Override
-            public void onCompleted() {
-
-            }
-        });
+        }).start();
 
         if (pageType == 2) { //查看我的活动
             setTitle(getString(R.string.mine_text_activity));
@@ -191,5 +178,16 @@ public class DetailsActivity extends BaseActivity implements View.OnClickListene
     protected void onDestroy() {
         super.onDestroy();
     }
+
+    private Handler mHandler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case 1:
+                    tv_explain.setText((String)msg.obj);
+                    break;
+            }
+        }
+    };
 
 }

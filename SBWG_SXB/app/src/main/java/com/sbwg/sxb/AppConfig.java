@@ -92,7 +92,7 @@ public class AppConfig {
 	public static final String[] PERMISSIONS = new String[]{
 			Manifest.permission.CAMERA,
 			Manifest.permission.READ_EXTERNAL_STORAGE,
-			Manifest.permission.WRITE_EXTERNAL_STORAGE,};
+			Manifest.permission.WRITE_EXTERNAL_STORAGE };
 
 	// QQ AppID
 	public static final String QQ_APP_ID = "1104891333";

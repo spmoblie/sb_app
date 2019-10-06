@@ -14,6 +14,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -87,15 +88,55 @@ public class DialogManager {
 	}
 
 	/**
+	 * 弹出提示成功对话框
+	 *
+	 * @param content
+	 * @param width 对话框宽度
+	 */
+	public void showSuccessDialog(String content, int width){
+		// 销毁旧对话框
+		dismiss();
+		// 创建新对话框
+		mDialog = new Dialog(mContext, R.style.MyDialog);
+		mDialog.setCanceledOnTouchOutside(true);
+		mDialog.setContentView(R.layout.dialog_success);
+		// 设置对话框的坐标及宽高
+        LayoutParams lp = mDialog.getWindow().getAttributes();
+        lp.width = width;
+        mDialog.getWindow().setAttributes(lp);
+		// 初始化对话框中的子控件
+		TextView tv_content = mDialog.findViewById(R.id.dialog_content);
+		tv_content.setText(content);
+
+		ImageView iv_close = mDialog.findViewById(R.id.dialog_close);
+		iv_close.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				mDialog.dismiss();
+			}
+		});
+
+		Button ok = mDialog.findViewById(R.id.dialog_button_ok);
+		ok.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				mDialog.dismiss();
+			}
+		});
+		// 显示对话框
+		mDialog.show();
+	}
+
+	/**
 	 * 弹出一个按钮的通用对话框
 	 *
-	 * @param contentStr 提示内容
+	 * @param content 提示内容
 	 * @param width 对话框宽度
 	 * @param isCenter 提示内容是否居中
 	 * @param isVanish 点击框以外是否消失
 	 * @param keylistener 物理键盘监听器
 	 */
-	public void showOneBtnDialog(String contentStr, int width, boolean isCenter,
+	public void showOneBtnDialog(String content, int width, boolean isCenter,
                                  boolean isVanish, final Handler handler, OnKeyListener keylistener){
 		// 销毁旧对话框
 		dismiss();
@@ -111,12 +152,12 @@ public class DialogManager {
         lp.width = width;
         mDialog.getWindow().setAttributes(lp);
         // 初始化对话框中的子控件
-		final TextView content = mDialog.findViewById(R.id.dialog_content);
-		content.setText(contentStr);
+		TextView tv_content = mDialog.findViewById(R.id.dialog_content);
+		tv_content.setText(content);
 		if (!isCenter) { //不居中
-			content.setGravity(Gravity.LEFT| Gravity.CENTER_VERTICAL);
+			tv_content.setGravity(Gravity.LEFT| Gravity.CENTER_VERTICAL);
 		}
-		final Button ok = mDialog.findViewById(R.id.dialog_button_ok);
+		Button ok = mDialog.findViewById(R.id.dialog_button_ok);
 		ok.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -133,15 +174,15 @@ public class DialogManager {
 	/**
 	 * 弹出两个按钮的通用对话框
 	 * 
-	 * @param titleStr 对话框标题
-	 * @param contentStr 对话框内容
+	 * @param title 对话框标题
+	 * @param content 对话框内容
 	 * @param leftStr 对话框左边按钮文本
 	 * @param rightStr 对话框右边按钮文本
 	 * @param width 对话框宽度
 	 * @param isCenter 提示内容是否居中
 	 * @param isVanish 点击框以外是否消失
 	 */
-	public void showTwoBtnDialog(String titleStr, String contentStr, String leftStr, String rightStr,
+	public void showTwoBtnDialog(String title, String content, String leftStr, String rightStr,
                                  int width, boolean isCenter, boolean isVanish, final Handler handler){
 		// 销毁旧对话框
 		dismiss();
@@ -154,17 +195,17 @@ public class DialogManager {
         lp.width = width;
         mDialog.getWindow().setAttributes(lp);
         // 初始化对话框中的子控件
-		final TextView title = mDialog.findViewById(R.id.dialog_title);
-		if (!StringUtil.isNull(titleStr)) {
-			title.setText(titleStr);
-			title.setVisibility(View.VISIBLE);
+		TextView tv_title = mDialog.findViewById(R.id.dialog_title);
+		if (!StringUtil.isNull(title)) {
+			tv_title.setText(title);
+			tv_title.setVisibility(View.VISIBLE);
 		}
-		final TextView content = mDialog.findViewById(R.id.dialog_contents);
-		content.setText(contentStr);
+		TextView tv_content = mDialog.findViewById(R.id.dialog_content);
+		tv_content.setText(content);
 		if (!isCenter) { //不居中
-			content.setGravity(Gravity.LEFT| Gravity.CENTER_VERTICAL);
+			tv_content.setGravity(Gravity.LEFT| Gravity.CENTER_VERTICAL);
 		}
-		final Button left = mDialog.findViewById(R.id.dialog_button_cancel);
+		Button left = mDialog.findViewById(R.id.dialog_button_cancel);
 		if (!StringUtil.isNull(leftStr)) {
 			left.setText(leftStr);
 		}
@@ -177,7 +218,7 @@ public class DialogManager {
 				mDialog.dismiss(); 
 			}
 		});
-		final Button right = mDialog.findViewById(R.id.dialog_button_confirm);
+		Button right = mDialog.findViewById(R.id.dialog_button_confirm);
 		if (!StringUtil.isNull(rightStr)) {
 			right.setText(rightStr);
 		}
@@ -197,7 +238,7 @@ public class DialogManager {
 	/**
 	 * 弹出带输入框的对话框
 	 */
-	public void showEditDialog(String titleStr, int width, int inputType, boolean isVanish, final Handler handler){
+	public void showEditDialog(String title, int width, int inputType, boolean isVanish, final Handler handler){
 		// 销毁旧对话框
 		dismiss();
 		// 创建新对话框
@@ -209,14 +250,15 @@ public class DialogManager {
 		lp.width = width;
 		mDialog.getWindow().setAttributes(lp);
 		// 初始化对话框中的子控件
-		final TextView title = mDialog.findViewById(R.id.dialog_title);
-		if (!StringUtil.isNull(titleStr)) {
-			title.setText(titleStr);
-			title.setVisibility(View.VISIBLE);
+		TextView tv_title = mDialog.findViewById(R.id.dialog_title);
+		if (!StringUtil.isNull(title)) {
+			tv_title.setText(title);
+			tv_title.setVisibility(View.VISIBLE);
 		}
 		final EditText et_password = mDialog.findViewById(R.id.dialog_et_password);
 		et_password.setInputType(inputType);
-		final Button left = mDialog.findViewById(R.id.dialog_button_cancel);
+
+		Button left = mDialog.findViewById(R.id.dialog_button_cancel);
 		left.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -226,7 +268,7 @@ public class DialogManager {
 				mDialog.dismiss();
 			}
 		});
-		final Button right = mDialog.findViewById(R.id.dialog_button_confirm);
+		Button right = mDialog.findViewById(R.id.dialog_button_confirm);
 		right.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
@@ -258,7 +300,7 @@ public class DialogManager {
         lp.width = width;
         mDialog.getWindow().setAttributes(lp);
         // 初始化对话框中的子控件
-		final TextView tv_title = mDialog.findViewById(R.id.dialog_list_title);
+		TextView tv_title = mDialog.findViewById(R.id.dialog_list_title);
 		tv_title.setText(title);
 		if (!isCenter) { //不居中
 			tv_title.setGravity(Gravity.LEFT| Gravity.CENTER_VERTICAL);

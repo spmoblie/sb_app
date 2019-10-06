@@ -55,7 +55,7 @@
 
     <!-- dialog -->
     <color name="dialog_text_title">@color/app_color_black</color>
-    <color name="dialog_text_context">@color/app_color_black</color>
+    <color name="dialog_text_content">@color/app_color_black</color>
     <color name="dialog_text_button_1">@color/app_color_d_ark</color>
     <color name="dialog_text_button_2">@color/tv_color_button</color>
 

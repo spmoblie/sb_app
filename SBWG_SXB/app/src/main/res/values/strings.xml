@@ -7,6 +7,7 @@
     <!-- General -->
     <string name="confirm">确定</string>
     <string name="cancel">取消</string>
+    <string name="i_see">知道了</string>
     <string name="ignore">忽略</string>
     <string name="proceed">继续</string>
     <string name="being_not">暂不</string>
@@ -124,6 +125,7 @@
     <string name="reserve_suit">适用人群：</string>
     <string name="reserve_empty">\t\t\t\t\t\t\t\t\t\t</string>
     <string name="reserve_choice">请选择场次</string>
+    <string name="reserve_success">恭喜您^_^ 预约成功^_^</string>
 
     <!-- choice -->
     <string name="choice_date">选择时间</string>
@@ -275,6 +277,7 @@
 
     <!-- Pay -->
     <string name="pay_ok">已支付</string>
+    <string name="pay_now">立即支付</string>
     <string name="pay_line">在线支付</string>
     <string name="pay_hint">您已完成支付，请勿重复支付。</string>
     <string name="pay_success">模拟支付成功</string>

@@ -181,7 +181,8 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
                 if (themeEn != null) {
                     switch (type) {
                         case 0:
-                            openDetailsActivity(themeEn);
+                            openReserveActivity(themeEn);
+                            //openDetailsActivity(themeEn);
                             break;
                         case 1: //报名
                             openSignUpActivity(themeEn);
@@ -405,15 +406,32 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
         startActivity(intent);
     }
 
-    // 跳转至详情页面
+    /**
+     * 跳转至详情页面
+     * @param data
+     */
     private void openDetailsActivity(ThemeEntity data) {
+        if (data == null) return;
+        Intent intent = new Intent(getActivity(), DetailsActivity.class);
+        intent.putExtra("data", data);
+        startActivity(intent);
+    }
+
+    /**
+     * 跳转至预约页面
+     * @param data
+     */
+    private void openReserveActivity(ThemeEntity data) {
         if (data == null) return;
         Intent intent = new Intent(getActivity(), ReserveActivity.class);
         intent.putExtra("data", data);
         startActivity(intent);
     }
 
-    // 跳转至报名页面
+    /**
+     * 跳转至报名页面
+     * @param data
+     */
     private void openSignUpActivity(ThemeEntity data) {
         if (data == null) return;
         Intent intent = new Intent(getActivity(), SignUpActivity.class);
@@ -664,7 +682,6 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
         } else {
             resetData();
         }
-
     }
 
     /**
@@ -741,4 +758,3 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
     }
 
 }
-
