@@ -115,11 +115,12 @@
 
     <!-- mine -->
     <string name="mine_text_login">点击登录</string>
-    <string name="mine_text_user_id">松小堡ID:%1$s</string>
+    <string name="mine_text_member">%1$s\t\t%2$s</string>
     <string name="mine_text_activity">我的活动</string>
     <string name="mine_text_sign_num">%1$d人已报名</string>
 
     <!-- reserve -->
+    <string name="reserve_now">立即预约</string>
     <string name="reserve_time">预约时段：</string>
     <string name="reserve_place">课程地点：</string>
     <string name="reserve_suit">适用人群：</string>
@@ -276,6 +277,7 @@
     <string name="share_msg_entity_error">分享参数出错，请重新加载页面。</string>
 
     <!-- Pay -->
+    <string name="pay_rmb">￥</string>
     <string name="pay_ok">已支付</string>
     <string name="pay_now">立即支付</string>
     <string name="pay_line">在线支付</string>

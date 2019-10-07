@@ -17,6 +17,7 @@ import android.webkit.WebViewClient;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.FutureTarget;
 import com.sbwg.sxb.AppApplication;
+import com.sbwg.sxb.AppConfig;
 import com.sbwg.sxb.R;
 import com.sbwg.sxb.activity.BaseActivity;
 import com.sbwg.sxb.entity.ShareEntity;
@@ -86,7 +87,7 @@ public class MyWebViewActivity extends BaseActivity {
 		Bundle bundle = getIntent().getExtras();
 		titleStr = bundle.getString("title");
 		lodUrl = bundle.getString("lodUrl");
-		shareEn = (ShareEntity) bundle.getSerializable("shareEn");
+		shareEn = (ShareEntity) bundle.getSerializable(AppConfig.PAGE_DATA);
 
 		initView();
 	}

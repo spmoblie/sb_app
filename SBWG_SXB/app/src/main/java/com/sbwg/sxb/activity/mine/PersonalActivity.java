@@ -68,7 +68,7 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_personal);
 
-        infoEn = (UserInfoEntity) getIntent().getExtras().get("data");
+        infoEn = (UserInfoEntity) getIntent().getExtras().get(AppConfig.PAGE_DATA);
 
         findViewById();
         initView();
@@ -159,8 +159,8 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
             case R.id.personal_rl_gender:
                 SelectListEntity selectEn = getGenderListEntity();
                 intent = new Intent(mContext, SelectListActivity.class);
-                intent.putExtra("data", selectEn);
-                intent.putExtra("dataType", SelectListAdapter.DATA_TYPE_5);
+                intent.putExtra(AppConfig.PAGE_TYPE, SelectListAdapter.DATA_TYPE_5);
+                intent.putExtra(AppConfig.PAGE_DATA, selectEn);
                 startActivityForResult(intent, AppConfig.ACTIVITY_CODE_USER_GENDER);
                 return;
             case R.id.personal_rl_birthday:

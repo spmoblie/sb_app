@@ -45,6 +45,9 @@ public class ReserveActivity extends BaseActivity implements View.OnClickListene
     @BindView(R.id.reserve_tv_time)
     TextView tv_time;
 
+    @BindView(R.id.reserve_iv_line_3)
+    ImageView iv_line;
+
     @BindView(R.id.reserve_tv_explain)
     TextView tv_explain;
 
@@ -57,7 +60,12 @@ public class ReserveActivity extends BaseActivity implements View.OnClickListene
     LinearLayout.LayoutParams showImgLP;
 
     private ThemeEntity data;
+    private double payAmount = 0.00;
+    private int status; //1:报名中, 2:已截止
     private int themeId; //课程Id
+    private int pageType; //页面类型
+    private int themeType; //课程类型
+    private boolean isSignUp = false;
     private boolean isPayOk = false;
     private boolean isDateOk = false;
     private boolean isTimeOk = false;
@@ -69,11 +77,16 @@ public class ReserveActivity extends BaseActivity implements View.OnClickListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reserve);
 
-        data = (ThemeEntity) getIntent().getExtras().getSerializable("data");
+        pageType = getIntent().getIntExtra(AppConfig.PAGE_TYPE, 0);
+        data = (ThemeEntity) getIntent().getExtras().getSerializable(AppConfig.PAGE_DATA);
         if (data != null) {
             themeId = data.getId();
+            themeType = data.getThemeType();
+            status = data.getStatus();
             imgUrl = data.getPicUrl();
+            payAmount = data.getFees();
             titleStr = data.getTitle();
+            authorStr = data.getAuthor();
             explainStr = data.getSynopsis();
         }
 
@@ -96,25 +109,47 @@ public class ReserveActivity extends BaseActivity implements View.OnClickListene
                 .into(iv_show);
 
         tv_title.setText(titleStr);
-        tv_author.setText("此处是老师的信息");
-        tv_cost.setText("￥199.00");
+        tv_author.setText(authorStr);
+        tv_cost.setText(getString(R.string.pay_rmb) + String.valueOf(payAmount));
 
         String time = getString(R.string.reserve_time);
         String place = getString(R.string.reserve_place);
         String suit = getString(R.string.reserve_suit);
         String empty = getString(R.string.reserve_empty);
-        if (data != null) {
-            infoStr = time + "09:00-10:30" + "  " + "11:00-12:30" +
-                    "\n" + empty + "13:00-14:30" + "  " + "16:00-17:30" +
-                    "\n" + place + data.getAddress() +
-                    "\n" + suit + data.getSuit();
+        String number = getString(R.string.number_p);
+        if (themeType == 1) { //报名
+            time = getString(R.string.time);
+            place = getString(R.string.place);
+            suit = getString(R.string.suit);
+            if (data != null) {
+                infoStr = time + getString(R.string.sign_up_info_time, data.getStartTime(), data.getEndTime()) +
+                        "\n" + place + data.getAddress() +
+                        "\n" + number + getString(R.string.sign_up_info_number, data.getPeople(), data.getQuantity()) +
+                        "\n" + suit + data.getSuit();
+            } else {
+                infoStr = time + "\n" + place + "\n" + number + "\n" + suit;
+            }
         } else {
-            infoStr = time + "\n" + place + "\n" + suit;
+            if (data != null) {
+                infoStr = time + "09:00-10:30" + "  " + "11:00-12:30" +
+                        "\n" + empty + "13:00-14:30" + "  " + "16:00-17:30" +
+                        "\n" + place + data.getAddress() +
+                        "\n" + suit + data.getSuit();
+            } else {
+                infoStr = time + "\n" + place + "\n" + suit;
+            }
         }
         tv_info.setText(infoStr);
 
-        tv_date.setText(getString(R.string.sign_up_reserve_date, ""));
-        tv_time.setText(getString(R.string.sign_up_reserve_time, ""));
+        if (themeType == 1) { //报名
+            tv_date.setVisibility(View.GONE);
+            tv_time.setVisibility(View.GONE);
+            iv_line.setVisibility(View.GONE);
+            changeViewText(getString(R.string.sign_up_now), true);
+        } else {
+            tv_date.setText(getString(R.string.sign_up_reserve_date, ""));
+            tv_time.setText(getString(R.string.sign_up_reserve_time, ""));
+        }
 
         new Thread(new Runnable() {
             @Override
@@ -128,26 +163,32 @@ public class ReserveActivity extends BaseActivity implements View.OnClickListene
         }).start();
     }
 
-    private void setSignState(String text, boolean isState) {
-        if (!StringUtil.isNull(text)) {
-            tv_reserve.setText(text);
-        }
-        isOnClick = isState;
-        changeViewState(tv_reserve, isOnClick);
-    }
-
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.reserve_tv_date:
             case R.id.reserve_tv_time:
+                if (!isLogin()) { //未登录
+                    openLoginActivity();
+                    return;
+                }
                 openChoiceDateActivity(data);
                 break;
             case R.id.reserve_tv_reserve:
-                if (isDateOk && isTimeOk) {
-                    toPay();
+                if (themeType == 1) { //报名
+                    if (isOnClick) {
+                        openSignUpActivity(data);
+                    }
                 } else {
-                    openChoiceDateActivity(data);
+                    if (!isLogin()) { //未登录
+                        openLoginActivity();
+                        return;
+                    }
+                    if (isDateOk && isTimeOk) {
+                        toPay();
+                    } else {
+                        openChoiceDateActivity(data);
+                    }
                 }
                 break;
         }
@@ -167,8 +208,19 @@ public class ReserveActivity extends BaseActivity implements View.OnClickListene
     private void openChoiceDateActivity(ThemeEntity data) {
         if (data == null) return;
         Intent intent = new Intent(mContext, ChoiceDateActivity.class);
-        intent.putExtra("data", data);
+        intent.putExtra(AppConfig.PAGE_DATA, data);
         startActivityForResult(intent, AppConfig.ACTIVITY_CODE_CHOICE_DATE);
+    }
+
+    /**
+     * 跳转至报名页面
+     * @param data
+     */
+    private void openSignUpActivity(ThemeEntity data) {
+        if (data == null) return;
+        Intent intent = new Intent(mContext, SignUpActivity.class);
+        intent.putExtra(AppConfig.PAGE_DATA, data);
+        startActivity(intent);
     }
 
     @Override
@@ -204,9 +256,21 @@ public class ReserveActivity extends BaseActivity implements View.OnClickListene
         tv_time.setText(getString(R.string.sign_up_reserve_time, timeStr));
 
         if (isDateOk && isTimeOk) {
-            tv_reserve.setText(getString(R.string.pay_now));
+            changeViewText(getString(R.string.pay_now), true);
         } else {
-            tv_reserve.setText(getString(R.string.reserve_choice));
+            changeViewText(getString(R.string.reserve_choice), true);
+        }
+    }
+
+    private void changeViewText(String text, boolean isState) {
+        if (!StringUtil.isNull(text)) {
+            tv_reserve.setText(text);
+        }
+        isOnClick = isState;
+        if (isState) {
+            tv_reserve.setTextColor(getResources().getColor(R.color.app_color_black));
+        } else {
+            tv_reserve.setTextColor(getResources().getColor(R.color.app_color_greys));
         }
     }
 
@@ -215,6 +279,20 @@ public class ReserveActivity extends BaseActivity implements View.OnClickListene
         LogUtil.i(LogUtil.LOG_TAG, TAG + ": onResume");
         // 页面开始
         AppApplication.onPageStart(this, TAG);
+
+        if (themeType == 1) { //报名
+            if (isLogin()) {
+                // 报名状态
+                isSignUp = userManager.isThemeSignUp(themeId);
+                if (isSignUp) { //已报名
+                    changeViewText(getString(R.string.sign_up_already), false);
+                } else {
+                    if (status == 2) { //已截止
+                        changeViewText(getString(R.string.sign_up_end), false);
+                    }
+                }
+            }
+        }
 
         super.onResume();
     }

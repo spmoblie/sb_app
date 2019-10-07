@@ -56,7 +56,7 @@ public class ChoiceDateActivity extends BaseActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choice_date);
 
-        data = (ThemeEntity) getIntent().getExtras().getSerializable("data");
+        data = (ThemeEntity) getIntent().getExtras().getSerializable(AppConfig.PAGE_DATA);
         if (data != null) {
             themeId = data.getId();
             optionEn = data.getOption();

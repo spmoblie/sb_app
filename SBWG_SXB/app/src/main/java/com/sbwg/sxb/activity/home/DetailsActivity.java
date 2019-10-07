@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.sbwg.sxb.AppApplication;
+import com.sbwg.sxb.AppConfig;
 import com.sbwg.sxb.R;
 import com.sbwg.sxb.activity.BaseActivity;
 import com.sbwg.sxb.entity.ThemeEntity;
@@ -56,8 +57,8 @@ public class DetailsActivity extends BaseActivity implements View.OnClickListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_details);
 
-        pageType = getIntent().getIntExtra("type", 0);
-        data = (ThemeEntity) getIntent().getExtras().getSerializable("data");
+        pageType = getIntent().getIntExtra(AppConfig.PAGE_TYPE, 0);
+        data = (ThemeEntity) getIntent().getExtras().getSerializable(AppConfig.PAGE_DATA);
         if (data != null) {
             courseId = data.getId();
             status = data.getStatus();
@@ -84,10 +85,10 @@ public class DetailsActivity extends BaseActivity implements View.OnClickListene
 
         tv_title.setText(titleStr);
 
-        String suit = getString(R.string.suit);
         String time = getString(R.string.time);
         String place = getString(R.string.place);
         String number = getString(R.string.number_p);
+        String suit = getString(R.string.suit);
         if (data != null) {
             infoStr = time + getString(R.string.sign_up_info_time, data.getStartTime(), data.getEndTime()) +
                     "\n" + place + data.getAddress() +
@@ -130,7 +131,7 @@ public class DetailsActivity extends BaseActivity implements View.OnClickListene
     private void openSignUpActivity(ThemeEntity data) {
         if (data == null) return;
         Intent intent = new Intent(mContext, SignUpActivity.class);
-        intent.putExtra("data", data);
+        intent.putExtra(AppConfig.PAGE_DATA, data);
         startActivity(intent);
     }
 

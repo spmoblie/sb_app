@@ -14,6 +14,7 @@ public class ThemeEntity extends BaseEntity {
 	private String userName; //用户名称
 	private String userHead; //用户头像
 	private String suit; //适用人群
+	private String author; //活动讲师
 	private String synopsis; //活动简介
 	private String description; //活动说明
 	private String area; //活动地区
@@ -23,6 +24,7 @@ public class ThemeEntity extends BaseEntity {
 	private int quantity; //限制报名数量
 	private int people; //报名人数
 	private int status; //1:报名中,2:已截止
+	private int themeType; //课程类型:1:报名/2:预约
 	private double fees; //费用
 	private OptionEntity option; //课程场次
 	private UserInfoEntity userData; //报名信息
@@ -36,7 +38,6 @@ public class ThemeEntity extends BaseEntity {
 	public ThemeEntity(int errno, String errmsg) {
 		super(errno, errmsg);
 	}
-
 
 	@Override
 	public String getEntityId() {
@@ -105,6 +106,14 @@ public class ThemeEntity extends BaseEntity {
 
 	public void setSuit(String suit) {
 		this.suit = suit;
+	}
+
+	public String getAuthor() {
+		return author;
+	}
+
+	public void setAuthor(String author) {
+		this.author = author;
 	}
 
 	public String getSynopsis() {
@@ -177,6 +186,14 @@ public class ThemeEntity extends BaseEntity {
 
 	public void setStatus(int status) {
 		this.status = status;
+	}
+
+	public int getThemeType() {
+		return themeType;
+	}
+
+	public void setThemeType(int themeType) {
+		this.themeType = themeType;
 	}
 
 	public double getFees() {

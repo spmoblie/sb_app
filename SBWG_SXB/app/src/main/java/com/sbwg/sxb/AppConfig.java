@@ -276,6 +276,8 @@ public class AppConfig {
 	 ******************************************* Activity传参设置开始 ******************************************
 	 */
 
+	public static final String PAGE_TYPE = "page_type";
+	public static final String PAGE_DATA = "page_data";
 	public static final String ACTIVITY_KEY_PHOTO_PATH = "photo_path";
 	public static final String ACTIVITY_KEY_USER_INFO = "user_info";
 	public static final String ACTIVITY_KEY_SELECT_LIST = "select_list";

@@ -90,8 +90,8 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
-        pageType = getIntent().getIntExtra("type", 0);
-        data = (ThemeEntity) getIntent().getExtras().getSerializable("data");
+        pageType = getIntent().getIntExtra(AppConfig.PAGE_TYPE, 0);
+        data = (ThemeEntity) getIntent().getExtras().getSerializable(AppConfig.PAGE_DATA);
         if (data != null) {
             themeId = data.getId();
             status = data.getStatus();

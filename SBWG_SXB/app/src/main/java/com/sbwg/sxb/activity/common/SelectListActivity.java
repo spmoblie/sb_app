@@ -47,8 +47,8 @@ public class SelectListActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_select_list);
 
-		data = (SelectListEntity) getIntent().getExtras().get("data");
-		dataType = getIntent().getExtras().getInt("dataType", SelectListAdapter.DATA_TYPE_2);
+		data = (SelectListEntity) getIntent().getExtras().get(AppConfig.PAGE_DATA);
+		dataType = getIntent().getExtras().getInt(AppConfig.PAGE_TYPE, SelectListAdapter.DATA_TYPE_2);
 		
 		findViewById();
 		initView();

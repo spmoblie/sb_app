@@ -97,6 +97,8 @@ public class JsonUtils {
                     //childEn.setUserId(item.getString("adminId"));
                     childEn.setUserName(item.getString("userName"));
                     childEn.setUserHead(item.getString("avatar"));
+                    childEn.setSuit(item.getString("address"));
+                    childEn.setAuthor(item.getString("address"));
                     childEn.setSynopsis(item.getString("synopsis"));
                     childEn.setDescription(item.getString("description"));
                     childEn.setAddress(item.getString("address"));
@@ -105,6 +107,7 @@ public class JsonUtils {
                     childEn.setQuantity(item.getInt("quantity"));
                     childEn.setPeople(item.getInt("people"));
                     childEn.setStatus(item.getInt("status"));
+                    childEn.setThemeType(1);
                     childEn.setFees(item.getDouble("fee"));
                     lists.add(childEn);
                 }

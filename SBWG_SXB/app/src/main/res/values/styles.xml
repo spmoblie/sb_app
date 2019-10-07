@@ -122,7 +122,8 @@
     <style name="setting_lay_item">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/setting_cell_height</item>
-        <item name="android:background">@color/app_color_white</item>
+        <item name="android:clickable">true</item>
+        <item name="android:background">@drawable/selector_item_bg_1</item>
     </style>
 
     <!-- 设置页面标题文本样式 -->
@@ -222,6 +223,16 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">@dimen/app_text_size_label</item>
         <item name="android:textColor">@color/shows_text_color</item>
+    </style>
+
+    <style name="mine_item_text2">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">@dimen/screen_margin_default</item>
+        <item name="android:drawableRight">@mipmap/icon_go_right</item>
+        <item name="android:drawablePadding">@dimen/margin_padding_10</item>
+        <item name="android:textColor">@color/app_color_black</item>
+        <item name="android:textSize">@dimen/app_text_size_content</item>
     </style>
 
     <!-- 预约页面TextView样式 -->

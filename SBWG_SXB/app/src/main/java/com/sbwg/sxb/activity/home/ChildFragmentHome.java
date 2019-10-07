@@ -182,10 +182,13 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
                     switch (type) {
                         case 0:
                             openReserveActivity(themeEn);
-                            //openDetailsActivity(themeEn);
                             break;
                         case 1: //报名
-                            openSignUpActivity(themeEn);
+                            if (themeEn.getThemeType() == 2) {
+                                openReserveActivity(themeEn);
+                            } else {
+                                openSignUpActivity(themeEn);
+                            }
                             break;
                     }
                 } else {
@@ -400,7 +403,7 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
         shareEn.setUrl(data.getLinkUrl());
         // 跳转至WebView
         Intent intent = new Intent(getActivity(), MyWebViewActivity.class);
-        intent.putExtra("shareEn", shareEn);
+        intent.putExtra(AppConfig.PAGE_DATA, shareEn);
         intent.putExtra("title", data.getTitle());
         intent.putExtra("lodUrl", data.getLinkUrl());
         startActivity(intent);
@@ -413,7 +416,7 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
     private void openDetailsActivity(ThemeEntity data) {
         if (data == null) return;
         Intent intent = new Intent(getActivity(), DetailsActivity.class);
-        intent.putExtra("data", data);
+        intent.putExtra(AppConfig.PAGE_DATA, data);
         startActivity(intent);
     }
 
@@ -424,7 +427,7 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
     private void openReserveActivity(ThemeEntity data) {
         if (data == null) return;
         Intent intent = new Intent(getActivity(), ReserveActivity.class);
-        intent.putExtra("data", data);
+        intent.putExtra(AppConfig.PAGE_DATA, data);
         startActivity(intent);
     }
 
@@ -435,7 +438,7 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
     private void openSignUpActivity(ThemeEntity data) {
         if (data == null) return;
         Intent intent = new Intent(getActivity(), SignUpActivity.class);
-        intent.putExtra("data", data);
+        intent.putExtra(AppConfig.PAGE_DATA, data);
         startActivity(intent);
     }
 

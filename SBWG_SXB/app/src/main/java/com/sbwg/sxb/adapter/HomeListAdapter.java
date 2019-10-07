@@ -96,6 +96,11 @@ public class HomeListAdapter extends AppBaseAdapter {
 		holder.tv_title.setText(data.getTitle());
 		holder.tv_name.setText(data.getUserName());
 
+		if (data.getThemeType() == 2) {
+			holder.tv_sign.setText(context.getString(R.string.reserve_now));
+		} else {
+			holder.tv_sign.setText(context.getString(R.string.sign_up_title));
+		}
 		holder.tv_sign.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
