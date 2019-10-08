@@ -42,9 +42,6 @@ public class PullToRefreshScrollView extends PullToRefreshBase<ScrollView> {
         super(context, attrs, defStyle);
     }
 
-    /**
-     * @see com.nj1s.lib.pullrefresh.PullToRefreshBase#createRefreshableView(android.content.Context, android.util.AttributeSet)
-     */
     @Override
     protected ScrollView createRefreshableView(Context context, AttributeSet attrs) {
     	ScrollView scrollView;
@@ -56,17 +53,11 @@ public class PullToRefreshScrollView extends PullToRefreshBase<ScrollView> {
         return scrollView;
     }
 
-    /**
-     * @see com.nj1s.lib.pullrefresh.PullToRefreshBase#isReadyForPullDown()
-     */
     @Override
     protected boolean isReadyForPullDown() {
         return mRefreshableView.getScrollY() == 0;
     }
 
-    /**
-     * @see com.nj1s.lib.pullrefresh.PullToRefreshBase#isReadyForPullUp()
-     */
     @Override
     protected boolean isReadyForPullUp() {
         View scrollViewChild = mRefreshableView.getChildAt(0);

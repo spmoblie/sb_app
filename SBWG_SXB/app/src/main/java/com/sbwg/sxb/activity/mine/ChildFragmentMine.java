@@ -5,11 +5,14 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -20,9 +23,7 @@ import com.sbwg.sxb.AppConfig;
 import com.sbwg.sxb.R;
 import com.sbwg.sxb.activity.BaseFragment;
 import com.sbwg.sxb.activity.common.MyWebViewActivity;
-import com.sbwg.sxb.activity.home.SignUpActivity;
 import com.sbwg.sxb.entity.BaseEntity;
-import com.sbwg.sxb.entity.ThemeEntity;
 import com.sbwg.sxb.entity.UserInfoEntity;
 import com.sbwg.sxb.utils.ExceptionUtil;
 import com.sbwg.sxb.utils.JsonUtils;
@@ -30,6 +31,8 @@ import com.sbwg.sxb.utils.LogUtil;
 import com.sbwg.sxb.utils.UserManager;
 import com.sbwg.sxb.utils.retrofit.HttpRequests;
 import com.sbwg.sxb.widgets.RoundImageView;
+import com.sbwg.sxb.widgets.pullrefresh.PullToRefreshBase;
+import com.sbwg.sxb.widgets.pullrefresh.PullToRefreshScrollView;
 
 import org.json.JSONObject;
 
@@ -48,9 +51,10 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
 
     String TAG = ChildFragmentMine.class.getSimpleName();
 
-    ScrollView refresh_sv;
+    PullToRefreshScrollView refresh_sv;
+    LinearLayout sv_main;
     RoundImageView iv_user_head;
-    ImageView iv_setting, iv_debunk;
+    ImageView iv_setting, iv_message, iv_debunk;
     TextView tv_user_nick, tv_user_member;
 
     private Context mContext;
@@ -92,17 +96,59 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
     private void findViewById(View view) {
         refresh_sv = view.findViewById(R.id.fg_mine_refresh_sv);
 
-        iv_setting = view.findViewById(R.id.fg_mine_iv_setting);
-        iv_debunk = view.findViewById(R.id.fg_mine_iv_debunk);
-        iv_user_head = view.findViewById(R.id.fg_mine_iv_head);
-        tv_user_nick = view.findViewById(R.id.fg_mine_tv_nick);
-        tv_user_member = view.findViewById(R.id.fg_mine_tv_member);
+        sv_main = (LinearLayout) FrameLayout.inflate(mContext, R.layout.layout_scrollview_mine, null);
+        iv_setting = sv_main.findViewById(R.id.fg_mine_iv_setting);
+        iv_message = sv_main.findViewById(R.id.fg_mine_iv_message);
+        iv_debunk = sv_main.findViewById(R.id.fg_mine_iv_debunk);
+        iv_user_head = sv_main.findViewById(R.id.fg_mine_iv_head);
+        tv_user_nick = sv_main.findViewById(R.id.fg_mine_tv_nick);
+        tv_user_member = sv_main.findViewById(R.id.fg_mine_tv_member);
     }
 
     private void initView() {
         iv_setting.setOnClickListener(this);
+        iv_message.setOnClickListener(this);
         iv_debunk.setOnClickListener(this);
         iv_user_head.setOnClickListener(this);
+        tv_user_nick.setOnClickListener(this);
+        tv_user_member.setOnClickListener(this);
+
+        initScrollView();
+    }
+
+    private void initScrollView() {
+        refresh_sv.setPullRefreshEnabled(true);
+        refresh_sv.setPullLoadEnabled(true);
+        refresh_sv.setScrollLoadEnabled(false);
+        refresh_sv.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ScrollView>() {
+            @Override
+            public void onPullDownToRefresh(PullToRefreshBase<ScrollView> refreshView) {
+                // 下拉刷新
+                new Handler().postDelayed(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        refresh_sv.onPullDownRefreshComplete();
+                    }
+                }, AppConfig.LOADING_TIME);
+            }
+
+            @Override
+            public void onPullUpToRefresh(PullToRefreshBase<ScrollView> refreshView) {
+                // 加载更多
+                new Handler().postDelayed(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        refresh_sv.onPullUpRefreshComplete();
+                    }
+                }, AppConfig.LOADING_TIME);
+            }
+        });
+
+        ScrollView sv = refresh_sv.getRefreshableView();
+        sv.addView(sv_main);
+        sv.setVerticalScrollBarEnabled(false);
     }
 
     private void initUserView() {
@@ -129,10 +175,15 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
             case R.id.fg_mine_iv_setting:
                 startActivity(new Intent(mContext, SettingActivity.class));
                 break;
+            case R.id.fg_mine_iv_message:
+                startActivity(new Intent(mContext, MessageActivity.class));
+                break;
             case R.id.fg_mine_iv_debunk:
                 openWebViewActivity(getString(R.string.setting_question), "https://support.qq.com/product/1221");
                 break;
             case R.id.fg_mine_iv_head:
+            case R.id.fg_mine_tv_nick:
+            case R.id.fg_mine_tv_member:
                 if (isLogin()) {
                     openPersonalActivity();
                 } else {
@@ -151,20 +202,15 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
         startActivity(intent);
     }
 
-    // 跳转至WebView
+    /**
+     * 跳转至WebView
+     * @param title
+     * @param url
+     */
     private void openWebViewActivity(String title, String url) {
         Intent intent = new Intent(getActivity(), MyWebViewActivity.class);
         intent.putExtra("title", title);
         intent.putExtra("lodUrl", url);
-        startActivity(intent);
-    }
-
-    // 跳转至报名页面
-    private void openSignUpActivity(ThemeEntity data) {
-        if (data == null) return;
-        Intent intent = new Intent(getActivity(), SignUpActivity.class);
-        intent.putExtra(AppConfig.PAGE_TYPE, 2);
-        intent.putExtra(AppConfig.PAGE_DATA, data);
         startActivity(intent);
     }
 
@@ -179,13 +225,17 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
                 loadUserInfo();
             }
             if (shared.getBoolean(AppConfig.KEY_UPDATE_MINE_DATA, true)) {
-                //resetData();
+                // 刷新“我的”
             }
             if (infoEn == null) {
                 infoEn = getUserInfoData();
                 initUserView();
             }
+        } else {
+            infoEn = null;
+            initUserView();
         }
+
         super.onResume();
     }
 
@@ -240,28 +290,6 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
             loadFailHandle();
             ExceptionUtil.handle(e);
         }
-    }
-
-    @Override
-    protected void loadFailHandle() {
-        super.loadFailHandle();
-    }
-
-    /**
-     * 显示缓冲动画
-     */
-    @Override
-    protected void startAnimation() {
-        super.startAnimation();
-    }
-
-    /**
-     * 停止缓冲动画
-     */
-    @Override
-    protected void stopAnimation() {
-        super.stopAnimation();
-        //refresh_sv.onPullUpRefreshComplete();
     }
 
     /**

@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.util.ArrayMap;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -41,7 +40,6 @@ import com.sbwg.sxb.utils.LogUtil;
 import com.sbwg.sxb.utils.UserManager;
 import com.sbwg.sxb.utils.retrofit.HttpRequests;
 import com.sbwg.sxb.widgets.RoundImageView;
-import com.sbwg.sxb.widgets.pullrefresh.PullToRefreshBase;
 import com.sbwg.sxb.widgets.pullrefresh.PullToRefreshListView;
 
 import org.json.JSONObject;
@@ -147,7 +145,7 @@ public class ChildFragmentMine2 extends BaseFragment implements OnClickListener 
     }
 
     private void initListView() {
-        refresh_lv.setPullRefreshEnabled(true); //下拉刷新
+        /*refresh_lv.setPullRefreshEnabled(true); //下拉刷新
         refresh_lv.setPullLoadEnabled(true); //上拉加载
         refresh_lv.setScrollLoadEnabled(false); //底部翻页
         refresh_lv.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
@@ -201,7 +199,7 @@ public class ChildFragmentMine2 extends BaseFragment implements OnClickListener 
         mListView.setAdapter(lv_Adapter);
 
         // 添加头部View
-        mListView.addHeaderView(ll_head_main);
+        mListView.addHeaderView(ll_head_main);*/
     }
 
     private void initUserView() {
@@ -454,7 +452,7 @@ public class ChildFragmentMine2 extends BaseFragment implements OnClickListener 
                                     listEn.setMainLists(lists);
                                     FileManager.writeFileSaveObject(AppConfig.mineListFileName, listEn, 2);
                                 }
-                                List<BaseEntity> newLists = addNewEntity(al_show, lists, am_show);
+                                List<BaseEntity> newLists = addNewEntity(lists, al_show, am_show);
                                 if (newLists != null) {
                                     addNewShowLists(newLists);
                                     current_Page++;

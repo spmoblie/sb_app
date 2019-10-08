@@ -28,7 +28,6 @@ import com.sbwg.sxb.utils.CommonTools;
 import com.sbwg.sxb.utils.ExceptionUtil;
 import com.sbwg.sxb.utils.LogUtil;
 import com.sbwg.sxb.utils.UpdateAppVersion;
-import com.sbwg.sxb.utils.UserManager;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -219,10 +218,10 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 			current_index = 1;
 			break;
 		case R.id.main_fragment_fl_3:
-			if (!UserManager.getInstance().checkIsLogin()) {
+			/*if (!UserManager.getInstance().checkIsLogin()) {
 				openLoginActivity();
 				return;
-			}
+			}*/
 			if (current_index == 2) return;
 			current_index = 2;
 			break;

@@ -847,9 +847,6 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
     
     /**
      * 实现了平滑滚动的Runnable
-     * 
-     * @author Li Hong
-     * @since 2013-8-22
      */
     final class SmoothScrollRunnable implements Runnable {
         /**动画效果*/

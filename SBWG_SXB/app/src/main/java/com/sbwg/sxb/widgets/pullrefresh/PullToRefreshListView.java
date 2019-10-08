@@ -1,22 +1,22 @@
 package com.sbwg.sxb.widgets.pullrefresh;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AbsListView.OnScrollListener;
-import android.widget.Adapter;
-import android.widget.ListView;
 
+import com.sbwg.sxb.widgets.recycler.MyRecyclerView;
 import com.sbwg.sxb.widgets.pullrefresh.ILoadingLayout.State;
 
 /**
  * 这个类实现了ListView下拉刷新，上加载更多和滑到底部自动加载
  */
-public class PullToRefreshListView extends PullToRefreshBase<ListView> implements OnScrollListener {
+public class PullToRefreshListView extends PullToRefreshBase<MyRecyclerView> implements OnScrollListener {
     
-    /**ListView*/
-    private ListView mListView;
+    /**RecyclerView*/
+    private MyRecyclerView mRecyclerView;
     /**用于滑到底部自动加载的Footer*/
     private LoadingLayout mLoadMoreFooterLayout;
     /**滚动的监听器*/
@@ -55,12 +55,11 @@ public class PullToRefreshListView extends PullToRefreshBase<ListView> implement
     }
 
     @Override
-    protected ListView createRefreshableView(Context context, AttributeSet attrs) {
-        ListView listView = new ListView(context);
-        mListView = listView;
-        listView.setOnScrollListener(this);
-        
-        return listView;
+    protected MyRecyclerView createRefreshableView(Context context, AttributeSet attrs) {
+        MyRecyclerView recyclerView = new MyRecyclerView(context, attrs);
+        mRecyclerView = recyclerView;
+        //recyclerView.setOnScrollListener(this);
+        return recyclerView;
     }
     
     /**
@@ -131,7 +130,7 @@ public class PullToRefreshListView extends PullToRefreshBase<ListView> implement
             }
             
             if (null == mLoadMoreFooterLayout.getParent()) {
-                mListView.addFooterView(mLoadMoreFooterLayout, null, false);
+                mRecyclerView.addFooterView(mLoadMoreFooterLayout);
             }
             mLoadMoreFooterLayout.show(true);
         } else {
@@ -197,13 +196,13 @@ public class PullToRefreshListView extends PullToRefreshBase<ListView> implement
      * @return true完全显示出来，否则false
      */
     private boolean isFirstItemVisible() {
-        final Adapter adapter = mListView.getAdapter();
+        final RecyclerView.Adapter adapter = mRecyclerView.getAdapter();
 
-        if (null == adapter || adapter.isEmpty()) {
+        if (null == adapter) {
             return true;
         }
 
-        int mostTop = (mListView.getChildCount() > 0) ? mListView.getChildAt(0).getTop() : 0;
+        int mostTop = (mRecyclerView.getChildCount() > 0) ? mRecyclerView.getChildAt(0).getTop() : 0;
         if (mostTop >= 0) {
             return true;
         }
@@ -217,14 +216,14 @@ public class PullToRefreshListView extends PullToRefreshBase<ListView> implement
      * @return true完全显示出来，否则false
      */
     private boolean isLastItemVisible() {
-        final Adapter adapter = mListView.getAdapter();
+        final RecyclerView.Adapter adapter = mRecyclerView.getAdapter();
 
-        if (null == adapter || adapter.isEmpty()) {
+        if (null == adapter) {
             return true;
         }
 
-        final int lastItemPosition = adapter.getCount() - 1;
-        final int lastVisiblePosition = mListView.getLastVisiblePosition();
+        final int lastItemPosition = adapter.getItemCount() - 1;
+        final int lastVisiblePosition = mRecyclerView.getLastVisiblePosition();
 
         /**
          * This check should really just be: lastVisiblePosition == lastItemPosition, but ListView
@@ -232,12 +231,12 @@ public class PullToRefreshListView extends PullToRefreshBase<ListView> implement
          * one to account for it and rely on the inner condition which checks getBottom().
          */
         if (lastVisiblePosition >= lastItemPosition - 1) {
-            final int childIndex = lastVisiblePosition - mListView.getFirstVisiblePosition();
-            final int childCount = mListView.getChildCount();
+            final int childIndex = lastVisiblePosition - mRecyclerView.getFirstVisiblePosition();
+            final int childCount = mRecyclerView.getChildCount();
             final int index = Math.min(childIndex, childCount - 1);
-            final View lastVisibleChild = mListView.getChildAt(index);
+            final View lastVisibleChild = mRecyclerView.getChildAt(index);
             if (lastVisibleChild != null) {
-                return lastVisibleChild.getBottom() <= mListView.getBottom();
+                return lastVisibleChild.getBottom() <= mRecyclerView.getBottom();
             }
         }
 

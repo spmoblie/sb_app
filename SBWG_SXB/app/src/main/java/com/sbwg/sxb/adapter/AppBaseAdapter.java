@@ -10,34 +10,12 @@ import java.util.List;
 
 public abstract class AppBaseAdapter<T> extends BaseAdapter {
 
+	protected Object tag;
 	protected List<T> mDataList;
 	protected WeakReference<Context> weakContext;
-	protected Object tag;
-	protected OnItemCellClickListener onItemCellClickListener;
-	protected OnShowingLastItem onShowingLastItem;
-
-	public interface OnItemCellClickListener {
-
-		public void onItemCellClickListener(Object data);
-
-	}
-
-	public interface OnShowingLastItem {
-
-		public void onShowingLastItem();
-
-	}
 
 	public AppBaseAdapter(Context mContext) {
-		weakContext = new WeakReference<Context>(mContext);
-	}
-
-	public void setOnItemCellClickListener(OnItemCellClickListener onItemCellClickListener) {
-		this.onItemCellClickListener = onItemCellClickListener;
-	}
-
-	public void setOnShowingLastItem(OnShowingLastItem onShowingLastItem) {
-		this.onShowingLastItem = onShowingLastItem;
+		weakContext = new WeakReference<>(mContext);
 	}
 
 	public void setTag(Object tag) {

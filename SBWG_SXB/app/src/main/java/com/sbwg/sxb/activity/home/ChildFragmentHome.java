@@ -10,6 +10,7 @@ import android.support.constraint.ConstraintLayout;
 import android.support.v4.util.ArrayMap;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -17,7 +18,6 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -37,6 +37,7 @@ import com.sbwg.sxb.utils.FileManager;
 import com.sbwg.sxb.utils.JsonUtils;
 import com.sbwg.sxb.utils.LogUtil;
 import com.sbwg.sxb.utils.retrofit.HttpRequests;
+import com.sbwg.sxb.widgets.recycler.MyRecyclerView;
 import com.sbwg.sxb.widgets.pullrefresh.PullToRefreshBase;
 import com.sbwg.sxb.widgets.pullrefresh.PullToRefreshListView;
 
@@ -69,7 +70,7 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
     @BindView(R.id.loading_fail_tv_update)
     TextView tv_load_again;
 
-    ListView mListView;
+    MyRecyclerView mRecyclerView;
     ViewPager fg_home_vp;
     LinearLayout ll_head_main, fg_home_indicator;
 
@@ -138,9 +139,9 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
         refresh_lv.setPullRefreshEnabled(true); //下拉刷新
         refresh_lv.setPullLoadEnabled(true); //上拉加载
         refresh_lv.setScrollLoadEnabled(false); //底部翻页
-        refresh_lv.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
+        refresh_lv.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<MyRecyclerView>() {
             @Override
-            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+            public void onPullDownToRefresh(PullToRefreshBase<MyRecyclerView> refreshView) {
                 // 下拉刷新
                 new Handler().postDelayed(new Runnable() {
 
@@ -152,7 +153,7 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
             }
 
             @Override
-            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+            public void onPullUpToRefresh(PullToRefreshBase<MyRecyclerView> refreshView) {
                 // 加载更多
                 new Handler().postDelayed(new Runnable() {
 
@@ -168,11 +169,15 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
                 }, AppConfig.LOADING_TIME);
             }
         });
-        mListView = refresh_lv.getRefreshableView();
-        mListView.setDivider(null);
-        mListView.setVerticalScrollBarEnabled(false);
 
-        // 配置适配器
+        // 创建布局管理器
+        LinearLayoutManager layoutManager = new LinearLayoutManager(mContext);
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        // 设置布局管理器
+        mRecyclerView = refresh_lv.getRefreshableView();
+        mRecyclerView.setLayoutManager(layoutManager);
+
+        // 创建适配器
         apCallback = new AdapterCallback() {
 
             @Override
@@ -197,14 +202,16 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
             }
         };
         lv_Adapter = new HomeListAdapter(mContext, al_show, apCallback);
-        mListView.setAdapter(lv_Adapter);
 
         // 添加头部View
         ll_head_main = (LinearLayout) FrameLayout.inflate(mContext, R.layout.layout_list_head_home, null);
         fg_home_vp = ll_head_main.findViewById(R.id.fg_home_head_viewPager);
         fg_home_indicator = ll_head_main.findViewById(R.id.fg_home_head_indicator);
         ll_head_main.setVisibility(View.GONE);
-        mListView.addHeaderView(ll_head_main);
+        lv_Adapter.setHeaderView(ll_head_main);
+
+        // 配置适配器
+        mRecyclerView.setAdapter(lv_Adapter);
     }
 
     private void initHeadView() {
@@ -388,7 +395,7 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
 
     private void updateListData() {
         if (lv_Adapter != null) {
-            lv_Adapter.updateAdapter(al_show);
+            lv_Adapter.updateData(al_show);
         }
     }
 
@@ -506,7 +513,7 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
         }
         HashMap<String, String> map = new HashMap<>();
         map.put("page", String.valueOf(current_Page));
-        map.put("size", "10");
+        map.put("size", AppConfig.LOAD_SIZE);
         loadSVData(AppConfig.URL_HOME_LIST, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_POST_HOME_LIST);
     }
 
@@ -557,7 +564,7 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
                                 listEn.setMainLists(lists);
                                 FileManager.writeFileSaveObject(AppConfig.homeListFileName, listEn, 1);
                             }
-                            List<BaseEntity> newLists = addNewEntity(al_show, lists, am_show);
+                            List<BaseEntity> newLists = addNewEntity(lists, al_show, am_show);
                             if (newLists != null) {
                                 addNewShowLists(newLists);
                                 current_Page++;

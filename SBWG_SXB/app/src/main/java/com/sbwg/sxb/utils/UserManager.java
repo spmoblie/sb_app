@@ -338,9 +338,9 @@ public class UserManager {
 			// 绑定用户信息至推送服务
 			AppApplication.onPushRegister(true);
 			// 是否跳转子页至"我的"
-			if (sp.getBoolean(AppConfig.KEY_JUMP_PAGE, false)) {
+			/*if (sp.getBoolean(AppConfig.KEY_JUMP_PAGE, false)) {
 				editor.putInt(AppConfig.KEY_MAIN_CURRENT_INDEX, 2).apply();
-			}
+			}*/
 		}
 	}
 
@@ -359,8 +359,8 @@ public class UserManager {
 		// 刷新所有状态数据
 		changeAllDataStatus();
 		// 回退至"首页"
-		editor.putBoolean(AppConfig.KEY_JUMP_PAGE, true).apply();
-		editor.putInt(AppConfig.KEY_MAIN_CURRENT_INDEX, 0).apply();
+		//editor.putBoolean(AppConfig.KEY_JUMP_PAGE, true).apply();
+		//editor.putInt(AppConfig.KEY_MAIN_CURRENT_INDEX, 0).apply();
 	}
 
 	/**

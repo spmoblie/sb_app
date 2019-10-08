@@ -309,13 +309,9 @@
 
     <!-- 通用红点提醒ImageView样式 -->
     <style name="common_warn_red_image">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginTop">@dimen/margin_padding_5</item>
-        <item name="android:layout_marginLeft">@dimen/margin_padding_10</item>
-        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:layout_width">@dimen/margin_padding_8</item>
+        <item name="android:layout_height">@dimen/margin_padding_8</item>
         <item name="android:background">@drawable/shape_frame_style_5_90</item>
-        <item name="android:visibility">gone</item>
     </style>
 
     <!-- 通用红点数字提醒TextView样式 -->

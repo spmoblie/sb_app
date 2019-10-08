@@ -52,6 +52,8 @@ public class AppConfig {
 
 	// 获取我的设计
 	public final static String URL_DESIGN_ALL = "design/all";
+	// 获取我的消息
+	public final static String URL_MESSAGE = "message/all";
 
 	// 上传接口
 	public final static String URL_UPLOAD_PUSH = "upload/push";
@@ -83,6 +85,8 @@ public class AppConfig {
 	// Error状态码：手机号未注册
 	public static final int ERROR_CODE_PHONE_UNREGISTERED = 706;
 
+	// 加载数据数量
+	public static final String LOAD_SIZE = "10";
 	// 加载缓冲时间
 	public static final int LOADING_TIME = 1000;
 	// 验证码倒计时
@@ -186,6 +190,8 @@ public class AppConfig {
 	public static final int REQUEST_SV_POST_USER_ACTIVITY = 0X3004;
 	// 获取我的设计
 	public static final int REQUEST_SV_POST_DESIGN_ALL = 0X3005;
+	// 获取我的消息
+	public static final int REQUEST_SV_POST_MESSAGE = 0X3006;
 
 	/**
 	 ******************************************* RequestCode参数设置结束 ******************************************

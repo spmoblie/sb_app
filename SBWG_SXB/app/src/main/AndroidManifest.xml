@@ -155,6 +155,9 @@
             android:name=".activity.mine.FeedBackActivity"
             android:launchMode="standard"/>
         <activity
+            android:name=".activity.mine.MessageActivity"
+            android:launchMode="standard"/>
+        <activity
             android:name=".activity.mine.PersonalActivity"
             android:launchMode="standard"/>
         <activity

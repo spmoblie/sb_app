@@ -2,6 +2,7 @@ package com.sbwg.sxb.utils;
 
 import com.sbwg.sxb.entity.BaseEntity;
 import com.sbwg.sxb.entity.DesignEntity;
+import com.sbwg.sxb.entity.MessageEntity;
 import com.sbwg.sxb.entity.ThemeEntity;
 import com.sbwg.sxb.entity.UserInfoEntity;
 
@@ -179,6 +180,32 @@ public class JsonUtils {
                     JSONObject item = data.getJSONObject(j);
                     childEn = new DesignEntity();
                     childEn.setImgUrl(item.getString("url"));
+                    lists.add(childEn);
+                }
+                mainEn.setLists(lists);
+            }
+        }
+        return mainEn;
+    }
+
+    /**
+     * 解析我的消息数据
+     * @param jsonObject
+     * @return
+     * @throws JSONException
+     */
+    public static BaseEntity getMessageData(JSONObject jsonObject) throws JSONException {
+        BaseEntity mainEn = getCommonKeyValue(jsonObject);
+
+        if (StringUtil.notNull(jsonObject, "data")) {
+            JSONObject jsonData = jsonObject.getJSONObject("data");
+            if (StringUtil.notNull(jsonData, "values")) {
+                JSONArray data = jsonData.getJSONArray("values");
+                MessageEntity childEn;
+                List<MessageEntity> lists = new ArrayList<>();
+                for (int j = 0; j < data.length(); j++) {
+                    JSONObject item = data.getJSONObject(j);
+                    childEn = new MessageEntity();
                     lists.add(childEn);
                 }
                 mainEn.setLists(lists);

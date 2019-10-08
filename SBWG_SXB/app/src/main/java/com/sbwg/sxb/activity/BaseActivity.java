@@ -744,19 +744,19 @@ public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Res
 	/**
 	 * 数据刷新函数
 	 */
-	protected List<BaseEntity> updNewEntity(int newTotal, int oldTotal, List<? extends BaseEntity> newDatas,
-												List<? extends BaseEntity> oldDatas, ArrayMap<String, Boolean> oldMap) {
-		if (oldDatas == null || newDatas == null || oldMap == null) return null;
+	protected List<BaseEntity> updNewEntity(int newTotal, int oldTotal, List<? extends BaseEntity> newData,
+												List<? extends BaseEntity> oldData, ArrayMap<String, Boolean> oldMap) {
+		if (oldData == null || newData == null || oldMap == null) return null;
 		if (oldTotal < newTotal) {
 			List<BaseEntity> newLists = new ArrayList<BaseEntity>();
 			BaseEntity newEn, oldEn;
 			String dataId;
 			int newCount = newTotal - oldTotal;
-			if (newCount > newDatas.size()) {
-				newCount = newDatas.size();
+			if (newCount > newData.size()) {
+				newCount = newData.size();
 			}
 			for (int i = 0; i < newCount; i++) {
-				newEn = newDatas.get(i);
+				newEn = newData.get(i);
 				if (newEn != null) {
 					dataId = newEn.getEntityId();
 					if (!StringUtil.isNull(dataId) && !oldMap.containsKey(dataId)) {
@@ -764,8 +764,8 @@ public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Res
 						newLists.add(newEn);
 						oldMap.put(dataId, true);
 						// 移除最底层
-						if (oldDatas.size() >= 1) {
-							oldEn = oldDatas.remove(oldDatas.size()-1);
+						if (oldData.size() >= 1) {
+							oldEn = oldData.remove(oldData.size()-1);
 							if (oldEn != null && oldMap.containsKey(oldEn.getEntityId())) {
 								oldMap.remove(oldEn.getEntityId());
 							}
@@ -773,7 +773,7 @@ public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Res
 					}
 				}
 			}
-			newLists.addAll(oldDatas);
+			newLists.addAll(oldData);
 			return newLists;
 		}
 		return null;
@@ -782,15 +782,15 @@ public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Res
 	/**
 	 * 数据去重函数
 	 */
-	protected List<BaseEntity> addNewEntity(List<? extends BaseEntity> oldDatas,
-												List<? extends BaseEntity> newDatas, ArrayMap<String, Boolean> oldMap) {
-		if (oldDatas == null || newDatas == null || oldMap == null) return null;
+	protected List<BaseEntity> addNewEntity(List<? extends BaseEntity> newData,
+												List<? extends BaseEntity> oldData, ArrayMap<String, Boolean> oldMap) {
+		if (oldData == null || newData == null || oldMap == null) return null;
 		List<BaseEntity> newLists = new ArrayList<BaseEntity>();
-		newLists.addAll(oldDatas);
+		newLists.addAll(oldData);
 		BaseEntity newEn;
 		String dataId;
-		for (int i = 0; i < newDatas.size(); i++) {
-			newEn = newDatas.get(i);
+		for (int i = 0; i < newData.size(); i++) {
+			newEn = newData.get(i);
 			if (newEn != null) {
 				dataId = newEn.getEntityId();
 				if (!StringUtil.isNull(dataId) && !oldMap.containsKey(dataId)) {
