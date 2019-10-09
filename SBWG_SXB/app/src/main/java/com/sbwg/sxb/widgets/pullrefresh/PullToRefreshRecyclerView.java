@@ -13,7 +13,7 @@ import com.sbwg.sxb.widgets.pullrefresh.ILoadingLayout.State;
 /**
  * 这个类实现了ListView下拉刷新，上加载更多和滑到底部自动加载
  */
-public class PullToRefreshListView extends PullToRefreshBase<MyRecyclerView> implements OnScrollListener {
+public class PullToRefreshRecyclerView extends PullToRefreshBase<MyRecyclerView> implements OnScrollListener {
     
     /**RecyclerView*/
     private MyRecyclerView mRecyclerView;
@@ -27,7 +27,7 @@ public class PullToRefreshListView extends PullToRefreshBase<MyRecyclerView> imp
      * 
      * @param context context
      */
-    public PullToRefreshListView(Context context) {
+    public PullToRefreshRecyclerView(Context context) {
         this(context, null);
     }
     
@@ -37,7 +37,7 @@ public class PullToRefreshListView extends PullToRefreshBase<MyRecyclerView> imp
      * @param context context
      * @param attrs attrs
      */
-    public PullToRefreshListView(Context context, AttributeSet attrs) {
+    public PullToRefreshRecyclerView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
     
@@ -48,7 +48,7 @@ public class PullToRefreshListView extends PullToRefreshBase<MyRecyclerView> imp
      * @param attrs attrs
      * @param defStyle defStyle
      */
-    public PullToRefreshListView(Context context, AttributeSet attrs, int defStyle) {
+    public PullToRefreshRecyclerView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         
         setPullLoadEnabled(false);

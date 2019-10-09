@@ -39,7 +39,7 @@ import com.sbwg.sxb.utils.LogUtil;
 import com.sbwg.sxb.utils.retrofit.HttpRequests;
 import com.sbwg.sxb.widgets.recycler.MyRecyclerView;
 import com.sbwg.sxb.widgets.pullrefresh.PullToRefreshBase;
-import com.sbwg.sxb.widgets.pullrefresh.PullToRefreshListView;
+import com.sbwg.sxb.widgets.pullrefresh.PullToRefreshRecyclerView;
 
 import org.json.JSONObject;
 
@@ -62,7 +62,7 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
     String TAG = ChildFragmentHome.class.getSimpleName();
 
     @BindView(R.id.fg_home_refresh_lv)
-    PullToRefreshListView refresh_lv;
+    PullToRefreshRecyclerView refresh_lv;
 
     @BindView(R.id.loading_fail_main)
     ConstraintLayout rl_load_fail;
@@ -186,11 +186,11 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
                 if (themeEn != null) {
                     switch (type) {
                         case 0:
-                            openReserveActivity(themeEn);
+                            openDetailActivity(themeEn);
                             break;
-                        case 1: //报名
-                            if (themeEn.getThemeType() == 2) {
-                                openReserveActivity(themeEn);
+                        case 1:
+                            if (themeEn.getThemeType() == AppConfig.THEME_TYPE_1) {
+                                openDetailActivity(themeEn);
                             } else {
                                 openSignUpActivity(themeEn);
                             }
@@ -420,20 +420,9 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
      * 跳转至详情页面
      * @param data
      */
-    private void openDetailsActivity(ThemeEntity data) {
+    private void openDetailActivity(ThemeEntity data) {
         if (data == null) return;
-        Intent intent = new Intent(getActivity(), DetailsActivity.class);
-        intent.putExtra(AppConfig.PAGE_DATA, data);
-        startActivity(intent);
-    }
-
-    /**
-     * 跳转至预约页面
-     * @param data
-     */
-    private void openReserveActivity(ThemeEntity data) {
-        if (data == null) return;
-        Intent intent = new Intent(getActivity(), ReserveActivity.class);
+        Intent intent = new Intent(getActivity(), DetailActivity.class);
         intent.putExtra(AppConfig.PAGE_DATA, data);
         startActivity(intent);
     }

@@ -82,7 +82,7 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/fg_mine_sign_up_main"
+        android:id="@+id/fg_mine_party_main"
         style="@style/setting_lay_item"
         android:background="@drawable/selector_item_bg_2">
 
@@ -92,7 +92,7 @@
             android:textSize="@dimen/app_text_size_content"/>
 
         <TextView
-            android:id="@+id/fg_mine_tv_sign_up"
+            android:id="@+id/fg_mine_tv_party"
             style="@style/setting_lay_text_content"
             android:textSize="@dimen/app_text_size_label"/>
     </RelativeLayout>

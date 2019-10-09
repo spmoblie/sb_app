@@ -107,7 +107,10 @@ public class SelectListActivity extends BaseActivity {
 				}
 			}
 		};
-		lv_Adapter = new SelectListAdapter(mContext, selectEn, lv_lists, lv_Callback, dataType);
+		lv_Adapter = new SelectListAdapter(mContext, dataType, selectEn);
+		lv_Adapter.setDataList(lv_lists);
+		lv_Adapter.setCallback(lv_Callback);
+
 		lv.setAdapter(lv_Adapter);
 		lv.setOverScrollMode(ListView.OVER_SCROLL_NEVER);
 	}

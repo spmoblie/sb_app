@@ -30,8 +30,6 @@ import java.util.HashMap;
 
 import butterknife.BindView;
 
-import static com.sbwg.sxb.AppConfig.SEND_TIME;
-
 
 public class RegisterActivity extends BaseActivity implements OnClickListener {
 
@@ -332,9 +330,9 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 	private void initTimeState() {
 		long send_last_time = shared.getLong(AppConfig.KEY_SEND_VERIFY_LAST_TIME, 0);
 		send_number = shared.getInt(AppConfig.KEY_SEND_VERIFY_NUMBER, 0);
-		long intervalTime = SEND_TIME; //间隔1分钟
+		long intervalTime = AppConfig.SEND_TIME; //间隔1分钟
 		if (send_number >= 3) {
-			intervalTime = SEND_TIME * 10;  //间隔10分钟
+			intervalTime = AppConfig.SEND_TIME * 10;  //间隔10分钟
 		}
 		long quantumTime = System.currentTimeMillis() - send_last_time;
 		long surplusTime = intervalTime - quantumTime;
@@ -342,7 +340,7 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 			setSendCodeState(false);
 			startTimer(tv_verify_code, surplusTime);
 		} else {
-			if (send_number > 0 && quantumTime >= SEND_TIME * 10) { //每隔10分钟清零
+			if (send_number > 0 && quantumTime >= AppConfig.SEND_TIME * 10) { //每隔10分钟清零
 				send_number = 0;
 				shared.edit().putInt(AppConfig.KEY_SEND_VERIFY_NUMBER, send_number).apply();
 			}
@@ -395,9 +393,9 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 						setSendCodeState(false);
 						send_number++;
 						if (send_number < 3) {
-							startTimer(tv_verify_code, SEND_TIME);
+							startTimer(tv_verify_code, AppConfig.SEND_TIME);
 						} else {
-							startTimer(tv_verify_code, SEND_TIME * 10);
+							startTimer(tv_verify_code, AppConfig.SEND_TIME * 10);
 						}
 						shared.edit().putInt(AppConfig.KEY_SEND_VERIFY_NUMBER, send_number).apply();
 						shared.edit().putLong(AppConfig.KEY_SEND_VERIFY_LAST_TIME, System.currentTimeMillis()).apply();

@@ -60,7 +60,7 @@
                 android:contentDescription="@string/desc" />
 
             <TextView
-                style="@style/reserve_text"
+                style="@style/detail_text"
                 android:text="@string/choice_select_option" />
 
             <com.sbwg.sxb.widgets.ScrollViewListView

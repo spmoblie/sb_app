@@ -12,6 +12,7 @@ public abstract class AppBaseAdapter<T> extends BaseAdapter {
 
 	protected Object tag;
 	protected List<T> mDataList;
+	protected AdapterCallback apCallback;
 	protected WeakReference<Context> weakContext;
 
 	public AppBaseAdapter(Context mContext) {
@@ -20,6 +21,10 @@ public abstract class AppBaseAdapter<T> extends BaseAdapter {
 
 	public void setTag(Object tag) {
 		this.tag = tag;
+	}
+
+	public void setCallback(AdapterCallback callback) {
+		this.apCallback = callback;
 	}
 
 	@Override

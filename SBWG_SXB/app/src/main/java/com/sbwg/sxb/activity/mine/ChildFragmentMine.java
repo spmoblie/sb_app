@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -56,6 +57,7 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
     RoundImageView iv_user_head;
     ImageView iv_setting, iv_message, iv_debunk;
     TextView tv_user_nick, tv_user_member;
+    RelativeLayout rl_design_main, rl_party_main, rl_reserve_main, rl_bill_main, rl_help_main;
 
     private Context mContext;
 
@@ -97,12 +99,19 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
         refresh_sv = view.findViewById(R.id.fg_mine_refresh_sv);
 
         sv_main = (LinearLayout) FrameLayout.inflate(mContext, R.layout.layout_scrollview_mine, null);
+
         iv_setting = sv_main.findViewById(R.id.fg_mine_iv_setting);
         iv_message = sv_main.findViewById(R.id.fg_mine_iv_message);
         iv_debunk = sv_main.findViewById(R.id.fg_mine_iv_debunk);
         iv_user_head = sv_main.findViewById(R.id.fg_mine_iv_head);
         tv_user_nick = sv_main.findViewById(R.id.fg_mine_tv_nick);
         tv_user_member = sv_main.findViewById(R.id.fg_mine_tv_member);
+
+        rl_design_main = sv_main.findViewById(R.id.fg_mine_design_main);
+        rl_party_main = sv_main.findViewById(R.id.fg_mine_party_main);
+        rl_reserve_main = sv_main.findViewById(R.id.fg_mine_reserve_main);
+        rl_bill_main = sv_main.findViewById(R.id.fg_mine_bill_main);
+        rl_help_main = sv_main.findViewById(R.id.fg_mine_help_main);
     }
 
     private void initView() {
@@ -112,6 +121,11 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
         iv_user_head.setOnClickListener(this);
         tv_user_nick.setOnClickListener(this);
         tv_user_member.setOnClickListener(this);
+        rl_design_main.setOnClickListener(this);
+        rl_party_main.setOnClickListener(this);
+        rl_reserve_main.setOnClickListener(this);
+        rl_bill_main.setOnClickListener(this);
+        rl_help_main.setOnClickListener(this);
 
         initScrollView();
     }
@@ -189,6 +203,17 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
                 } else {
                     openLoginActivity();
                 }
+                break;
+            case R.id.fg_mine_design_main:
+                break;
+            case R.id.fg_mine_party_main:
+                startActivity(new Intent(mContext, MyPartyActivity.class));
+                break;
+            case R.id.fg_mine_reserve_main:
+                break;
+            case R.id.fg_mine_bill_main:
+                break;
+            case R.id.fg_mine_help_main:
                 break;
         }
     }

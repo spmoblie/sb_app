@@ -235,8 +235,8 @@
         <item name="android:textSize">@dimen/app_text_size_content</item>
     </style>
 
-    <!-- 预约页面TextView样式 -->
-    <style name="reserve_text">
+    <!-- 详情页面TextView样式 -->
+    <style name="detail_text">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginTop">@dimen/screen_margin_default</item>
@@ -246,8 +246,8 @@
         <item name="android:textColor">@color/app_color_black</item>
     </style>
 
-    <!-- 预约页面含右箭头TextView样式 -->
-    <style name="reserve_lay_text_go">
+    <!-- 详情页面含右箭头TextView样式 -->
+    <style name="detail_lay_text_go">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:paddingTop">@dimen/screen_margin_default</item>

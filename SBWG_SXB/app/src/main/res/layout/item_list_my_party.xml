@@ -7,7 +7,7 @@
     android:orientation="vertical">
 
     <RelativeLayout
-        android:id="@+id/fg_mine_item_main"
+        android:id="@+id/my_party_item_main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/screen_margin_default"
@@ -18,7 +18,7 @@
         android:background="@drawable/shape_frame_style_6_12">
 
         <com.sbwg.sxb.widgets.RoundImageView
-            android:id="@+id/fg_mine_item_iv_show"
+            android:id="@+id/my_party_item_iv_show"
             android:layout_width="@dimen/margin_padding_120"
             android:layout_height="@dimen/margin_padding_120"
             android:src="@drawable/icon_default_head"
@@ -26,27 +26,27 @@
             app:type="round" />
 
         <TextView
-            android:id="@+id/fg_mine_item_tv_title"
+            android:id="@+id/my_party_item_tv_title"
             style="@style/mine_item_text"
-            android:layout_alignTop="@+id/fg_mine_item_iv_show"
+            android:layout_alignTop="@+id/my_party_item_iv_show"
             android:layout_margin="@dimen/margin_padding_10"
-            android:layout_toRightOf="@+id/fg_mine_item_iv_show"
+            android:layout_toRightOf="@+id/my_party_item_iv_show"
             android:maxLines="2"
             android:ellipsize="end"
             android:textSize="@dimen/app_text_size_content"
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/fg_mine_item_tv_time"
+            android:id="@+id/my_party_item_tv_time"
             style="@style/mine_item_text"
-            android:layout_alignLeft="@+id/fg_mine_item_tv_title"
-            android:layout_below="@id/fg_mine_item_tv_title" />
+            android:layout_alignLeft="@+id/my_party_item_tv_title"
+            android:layout_below="@id/my_party_item_tv_title" />
 
         <TextView
-            android:id="@+id/fg_mine_item_tv_number"
+            android:id="@+id/my_party_item_tv_number"
             style="@style/mine_item_text"
             android:layout_alignParentRight="true"
-            android:layout_alignBottom="@+id/fg_mine_item_iv_show"
+            android:layout_alignBottom="@+id/my_party_item_iv_show"
             android:layout_marginRight="@dimen/margin_padding_10"
             android:paddingBottom="@dimen/margin_padding_10" />
 

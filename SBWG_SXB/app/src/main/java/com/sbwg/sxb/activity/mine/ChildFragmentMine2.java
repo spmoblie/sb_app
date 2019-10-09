@@ -26,8 +26,6 @@ import com.sbwg.sxb.activity.BaseFragment;
 import com.sbwg.sxb.activity.common.MyWebViewActivity;
 import com.sbwg.sxb.activity.common.ViewPagerActivity;
 import com.sbwg.sxb.activity.home.SignUpActivity;
-import com.sbwg.sxb.adapter.AdapterCallback;
-import com.sbwg.sxb.adapter.MineListAdapter;
 import com.sbwg.sxb.entity.BaseEntity;
 import com.sbwg.sxb.entity.DesignEntity;
 import com.sbwg.sxb.entity.ThemeEntity;
@@ -40,7 +38,7 @@ import com.sbwg.sxb.utils.LogUtil;
 import com.sbwg.sxb.utils.UserManager;
 import com.sbwg.sxb.utils.retrofit.HttpRequests;
 import com.sbwg.sxb.widgets.RoundImageView;
-import com.sbwg.sxb.widgets.pullrefresh.PullToRefreshListView;
+import com.sbwg.sxb.widgets.pullrefresh.PullToRefreshRecyclerView;
 
 import org.json.JSONObject;
 
@@ -62,7 +60,7 @@ public class ChildFragmentMine2 extends BaseFragment implements OnClickListener 
 
     String TAG = ChildFragmentMine2.class.getSimpleName();
 
-    PullToRefreshListView refresh_lv;
+    PullToRefreshRecyclerView refresh_lv;
     ListView mListView;
     RoundImageView iv_user_head;
     ImageView iv_setting, iv_debunk;
@@ -70,8 +68,8 @@ public class ChildFragmentMine2 extends BaseFragment implements OnClickListener 
     LinearLayout ll_design_main, ll_head_main;
 
     private Context mContext;
-    private AdapterCallback apCallback;
-    private MineListAdapter lv_Adapter;
+    //private AdapterCallback apCallback;
+    //private MyPartyAdapter lv_Adapter;
     private LinearLayout.LayoutParams designItemLP;
 
     private UserInfoEntity infoEn;
@@ -195,7 +193,7 @@ public class ChildFragmentMine2 extends BaseFragment implements OnClickListener 
                 }
             }
         };
-        lv_Adapter = new MineListAdapter(mContext, al_show, apCallback);
+        lv_Adapter = new MyPartyAdapter(mContext, al_show, apCallback);
         mListView.setAdapter(lv_Adapter);
 
         // 添加头部View
@@ -276,9 +274,9 @@ public class ChildFragmentMine2 extends BaseFragment implements OnClickListener 
     }
 
     private void updateListData() {
-        if (lv_Adapter != null) {
+        /*if (lv_Adapter != null) {
             lv_Adapter.updateAdapter(al_show);
-        }
+        }*/
     }
 
     @Override

@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:background="@color/ui_bg_color_app">
 
-    <com.sbwg.sxb.widgets.pullrefresh.PullToRefreshListView
+    <com.sbwg.sxb.widgets.pullrefresh.PullToRefreshRecyclerView
         android:id="@+id/fg_mine_refresh_lv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

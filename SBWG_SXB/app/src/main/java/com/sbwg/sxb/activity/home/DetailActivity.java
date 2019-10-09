@@ -3,8 +3,6 @@ package com.sbwg.sxb.activity.home;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -16,46 +14,55 @@ import com.sbwg.sxb.AppApplication;
 import com.sbwg.sxb.AppConfig;
 import com.sbwg.sxb.R;
 import com.sbwg.sxb.activity.BaseActivity;
+import com.sbwg.sxb.entity.BaseEntity;
 import com.sbwg.sxb.entity.OptionEntity;
 import com.sbwg.sxb.entity.ThemeEntity;
+import com.sbwg.sxb.utils.ExceptionUtil;
+import com.sbwg.sxb.utils.JsonUtils;
 import com.sbwg.sxb.utils.LogUtil;
 import com.sbwg.sxb.utils.StringUtil;
+import com.sbwg.sxb.utils.retrofit.HttpRequests;
+
+import org.json.JSONObject;
+
+import java.text.DecimalFormat;
+import java.util.HashMap;
 
 import butterknife.BindView;
 
-public class ReserveActivity extends BaseActivity implements View.OnClickListener {
+public class DetailActivity extends BaseActivity implements View.OnClickListener {
 
-    String TAG = ReserveActivity.class.getSimpleName();
+    String TAG = DetailActivity.class.getSimpleName();
 
-    @BindView(R.id.reserve_iv_show)
+    @BindView(R.id.detail_iv_show)
     ImageView iv_show;
 
-    @BindView(R.id.reserve_tv_title)
+    @BindView(R.id.detail_tv_title)
     TextView tv_title;
 
-    @BindView(R.id.reserve_tv_author)
+    @BindView(R.id.detail_tv_author)
     TextView tv_author;
 
-    @BindView(R.id.reserve_tv_info)
+    @BindView(R.id.detail_tv_info)
     TextView tv_info;
 
-    @BindView(R.id.reserve_tv_date)
+    @BindView(R.id.detail_tv_date)
     TextView tv_date;
 
-    @BindView(R.id.reserve_tv_time)
+    @BindView(R.id.detail_tv_time)
     TextView tv_time;
 
-    @BindView(R.id.reserve_iv_line_3)
+    @BindView(R.id.detail_iv_line_3)
     ImageView iv_line;
 
-    @BindView(R.id.reserve_tv_explain)
+    @BindView(R.id.detail_tv_explain)
     TextView tv_explain;
 
-    @BindView(R.id.reserve_tv_cost)
+    @BindView(R.id.detail_tv_cost)
     TextView tv_cost;
 
-    @BindView(R.id.reserve_tv_reserve)
-    TextView tv_reserve;
+    @BindView(R.id.detail_tv_click)
+    TextView tv_click;
 
     LinearLayout.LayoutParams showImgLP;
 
@@ -64,18 +71,19 @@ public class ReserveActivity extends BaseActivity implements View.OnClickListene
     private int status; //1:报名中, 2:已截止
     private int themeId; //课程Id
     private int pageType; //页面类型
-    private int themeType; //课程类型
+    private int themeType; //课程类型:0:报名/1:预约
     private boolean isSignUp = false;
     private boolean isPayOk = false;
     private boolean isDateOk = false;
     private boolean isTimeOk = false;
+    private boolean isLoadOk = false;
     private boolean isOnClick = true;
-    private String imgUrl, titleStr, authorStr, infoStr, dateStr, timeStr, explainStr;
+    private String imgUrl, titleStr, dateStr, timeStr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_reserve);
+        setContentView(R.layout.activity_detail);
 
         pageType = getIntent().getIntExtra(AppConfig.PAGE_TYPE, 0);
         data = (ThemeEntity) getIntent().getExtras().getSerializable(AppConfig.PAGE_DATA);
@@ -84,13 +92,11 @@ public class ReserveActivity extends BaseActivity implements View.OnClickListene
             themeType = data.getThemeType();
             status = data.getStatus();
             imgUrl = data.getPicUrl();
-            payAmount = data.getFees();
             titleStr = data.getTitle();
-            authorStr = data.getAuthor();
-            explainStr = data.getSynopsis();
         }
 
         initView();
+        loadServerData();
     }
 
     private void initView() {
@@ -98,7 +104,7 @@ public class ReserveActivity extends BaseActivity implements View.OnClickListene
 
         tv_date.setOnClickListener(this);
         tv_time.setOnClickListener(this);
-        tv_reserve.setOnClickListener(this);
+        tv_click.setOnClickListener(this);
 
         showImgLP = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         showImgLP.height = screenWidth / 2;
@@ -109,39 +115,8 @@ public class ReserveActivity extends BaseActivity implements View.OnClickListene
                 .into(iv_show);
 
         tv_title.setText(titleStr);
-        tv_author.setText(authorStr);
-        tv_cost.setText(getString(R.string.pay_rmb) + String.valueOf(payAmount));
 
-        String time = getString(R.string.reserve_time);
-        String place = getString(R.string.reserve_place);
-        String suit = getString(R.string.reserve_suit);
-        String empty = getString(R.string.reserve_empty);
-        String number = getString(R.string.number_p);
-        if (themeType == 1) { //报名
-            time = getString(R.string.time);
-            place = getString(R.string.place);
-            suit = getString(R.string.suit);
-            if (data != null) {
-                infoStr = time + getString(R.string.sign_up_info_time, data.getStartTime(), data.getEndTime()) +
-                        "\n" + place + data.getAddress() +
-                        "\n" + number + getString(R.string.sign_up_info_number, data.getPeople(), data.getQuantity()) +
-                        "\n" + suit + data.getSuit();
-            } else {
-                infoStr = time + "\n" + place + "\n" + number + "\n" + suit;
-            }
-        } else {
-            if (data != null) {
-                infoStr = time + "09:00-10:30" + "  " + "11:00-12:30" +
-                        "\n" + empty + "13:00-14:30" + "  " + "16:00-17:30" +
-                        "\n" + place + data.getAddress() +
-                        "\n" + suit + data.getSuit();
-            } else {
-                infoStr = time + "\n" + place + "\n" + suit;
-            }
-        }
-        tv_info.setText(infoStr);
-
-        if (themeType == 1) { //报名
+        if (themeType == AppConfig.THEME_TYPE_0) { //报名
             tv_date.setVisibility(View.GONE);
             tv_time.setVisibility(View.GONE);
             iv_line.setVisibility(View.GONE);
@@ -150,32 +125,73 @@ public class ReserveActivity extends BaseActivity implements View.OnClickListene
             tv_date.setText(getString(R.string.sign_up_reserve_date, ""));
             tv_time.setText(getString(R.string.sign_up_reserve_time, ""));
         }
+    }
 
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                String showStr = StringUtil.htmlDecode(explainStr);
-                Message msg = new Message();
-                msg.what = 1;
-                msg.obj = showStr;
-                mHandler.handleMessage(msg);
+    private void setView(ThemeEntity data) {
+        if (data != null) {
+            payAmount = data.getFees();
+
+            tv_author.setText(data.getAuthor());
+            tv_cost.setText(getString(R.string.pay_rmb, new DecimalFormat("0.00").format(payAmount)));
+
+            String infoStr;
+            if (themeType == AppConfig.THEME_TYPE_0) { //报名
+                infoStr = getString(R.string.time) + getString(R.string.sign_up_info_time, data.getStartTime(), data.getEndTime()) +
+                        "\n" + getString(R.string.place) + data.getAddress() +
+                        "\n" + getString(R.string.number_p) + getString(R.string.sign_up_info_number, data.getPeople(), data.getQuantity()) +
+                        "\n" + getString(R.string.suit) + data.getSuit();
+            } else {
+                StringBuffer sb = new StringBuffer();
+                sb.append(getString(R.string.reserve_time));
+
+                String dateSlot = data.getDateSlot();
+                if (!StringUtil.isNull(dateSlot)) {
+                    String[] dates = dateSlot.split(",");
+                    for (int i = 0; i < dates.length; i++) {
+                        if(i > 0 && i%2 == 0) {
+                            sb.append("\n");
+                            sb.append(getString(R.string.reserve_empty));
+                        }
+                        sb.append(dates[i]);
+                        if(i%2 == 0) {
+                            sb.append("  ");
+                        }
+                    }
+                }
+
+                infoStr = sb.toString() +
+                        "\n" + getString(R.string.reserve_place) + data.getAddress() +
+                        "\n" + getString(R.string.reserve_suit) + data.getSuit();
             }
-        }).start();
+            tv_info.setText(infoStr);
+
+            tv_explain.setText(StringUtil.htmlDecode(data.getSynopsis()));
+
+            isLoadOk = true;
+        }
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.reserve_tv_date:
-            case R.id.reserve_tv_time:
+            case R.id.detail_tv_date:
+            case R.id.detail_tv_time:
                 if (!isLogin()) { //未登录
                     openLoginActivity();
                     return;
                 }
+                if (!isLoadOk) {
+                    dataErrorHandle();
+                    return;
+                }
                 openChoiceDateActivity(data);
                 break;
-            case R.id.reserve_tv_reserve:
-                if (themeType == 1) { //报名
+            case R.id.detail_tv_click:
+                if (!isLoadOk) {
+                    dataErrorHandle();
+                    return;
+                }
+                if (themeType == AppConfig.THEME_TYPE_0) { //报名
                     if (isOnClick) {
                         openSignUpActivity(data);
                     }
@@ -219,6 +235,7 @@ public class ReserveActivity extends BaseActivity implements View.OnClickListene
     private void openSignUpActivity(ThemeEntity data) {
         if (data == null) return;
         Intent intent = new Intent(mContext, SignUpActivity.class);
+        intent.putExtra(AppConfig.PAGE_TYPE, 1);
         intent.putExtra(AppConfig.PAGE_DATA, data);
         startActivity(intent);
     }
@@ -264,13 +281,13 @@ public class ReserveActivity extends BaseActivity implements View.OnClickListene
 
     private void changeViewText(String text, boolean isState) {
         if (!StringUtil.isNull(text)) {
-            tv_reserve.setText(text);
+            tv_click.setText(text);
         }
         isOnClick = isState;
         if (isState) {
-            tv_reserve.setTextColor(getResources().getColor(R.color.app_color_black));
+            tv_click.setTextColor(getResources().getColor(R.color.app_color_black));
         } else {
-            tv_reserve.setTextColor(getResources().getColor(R.color.app_color_greys));
+            tv_click.setTextColor(getResources().getColor(R.color.app_color_greys));
         }
     }
 
@@ -280,7 +297,7 @@ public class ReserveActivity extends BaseActivity implements View.OnClickListene
         // 页面开始
         AppApplication.onPageStart(this, TAG);
 
-        if (themeType == 1) { //报名
+        if (themeType == AppConfig.THEME_TYPE_0) { //报名
             if (isLogin()) {
                 // 报名状态
                 isSignUp = userManager.isThemeSignUp(themeId);
@@ -311,15 +328,42 @@ public class ReserveActivity extends BaseActivity implements View.OnClickListene
         super.onDestroy();
     }
 
-    private Handler mHandler = new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case 1:
-                    tv_explain.setText((String)msg.obj);
+    /**
+     * 数据报错处理
+     */
+    private void dataErrorHandle() {
+        showDataError();
+        loadServerData();
+    }
+
+    /**
+     * 加载数据
+     */
+    private void loadServerData() {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("activityId", String.valueOf(themeId));
+        loadSVData(AppConfig.URL_HOME_DETAIL, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_POST_HOME_DETAIL);
+    }
+
+    @Override
+    protected void callbackData(JSONObject jsonObject, int dataType) {
+        BaseEntity baseEn;
+        try {
+            switch (dataType) {
+                case AppConfig.REQUEST_SV_POST_HOME_DETAIL:
+                    baseEn = JsonUtils.getHomeDetail(jsonObject);
+                    if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+                        data = (ThemeEntity) baseEn.getData();
+                        setView(data);
+                    } else {
+                        handleErrorCode(baseEn);
+                    }
                     break;
             }
+        } catch (Exception e) {
+            loadFailHandle();
+            ExceptionUtil.handle(e);
         }
-    };
+    }
 
 }

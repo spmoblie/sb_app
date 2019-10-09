@@ -76,9 +76,9 @@
 
     <!-- Toast -->
     <string name="toast_exit_prompt">再按一次退出程序</string>
-    <string name="toast_server_busy">服务器繁忙(T_T) 请稍后再试(T_T)</string>
-    <string name="toast_error_data_app">数据出错了(T_T) 请重启App应用(T_T)</string>
-    <string name="toast_error_data_page">数据出错了(T_T) 请重新加载页面(T_T)</string>
+    <string name="toast_server_busy">服务器繁忙 (T_T)\n请稍后再试 (T_T)</string>
+    <string name="toast_error_data_app">应用数据出错 (T_T)\n请重启此应用 (T_T)</string>
+    <string name="toast_error_data_page">页面出现错误 (T_T)\n正在刷新页面 (T_T)</string>
 
     <!-- Dialog -->
     <string name="dialog_version_new">当前版本已是最新版本</string>
@@ -116,7 +116,7 @@
     <!-- mine -->
     <string name="mine_text_login">点击登录</string>
     <string name="mine_text_member">%1$s\t\t%2$s</string>
-    <string name="mine_text_activity">我的活动</string>
+    <string name="mine_text_my_party">我的活动</string>
     <string name="mine_text_sign_num">%1$d人已报名</string>
 
     <!-- reserve -->
@@ -277,7 +277,7 @@
     <string name="share_msg_entity_error">分享参数出错，请重新加载页面。</string>
 
     <!-- Pay -->
-    <string name="pay_rmb">￥</string>
+    <string name="pay_rmb">￥%1$s</string>
     <string name="pay_ok">已支付</string>
     <string name="pay_now">立即支付</string>
     <string name="pay_line">在线支付</string>

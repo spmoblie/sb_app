@@ -30,64 +30,35 @@ public class SelectListAdapter extends AppBaseAdapter {
 	public static final int DATA_TYPE_8 = 8; //AddressEditActivity --> SelectListActivity
 
 	private Context context;
-	private SelectListEntity selectData;
-	private List<SelectListEntity> datas;
-	private AdapterCallback apCallback;
 	private int dataType;
-	
-	public SelectListAdapter(Context context, List<SelectListEntity> datas,
-                             AdapterCallback apCallback, int dataType) {
+	private SelectListEntity selectData;
+
+	public SelectListAdapter(Context context, int dataType) {
 		super(context);
 		this.context = context;
-		this.datas = datas;
-		this.apCallback = apCallback;
 		this.dataType = dataType;
 	}
 	
-	public SelectListAdapter(Context context, SelectListEntity selectEn, List<SelectListEntity> datas,
-                             AdapterCallback callback, int dataType) {
+	public SelectListAdapter(Context context, int dataType, SelectListEntity selectEn) {
 		super(context);
 		this.context = context;
+		this.dataType = dataType;
 		this.selectData = selectEn;
-		this.datas = datas;
-		this.apCallback = callback;
-		this.dataType = dataType;
 	}
 	
-	public void updateAdapter(List<SelectListEntity> datas, int dataType){
-		if (datas != null) {
-			this.datas = datas;
-			this.dataType = dataType;
-			notifyDataSetChanged();
-		}
-	}
-
-	/**获得总共有多少条数据*/
-	@Override
-	public int getCount() {
-		return datas.size();
-	}
-
-	/**在ListView中显示的每个item内容*/
-	@Override
-	public Object getItem(int position) {
-		return datas.get(position);
-	}
-
-	/**返回集合中个某个元素的位置*/
-	@Override
-	public long getItemId(int position) {
-		return position;
+	public void updateAdapter(List<SelectListEntity> data, int dataType){
+		this.dataType = dataType;
+		setDataList(data);
 	}
 
 	static class ViewHolder{
-		
+
 		LinearLayout ll_item;
 		TextView tv_item_name, tv_select_name;
 		ImageView iv_logo, iv_go, iv_line_1, iv_line_2;
-		
+
 	}
-	
+
 	/**代表了ListView中的一个item对象*/
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
@@ -108,7 +79,7 @@ public class SelectListAdapter extends AppBaseAdapter {
 		}else{
 			holder=(ViewHolder)convertView.getTag();
 		}
-		final SelectListEntity data = datas.get(position);
+		final SelectListEntity data = (SelectListEntity) mDataList.get(position);
 		switch (dataType) {
 		case DATA_TYPE_1: //ScreenListActivity
 			holder.tv_item_name.setText(data.getTypeName());

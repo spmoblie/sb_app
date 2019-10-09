@@ -124,10 +124,7 @@
             android:name=".activity.home.ChoiceDateActivity"
             android:launchMode="standard"/>
         <activity
-            android:name=".activity.home.DetailsActivity"
-            android:launchMode="standard"/>
-        <activity
-            android:name=".activity.home.ReserveActivity"
+            android:name=".activity.home.DetailActivity"
             android:launchMode="standard"/>
         <activity
             android:name=".activity.home.SignUpActivity"
@@ -156,6 +153,9 @@
             android:launchMode="standard"/>
         <activity
             android:name=".activity.mine.MessageActivity"
+            android:launchMode="standard"/>
+        <activity
+            android:name=".activity.mine.MyPartyActivity"
             android:launchMode="standard"/>
         <activity
             android:name=".activity.mine.PersonalActivity"

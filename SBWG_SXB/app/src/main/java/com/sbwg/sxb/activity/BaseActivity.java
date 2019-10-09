@@ -552,6 +552,13 @@ public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Res
 	}
 
 	/**
+	 * 数据显示出错提示
+	 */
+	protected void showDataError() {
+		CommonTools.showToast(getString(R.string.toast_error_data_page));
+	}
+
+	/**
 	 * 加载数据出错提示
 	 */
 	protected void showServerBusy(String showStr) {
@@ -835,7 +842,7 @@ public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Res
 	 */
 	protected void loadSVData(String path, HashMap<String, String> map, int httpType, final int dataType) {
 		HttpRequests.getInstance()
-				.loadData("base_1", path, map, httpType)
+				.loadData("base_2", path, map, httpType)
 				.subscribe(new Observer<ResponseBody>() {
 					@Override
 					public void onNext(ResponseBody body) {

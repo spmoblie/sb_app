@@ -12,9 +12,10 @@ import com.sbwg.sxb.AppConfig;
 import com.sbwg.sxb.R;
 import com.sbwg.sxb.activity.BaseActivity;
 import com.sbwg.sxb.adapter.AdapterCallback;
-import com.sbwg.sxb.adapter.MessageAdapter;
+import com.sbwg.sxb.adapter.MyPartyAdapter;
 import com.sbwg.sxb.entity.BaseEntity;
 import com.sbwg.sxb.entity.MessageEntity;
+import com.sbwg.sxb.entity.ThemeEntity;
 import com.sbwg.sxb.utils.ExceptionUtil;
 import com.sbwg.sxb.utils.JsonUtils;
 import com.sbwg.sxb.utils.LogUtil;
@@ -32,22 +33,20 @@ import java.util.List;
 import butterknife.BindView;
 
 
-public class MessageActivity extends BaseActivity implements OnClickListener {
+public class MyPartyActivity extends BaseActivity implements OnClickListener {
 
-	String TAG = MessageActivity.class.getSimpleName();
+	String TAG = MyPartyActivity.class.getSimpleName();
 
 	@BindView(R.id.refresh_view_rv)
 	PullToRefreshRecyclerView refresh_rv;
 
 	MyRecyclerView mRecyclerView;
-	MessageAdapter rvAdapter;
+	MyPartyAdapter rvAdapter;
 	AdapterCallback apCallback;
 
 	private int data_total = 0; //数据总量
 	private int current_Page = 1;  //当前列表加载页
-	private int loadType = 1; //(0:下拉刷新/1:翻页加载)
-	private boolean isLoadOk = true; //加载数据控制符
-	private ArrayList<MessageEntity> al_show = new ArrayList<>();
+	private ArrayList<ThemeEntity> al_show = new ArrayList<>();
 	private ArrayMap<String, Boolean> am_show = new ArrayMap<>();
 
 	@Override
@@ -59,7 +58,7 @@ public class MessageActivity extends BaseActivity implements OnClickListener {
 	}
 
 	private void initView() {
-		setTitle("消息");
+		setTitle(getString(R.string.mine_text_my_party));
 
 		initRecyclerView();
 		loadMoreData();
@@ -77,8 +76,7 @@ public class MessageActivity extends BaseActivity implements OnClickListener {
 
 					@Override
 					public void run() {
-						refreshData();
-						//refresh_lv.onPullDownRefreshComplete();
+						refresh_rv.onPullDownRefreshComplete();
 					}
 				}, AppConfig.LOADING_TIME);
 			}
@@ -116,7 +114,7 @@ public class MessageActivity extends BaseActivity implements OnClickListener {
 
 			}
 		};
-		rvAdapter = new MessageAdapter(mContext, al_show, apCallback);
+		rvAdapter = new MyPartyAdapter(mContext, al_show, apCallback);
 		mRecyclerView.setAdapter(rvAdapter);
 	}
 
@@ -167,19 +165,9 @@ public class MessageActivity extends BaseActivity implements OnClickListener {
 	}
 
 	/**
-	 *下拉刷新
-	 */
-	private void refreshData() {
-		loadType = 0;
-		//loadServerData();
-		loadMoreData();
-	}
-
-	/**
 	 * 翻页加载
 	 */
 	private void loadMoreData() {
-		loadType = 1;
 		//loadServerData();
 		al_show.clear();
 		al_show.addAll(getDemoData().getLists());
@@ -191,13 +179,6 @@ public class MessageActivity extends BaseActivity implements OnClickListener {
 	 * 加载数据
 	 */
 	private void loadServerData() {
-		if (!isLoadOk) { //加载频率控制
-			if (loadType == 0) {
-				refresh_rv.onPullDownRefreshComplete();
-			}
-			return;
-		}
-		isLoadOk = false;
 		HashMap<String, String> map = new HashMap<>();
 		map.put("page", String.valueOf(current_Page));
 		map.put("size", AppConfig.LOAD_SIZE);
@@ -219,16 +200,9 @@ public class MessageActivity extends BaseActivity implements OnClickListener {
 								al_show.clear();
 								am_show.clear();
 							}
-							List<BaseEntity> newLists;
-							if (loadType == 0) {
-								//下拉
-								newLists = updNewEntity(newTotal, data_total, lists, al_show, am_show);
-							}else {
-								//翻页
-								newLists = addNewEntity(lists, al_show, am_show);
-								if (newLists != null) {
-									current_Page++;
-								}
+							List<BaseEntity> newLists = addNewEntity(lists, al_show, am_show);
+							if (newLists != null) {
+								current_Page++;
 							}
 							if (newLists != null) {
 								addNewShowLists(newLists);
@@ -250,7 +224,7 @@ public class MessageActivity extends BaseActivity implements OnClickListener {
 	private void addNewShowLists(List<BaseEntity> showLists) {
 		al_show.clear();
 		for (int i = 0; i < showLists.size(); i++) {
-			al_show.add((MessageEntity) showLists.get(i));
+			al_show.add((ThemeEntity) showLists.get(i));
 		}
 	}
 
@@ -263,7 +237,6 @@ public class MessageActivity extends BaseActivity implements OnClickListener {
 	@Override
 	protected void stopAnimation() {
 		super.stopAnimation();
-		isLoadOk = true;
 		refresh_rv.onPullDownRefreshComplete();
 		refresh_rv.onPullUpRefreshComplete();
 	}

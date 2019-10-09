@@ -40,6 +40,8 @@ public class AppConfig {
 	public final static String URL_HOME_BANNER = "home/index";
 	// 首页活动列表
 	public final static String URL_HOME_LIST = "activity/list";
+	// 首页活动详情
+	public final static String URL_HOME_DETAIL = "activity/detail";
 	// 报名数据提交
 	public final static String URL_SIGN_UP_ADD = "activity/sign_up/add";
 
@@ -75,6 +77,10 @@ public class AppConfig {
 	public static final int PHOTO_TYPE_ROUND = 0X0011;
 	// 相片类型-方形
 	public static final int PHOTO_TYPE_SQUARE = 0X0022;
+
+	// Data类型
+	public static final int THEME_TYPE_0 = 0; //活动报名
+	public static final int THEME_TYPE_1 = 1; //预约课程
 
 	// Error状态码：加载成功
 	public static final int ERROR_CODE_SUCCESS = 0;
@@ -173,12 +179,14 @@ public class AppConfig {
 	// 提交登录
 	public static final int REQUEST_SV_AUTH_LOGIN = 0X1006;
 
-	// 首頁头部数据
+	// 首頁头部
 	public static final int REQUEST_SV_POST_HOME_HEAD = 0X2001;
-	// 首頁列表数据
+	// 活动列表
 	public static final int REQUEST_SV_POST_HOME_LIST = 0X2002;
-	// 提交报名数据
-	public static final int REQUEST_SV_POST_SIGN_DATA = 0X2003;
+	// 活动详情
+	public static final int REQUEST_SV_POST_HOME_DETAIL = 0X2003;
+	// 提交报名
+	public static final int REQUEST_SV_POST_SIGN_DATA = 0X2004;
 
 	// 上传用户头像
 	public static final int REQUEST_SV_POST_UPLOAD_HEAD = 0X3001;

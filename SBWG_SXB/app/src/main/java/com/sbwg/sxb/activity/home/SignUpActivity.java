@@ -30,6 +30,7 @@ import com.sbwg.sxb.utils.retrofit.HttpRequests;
 
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
 import java.util.HashMap;
 
 import butterknife.BindView;
@@ -82,8 +83,9 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
     private boolean isName_Ok = false;
     private boolean isAge_Ok = false;
     private boolean isPhone_Ok = false;
+    private boolean isLoadOk = false;
     private boolean isPostData = false;
-    private String imgUrl, nameStr, ageStr, phoneStr, infoStr, explainStr;
+    private String imgUrl, nameStr, ageStr, phoneStr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,11 +98,15 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
             themeId = data.getId();
             status = data.getStatus();
             imgUrl = data.getPicUrl();
-            payAmount = data.getFees();
-            explainStr = data.getDescription();
         }
 
         initView();
+
+        if (pageType == 1) {
+            setView(data);
+        } else {
+            loadServerData();
+        }
     }
 
     private void initView() {
@@ -125,48 +131,7 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
                 .apply(AppApplication.getShowOptions())
                 .into(iv_show);
 
-        if (payAmount > 0) {
-            isPay = true;
-        }
-        setPayState(isPay);
-        tv_cost.setText(getString(R.string.sign_up_cost_show, String.valueOf(payAmount)));
-
-        String explain = getString(R.string.other);
-        String suit = getString(R.string.suit);
-        String time = getString(R.string.time);
-        String place = getString(R.string.place);
-        String number = getString(R.string.number_p);
-        if (data != null) {
-            infoStr = time + getString(R.string.sign_up_info_time, data.getStartTime(), data.getEndTime()) +
-                    "\n" + place + data.getAddress() +
-                    "\n" + number + getString(R.string.sign_up_info_number, data.getPeople(), data.getQuantity()) +
-                    "\n" + suit + data.getSuit();
-        } else {
-            infoStr = time + "\n" + place + "\n" + number + "\n" + suit;
-        }
-        if (StringUtil.isNull(explainStr)) {
-            explainStr = getString(R.string.sign_up_cost_hint);
-        }
-        tv_explain.setText(getString(R.string.sign_up_show) + "\n" +
-                           "\n" + infoStr + "\n" +
-                           "\n" + explain + explainStr);
-
         initEditText();
-
-        if (pageType == 2) { //查看我的活动
-            setTitle(getString(R.string.mine_text_activity));
-            UserInfoEntity userData = data.getUserData();
-            if (userData != null) {
-                et_name.setFocusable(false);
-                et_name.setFocusableInTouchMode(false);
-                et_name.setText(userData.getUserName());
-                selectGender(userData.getGenderCode());
-                et_age.setText(userData.getBirthday());
-                et_phone.setFocusable(false);
-                et_phone.setFocusableInTouchMode(false);
-                et_phone.setText(userData.getUserPhone());
-            }
-        }
     }
 
     private void initEditText() {
@@ -230,6 +195,52 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
         });
     }
 
+    private void setView(ThemeEntity data) {
+        if (data != null) {
+            payAmount = data.getFees();
+            if (payAmount > 0) {
+                isPay = true;
+            }
+            setPayState(isPay);
+            tv_cost.setText(getString(R.string.sign_up_cost_show, new DecimalFormat("0.00").format(payAmount)));
+
+            String infoStr = getString(R.string.time) + getString(R.string.sign_up_info_time, data.getStartTime(), data.getEndTime()) +
+                    "\n" + getString(R.string.place) + data.getAddress() +
+                    "\n" + getString(R.string.number_p) + getString(R.string.sign_up_info_number, data.getPeople(), data.getQuantity()) +
+                    "\n" + getString(R.string.suit) + data.getSuit();
+
+            String otherStr = data.getDescription();
+            if (StringUtil.isNull(otherStr)) {
+                otherStr = getString(R.string.sign_up_cost_hint);
+            }
+
+            String showStr = getString(R.string.sign_up_show) +
+                    "\n" +
+                    "\n" + infoStr +
+                    "\n" +
+                    "\n" + getString(R.string.other) + otherStr;
+
+            tv_explain.setText(showStr);
+
+            if (pageType == 2) { //查看我的活动
+                setTitle(getString(R.string.mine_text_my_party));
+                UserInfoEntity userData = data.getUserData();
+                if (userData != null) {
+                    et_name.setFocusable(false);
+                    et_name.setFocusableInTouchMode(false);
+                    et_name.setText(userData.getUserName());
+                    selectGender(userData.getGenderCode());
+                    et_age.setText(userData.getBirthday());
+                    et_phone.setFocusable(false);
+                    et_phone.setFocusableInTouchMode(false);
+                    et_phone.setText(userData.getUserPhone());
+                }
+            }
+
+            isLoadOk = true;
+        }
+    }
+
     private void checkState() {
         if (isSignUp) return;
         setSignState(false);
@@ -283,6 +294,10 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
                 selectAge();
                 break;
             case R.id.sign_tv_cost_pay:
+                if (!isLoadOk) {
+                    dataErrorHandle();
+                    return;
+                }
                 if (!isLogin()) { //未登录
                     openLoginActivity();
                     return;
@@ -299,6 +314,10 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
                 }
                 break;
             case R.id.sign_tv_sign_up:
+                if (!isLoadOk) {
+                    dataErrorHandle();
+                    return;
+                }
                 if (!isLogin()) { //未登录
                     openLoginActivity();
                     return;
@@ -408,9 +427,7 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
         isSignUp = userManager.isThemeSignUp(themeId);
         if (isLogin()) {
             if (isSignUp) { //已报名
-                if (isPay) {
-                    setPayState(getString(R.string.pay_ok), false);
-                }
+                setPayState(getString(R.string.pay_ok), false);
                 setSignState(getString(R.string.sign_up_already), false);
             } else {
                 if (status == 2) { //已截止
@@ -435,6 +452,23 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
     @Override
     protected void onDestroy() {
         super.onDestroy();
+    }
+
+    /**
+     * 数据报错处理
+     */
+    private void dataErrorHandle() {
+        showDataError();
+        loadServerData();
+    }
+
+    /**
+     * 加载数据
+     */
+    private void loadServerData() {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("activityId", String.valueOf(themeId));
+        loadSVData(AppConfig.URL_HOME_DETAIL, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_POST_HOME_DETAIL);
     }
 
     /**
@@ -466,6 +500,14 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
         BaseEntity baseEn;
         try {
             switch (dataType) {
+                case AppConfig.REQUEST_SV_POST_HOME_DETAIL:
+                    baseEn = JsonUtils.getHomeDetail(jsonObject);
+                    if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+                        setView((ThemeEntity) baseEn.getData());
+                    } else {
+                        handleErrorCode(baseEn);
+                    }
+                    break;
                 case AppConfig.REQUEST_SV_POST_SIGN_DATA:
                     baseEn = JsonUtils.getBaseErrorData(jsonObject);
                     if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {

@@ -1,17 +1,15 @@
 package com.sbwg.sxb.adapter;
 
 import android.content.Context;
-import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.sbwg.sxb.AppApplication;
-import com.sbwg.sxb.AppConfig;
 import com.sbwg.sxb.R;
 import com.sbwg.sxb.entity.ThemeEntity;
 import com.sbwg.sxb.widgets.RoundImageView;
@@ -21,17 +19,14 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHolder>{
-
-    public static final int screenWidth = AppApplication.getSharedPreferences().getInt(AppConfig.KEY_SCREEN_WIDTH, 0);
+public class MyPartyAdapter extends RecyclerView.Adapter<MyPartyAdapter.ViewHolder>{
 
     private Context mContext;
     private View mHeaderView;
     private AdapterCallback apCallback;
     private ArrayList<ThemeEntity> mData;
-    private ConstraintLayout.LayoutParams showImgLP;
 
-    public HomeListAdapter(Context context, ArrayList<ThemeEntity> data, AdapterCallback apCallback) {
+    public MyPartyAdapter(Context context, ArrayList<ThemeEntity> data, AdapterCallback apCallback) {
         super();
         mContext = context;
         this.apCallback = apCallback;
@@ -40,9 +35,6 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
         } else {
             mData = new ArrayList<>();
         }
-
-        showImgLP = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        showImgLP.height = screenWidth / 2;
     }
 
     public void updateData(ArrayList<ThemeEntity> data){
@@ -75,7 +67,7 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
         // 创建头部View
         if(mHeaderView != null && i == 0) return new ViewHolder(mHeaderView);
         // 创建一个View
-        View view = LayoutInflater.from(mContext).inflate(R.layout.item_list_home, viewGroup, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.item_list_my_party, viewGroup, false);
         // 创建一个ViewHolder
         return new ViewHolder(view);
     }
@@ -91,27 +83,10 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
                 .load(data.getPicUrl())
                 .apply(AppApplication.getShowOptions())
                 .into(viewHolder.iv_show);
-        Glide.with(AppApplication.getAppContext())
-                .load(data.getUserHead())
-                .apply(AppApplication.getHeadOptions())
-                .into(viewHolder.iv_head);
 
         viewHolder.tv_title.setText(data.getTitle());
-        viewHolder.tv_name.setText(data.getUserName());
-
-        if (data.getThemeType() == AppConfig.THEME_TYPE_1) {
-            viewHolder.tv_sign.setText(mContext.getString(R.string.reserve_now));
-        } else {
-            viewHolder.tv_sign.setText(mContext.getString(R.string.sign_up_title));
-        }
-        viewHolder.tv_sign.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (apCallback != null) {
-                    apCallback.setOnClick(data, pos, 1);
-                }
-            }
-        });
+        viewHolder.tv_time.setText(data.getStartTime() + " • " + data.getAddress());
+        viewHolder.tv_number.setText(data.getPeople() + "人已报名");
 
         viewHolder.item_main.setOnClickListener(new View.OnClickListener() {
 
@@ -137,30 +112,25 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        @BindView(R.id.fg_home_item_main)
-        ConstraintLayout item_main;
+        @BindView(R.id.my_party_item_main)
+        RelativeLayout item_main;
 
-        @BindView(R.id.fg_home_item_iv)
-        ImageView iv_show;
+        @BindView(R.id.my_party_item_iv_show)
+        RoundImageView iv_show;
 
-        @BindView(R.id.fg_home_item_iv_head)
-        RoundImageView iv_head;
-
-        @BindView(R.id.fg_home_item_tv_title)
+        @BindView(R.id.my_party_item_tv_title)
         TextView tv_title;
 
-        @BindView(R.id.fg_home_item_tv_name)
-        TextView tv_name;
+        @BindView(R.id.my_party_item_tv_time)
+        TextView tv_time;
 
-        @BindView(R.id.fg_home_item_tv_sign)
-        TextView tv_sign;
+        @BindView(R.id.my_party_item_tv_number)
+        TextView tv_number;
 
         public ViewHolder(View itemView) {
             super(itemView);
             if(itemView == mHeaderView) return;
             ButterKnife.bind(this, itemView);
-
-            iv_show.setLayoutParams(showImgLP);
         }
     }
 

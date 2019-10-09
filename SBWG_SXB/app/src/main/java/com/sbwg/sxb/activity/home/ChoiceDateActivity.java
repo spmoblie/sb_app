@@ -130,9 +130,13 @@ public class ChoiceDateActivity extends BaseActivity implements View.OnClickList
                 updateItemState(position);
             }
         };
-        lv_Adapter = new ChoiceListAdapter(mContext, al_show, apCallback);
+        lv_Adapter = new ChoiceListAdapter(mContext);
+        lv_Adapter.setDataList(al_show);
+        lv_Adapter.setCallback(apCallback);
+
         listView.setAdapter(lv_Adapter);
         listView.setOverScrollMode(ListView.OVER_SCROLL_NEVER);
+
         updateViewSate();
     }
 

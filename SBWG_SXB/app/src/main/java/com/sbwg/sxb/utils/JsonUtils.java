@@ -95,24 +95,59 @@ public class JsonUtils {
                     childEn.setTitle(item.getString("title"));
                     childEn.setPicUrl(item.getString("picUrl"));
                     childEn.setLinkUrl(item.getString("linkUrl"));
-                    //childEn.setUserId(item.getString("adminId"));
                     childEn.setUserName(item.getString("userName"));
                     childEn.setUserHead(item.getString("avatar"));
-                    childEn.setSuit(item.getString("address"));
-                    childEn.setAuthor(item.getString("address"));
-                    childEn.setSynopsis(item.getString("synopsis"));
-                    childEn.setDescription(item.getString("description"));
-                    childEn.setAddress(item.getString("address"));
-                    childEn.setStartTime(item.getString("startTimeValue"));
-                    childEn.setEndTime(item.getString("endTimeValue"));
-                    childEn.setQuantity(item.getInt("quantity"));
-                    childEn.setPeople(item.getInt("people"));
                     childEn.setStatus(item.getInt("status"));
-                    childEn.setThemeType(1);
-                    childEn.setFees(item.getDouble("fee"));
+                    childEn.setThemeType(item.getInt("isReservation"));
                     lists.add(childEn);
                 }
                 mainEn.setLists(lists);
+            }
+        }
+        return mainEn;
+    }
+
+    /**
+     * 解析活动详情数据
+     * @param jsonObject
+     * @return
+     * @throws JSONException
+     */
+    public static BaseEntity getHomeDetail(JSONObject jsonObject) throws JSONException {
+        BaseEntity mainEn = getCommonKeyValue(jsonObject);
+
+        if (StringUtil.notNull(jsonObject, "data")) {
+            JSONObject jsonData = jsonObject.getJSONObject("data");
+            if (StringUtil.notNull(jsonData, "data")) {
+                JSONObject item = jsonData.getJSONObject("data");
+                ThemeEntity childEn = new ThemeEntity();
+                childEn.setId(item.getInt("id"));
+                childEn.setTitle(item.getString("title"));
+                childEn.setPicUrl(item.getString("picUrl"));
+                childEn.setLinkUrl(item.getString("linkUrl"));
+                childEn.setUserId(item.getString("adminId"));
+                childEn.setSuit(item.getString("crowd"));
+                childEn.setAuthor(item.getString("address"));
+                childEn.setSynopsis(item.getString("synopsis"));
+                childEn.setDescription(item.getString("description"));
+                childEn.setAddress(item.getString("address"));
+                childEn.setQuantity(item.getInt("quantity"));
+                childEn.setPeople(item.getInt("people"));
+                childEn.setStatus(item.getInt("status"));
+                childEn.setThemeType(item.getInt("isReservation"));
+                childEn.setFees(item.getDouble("fee"));
+
+                if (StringUtil.notNull(item, "timeStr")) {
+                    childEn.setDateSlot(item.getString("timeStr"));
+                }
+                if (StringUtil.notNull(item, "startTimeValue")) {
+                    childEn.setStartTime(item.getString("startTimeValue"));
+                }
+                if (StringUtil.notNull(item, "endTimeValue")) {
+                    childEn.setEndTime(item.getString("endTimeValue"));
+                }
+
+                mainEn.setData(childEn);
             }
         }
         return mainEn;

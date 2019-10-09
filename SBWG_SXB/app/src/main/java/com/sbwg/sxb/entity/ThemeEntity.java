@@ -21,10 +21,11 @@ public class ThemeEntity extends BaseEntity {
 	private String address; //活动地址
 	private String startTime; //活动开始时间
 	private String endTime; //活动结束时间
+	private String dateSlot; //课程场次时间段
 	private int quantity; //限制报名数量
 	private int people; //报名人数
 	private int status; //1:报名中,2:已截止
-	private int themeType; //课程类型:1:报名/2:预约
+	private int themeType; //课程类型:0:报名/1:预约
 	private double fees; //费用
 	private OptionEntity option; //课程场次
 	private UserInfoEntity userData; //报名信息
@@ -162,6 +163,14 @@ public class ThemeEntity extends BaseEntity {
 
 	public void setEndTime(String endTime) {
 		this.endTime = endTime;
+	}
+
+	public String getDateSlot() {
+		return dateSlot;
+	}
+
+	public void setDateSlot(String dateSlot) {
+		this.dateSlot = dateSlot;
 	}
 
 	public int getQuantity() {
