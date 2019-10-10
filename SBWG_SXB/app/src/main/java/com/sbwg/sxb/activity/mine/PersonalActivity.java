@@ -97,7 +97,7 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
         rl_area.setOnClickListener(this);
         rl_intro.setOnClickListener(this);
 
-        setTitle(R.string.mine_page);
+        setTitle(R.string.mine_info);
     }
 
     private void setView() {
@@ -404,7 +404,7 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
         if (!StringUtil.isNull(clip_head_path)) {
             startAnimation();
             CommonTools.showToast(getString(R.string.photo_upload_img, getString(R.string.mine_head)));
-            uploadPushFile(new File(clip_head_path), 1, AppConfig.REQUEST_SV_POST_UPLOAD_HEAD);
+            uploadPushFile(new File(clip_head_path), 1, AppConfig.REQUEST_SV_UPLOAD_HEAD);
         } else {
             CommonTools.showToast(getString(R.string.photo_img_url_error, getString(R.string.mine_head)));
         }
@@ -417,7 +417,7 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
         if (!StringUtil.isNull(changeStr) && !StringUtil.isNull(userKey)) {
             HashMap<String, String> map = new HashMap<>();
             map.put(userKey, changeStr);
-            loadSVData(AppConfig.URL_USER_SAVE, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_POST_USER_SAVE);
+            loadSVData(AppConfig.URL_USER_SAVE, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_USER_SAVE);
         }
     }
 
@@ -426,7 +426,7 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
         BaseEntity baseEn;
         try {
             switch (dataType) {
-                case AppConfig.REQUEST_SV_POST_UPLOAD_HEAD:
+                case AppConfig.REQUEST_SV_UPLOAD_HEAD:
                     baseEn = JsonUtils.getUploadResult(jsonObject);
                     if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
                         changeStr = baseEn.getOthers();
@@ -436,7 +436,7 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
                         handleErrorCode(baseEn);
                     }
                     break;
-                case AppConfig.REQUEST_SV_POST_USER_SAVE:
+                case AppConfig.REQUEST_SV_USER_SAVE:
                     baseEn = JsonUtils.getUploadResult(jsonObject);
                     if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
                         AppApplication.updateUserData(true);

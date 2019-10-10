@@ -182,7 +182,7 @@ public class EditUserInfoActivity extends BaseActivity {
 	private void saveUserInfo() {
 		HashMap<String, String> map = new HashMap<>();
 		map.put(userKey, showStr);
-		loadSVData(AppConfig.URL_USER_SAVE, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_POST_USER_SAVE);
+		loadSVData(AppConfig.URL_USER_SAVE, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_USER_SAVE);
 	}
 
 	@Override
@@ -190,7 +190,7 @@ public class EditUserInfoActivity extends BaseActivity {
 		BaseEntity baseEn;
 		try {
 			switch (dataType) {
-				case AppConfig.REQUEST_SV_POST_USER_SAVE:
+				case AppConfig.REQUEST_SV_USER_SAVE:
 					isPost = true;
 					baseEn = JsonUtils.getUploadResult(jsonObject);
 					if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {

@@ -511,7 +511,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 //
 //			@Override
 //			public void run() {
-//				request(AppConfig.REQUEST_SV_POST_THIRD_PARTIES_LOGIN);
+//				request(AppConfig.REQUEST_SV_THIRD_PARTIES_LOGIN);
 //			}
 //		}, AppConfig.LOADING_TIME);
     }

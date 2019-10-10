@@ -201,40 +201,6 @@
         <item name="android:textColor">@color/title_text_color</item>
     </style>
 
-    <!-- 列表头像样式 -->
-    <style name="item_head_image">
-        <item name="android:layout_width">@dimen/margin_padding_40</item>
-        <item name="android:layout_height">@dimen/margin_padding_40</item>
-        <item name="android:layout_marginTop">@dimen/screen_margin_default</item>
-        <item name="android:src">@drawable/icon_default_head</item>
-    </style>
-
-    <style name="home_item_text">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginTop">@dimen/margin_padding_25</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textSize">@dimen/app_text_size_label</item>
-        <item name="android:textColor">@color/shows_text_color</item>
-    </style>
-
-    <style name="mine_item_text">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">@dimen/app_text_size_label</item>
-        <item name="android:textColor">@color/shows_text_color</item>
-    </style>
-
-    <style name="mine_item_text2">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:padding">@dimen/screen_margin_default</item>
-        <item name="android:drawableRight">@mipmap/icon_go_right</item>
-        <item name="android:drawablePadding">@dimen/margin_padding_10</item>
-        <item name="android:textColor">@color/app_color_black</item>
-        <item name="android:textSize">@dimen/app_text_size_content</item>
-    </style>
-
     <!-- 详情页面TextView样式 -->
     <style name="detail_text">
         <item name="android:layout_width">wrap_content</item>
@@ -283,6 +249,22 @@
         <item name="android:textColorHint">@color/input_hint_color</item>
         <item name="android:textSize">@dimen/app_text_size_label</item>
         <item name="android:textColor">@color/input_text_color</item>
+    </style>
+
+    <!-- 通用列表Item ImageView头像样式 -->
+    <style name="list_item_head">
+        <item name="android:layout_width">@dimen/margin_padding_40</item>
+        <item name="android:layout_height">@dimen/margin_padding_40</item>
+        <item name="android:layout_marginTop">@dimen/screen_margin_default</item>
+        <item name="android:src">@drawable/icon_default_head</item>
+    </style>
+
+    <!-- 通用列表Item TextView文本样式 -->
+    <style name="list_item_text">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/app_text_size_label</item>
+        <item name="android:textColor">@color/app_color_black</item>
     </style>
 
     <!-- 通用TextView+背景边框样式 -->

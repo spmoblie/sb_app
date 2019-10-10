@@ -108,22 +108,46 @@
     <string name="loading_click_load">重新加载</string>
     <string name="loading_submit_fail">上载失败</string>
 
-    <!-- main -->
+    <!-- Main -->
     <string name="main_tab_text_1">首页</string>
     <string name="main_tab_text_2">松小堡</string>
     <string name="main_tab_text_3">我的</string>
 
-    <!-- mine -->
-    <string name="mine_text_login">点击登录</string>
-    <string name="mine_text_member">%1$s\t\t%2$s</string>
-    <string name="mine_text_my_party">我的活动</string>
-    <string name="mine_text_sign_num">%1$d人已报名</string>
+    <!-- Mine -->
+    <string name="mine_login">点击登录</string>
+    <string name="mine_member">%1$s\t\t%2$s</string>
+    <string name="mine_my_design">我的设计</string>
+    <string name="mine_my_sing_up">我的活动</string>
+    <string name="mine_my_reserve">我的预约</string>
+    <string name="mine_my_order">我的账单</string>
+    <string name="mine_call">联系客服</string>
+    <string name="mine_sign_num">%1$d人已报名</string>
+    <string name="mine_info">我的资料</string>
+    <string name="mine_head">头像</string>
+    <string name="mine_name">姓名</string>
+    <string name="mine_nick">昵称</string>
+    <string name="mine_gender">性别</string>
+    <string name="mine_gender_male">男</string>
+    <string name="mine_gender_female">女</string>
+    <string name="mine_gender_confidential">保密</string>
+    <string name="mine_birthday">生日</string>
+    <string name="mine_area">地区</string>
+    <string name="mine_my_address">地址管理</string>
+    <string name="mine_change_nick">修改昵称</string>
+    <string name="mine_input_nick">请输入昵称</string>
+    <string name="mine_change_gender">修改性别</string>
+    <string name="mine_change_area">选择地区</string>
+    <string name="mine_change_intro">修改签名</string>
+    <string name="mine_intro">签名</string>
+    <string name="mine_intro_hint">填写个性签名更容易获得别人的关注哦</string>
 
     <!-- reserve -->
     <string name="reserve_now">立即预约</string>
-    <string name="reserve_time">预约时段：</string>
-    <string name="reserve_place">课程地点：</string>
-    <string name="reserve_suit">适用人群：</string>
+    <string name="reserve_slot">预约时段：</string>
+    <string name="reserve_place">课程地点：%1$s</string>
+    <string name="reserve_suit">适用人群：%1$s</string>
+    <string name="reserve_date">预约日期：%1$s</string>
+    <string name="reserve_time">预约时间：%1$s</string>
     <string name="reserve_empty">\t\t\t\t\t\t\t\t\t\t</string>
     <string name="reserve_choice">请选择场次</string>
     <string name="reserve_success">恭喜您^_^ 预约成功^_^</string>
@@ -151,16 +175,13 @@
     <string name="sign_up_phone">电话：</string>
     <string name="sign_up_input_phone">请输入手机号码</string>
     <string name="sign_up_input_phone_error">请输入正确的11位数手机号码</string>
-    <string name="sign_up_reserve_date">预约日期：%1$s</string>
-    <string name="sign_up_reserve_time">预约时间：%1$s</string>
+    <string name="sign_up_time">活动时间：%1$s</string>
+    <string name="sign_up_address">活动地点：%1$s</string>
     <string name="sign_up_show">活动说明：</string>
     <string name="sign_up_explain">活动简介</string>
     <string name="sign_up_info">活动信息</string>
     <string name="sign_up_info_time">%1$s 至 %2$s</string>
     <string name="sign_up_info_number">"已报名%1$d人/限%2$d人报名"</string>
-    <string name="sign_up_cost">活动费用：0.00元</string>
-    <string name="sign_up_cost_pay">请在线支付%1$s元活动费用，谢谢！</string>
-    <string name="sign_up_cost_show">活动费用：%1$s元</string>
     <string name="sign_up_cost_hint">费用为大赛统一报名费，主要用于场地租赁和组织等;</string>
 
     <!-- Find -->
@@ -282,7 +303,8 @@
     <string name="pay_now">立即支付</string>
     <string name="pay_line">在线支付</string>
     <string name="pay_hint">您已完成支付，请勿重复支付。</string>
-    <string name="pay_success">模拟支付成功</string>
+    <string name="pay_success">支付成功</string>
+    <string name="pay_abnormal">获取支付结果异常，请与客服联系并确认支付结果。</string>
 
     <!-- Address -->
     <string name="address_store_pickup">上门自取</string>
@@ -310,34 +332,6 @@
     <string name="address_error_load_area">加载区域信息出现错误！请关闭页面后重试！</string>
     <string name="address_error_no_select">请填写收货地址</string>
     <string name="address_error_data_null">还没有收货地址，去新增收货地址吧。</string>
-
-    <!-- Mine Page -->
-    <string name="mine_page">我的资料</string>
-    <string name="mine_head">头像</string>
-    <string name="mine_name">姓名</string>
-    <string name="mine_nick">昵称</string>
-    <string name="mine_gender">性别</string>
-    <string name="mine_gender_male">男</string>
-    <string name="mine_gender_female">女</string>
-    <string name="mine_gender_confidential">保密</string>
-    <string name="mine_birthday">生日</string>
-    <string name="mine_area">地区</string>
-    <string name="mine_intro">签名</string>
-    <string name="mine_intro_hint">填写个性签名更容易获得别人的关注哦</string>
-    <string name="mine_account_money">我的钱包</string>
-    <string name="mine_my_address">地址管理</string>
-    <string name="mine_collection">我的关注</string>
-    <string name="mine_call">联系客服</string>
-    <string name="mine_submit_audit">提交审核</string>
-    <string name="mine_change_nick">修改昵称</string>
-    <string name="mine_input_nick">请输入昵称</string>
-    <string name="mine_change_gender">修改性别</string>
-    <string name="mine_change_area">选择地区</string>
-    <string name="mine_change_intro">修改签名</string>
-    <string name="mine_change_email">修改邮箱</string>
-    <string name="mine_change_email_notice">注意：请正确输入您本人的邮箱，如有疑问请联系官方客服。</string>
-    <string name="mine_send_email_ok">邮件发送成功</string>
-    <string name="mine_send_email_hint">确认发送一封验证邮件至%1$s么？在您验证此邮件后方可修改邮箱地址。如有疑问请联系官方客服。</string>
 
     <!-- Filter -->
     <string name="filter">筛选</string>

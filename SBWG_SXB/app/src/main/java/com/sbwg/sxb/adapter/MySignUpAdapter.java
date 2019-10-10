@@ -1,11 +1,11 @@
 package com.sbwg.sxb.adapter;
 
 import android.content.Context;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -19,14 +19,14 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MyPartyAdapter extends RecyclerView.Adapter<MyPartyAdapter.ViewHolder>{
+public class MySignUpAdapter extends RecyclerView.Adapter<MySignUpAdapter.ViewHolder>{
 
     private Context mContext;
     private View mHeaderView;
     private AdapterCallback apCallback;
     private ArrayList<ThemeEntity> mData;
 
-    public MyPartyAdapter(Context context, ArrayList<ThemeEntity> data, AdapterCallback apCallback) {
+    public MySignUpAdapter(Context context, ArrayList<ThemeEntity> data, AdapterCallback apCallback) {
         super();
         mContext = context;
         this.apCallback = apCallback;
@@ -67,7 +67,7 @@ public class MyPartyAdapter extends RecyclerView.Adapter<MyPartyAdapter.ViewHold
         // 创建头部View
         if(mHeaderView != null && i == 0) return new ViewHolder(mHeaderView);
         // 创建一个View
-        View view = LayoutInflater.from(mContext).inflate(R.layout.item_list_my_party, viewGroup, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.item_list_my_sign_up, viewGroup, false);
         // 创建一个ViewHolder
         return new ViewHolder(view);
     }
@@ -84,9 +84,10 @@ public class MyPartyAdapter extends RecyclerView.Adapter<MyPartyAdapter.ViewHold
                 .apply(AppApplication.getShowOptions())
                 .into(viewHolder.iv_show);
 
+        viewHolder.item_time.setText(data.getAddTime());
         viewHolder.tv_title.setText(data.getTitle());
-        viewHolder.tv_time.setText(data.getStartTime() + " • " + data.getAddress());
-        viewHolder.tv_number.setText(data.getPeople() + "人已报名");
+        viewHolder.tv_time.setText(mContext.getString(R.string.sign_up_time, data.getStartTime()));
+        viewHolder.tv_address.setText(mContext.getString(R.string.sign_up_address, data.getAddress()));
 
         viewHolder.item_main.setOnClickListener(new View.OnClickListener() {
 
@@ -112,20 +113,23 @@ public class MyPartyAdapter extends RecyclerView.Adapter<MyPartyAdapter.ViewHold
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        @BindView(R.id.my_party_item_main)
-        RelativeLayout item_main;
+        @BindView(R.id.my_sign_up_item_main)
+        ConstraintLayout item_main;
 
-        @BindView(R.id.my_party_item_iv_show)
+        @BindView(R.id.my_sign_up_item_time)
+        TextView item_time;
+
+        @BindView(R.id.my_sign_up_item_iv_show)
         RoundImageView iv_show;
 
-        @BindView(R.id.my_party_item_tv_title)
+        @BindView(R.id.my_sign_up_item_tv_title)
         TextView tv_title;
 
-        @BindView(R.id.my_party_item_tv_time)
+        @BindView(R.id.my_sign_up_item_tv_time)
         TextView tv_time;
 
-        @BindView(R.id.my_party_item_tv_number)
-        TextView tv_number;
+        @BindView(R.id.my_sign_up_item_tv_address)
+        TextView tv_address;
 
         public ViewHolder(View itemView) {
             super(itemView);

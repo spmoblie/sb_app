@@ -57,7 +57,7 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
     RoundImageView iv_user_head;
     ImageView iv_setting, iv_message, iv_debunk;
     TextView tv_user_nick, tv_user_member;
-    RelativeLayout rl_design_main, rl_party_main, rl_reserve_main, rl_bill_main, rl_help_main;
+    RelativeLayout rl_design_main, rl_sign_up_main, rl_reserve_main, rl_bill_main, rl_help_main;
 
     private Context mContext;
 
@@ -108,7 +108,7 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
         tv_user_member = sv_main.findViewById(R.id.fg_mine_tv_member);
 
         rl_design_main = sv_main.findViewById(R.id.fg_mine_design_main);
-        rl_party_main = sv_main.findViewById(R.id.fg_mine_party_main);
+        rl_sign_up_main = sv_main.findViewById(R.id.fg_mine_sign_up_main);
         rl_reserve_main = sv_main.findViewById(R.id.fg_mine_reserve_main);
         rl_bill_main = sv_main.findViewById(R.id.fg_mine_bill_main);
         rl_help_main = sv_main.findViewById(R.id.fg_mine_help_main);
@@ -122,7 +122,7 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
         tv_user_nick.setOnClickListener(this);
         tv_user_member.setOnClickListener(this);
         rl_design_main.setOnClickListener(this);
-        rl_party_main.setOnClickListener(this);
+        rl_sign_up_main.setOnClickListener(this);
         rl_reserve_main.setOnClickListener(this);
         rl_bill_main.setOnClickListener(this);
         rl_help_main.setOnClickListener(this);
@@ -175,11 +175,11 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
                 iv_user_head.setImageResource(R.drawable.icon_default_head);
             }
             tv_user_nick.setText(infoEn.getUserNick());
-            tv_user_member.setText(getString(R.string.mine_text_member, "LV1", "门店年卡会员"));
+            tv_user_member.setText(getString(R.string.mine_member, "LV1", "门店年卡会员"));
         } else {
             iv_user_head.setImageResource(R.drawable.icon_default_head);
-            tv_user_nick.setText(getString(R.string.mine_text_login));
-            tv_user_member.setText(getString(R.string.mine_text_member, "LV0", "普通会员"));
+            tv_user_nick.setText(getString(R.string.mine_login));
+            tv_user_member.setText(getString(R.string.mine_member, "LV0", "普通会员"));
         }
     }
 
@@ -190,6 +190,10 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
                 startActivity(new Intent(mContext, SettingActivity.class));
                 break;
             case R.id.fg_mine_iv_message:
+                if (!isLogin()) {
+                    openLoginActivity();
+                    return;
+                }
                 startActivity(new Intent(mContext, MessageActivity.class));
                 break;
             case R.id.fg_mine_iv_debunk:
@@ -198,20 +202,36 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
             case R.id.fg_mine_iv_head:
             case R.id.fg_mine_tv_nick:
             case R.id.fg_mine_tv_member:
-                if (isLogin()) {
-                    openPersonalActivity();
-                } else {
+                if (!isLogin()) {
                     openLoginActivity();
+                    return;
                 }
+                openPersonalActivity();
                 break;
             case R.id.fg_mine_design_main:
+                if (!isLogin()) {
+                    openLoginActivity();
+                    return;
+                }
                 break;
-            case R.id.fg_mine_party_main:
-                startActivity(new Intent(mContext, MyPartyActivity.class));
+            case R.id.fg_mine_sign_up_main:
+                if (!isLogin()) {
+                    openLoginActivity();
+                    return;
+                }
+                startActivity(new Intent(mContext, MySignUpActivity.class));
                 break;
             case R.id.fg_mine_reserve_main:
+                if (!isLogin()) {
+                    openLoginActivity();
+                    return;
+                }
                 break;
             case R.id.fg_mine_bill_main:
+                if (!isLogin()) {
+                    openLoginActivity();
+                    return;
+                }
                 break;
             case R.id.fg_mine_help_main:
                 break;
@@ -291,7 +311,7 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
     private void loadUserInfo() {
         HashMap<String, String> map = new HashMap<>();
         map.put("userId", userManager.getUserId());
-        loadSVData(AppConfig.URL_USER_GET, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_POST_USER_GET);
+        loadSVData(AppConfig.URL_USER_GET, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_USER_GET);
     }
 
     @Override
@@ -299,7 +319,7 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
         BaseEntity baseEn = null;
         try {
             switch (dataType) {
-                case AppConfig.REQUEST_SV_POST_USER_GET:
+                case AppConfig.REQUEST_SV_USER_GET:
                     baseEn = JsonUtils.getUserInfo(jsonObject);
                     if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
                         userManager.saveUserInfo((UserInfoEntity) baseEn.getData());

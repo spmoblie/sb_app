@@ -60,14 +60,11 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
     @BindView(R.id.sign_tv_cost)
     TextView tv_cost;
 
-    @BindView(R.id.sign_tv_cost_pay)
-    TextView tv_cost_pay;
-
     @BindView(R.id.sign_tv_explain)
     TextView tv_explain;
 
-    @BindView(R.id.sign_tv_sign_up)
-    TextView tv_sign_up;
+    @BindView(R.id.sign_tv_click)
+    TextView tv_click;
 
     LinearLayout.LayoutParams showImgLP;
 
@@ -77,15 +74,15 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
     private int themeId; //课程Id
     private int status; //1:报名中, 2:已截止
     private int genderCode = 1; //1:男, 2:女
+    private int payType = 1; //1:微信支付
     private boolean isSignUp = false;
     private boolean isPay = false;
-    private boolean isPay_Ok = false;
     private boolean isName_Ok = false;
     private boolean isAge_Ok = false;
     private boolean isPhone_Ok = false;
     private boolean isLoadOk = false;
-    private boolean isPostData = false;
-    private String imgUrl, nameStr, ageStr, phoneStr;
+    private boolean isOnClick = false;
+    private String imgUrl, nameStr, ageStr, phoneStr, orderNo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,8 +117,7 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
         et_age.setFocusableInTouchMode(false);
         et_age.setOnClickListener(this);
 
-        tv_sign_up.setOnClickListener(this);
-        tv_cost_pay.setOnClickListener(this);
+        tv_click.setOnClickListener(this);
 
         showImgLP = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         showImgLP.height = screenWidth / 2;
@@ -153,7 +149,7 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
                 if (!s.toString().isEmpty()) {
                     isName_Ok = true;
                 }
-                checkState();
+                changeState();
             }
         });
         et_phone.addTextChangedListener(new TextWatcher() {
@@ -190,7 +186,7 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
                     }
                     isPhone_Ok = true;
                 }
-                checkState();
+                changeState();
             }
         });
     }
@@ -201,8 +197,7 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
             if (payAmount > 0) {
                 isPay = true;
             }
-            setPayState(isPay);
-            tv_cost.setText(getString(R.string.sign_up_cost_show, new DecimalFormat("0.00").format(payAmount)));
+            tv_cost.setText(getString(R.string.pay_rmb, new DecimalFormat("0.00").format(payAmount)));
 
             String infoStr = getString(R.string.time) + getString(R.string.sign_up_info_time, data.getStartTime(), data.getEndTime()) +
                     "\n" + getString(R.string.place) + data.getAddress() +
@@ -223,7 +218,7 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
             tv_explain.setText(showStr);
 
             if (pageType == 2) { //查看我的活动
-                setTitle(getString(R.string.mine_text_my_party));
+                setTitle(getString(R.string.mine_my_sing_up));
                 UserInfoEntity userData = data.getUserData();
                 if (userData != null) {
                     et_name.setFocusable(false);
@@ -241,41 +236,24 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
         }
     }
 
-    private void checkState() {
+    private void changeState() {
         if (isSignUp) return;
-        setSignState(false);
+        setClickState("", false);
         if (isName_Ok && isAge_Ok && isPhone_Ok) {
-            if (isPay) {
-                if (isPay_Ok) {
-                    setSignState(true);
-                }
-            } else {
-                setSignState(true);
-            }
+            setClickState("", true);
         }
     }
 
-    private void setSignState(boolean isState) {
-        setSignState("", isState);
-    }
-
-    private void setSignState(String text, boolean isState) {
+    private void setClickState(String text, boolean isState) {
         if (!StringUtil.isNull(text)) {
-            tv_sign_up.setText(text);
+            tv_click.setText(text);
         }
-        isPostData = isState;
-        changeViewState(tv_sign_up, isPostData);
-    }
-
-    private void setPayState(boolean isState) {
-        setPayState("", isState);
-    }
-
-    private void setPayState(String text, boolean isState) {
-        if (!StringUtil.isNull(text)) {
-            tv_cost_pay.setText(text);
+        isOnClick = isState;
+        if (isState) {
+            tv_click.setTextColor(getResources().getColor(R.color.app_color_black));
+        } else {
+            tv_click.setTextColor(getResources().getColor(R.color.app_color_greys));
         }
-        changeViewState(tv_cost_pay, isState);
     }
 
     @Override
@@ -293,7 +271,7 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
                 if (pageType == 2) return;
                 selectAge();
                 break;
-            case R.id.sign_tv_cost_pay:
+            case R.id.sign_tv_click:
                 if (!isLoadOk) {
                     dataErrorHandle();
                     return;
@@ -303,27 +281,7 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
                     return;
                 }
                 if (isSignUp) return; //已报名
-                if (isPay) {
-                    if (isPay_Ok) {
-                        CommonTools.showToast(getString(R.string.pay_hint));
-                    } else {
-                        if (status == 1) { //报名中
-                            payCostAmount();
-                        }
-                    }
-                }
-                break;
-            case R.id.sign_tv_sign_up:
-                if (!isLoadOk) {
-                    dataErrorHandle();
-                    return;
-                }
-                if (!isLogin()) { //未登录
-                    openLoginActivity();
-                    return;
-                }
-                if (isSignUp) return; //已报名
-                if (status == 1 && checkData() && isPostData) {
+                if (status == 1 && checkData() && isOnClick) {
                     postSignUpData();
                 }
                 break;
@@ -368,7 +326,7 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
     }
 
     /**
-     * 报名
+     * 校验数据
      */
     private boolean checkData() {
         // 姓名非空
@@ -398,23 +356,7 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
             CommonTools.showToast(getString(R.string.login_phone_input));
             return false;
         }
-        // 校验支付
-        if (isPay && !isPay_Ok) {
-            CommonTools.showToast(getString(R.string.sign_up_cost_pay, String.valueOf(payAmount)));
-            return false;
-        }
         return true;
-    }
-
-    /**
-     * 支付报名费
-     */
-    private void payCostAmount() {
-        isPay_Ok = true;
-        CommonTools.showToast(getString(R.string.pay_success));
-        setPayState(getString(R.string.pay_ok), false);
-
-        checkState();
     }
 
     @Override
@@ -427,12 +369,10 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
         isSignUp = userManager.isThemeSignUp(themeId);
         if (isLogin()) {
             if (isSignUp) { //已报名
-                setPayState(getString(R.string.pay_ok), false);
-                setSignState(getString(R.string.sign_up_already), false);
+                setClickState(getString(R.string.sign_up_already), false);
             } else {
                 if (status == 2) { //已截止
-                    setPayState(false);
-                    setSignState(getString(R.string.sign_up_end), false);
+                    setClickState(getString(R.string.sign_up_end), false);
                 }
             }
         }
@@ -468,7 +408,7 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
     private void loadServerData() {
         HashMap<String, String> map = new HashMap<>();
         map.put("activityId", String.valueOf(themeId));
-        loadSVData(AppConfig.URL_HOME_DETAIL, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_POST_HOME_DETAIL);
+        loadSVData(AppConfig.URL_ACTIVITY_DETAIL, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_ACTIVITY_DETAIL);
     }
 
     /**
@@ -489,10 +429,23 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
                 map.put("gender", String.valueOf(genderCode));
                 map.put("ageStage", ageStr);
                 map.put("mobile", phoneStr);
-                map.put("paymentType", "0");
-                loadSVData(AppConfig.URL_SIGN_UP_ADD, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_POST_SIGN_DATA);
+                map.put("paymentType", String.valueOf(payType));
+                loadSVData(AppConfig.URL_SIGN_UP_ADD, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_SIGN_UP_ADD);
             }
         }, AppConfig.LOADING_TIME);
+    }
+
+    private void startPay() {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("orderNo", orderNo);
+        //loadSVData(AppConfig.URL_PAY_RESULT, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_PAY_RESULT);
+        checkPayResult();
+    }
+
+    private void checkPayResult() {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("orderNo", orderNo);
+        loadSVData(AppConfig.URL_SIGN_UP_CALLBACK, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_SIGN_UP_CALLBACK);
     }
 
     @Override
@@ -500,28 +453,31 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
         BaseEntity baseEn;
         try {
             switch (dataType) {
-                case AppConfig.REQUEST_SV_POST_HOME_DETAIL:
-                    baseEn = JsonUtils.getHomeDetail(jsonObject);
+                case AppConfig.REQUEST_SV_ACTIVITY_DETAIL:
+                    baseEn = JsonUtils.getThemeDetail(jsonObject);
                     if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
                         setView((ThemeEntity) baseEn.getData());
                     } else {
                         handleErrorCode(baseEn);
                     }
                     break;
-                case AppConfig.REQUEST_SV_POST_SIGN_DATA:
+                case AppConfig.REQUEST_SV_SIGN_UP_ADD:
+                    baseEn = JsonUtils.getPayInfo(jsonObject);
+                    if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+                        orderNo = (String) baseEn.getData();
+                        if (!StringUtil.isNull(orderNo)) {
+                            startPay();
+                        } else {
+                            //无需支付处理
+                        }
+                    } else {
+                        handleErrorCode(baseEn);
+                    }
+                    break;
+                case AppConfig.REQUEST_SV_SIGN_UP_CALLBACK:
                     baseEn = JsonUtils.getBaseErrorData(jsonObject);
                     if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
-                        isSignUp = true;
-                        setSignState(getString(R.string.sign_up_already), false);
-                        userManager.saveThemeId(themeId);
-                        AppApplication.updateMineData(true);
-                        CommonTools.showToast(getString(R.string.sign_up_success));
-                        new Handler().postDelayed(new Runnable() {
-                            @Override
-                            public void run() {
-                                finish();
-                            }
-                        }, 500);
+                        isPaySuccess();
                     } else {
                         handleErrorCode(baseEn);
                     }
@@ -531,6 +487,20 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
             loadFailHandle();
             ExceptionUtil.handle(e);
         }
+    }
+
+    private void isPaySuccess() {
+        isSignUp = true;
+        userManager.saveThemeId(themeId);
+        AppApplication.updateMineData(true);
+        setClickState(getString(R.string.sign_up_already), false);
+        CommonTools.showToast(getString(R.string.sign_up_success));
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                finish();
+            }
+        }, 500);
     }
 
 }

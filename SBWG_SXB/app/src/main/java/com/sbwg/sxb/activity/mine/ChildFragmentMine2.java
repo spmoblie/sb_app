@@ -69,7 +69,7 @@ public class ChildFragmentMine2 extends BaseFragment implements OnClickListener 
 
     private Context mContext;
     //private AdapterCallback apCallback;
-    //private MyPartyAdapter lv_Adapter;
+    //private MySignUpAdapter lv_Adapter;
     private LinearLayout.LayoutParams designItemLP;
 
     private UserInfoEntity infoEn;
@@ -193,7 +193,7 @@ public class ChildFragmentMine2 extends BaseFragment implements OnClickListener 
                 }
             }
         };
-        lv_Adapter = new MyPartyAdapter(mContext, al_show, apCallback);
+        lv_Adapter = new MySignUpAdapter(mContext, al_show, apCallback);
         mListView.setAdapter(lv_Adapter);
 
         // 添加头部View
@@ -214,7 +214,7 @@ public class ChildFragmentMine2 extends BaseFragment implements OnClickListener 
             tv_user_id.setVisibility(View.VISIBLE);
         } else {
             iv_user_head.setImageResource(R.drawable.icon_default_head);
-            tv_user_name.setText(getString(R.string.mine_text_login));
+            tv_user_name.setText(getString(R.string.mine_login));
             //tv_user_id.setText(getString(R.string.mine_text_user_id, "000000"));
             tv_user_id.setVisibility(View.GONE);
         }
@@ -382,7 +382,7 @@ public class ChildFragmentMine2 extends BaseFragment implements OnClickListener 
     private void loadUserInfo() {
         HashMap<String, String> map = new HashMap<>();
         map.put("userId", userManager.getUserId());
-        loadSVData(AppConfig.URL_USER_GET, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_POST_USER_GET);
+        loadSVData(AppConfig.URL_USER_GET, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_USER_GET);
     }
 
     /**
@@ -391,7 +391,7 @@ public class ChildFragmentMine2 extends BaseFragment implements OnClickListener 
     private void loadDesignData() {
         HashMap<String, String> map = new HashMap<>();
         map.put("userId", userManager.getUserId());
-        loadSVData(AppConfig.URL_DESIGN_ALL, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_POST_DESIGN_ALL);
+        loadSVData(AppConfig.URL_DESIGN_ALL, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_DESIGN_ALL);
     }
 
     /**
@@ -405,7 +405,7 @@ public class ChildFragmentMine2 extends BaseFragment implements OnClickListener 
         map.put("page", String.valueOf(current_Page));
         map.put("size", "10");
         map.put("userId", userManager.getUserId());
-        loadSVData(AppConfig.URL_USER_ACTIVITY, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_POST_USER_ACTIVITY);
+        loadSVData(AppConfig.URL_USER_ACTIVITY, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_USER_ACTIVITY);
     }
 
     @Override
@@ -413,7 +413,7 @@ public class ChildFragmentMine2 extends BaseFragment implements OnClickListener 
         BaseEntity baseEn = null;
         try {
             switch (dataType) {
-                case AppConfig.REQUEST_SV_POST_USER_GET:
+                case AppConfig.REQUEST_SV_USER_GET:
                     baseEn = JsonUtils.getUserInfo(jsonObject);
                     if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
                         userManager.saveUserInfo((UserInfoEntity) baseEn.getData());
@@ -423,7 +423,7 @@ public class ChildFragmentMine2 extends BaseFragment implements OnClickListener 
                         AppApplication.updateUserData(false);
                     }
                     break;
-                case AppConfig.REQUEST_SV_POST_DESIGN_ALL:
+                case AppConfig.REQUEST_SV_DESIGN_ALL:
                     baseEn = JsonUtils.getDesignData(jsonObject);
                     if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
                         List<DesignEntity> lists = baseEn.getLists();
@@ -436,8 +436,8 @@ public class ChildFragmentMine2 extends BaseFragment implements OnClickListener 
                         FileManager.writeFileSaveObject(AppConfig.mineHeadFileName, baseEn, 2);
                     }
                     break;
-                case AppConfig.REQUEST_SV_POST_USER_ACTIVITY:
-                    baseEn = JsonUtils.getMineList(jsonObject);
+                case AppConfig.REQUEST_SV_USER_ACTIVITY:
+                    baseEn = JsonUtils.getMySignUpList(jsonObject);
                     if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
                         data_total = baseEn.getDataTotal(); //加载更多数据控制符
                         List<ThemeEntity> lists = baseEn.getLists();

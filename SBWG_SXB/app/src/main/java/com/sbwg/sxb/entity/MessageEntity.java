@@ -7,7 +7,7 @@ public class MessageEntity extends BaseEntity {
 	private String id;
 	private String title;
 	private String content;
-	private String time;
+	private String addTime;
 	private boolean isRead;
 
 	public MessageEntity() {
@@ -43,12 +43,12 @@ public class MessageEntity extends BaseEntity {
 		this.content = content;
 	}
 
-	public String getTime() {
-		return time;
+	public String getAddTime() {
+		return addTime;
 	}
 
-	public void setTime(String time) {
-		this.time = time;
+	public void setAddTime(String addTime) {
+		this.addTime = addTime;
 	}
 
 	public boolean isRead() {

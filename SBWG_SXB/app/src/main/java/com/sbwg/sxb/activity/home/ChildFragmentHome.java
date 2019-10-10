@@ -503,7 +503,7 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
         HashMap<String, String> map = new HashMap<>();
         map.put("page", String.valueOf(current_Page));
         map.put("size", AppConfig.LOAD_SIZE);
-        loadSVData(AppConfig.URL_HOME_LIST, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_POST_HOME_LIST);
+        loadSVData(AppConfig.URL_HOME_LIST, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_HOME_LIST);
     }
 
     /**
@@ -511,7 +511,7 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
      */
     private void loadHeadData() {
         HashMap<String, String> map = new HashMap<>();
-        loadSVData(AppConfig.URL_HOME_BANNER, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_POST_HOME_HEAD);
+        loadSVData(AppConfig.URL_HOME_BANNER, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_HOME_HEAD);
     }
 
     @Override
@@ -519,7 +519,7 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
         BaseEntity baseEn;
         try {
             switch (dataType) {
-                case AppConfig.REQUEST_SV_POST_HOME_HEAD:
+                case AppConfig.REQUEST_SV_HOME_HEAD:
                     baseEn = JsonUtils.getHomeHead(jsonObject);
                     if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
                         List<ThemeEntity> lists = baseEn.getLists();
@@ -540,7 +540,7 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
                         LogUtil.i(LogUtil.LOG_HTTP, TAG + " Head数据加载失败 —> " + baseEn.getErrmsg());
                     }
                     break;
-                case AppConfig.REQUEST_SV_POST_HOME_LIST:
+                case AppConfig.REQUEST_SV_HOME_LIST:
                     baseEn = JsonUtils.getHomeList(jsonObject);
                     if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
                         data_total = baseEn.getDataTotal(); //加载更多数据控制符

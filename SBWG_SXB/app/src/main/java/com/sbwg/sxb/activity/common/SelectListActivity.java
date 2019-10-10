@@ -154,7 +154,7 @@ public class SelectListActivity extends BaseActivity {
 	private void saveUserInfo() {
 		HashMap<String, String> map = new HashMap<>();
 		map.put(userKey, userValue);
-		loadSVData(AppConfig.URL_USER_SAVE, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_POST_USER_SAVE);
+		loadSVData(AppConfig.URL_USER_SAVE, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_USER_SAVE);
 	}
 
 	@Override
@@ -162,7 +162,7 @@ public class SelectListActivity extends BaseActivity {
 		BaseEntity baseEn;
 		try {
 			switch (dataType) {
-				case AppConfig.REQUEST_SV_POST_USER_SAVE:
+				case AppConfig.REQUEST_SV_USER_SAVE:
 					baseEn = JsonUtils.getUploadResult(jsonObject);
 					if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
 						AppApplication.updateUserData(true);

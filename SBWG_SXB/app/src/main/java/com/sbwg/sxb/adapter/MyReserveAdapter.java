@@ -6,25 +6,27 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.sbwg.sxb.AppApplication;
 import com.sbwg.sxb.R;
-import com.sbwg.sxb.entity.MessageEntity;
+import com.sbwg.sxb.entity.ThemeEntity;
+import com.sbwg.sxb.widgets.RoundImageView;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHolder>{
+public class MyReserveAdapter extends RecyclerView.Adapter<MyReserveAdapter.ViewHolder>{
 
     private Context mContext;
     private View mHeaderView;
     private AdapterCallback apCallback;
-    private ArrayList<MessageEntity> mData;
+    private ArrayList<ThemeEntity> mData;
 
-    public MessageAdapter(Context context, ArrayList<MessageEntity> data, AdapterCallback apCallback) {
+    public MyReserveAdapter(Context context, ArrayList<ThemeEntity> data, AdapterCallback apCallback) {
         super();
         mContext = context;
         this.apCallback = apCallback;
@@ -35,7 +37,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
         }
     }
 
-    public void updateData(ArrayList<MessageEntity> data){
+    public void updateData(ArrayList<ThemeEntity> data){
         if (data != null) {
             mData = data;
         } else {
@@ -65,7 +67,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
         // 创建头部View
         if(mHeaderView != null && i == 0) return new ViewHolder(mHeaderView);
         // 创建一个View
-        View view = LayoutInflater.from(mContext).inflate(R.layout.item_list_message, viewGroup, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.item_list_my_reserve, viewGroup, false);
         // 创建一个ViewHolder
         return new ViewHolder(view);
     }
@@ -74,18 +76,19 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
         if(getItemViewType(i) == 0) return;
         final int pos = getRealPosition(viewHolder);
-        final MessageEntity data = mData.get(pos);
+        final ThemeEntity data = mData.get(pos);
 
         // 绑定数据到ViewHolder
-        viewHolder.item_time.setText(data.getAddTime());
-        viewHolder.item_title.setText(data.getTitle());
-        viewHolder.item_content.setText(data.getContent());
+        Glide.with(AppApplication.getAppContext())
+                .load(data.getPicUrl())
+                .apply(AppApplication.getShowOptions())
+                .into(viewHolder.iv_show);
 
-        if (data.isRead()) {
-            viewHolder.item_warn_red.setVisibility(View.GONE);
-        } else {
-            viewHolder.item_warn_red.setVisibility(View.VISIBLE);
-        }
+        viewHolder.item_time.setText(data.getAddTime());
+        viewHolder.tv_title.setText(data.getTitle());
+        viewHolder.tv_date.setText(mContext.getString(R.string.reserve_date, data.getReserveDate()));
+        viewHolder.tv_time.setText(mContext.getString(R.string.reserve_time, data.getReserveTime()));
+        viewHolder.tv_address.setText(mContext.getString(R.string.reserve_place, data.getAddress()));
 
         viewHolder.item_main.setOnClickListener(new View.OnClickListener() {
 
@@ -111,20 +114,26 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        @BindView(R.id.message_item_main)
+        @BindView(R.id.my_reserve_item_main)
         ConstraintLayout item_main;
 
-        @BindView(R.id.message_item_time)
+        @BindView(R.id.my_reserve_item_time)
         TextView item_time;
 
-        @BindView(R.id.message_item_title)
-        TextView item_title;
+        @BindView(R.id.my_reserve_item_iv_show)
+        RoundImageView iv_show;
 
-        @BindView(R.id.message_item_content)
-        TextView item_content;
+        @BindView(R.id.my_reserve_item_tv_title)
+        TextView tv_title;
 
-        @BindView(R.id.message_item_warn_red)
-        ImageView item_warn_red;
+        @BindView(R.id.my_reserve_item_tv_date)
+        TextView tv_date;
+
+        @BindView(R.id.my_reserve_item_tv_time)
+        TextView tv_time;
+
+        @BindView(R.id.my_reserve_item_tv_address)
+        TextView tv_address;
 
         public ViewHolder(View itemView) {
             super(itemView);

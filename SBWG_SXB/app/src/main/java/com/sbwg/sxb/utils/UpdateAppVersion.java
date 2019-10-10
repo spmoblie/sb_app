@@ -103,7 +103,7 @@ public class UpdateAppVersion {
 //				params.add(new MyNameValuePair("id", "1"));
 //				params.add(new MyNameValuePair("version", curVersionName));
 //				BaseEntity baseEn = ServiceContext.getServiceContext().loadServerDatas(
-//						"UpdateAppVersion", AppConfig.REQUEST_SV_POST_VERSION_CODE, uri, params, HttpUtil.METHOD_POST);
+//						"UpdateAppVersion", AppConfig.REQUEST_SV_VERSION_CODE, uri, params, HttpUtil.METHOD_POST);
 //				if (baseEn != null) {
 //					versionEn = (UpdateVersionEntity) baseEn;
 //				}

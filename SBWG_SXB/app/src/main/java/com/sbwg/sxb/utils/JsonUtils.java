@@ -113,7 +113,7 @@ public class JsonUtils {
      * @return
      * @throws JSONException
      */
-    public static BaseEntity getHomeDetail(JSONObject jsonObject) throws JSONException {
+    public static BaseEntity getThemeDetail(JSONObject jsonObject) throws JSONException {
         BaseEntity mainEn = getCommonKeyValue(jsonObject);
 
         if (StringUtil.notNull(jsonObject, "data")) {
@@ -127,7 +127,7 @@ public class JsonUtils {
                 childEn.setLinkUrl(item.getString("linkUrl"));
                 childEn.setUserId(item.getString("adminId"));
                 childEn.setSuit(item.getString("crowd"));
-                childEn.setAuthor(item.getString("address"));
+                childEn.setAuthor(item.getString("userName"));
                 childEn.setSynopsis(item.getString("synopsis"));
                 childEn.setDescription(item.getString("description"));
                 childEn.setAddress(item.getString("address"));
@@ -149,6 +149,21 @@ public class JsonUtils {
 
                 mainEn.setData(childEn);
             }
+        }
+        return mainEn;
+    }
+
+    /**
+     * 解析支付信息
+     * @param jsonObject
+     * @return
+     * @throws JSONException
+     */
+    public static BaseEntity getPayInfo(JSONObject jsonObject) throws JSONException {
+        BaseEntity mainEn = getCommonKeyValue(jsonObject);
+
+        if (StringUtil.notNull(jsonObject, "data")) {
+            mainEn.setData(jsonObject.getString("data"));
         }
         return mainEn;
     }
@@ -250,12 +265,64 @@ public class JsonUtils {
     }
 
     /**
-     * 解析我的课程数据
+     * 解析我的报名列表
      * @param jsonObject
      * @return
      * @throws JSONException
      */
-    public static BaseEntity getMineList(JSONObject jsonObject) throws JSONException {
+    public static BaseEntity getMySignUpList(JSONObject jsonObject) throws JSONException {
+        BaseEntity mainEn = getCommonKeyValue(jsonObject);
+
+        if (StringUtil.notNull(jsonObject, "data")) {
+            JSONObject jsonData = jsonObject.getJSONObject("data");
+            if (StringUtil.notNull(jsonData, "total")) {
+                mainEn.setDataTotal(jsonData.getInt("total"));
+            }
+            if (StringUtil.notNull(jsonData, "activityList")) {
+                JSONArray data = jsonData.getJSONArray("activityList");
+                ThemeEntity childEn;
+                UserInfoEntity userEn;
+                List<ThemeEntity> lists = new ArrayList<>();
+                for (int j = 0; j < data.length(); j++) {
+                    JSONObject item = data.getJSONObject(j);
+                    childEn = new ThemeEntity();
+                    userEn = new UserInfoEntity();
+                    childEn.setId(item.getInt("id"));
+                    childEn.setTitle(item.getString("title"));
+                    childEn.setPicUrl(item.getString("picUrl"));
+                    childEn.setLinkUrl(item.getString("linkUrl"));
+                    childEn.setSynopsis(item.getString("synopsis"));
+                    childEn.setDescription(item.getString("description"));
+                    childEn.setArea(item.getString("areaName"));
+                    childEn.setAddress(item.getString("address"));
+                    childEn.setStartTime(item.getString("startTime"));
+                    childEn.setEndTime(item.getString("endTime"));
+                    childEn.setQuantity(item.getInt("quantity"));
+                    childEn.setPeople(item.getInt("people"));
+                    childEn.setStatus(item.getInt("status"));
+                    childEn.setFees(item.getDouble("fee"));
+
+                    userEn.setUserName(item.getString("name"));
+                    userEn.setGenderCode(item.getInt("gender"));
+                    userEn.setBirthday(item.getString("ageStage"));
+                    userEn.setUserPhone(item.getString("mobile"));
+                    childEn.setUserData(userEn);
+
+                    lists.add(childEn);
+                }
+                mainEn.setLists(lists);
+            }
+        }
+        return mainEn;
+    }
+
+    /**
+     * 解析我的预约列表
+     * @param jsonObject
+     * @return
+     * @throws JSONException
+     */
+    public static BaseEntity getMyReserveList(JSONObject jsonObject) throws JSONException {
         BaseEntity mainEn = getCommonKeyValue(jsonObject);
 
         if (StringUtil.notNull(jsonObject, "data")) {

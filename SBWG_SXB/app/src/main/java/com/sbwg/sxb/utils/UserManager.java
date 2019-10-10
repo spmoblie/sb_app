@@ -338,9 +338,9 @@ public class UserManager {
 			// 绑定用户信息至推送服务
 			AppApplication.onPushRegister(true);
 			// 是否跳转子页至"我的"
-			/*if (sp.getBoolean(AppConfig.KEY_JUMP_PAGE, false)) {
+			if (sp.getBoolean(AppConfig.KEY_JUMP_PAGE, false)) {
 				editor.putInt(AppConfig.KEY_MAIN_CURRENT_INDEX, 2).apply();
-			}*/
+			}
 		}
 	}
 

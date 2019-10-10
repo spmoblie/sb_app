@@ -120,10 +120,10 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
             tv_date.setVisibility(View.GONE);
             tv_time.setVisibility(View.GONE);
             iv_line.setVisibility(View.GONE);
-            changeViewText(getString(R.string.sign_up_now), true);
+            setClickState(getString(R.string.sign_up_now), true);
         } else {
-            tv_date.setText(getString(R.string.sign_up_reserve_date, ""));
-            tv_time.setText(getString(R.string.sign_up_reserve_time, ""));
+            tv_date.setText(getString(R.string.reserve_date, ""));
+            tv_time.setText(getString(R.string.reserve_time, ""));
         }
     }
 
@@ -142,7 +142,7 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
                         "\n" + getString(R.string.suit) + data.getSuit();
             } else {
                 StringBuffer sb = new StringBuffer();
-                sb.append(getString(R.string.reserve_time));
+                sb.append(getString(R.string.reserve_slot));
 
                 String dateSlot = data.getDateSlot();
                 if (!StringUtil.isNull(dateSlot)) {
@@ -160,8 +160,8 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
                 }
 
                 infoStr = sb.toString() +
-                        "\n" + getString(R.string.reserve_place) + data.getAddress() +
-                        "\n" + getString(R.string.reserve_suit) + data.getSuit();
+                        "\n" + getString(R.string.reserve_place, data.getAddress()) +
+                        "\n" + getString(R.string.reserve_suit, data.getSuit());
             }
             tv_info.setText(infoStr);
 
@@ -262,7 +262,7 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
         } else {
             isDateOk = true;
         }
-        tv_date.setText(getString(R.string.sign_up_reserve_date, dateStr));
+        tv_date.setText(getString(R.string.reserve_date, dateStr));
 
         if (StringUtil.isNull(timeStr)) {
             timeStr = "";
@@ -270,16 +270,16 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
         } else {
             isTimeOk = true;
         }
-        tv_time.setText(getString(R.string.sign_up_reserve_time, timeStr));
+        tv_time.setText(getString(R.string.reserve_time, timeStr));
 
         if (isDateOk && isTimeOk) {
-            changeViewText(getString(R.string.pay_now), true);
+            setClickState(getString(R.string.pay_now), true);
         } else {
-            changeViewText(getString(R.string.reserve_choice), true);
+            setClickState(getString(R.string.reserve_choice), true);
         }
     }
 
-    private void changeViewText(String text, boolean isState) {
+    private void setClickState(String text, boolean isState) {
         if (!StringUtil.isNull(text)) {
             tv_click.setText(text);
         }
@@ -302,10 +302,10 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
                 // 报名状态
                 isSignUp = userManager.isThemeSignUp(themeId);
                 if (isSignUp) { //已报名
-                    changeViewText(getString(R.string.sign_up_already), false);
+                    setClickState(getString(R.string.sign_up_already), false);
                 } else {
                     if (status == 2) { //已截止
-                        changeViewText(getString(R.string.sign_up_end), false);
+                        setClickState(getString(R.string.sign_up_end), false);
                     }
                 }
             }
@@ -342,7 +342,7 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
     private void loadServerData() {
         HashMap<String, String> map = new HashMap<>();
         map.put("activityId", String.valueOf(themeId));
-        loadSVData(AppConfig.URL_HOME_DETAIL, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_POST_HOME_DETAIL);
+        loadSVData(AppConfig.URL_ACTIVITY_DETAIL, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_ACTIVITY_DETAIL);
     }
 
     @Override
@@ -350,8 +350,8 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
         BaseEntity baseEn;
         try {
             switch (dataType) {
-                case AppConfig.REQUEST_SV_POST_HOME_DETAIL:
-                    baseEn = JsonUtils.getHomeDetail(jsonObject);
+                case AppConfig.REQUEST_SV_ACTIVITY_DETAIL:
+                    baseEn = JsonUtils.getThemeDetail(jsonObject);
                     if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
                         data = (ThemeEntity) baseEn.getData();
                         setView(data);

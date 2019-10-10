@@ -12,9 +12,10 @@ import com.sbwg.sxb.AppConfig;
 import com.sbwg.sxb.R;
 import com.sbwg.sxb.activity.BaseActivity;
 import com.sbwg.sxb.adapter.AdapterCallback;
-import com.sbwg.sxb.adapter.MessageAdapter;
+import com.sbwg.sxb.adapter.MyReserveAdapter;
 import com.sbwg.sxb.entity.BaseEntity;
 import com.sbwg.sxb.entity.MessageEntity;
+import com.sbwg.sxb.entity.ThemeEntity;
 import com.sbwg.sxb.utils.ExceptionUtil;
 import com.sbwg.sxb.utils.JsonUtils;
 import com.sbwg.sxb.utils.LogUtil;
@@ -32,22 +33,20 @@ import java.util.List;
 import butterknife.BindView;
 
 
-public class MessageActivity extends BaseActivity implements OnClickListener {
+public class MyReserveActivity extends BaseActivity implements OnClickListener {
 
-	String TAG = MessageActivity.class.getSimpleName();
+	String TAG = MyReserveActivity.class.getSimpleName();
 
 	@BindView(R.id.refresh_view_rv)
 	PullToRefreshRecyclerView refresh_rv;
 
 	MyRecyclerView mRecyclerView;
-	MessageAdapter rvAdapter;
+	MyReserveAdapter rvAdapter;
 	AdapterCallback apCallback;
 
-	private int data_total = 0; //数据总量
+	private int data_total = -1; //数据总量
 	private int current_Page = 1;  //当前列表加载页
-	private int loadType = 1; //(0:下拉刷新/1:翻页加载)
-	private boolean isLoadOk = true; //加载数据控制符
-	private ArrayList<MessageEntity> al_show = new ArrayList<>();
+	private ArrayList<ThemeEntity> al_show = new ArrayList<>();
 	private ArrayMap<String, Boolean> am_show = new ArrayMap<>();
 
 	@Override
@@ -59,7 +58,7 @@ public class MessageActivity extends BaseActivity implements OnClickListener {
 	}
 
 	private void initView() {
-		setTitle("消息");
+		setTitle(getString(R.string.mine_my_reserve));
 
 		initRecyclerView();
 		loadMoreData();
@@ -77,7 +76,11 @@ public class MessageActivity extends BaseActivity implements OnClickListener {
 
 					@Override
 					public void run() {
-						refreshData();
+						if (data_total < 0) {
+							resetData();
+						} else {
+							refresh_rv.onPullDownRefreshComplete();
+						}
 					}
 				}, AppConfig.LOADING_TIME);
 			}
@@ -115,7 +118,7 @@ public class MessageActivity extends BaseActivity implements OnClickListener {
 
 			}
 		};
-		rvAdapter = new MessageAdapter(mContext, al_show, apCallback);
+		rvAdapter = new MyReserveAdapter(mContext, al_show, apCallback);
 		mRecyclerView.setAdapter(rvAdapter);
 	}
 
@@ -166,41 +169,20 @@ public class MessageActivity extends BaseActivity implements OnClickListener {
 	}
 
 	/**
-	 *下拉刷新
-	 */
-	private void refreshData() {
-		loadType = 0;
-		//loadServerData();
-		loadMoreData();
-	}
-
-	/**
 	 * 翻页加载
 	 */
 	private void loadMoreData() {
-		loadType = 1;
-		//loadServerData();
-		al_show.clear();
-		al_show.addAll(getDemoData().getLists());
-		updateListData();
-		stopAnimation();
+		loadServerData();
 	}
 
 	/**
 	 * 加载数据
 	 */
 	private void loadServerData() {
-		if (!isLoadOk) { //加载频率控制
-			if (loadType == 0) {
-				refresh_rv.onPullDownRefreshComplete();
-			}
-			return;
-		}
-		isLoadOk = false;
 		HashMap<String, String> map = new HashMap<>();
 		map.put("page", String.valueOf(current_Page));
 		map.put("size", AppConfig.LOAD_SIZE);
-		loadSVData(AppConfig.URL_MESSAGE, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_MESSAGE);
+		loadSVData(AppConfig.URL_USER_ACTIVITY, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_USER_ACTIVITY);
 	}
 
 	@Override
@@ -208,35 +190,28 @@ public class MessageActivity extends BaseActivity implements OnClickListener {
 		BaseEntity baseEn;
 		try {
 			switch (dataType) {
-				case AppConfig.REQUEST_SV_MESSAGE:
-					baseEn = JsonUtils.getMessageData(jsonObject);
+				case AppConfig.REQUEST_SV_USER_ACTIVITY:
+					baseEn = JsonUtils.getMyReserveList(jsonObject);
 					if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
-						int newTotal = baseEn.getDataTotal(); //加载更多数据控制符
+						data_total = baseEn.getDataTotal(); //加载更多数据控制符
 						List<MessageEntity> lists = baseEn.getLists();
 						if (lists.size() > 0) {
 							if (current_Page == 1) {
 								al_show.clear();
 								am_show.clear();
 							}
-							List<BaseEntity> newLists;
-							if (loadType == 0) {
-								//下拉
-								newLists = updNewEntity(newTotal, data_total, lists, al_show, am_show);
-							}else {
-								//翻页
-								newLists = addNewEntity(lists, al_show, am_show);
-								if (newLists != null) {
-									current_Page++;
-								}
-							}
+							List<BaseEntity> newLists = addNewEntity(lists, al_show, am_show);
 							if (newLists != null) {
+								current_Page++;
 								addNewShowLists(newLists);
 							}
-							data_total = newTotal;
 							updateListData();
 						}
 					} else {
 						handleErrorCode(baseEn);
+						if (baseEn.getErrno() == AppConfig.ERROR_CODE_TIMEOUT) {
+							finish();
+						}
 					}
 					break;
 			}
@@ -249,7 +224,7 @@ public class MessageActivity extends BaseActivity implements OnClickListener {
 	private void addNewShowLists(List<BaseEntity> showLists) {
 		al_show.clear();
 		for (int i = 0; i < showLists.size(); i++) {
-			al_show.add((MessageEntity) showLists.get(i));
+			al_show.add((ThemeEntity) showLists.get(i));
 		}
 	}
 
@@ -262,54 +237,8 @@ public class MessageActivity extends BaseActivity implements OnClickListener {
 	@Override
 	protected void stopAnimation() {
 		super.stopAnimation();
-		isLoadOk = true;
 		refresh_rv.onPullDownRefreshComplete();
 		refresh_rv.onPullUpRefreshComplete();
-	}
-
-	/**
-	 * 构建Demo数据
-	 */
-	private BaseEntity getDemoData() {
-		BaseEntity baseEn = new BaseEntity();
-
-		MessageEntity chEn_1 = new MessageEntity();
-		MessageEntity chEn_2 = new MessageEntity();
-		MessageEntity chEn_3 = new MessageEntity();
-		MessageEntity chEn_4 = new MessageEntity();
-		MessageEntity chEn_5 = new MessageEntity();
-
-		List<MessageEntity> mainLists = new ArrayList<>();
-
-		chEn_1.setAddTime("10月08日 10:08");
-		chEn_1.setTitle("使用成功");
-		chEn_1.setContent("您好！尊敬的松堡迪迪，您已在10月08日 10:06成功参与课程，谢谢您的光临！");
-		chEn_1.setRead(false);
-		mainLists.add(chEn_1);
-		chEn_2.setAddTime("10月06日 13:18");
-		chEn_2.setTitle("预约成功");
-		chEn_2.setContent("您好！尊敬的松堡迪迪，您已在10月06日 13:15成功预约并购买小小木匠课程，请注意预约时间，期待您的光临！");
-		chEn_2.setRead(false);
-		mainLists.add(chEn_2);
-		chEn_3.setAddTime("09月18日 10:08");
-		chEn_3.setTitle("使用成功");
-		chEn_3.setContent("您好！尊敬的松堡迪迪，您已在09月18日 10:06成功参与课程，谢谢您的光临！");
-		chEn_3.setRead(true);
-		mainLists.add(chEn_3);
-		chEn_4.setAddTime("09月16日 13:18");
-		chEn_4.setTitle("预约成功");
-		chEn_4.setContent("您好！尊敬的松堡迪迪，您已在09月16日 13:15成功预约并购买小小木匠课程，请注意预约时间，期待您的光临！");
-		chEn_4.setRead(true);
-		mainLists.add(chEn_4);
-		chEn_5.setAddTime("09月08日 10:28");
-		chEn_5.setTitle("欢迎您来到松小堡");
-		chEn_5.setContent("恭喜您成为松小堡家庭中心成员，松小堡欢迎您的到来。");
-		chEn_5.setRead(true);
-		mainLists.add(chEn_5);
-
-		baseEn.setLists(mainLists);
-
-		return baseEn;
 	}
 
 }

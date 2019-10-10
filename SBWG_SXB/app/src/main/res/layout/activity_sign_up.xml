@@ -1,145 +1,155 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/ui_bg_color_app"
-    android:scrollbars="none">
+    android:orientation="vertical">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:scrollbars="none">
 
-        <ImageView
-            android:id="@+id/sign_iv_show"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:src="@drawable/icon_default_show"
-            android:scaleType="centerCrop"/>
-
-        <android.support.constraint.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/screen_margin_default"
-            android:padding="@dimen/screen_margin_default">
-
-            <TextView
-                android:id="@+id/sign_tv_name"
-                style="@style/SignUp_TextView"
-                android:text="@string/sign_up_name"/>
-
-            <EditText
-                android:id="@+id/sign_et_name"
-                style="@style/SignUp_EditText"
-                android:hint="@string/must_fill"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="@id/sign_tv_name"
-                app:layout_constraintWidth_percent="0.8"/>
-
-            <TextView
-                android:id="@+id/sign_tv_gender"
-                style="@style/SignUp_TextView"
-                android:text="@string/sign_up_gender"
-                app:layout_constraintTop_toBottomOf="@id/sign_tv_name" />
-
-            <TextView
-                android:id="@+id/sign_tv_gender_man"
-                style="@style/common_checkbox_min"
-                android:layout_width="wrap_content"
-                android:layout_marginLeft="@dimen/margin_padding_30"
-                android:paddingTop="@dimen/margin_padding_10"
-                android:paddingBottom="@dimen/margin_padding_10"
-                android:text="@string/mine_gender_male"
-                app:layout_constraintLeft_toRightOf="@id/sign_tv_gender"
-                app:layout_constraintTop_toTopOf="@id/sign_tv_gender" />
-
-            <TextView
-                android:id="@+id/sign_tv_gender_woman"
-                style="@style/common_checkbox_min"
-                android:layout_width="wrap_content"
-                android:layout_marginLeft="@dimen/margin_padding_30"
-                android:paddingTop="@dimen/margin_padding_10"
-                android:paddingBottom="@dimen/margin_padding_10"
-                android:text="@string/mine_gender_female"
-                app:layout_constraintLeft_toRightOf="@id/sign_tv_gender_man"
-                app:layout_constraintTop_toTopOf="@id/sign_tv_gender" />
-
-            <TextView
-                android:id="@+id/sign_tv_age"
-                style="@style/SignUp_TextView"
-                android:text="@string/sign_up_age"
-                app:layout_constraintTop_toBottomOf="@id/sign_tv_gender"/>
-
-            <EditText
-                android:id="@+id/sign_et_age"
-                style="@style/SignUp_EditText"
-                android:hint="@string/must_fill"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="@id/sign_tv_age"
-                app:layout_constraintWidth_percent="0.8"/>
+            android:orientation="vertical">
 
             <ImageView
-                style="@style/common_go_right"
+                android:id="@+id/sign_iv_show"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scaleType="centerCrop"
+                android:src="@drawable/icon_default_show" />
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/screen_margin_default"
-                android:layout_marginRight="@dimen/screen_margin_default"
-                app:layout_constraintRight_toRightOf="@id/sign_et_age"
-                app:layout_constraintTop_toTopOf="@id/sign_et_age"/>
+                android:padding="@dimen/screen_margin_default">
 
-            <TextView
-                android:id="@+id/sign_tv_phone"
-                style="@style/SignUp_TextView"
-                android:text="@string/sign_up_phone"
-                app:layout_constraintTop_toBottomOf="@id/sign_tv_age"/>
+                <TextView
+                    android:id="@+id/sign_tv_name"
+                    style="@style/SignUp_TextView"
+                    android:text="@string/sign_up_name" />
 
-            <EditText
-                android:id="@+id/sign_et_phone"
-                style="@style/SignUp_EditText"
-                android:maxLength="13"
-                android:hint="@string/must_fill"
-                android:inputType="phone"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="@id/sign_tv_phone"
-                app:layout_constraintWidth_percent="0.8"/>
+                <EditText
+                    android:id="@+id/sign_et_name"
+                    style="@style/SignUp_EditText"
+                    android:hint="@string/must_fill"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/sign_tv_name"
+                    app:layout_constraintWidth_percent="0.8" />
 
-            <TextView
-                android:id="@+id/sign_tv_cost"
-                style="@style/SignUp_TextView"
-                android:text="@string/sign_up_cost"
-                app:layout_constraintTop_toBottomOf="@id/sign_tv_phone"/>
+                <TextView
+                    android:id="@+id/sign_tv_gender"
+                    style="@style/SignUp_TextView"
+                    android:text="@string/sign_up_gender"
+                    app:layout_constraintTop_toBottomOf="@id/sign_tv_name" />
 
-            <TextView
-                android:id="@+id/sign_tv_cost_pay"
-                style="@style/common_text_button"
-                android:text="@string/pay_line"
-                android:background="@drawable/shape_button_style_3_20"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="@id/sign_tv_cost"/>
+                <TextView
+                    android:id="@+id/sign_tv_gender_man"
+                    style="@style/common_checkbox_min"
+                    android:layout_width="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_padding_30"
+                    android:paddingBottom="@dimen/margin_padding_10"
+                    android:paddingTop="@dimen/margin_padding_10"
+                    android:text="@string/mine_gender_male"
+                    app:layout_constraintLeft_toRightOf="@id/sign_tv_gender"
+                    app:layout_constraintTop_toTopOf="@id/sign_tv_gender" />
 
-            <TextView
-                android:id="@+id/sign_tv_explain"
-                style="@style/SignUp_TextView"
-                android:layout_width="match_parent"
-                android:textColor="@color/app_color_black"
-                android:padding="@dimen/screen_margin_default"
-                android:background="@drawable/shape_frame_style_1_20"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/sign_tv_cost"/>
+                <TextView
+                    android:id="@+id/sign_tv_gender_woman"
+                    style="@style/common_checkbox_min"
+                    android:layout_width="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_padding_30"
+                    android:paddingBottom="@dimen/margin_padding_10"
+                    android:paddingTop="@dimen/margin_padding_10"
+                    android:text="@string/mine_gender_female"
+                    app:layout_constraintLeft_toRightOf="@id/sign_tv_gender_man"
+                    app:layout_constraintTop_toTopOf="@id/sign_tv_gender" />
 
-            <TextView
-                android:id="@+id/sign_tv_sign_up"
-                style="@style/common_text_button"
-                android:layout_width="match_parent"
-                android:text="@string/sign_up_now"
-                android:layout_marginTop="@dimen/margin_padding_30"
-                android:padding="@dimen/margin_padding_15"
-                android:background="@drawable/shape_button_style_3_20"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/sign_tv_explain"/>
+                <TextView
+                    android:id="@+id/sign_tv_age"
+                    style="@style/SignUp_TextView"
+                    android:text="@string/sign_up_age"
+                    app:layout_constraintTop_toBottomOf="@id/sign_tv_gender" />
 
-        </android.support.constraint.ConstraintLayout>
+                <EditText
+                    android:id="@+id/sign_et_age"
+                    style="@style/SignUp_EditText"
+                    android:hint="@string/must_fill"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/sign_tv_age"
+                    app:layout_constraintWidth_percent="0.8" />
 
-    </LinearLayout>
-</ScrollView>
+                <ImageView
+                    style="@style/common_go_right"
+                    android:layout_marginRight="@dimen/screen_margin_default"
+                    android:layout_marginTop="@dimen/screen_margin_default"
+                    app:layout_constraintRight_toRightOf="@id/sign_et_age"
+                    app:layout_constraintTop_toTopOf="@id/sign_et_age" />
+
+                <TextView
+                    android:id="@+id/sign_tv_phone"
+                    style="@style/SignUp_TextView"
+                    android:text="@string/sign_up_phone"
+                    app:layout_constraintTop_toBottomOf="@id/sign_tv_age" />
+
+                <EditText
+                    android:id="@+id/sign_et_phone"
+                    style="@style/SignUp_EditText"
+                    android:hint="@string/must_fill"
+                    android:inputType="phone"
+                    android:maxLength="13"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="@id/sign_tv_phone"
+                    app:layout_constraintWidth_percent="0.8" />
+
+                <TextView
+                    android:id="@+id/sign_tv_explain"
+                    style="@style/SignUp_TextView"
+                    android:layout_width="match_parent"
+                    android:background="@drawable/shape_frame_style_1_20"
+                    android:padding="@dimen/screen_margin_default"
+                    android:textColor="@color/app_color_black"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/sign_et_phone" />
+
+            </android.support.constraint.ConstraintLayout>
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/ui_color_button">
+
+        <TextView
+            android:id="@+id/sign_tv_cost"
+            style="@style/detail_text"
+            android:layout_marginTop="0dp"
+            android:textColor="@color/app_color_white"
+            android:textSize="@dimen/app_text_size_title"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/sign_tv_click"
+            style="@style/common_text_button"
+            android:layout_margin="@dimen/screen_margin_default"
+            android:background="@drawable/shape_frame_style_2_04"
+            android:text="@string/sign_up_now"
+            android:textColor="@color/app_color_greys"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </android.support.constraint.ConstraintLayout>
+</LinearLayout>

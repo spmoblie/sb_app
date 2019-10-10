@@ -40,22 +40,24 @@ public class AppConfig {
 	public final static String URL_HOME_BANNER = "home/index";
 	// 首页活动列表
 	public final static String URL_HOME_LIST = "activity/list";
-	// 首页活动详情
-	public final static String URL_HOME_DETAIL = "activity/detail";
-	// 报名数据提交
+	// 活动课程详情
+	public final static String URL_ACTIVITY_DETAIL = "activity/detail";
+	// 提交报名数据
 	public final static String URL_SIGN_UP_ADD = "activity/sign_up/add";
+	// 报名结果反馈
+	public final static String URL_SIGN_UP_CALLBACK = "activity/sign_up/callback";
 
 	// 获取用户资料
 	public final static String URL_USER_GET = "user/get";
 	// 修改用户资料
 	public final static String URL_USER_SAVE = "user/save";
-	// 获取我的课程
-	public final static String URL_USER_ACTIVITY = "user/activity";
 
 	// 获取我的设计
 	public final static String URL_DESIGN_ALL = "design/all";
 	// 获取我的消息
-	public final static String URL_MESSAGE = "message/all";
+	public final static String URL_MESSAGE = "message";
+	// 获取我的课程
+	public final static String URL_USER_ACTIVITY = "user/activity";
 
 	// 上传接口
 	public final static String URL_UPLOAD_PUSH = "upload/push";
@@ -180,26 +182,28 @@ public class AppConfig {
 	public static final int REQUEST_SV_AUTH_LOGIN = 0X1006;
 
 	// 首頁头部
-	public static final int REQUEST_SV_POST_HOME_HEAD = 0X2001;
-	// 活动列表
-	public static final int REQUEST_SV_POST_HOME_LIST = 0X2002;
+	public static final int REQUEST_SV_HOME_HEAD = 0X2001;
+	// 首页列表
+	public static final int REQUEST_SV_HOME_LIST = 0X2002;
 	// 活动详情
-	public static final int REQUEST_SV_POST_HOME_DETAIL = 0X2003;
-	// 提交报名
-	public static final int REQUEST_SV_POST_SIGN_DATA = 0X2004;
+	public static final int REQUEST_SV_ACTIVITY_DETAIL = 0X2003;
+	// 报名提交
+	public static final int REQUEST_SV_SIGN_UP_ADD = 0X2004;
+	// 支付反馈
+	public static final int REQUEST_SV_SIGN_UP_CALLBACK = 0X2005;
 
 	// 上传用户头像
-	public static final int REQUEST_SV_POST_UPLOAD_HEAD = 0X3001;
+	public static final int REQUEST_SV_UPLOAD_HEAD = 0X3001;
 	// 获取用户资料
-	public static final int REQUEST_SV_POST_USER_GET = 0X3002;
+	public static final int REQUEST_SV_USER_GET = 0X3002;
 	// 修改用户资料
-	public static final int REQUEST_SV_POST_USER_SAVE = 0X3003;
-	// 获取我的课程
-	public static final int REQUEST_SV_POST_USER_ACTIVITY = 0X3004;
+	public static final int REQUEST_SV_USER_SAVE = 0X3003;
 	// 获取我的设计
-	public static final int REQUEST_SV_POST_DESIGN_ALL = 0X3005;
+	public static final int REQUEST_SV_DESIGN_ALL = 0X3004;
 	// 获取我的消息
-	public static final int REQUEST_SV_POST_MESSAGE = 0X3006;
+	public static final int REQUEST_SV_MESSAGE = 0X3005;
+	// 获取我的课程
+	public static final int REQUEST_SV_USER_ACTIVITY = 0X3006;
 
 	/**
 	 ******************************************* RequestCode参数设置结束 ******************************************

@@ -19,9 +19,12 @@ public class ThemeEntity extends BaseEntity {
 	private String description; //活动说明
 	private String area; //活动地区
 	private String address; //活动地址
+	private String addTime; //活动生产时间
 	private String startTime; //活动开始时间
 	private String endTime; //活动结束时间
 	private String dateSlot; //课程场次时间段
+	private String reserveDate; //预约日期
+	private String reserveTime; //预约时间
 	private int quantity; //限制报名数量
 	private int people; //报名人数
 	private int status; //1:报名中,2:已截止
@@ -149,6 +152,14 @@ public class ThemeEntity extends BaseEntity {
 		this.address = address;
 	}
 
+	public String getAddTime() {
+		return addTime;
+	}
+
+	public void setAddTime(String addTime) {
+		this.addTime = addTime;
+	}
+
 	public String getStartTime() {
 		return startTime;
 	}
@@ -171,6 +182,22 @@ public class ThemeEntity extends BaseEntity {
 
 	public void setDateSlot(String dateSlot) {
 		this.dateSlot = dateSlot;
+	}
+
+	public String getReserveDate() {
+		return reserveDate;
+	}
+
+	public void setReserveDate(String reserveDate) {
+		this.reserveDate = reserveDate;
+	}
+
+	public String getReserveTime() {
+		return reserveTime;
+	}
+
+	public void setReserveTime(String reserveTime) {
+		this.reserveTime = reserveTime;
 	}
 
 	public int getQuantity() {
