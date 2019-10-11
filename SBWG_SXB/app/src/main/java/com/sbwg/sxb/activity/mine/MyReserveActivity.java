@@ -77,7 +77,7 @@ public class MyReserveActivity extends BaseActivity implements OnClickListener {
 					@Override
 					public void run() {
 						if (data_total < 0) {
-							resetData();
+							refreshData();
 						} else {
 							refresh_rv.onPullDownRefreshComplete();
 						}
@@ -161,11 +161,11 @@ public class MyReserveActivity extends BaseActivity implements OnClickListener {
 	}
 
 	/**
-	 * 重置数据
+	 *下拉刷新
 	 */
-	private void resetData() {
+	private void refreshData() {
 		current_Page = 1;
-		loadMoreData();
+		loadServerData();
 	}
 
 	/**
@@ -173,6 +173,9 @@ public class MyReserveActivity extends BaseActivity implements OnClickListener {
 	 */
 	private void loadMoreData() {
 		loadServerData();
+		/*al_show.clear();
+		al_show.addAll(getDemoData());
+		updateListData();*/
 	}
 
 	/**
@@ -207,11 +210,11 @@ public class MyReserveActivity extends BaseActivity implements OnClickListener {
 							}
 							updateListData();
 						}
+					} else if (baseEn.getErrno() == AppConfig.ERROR_CODE_TIMEOUT) {
+						handleTimeOut();
+						finish();
 					} else {
 						handleErrorCode(baseEn);
-						if (baseEn.getErrno() == AppConfig.ERROR_CODE_TIMEOUT) {
-							finish();
-						}
 					}
 					break;
 			}
@@ -239,6 +242,62 @@ public class MyReserveActivity extends BaseActivity implements OnClickListener {
 		super.stopAnimation();
 		refresh_rv.onPullDownRefreshComplete();
 		refresh_rv.onPullUpRefreshComplete();
+	}
+
+	/**
+	 * 构建Demo数据
+	 */
+	private List<ThemeEntity> getDemoData() {
+		List<ThemeEntity> mainLists = new ArrayList<>();
+
+		ThemeEntity chEn_1 = new ThemeEntity();
+		ThemeEntity chEn_2 = new ThemeEntity();
+		ThemeEntity chEn_3 = new ThemeEntity();
+		ThemeEntity chEn_4 = new ThemeEntity();
+		ThemeEntity chEn_5 = new ThemeEntity();
+
+		chEn_1.setAddTime("09月28日 09:28");
+		chEn_1.setPicUrl("");
+		chEn_1.setTitle("我的活动标题1我的活动标题1");
+		chEn_1.setReserveDate("2019-10-18");
+		chEn_1.setReserveTime("09:00-10:30");
+		chEn_1.setAddress("松堡旗舰店松堡旗舰店松堡旗舰店");
+		chEn_1.setPeople(1);
+		mainLists.add(chEn_1);
+		chEn_2.setAddTime("09月26日 09:26");
+		chEn_2.setPicUrl("");
+		chEn_2.setTitle("我的活动标题2");
+		chEn_2.setReserveDate("2019-10-18");
+		chEn_2.setReserveTime("09:00-10:30");
+		chEn_2.setAddress("松堡旗舰店");
+		chEn_2.setPeople(2);
+		mainLists.add(chEn_2);
+		chEn_3.setAddTime("09月23日 09:23");
+		chEn_3.setPicUrl("");
+		chEn_3.setTitle("我的活动标题3");
+		chEn_3.setReserveDate("2019-10-18");
+		chEn_3.setReserveTime("09:00-10:30");
+		chEn_3.setAddress("松堡旗舰店松堡旗舰店");
+		chEn_3.setPeople(3);
+		mainLists.add(chEn_3);
+		chEn_4.setAddTime("09月20日 09:20");
+		chEn_4.setPicUrl("");
+		chEn_4.setTitle("我的活动标题4");
+		chEn_4.setReserveDate("2019-10-18");
+		chEn_4.setReserveTime("09:00-10:30");
+		chEn_4.setAddress("松堡旗舰店");
+		chEn_4.setPeople(4);
+		mainLists.add(chEn_4);
+		chEn_5.setAddTime("09月18日 09:18");
+		chEn_5.setPicUrl("");
+		chEn_5.setTitle("我的活动标题5");
+		chEn_5.setReserveDate("2019-10-18");
+		chEn_5.setReserveTime("09:00-10:30");
+		chEn_5.setAddress("松堡旗舰店");
+		chEn_5.setPeople(5);
+		mainLists.add(chEn_5);
+
+		return mainLists;
 	}
 
 }

@@ -46,6 +46,8 @@ public class AppConfig {
 	public final static String URL_SIGN_UP_ADD = "activity/sign_up/add";
 	// 报名结果反馈
 	public final static String URL_SIGN_UP_CALLBACK = "activity/sign_up/callback";
+	// 获取指定日期时间段
+	public final static String URL_RESERVATION_TIME = "reservation/findCourseTime";
 
 	// 获取用户资料
 	public final static String URL_USER_GET = "user/get";
@@ -189,8 +191,10 @@ public class AppConfig {
 	public static final int REQUEST_SV_ACTIVITY_DETAIL = 0X2003;
 	// 报名提交
 	public static final int REQUEST_SV_SIGN_UP_ADD = 0X2004;
-	// 支付反馈
+	// 报名支付反馈
 	public static final int REQUEST_SV_SIGN_UP_CALLBACK = 0X2005;
+	// 指定日期时间段
+	public static final int REQUEST_SV_RESERVATION_TIME = 0X2006;
 
 	// 上传用户头像
 	public static final int REQUEST_SV_UPLOAD_HEAD = 0X3001;

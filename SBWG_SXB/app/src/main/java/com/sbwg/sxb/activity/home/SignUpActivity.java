@@ -26,6 +26,7 @@ import com.sbwg.sxb.utils.ExceptionUtil;
 import com.sbwg.sxb.utils.JsonUtils;
 import com.sbwg.sxb.utils.LogUtil;
 import com.sbwg.sxb.utils.StringUtil;
+import com.sbwg.sxb.utils.TimeUtil;
 import com.sbwg.sxb.utils.retrofit.HttpRequests;
 
 import org.json.JSONObject;
@@ -181,7 +182,7 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
                     }
                     // 校验格式
                     if (!StringUtil.isMobileNO(phoneStr)) {
-                        CommonTools.showToast(getString(R.string.login_phone_input));
+                        CommonTools.showToast(getString(R.string.login_phone_input_error));
                         return;
                     }
                     isPhone_Ok = true;
@@ -199,7 +200,9 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
             }
             tv_cost.setText(getString(R.string.pay_rmb, new DecimalFormat("0.00").format(payAmount)));
 
-            String infoStr = getString(R.string.time) + getString(R.string.sign_up_info_time, data.getStartTime(), data.getEndTime()) +
+            String timeStr = getString(R.string.time) + getString(R.string.sign_up_info_time,
+                    TimeUtil.strToStrMdHm(data.getStartTime()), TimeUtil.strToStrMdHm(data.getEndTime()));
+            String infoStr = timeStr +
                     "\n" + getString(R.string.place) + data.getAddress() +
                     "\n" + getString(R.string.number_p) + getString(R.string.sign_up_info_number, data.getPeople(), data.getQuantity()) +
                     "\n" + getString(R.string.suit) + data.getSuit();
@@ -353,7 +356,7 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
         }
         // 校验格式
         if (!StringUtil.isMobileNO(phoneStr)) {
-            CommonTools.showToast(getString(R.string.login_phone_input));
+            CommonTools.showToast(getString(R.string.login_phone_input_error));
             return false;
         }
         return true;
@@ -479,7 +482,7 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
                     if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
                         isPaySuccess();
                     } else {
-                        handleErrorCode(baseEn);
+                        showSuccessDialog(baseEn.getErrmsg(), false);
                     }
                     break;
             }

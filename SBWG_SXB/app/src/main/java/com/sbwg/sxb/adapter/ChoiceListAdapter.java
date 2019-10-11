@@ -23,6 +23,14 @@ public class ChoiceListAdapter extends AppBaseAdapter {
 		this.context = context;
 	}
 
+	static class ViewHolder {
+
+		LinearLayout item_main;
+		TextView tv_time, tv_state;
+		ImageView iv_select;
+
+	}
+
 	/**代表了ListView中的一个item对象*/
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
@@ -65,14 +73,6 @@ public class ChoiceListAdapter extends AppBaseAdapter {
 			}
 		});
 		return convertView;
-	}
-
-	static class ViewHolder {
-
-		LinearLayout item_main;
-		TextView tv_time, tv_state;
-		ImageView iv_select;
-
 	}
 
 }

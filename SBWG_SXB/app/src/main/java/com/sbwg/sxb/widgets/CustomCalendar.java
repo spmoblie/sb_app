@@ -454,7 +454,7 @@ public class CustomCalendar extends View {
      */
     private boolean isWorkDay(Date month, int day) {
         Calendar calendar = Calendar.getInstance();
-        calendar.setTime(TimeUtil.strToDate(getCalendarStr(month, day)));
+        calendar.setTime(TimeUtil.strToDate("yyyy-MM-dd", getCalendarStr(month, day)));
         return CalendarUtil.getInstance().isWorkDay(calendar);
     }
 

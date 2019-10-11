@@ -93,7 +93,7 @@ public class DialogManager {
 	 * @param content
 	 * @param width 对话框宽度
 	 */
-	public void showSuccessDialog(String content, int width){
+	public void showSuccessDialog(String content, int width, boolean isSuccess){
 		// 销毁旧对话框
 		dismiss();
 		// 创建新对话框
@@ -105,6 +105,11 @@ public class DialogManager {
         lp.width = width;
         mDialog.getWindow().setAttributes(lp);
 		// 初始化对话框中的子控件
+		ImageView iv_logo = mDialog.findViewById(R.id.dialog_logo);
+		if (!isSuccess) {
+			iv_logo.setImageResource(R.mipmap.icon_fail);
+		}
+
 		TextView tv_content = mDialog.findViewById(R.id.dialog_content);
 		tv_content.setText(content);
 

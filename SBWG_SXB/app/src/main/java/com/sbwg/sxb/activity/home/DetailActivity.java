@@ -21,6 +21,7 @@ import com.sbwg.sxb.utils.ExceptionUtil;
 import com.sbwg.sxb.utils.JsonUtils;
 import com.sbwg.sxb.utils.LogUtil;
 import com.sbwg.sxb.utils.StringUtil;
+import com.sbwg.sxb.utils.TimeUtil;
 import com.sbwg.sxb.utils.retrofit.HttpRequests;
 
 import org.json.JSONObject;
@@ -136,7 +137,9 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
 
             String infoStr;
             if (themeType == AppConfig.THEME_TYPE_0) { //报名
-                infoStr = getString(R.string.time) + getString(R.string.sign_up_info_time, data.getStartTime(), data.getEndTime()) +
+                String timeStr = getString(R.string.time) + getString(R.string.sign_up_info_time,
+                        TimeUtil.strToStrMdHm(data.getStartTime()), TimeUtil.strToStrMdHm(data.getEndTime()));
+                infoStr = timeStr +
                         "\n" + getString(R.string.place) + data.getAddress() +
                         "\n" + getString(R.string.number_p) + getString(R.string.sign_up_info_number, data.getPeople(), data.getQuantity()) +
                         "\n" + getString(R.string.suit) + data.getSuit();
@@ -214,7 +217,7 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
      * 在线支付
      */
     private void toPay() {
-        showSuccessDialog(getString(R.string.reserve_success));
+        showSuccessDialog(getString(R.string.reserve_success), false);
     }
 
     /**

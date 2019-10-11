@@ -3,6 +3,7 @@ package com.sbwg.sxb.utils;
 import com.sbwg.sxb.entity.BaseEntity;
 import com.sbwg.sxb.entity.DesignEntity;
 import com.sbwg.sxb.entity.MessageEntity;
+import com.sbwg.sxb.entity.OptionEntity;
 import com.sbwg.sxb.entity.ThemeEntity;
 import com.sbwg.sxb.entity.UserInfoEntity;
 
@@ -131,6 +132,8 @@ public class JsonUtils {
                 childEn.setSynopsis(item.getString("synopsis"));
                 childEn.setDescription(item.getString("description"));
                 childEn.setAddress(item.getString("address"));
+                childEn.setStartTime(item.getString("startTime"));
+                childEn.setEndTime(item.getString("endTime"));
                 childEn.setQuantity(item.getInt("quantity"));
                 childEn.setPeople(item.getInt("people"));
                 childEn.setStatus(item.getInt("status"));
@@ -139,12 +142,6 @@ public class JsonUtils {
 
                 if (StringUtil.notNull(item, "timeStr")) {
                     childEn.setDateSlot(item.getString("timeStr"));
-                }
-                if (StringUtil.notNull(item, "startTimeValue")) {
-                    childEn.setStartTime(item.getString("startTimeValue"));
-                }
-                if (StringUtil.notNull(item, "endTimeValue")) {
-                    childEn.setEndTime(item.getString("endTimeValue"));
                 }
 
                 mainEn.setData(childEn);
@@ -167,6 +164,33 @@ public class JsonUtils {
         }
         return mainEn;
     }
+
+    /**
+     * 解析获取时间段数据
+     * @param jsonObject
+     * @return
+     * @throws JSONException
+     */
+    public static BaseEntity getTimeSlot(JSONObject jsonObject) throws JSONException {
+        BaseEntity mainEn = getCommonKeyValue(jsonObject);
+
+        if (StringUtil.notNull(jsonObject, "data")) {
+            JSONArray data = jsonObject.getJSONArray("data");
+            OptionEntity childEn;
+            List<OptionEntity> lists = new ArrayList<>();
+            for (int j = 0; j < data.length(); j++) {
+                JSONObject item = data.getJSONObject(j);
+                childEn = new OptionEntity();
+                childEn.setId(item.getInt("id"));
+                childEn.setTime(item.getString("raStartTime"));
+                childEn.setState(item.getBoolean("raStartTime"));
+                lists.add(childEn);
+            }
+            mainEn.setLists(lists);
+        }
+        return mainEn;
+    }
+
 
     /**
      * 解析用户资料数据
@@ -281,32 +305,19 @@ public class JsonUtils {
             if (StringUtil.notNull(jsonData, "activityList")) {
                 JSONArray data = jsonData.getJSONArray("activityList");
                 ThemeEntity childEn;
-                UserInfoEntity userEn;
                 List<ThemeEntity> lists = new ArrayList<>();
                 for (int j = 0; j < data.length(); j++) {
                     JSONObject item = data.getJSONObject(j);
                     childEn = new ThemeEntity();
-                    userEn = new UserInfoEntity();
                     childEn.setId(item.getInt("id"));
                     childEn.setTitle(item.getString("title"));
                     childEn.setPicUrl(item.getString("picUrl"));
                     childEn.setLinkUrl(item.getString("linkUrl"));
-                    childEn.setSynopsis(item.getString("synopsis"));
-                    childEn.setDescription(item.getString("description"));
-                    childEn.setArea(item.getString("areaName"));
                     childEn.setAddress(item.getString("address"));
+                    childEn.setAddTime(item.getString("addTime"));
                     childEn.setStartTime(item.getString("startTime"));
                     childEn.setEndTime(item.getString("endTime"));
-                    childEn.setQuantity(item.getInt("quantity"));
-                    childEn.setPeople(item.getInt("people"));
                     childEn.setStatus(item.getInt("status"));
-                    childEn.setFees(item.getDouble("fee"));
-
-                    userEn.setUserName(item.getString("name"));
-                    userEn.setGenderCode(item.getInt("gender"));
-                    userEn.setBirthday(item.getString("ageStage"));
-                    userEn.setUserPhone(item.getString("mobile"));
-                    childEn.setUserData(userEn);
 
                     lists.add(childEn);
                 }

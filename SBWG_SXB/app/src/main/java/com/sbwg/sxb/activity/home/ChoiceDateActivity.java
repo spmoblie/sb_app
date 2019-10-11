@@ -13,18 +13,25 @@ import com.sbwg.sxb.R;
 import com.sbwg.sxb.activity.BaseActivity;
 import com.sbwg.sxb.adapter.AdapterCallback;
 import com.sbwg.sxb.adapter.ChoiceListAdapter;
+import com.sbwg.sxb.entity.BaseEntity;
 import com.sbwg.sxb.entity.DayFinish;
 import com.sbwg.sxb.entity.OptionEntity;
 import com.sbwg.sxb.entity.ThemeEntity;
 import com.sbwg.sxb.utils.CommonTools;
+import com.sbwg.sxb.utils.ExceptionUtil;
+import com.sbwg.sxb.utils.JsonUtils;
 import com.sbwg.sxb.utils.LogUtil;
 import com.sbwg.sxb.utils.StringUtil;
 import com.sbwg.sxb.utils.TimeUtil;
+import com.sbwg.sxb.utils.retrofit.HttpRequests;
 import com.sbwg.sxb.widgets.CustomCalendar;
 import com.sbwg.sxb.widgets.ScrollViewListView;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
@@ -83,7 +90,7 @@ public class ChoiceDateActivity extends BaseActivity implements View.OnClickList
             }
             selectDay = assignDay;
         } else {
-            selectDay = TimeUtil.getStringDateShort();
+            selectDay = TimeUtil.getNowString("yyyy-MM-dd");
         }
 
         calendar.setOnClickListener(new CustomCalendar.onClickListener() {
@@ -246,11 +253,6 @@ public class ChoiceDateActivity extends BaseActivity implements View.OnClickList
         initListView();
     }
 
-    private void getTimeData() {
-        al_show.addAll(initTimeData());
-        initListView();
-    }
-
     private void checkData() {
         if (StringUtil.isNull(selectDay)) {
             CommonTools.showToast(getString(R.string.choice_select_date));
@@ -262,6 +264,42 @@ public class ChoiceDateActivity extends BaseActivity implements View.OnClickList
         }
         isChange = true;
         finish();
+    }
+
+    private void getTimeData() {
+        /*al_show.addAll(initTimeData());
+        initListView();*/
+        loadServerData();
+    }
+
+    /**
+     * 加载数据
+     */
+    private void loadServerData() {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("activityId", String.valueOf(themeId));
+        map.put("raStartTime", selectDay + " 00:00:00");
+        loadSVData(AppConfig.URL_RESERVATION_TIME, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_RESERVATION_TIME);
+    }
+
+    @Override
+    protected void callbackData(JSONObject jsonObject, int dataType) {
+        BaseEntity baseEn;
+        try {
+            switch (dataType) {
+                case AppConfig.REQUEST_SV_RESERVATION_TIME:
+                    baseEn = JsonUtils.getTimeSlot(jsonObject);
+                    if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+
+                    } else {
+                        handleErrorCode(baseEn);
+                    }
+                    break;
+            }
+        } catch (Exception e) {
+            loadFailHandle();
+            ExceptionUtil.handle(e);
+        }
     }
 
     private List<OptionEntity> initTimeData() {

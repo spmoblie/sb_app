@@ -136,8 +136,8 @@ public class DragImageView extends AppCompatImageView {
 			bitmap_W = bm.getWidth();
 			bitmap_H = bm.getHeight();
 
-			MAX_W = bitmap_W * 3;
-			MAX_H = bitmap_H * 3;
+			MAX_W = bitmap_W * 5;
+			MAX_H = bitmap_H * 5;
 
 			MIN_W = bitmap_W / 2;
 			MIN_H = bitmap_H / 2;

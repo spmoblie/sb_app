@@ -272,7 +272,7 @@
     <string name="login_bound">绑定账号</string>
     <string name="login_immediately_bound">立即绑定</string>
     <string name="login_no_account">没有账号？马上去注册</string>
-    <string name="login_timeout">登录失效(T_T)请重新登录(^_^)</string>
+    <string name="login_timeout">登录失效 (T_T)\n请重新登录 (^_^)</string>
     <string name="login_treaty">登录即同意《松小堡用户协议》</string>
 
     <!-- Share -->

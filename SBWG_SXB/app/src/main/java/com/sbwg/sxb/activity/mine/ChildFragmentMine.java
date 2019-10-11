@@ -213,6 +213,7 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
                     openLoginActivity();
                     return;
                 }
+                startActivity(new Intent(mContext, MyDesignActivity.class));
                 break;
             case R.id.fg_mine_sign_up_main:
                 if (!isLogin()) {
@@ -226,6 +227,7 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
                     openLoginActivity();
                     return;
                 }
+                startActivity(new Intent(mContext, MyReserveActivity.class));
                 break;
             case R.id.fg_mine_bill_main:
                 if (!isLogin()) {

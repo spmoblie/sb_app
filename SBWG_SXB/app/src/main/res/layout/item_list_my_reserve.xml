@@ -36,7 +36,7 @@
             android:layout_alignTop="@+id/my_reserve_item_iv_show"
             android:layout_toRightOf="@+id/my_reserve_item_iv_show"
             android:layout_marginLeft="@dimen/margin_padding_8"
-            android:layout_marginTop="@dimen/margin_padding_5"
+            android:layout_marginTop="@dimen/margin_padding_6"
             android:layout_marginRight="@dimen/margin_padding_2"
             android:ellipsize="end"
             android:maxLines="1"
@@ -48,7 +48,7 @@
             style="@style/list_item_text"
             android:layout_alignLeft="@+id/my_reserve_item_tv_title"
             android:layout_below="@id/my_reserve_item_tv_title"
-            android:layout_marginTop="@dimen/margin_padding_10"
+            android:layout_marginTop="@dimen/margin_padding_6"
             android:layout_marginRight="@dimen/margin_padding_2"
             android:ellipsize="end"
             android:maxLines="1" />
@@ -58,7 +58,7 @@
             style="@style/list_item_text"
             android:layout_alignLeft="@+id/my_reserve_item_tv_date"
             android:layout_below="@id/my_reserve_item_tv_date"
-            android:layout_marginTop="@dimen/margin_padding_10"
+            android:layout_marginTop="@dimen/margin_padding_6"
             android:layout_marginRight="@dimen/margin_padding_2"
             android:ellipsize="end"
             android:maxLines="1" />
@@ -68,7 +68,7 @@
             style="@style/list_item_text"
             android:layout_alignLeft="@+id/my_reserve_item_tv_time"
             android:layout_below="@id/my_reserve_item_tv_time"
-            android:layout_marginTop="@dimen/margin_padding_10"
+            android:layout_marginTop="@dimen/margin_padding_6"
             android:layout_marginBottom="@dimen/margin_padding_2"
             android:ellipsize="end"
             android:maxLines="1" />

@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide;
 import com.sbwg.sxb.AppApplication;
 import com.sbwg.sxb.R;
 import com.sbwg.sxb.entity.ThemeEntity;
+import com.sbwg.sxb.utils.TimeUtil;
 import com.sbwg.sxb.widgets.RoundImageView;
 
 import java.util.ArrayList;
@@ -84,9 +85,10 @@ public class MySignUpAdapter extends RecyclerView.Adapter<MySignUpAdapter.ViewHo
                 .apply(AppApplication.getShowOptions())
                 .into(viewHolder.iv_show);
 
-        viewHolder.item_time.setText(data.getAddTime());
+        viewHolder.item_time.setText(TimeUtil.strToStrItem(data.getAddTime()));
         viewHolder.tv_title.setText(data.getTitle());
-        viewHolder.tv_time.setText(mContext.getString(R.string.sign_up_time, data.getStartTime()));
+        viewHolder.tv_time.setText(mContext.getString(R.string.sign_up_time,
+                TimeUtil.strToStrYMD("yyyy-MM-dd", data.getStartTime())));
         viewHolder.tv_address.setText(mContext.getString(R.string.sign_up_address, data.getAddress()));
 
         viewHolder.item_main.setOnClickListener(new View.OnClickListener() {

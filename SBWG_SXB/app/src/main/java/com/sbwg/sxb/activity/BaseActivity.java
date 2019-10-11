@@ -532,7 +532,15 @@ public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Res
 	}
 
 	/**
-	 * 登入超时对话框
+	 * 处理登入超时
+	 */
+	protected void handleTimeOut() {
+		AppApplication.AppLogout();
+		openLoginActivity();
+	}
+
+	/**
+	 * 弹出登入超时对话框
 	 */
 	protected void showTimeOutDialog() {
 		AppApplication.AppLogout();
@@ -585,9 +593,9 @@ public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Res
 		myDialog.showOneBtnDialog(content, dialogWidth, true, isVanish, handler, null);
 	}
 
-	protected void showSuccessDialog(String content) {
+	protected void showSuccessDialog(String content, boolean isSuccess) {
 		content = (TextUtils.isEmpty(content)) ? getString(R.string.dialog_error_msg) : content;
-		myDialog.showSuccessDialog(content, dialogWidth);
+		myDialog.showSuccessDialog(content, dialogWidth, isSuccess);
 	}
 
 	/**

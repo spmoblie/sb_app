@@ -49,10 +49,10 @@ public class MyCountDownTimer extends CountDownTimer {
 
     private void updateTime(long time) {
         if (tv_time_one != null) {
-            String timeStr = TimeUtil.getTextTimeSecond(time);
+            String timeStr = TimeUtil.longToStrS(time);
             tv_time_one.setText(timeStr);
         }else {
-            Integer[] times = TimeUtil.getArrayIntegerTime(time);
+            Integer[] times = TimeUtil.longToIntDHMS(time);
             String day = "00";
             String hour = "00";
             String minute = "00";

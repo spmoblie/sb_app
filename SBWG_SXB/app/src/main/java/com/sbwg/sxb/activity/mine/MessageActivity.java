@@ -235,6 +235,9 @@ public class MessageActivity extends BaseActivity implements OnClickListener {
 							data_total = newTotal;
 							updateListData();
 						}
+					} else if (baseEn.getErrno() == AppConfig.ERROR_CODE_TIMEOUT) {
+						handleTimeOut();
+						finish();
 					} else {
 						handleErrorCode(baseEn);
 					}

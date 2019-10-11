@@ -27,24 +27,125 @@ public class TimeUtil {
     }
 
     /**
-     * 将毫秒格式的时间换成自定义的字串格式：0s - 86400s
-     * @param time 毫秒格式
+     * 获取当前时间
+     * @param pattern  yyyy-MM-dd
+     *                 HH:mm:ss
+     *                 yyyy-MM-dd HH:mm:ss
+     *                 yyyy-MM-dd HH:mm:ss am
+     *                 yyyy-MM-dd HH:mm:ss pm
+     *                 yyyy/MM/dd
+     *                 ......
+     *                 yyyy.MM.dd-HH.mm.ss
+     *                 ......
+     */
+    public static String getNowString(String pattern) {
+        SimpleDateFormat formatter = new SimpleDateFormat(pattern);
+        return formatter.format(new Date());
+    }
+
+    /**
+     * 获取当前时间
+     */
+    public static Date getNowDate(String pattern) {
+        SimpleDateFormat formatter = new SimpleDateFormat(pattern);
+        String dateString = formatter.format(new Date());
+        return formatter.parse(dateString, new ParsePosition(8));
+    }
+
+    /**
+     * 获取当前时间
+     */
+    public static long getNowLong(String pattern) {
+        return getNowDate(pattern).getTime();
+    }
+
+    /**
+     * 获取当前小时
+     * @return HH
+     */
+    public static String getHour() {
+        return getNowString("yyyy-MM-dd HH:mm:ss").substring(11, 13);
+    }
+
+    /**
+     * 获取当前分钟
+     * @return mm
+     */
+    public static String getMinute() {
+        return getNowString("yyyy-MM-dd HH:mm:ss").substring(14, 16);
+    }
+
+    /**
+     * 将文本格式时间转换为对象格式时间
+     * @param strDate 文本格式
+     */
+    public static Date strToDate(String pattern, String strDate) {
+        SimpleDateFormat formatter = new SimpleDateFormat(pattern);
+        return formatter.parse(strDate, new ParsePosition(0));
+    }
+
+    /**
+     * 将对象格式时间转换为文本格式时间
+     * @param dateDate 时间对象
+     */
+    public static String dateToStr(String pattern, Date dateDate) {
+        SimpleDateFormat formatter = new SimpleDateFormat(pattern);
+        return formatter.format(dateDate);
+    }
+
+    /**
+     * 将文本格式时间转换为毫秒格式时间
+     * @param strDate 文本格式
+     */
+    public static long strToLong(String pattern, String strDate) {
+        return dateToLong(strToDate(pattern, strDate));
+    }
+
+    /**
+     * 将毫秒格式时间转换为文本格式时间
+     * @param longDate 毫秒格式
+     */
+    public static String longToStr(String pattern, long longDate) {
+        return dateToStr(pattern, longToDate(longDate));
+    }
+
+    /**
+     * 将对象格式时间转换为毫秒格式时间
+     * @param dateDate 时间对象
+     */
+    public static long dateToLong(Date dateDate) {
+        return dateDate.getTime();
+    }
+
+    /**
+     * 将毫秒格式时间转换为文对象格式时间
+     * @param longDate 毫秒格式
+     */
+    public static Date longToDate(long longDate) {
+        return new Date(longDate + 0);
+    }
+
+    /**
+     * 将毫秒格式时间转换成自定义的文本格式时间：0s - 86400s
+     * @param longDate 毫秒格式
      * @return 0s - 86400s
      */
-    public static String getTextTimeSecond(long time) {
+    public static String longToStrS(long longDate) {
         Context ctx = AppApplication.getInstance().getApplicationContext();
-        long showTime = time % 86400;
+        long showTime = longDate % 86400;
         return showTime + ctx.getString(R.string.second);
     }
 
     /**
-     * 将毫秒格式的时间换成自定义的字串格式：1分1秒
+     * 将毫秒格式时间转换成自定义的文本格式时间：1分1秒
+     * @param longDate 毫秒格式
+     * @return 1分1秒
      */
-    public static String getTextTimeMinuteSecond(long time) {
+    public static String longToStrMS(long longDate) {
         Context ctx = AppApplication.getInstance().getApplicationContext();
 
-        int day = (int) (time / 86400);
-        long dayTime = time % 86400;
+        int day = (int) (longDate / 86400);
+        long dayTime = longDate % 86400;
         int hour = (int) (dayTime / 3600);
         long hourTime = dayTime % 3600;
         int minute = (int) (hourTime / 60);
@@ -58,13 +159,15 @@ public class TimeUtil {
     }
 
     /**
-     * 将毫秒格式的时间换成自定义的字串格式：1天1时1分1秒
+     * 将毫秒格式时间转换成自定义的文本格式时间：1天1时1分1秒
+     * @param longDate 毫秒格式
+     * @return 1天1时1分1秒
      */
-    public static String getTextTime(long time) {
+    public static String longToStrDHMS(long longDate) {
         Context ctx = AppApplication.getInstance().getApplicationContext();
 
-        int day = (int) (time / 86400);
-        long dayTime = time % 86400;
+        int day = (int) (longDate / 86400);
+        long dayTime = longDate % 86400;
         int hour = (int) (dayTime / 3600);
         long hourTime = dayTime % 3600;
         int minute = (int) (hourTime / 60);
@@ -74,12 +177,14 @@ public class TimeUtil {
     }
 
     /**
-     * 将毫秒格式的时间换成自定义的格式：[天,时,分,秒]
+     * 将毫秒格式时间转换成自定义的文本格式时间：[天,时,分,秒]
+     * @param longDate 毫秒格式
+     * @return [天,时,分,秒]
      */
-    public static Integer[] getArrayIntegerTime(long time) {
+    public static Integer[] longToIntDHMS(long longDate) {
         Integer[] times = new Integer[4];
-        int day = (int) (time / 86400);
-        long dayTime = time % 86400;
+        int day = (int) (longDate / 86400);
+        long dayTime = longDate % 86400;
         int hour = (int) (dayTime / 3600);
         long hourTime = dayTime % 3600;
         int minute = (int) (hourTime / 60);
@@ -93,203 +198,42 @@ public class TimeUtil {
     }
 
     /**
-     * 将毫秒转换成时间格式
-     *
-     * @param dateTime 毫秒时间
-     * @param pattern  支持的时间格式：
-     *                 yyyy/MM/dd HH:mm:ss 如 '2002/1/1 17:55:00'
-     *                 yyyy/MM/dd HH:mm:ss pm 如 '2002/1/1 17:55:00 pm'
-     *                 yyyy-MM-dd HH:mm:ss 如 '2002-1-1 17:55:00'
-     *                 yyyy-MM-dd HH:mm:ss am 如 '2002-1-1 17:55:00 am'
+     * 将传入的时间格式转换为指定的时间格式
      */
-    public static String getFormatedDateTime(String pattern, long dateTime) {
-        SimpleDateFormat sDateFormat = new SimpleDateFormat(pattern);
-        return sDateFormat.format(new Date(dateTime + 0));
+    public static String strToStrYMD(String pattern, String strDate) {
+        return dateToStr(pattern, strToDate(pattern, strDate));
     }
 
     /**
-     * 获取当前时间
-     *
-     * @return 返回时间类型 yyyy-MM-dd HH:mm:ss
+     * 将传入的时间格式转换为指定的时间格式
+     * @param strDate yyyy-MM-dd HH:mm:ss
+     * @return String MM-dd HH:mm
      */
-    public static Date getNowDate() {
-        Date currentTime = new Date();
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String dateString = formatter.format(currentTime);
-        ParsePosition pos = new ParsePosition(8);
-        Date currentTime_2 = formatter.parse(dateString, pos);
-        return currentTime_2;
+    public static String strToStrMdHm(String strDate) {
+        if (strDate.length() < 16) return "";
+        return strDate.substring(5, 16);
     }
 
     /**
-     * 获取当前时间
-     *
-     * @return返回短时间格式 yyyy-MM-dd
+     * 将传入的时间格式转换为指定的时间格式
+     * @param strDate yyyy-MM-dd HH:mm:ss
+     * @return String MM月dd日 HH:mm
      */
-    public static Date getNowDateShort() {
-        Date currentTime = new Date();
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        String dateString = formatter.format(currentTime);
-        ParsePosition pos = new ParsePosition(8);
-        Date currentTime_2 = formatter.parse(dateString, pos);
-        return currentTime_2;
+    public static String strToStrItem(String strDate) {
+        if (strDate.length() < 16) return "";
+        String newDate = strDate.substring(5, 16);
+        newDate = newDate.replace("-", "月");
+        newDate = newDate.replace(" ", "日 ");
+        return newDate;
     }
 
     /**
-     * 获取当前时间
-     *
-     * @return返回字符串格式 yyyy-MM-dd HH:mm:ss
+     * 将传入的时间格式转换为指定的时间格式
+     * @param longDate 毫秒格式
+     * @return String MM月dd日 HH:mm
      */
-    public static String getStringDate() {
-        Date currentTime = new Date();
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String dateString = formatter.format(currentTime);
-        return dateString;
-    }
-
-    /**
-     * 获取当前时间
-     *
-     * @return 返回短时间字符串格式yyyy-MM-dd
-     */
-    public static String getStringDateShort() {
-        Date currentTime = new Date();
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        String dateString = formatter.format(currentTime);
-        return dateString;
-    }
-
-    /**
-     * 获取时间 HH:mm:ss
-     *
-     * @return
-     */
-    public static String getTimeShort() {
-        SimpleDateFormat formatter = new SimpleDateFormat("HH:mm:ss");
-        Date currentTime = new Date();
-        String dateString = formatter.format(currentTime);
-        return dateString;
-    }
-
-    /**
-     * 将长时间格式字符串转换为时间 yyyy-MM-dd HH:mm:ss
-     *
-     * @param strDate
-     * @return
-     */
-    public static Date strToDateLong(String strDate) {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        ParsePosition pos = new ParsePosition(0);
-        Date strtodate = formatter.parse(strDate, pos);
-        return strtodate;
-    }
-
-    /**
-     * 将长时间格式时间转换为字符串 yyyy-MM-dd HH:mm:ss  *   * @param dateDate  * @return
-     */
-    public static String dateToStrLong(Date dateDate) {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String dateString = formatter.format(dateDate);
-        return dateString;
-    }
-
-    /**
-     * 将短时间格式时间转换为字符串 yyyy-MM-dd
-     *
-     * @param dateDate
-     * @return
-     */
-    public static String dateToStr(Date dateDate) {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        String dateString = formatter.format(dateDate);
-        return dateString;
-    }
-
-    /**
-     * 将短时间格式字符串转换为时间 yyyy-MM-dd
-     *
-     * @param strDate
-     * @return
-     */
-    public static Date strToDate(String strDate) {
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
-        ParsePosition pos = new ParsePosition(0);
-        Date strtodate = formatter.parse(strDate, pos);
-        return strtodate;
-    }
-
-    /**
-     * 得到现在时间
-     *
-     * @return
-     */
-    public static Date getNow() {
-        Date currentTime = new Date();
-        return currentTime;
-    }
-
-    /**
-     * 提取一个月中的最后一天
-     *
-     * @param day
-     * @return
-     */
-    public static Date getLastDate(long day) {
-        Date date = new Date();
-        long date_3_hm = date.getTime() - 3600000 * 34 * day;
-        Date date_3_hm_date = new Date(date_3_hm);
-        return date_3_hm_date;
-    }
-
-    /**
-     * 得到现在时间
-     *
-     * @return 字符串 yyyyMMdd HHmmss
-     */
-    public static String getStringToday() {
-        Date currentTime = new Date();
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd HHmmss");
-        String dateString = formatter.format(currentTime);
-        return dateString;
-    }
-
-    /**
-     * 得到现在小时
-     */
-    public static String getHour() {
-        Date currentTime = new Date();
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String dateString = formatter.format(currentTime);
-        String hour;
-        hour = dateString.substring(11, 13);
-        return hour;
-    }
-
-    /**
-     * 得到现在分钟
-     *
-     * @return
-     */
-    public static String getTime() {
-        Date currentTime = new Date();
-        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String dateString = formatter.format(currentTime);
-        String min;
-        min = dateString.substring(14, 16);
-        return min;
-    }
-
-    /**
-     * 根据用户传入的时间表示格式，返回当前时间的格式 如果是yyyyMMdd，注意字母y不能大写。
-     *
-     * @param pattern yyyyMMddhhmmss
-     * @return
-     */
-    public static String getUserDate(String pattern) {
-        Date currentTime = new Date();
-        SimpleDateFormat formatter = new SimpleDateFormat(pattern);
-        String dateString = formatter.format(currentTime);
-        return dateString;
+    public static String longToStrItem(long longDate) {
+        return strToStrItem(longToStr("yyyy-MM-dd HH:mm:ss", longDate));
     }
 
     /**
@@ -317,11 +261,11 @@ public class TimeUtil {
      */
     public static String getTwoDay(String sj1, String sj2) {
         SimpleDateFormat myFormatter = new SimpleDateFormat("yyyy-MM-dd");
-        long day = 0;
+        long day;
         try {
-            Date date = myFormatter.parse(sj1);
-            Date mydate = myFormatter.parse(sj2);
-            day = (date.getTime() - mydate.getTime()) / (24 * 60 * 60 * 1000);
+            Date date1 = myFormatter.parse(sj1);
+            Date date2 = myFormatter.parse(sj2);
+            day = (date1.getTime() - date2.getTime()) / (24 * 60 * 60 * 1000);
         } catch (Exception e) {
             return "";
         }
@@ -350,12 +294,10 @@ public class TimeUtil {
     public static String getNextDay(String nowDate, String delay) {
         try {
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-            String mdate = "";
-            Date d = strToDate(nowDate);
+            Date d = strToDate("yyyy-MM-dd", nowDate);
             long myTime = (d.getTime() / 1000) + Integer.parseInt(delay) * 24 * 60 * 60;
             d.setTime(myTime * 1000);
-            mdate = format.format(d);
-            return mdate;
+            return format.format(d);
         } catch (Exception e) {
             return "";
         }
@@ -373,7 +315,7 @@ public class TimeUtil {
          * 详细设计： 1.被400整除是闰年，否则： 2.不能被4整除则不是闰年 3.能被4整除同时不能被100整除则是闰年
          * 3.能被4整除同时能被100整除则不是闰年
          */
-        Date d = strToDate(date);
+        Date d = strToDate("yyyy-MM-dd", date);
         GregorianCalendar gc = (GregorianCalendar) Calendar.getInstance();
         gc.setTime(d);
         int year = gc.get(Calendar.YEAR);
@@ -391,10 +333,10 @@ public class TimeUtil {
     /**
      * 获取一个月的最后一天
      *
-     * @param dat
+     * @param dat yyyy-MM-dd
      * @return
      */
-    public static String getEndDateOfMonth(String dat) {// yyyy-MM-dd
+    public static String getEndDateOfMonth(String dat) {
         String str = dat.substring(0, 8);
         String month = dat.substring(5, 7);
         int mon = Integer.parseInt(month);

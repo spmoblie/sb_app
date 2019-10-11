@@ -155,6 +155,9 @@
             android:name=".activity.mine.MessageActivity"
             android:launchMode="standard"/>
         <activity
+            android:name=".activity.mine.MyDesignActivity"
+            android:launchMode="standard"/>
+        <activity
             android:name=".activity.mine.MyReserveActivity"
             android:launchMode="standard"/>
         <activity

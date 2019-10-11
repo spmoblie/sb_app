@@ -77,7 +77,7 @@ public class MySignUpActivity extends BaseActivity implements OnClickListener {
 					@Override
 					public void run() {
 						if (data_total < 0) {
-							resetData();
+							refreshData();
 						} else {
 							refresh_rv.onPullDownRefreshComplete();
 						}
@@ -161,21 +161,21 @@ public class MySignUpActivity extends BaseActivity implements OnClickListener {
 	}
 
 	/**
-	 * 重置数据
+	 *下拉刷新
 	 */
-	private void resetData() {
+	private void refreshData() {
 		current_Page = 1;
-		loadMoreData();
+		loadServerData();
 	}
 
 	/**
 	 * 翻页加载
 	 */
 	private void loadMoreData() {
-		//loadServerData();
-		al_show.clear();
-		al_show.addAll(getDemoData().getLists());
-		updateListData();
+		loadServerData();
+		/*al_show.clear();
+		al_show.addAll(getDemoData());
+		updateListData();*/
 	}
 
 	/**
@@ -210,11 +210,11 @@ public class MySignUpActivity extends BaseActivity implements OnClickListener {
 							}
 							updateListData();
 						}
+					} else if (baseEn.getErrno() == AppConfig.ERROR_CODE_TIMEOUT) {
+						handleTimeOut();
+						finish();
 					} else {
 						handleErrorCode(baseEn);
-						if (baseEn.getErrno() == AppConfig.ERROR_CODE_TIMEOUT) {
-							finish();
-						}
 					}
 					break;
 			}
@@ -247,16 +247,14 @@ public class MySignUpActivity extends BaseActivity implements OnClickListener {
 	/**
 	 * 构建Demo数据
 	 */
-	private BaseEntity getDemoData() {
-		BaseEntity baseEn = new BaseEntity();
+	private List<ThemeEntity> getDemoData() {
+		List<ThemeEntity> mainLists = new ArrayList<>();
 
 		ThemeEntity chEn_1 = new ThemeEntity();
 		ThemeEntity chEn_2 = new ThemeEntity();
 		ThemeEntity chEn_3 = new ThemeEntity();
 		ThemeEntity chEn_4 = new ThemeEntity();
 		ThemeEntity chEn_5 = new ThemeEntity();
-
-		List<ThemeEntity> mainLists = new ArrayList<>();
 
 		chEn_1.setAddTime("09月28日 09:28");
 		chEn_1.setPicUrl("");
@@ -294,9 +292,7 @@ public class MySignUpActivity extends BaseActivity implements OnClickListener {
 		chEn_5.setPeople(5);
 		mainLists.add(chEn_5);
 
-		baseEn.setLists(mainLists);
-
-		return baseEn;
+		return mainLists;
 	}
 
 }
