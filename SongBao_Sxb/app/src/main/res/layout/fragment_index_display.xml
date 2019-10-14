@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF" >
+
+    <ListView
+        android:id="@+id/indexDisplay_ListView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:cacheColorHint="#00000000"
+        android:divider="@null"
+        android:dividerHeight="0dp"
+        android:scrollbars="none"
+        android:minHeight="@dimen/margin_padding_40"
+        android:fastScrollEnabled="false" >
+    </ListView>
+
+    <com.songbao.sxb.widgets.area.SectionIndexerView
+        android:id="@+id/indexDisplay_section_indexer"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:paddingLeft="@dimen/margin_padding_10"
+        android:paddingRight="@dimen/margin_padding_10"
+        android:layout_gravity="right"
+        android:visibility="gone" />
+
+</FrameLayout>
