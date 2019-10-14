@@ -11,7 +11,7 @@ versions.testrunner = "1.0.2"
 versions.testespresso = "3.0.2"
 
 versions.rxpermissions = "0.10.2"
-versions.MultiImageSelector = "1.2"
+versions.multiImage_selector = "1.2"
 
 versions.arouter_compiler = "1.2.2"
 versions.arouter_api = "1.4.1"
@@ -48,7 +48,7 @@ versions.umeng_push = "6.0.1"
 versions.dagger = "2.13"
 versions.dagger_compiler = "2.13"
 
-versions.EasyPopup = "1.1.2"
+versions.easy_popup = "1.1.2"
 
 versions.flexbox = "1.0.0"
 
@@ -89,7 +89,7 @@ deps.support = support
 deps.arouter_api = "com.alibaba:arouter-api:$versions.arouter_api"
 deps.arouter_compiler = "com.alibaba:arouter-compiler:$versions.arouter_compiler"
 deps.rxpermissions = "com.github.tbruyelle:rxpermissions:$versions.rxpermissions"
-deps.MultiImageSelector = "com.github.lovetuzitong:MultiImageSelector:$versions.MultiImageSelector"
+deps.multiImage_selector = "com.github.lovetuzitong:MultiImageSelector:$versions.multiImage_selector"
 deps.eventbus = "org.greenrobot:eventbus:$versions.eventbus"
 
 //ButterKnife
@@ -122,7 +122,7 @@ deps.umeng_push = "com.umeng.umsdk:push:$versions.umeng_push"
 deps.dagger = "com.google.dagger:dagger:$versions.dagger"
 deps.dagger_compiler = "com.google.dagger:dagger-compiler:$versions.dagger_compiler"
 
-deps.EasyPopup = "com.github.zyyoona7:EasyPopup:$versions.EasyPopup"
+deps.easy_popup = "com.github.zyyoona7:EasyPopup:$versions.easy_popup"
 
 deps.flexbox = "com.google.android:flexbox:$versions.flexbox"
 
