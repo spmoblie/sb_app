@@ -61,8 +61,8 @@ public class NetworkUtil {
 	 * @return
 	 */
 	public static boolean isNetworkAvailable() {
-		ConnectivityManager connectivity = (ConnectivityManager) AppApplication.getInstance()
-				.getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+		ConnectivityManager connectivity = (ConnectivityManager) AppApplication
+				.getAppContext().getSystemService(Context.CONNECTIVITY_SERVICE);
 		if (connectivity == null) {
 		} else {
 			NetworkInfo[] info = connectivity.getAllNetworkInfo();
@@ -88,8 +88,8 @@ public class NetworkUtil {
 	 * Gps是否打开
 	 */
 	public static boolean isGpsEnabled() {
-		LocationManager locationManager = ((LocationManager) AppApplication.getInstance()
-				.getApplicationContext().getSystemService(Context.LOCATION_SERVICE));
+		LocationManager locationManager = ((LocationManager) AppApplication
+				.getAppContext().getSystemService(Context.LOCATION_SERVICE));
 		List<String> accessibleProviders = locationManager.getProviders(true);
 		return accessibleProviders != null && accessibleProviders.size() > 0;
 	}
@@ -98,7 +98,7 @@ public class NetworkUtil {
 	 * wifi是否打开
 	 */
 	public static boolean isWifiEnabled() {
-		Context ctx = AppApplication.getInstance().getApplicationContext();
+		Context ctx = AppApplication.getAppContext();
 		ConnectivityManager mgrConn = (ConnectivityManager) ctx
 				.getSystemService(Context.CONNECTIVITY_SERVICE);
 		TelephonyManager mgrTel = (TelephonyManager) ctx
@@ -113,8 +113,8 @@ public class NetworkUtil {
 	 * if(activeNetInfo.getType()==ConnectivityManager.TYPE_MOBILE) { //判断3G网
 	 */
 	public static boolean isWifi() {
-		ConnectivityManager connectivityManager = (ConnectivityManager) AppApplication.getInstance()
-				.getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+		ConnectivityManager connectivityManager = (ConnectivityManager) AppApplication
+				.getAppContext().getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo activeNetInfo = connectivityManager.getActiveNetworkInfo();
 		if (activeNetInfo != null
 				&& activeNetInfo.getType() == ConnectivityManager.TYPE_WIFI) {
@@ -127,8 +127,8 @@ public class NetworkUtil {
 	 * 判断当前网络是否3G网络
 	 */
 	public static boolean is3G() {
-		ConnectivityManager connectivityManager = (ConnectivityManager) AppApplication.getInstance()
-				.getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+		ConnectivityManager connectivityManager = (ConnectivityManager) AppApplication
+				.getAppContext().getSystemService(Context.CONNECTIVITY_SERVICE);
 		NetworkInfo activeNetInfo = connectivityManager.getActiveNetworkInfo();
 		if (activeNetInfo != null
 				&& activeNetInfo.getType() == ConnectivityManager.TYPE_MOBILE) {

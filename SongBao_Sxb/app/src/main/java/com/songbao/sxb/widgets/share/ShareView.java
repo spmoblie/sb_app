@@ -18,39 +18,27 @@ import android.view.animation.AnimationUtils;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
+import com.sina.weibo.sdk.auth.AuthInfo;
+import com.sina.weibo.sdk.auth.Oauth2AccessToken;
+import com.sina.weibo.sdk.auth.sso.SsoHandler;
 import com.songbao.sxb.AppApplication;
 import com.songbao.sxb.AppConfig;
 import com.songbao.sxb.R;
 import com.songbao.sxb.entity.ShareEntity;
 import com.songbao.sxb.utils.BitmapUtil;
 import com.songbao.sxb.utils.CommonTools;
-import com.songbao.sxb.utils.DeviceUtil;
 import com.songbao.sxb.utils.ExceptionUtil;
 import com.songbao.sxb.utils.LogUtil;
 import com.songbao.sxb.utils.StringUtil;
 import com.songbao.sxb.utils.UserManager;
-import com.songbao.sxb.widgets.share.weibo.AccessTokenKeeper;
 import com.songbao.sxb.widgets.share.weixi.WXShareUtil;
-import com.sina.weibo.sdk.api.ImageObject;
-import com.sina.weibo.sdk.api.TextObject;
-import com.sina.weibo.sdk.api.WeiboMultiMessage;
-import com.sina.weibo.sdk.api.share.IWeiboHandler;
-import com.sina.weibo.sdk.api.share.IWeiboShareAPI;
-import com.sina.weibo.sdk.api.share.SendMultiMessageToWeiboRequest;
-import com.sina.weibo.sdk.api.share.WeiboShareSDK;
-import com.sina.weibo.sdk.auth.AuthInfo;
-import com.sina.weibo.sdk.auth.Oauth2AccessToken;
-import com.sina.weibo.sdk.auth.WeiboAuthListener;
-import com.sina.weibo.sdk.auth.sso.SsoHandler;
-import com.sina.weibo.sdk.exception.WeiboException;
 import com.tencent.connect.common.Constants;
 import com.tencent.connect.share.QQShare;
-import com.tencent.mm.sdk.modelmsg.SendMessageToWX;
-import com.tencent.mm.sdk.modelmsg.WXMediaMessage;
-import com.tencent.mm.sdk.modelmsg.WXWebpageObject;
-import com.tencent.mm.sdk.openapi.IWXAPI;
-import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
-import com.tencent.mm.sdk.openapi.WXAPIFactory;
+import com.tencent.mm.opensdk.modelmsg.SendMessageToWX;
+import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
+import com.tencent.mm.opensdk.modelmsg.WXWebpageObject;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
 import com.tencent.tauth.UiError;
@@ -75,26 +63,26 @@ public class ShareView {
 	View ll_mainLayout;
 	View tv_Share_QQ;
 	View tv_Share_QQ_Space;
-	View tv_Share_Wechat;
+	View tv_Share_WX;
 	View tv_Share_Friends;
-	View tv_Share_Weibo;
+	View tv_Share_WB;
 	View tv_Share_Email;
 	View tv_Share_Message;
 	View tv_Share_Copy;
 	
-	// QQ libs/open_sdk
+	// QQ
 	private Tencent mTencent;
 	private static final String QQ_APP_ID = AppConfig.QQ_APP_ID;
-	// WX libs/open_sdk
-	private IWXAPI mWXApi;
+	// WX
+	private IWXAPI mIWXApi;
 	private static final String WX_APP_ID = AppConfig.WX_APP_ID;
-	// WB module/weiboSDK
+	// WB
 	private AuthInfo mAuthInfo;
 	/** 封装了 "access_token"，"expires_in"，"refresh_token"，并提供了他们的管理功能  */
 	private Oauth2AccessToken mAccessToken;
 	/** 注意：SsoHandler 仅当 SDK 支持 SSO 时有效 */
 	private SsoHandler mSsoHandler;
-	private IWeiboShareAPI mWeiboShareAPI;
+//	private IWeiboShareAPI mWeiboShareAPI;
 	private static final String WB_APP_ID = AppConfig.WB_APP_ID;
 	private static final String WB_REDIRECT_URL = AppConfig.WB_REDIRECT_URL;
 	private static final String WB_SCOPE = AppConfig.WB_SCOPE;
@@ -111,8 +99,8 @@ public class ShareView {
             mTencent = Tencent.createInstance(QQ_APP_ID, context);
         }
 		// WX
-		mWXApi = WXAPIFactory.createWXAPI(activity, WX_APP_ID, false);
-		mWXApi.registerApp(WX_APP_ID);
+		mIWXApi = WXAPIFactory.createWXAPI(activity, WX_APP_ID, false);
+		mIWXApi.registerApp(WX_APP_ID);
 
 		initView();
 		createAnimation();
@@ -206,16 +194,16 @@ public class ShareView {
 			LogUtil.i(TAG, "Error! tv_Share_QQ_Space is null");
 			return false;
 		}
-		if(tv_Share_Wechat == null){
-			LogUtil.i(TAG, "Error! tv_Share_Wechat is null");
+		if(tv_Share_WX == null){
+			LogUtil.i(TAG, "Error! tv_Share_WX is null");
 			return false;
 		}
 		if(tv_Share_Friends == null){
 			LogUtil.i(TAG, "Error! tv_Share_Friends is null");
 			return false;
 		}
-		if(tv_Share_Weibo == null){
-			LogUtil.i(TAG, "Error! tv_Share_Weibo is null");
+		if(tv_Share_WB == null){
+			LogUtil.i(TAG, "Error! tv_Share_WB is null");
 			return false;
 		}
 		if(tv_Share_Email == null){
@@ -278,14 +266,14 @@ public class ShareView {
 				}
 			}
 		});
-		tv_Share_Wechat = rootView.findViewById(R.id.share_view_tv_share_wechat);
-		tv_Share_Wechat.setOnClickListener(new View.OnClickListener() {
+		tv_Share_WX = rootView.findViewById(R.id.share_view_tv_share_wx);
+		tv_Share_WX.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
 				if(listener != null){
-					listener.onClick_Share_Wechat();
+					listener.onClick_Share_WX();
 				}else {
-					//wechatShare(false);
+					//wxShare(false);
 				}
 			}
 		});
@@ -296,18 +284,18 @@ public class ShareView {
 				if(listener != null){
 					listener.onClick_Share_Friends();
 				}else {
-					//wechatShare(true);
+					//wxShare(true);
 				}
 			}
 		});
-		tv_Share_Weibo = rootView.findViewById(R.id.share_view_tv_share_weibo);
-		tv_Share_Weibo.setOnClickListener(new View.OnClickListener() {
+		tv_Share_WB = rootView.findViewById(R.id.share_view_tv_share_wb);
+		tv_Share_WB.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
 				if(listener != null){
-					listener.onClick_Share_Weibo();
+					listener.onClick_Share_WB();
 				}else {
-					//weiboShare1();
+					//wbShare1();
 				}
 			}
 		});
@@ -393,9 +381,9 @@ public class ShareView {
 		}
 	}
 
-	private void wechatShare(boolean isFriends){
-		if(!DeviceUtil.checkAppInstalled(mContext, "com.tencent.mm")){ //检测是否安装微信APP
-			CommonTools.showToast(mContext.getString(R.string.share_msg_no_wechat), Toast.LENGTH_SHORT);
+	private void wxShare(boolean isFriends){
+		if (!mIWXApi.isWXAppInstalled()) { //检测是否安装微信客户端
+			CommonTools.showToast(mContext.getString(R.string.share_msg_no_wx));
 			return;
 		}
 		if (mShareEn != null) {
@@ -421,8 +409,8 @@ public class ShareView {
 			}else{
 				req.scene = SendMessageToWX.Req.WXSceneSession;
 			}
-			mWXApi.sendReq(req);
-//			AppApplication.isWXShare = true; //标记为微信分享
+			mIWXApi.sendReq(req);
+			AppApplication.isWXShare = true; //标记为微信分享
 		}else {
 			showEntityError();
 		}
@@ -432,106 +420,106 @@ public class ShareView {
 		return (type == null) ? String.valueOf(System.currentTimeMillis()) : type + System.currentTimeMillis();
 	}
 	
-	private void weiboShare1(){
+	private void wbShare1(){
 		//showShareLayer(false);
-		mAccessToken = AccessTokenKeeper.readAccessToken(mContext);
-		if (mAccessToken != null  && mAccessToken.isSessionValid()) {
-			weiboShare2();
-		}else {
-			mAuthInfo = new AuthInfo(mContext, WB_APP_ID, WB_REDIRECT_URL, WB_SCOPE);
-			mSsoHandler = new SsoHandler(mActivity, mAuthInfo);
-			// SSO 授权, 仅客户端
-			mSsoHandler.authorize(new WeiboAuthListener() {
-				@Override
-				public void onComplete(Bundle values) {
-					// 从 Bundle 中解析 Token
-					mAccessToken = Oauth2AccessToken.parseAccessToken(values);
-					if (mAccessToken != null && mAccessToken.isSessionValid()) {
-						// 保存 Token 到 SharedPreferences
-						AccessTokenKeeper.writeAccessToken(mContext, mAccessToken);
-						weiboShare2();
-					} else {
-						// 以下几种情况，您会收到 Code：
-						// 1. 当您未在平台上注册的应用程序的包名与签名时；
-						// 2. 当您注册的应用程序包名与签名不正确时；
-						// 3. 当您在平台上注册的包名和签名与您当前测试的应用的包名和签名不匹配时。
-						showAuthFail();
-					}
-				}
-
-				@Override
-				public void onCancel() {
-					showShareCancel();
-				}
-
-				@Override
-				public void onWeiboException(WeiboException e) {
-					ExceptionUtil.handle(e);
-					showAuthFail();
-				}
-			});
-		}
+//		mAccessToken = AccessTokenKeeper.readAccessToken(mContext);
+//		if (mAccessToken != null  && mAccessToken.isSessionValid()) {
+//			wbShare2();
+//		}else {
+//			mAuthInfo = new AuthInfo(mContext, WB_APP_ID, WB_REDIRECT_URL, WB_SCOPE);
+//			mSsoHandler = new SsoHandler(mActivity, mAuthInfo);
+//			// SSO 授权, 仅客户端
+//			mSsoHandler.authorize(new WeiboAuthListener() {
+//				@Override
+//				public void onComplete(Bundle values) {
+//					// 从 Bundle 中解析 Token
+//					mAccessToken = Oauth2AccessToken.parseAccessToken(values);
+//					if (mAccessToken != null && mAccessToken.isSessionValid()) {
+//						// 保存 Token 到 SharedPreferences
+//						AccessTokenKeeper.writeAccessToken(mContext, mAccessToken);
+//						wbShare2();
+//					} else {
+//						// 以下几种情况，您会收到 Code：
+//						// 1. 当您未在平台上注册的应用程序的包名与签名时；
+//						// 2. 当您注册的应用程序包名与签名不正确时；
+//						// 3. 当您在平台上注册的包名和签名与您当前测试的应用的包名和签名不匹配时。
+//						showAuthFail();
+//					}
+//				}
+//
+//				@Override
+//				public void onCancel() {
+//					showShareCancel();
+//				}
+//
+//				@Override
+//				public void onWeiboException(WeiboException e) {
+//					ExceptionUtil.handle(e);
+//					showAuthFail();
+//				}
+//			});
+//		}
 	}
 	
-	private void weiboShare2(){
+	private void wbShare2(){
 		if (mShareEn != null) {
 			// 创建微博分享接口实例
-			mWeiboShareAPI = WeiboShareSDK.createWeiboAPI(mContext, WB_APP_ID);
-			if (mWeiboShareAPI == null) return;
-			
-			// 注册第三方应用到微博客户端中，注册成功后该应用将显示在微博的应用列表中。
-			// 但该附件栏集成分享权限需要合作申请，详情请查看 Demo 提示
-			// NOTE：请务必提前注册，即界面初始化的时候或是应用程序初始化时，进行注册
-			mWeiboShareAPI.registerApp();
-			
-			// 当 Activity 被重新初始化时（该 Activity 处于后台时，可能会由于内存不足被杀掉了），
-			// 需要调用 {@link IWeiboShareAPI#handleWeiboResponse} 来接收微博客户端返回的数据。
-			// 执行成功，返回 true，并调用 {@link IWeiboHandler.Response#onResponse}；
-			// 失败返回 false，不调用上述回调
-			
-			// 1. 初始化微博的分享消息
-			WeiboMultiMessage weiboMessage = new WeiboMultiMessage();
-			TextObject textObject = new TextObject();
-			textObject.text = "【" + mShareEn.getTitle() + "】 " + mShareEn.getUrl();
-			weiboMessage.textObject = textObject;
-			ImageObject imageObject = new ImageObject();
-			Bitmap bitmap = mShareEn.getShareBm();
-			if (bitmap == null) {
-				bitmap = BitmapFactory.decodeResource(mContext.getResources(), R.mipmap.ic_launcher);
-			}
-			imageObject.setImageObject(bitmap);
-			weiboMessage.imageObject = imageObject;
-			
-			// 2. 初始化从第三方到微博的消息请求
-			SendMultiMessageToWeiboRequest request = new SendMultiMessageToWeiboRequest();
-			// 用transaction唯一标识一个请求
-			request.transaction = String.valueOf(System.currentTimeMillis());
-			request.multiMessage = weiboMessage;
-			
-			// 3. 发送请求消息到微博，唤起微博分享界面
-			Oauth2AccessToken accessToken = AccessTokenKeeper.readAccessToken(mContext.getApplicationContext());
-			String token = "";
-			if (accessToken != null) {
-				token = accessToken.getToken();
-			}
-			mWeiboShareAPI.sendRequest(mActivity, request, mAuthInfo, token, new WeiboAuthListener() {
-				@Override
-				public void onWeiboException( WeiboException arg0 ) {
-					showShareError();
-				}
-				
-				@Override
-				public void onComplete( Bundle bundle ) {
-					showShareSuccess();
-					Oauth2AccessToken newToken = Oauth2AccessToken.parseAccessToken(bundle);
-					AccessTokenKeeper.writeAccessToken(mContext, newToken);
-				}
-				
-				@Override
-				public void onCancel() {
-					showShareCancel();
-				}
-			});
+//			mWeiboShareAPI = WeiboShareSDK.createWeiboAPI(mContext, WB_APP_ID);
+//			if (mWeiboShareAPI == null) return;
+//
+//			// 注册第三方应用到微博客户端中，注册成功后该应用将显示在微博的应用列表中。
+//			// 但该附件栏集成分享权限需要合作申请，详情请查看 Demo 提示
+//			// NOTE：请务必提前注册，即界面初始化的时候或是应用程序初始化时，进行注册
+//			mWeiboShareAPI.registerApp();
+//
+//			// 当 Activity 被重新初始化时（该 Activity 处于后台时，可能会由于内存不足被杀掉了），
+//			// 需要调用 {@link IWeiboShareAPI#handleWeiboResponse} 来接收微博客户端返回的数据。
+//			// 执行成功，返回 true，并调用 {@link IWeiboHandler.Response#onResponse}；
+//			// 失败返回 false，不调用上述回调
+//
+//			// 1. 初始化微博的分享消息
+//			WeiboMultiMessage weiboMessage = new WeiboMultiMessage();
+//			TextObject textObject = new TextObject();
+//			textObject.text = "【" + mShareEn.getTitle() + "】 " + mShareEn.getUrl();
+//			weiboMessage.textObject = textObject;
+//			ImageObject imageObject = new ImageObject();
+//			Bitmap bitmap = mShareEn.getShareBm();
+//			if (bitmap == null) {
+//				bitmap = BitmapFactory.decodeResource(mContext.getResources(), R.mipmap.ic_launcher);
+//			}
+//			imageObject.setImageObject(bitmap);
+//			weiboMessage.imageObject = imageObject;
+//
+//			// 2. 初始化从第三方到微博的消息请求
+//			SendMultiMessageToWeiboRequest request = new SendMultiMessageToWeiboRequest();
+//			// 用transaction唯一标识一个请求
+//			request.transaction = String.valueOf(System.currentTimeMillis());
+//			request.multiMessage = weiboMessage;
+//
+//			// 3. 发送请求消息到微博，唤起微博分享界面
+//			Oauth2AccessToken accessToken = AccessTokenKeeper.readAccessToken(mContext.getApplicationContext());
+//			String token = "";
+//			if (accessToken != null) {
+//				token = accessToken.getToken();
+//			}
+//			mWeiboShareAPI.sendRequest(mActivity, request, mAuthInfo, token, new WeiboAuthListener() {
+//				@Override
+//				public void onWeiboException( WeiboException arg0 ) {
+//					showShareError();
+//				}
+//
+//				@Override
+//				public void onComplete( Bundle bundle ) {
+//					showShareSuccess();
+//					Oauth2AccessToken newToken = Oauth2AccessToken.parseAccessToken(bundle);
+//					AccessTokenKeeper.writeAccessToken(mContext, newToken);
+//				}
+//
+//				@Override
+//				public void onCancel() {
+//					showShareCancel();
+//				}
+//			});
 		}else {
 			showEntityError();
 		}
@@ -643,24 +631,24 @@ public class ShareView {
 	/**
 	 * 在Activity中的onNewIntent调用此方法
 	 */
-	public void onNewIntent(Intent intent, IWeiboHandler.Response response, IWXAPIEventHandler handler){
-		// WX
-		if(mWXApi != null){
-			mWXApi.handleIntent(intent, handler);
-		}
-		// WB
-		if(mWeiboShareAPI != null){ 
-			mWeiboShareAPI.handleWeiboResponse(intent, response);
-		}
-	}
+//	public void onNewIntent(Intent intent, IWeiboHandler.Response response, IWXAPIEventHandler handler){
+//		// WX
+//		if(mIWXApi != null){
+//			mIWXApi.handleIntent(intent, handler);
+//		}
+//		// WB
+//		if(mWeiboShareAPI != null){
+//			mWeiboShareAPI.handleWeiboResponse(intent, response);
+//		}
+//	}
 
 	public interface ShareVewButtonListener{
 		void onClick_Dismiss();
 		void onClick_Share_QQ();
 		void onClick_Share_QQ_Space();
-		void onClick_Share_Wechat();
+		void onClick_Share_WX();
 		void onClick_Share_Friends();
-		void onClick_Share_Weibo();
+		void onClick_Share_WB();
 		void onClick_Share_Email();
 		void onClick_Share_Message();
 		void onClick_Share_Copy();

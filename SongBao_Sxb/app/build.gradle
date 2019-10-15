@@ -44,14 +44,11 @@ dependencies {
     testImplementation deps.junit
     androidTestImplementation deps.testrunner
     androidTestImplementation deps.testespresso
-    implementation project(':weiboSDK')
-    compile files('libs/libammsdk.jar')
-    compile files('libs/open_sdk_r6137_lite.jar')
+
     // ButterKnife
     implementation deps.butterknife
     annotationProcessor deps.butterknife_compiler
-    // Glide
-    implementation deps.glide
+
     // Retrofit
     implementation deps.gson
     implementation deps.retrofit
@@ -60,9 +57,19 @@ dependencies {
     implementation deps.rxandroid
     implementation deps.converter_gson
     implementation deps.adapter_rxjava
-    // Okhttp
+    // OkHttp
     implementation deps.okhttp
     implementation deps.logging_interceptor
+
+    // Glide
+    implementation deps.glide
+
+    // WX
+    implementation deps.opensdk_wechat
+    // QQ
+    implementation files('libs/open_sdk_r6137_lite.jar')
+    // WB
+    implementation 'com.sina.weibo.sdk:core:4.4.1:openDefaultRelease@aar'
 
     // Umeng
     implementation deps.umeng_common

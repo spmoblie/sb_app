@@ -146,7 +146,7 @@ public class BitmapUtil {
     @SuppressWarnings("deprecation")
 	public static Bitmap getBitmapFromByte(byte[] bitmapBytes) {
     	if (bitmapBytes != null) {
-    		Display display = ((WindowManager) AppApplication.getInstance().getApplicationContext()
+    		Display display = ((WindowManager) AppApplication.getAppContext()
 					.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
     		int reqWidth, reqHeight;
     		Point point = new Point();

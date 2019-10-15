@@ -23,6 +23,7 @@ import com.songbao.sxb.utils.LogUtil;
 import com.songbao.sxb.utils.StringUtil;
 import com.songbao.sxb.utils.TimeUtil;
 import com.songbao.sxb.utils.retrofit.HttpRequests;
+import com.songbao.sxb.wxapi.WXPayEntryActivity;
 
 import org.json.JSONObject;
 
@@ -190,6 +191,7 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
                 openChoiceDateActivity(data);
                 break;
             case R.id.detail_tv_click:
+                toPay();
                 if (!isLoadOk) {
                     dataErrorHandle();
                     return;
@@ -217,7 +219,11 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
      * 在线支付
      */
     private void toPay() {
-        showSuccessDialog(getString(R.string.reserve_success), false);
+        //showSuccessDialog(getString(R.string.reserve_success), false);
+        Intent intent = new Intent(mContext, WXPayEntryActivity.class);
+        intent.putExtra("orderSn", "51135156651");
+        intent.putExtra("orderTotal", "88.88");
+        startActivity(intent);
     }
 
     /**

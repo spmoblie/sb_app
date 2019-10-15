@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.content.SharedPreferences.Editor;
 
 import com.songbao.sxb.AppApplication;
+import com.songbao.sxb.AppConfig;
+import com.songbao.sxb.activity.MainActivity;
 import com.songbao.sxb.utils.DeviceUtil;
 import com.songbao.sxb.utils.LogUtil;
 import com.umeng.message.UmengNotificationClickHandler;
@@ -31,29 +33,20 @@ public class MyUmengNotificationClickHandler extends UmengNotificationClickHandl
     public void launchApp(Context context, UMessage uMessage) {
         //页面跳转路径参数设置
         Editor editor = AppApplication.getSharedPreferences().edit();
-        //editor.putInt(AppConfig.KEY_HOME_CURRENT_INDEX, 4);
-        //editor.putBoolean(AppConfig.KEY_PUSH_PAGE_MEMBER, true);
+        editor.putBoolean(AppConfig.KEY_JUMP_PAGE, true);
+        editor.putInt(AppConfig.KEY_MAIN_CURRENT_INDEX, 2);
         editor.apply();
         //判断app进程是否存活
-        if(DeviceUtil.isAppAlive(context, "com.spshop.stylistpark")){
+        if(DeviceUtil.isAppAlive(context, context.getPackageName())){
             LogUtil.i("PushManager", "the app process is alive");
-            //如果App存活的话，就直接启动Activity，但要考虑一种情况，就是app的进程虽然仍然在
-            //但Task栈已经空了，比如用户点击Back键退出应用，但进程还没有被系统回收。
-            /*if (HomeFragmentActivity.instance != null) {
-                LogUtil.i("PushManager", "HomeFragmentActivity != null");
-                HomeFragmentActivity.instance.pushGoToMemberListActivity();
-            } else {
-                LogUtil.i("PushManager", "HomeFragmentActivity is null");
-                //该Handler是在BroadcastReceiver中被调用。
-                //因此若需启动Activity，需为Intent添加Flag：Intent.FLAG_ACTIVITY_NEW_TASK，否则无法启动Activity。
-                Intent mainIntent = new Intent(context, SplashActivity.class);
-                mainIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(mainIntent);
-            }*/
+            //如果App进程存活，就直接启动Activity。
+            Intent mainIntent = new Intent(context, MainActivity.class);
+            mainIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            context.startActivity(mainIntent);
         }else {
             LogUtil.i("PushManager", "the app process is dead");
             //如果App进程已经被杀死，则重新启动App。
-            Intent launchIntent = context.getPackageManager().getLaunchIntentForPackage("com.spshop.stylistpark");
+            Intent launchIntent = context.getPackageManager().getLaunchIntentForPackage(context.getPackageName());
             launchIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
             context.startActivity(launchIntent);
         }

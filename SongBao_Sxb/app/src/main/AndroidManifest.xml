@@ -18,14 +18,14 @@
 
 
     <application
-        android:name="com.songbao.sxb.AppApplication"
+        android:name=".AppApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/SxbTheme"
         android:networkSecurityConfig="@xml/network_security_config">
         <activity
-            android:name="com.songbao.sxb.activity.SplashActivity">
+            android:name=".activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -62,7 +62,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
-                <data android:scheme="tencent1104891333" />
+                <data android:scheme="tencent1104891333" /> <!-- 获取的APP ID -->
             </intent-filter>
         </activity>
         <activity
@@ -74,11 +74,11 @@
         <!-- Umeng push -->
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="5797051e67e58e2fb30018d4"></meta-data>
+            android:value="5da43f66570df31535000db7"></meta-data>
         <!-- Channel ID用来标识App的推广渠道，作为推送消息时给用户分组的一个维度。-->
         <meta-data
             android:name="UMENG_CHANNEL"
-            android:value="c313380fa72203f109e54ba9c3020bcd"></meta-data>
+            android:value="SongBao"></meta-data>
 
         <!-- Weibo -->
         <activity
@@ -101,87 +101,98 @@
 
         <!-- Activity -->
         <activity
-            android:name="com.songbao.sxb.activity.BaseActivity" />
+            android:name=".activity.BaseActivity" />
         <activity
-            android:name="com.songbao.sxb.activity.MainActivity"
+            android:name=".activity.MainActivity"
             android:launchMode="singleTask" />
 
         <!-- common -->
         <activity
-            android:name="com.songbao.sxb.activity.common.ClipImageCircularActivity"
+            android:name=".activity.common.clip.ClipImageCircularActivity"
             android:launchMode="standard"/>
         <activity
-            android:name="com.songbao.sxb.activity.common.ClipImageSquareActivity"
+            android:name=".activity.common.clip.ClipImageSquareActivity"
             android:launchMode="standard"/>
         <activity
-            android:name="com.songbao.sxb.activity.common.ClipPhotoGridActivity"
+            android:name=".activity.common.clip.ClipPhotoGridActivity"
             android:launchMode="standard"/>
         <activity
-            android:name="com.songbao.sxb.activity.common.ClipPhotoOneActivity"
+            android:name=".activity.common.clip.ClipPhotoOneActivity"
             android:launchMode="standard"/>
         <activity
-            android:name="com.songbao.sxb.activity.common.MyWebViewActivity"
+            android:name=".activity.common.MyWebViewActivity"
             android:launchMode="standard"/>
         <activity
-            android:name="com.songbao.sxb.activity.common.SelectListActivity"
+            android:name=".activity.common.SelectListActivity"
             android:launchMode="standard"/>
         <activity
-            android:name="com.songbao.sxb.activity.common.ViewPagerActivity"
+            android:name=".activity.common.ViewPagerActivity"
             android:launchMode="standard"/>
 
         <!-- home -->
         <activity
-            android:name="com.songbao.sxb.activity.home.ChoiceDateActivity"
+            android:name=".activity.home.ChoiceDateActivity"
             android:launchMode="standard"/>
         <activity
-            android:name="com.songbao.sxb.activity.home.DetailActivity"
+            android:name=".activity.home.DetailActivity"
             android:launchMode="standard"/>
         <activity
-            android:name="com.songbao.sxb.activity.home.SignUpActivity"
+            android:name=".activity.home.SignUpActivity"
             android:launchMode="standard"/>
 
         <!-- login -->
         <activity
-            android:name="com.songbao.sxb.activity.login.LoginActivity"
+            android:name=".activity.login.LoginActivity"
             android:launchMode="singleTask"/>
         <activity
-            android:name="com.songbao.sxb.activity.login.LoginPhoneActivity"
+            android:name=".activity.login.LoginPhoneActivity"
             android:launchMode="singleTask"/>
         <activity
-            android:name="com.songbao.sxb.activity.login.RegisterActivity"
+            android:name=".activity.login.RegisterActivity"
             android:launchMode="singleTask"/>
         <activity
-            android:name="com.songbao.sxb.activity.login.ResetPasswordActivity"
+            android:name=".activity.login.ResetPasswordActivity"
             android:launchMode="singleTask"/>
 
         <!-- mine -->
         <activity
-            android:name="com.songbao.sxb.activity.mine.EditUserInfoActivity"
+            android:name=".activity.mine.EditUserInfoActivity"
             android:launchMode="standard"/>
         <activity
-            android:name="com.songbao.sxb.activity.mine.FeedBackActivity"
+            android:name=".activity.mine.FeedBackActivity"
             android:launchMode="standard"/>
         <activity
-            android:name="com.songbao.sxb.activity.mine.MessageActivity"
+            android:name=".activity.mine.MessageActivity"
             android:launchMode="standard"/>
         <activity
-            android:name="com.songbao.sxb.activity.mine.MyDesignActivity"
+            android:name=".activity.mine.MyDesignActivity"
             android:launchMode="standard"/>
         <activity
-            android:name="com.songbao.sxb.activity.mine.MyReserveActivity"
+            android:name=".activity.mine.MyReserveActivity"
             android:launchMode="standard"/>
         <activity
-            android:name="com.songbao.sxb.activity.mine.MySignUpActivity"
+            android:name=".activity.mine.MySignUpActivity"
             android:launchMode="standard"/>
         <activity
-            android:name="com.songbao.sxb.activity.mine.PersonalActivity"
+            android:name=".activity.mine.PersonalActivity"
             android:launchMode="standard"/>
         <activity
-            android:name="com.songbao.sxb.activity.mine.SelectAreaActivity"
+            android:name=".activity.mine.SelectAreaActivity"
             android:launchMode="standard"/>
         <activity
-            android:name="com.songbao.sxb.activity.mine.SettingActivity"
+            android:name=".activity.mine.SettingActivity"
             android:launchMode="standard"/>
+
+        <!-- wxapi -->
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:exported="true"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".wxapi.WXPayEntryActivity"
+            android:exported="true"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait" />
 
     </application>
 

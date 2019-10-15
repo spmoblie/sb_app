@@ -58,11 +58,11 @@
                 android:text="@string/share_qq" />
 
             <TextView
-                android:id="@+id/share_view_tv_share_wechat"
+                android:id="@+id/share_view_tv_share_wx"
                 style="@style/common_tab_text_assist"
                 android:drawablePadding="@dimen/margin_padding_10"
-                android:drawableTop="@mipmap/share_icon_wechat"
-                android:text="@string/share_wechat" />
+                android:drawableTop="@mipmap/share_icon_wx"
+                android:text="@string/share_wx" />
             
             <TextView
                 android:id="@+id/share_view_tv_share_friends"
@@ -80,11 +80,11 @@
             android:baselineAligned="false" >
 
             <TextView
-                android:id="@+id/share_view_tv_share_weibo"
+                android:id="@+id/share_view_tv_share_wb"
                 style="@style/common_tab_text_assist"
                 android:drawablePadding="@dimen/margin_padding_10"
-                android:drawableTop="@mipmap/share_icon_weibo"
-                android:text="@string/share_weibo" />
+                android:drawableTop="@mipmap/share_icon_wb"
+                android:text="@string/share_wb" />
 
             <TextView
                 android:id="@+id/share_view_tv_share_email"

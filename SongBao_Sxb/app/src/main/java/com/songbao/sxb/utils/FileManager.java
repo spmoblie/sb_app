@@ -355,8 +355,8 @@ public class FileManager {
 	    else if ( ContentResolver.SCHEME_FILE.equals( scheme ) ) {
 	        data = uri.getPath();
 	    } else if ( ContentResolver.SCHEME_CONTENT.equals( scheme ) ) {
-	        Cursor cursor = AppApplication.getInstance().getApplicationContext()
-					.getContentResolver().query( uri, new String[] { ImageColumns.DATA }, null, null, null );
+	        Cursor cursor = AppApplication.getAppContext().getContentResolver()
+					.query( uri, new String[] { ImageColumns.DATA }, null, null, null );
 	        if ( null != cursor ) {
 	            if ( cursor.moveToFirst() ) {
 	                int index = cursor.getColumnIndex( ImageColumns.DATA );
@@ -404,8 +404,7 @@ public class FileManager {
 	public static String loadJSONFromAsset(String filename) {
 		String json = null;
 		try {
-			InputStream is = AppApplication.getInstance()
-					.getApplicationContext().getAssets().open(filename);
+			InputStream is = AppApplication.getAppContext().getAssets().open(filename);
 			int size = is.available();
 			byte[] buffer = new byte[size];
 			is.read(buffer);
@@ -423,8 +422,7 @@ public class FileManager {
 	 */
 	public static Bitmap getBitmapFromAssets(String filename){
 		try {
-			InputStream is = AppApplication.getInstance()
-					.getApplicationContext().getAssets().open(filename + ".png");
+			InputStream is = AppApplication.getAppContext().getAssets().open(filename + ".png");
 			Bitmap bitmap = BitmapFactory.decodeStream(is);
 			is.close();
 			return bitmap;
@@ -438,7 +436,7 @@ public class FileManager {
 	 * 下载指定Url的文件保存至指定路径
 	 */
 	public static int downloadFile(String urlStr, String fileName) {
-		Context ctx = AppApplication.getInstance().getApplicationContext();
+		Context ctx = AppApplication.getAppContext();
 		InputStream input = null;
 		OutputStream output = null;
 		HttpURLConnection connection = null;

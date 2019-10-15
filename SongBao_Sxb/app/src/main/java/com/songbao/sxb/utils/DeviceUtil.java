@@ -201,8 +201,8 @@ public class DeviceUtil {
 	
 	public static boolean isLocationServiceAllowed()
 	{
-		LocationManager locationManager = (LocationManager) AppApplication.getInstance()
-				.getApplicationContext().getSystemService(Context.LOCATION_SERVICE);
+		LocationManager locationManager = (LocationManager) AppApplication
+				.getAppContext().getSystemService(Context.LOCATION_SERVICE);
 
 		if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
 				|| locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER))

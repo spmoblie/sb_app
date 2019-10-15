@@ -57,7 +57,7 @@ public class RetrofitServiceManager {
                 //.addHeaderParams("X-APP-Token", UserManager.getInstance().getXAppToken())
                 .build();
         // 指定缓存路径,缓存大小100Mb
-        Cache cache = new Cache(new File(AppApplication.getInstance().getApplicationContext().getCacheDir(),
+        Cache cache = new Cache(new File(AppApplication.getAppContext().getCacheDir(),
                 "HttpCache"), 1024 * 1024 * 100);
         //创建OKHttpClient
         OkHttpClient.Builder builder = new OkHttpClient.Builder()
@@ -93,7 +93,8 @@ public class RetrofitServiceManager {
             CertificateFactory cf = CertificateFactory.getInstance("X.509", "BC");
             KeyStore keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
             keyStore.load(null);
-            keyStore.setCertificateEntry("ca", cf.generateCertificate(AppApplication.getInstance().getAssets().open(""))); //拷贝好的证书
+            keyStore.setCertificateEntry("ca",
+                    cf.generateCertificate(AppApplication.getAppContext().getAssets().open(""))); //拷贝好的证书
             SSLContext sslContext = SSLContext.getInstance("TLS");
             final TrustManagerFactory tmf = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
             tmf.init(keyStore);

@@ -108,6 +108,8 @@ public class AppConfig {
 			Manifest.permission.READ_EXTERNAL_STORAGE,
 			Manifest.permission.WRITE_EXTERNAL_STORAGE };
 
+	// Umeng
+	public static final String UMENG_MESSAGE_SECRET = "91f2dbb2d7f3c63d663cead167391580";
 	// QQ AppID
 	public static final String QQ_APP_ID = "1104891333";
 	// QQ授权接口参数：Scope权限

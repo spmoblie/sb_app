@@ -9,6 +9,7 @@ import com.songbao.sxb.AppConfig;
 import com.songbao.sxb.receiver.umeng.MyUmengMessageHandler;
 import com.songbao.sxb.receiver.umeng.MyUmengNotificationClickHandler;
 import com.umeng.analytics.MobclickAgent;
+import com.umeng.commonsdk.UMConfigure;
 import com.umeng.message.IUmengCallback;
 import com.umeng.message.IUmengRegisterCallback;
 import com.umeng.message.PushAgent;
@@ -38,16 +39,21 @@ public class PushManager {
 	}
 
 	private PushManager(){
-		mContext = AppApplication.getInstance().getApplicationContext();
+		mContext = AppApplication.getAppContext();
 		shared = AppApplication.getSharedPreferences();
 		mUserManager = UserManager.getInstance();
-		mPushAgent = PushAgent.getInstance(mContext);
 	}
 
 	/**
 	 * 初始化推送服务
 	 */
 	public void initPushService() {
+		// 初始化SDK
+		UMConfigure.init(mContext, UMConfigure.DEVICE_TYPE_PHONE, AppConfig.UMENG_MESSAGE_SECRET);
+		// Log开关设置
+		UMConfigure.setLogEnabled(!AppConfig.IS_PUBLISH);
+
+		mPushAgent = PushAgent.getInstance(mContext);
 		//注册推送服务，每次调用register方法都会回调该接口
 		mPushAgent.register(new IUmengRegisterCallback() {
 			@Override

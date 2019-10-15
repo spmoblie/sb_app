@@ -15,7 +15,7 @@ import android.util.DisplayMetrics;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.songbao.sxb.activity.MainActivity;
-import com.songbao.sxb.config.SharedConfig;
+import com.songbao.sxb.utils.SharedUtil;
 import com.songbao.sxb.utils.BitmapUtil;
 import com.songbao.sxb.utils.CommonTools;
 import com.songbao.sxb.utils.DeviceUtil;
@@ -25,7 +25,6 @@ import com.songbao.sxb.utils.PushManager;
 import com.songbao.sxb.utils.UserManager;
 import com.songbao.sxb.utils.retrofit.HttpRequests;
 import com.umeng.analytics.MobclickAgent;
-import com.umeng.commonsdk.UMConfigure;
 
 import java.io.File;
 import java.io.IOException;
@@ -38,8 +37,8 @@ public class AppApplication extends Application {
 
     private static AppApplication spApp = null;
     private static SharedPreferences shared;
+    private static PushManager pushManager;
     private static RequestOptions showOptions, headOptions;
-	private static PushManager pushManager;
 
     public static String version_name = ""; //当前版本号
     public static boolean isWXShare = false; //记录是否微信分享
@@ -52,22 +51,15 @@ public class AppApplication extends Application {
 
         spApp = this;
         shared = getSharedPreferences();
+        Editor editor = shared.edit();
 
-		// 初始化Umeng SDK
-        // 在此处调用基础组件包提供的初始化函数 相应信息可在应用管理 -> 应用信息 中找到 http://message.umeng.com/list/apps
-        // 参数四：设备类型，必须参数，UMConfigure.DEVICE_TYPE_PHONE则表示手机；UMConfigure.DEVICE_TYPE_BOX则表示盒子；默认为手机；
-        // 参数五：Push推送业务的secret 填充Umeng Message Secret对应信息（需替换）
-        UMConfigure.init(this, UMConfigure.DEVICE_TYPE_PHONE, "替换为秘钥信息,服务后台位置：应用管理 -> 应用信息 -> Umeng Message Secret");
-        // 设置组件化的Log开关，默认为false，如需查看LOG设置为true
-        UMConfigure.setLogEnabled(!AppConfig.IS_PUBLISH);
-        // 注册、设置推送服务
+        // 初始化推送服务
         pushManager = PushManager.getInstance();
         pushManager.initPushService();
 
-        Editor editor = shared.edit();
         // 获取手机型号及屏幕的宽高
-        int screenWidth = DeviceUtil.getDeviceWidth(spApp);
-        int screenHeight = DeviceUtil.getDeviceHeight(spApp);
+        int screenWidth = DeviceUtil.getDeviceWidth(this);
+        int screenHeight = DeviceUtil.getDeviceHeight(this);
         editor.putInt(AppConfig.KEY_SCREEN_WIDTH, screenWidth);
         editor.putInt(AppConfig.KEY_SCREEN_HEIGHT, screenHeight);
         // 判定是否为Pad
@@ -110,17 +102,13 @@ public class AppApplication extends Application {
         super.onTrimMemory(level);
     }
 
-    public static synchronized AppApplication getInstance() {
-        return spApp;
-    }
-
     public static Context getAppContext() {
         return spApp.getApplicationContext();
     }
 
     public static SharedPreferences getSharedPreferences() {
         if (shared == null) {
-            shared = new SharedConfig(spApp).GetConfig();
+            shared = SharedUtil.getInstance(getAppContext());
         }
         return shared;
     }
@@ -167,21 +155,7 @@ public class AppApplication extends Application {
     }
 
     /**
-     * 刷新用户信息-状态标记
-     */
-    public static void updateUserData(boolean isState) {
-        shared.edit().putBoolean(AppConfig.KEY_UPDATE_USER_DATA, isState).apply();
-    }
-
-    /**
-     * 刷新"我的"数据-状态标记
-     */
-    public static void updateMineData(boolean isState) {
-        shared.edit().putBoolean(AppConfig.KEY_UPDATE_MINE_DATA, isState).apply();
-    }
-
-    /**
-     * 清除联网加载数据控制符的缓存
+     * 清除加载数据控制符的缓存
      */
     public void clearSharedLoadSVData() {
         /*new Thread(new Runnable() {
@@ -197,10 +171,24 @@ public class AppApplication extends Application {
     }
 
     /**
+     * 刷新用户信息-状态标记
+     */
+    public static void updateUserData(boolean isState) {
+        shared.edit().putBoolean(AppConfig.KEY_UPDATE_USER_DATA, isState).apply();
+    }
+
+    /**
+     * 刷新"我的"数据-状态标记
+     */
+    public static void updateMineData(boolean isState) {
+        shared.edit().putBoolean(AppConfig.KEY_UPDATE_MINE_DATA, isState).apply();
+    }
+
+    /**
      * 设置App字体不随系统字体变化
      */
     public static void initDisplayMetrics() {
-        DisplayMetrics displayMetrics = spApp.getResources().getDisplayMetrics();
+        DisplayMetrics displayMetrics = getAppContext().getResources().getDisplayMetrics();
         displayMetrics.scaledDensity = displayMetrics.density;
     }
 
@@ -209,7 +197,7 @@ public class AppApplication extends Application {
      */
     public static void saveBitmapFile(Bitmap bm, File file, int compress) {
         if (bm == null || file == null) {
-            CommonTools.showToast(spApp.getResources().getString(R.string.photo_show_save_fail));
+            CommonTools.showToast(getAppContext().getResources().getString(R.string.photo_show_save_fail));
             return;
         }
         try {
@@ -227,7 +215,7 @@ public class AppApplication extends Application {
      */
     public static void updatePhoto(File file) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) { // 判断SDK版本是不是4.4或者高于4.4
-            MediaScannerConnection.scanFile(spApp, new String[]{file.getAbsolutePath()}, null, null);
+            MediaScannerConnection.scanFile(getAppContext(), new String[]{file.getAbsolutePath()}, null, null);
         } else {
             final Intent intent;
             if (file.isDirectory()) {
@@ -238,7 +226,7 @@ public class AppApplication extends Application {
                 intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
                 intent.setData(Uri.fromFile(file));
             }
-            spApp.sendBroadcast(intent);
+            getAppContext().sendBroadcast(intent);
         }
     }
 
@@ -315,7 +303,7 @@ public class AppApplication extends Application {
         map.put("userId", UserManager.getInstance().getUserId());
         HttpRequests.getInstance().loadData("url_head:pay", AppConfig.URL_AUTH_LOGOUT, map, HttpRequests.HTTP_POST);
         // 本地退出
-        AppManager.getInstance().AppLogout(spApp);
+        AppManager.getInstance().AppLogout(getAppContext());
     }
 
     // 创建服务用于捕获崩溃异常
@@ -327,9 +315,9 @@ public class AppApplication extends Application {
 
     // 重启应用
     public void restartApp() {
-        Intent intent = new Intent(spApp, MainActivity.class);
+        Intent intent = new Intent(getAppContext(), MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		spApp.startActivity(intent);
+		getAppContext().startActivity(intent);
 		AppManager.getInstance().AppExit(getAppContext());
 		// 结束进程之前可以把你程序的注销或者退出代码放在这段代码之前
 		android.os.Process.killProcess(android.os.Process.myPid());

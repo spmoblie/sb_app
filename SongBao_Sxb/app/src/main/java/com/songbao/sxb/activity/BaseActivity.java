@@ -34,14 +34,16 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
+import com.sina.weibo.sdk.api.share.BaseResponse;
+import com.sina.weibo.sdk.api.share.IWeiboHandler;
 import com.songbao.sxb.AppApplication;
 import com.songbao.sxb.AppConfig;
 import com.songbao.sxb.AppManager;
 import com.songbao.sxb.R;
-import com.songbao.sxb.activity.common.ClipImageCircularActivity;
-import com.songbao.sxb.activity.common.ClipImageSquareActivity;
-import com.songbao.sxb.activity.common.ClipPhotoGridActivity;
-import com.songbao.sxb.activity.common.ClipPhotoOneActivity;
+import com.songbao.sxb.activity.common.clip.ClipImageCircularActivity;
+import com.songbao.sxb.activity.common.clip.ClipImageSquareActivity;
+import com.songbao.sxb.activity.common.clip.ClipPhotoGridActivity;
+import com.songbao.sxb.activity.common.clip.ClipPhotoOneActivity;
 import com.songbao.sxb.activity.login.LoginActivity;
 import com.songbao.sxb.activity.login.LoginPhoneActivity;
 import com.songbao.sxb.activity.login.RegisterActivity;
@@ -59,11 +61,9 @@ import com.songbao.sxb.utils.UserManager;
 import com.songbao.sxb.utils.retrofit.Fault;
 import com.songbao.sxb.utils.retrofit.HttpRequests;
 import com.songbao.sxb.widgets.share.ShareView;
-import com.sina.weibo.sdk.api.share.BaseResponse;
-import com.sina.weibo.sdk.api.share.IWeiboHandler;
-import com.tencent.mm.sdk.modelbase.BaseReq;
-import com.tencent.mm.sdk.modelbase.BaseResp;
-import com.tencent.mm.sdk.openapi.IWXAPIEventHandler;
+import com.tencent.mm.opensdk.modelbase.BaseReq;
+import com.tencent.mm.opensdk.modelbase.BaseResp;
+import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -129,9 +129,6 @@ public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Res
 		screenWidth = shared.getInt(AppConfig.KEY_SCREEN_WIDTH, 0);
 		dialogWidth = screenWidth * 2/3;
 		myDialog = DialogManager.getInstance(mContext);
-
-		// 设置App字体不随系统字体变化
-		AppApplication.initDisplayMetrics();
 
 		// 推送服务统计应用启动数据
 		AppApplication.onPushAppStartData();
@@ -199,8 +196,6 @@ public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Res
 	@Override
 	protected void onResume() {
 		LogUtil.i(LogUtil.LOG_TAG, TAG + ": onResume()");
-		// 设置App字体不随系统字体变化
-		AppApplication.initDisplayMetrics();
 
 		super.onResume();
 	}

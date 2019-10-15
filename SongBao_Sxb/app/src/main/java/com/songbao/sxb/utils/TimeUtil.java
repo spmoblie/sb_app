@@ -131,7 +131,7 @@ public class TimeUtil {
      * @return 0s - 86400s
      */
     public static String longToStrS(long longDate) {
-        Context ctx = AppApplication.getInstance().getApplicationContext();
+        Context ctx = AppApplication.getAppContext();
         long showTime = longDate % 86400;
         return showTime + ctx.getString(R.string.second);
     }
@@ -142,7 +142,7 @@ public class TimeUtil {
      * @return 1分1秒
      */
     public static String longToStrMS(long longDate) {
-        Context ctx = AppApplication.getInstance().getApplicationContext();
+        Context ctx = AppApplication.getAppContext();
 
         int day = (int) (longDate / 86400);
         long dayTime = longDate % 86400;
@@ -164,7 +164,7 @@ public class TimeUtil {
      * @return 1天1时1分1秒
      */
     public static String longToStrDHMS(long longDate) {
-        Context ctx = AppApplication.getInstance().getApplicationContext();
+        Context ctx = AppApplication.getAppContext();
 
         int day = (int) (longDate / 86400);
         long dayTime = longDate % 86400;

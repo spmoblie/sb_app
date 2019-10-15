@@ -281,15 +281,12 @@
     <string name="share_qq">QQ</string>
     <string name="share_qq_space">QQ空间</string>
     <string name="share_friends">朋友圈</string>
-    <string name="share_wechat">微信</string>
-    <string name="share_weibo">微博</string>
+    <string name="share_wx">微信</string>
+    <string name="share_wb">微博</string>
     <string name="share_email">邮件</string>
     <string name="share_message">短信</string>
-    <string name="share_alipay">支付宝</string>
     <string name="share_copy">复制链接</string>
-    <string name="share_msg_no_wechat">请先下载微信</string>
-    <string name="share_msg_no_whatsapp">请先下载 Whatsapp</string>
-    <string name="share_msg_no_line">请先下载 Line</string>
+    <string name="share_msg_no_wx">请先下载微信</string>
     <string name="share_msg_error_license">授权失败，请重试！</string>
     <string name="share_msg_error_oauth">获取授权信息异常，请关闭页面后重新授权。</string>
     <string name="share_msg_success">分享成功</string>
@@ -299,12 +296,29 @@
     <string name="share_msg_entity_error">分享参数出错，请重新加载页面。</string>
 
     <!-- Pay -->
+    <string name="pay_title">在线支付</string>
     <string name="pay_rmb">￥%1$s</string>
     <string name="pay_ok">已支付</string>
     <string name="pay_now">立即支付</string>
     <string name="pay_line">在线支付</string>
-    <string name="pay_hint">您已完成支付，请勿重复支付。</string>
+    <string name="pay_amount">支付金额</string>
+    <string name="pay_type">支付方式</string>
+    <string name="pay_confirm">确认支付</string>
+    <string name="pay_wx">微信支付</string>
+    <string name="pay_wx_hint">微信在线支付</string>
+    <string name="pay_zfb">支付宝</string>
+    <string name="pay_zfb_hint">支付宝便捷支付</string>
+    <string name="pay_union">银联支付</string>
+    <string name="pay_union_hint">银联安全支付</string>
+    <string name="pay_abandon">确定放弃支付么?</string>
+    <string name="pay_select_null">请选择一种支付方式</string>
+    <string name="pay_continue">继续支付</string>
     <string name="pay_success">支付成功</string>
+    <string name="pay_fail">支付失败</string>
+    <string name="pay_cancel">支付取消</string>
+    <string name="pay_wait_notice">等待支付通知</string>
+    <string name="pay_result_ok">您已完成支付，请勿重复支付。</string>
+    <string name="pay_info_error">支付信息异常，请与客服联系并确认支付信息。</string>
     <string name="pay_abnormal">获取支付结果异常，请与客服联系并确认支付结果。</string>
 
     <!-- Address -->

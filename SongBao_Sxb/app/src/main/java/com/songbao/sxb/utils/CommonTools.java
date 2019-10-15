@@ -61,7 +61,7 @@ public class CommonTools {
 		cancelToast();
 
 		// 自定义View
-		Context ctx = AppApplication.getInstance().getApplicationContext();
+		Context ctx = AppApplication.getAppContext();
     	LayoutInflater inflater = (LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     	View view = inflater.inflate(R.layout.layout_toast, null);
     	TextView text = view.findViewById(R.id.toast_message);
@@ -91,7 +91,7 @@ public class CommonTools {
 		// 隐藏Toast
 		cancelToast();
 
-		Context ctx = AppApplication.getInstance().getApplicationContext();
+		Context ctx = AppApplication.getAppContext();
 		LayoutInflater inflater = (LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		View view = inflater.inflate(R.layout.layout_toast_page_num, null);
 		TextView text = view.findViewById(R.id.toast_message);

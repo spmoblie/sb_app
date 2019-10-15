@@ -91,15 +91,16 @@
             android:layout_weight="1"
             android:gravity="center_vertical"
             android:orientation="horizontal"
+            android:visibility="invisible"
             android:paddingLeft="@dimen/screen_margin_default"
             android:paddingRight="@dimen/screen_margin_default">
 
             <TextView
-                android:id="@+id/login_tv_wechat"
+                android:id="@+id/login_tv_wx"
                 style="@style/common_tab_text_assist"
                 android:drawablePadding="@dimen/margin_padding_10"
-                android:drawableTop="@mipmap/login_icon_logo_wechat"
-                android:text="@string/share_wechat" />
+                android:drawableTop="@mipmap/login_icon_logo_wx"
+                android:text="@string/share_wx" />
 
             <TextView
                 android:id="@+id/login_tv_qq"
@@ -109,11 +110,11 @@
                 android:text="@string/share_qq" />
 
             <TextView
-                android:id="@+id/login_tv_weibo"
+                android:id="@+id/login_tv_wb"
                 style="@style/common_tab_text_assist"
                 android:drawablePadding="@dimen/margin_padding_10"
-                android:drawableTop="@mipmap/login_icon_logo_sina"
-                android:text="@string/share_weibo" />
+                android:drawableTop="@mipmap/login_icon_logo_wb"
+                android:text="@string/share_wb" />
         </LinearLayout>
 
         <TextView

@@ -22,9 +22,6 @@ versions.eventbus = "3.1.1"
 versions.butterknife = "8.2.1"
 versions.butterknife_compiler = "8.2.1"
 
-//Glide
-versions.glide = "4.6.1"
-
 //Retrofit
 versions.gson = "2.6.2"
 versions.retrofit = "2.1.0"
@@ -35,9 +32,12 @@ versions.rxandroid = "1.1.0"
 versions.converter_gson = "2.1.0"
 versions.adapter_rxjava = "2.1.0"
 
-//Okhttp
+//OkHttp
 versions.okhttp = "3.4.1"
 versions.logging_interceptor = "3.4.1"
+
+//Glide
+versions.glide = "4.6.1"
 
 //Umeng
 versions.umeng_common = "2.1.0"
@@ -96,9 +96,6 @@ deps.eventbus = "org.greenrobot:eventbus:$versions.eventbus"
 deps.butterknife = "com.jakewharton:butterknife:$versions.butterknife"
 deps.butterknife_compiler = "com.jakewharton:butterknife-compiler:$versions.butterknife_compiler"
 
-//Glide
-deps.glide = "com.github.bumptech.glide:glide:$versions.glide"
-
 //Retrofit
 deps.gson = "com.google.code.gson:gson:$versions.gson"
 deps.retrofit = "com.squareup.retrofit2:retrofit:$versions.retrofit"
@@ -109,15 +106,21 @@ deps.rxandroid = "io.reactivex:rxandroid:$versions.rxandroid"
 deps.converter_gson = "com.squareup.retrofit2:converter-gson:$versions.converter_gson"
 deps.adapter_rxjava = "com.squareup.retrofit2:adapter-rxjava:$versions.adapter_rxjava"
 
-//Okhttp
+//OkHttp
 deps.okhttp = "com.squareup.okhttp3:okhttp:$versions.okhttp"
 deps.logging_interceptor = "com.squareup.okhttp3:logging-interceptor:$versions.logging_interceptor"
+
+//Glide
+deps.glide = "com.github.bumptech.glide:glide:$versions.glide"
 
 //Umeng
 deps.umeng_common = "com.umeng.umsdk:common:$versions.umeng_common"
 deps.umeng_analytics = "com.umeng.umsdk:analytics:$versions.umeng_analytics"
 deps.umeng_utdid = "com.umeng.umsdk:utdid:$versions.umeng_utdid"
 deps.umeng_push = "com.umeng.umsdk:push:$versions.umeng_push"
+
+//WX
+deps.opensdk_wechat = "com.tencent.mm.opensdk:wechat-sdk-android-without-mta:+"
 
 deps.dagger = "com.google.dagger:dagger:$versions.dagger"
 deps.dagger_compiler = "com.google.dagger:dagger-compiler:$versions.dagger_compiler"
@@ -156,6 +159,7 @@ def addRepos(RepositoryHandler handler) {
     //Add the JitPack repository
     handler.maven { url "https://jitpack.io" }
     handler.maven { url 'https://dl.bintray.com/umsdk/release' }
+    handler.maven { url "https://dl.bintray.com/thelasterstar/maven/" } //WB
     handler.maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' }
     handler.maven { url 'http://maven.aliyun.com/nexus/content/repositories/releases/' }
 

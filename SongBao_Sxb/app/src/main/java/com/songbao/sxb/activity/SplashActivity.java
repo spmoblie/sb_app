@@ -26,7 +26,7 @@ public class SplashActivity extends BaseActivity {
 		setHeadVisibility(View.GONE);
 
 		// 初始化推送服务状态(开启或关闭)
-		AppApplication.onPushDefaultStatus();
+		//AppApplication.onPushDefaultStatus();
 	}
 
 	@Override

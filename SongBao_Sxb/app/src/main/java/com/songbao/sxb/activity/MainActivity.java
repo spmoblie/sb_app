@@ -95,7 +95,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 				             + " open_index = " + open_index + " isJump = " + isJump);
 		// 非跳转页面时出现错误 重启Home
 		if (!isJump && current_index != open_index) {
-			startFragmen();
+			startFragment();
 			return;
 		}
 		// 设置默认初始化的界面
@@ -119,17 +119,16 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 	/**
 	 * 重启HomeFragmentActivity
 	 */
-	private void startFragmen() {
+	private void startFragment() {
 		shared.edit().putInt(AppConfig.KEY_MAIN_CURRENT_INDEX, current_index).apply();
 		finish();
 		startActivity(new Intent(this, MainActivity.class));
 	}
 
 	/**
-	 * 跳转到Fragmen子界面
-	 * @param index
+	 * 跳转到Fragment子界面
 	 */
-	public void changeFragmen(int index) {
+	public void changeFragment(int index) {
 		switch (index) {
 			case 0:
 				fragment = (Fragment) mFragmentPagerAdapter.instantiateItem(fragment_0, R.id.main_fragment_fl_1);
@@ -181,8 +180,6 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 		LogUtil.i(LogUtil.LOG_TAG, TAG + ": onResume");
 		// 页面开始
 		AppApplication.onPageStart(this, TAG);
-		// 设置App字体不随系统字体变化
-		AppApplication.initDisplayMetrics();
 
 		exit = Boolean.FALSE;
 		initView();
