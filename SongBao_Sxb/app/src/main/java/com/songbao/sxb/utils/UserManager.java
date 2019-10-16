@@ -345,6 +345,13 @@ public class UserManager {
 	}
 
 	/**
+	 * 刷新所有状态数据
+	 */
+	private void changeAllDataStatus() {
+		AppApplication.updateUserData(true);
+	}
+
+	/**
 	 * 用户登出清除状态
 	 */
 	public void clearUserLoginInfo(Context ctx){
@@ -361,13 +368,6 @@ public class UserManager {
 		// 回退至"首页"
 		//editor.putBoolean(AppConfig.KEY_JUMP_PAGE, true).apply();
 		//editor.putInt(AppConfig.KEY_MAIN_CURRENT_INDEX, 0).apply();
-	}
-
-	/**
-	 * 刷新所有状态数据
-	 */
-	private void changeAllDataStatus() {
-		AppApplication.updateUserData(true);
 	}
 
 	/**

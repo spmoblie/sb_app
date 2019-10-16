@@ -68,7 +68,7 @@ public class JsonLogin {
 	/**
 	 * 获取微信AccessToken
 	 */
-	public static WXEntity getWexiAccessToken(String jsonStr) throws JSONException {
+	public static WXEntity getWXAccessToken(String jsonStr) throws JSONException {
 		JSONObject jsonObject = new JSONObject(jsonStr);
 		return new WXEntity(jsonObject.getString("access_token"), 
 				jsonObject.getString("expires_in"), jsonObject.getString("refresh_token"), 
@@ -78,7 +78,7 @@ public class JsonLogin {
 	/**
 	 * 校验微信AccessToken
 	 */
-	public static WXEntity authWexiAccessToken(String jsonStr) throws JSONException {
+	public static WXEntity authWXAccessToken(String jsonStr) throws JSONException {
 		JSONObject jsonObject = new JSONObject(jsonStr);
 		return new WXEntity(Integer.parseInt(jsonObject.getString("errcode")), jsonObject.getString("errmsg"));
 	}
@@ -86,7 +86,7 @@ public class JsonLogin {
 	/**
 	 * 微信刷新AccessToken结果
 	 */
-	public static WXEntity getWexiAccessAuth(String jsonStr) throws JSONException {
+	public static WXEntity getWXAccessAuth(String jsonStr) throws JSONException {
 		JSONObject jsonObject = new JSONObject(jsonStr);
 		return new WXEntity(jsonObject.getString("access_token"), 
 				jsonObject.getString("expires_in"), jsonObject.getString("refresh_token"),
@@ -96,8 +96,7 @@ public class JsonLogin {
 	/**
 	 * 获取微信用户信息
 	 */
-	public static WXUserInfoEntity getWexiUserInfo(String jsonStr) throws JSONException {
-		JSONObject jsonObject = new JSONObject(jsonStr);
+	public static WXUserInfoEntity getWXUserInfo(JSONObject jsonObject) throws JSONException {
 		return new WXUserInfoEntity(
 				jsonObject.getString("openid"), jsonObject.getString("nickname"), 
 				jsonObject.getString("sex"), jsonObject.getString("province"), 
@@ -109,7 +108,7 @@ public class JsonLogin {
 	/**
 	 * 微信校验AccessToken有效性
 	 */
-	public static WXEntity getWexiAccessTokenAuto(String jsonStr) throws JSONException {
+	public static WXEntity getWXAccessTokenAuto(String jsonStr) throws JSONException {
 		JSONObject jsonObject = new JSONObject(jsonStr);
 		return new WXEntity(Integer.parseInt(jsonObject.getString("errcode")), jsonObject.getString("errmsg"));
 	}
@@ -152,8 +151,7 @@ public class JsonLogin {
 	/**
 	 * 获取支付宝授权信息
 	 */
-	public static AuthResult getAlipayAuthInfo(Object jsonObject) throws JSONException {
-		JSONObject jsonObj = (JSONObject) jsonObject;
+	public static AuthResult getALAuthInfo(JSONObject jsonObj) throws JSONException {
 		AuthResult authResult = null;
 		return authResult;
 	}
@@ -161,9 +159,20 @@ public class JsonLogin {
 	/**
 	 * 获取支付宝用户信息
 	 */
-	public static UserInfoEntity getAlipayUserInfo(Object jsonObject) throws JSONException {
-		JSONObject jsonObj = (JSONObject) jsonObject;
+	public static UserInfoEntity getALUserInfo(JSONObject jsonObj) throws JSONException {
 		UserInfoEntity userInfo = null;
+		return userInfo;
+	}
+
+	/**
+	 * 获取微博用户信息
+	 */
+	public static UserInfoEntity getWBUserInfo(JSONObject jsonObj) throws JSONException {
+		UserInfoEntity userInfo = new UserInfoEntity();
+		userInfo.setUserId(jsonObj.getString("idstr"));
+		userInfo.setUserNick(jsonObj.getString("screen_name"));
+		userInfo.setUserHead(jsonObj.getString("avatar_large"));
+		userInfo.setGenderStr(jsonObj.getString("gender")); //性别，m：男、f：女、n：未知
 		return userInfo;
 	}
 

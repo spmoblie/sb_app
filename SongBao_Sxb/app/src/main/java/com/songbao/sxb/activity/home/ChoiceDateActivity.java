@@ -266,8 +266,7 @@ public class ChoiceDateActivity extends BaseActivity implements View.OnClickList
             }
             return;
         }
-        isChange = true;
-        finish();
+        postCheckData();
     }
 
     private void getTimeData() {
@@ -284,6 +283,16 @@ public class ChoiceDateActivity extends BaseActivity implements View.OnClickList
         loadSVData(AppConfig.URL_RESERVATION_TIME, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_RESERVATION_TIME);
     }
 
+    /**
+     * 提交并校验数据
+     */
+    private void postCheckData() {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("activityId", String.valueOf(themeId));
+        map.put("raStartTime", selectDay + " 00:00:00");
+        loadSVData(AppConfig.URL_RESERVATION_IS, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_RESERVATION_IS);
+    }
+
     @Override
     protected void callbackData(JSONObject jsonObject, int dataType) {
         BaseEntity baseEn;
@@ -298,6 +307,15 @@ public class ChoiceDateActivity extends BaseActivity implements View.OnClickList
                             al_show.addAll(lists);
                             initListView();
                         }
+                    } else {
+                        handleErrorCode(baseEn);
+                    }
+                    break;
+                case AppConfig.REQUEST_SV_RESERVATION_IS:
+                    baseEn = JsonUtils.getBaseErrorData(jsonObject);
+                    if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+                        isChange = true;
+                        finish();
                     } else {
                         handleErrorCode(baseEn);
                     }

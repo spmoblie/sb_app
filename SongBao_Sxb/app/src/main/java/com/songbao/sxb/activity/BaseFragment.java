@@ -181,8 +181,18 @@ public class BaseFragment extends Fragment {
 	 * 加载网络数据
 	 */
 	protected void loadSVData(String path, HashMap<String, String> map, int httpType, final int dataType) {
+		loadSVData("", path, map, httpType, dataType);
+	}
+
+	/**
+	 * 加载网络数据
+	 */
+	protected void loadSVData(String head, String path, HashMap<String, String> map, int httpType, final int dataType) {
+		if (StringUtil.isNull(head)) {
+			head = "base_2";
+		}
 		HttpRequests.getInstance()
-				.loadData("base_2", path, map, httpType)
+				.loadData(head, path, map, httpType)
 				.subscribe(new Observer<ResponseBody>() {
 					@Override
 					public void onNext(ResponseBody body) {

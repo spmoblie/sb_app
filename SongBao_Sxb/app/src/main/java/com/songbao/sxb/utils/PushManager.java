@@ -49,7 +49,7 @@ public class PushManager {
 	 */
 	public void initPushService() {
 		// 初始化SDK
-		UMConfigure.init(mContext, UMConfigure.DEVICE_TYPE_PHONE, AppConfig.UMENG_MESSAGE_SECRET);
+		UMConfigure.init(mContext, UMConfigure.DEVICE_TYPE_PHONE, AppConfig.UM_MESSAGE_SECRET);
 		// Log开关设置
 		UMConfigure.setLogEnabled(!AppConfig.IS_PUBLISH);
 

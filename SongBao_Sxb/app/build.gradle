@@ -70,8 +70,7 @@ dependencies {
     implementation files('libs/open_sdk_r6137_lite.jar')
     // WB
     implementation 'com.sina.weibo.sdk:core:4.4.1:openDefaultRelease@aar'
-
-    // Umeng
+    // UM
     implementation deps.umeng_common
     implementation deps.umeng_analytics
     implementation deps.umeng_utdid

@@ -128,10 +128,13 @@ public class RetrofitServiceManager {
                 //匹配获得新的BaseUrl
                 String headerValue = headerValues.get(0);
                 HttpUrl newBaseUrl;
+                if ("base_1".equals(headerValue)) {
+                    return chain.proceed(request);
+                } else
                 if ("base_2".equals(headerValue)) {
                     newBaseUrl = HttpUrl.parse(AppConfig.BASE_URL_2);
                 } else {
-                    return chain.proceed(request);
+                    newBaseUrl = HttpUrl.parse(headerValue);
                 }
                 LogUtil.i(LogUtil.LOG_HTTP, "BaseUrl value -> " + headerValue);
 

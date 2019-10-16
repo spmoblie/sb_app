@@ -48,16 +48,32 @@ public class HttpRequests extends ObjectLoader {
     public Observable<ResponseBody> loadData(String head, String paths, Map<String, String> map, int httpType) {
         Observable<ResponseBody> observable = null;
         try {
+            String[] roots = paths.split("/");
             switch (httpType) {
                 case HTTP_GET:
-                    if (map != null) {
-                        observable = observe(httpService.get(head, paths, map));
-                    } else {
+                    if (map == null) {
                         observable = observe(httpService.get(head, paths));
+                    } else {
+                        switch (roots.length) {
+                            case 1:
+                                observable = observe(httpService.get(head, paths, map));
+                                break;
+                            case 2:
+                                observable = observe(httpService.get(head, roots[0], roots[1], map));
+                                break;
+                            case 3:
+                                observable = observe(httpService.get(head, roots[0], roots[1], roots[2], map));
+                                break;
+                            case 4:
+                                observable = observe(httpService.get(head, roots[0], roots[1], roots[2], roots[3], map));
+                                break;
+                            default:
+                                observable = observe(httpService.get(head, paths, map));
+                                break;
+                        }
                     }
                     break;
                 case HTTP_POST:
-                    String[] roots = paths.split("/");
                     switch (roots.length) {
                         case 1:
                             observable = observe(httpService.post(head, paths, map));
@@ -116,6 +132,12 @@ public class HttpRequests extends ObjectLoader {
         Observable<ResponseBody> get(@Header("url_head") String head, @Path("path") String path);
         @GET("{path}")
         Observable<ResponseBody> get(@Header("url_head") String head, @Path("path") String path, @QueryMap Map<String, String> map);
+        @GET("{root}/{path}")
+        Observable<ResponseBody> get(@Header("url_head") String head, @Path("root") String root, @Path("path") String path, @QueryMap Map<String, String> map);
+        @GET("{root1}/{root2}/{path}")
+        Observable<ResponseBody> get(@Header("url_head") String head, @Path("root1") String root1, @Path("root2") String root2, @Path("path") String path, @QueryMap Map<String, String> map);
+        @GET("{root1}/{root2}/{root3}/{path}")
+        Observable<ResponseBody> get(@Header("url_head") String head, @Path("root1") String root1, @Path("root2") String root2, @Path("root3") String root3, @Path("path") String path, @QueryMap Map<String, String> map);
 
         @FormUrlEncoded
         @POST("{path}")

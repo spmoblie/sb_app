@@ -34,8 +34,6 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
-import com.sina.weibo.sdk.api.share.BaseResponse;
-import com.sina.weibo.sdk.api.share.IWeiboHandler;
 import com.songbao.sxb.AppApplication;
 import com.songbao.sxb.AppConfig;
 import com.songbao.sxb.AppManager;
@@ -61,9 +59,6 @@ import com.songbao.sxb.utils.UserManager;
 import com.songbao.sxb.utils.retrofit.Fault;
 import com.songbao.sxb.utils.retrofit.HttpRequests;
 import com.songbao.sxb.widgets.share.ShareView;
-import com.tencent.mm.opensdk.modelbase.BaseReq;
-import com.tencent.mm.opensdk.modelbase.BaseResp;
-import com.tencent.mm.opensdk.openapi.IWXAPIEventHandler;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -84,7 +79,7 @@ import rx.Observer;
 /**
  * 所有Activity的父类
  */
-public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Response, IWXAPIEventHandler {
+public  class BaseActivity extends FragmentActivity {
 
 	String TAG = BaseActivity.class.getSimpleName();
 
@@ -249,24 +244,9 @@ public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Res
 	@Override
 	protected void onNewIntent(Intent intent) {
 		if (mShareView != null) {
-			mShareView.onNewIntent(intent, this, this);
+			mShareView.onNewIntent(intent);
 		}
 		super.onNewIntent(intent);
-	}
-
-	@Override
-	public void onReq(BaseReq arg0) {
-
-	}
-
-	@Override
-	public void onResp(BaseResp arg0) {
-
-	}
-
-	@Override
-	public void onResponse(BaseResponse arg0) {
-
 	}
 
 	/**
@@ -838,14 +818,20 @@ public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Res
 
 	/**
 	 * 加载网络数据
-	 * @param path
-	 * @param map
-	 * @param httpType
-	 * @param dataType
 	 */
 	protected void loadSVData(String path, HashMap<String, String> map, int httpType, final int dataType) {
+		loadSVData("", path, map, httpType, dataType);
+	}
+
+	/**
+	 * 加载网络数据
+	 */
+	protected void loadSVData(String head, String path, HashMap<String, String> map, int httpType, final int dataType) {
+		if (StringUtil.isNull(head)) {
+			head = "base_2";
+		}
 		HttpRequests.getInstance()
-				.loadData("base_2", path, map, httpType)
+				.loadData(head, path, map, httpType)
 				.subscribe(new Observer<ResponseBody>() {
 					@Override
 					public void onNext(ResponseBody body) {
@@ -886,9 +872,6 @@ public  class BaseActivity extends FragmentActivity implements IWeiboHandler.Res
 
 	/**
 	 * 上传文件到服务器
-	 * @param fileName
-	 * @param fileType
-	 * @param dataType
 	 */
 	protected void uploadPushFile(File fileName, int fileType, final int dataType) {
 

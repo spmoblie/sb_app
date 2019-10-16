@@ -1,7 +1,6 @@
 package com.songbao.sxb.activity.login;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -10,11 +9,13 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.sina.weibo.sdk.WbSdk;
+import com.sina.weibo.sdk.auth.AccessTokenKeeper;
 import com.sina.weibo.sdk.auth.AuthInfo;
 import com.sina.weibo.sdk.auth.Oauth2AccessToken;
+import com.sina.weibo.sdk.auth.WbAuthListener;
+import com.sina.weibo.sdk.auth.WbConnectErrorMessage;
 import com.sina.weibo.sdk.auth.sso.SsoHandler;
-import com.sina.weibo.sdk.exception.WeiboException;
-import com.sina.weibo.sdk.net.RequestListener;
 import com.songbao.sxb.AppApplication;
 import com.songbao.sxb.AppConfig;
 import com.songbao.sxb.R;
@@ -28,6 +29,7 @@ import com.songbao.sxb.utils.ExceptionUtil;
 import com.songbao.sxb.utils.JsonLogin;
 import com.songbao.sxb.utils.LogUtil;
 import com.songbao.sxb.utils.StringUtil;
+import com.songbao.sxb.utils.retrofit.HttpRequests;
 import com.tencent.connect.UserInfo;
 import com.tencent.connect.common.Constants;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
@@ -37,7 +39,9 @@ import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
 import com.tencent.tauth.UiError;
 
-import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.HashMap;
 
 import butterknife.BindView;
 
@@ -80,19 +84,10 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
     private static final String QQ_APP_ID = AppConfig.QQ_APP_ID;
     private static final String QQ_SCOPE = AppConfig.QQ_SCOPE;
     // WB
-    private AuthInfo mAuthInfo;
-    /**
-     * 注意：SsoHandler 仅当 SDK 支持 SSO 时有效
-     */
+    /** 注意：SsoHandler 仅当 SDK 支持 SSO 时有效 */
     private SsoHandler mSsoHandler;
-    /**
-     * 封装了 "access_token"，"expires_in"，"refresh_token"，并提供了他们的管理功能
-     */
+    /** 封装了 "access_token"，"expires_in"，"refresh_token"，并提供了他们的管理功能  */
     private Oauth2AccessToken mAccessToken;
-//    private UsersAPI mUsersAPI;
-    private static final String WB_APP_ID = AppConfig.WB_APP_ID;
-    private static final String WB_REDIRECT_URL = AppConfig.WB_REDIRECT_URL;
-    private static final String WB_SCOPE = AppConfig.WB_SCOPE;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,6 +99,10 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
         mIWXApi.registerApp(AppConfig.WX_APP_ID);
         // QQ
         mTencent = Tencent.createInstance(QQ_APP_ID, mContext);
+        // WB
+        WbSdk.install(this, new AuthInfo(this,
+                AppConfig.WB_APP_ID, AppConfig.WB_REDIRECT_URL, AppConfig.WB_SCOPE));
+        mSsoHandler = new SsoHandler(this);
 
         initView();
     }
@@ -177,45 +176,10 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
      * 获取微信用户信息
      */
     private void getWXUserInfo() {
-        new HttpWXUserTask().execute("https://api.weixin.qq.com/sns/userinfo?access_token=" + access_token + "&openid=" + openid);
-    }
-
-    /**
-     * 异步获取微信用户信息
-     */
-    class HttpWXUserTask extends AsyncTask<String, Void, String> {
-        @Override
-        protected String doInBackground(String... params) {
-            try {
-//				return sc.getServerJSONString(params[0]);
-                return null;
-            } catch (Exception e) {
-                ExceptionUtil.handle(e);
-                return "";
-            }
-        }
-
-        @Override
-        protected void onPostExecute(String result) {
-            try {
-                WXUserInfoEntity userInfo = JsonLogin.getWexiUserInfo(result);
-                if (userInfo != null) {
-                    UserInfoEntity oauthEn = new UserInfoEntity();
-//					oauthEn.setUserRankName(LOGIN_TYPE_WX);
-                    oauthEn.setUserId(userInfo.getUnionid());
-                    oauthEn.setUserNick(userInfo.getNickname());
-                    oauthEn.setUserIntro(userInfo.getGender());
-                    oauthEn.setUserHead(userInfo.getAvatar());
-                    // 注册微信用户信息
-                    startRegisterOauthActivity(oauthEn);
-                } else {
-                    showLoginError();
-                }
-            } catch (JSONException e) {
-                ExceptionUtil.handle(e);
-                showLoginError();
-            }
-        }
+        HashMap<String, String> map = new HashMap<>();
+        map.put("access_token", access_token);
+        map.put("openid", openid);
+        loadSVData("https://api.weixin.qq.com/", "sns/userinfo", map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_AUTH_WX_USER);
     }
 
     /**
@@ -282,11 +246,11 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
                     QQUserInfoEntity userInfo = JsonLogin.getQQUserInfo(jsonObject);
                     if (userInfo != null && userInfo.getErrcode() == 0) { //获取用户信息成功
                         UserInfoEntity oauthEn = new UserInfoEntity();
-//						oauthEn.setUserRankName(LOGIN_TYPE_QQ);
+						oauthEn.setUserArea(LOGIN_TYPE_QQ);
                         oauthEn.setUserId(mTencent.getOpenId());
                         oauthEn.setUserNick(userInfo.getNickname());
-                        oauthEn.setUserIntro(userInfo.getGender());
                         oauthEn.setUserHead(userInfo.getAvatar());
+                        oauthEn.setGenderStr(userInfo.getGender());
                         // 注册QQ用户信息
                         startRegisterOauthActivity(oauthEn);
                     } else {
@@ -310,39 +274,32 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
      * 微博登录
      */
     private void loginWB() {
-//		mAccessToken = AccessTokenKeeper.readAccessToken(this);
-//		if (mAccessToken != null  && mAccessToken.isSessionValid()) { //检测登录有效性
-//			String date = TimeUtil.dateToStrLong(new java.util.Date(mAccessToken.getExpiresTime()));  
-//            LogUtil.i(TAG, "weibo access_token 仍在有效期内,无需再次登录！有效期：" + date);
-//            postWBLoginRequest();
-//		}else {
-//        mAuthInfo = new AuthInfo(mContext, WB_APP_ID, WB_REDIRECT_URL, WB_SCOPE);
-//        mSsoHandler = new SsoHandler(this, mAuthInfo);
-//        // SSO 授权, 仅客户端
-//        mSsoHandler.authorize(new WeiboAuthListener() {
-//            @Override
-//            public void onComplete(Bundle values) {
-//                mAccessToken = Oauth2AccessToken.parseAccessToken(values);
-//                if (mAccessToken != null && mAccessToken.isSessionValid()) {
-//                    AccessTokenKeeper.writeAccessToken(mContext, mAccessToken);
-//                    postWBLoginRequest();
-//                } else {
-//                    showLoginError();
-//                }
-//            }
-//
-//            @Override
-//            public void onCancel() {
-//
-//            }
-//
-//            @Override
-//            public void onWeiboException(WeiboException e) {
-//                ExceptionUtil.handle(e);
-//                showLoginError();
-//            }
-//        });
-//		}
+        mSsoHandler.authorize(new WbAuthListener() {
+            @Override
+            public void onSuccess(final Oauth2AccessToken token) {
+                LoginActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mAccessToken = token;
+                        if (mAccessToken.isSessionValid()) {
+                            // 保存 Token 到 SharedPreferences
+                            AccessTokenKeeper.writeAccessToken(mContext, mAccessToken);
+                            postWBLoginRequest();
+                        }
+                    }
+                });
+            }
+
+            @Override
+            public void cancel() {
+
+            }
+
+            @Override
+            public void onFailure(WbConnectErrorMessage errorMessage) {
+
+            }
+        });
     }
 
     /**
@@ -362,45 +319,15 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
      * 获取微博用户信息
      */
     private void getWBUserInfo() {
-//        if (mAccessToken != null) {
-//            mUsersAPI = new UsersAPI(getApplicationContext(), WB_APP_ID, mAccessToken);
-//            mUsersAPI.show(Long.parseLong(mAccessToken.getUid()), wbListener);
-//        } else {
-//            showLoginError();
-//        }
-    }
-
-    /**
-     * 微博异步请求回调接口
-     */
-    private RequestListener wbListener = new RequestListener() {
-        @Override
-        public void onComplete(String response) {
-//            if (!TextUtils.isEmpty(response)) {
-//                User user = User.parse(response);
-//                if (user != null) {
-//                    Oauth2AccessToken token = AccessTokenKeeper.readAccessToken(getApplicationContext());
-//                    UserInfoEntity oauthEn = new UserInfoEntity();
-////                    oauthEn.setUserRankName(LOGIN_TYPE_WB);
-//                    oauthEn.setUserId(token.getUid());
-//                    oauthEn.setUserNick(user.name);
-//                    oauthEn.setUserIntro(user.gender);
-//                    oauthEn.setUserHead(user.profile_image_url);
-//                    // 注册微博用户信息
-//                    startRegisterOauthActivity(oauthEn);
-//                } else {
-//                    showLoginError();
-//                }
-//            }
-        }
-
-        @Override
-        public void onWeiboException(WeiboException e) {
-            ExceptionUtil.handle(e);
+        if (mAccessToken != null) {
+            HashMap<String, String> map = new HashMap<>();
+            map.put("access_token", mAccessToken.getToken());
+            map.put("uid", mAccessToken.getUid());
+            loadSVData("https://api.weibo.com/2/", "users/show.json", map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_AUTH_WB_USER);
+        } else {
             showLoginError();
         }
-    };
-
+    }
 
     /**
      * 用户取消授权登录
@@ -454,6 +381,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
             Tencent.onActivityResultData(requestCode, resultCode, data, qqLoginListener);
         }
         // WB
+        // SSO 授权回调 (重要：发起 SSO 登陆的 Activity 必须重写 onActivityResults)
         if (mSsoHandler != null) {
             mSsoHandler.authorizeCallBack(requestCode, resultCode, data);
         }
@@ -488,6 +416,43 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
         isStop = true;
 
         super.onDestroy();
+    }
+
+    @Override
+    protected void callbackData(JSONObject jsonObject, int dataType) {
+        UserInfoEntity oauthEn;
+        try {
+            switch (dataType) {
+                case AppConfig.REQUEST_SV_AUTH_WX_USER:
+                    WXUserInfoEntity wxUserInfo = JsonLogin.getWXUserInfo(jsonObject);
+                    if (wxUserInfo != null) {
+                        oauthEn = new UserInfoEntity();
+                        oauthEn.setUserArea(LOGIN_TYPE_WX);
+                        oauthEn.setUserId(wxUserInfo.getUnionid());
+                        oauthEn.setUserNick(wxUserInfo.getNickname());
+                        oauthEn.setUserHead(wxUserInfo.getAvatar());
+                        oauthEn.setGenderStr(wxUserInfo.getGender());
+                        // 注册微信用户信息
+                        startRegisterOauthActivity(oauthEn);
+                    } else {
+                        showLoginError();
+                    }
+                    break;
+                case AppConfig.REQUEST_SV_AUTH_WB_USER:
+                    oauthEn = JsonLogin.getWBUserInfo(jsonObject);
+                    if (oauthEn != null) {
+                        oauthEn.setUserArea(LOGIN_TYPE_WB);
+                        // 注册微博用户信息
+                        startRegisterOauthActivity(oauthEn);
+                    } else {
+                        showLoginError();
+                    }
+                    break;
+            }
+        } catch (Exception e) {
+            showLoginError();
+            ExceptionUtil.handle(e);
+        }
     }
 
 }

@@ -183,7 +183,7 @@ public class JsonUtils {
                 childEn = new OptionEntity();
                 childEn.setId(item.getInt("id"));
                 childEn.setTime(item.getString("timeValue"));
-                childEn.setState(item.getBoolean("reservation"));
+                childEn.setState(!item.getBoolean("reservation"));
                 childEn.setReserve(item.getBoolean("display"));
                 childEn.setSelect(item.getBoolean("display"));
                 lists.add(childEn);

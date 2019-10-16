@@ -46,8 +46,12 @@ public class AppConfig {
 	public final static String URL_SIGN_UP_ADD = "activity/sign_up/add";
 	// 报名结果反馈
 	public final static String URL_SIGN_UP_CALLBACK = "activity/sign_up/callback";
+	// 提交预约数据
+	public final static String URL_RESERVATION_ADD = "reservation/add";
 	// 获取指定日期时间段
 	public final static String URL_RESERVATION_TIME = "reservation/findCourseTime";
+	// 校验时间段是否有效
+	public final static String URL_RESERVATION_IS = "reservation/isReservation";
 
 	// 获取用户资料
 	public final static String URL_USER_GET = "user/get";
@@ -108,8 +112,8 @@ public class AppConfig {
 			Manifest.permission.READ_EXTERNAL_STORAGE,
 			Manifest.permission.WRITE_EXTERNAL_STORAGE };
 
-	// Umeng
-	public static final String UMENG_MESSAGE_SECRET = "91f2dbb2d7f3c63d663cead167391580";
+	// UM
+	public static final String UM_MESSAGE_SECRET = "91f2dbb2d7f3c63d663cead167391580";
 	// QQ AppID
 	public static final String QQ_APP_ID = "1104891333";
 	// QQ授权接口参数：Scope权限
@@ -134,10 +138,6 @@ public class AppConfig {
 	public static final String homeHeadFileName = "home_head";
 	// 首页列表数据文件名
 	public static final String homeListFileName = "home_list";
-	// 我的头部数据文件名
-	public static final String mineHeadFileName = "mine_head";
-	// 我的列表数据文件名
-	public static final String mineListFileName = "mine_list";
 	// 缓存路径应用名称
 	public static final String SAVE_APP_NAME = "SongBao";
 	// 内置SD卡路径
@@ -184,6 +184,10 @@ public class AppConfig {
 	public static final int REQUEST_SV_AUTH_RESET = 0X1005;
 	// 提交登录
 	public static final int REQUEST_SV_AUTH_LOGIN = 0X1006;
+	// 微信用户信息
+	public static final int REQUEST_SV_AUTH_WX_USER = 0X1011;
+	// 微博用户信息
+	public static final int REQUEST_SV_AUTH_WB_USER = 0X1012;
 
 	// 首頁头部
 	public static final int REQUEST_SV_HOME_HEAD = 0X2001;
@@ -195,8 +199,12 @@ public class AppConfig {
 	public static final int REQUEST_SV_SIGN_UP_ADD = 0X2004;
 	// 报名支付反馈
 	public static final int REQUEST_SV_SIGN_UP_CALLBACK = 0X2005;
+	// 提交预约
+	public static final int REQUEST_SV_RESERVATION_ADD = 0X2006;
 	// 指定日期时间段
-	public static final int REQUEST_SV_RESERVATION_TIME = 0X2006;
+	public static final int REQUEST_SV_RESERVATION_TIME = 0X2007;
+	// 校验时段有效性
+	public static final int REQUEST_SV_RESERVATION_IS = 0X2008;
 
 	// 上传用户头像
 	public static final int REQUEST_SV_UPLOAD_HEAD = 0X3001;

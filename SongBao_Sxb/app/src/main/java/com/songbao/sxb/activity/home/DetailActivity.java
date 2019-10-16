@@ -3,6 +3,7 @@ package com.songbao.sxb.activity.home;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -17,6 +18,7 @@ import com.songbao.sxb.activity.BaseActivity;
 import com.songbao.sxb.entity.BaseEntity;
 import com.songbao.sxb.entity.OptionEntity;
 import com.songbao.sxb.entity.ThemeEntity;
+import com.songbao.sxb.utils.CommonTools;
 import com.songbao.sxb.utils.ExceptionUtil;
 import com.songbao.sxb.utils.JsonUtils;
 import com.songbao.sxb.utils.LogUtil;
@@ -191,7 +193,6 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
                 openChoiceDateActivity(data);
                 break;
             case R.id.detail_tv_click:
-                toPay();
                 if (!isLoadOk) {
                     dataErrorHandle();
                     return;
@@ -206,24 +207,13 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
                         return;
                     }
                     if (isDateOk && isTimeOk) {
-                        toPay();
+                        getPayOrderSn();
                     } else {
                         openChoiceDateActivity(data);
                     }
                 }
                 break;
         }
-    }
-
-    /**
-     * 在线支付
-     */
-    private void toPay() {
-        //showSuccessDialog(getString(R.string.reserve_success), false);
-        Intent intent = new Intent(mContext, WXPayEntryActivity.class);
-        intent.putExtra("orderSn", "51135156651");
-        intent.putExtra("orderTotal", "88.88");
-        startActivity(intent);
     }
 
     /**
@@ -354,12 +344,52 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
         loadSVData(AppConfig.URL_ACTIVITY_DETAIL, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_ACTIVITY_DETAIL);
     }
 
+    /**
+     * 获取支付参数
+     */
+    private void getPayOrderSn() {
+        if (data == null || themeId <= 0) {
+            CommonTools.showToast(getString(R.string.toast_error_data_app));
+            return;
+        }
+        startAnimation();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                HashMap<String, String> map = new HashMap<>();
+                map.put("activityId", String.valueOf(themeId));
+                map.put("dateStr", dateStr);
+                map.put("timeStr", timeStr);
+                loadSVData(AppConfig.URL_RESERVATION_ADD, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_RESERVATION_ADD);
+            }
+        }, AppConfig.LOADING_TIME);
+    }
+
+    /**
+     * 在线支付
+     */
+    private void startPay() {
+        Intent intent = new Intent(mContext, WXPayEntryActivity.class);
+        intent.putExtra("orderSn", "51135156651");
+        intent.putExtra("orderTotal", "88.88");
+        startActivity(intent);
+    }
+
     @Override
     protected void callbackData(JSONObject jsonObject, int dataType) {
         BaseEntity baseEn;
         try {
             switch (dataType) {
                 case AppConfig.REQUEST_SV_ACTIVITY_DETAIL:
+                    baseEn = JsonUtils.getThemeDetail(jsonObject);
+                    if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+                        data = (ThemeEntity) baseEn.getData();
+                        setView(data);
+                    } else {
+                        handleErrorCode(baseEn);
+                    }
+                    break;
+                case AppConfig.REQUEST_SV_RESERVATION_ADD:
                     baseEn = JsonUtils.getThemeDetail(jsonObject);
                     if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
                         data = (ThemeEntity) baseEn.getData();

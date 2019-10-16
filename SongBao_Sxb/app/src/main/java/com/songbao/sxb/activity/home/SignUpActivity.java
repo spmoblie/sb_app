@@ -438,6 +438,9 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
         }, AppConfig.LOADING_TIME);
     }
 
+    /**
+     * 在线支付
+     */
     private void startPay() {
         HashMap<String, String> map = new HashMap<>();
         map.put("orderNo", orderNo);
