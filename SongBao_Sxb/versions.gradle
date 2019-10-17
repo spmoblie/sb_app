@@ -152,12 +152,13 @@ ext.app_version = app_version
 
 
 def addRepos(RepositoryHandler handler) {
-    handler.mavenLocal()
+    //handler.mavenLocal()
     handler.google()
     handler.jcenter()
     handler.mavenCentral()
     //Add the JitPack repository
-    handler.maven { url "https://jitpack.io" }
+    //handler.maven { url "https://jitpack.io" }
+    handler.maven { url 'https://maven.google.com/' }
     handler.maven { url 'https://dl.bintray.com/umsdk/release' } //UM
     handler.maven { url "https://dl.bintray.com/thelasterstar/maven/" } //WB
     handler.maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' } //AL

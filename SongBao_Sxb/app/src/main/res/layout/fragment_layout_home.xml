@@ -7,8 +7,7 @@
     <com.songbao.sxb.widgets.pullrefresh.PullToRefreshRecyclerView
         android:id="@+id/fg_home_refresh_lv"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/ui_bg_color_app"/>
+        android:layout_height="match_parent"/>
 
     <include layout="@layout/layout_loading_fail"/>
 

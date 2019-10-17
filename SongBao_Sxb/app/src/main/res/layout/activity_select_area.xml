@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:text="其它地区"
             android:textSize="@dimen/app_text_size_small"
-            android:textColor="@color/app_color_greys"/>
+            android:textColor="@color/app_color_g_ash"/>
 
         <TextView
             android:id="@+id/area_tv_other_name"

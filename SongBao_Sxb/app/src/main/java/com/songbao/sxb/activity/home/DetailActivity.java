@@ -286,7 +286,7 @@ public class DetailActivity extends BaseActivity implements View.OnClickListener
         if (isState) {
             tv_click.setTextColor(getResources().getColor(R.color.app_color_black));
         } else {
-            tv_click.setTextColor(getResources().getColor(R.color.app_color_greys));
+            tv_click.setTextColor(getResources().getColor(R.color.app_color_g_ash));
         }
     }
 

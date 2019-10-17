@@ -36,11 +36,11 @@ public class RoundImageView extends AppCompatImageView {
      */
     private static final int MODE_ROUND = 2;
     private Paint mPaint;
-    private int currMode = 0;
+    private int currMode = MODE_ROUND;
     /**
      * 圆角半径
      */
-    private int currRound = dp2px(10);
+    private int currRound = dp2px(15);
 
     public RoundImageView(Context context) {
         super(context);

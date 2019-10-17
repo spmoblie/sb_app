@@ -3,41 +3,44 @@
     android:id="@+id/fg_home_list_head_main"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:padding="@dimen/screen_margin_default"
     android:background="@color/ui_bg_color_app"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
-    <FrameLayout
+    <android.support.v4.view.ViewPager
+        android:id="@+id/fg_home_head_viewPager"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content" />
 
-        <android.support.v4.view.ViewPager
-            android:id="@+id/fg_home_head_viewPager"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/app_color_white" />
+    <LinearLayout
+        android:id="@+id/fg_home_head_indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_padding_10"
+        android:layout_gravity="center_horizontal"
+        android:orientation="horizontal"/>
 
-        <LinearLayout
-            android:id="@+id/fg_home_head_indicator"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="right|bottom"
-            android:layout_marginRight="@dimen/screen_margin_default"
-            android:layout_marginBottom="@dimen/screen_margin_default"
-            android:orientation="horizontal">
-
-        </LinearLayout>
-    </FrameLayout>
-
-    <android.support.constraint.ConstraintLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/screen_margin_default"
-        android:padding="@dimen/screen_margin_default">
+        android:layout_marginTop="@dimen/margin_padding_25"
+        android:orientation="horizontal">
 
-        <TextView
-            style="@style/block_title_text"
-            android:text="@string/recommend"/>
+        <ImageView
+            android:id="@+id/fg_home_head_iv_buy"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:src="@mipmap/icon_home_tickets"/>
 
-    </android.support.constraint.ConstraintLayout>
+        <ImageView
+            android:id="@+id/fg_home_head_iv_reserve"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="@dimen/screen_margin_default"
+            android:src="@mipmap/icon_home_reserve"/>
+
+    </LinearLayout>
 
 </LinearLayout>

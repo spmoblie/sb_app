@@ -2,15 +2,17 @@
 <resources>
 
     <!-- App常用颜色值 -->
-    <color name="app_color_style">#000000</color><!-- 风格 -->
+    <color name="app_color_style">#FFFFFF</color><!-- 风格 -->
     <color name="app_color_white">#FFFFFF</color><!-- 白色 -->
     <color name="app_color_black">#000000</color><!-- 黑色 -->
-    <color name="app_color_d_ark">#666666</color><!-- 深灰 -->
-    <color name="app_color_greys">#999999</color><!-- 灰色 -->
-    <color name="app_color_light">#F7F7F7</color><!-- 淡灰 -->
+    <color name="app_color_d_ash">#666666</color><!-- 深灰 -->
+    <color name="app_color_g_ash">#999999</color><!-- 灰色 -->
+    <color name="app_color_l_ash">#CCCCCC</color><!-- 浅灰 -->
+    <color name="app_color_t_ash">#F7F7F7</color><!-- 淡灰 -->
     <color name="app_color_green">#60BA8D</color><!-- 绿色 -->
     <color name="app_color_r_red">#FF0000</color><!-- 红色 -->
-    <color name="app_color_orange">#FC7451</color><!-- 橙色 -->
+    <color name="app_color_o_rge">#FC7451</color><!-- 橙色 -->
+    <color name="app_color_b_lue">#72CEFF</color><!-- 浅蓝 -->
 
     <!-- 标题栏文字颜色 -->
     <color name="title_text_color">#FFFFFF</color>
@@ -32,11 +34,11 @@
     <color name="lower_text_color">#10AF9A</color>
 
     <!-- App背景主色 -->
-    <color name="ui_bg_color_app">@color/app_color_black</color>
+    <color name="ui_bg_color_app">@color/app_color_white</color>
     <!-- App背景副色 -->
     <color name="ui_bg_color_nut">@color/app_color_white</color>
     <!-- App背景块色 -->
-    <color name="ui_bg_color_wid">@color/app_color_light</color>
+    <color name="ui_bg_color_wid">@color/app_color_t_ash</color>
     <!-- App状态文字 -->
     <color name="tv_color_status">@color/app_color_style</color>
     <!-- App状态背景 -->
@@ -44,7 +46,9 @@
     <!-- App按钮文字 -->
     <color name="tv_color_button">@color/app_color_white</color>
     <!-- App按钮背景 -->
-    <color name="ui_color_button">@color/app_color_d_ark</color>
+    <color name="ui_color_button">@color/app_color_d_ash</color>
+    <!-- HomeTab文字 -->
+    <color name="tv_color_bottom">@color/app_color_b_lue</color>
 
     <!-- UI背景常用颜色值 -->
     <color name="ui_bg_color_div_min_01">#E0E0E0</color><!-- 分割线颜色值:细 -->
@@ -56,7 +60,7 @@
     <!-- dialog -->
     <color name="dialog_text_title">@color/app_color_black</color>
     <color name="dialog_text_content">@color/app_color_black</color>
-    <color name="dialog_text_button_1">@color/app_color_d_ark</color>
+    <color name="dialog_text_button_1">@color/app_color_d_ash</color>
     <color name="dialog_text_button_2">@color/tv_color_button</color>
 
     <!-- product menu -->

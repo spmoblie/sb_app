@@ -146,7 +146,7 @@
             android:layout_margin="@dimen/screen_margin_default"
             android:background="@drawable/shape_frame_style_2_04"
             android:text="@string/sign_up_now"
-            android:textColor="@color/app_color_greys"
+            android:textColor="@color/app_color_g_ash"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

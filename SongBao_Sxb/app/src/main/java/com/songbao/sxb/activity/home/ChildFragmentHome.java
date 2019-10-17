@@ -37,6 +37,7 @@ import com.songbao.sxb.utils.FileManager;
 import com.songbao.sxb.utils.JsonUtils;
 import com.songbao.sxb.utils.LogUtil;
 import com.songbao.sxb.utils.retrofit.HttpRequests;
+import com.songbao.sxb.widgets.RoundImageView;
 import com.songbao.sxb.widgets.ViewPagerScroller;
 import com.songbao.sxb.widgets.pullrefresh.PullToRefreshBase;
 import com.songbao.sxb.widgets.pullrefresh.PullToRefreshRecyclerView;
@@ -79,7 +80,7 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
     private Runnable mPagerAction;
     private AdapterCallback apCallback;
     private HomeListAdapter lv_Adapter;
-    private FrameLayout.LayoutParams brandLP;
+    private LinearLayout.LayoutParams bannerLP;
     private LinearLayout.LayoutParams indicatorsLP;
 
     private boolean vprStop = false;
@@ -112,9 +113,9 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
         indicatorsLP.setMargins(10, 0, 10, 0);
 
         int screenWidth = AppApplication.getSharedPreferences().getInt(AppConfig.KEY_SCREEN_WIDTH, 0);
-        brandLP = new FrameLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        brandLP.width = screenWidth;
-        brandLP.height = screenWidth / 2;
+        bannerLP = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        bannerLP.width = screenWidth - CommonTools.dpToPx(mContext, 30);
+        bannerLP.height = screenWidth / 2;
 
         View view = null;
         try {
@@ -233,23 +234,24 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
             }
             for (int i = 0; i < al_head.size(); i++) {
                 final ThemeEntity items = al_head.get(i);
-                ImageView imageView = new ImageView(mContext);
-                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+
+                RoundImageView iv_show = new RoundImageView(mContext);
+                iv_show.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
                 String imgUrl = items.getPicUrl();
                 Glide.with(AppApplication.getAppContext())
                         .load(imgUrl)
                         .apply(AppApplication.getShowOptions())
-                        .into(imageView);
+                        .into(iv_show);
 
-                imageView.setOnClickListener(new OnClickListener() {
+                iv_show.setOnClickListener(new OnClickListener() {
 
                     @Override
                     public void onClick(View v) {
                         openWebviewActivity(items);
                     }
                 });
-                viewLists.add(imageView);
+                viewLists.add(iv_show);
 
                 if (i < idsSize) {
                     // 循环加入指示器
@@ -263,7 +265,7 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
                 }
             }
             final boolean loop = viewLists.size() > 3 ? true : false;
-            fg_home_vp.setLayoutParams(brandLP);
+            fg_home_vp.setLayoutParams(bannerLP);
             /*fg_home_vp.setPageTransformer(true, new ViewPager.PageTransformer() {
 
                 @Override

@@ -72,7 +72,7 @@
         <item name="android:gravity">center</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">@dimen/text_size_11</item>
-        <item name="android:textColor">@color/app_color_white</item>
+        <item name="android:textColor">@color/selector_home_tab_text</item>
     </style>
 
     <!-- Top父布局样式 -->
@@ -255,7 +255,6 @@
     <style name="list_item_head">
         <item name="android:layout_width">@dimen/margin_padding_40</item>
         <item name="android:layout_height">@dimen/margin_padding_40</item>
-        <item name="android:layout_marginTop">@dimen/screen_margin_default</item>
         <item name="android:src">@drawable/icon_default_head</item>
     </style>
 
