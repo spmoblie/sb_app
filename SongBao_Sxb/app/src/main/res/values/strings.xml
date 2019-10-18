@@ -112,11 +112,13 @@
     <string name="main_tab_text_1">首页</string>
     <string name="main_tab_text_2">松小堡</string>
     <string name="main_tab_text_3">我的</string>
+    <string name="main_head_title_cn">最新活动</string>
+    <string name="main_head_title_en">LATEST ACTIVITY</string>
 
     <!-- Mine -->
     <string name="mine_login">点击登录</string>
-    <string name="mine_member">%1$s\t\t%2$s</string>
     <string name="mine_my_design">我的设计</string>
+    <string name="mine_my_coupon">我的卡券</string>
     <string name="mine_my_sing_up">我的活动</string>
     <string name="mine_my_reserve">我的预约</string>
     <string name="mine_my_order">我的账单</string>

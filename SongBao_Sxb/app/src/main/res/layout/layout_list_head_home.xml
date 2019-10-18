@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/fg_home_list_head_main"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="@dimen/screen_margin_default"
-    android:background="@color/ui_bg_color_app"
+    android:background="@color/ui_color_app_bg_01"
     android:orientation="vertical">
 
     <android.support.v4.view.ViewPager
@@ -40,7 +41,41 @@
             android:layout_weight="1"
             android:layout_marginLeft="@dimen/screen_margin_default"
             android:src="@mipmap/icon_home_reserve"/>
-
     </LinearLayout>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_padding_35">
+
+        <TextView
+            android:id="@+id/fg_home_head_tv_title"
+            style="@style/block_title_text"
+            android:text="@string/main_head_title_cn"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"/>
+
+        <TextView
+            android:id="@+id/fg_home_head_tv_title_en"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_padding_5"
+            android:layout_marginLeft="@dimen/margin_padding_1"
+            android:text="@string/main_head_title_en"
+            android:textSize="@dimen/text_size_13"
+            android:textColor="@color/app_color_gray"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/fg_home_head_tv_title"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/icon_new"
+            android:layout_marginTop="@dimen/margin_padding_6"
+            android:layout_marginLeft="@dimen/margin_padding_5"
+            app:layout_constraintTop_toTopOf="@id/fg_home_head_tv_title"
+            app:layout_constraintLeft_toRightOf="@id/fg_home_head_tv_title"/>
+
+    </android.support.constraint.ConstraintLayout>
 
 </LinearLayout>

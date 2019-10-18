@@ -19,7 +19,7 @@
         android:layout_marginTop="@dimen/margin_padding_10"
         android:layout_marginLeft="@dimen/screen_margin_default"
         android:padding="@dimen/screen_margin_default"
-        android:background="@drawable/shape_frame_style_1_11"
+        android:background="@drawable/shape_style_empty_1_18"
         android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@id/message_item_time">
 

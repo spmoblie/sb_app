@@ -9,7 +9,6 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 import com.songbao.sxb.AppApplication;
-import com.songbao.sxb.AppConfig;
 import com.songbao.sxb.R;
 import com.songbao.sxb.entity.DesignEntity;
 import com.songbao.sxb.utils.CommonTools;
@@ -19,8 +18,6 @@ import com.songbao.sxb.utils.CommonTools;
  */
 public class MyDesignAdapter extends AppBaseAdapter {
 
-	public static final int screenWidth = AppApplication.getSharedPreferences().getInt(AppConfig.KEY_SCREEN_WIDTH, 0);
-
 	private Context context;
 	private ConstraintLayout.LayoutParams showImgLP;
 
@@ -29,7 +26,7 @@ public class MyDesignAdapter extends AppBaseAdapter {
 		this.context = context;
 
 		showImgLP = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-		showImgLP.height = (screenWidth - CommonTools.dpToPx(context, 6*3)) / 2;
+		showImgLP.height = (AppApplication.screen_width - CommonTools.dpToPx(context, 6*3)) / 2;
 	}
 
 	static class ViewHolder {

@@ -5,16 +5,13 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.os.Handler;
+import android.support.constraint.ConstraintLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -32,8 +29,6 @@ import com.songbao.sxb.utils.LogUtil;
 import com.songbao.sxb.utils.UserManager;
 import com.songbao.sxb.utils.retrofit.HttpRequests;
 import com.songbao.sxb.widgets.RoundImageView;
-import com.songbao.sxb.widgets.pullrefresh.PullToRefreshBase;
-import com.songbao.sxb.widgets.pullrefresh.PullToRefreshScrollView;
 
 import org.json.JSONObject;
 
@@ -52,12 +47,13 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
 
     String TAG = ChildFragmentMine.class.getSimpleName();
 
-    PullToRefreshScrollView refresh_sv;
-    LinearLayout sv_main;
+    //PullToRefreshScrollView refresh_sv;
+    //LinearLayout sv_main;
+    ConstraintLayout cl_head_main;
     RoundImageView iv_user_head;
     ImageView iv_setting, iv_message, iv_debunk;
     TextView tv_user_nick, tv_user_member;
-    RelativeLayout rl_design_main, rl_sign_up_main, rl_reserve_main, rl_bill_main, rl_help_main;
+    RelativeLayout rl_coupon_main, rl_sign_up_main, rl_reserve_main, rl_bill_main, rl_help_main;
 
     private Context mContext;
 
@@ -96,41 +92,39 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
     }
 
     private void findViewById(View view) {
-        refresh_sv = view.findViewById(R.id.fg_mine_refresh_sv);
+        //refresh_sv = view.findViewById(R.id.fg_mine_refresh_sv);
+        //sv_main = (LinearLayout) FrameLayout.inflate(mContext, R.layout.layout_scrollview_mine, null);
 
-        sv_main = (LinearLayout) FrameLayout.inflate(mContext, R.layout.layout_scrollview_mine, null);
+        cl_head_main = view.findViewById(R.id.fg_mine_cl_head_main);
+        iv_setting = view.findViewById(R.id.fg_mine_iv_setting);
+        iv_message = view.findViewById(R.id.fg_mine_iv_message);
+        iv_debunk = view.findViewById(R.id.fg_mine_iv_debunk);
+        iv_user_head = view.findViewById(R.id.fg_mine_iv_head);
+        tv_user_nick = view.findViewById(R.id.fg_mine_tv_nick);
+        tv_user_member = view.findViewById(R.id.fg_mine_tv_member);
 
-        iv_setting = sv_main.findViewById(R.id.fg_mine_iv_setting);
-        iv_message = sv_main.findViewById(R.id.fg_mine_iv_message);
-        iv_debunk = sv_main.findViewById(R.id.fg_mine_iv_debunk);
-        iv_user_head = sv_main.findViewById(R.id.fg_mine_iv_head);
-        tv_user_nick = sv_main.findViewById(R.id.fg_mine_tv_nick);
-        tv_user_member = sv_main.findViewById(R.id.fg_mine_tv_member);
-
-        rl_design_main = sv_main.findViewById(R.id.fg_mine_design_main);
-        rl_sign_up_main = sv_main.findViewById(R.id.fg_mine_sign_up_main);
-        rl_reserve_main = sv_main.findViewById(R.id.fg_mine_reserve_main);
-        rl_bill_main = sv_main.findViewById(R.id.fg_mine_bill_main);
-        rl_help_main = sv_main.findViewById(R.id.fg_mine_help_main);
+        rl_coupon_main = view.findViewById(R.id.fg_mine_coupon_main);
+        rl_sign_up_main = view.findViewById(R.id.fg_mine_sign_up_main);
+        rl_reserve_main = view.findViewById(R.id.fg_mine_reserve_main);
+        rl_bill_main = view.findViewById(R.id.fg_mine_bill_main);
+        rl_help_main = view.findViewById(R.id.fg_mine_help_main);
     }
 
     private void initView() {
         iv_setting.setOnClickListener(this);
         iv_message.setOnClickListener(this);
         iv_debunk.setOnClickListener(this);
-        iv_user_head.setOnClickListener(this);
-        tv_user_nick.setOnClickListener(this);
-        tv_user_member.setOnClickListener(this);
-        rl_design_main.setOnClickListener(this);
+        cl_head_main.setOnClickListener(this);
+        rl_coupon_main.setOnClickListener(this);
         rl_sign_up_main.setOnClickListener(this);
         rl_reserve_main.setOnClickListener(this);
         rl_bill_main.setOnClickListener(this);
         rl_help_main.setOnClickListener(this);
 
-        initScrollView();
+        //initScrollView();
     }
 
-    private void initScrollView() {
+    /*private void initScrollView() {
         refresh_sv.setPullRefreshEnabled(true);
         refresh_sv.setPullLoadEnabled(true);
         refresh_sv.setScrollLoadEnabled(false);
@@ -163,7 +157,7 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
         ScrollView sv = refresh_sv.getRefreshableView();
         sv.addView(sv_main);
         sv.setVerticalScrollBarEnabled(false);
-    }
+    }*/
 
     private void initUserView() {
         if (infoEn != null) {
@@ -175,11 +169,13 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
                 iv_user_head.setImageResource(R.drawable.icon_default_head);
             }
             tv_user_nick.setText(infoEn.getUserNick());
-            tv_user_member.setText(getString(R.string.mine_member, "LV1", "门店年卡会员"));
+            tv_user_member.setText("门店年卡会员");
+            tv_user_member.setVisibility(View.VISIBLE);
         } else {
             iv_user_head.setImageResource(R.drawable.icon_default_head);
             tv_user_nick.setText(getString(R.string.mine_login));
-            tv_user_member.setText(getString(R.string.mine_member, "LV0", "普通会员"));
+            tv_user_member.setText("无会员信息");
+            tv_user_member.setVisibility(View.GONE);
         }
     }
 
@@ -199,21 +195,19 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
             case R.id.fg_mine_iv_debunk:
                 openWebViewActivity(getString(R.string.setting_question), "https://support.qq.com/product/1221");
                 break;
-            case R.id.fg_mine_iv_head:
-            case R.id.fg_mine_tv_nick:
-            case R.id.fg_mine_tv_member:
+            case R.id.fg_mine_cl_head_main:
                 if (!isLogin()) {
                     openLoginActivity();
                     return;
                 }
                 openPersonalActivity();
                 break;
-            case R.id.fg_mine_design_main:
+            case R.id.fg_mine_coupon_main:
                 if (!isLogin()) {
                     openLoginActivity();
                     return;
                 }
-                startActivity(new Intent(mContext, MyDesignActivity.class));
+                //startActivity(new Intent(mContext, MyDesignActivity.class));
                 break;
             case R.id.fg_mine_sign_up_main:
                 if (!isLogin()) {

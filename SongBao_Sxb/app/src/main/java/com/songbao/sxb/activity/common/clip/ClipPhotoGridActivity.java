@@ -67,7 +67,7 @@ public class ClipPhotoGridActivity extends BaseActivity {
 		}
 		gv_album.setAdapter(new ClipPhotoGridAdapter(albumList, this));
 		gv_album.setOnItemClickListener(albumClickListener);
-		gv_album.setSelector(R.color.ui_bg_color_app);
+		gv_album.setSelector(R.color.ui_color_app_bg_01);
 	}
 	
 	@Override

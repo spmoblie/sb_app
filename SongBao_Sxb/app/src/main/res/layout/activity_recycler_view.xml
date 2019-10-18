@@ -5,6 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingTop="@dimen/screen_margin_default"
-    android:background="@color/ui_bg_color_nut" >
+    android:background="@color/ui_color_app_bg_02" >
 
 </com.songbao.sxb.widgets.pullrefresh.PullToRefreshRecyclerView>

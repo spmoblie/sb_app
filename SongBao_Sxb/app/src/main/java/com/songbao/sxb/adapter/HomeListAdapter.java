@@ -14,7 +14,7 @@ import com.songbao.sxb.AppApplication;
 import com.songbao.sxb.AppConfig;
 import com.songbao.sxb.R;
 import com.songbao.sxb.entity.ThemeEntity;
-import com.songbao.sxb.widgets.RoundImageView;
+import com.songbao.sxb.utils.CommonTools;
 
 import java.util.ArrayList;
 
@@ -22,8 +22,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHolder>{
-
-    public static final int screenWidth = AppApplication.getSharedPreferences().getInt(AppConfig.KEY_SCREEN_WIDTH, 0);
 
     private Context mContext;
     private View mHeaderView;
@@ -41,8 +39,11 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
             mData = new ArrayList<>();
         }
 
+        int ban_margin = CommonTools.dpToPx(mContext, 15 * 2);
+        int ban_widths = AppApplication.screen_width - ban_margin;
         showImgLP = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        showImgLP.height = screenWidth / 2;
+        showImgLP.width = ban_widths;
+        showImgLP.height = ban_widths * AppConfig.IMG_HEIGHT / AppConfig.IMG_WIDTHS;
     }
 
     public void updateData(ArrayList<ThemeEntity> data){
@@ -91,18 +92,23 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
                 .load(data.getPicUrl())
                 .apply(AppApplication.getShowOptions())
                 .into(viewHolder.iv_show);
-        Glide.with(AppApplication.getAppContext())
-                .load(data.getUserHead())
-                .apply(AppApplication.getHeadOptions())
-                .into(viewHolder.iv_head);
 
         viewHolder.tv_title.setText(data.getTitle());
         viewHolder.tv_name.setText(data.getUserName());
+        viewHolder.tv_series.setText(data.getUserName());
+        //viewHolder.tv_time.setText(data.getAddTime());
+        viewHolder.tv_time.setText("2019-11-11 08:30");
 
         if (data.getThemeType() == AppConfig.THEME_TYPE_1) {
             viewHolder.tv_sign.setText(mContext.getString(R.string.reserve_now));
+            viewHolder.tv_sign.setBackgroundResource(R.drawable.shape_style_solid_1_34);
+            viewHolder.tv_series.setBackgroundResource(R.drawable.shape_style_empty_3_18);
+            viewHolder.tv_series.setTextColor(mContext.getResources().getColor(R.color.app_color_yellow));
         } else {
             viewHolder.tv_sign.setText(mContext.getString(R.string.sign_up_title));
+            viewHolder.tv_sign.setBackgroundResource(R.drawable.shape_style_solid_3_34);
+            viewHolder.tv_series.setBackgroundResource(R.drawable.shape_style_empty_2_18);
+            viewHolder.tv_series.setTextColor(mContext.getResources().getColor(R.color.app_color_blue));
         }
         viewHolder.tv_sign.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -143,14 +149,17 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
         @BindView(R.id.fg_home_item_iv)
         ImageView iv_show;
 
-        @BindView(R.id.fg_home_item_iv_head)
-        RoundImageView iv_head;
-
         @BindView(R.id.fg_home_item_tv_title)
         TextView tv_title;
 
         @BindView(R.id.fg_home_item_tv_name)
         TextView tv_name;
+
+        @BindView(R.id.fg_home_item_tv_series)
+        TextView tv_series;
+
+        @BindView(R.id.fg_home_item_tv_time)
+        TextView tv_time;
 
         @BindView(R.id.fg_home_item_tv_sign)
         TextView tv_sign;

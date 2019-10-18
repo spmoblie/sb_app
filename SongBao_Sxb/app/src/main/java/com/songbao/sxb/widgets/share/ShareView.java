@@ -60,7 +60,7 @@ public class ShareView implements WbShareCallback, IWXAPIEventHandler {
 
 	private static final String TAG = "ShareView";
 	private static final int animationDuration = 500;
-	private static int screenHeight = AppApplication.getSharedPreferences().getInt(AppConfig.KEY_SCREEN_HEIGHT, 0);
+	private static int screenHeight = AppApplication.screen_height;
 
 	Context mContext;
 	Activity mActivity;

@@ -14,7 +14,7 @@
         android:drawablePadding="@dimen/margin_padding_15"
         android:gravity="center"
         android:text="@string/loading_click_load"
-        android:textColor="@color/app_color_g_ash"
+        android:textColor="@color/app_color_gray"
         android:textSize="@dimen/text_size_14"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"

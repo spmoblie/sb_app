@@ -12,7 +12,7 @@
         android:layout_marginLeft="@dimen/screen_margin_default"
         android:layout_marginRight="@dimen/screen_margin_default"
         android:layout_marginTop="@dimen/margin_padding_10"
-        android:background="@drawable/shape_frame_style_3_04"
+        android:background="@drawable/shape_style_solid_7_18"
         android:padding="@dimen/margin_padding_10">
 
         <ImageView
@@ -36,7 +36,7 @@
             android:id="@+id/list_item_choice_tv_state"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/app_color_r_red"
+            android:textColor="@color/warns_text_color"
             android:textSize="@dimen/app_text_size_small"
             app:layout_constraintLeft_toLeftOf="@id/list_item_choice_tv_time"
             app:layout_constraintTop_toBottomOf="@id/list_item_choice_tv_time" />

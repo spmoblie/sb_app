@@ -10,7 +10,6 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.songbao.sxb.AppApplication;
-import com.songbao.sxb.AppConfig;
 
 
 /**
@@ -21,16 +20,15 @@ public class ClipViewSquare extends View {
 	/**
 	 * 屏幕宽
 	 */
-	public static final int WIDTH = AppApplication.getSharedPreferences().getInt(AppConfig.KEY_SCREEN_WIDTH, 0);
+	public static final int WIDTH = AppApplication.screen_width;
 	/**
 	 * 屏幕高
 	 */
-	public static final int HEIGHT = AppApplication.getSharedPreferences().getInt(AppConfig.KEY_SCREEN_HEIGHT, 0);
+	public static final int HEIGHT = AppApplication.screen_height;
 	/**
 	 * 屏幕状态栏+标题栏高度
 	 */
-	public static final int OTHER_TOP_HEIGHT = AppApplication.getSharedPreferences().getInt(AppConfig.KEY_STATUS_HEIGHT, 0)
-			+ AppApplication.getSharedPreferences().getInt(AppConfig.KEY_TITLE_HEIGHT, 0);
+	public static final int OTHER_TOP_HEIGHT = AppApplication.status_height + AppApplication.title_height;
 	/**
 	 * 方形宽高
 	 */

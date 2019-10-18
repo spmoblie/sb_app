@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:paddingTop="@dimen/screen_margin_default"
     android:paddingBottom="@dimen/margin_padding_10"
-    android:background="@color/ui_bg_color_app">
+    android:background="@color/ui_color_app_bg_01">
 
     <ImageView
         android:id="@+id/sxb_module_iv_show"

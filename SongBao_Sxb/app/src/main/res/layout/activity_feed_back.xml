@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/ui_bg_color_nut"
+    android:background="@color/ui_color_app_bg_02"
     android:orientation="vertical" >
 
     <LinearLayout
@@ -17,14 +17,14 @@
             android:id="@+id/feed_back_et_content"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/shape_app_input_style"
+            android:background="@drawable/shape_style_app_input"
             android:padding="@dimen/margin_padding_10"
             android:gravity="top"
             android:hint="@string/setting_input_hint_feedback"
             android:lines="13"
             android:maxLines="26"
             android:textColorHint="@color/input_hint_color"
-            android:textColor="@color/app_color_black"
+            android:textColor="@color/input_text_color"
             android:textSize="@dimen/app_text_size_label" />
     </LinearLayout>
 
@@ -40,7 +40,7 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="@dimen/screen_margin_default"
             android:layout_marginRight="@dimen/screen_margin_default"
-            android:background="@drawable/shape_button_style_2_04"
+            android:background="@drawable/shape_style_solid_7_18"
             android:gravity="center"
             android:text="@string/submit"
             android:textColor="@color/tv_color_button"

@@ -40,6 +40,10 @@ public class AppApplication extends Application {
     private static PushManager pushManager;
     private static RequestOptions showOptions, headOptions;
 
+    public static int screen_width; //设备屏幕宽
+    public static int screen_height; //设备屏幕高
+    public static int title_height; //App标题栏高
+    public static int status_height; //设备状态栏高
     public static String version_name = ""; //当前版本号
     public static boolean isWXShare = false; //记录是否微信分享
 
@@ -58,12 +62,10 @@ public class AppApplication extends Application {
         pushManager.initPushService();
 
         // 获取手机型号及屏幕的宽高
-        int screenWidth = DeviceUtil.getDeviceWidth(this);
-        int screenHeight = DeviceUtil.getDeviceHeight(this);
-        editor.putInt(AppConfig.KEY_SCREEN_WIDTH, screenWidth);
-        editor.putInt(AppConfig.KEY_SCREEN_HEIGHT, screenHeight);
+        screen_width = DeviceUtil.getDeviceWidth(this);
+        screen_height = DeviceUtil.getDeviceHeight(this);
         // 判定是否为Pad
-        LogUtil.i("device", "手机型号：" + DeviceUtil.getModel() + " 宽：" + screenWidth + " / 高：" + screenHeight);
+        LogUtil.i("device", "手机型号：" + DeviceUtil.getModel() + " 宽：" + screen_width + " / 高：" + screen_height);
 
         // 设置每天第一次启动App时清除与日期关联的缓存标志
         long newDay = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);

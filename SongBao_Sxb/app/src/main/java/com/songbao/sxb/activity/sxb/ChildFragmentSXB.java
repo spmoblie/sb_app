@@ -70,8 +70,7 @@ public class ChildFragmentSXB extends BaseFragment implements OnClickListener {
 	private void initView() {
 		iv_show.setOnClickListener(this);
 
-		int screenWidth = AppApplication.getSharedPreferences().getInt(AppConfig.KEY_SCREEN_WIDTH, 0);
-		int goodsWidth = (screenWidth - CommonTools.dpToPx(mContext, 30)) / 4;
+		int goodsWidth = (AppApplication.screen_width - CommonTools.dpToPx(mContext, 30)) / 4;
 		moduleItemLP = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 		moduleItemLP.setMargins(15, 0, 15, 0);
 		moduleItemLP.width = goodsWidth;

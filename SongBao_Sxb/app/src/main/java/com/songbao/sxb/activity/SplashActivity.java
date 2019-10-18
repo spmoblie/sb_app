@@ -5,7 +5,6 @@ import android.os.Handler;
 import android.view.View;
 
 import com.songbao.sxb.AppApplication;
-import com.songbao.sxb.AppConfig;
 import com.songbao.sxb.R;
 import com.songbao.sxb.utils.DeviceUtil;
 import com.songbao.sxb.utils.LogUtil;
@@ -48,8 +47,7 @@ public class SplashActivity extends BaseActivity {
 
 			@Override
 			public void run() {
-				int statusHeight = DeviceUtil.getStatusBarHeight(SplashActivity.this);
-				shared.edit().putInt(AppConfig.KEY_STATUS_HEIGHT, statusHeight).apply();
+				AppApplication.status_height = DeviceUtil.getStatusBarHeight(SplashActivity.this);
 
 				openActivity(MainActivity.class);
 				finish();

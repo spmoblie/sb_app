@@ -11,7 +11,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
 import com.songbao.sxb.AppApplication;
-import com.songbao.sxb.AppConfig;
 import com.songbao.sxb.R;
 import com.songbao.sxb.utils.CommonTools;
 
@@ -35,7 +34,7 @@ public class PhotoGridItem extends RelativeLayout implements Checkable {
 	public PhotoGridItem(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
 		mContext = context;
-		int imageSize = (AppApplication.getSharedPreferences().getInt(AppConfig.KEY_SCREEN_WIDTH, 0) - CommonTools.dpToPx(context, 40)) / 3;
+		int imageSize = (AppApplication.screen_width - CommonTools.dpToPx(context, 40)) / 3;
 		this.imageLP = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 		this.imageLP.width = imageSize;
 		this.imageLP.height = imageSize;

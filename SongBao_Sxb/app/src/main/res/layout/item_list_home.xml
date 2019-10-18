@@ -4,10 +4,10 @@
     android:id="@+id/fg_home_item_main"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/ui_bg_color_app"
-    android:paddingTop="@dimen/screen_margin_default"
+    android:background="@color/ui_color_app_bg_01"
     android:paddingLeft="@dimen/screen_margin_default"
-    android:paddingRight="@dimen/screen_margin_default">
+    android:paddingRight="@dimen/screen_margin_default"
+    android:paddingBottom="@dimen/margin_padding_30">
 
     <com.songbao.sxb.widgets.RoundImageView
         android:id="@+id/fg_home_item_iv"
@@ -19,39 +19,48 @@
 
     <TextView
         android:id="@+id/fg_home_item_tv_title"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/margin_padding_10"
-        android:textSize="@dimen/app_text_size_title"
+        style="@style/list_item_text"
+        android:textSize="@dimen/app_text_size_content"
         android:textStyle="bold"
-        android:maxLines="1"
+        android:layout_marginTop="@dimen/margin_padding_15"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/fg_home_item_iv" />
 
-    <com.songbao.sxb.widgets.RoundImageView
-        android:id="@+id/fg_home_item_iv_head"
-        style="@style/list_item_head"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/fg_home_item_tv_title"
-        app:type="circle" />
-
     <TextView
         android:id="@+id/fg_home_item_tv_name"
-        style="@style/list_item_text"
-        android:textStyle="bold"
-        android:layout_marginLeft="@dimen/margin_padding_5"
-        android:layout_marginTop="@dimen/margin_padding_10"
-        app:layout_constraintLeft_toRightOf="@id/fg_home_item_iv_head"
+        style="@style/common_text_bg_frame"
+        android:maxEms="9"
+        app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/fg_home_item_tv_title" />
+
+    <TextView
+        android:id="@+id/fg_home_item_tv_series"
+        style="@style/common_text_bg_frame"
+        android:maxEms="9"
+        android:textColor="@color/app_color_blue"
+        android:background="@drawable/shape_style_empty_2_18"
+        android:layout_marginLeft="@dimen/margin_padding_10"
+        app:layout_constraintLeft_toRightOf="@id/fg_home_item_tv_name"
+        app:layout_constraintTop_toBottomOf="@id/fg_home_item_tv_title" />
+
+    <TextView
+        android:id="@+id/fg_home_item_tv_time"
+        style="@style/list_item_text"
+        android:textColor="@color/app_color_gray"
+        android:textSize="@dimen/app_text_size_small"
+        android:drawableLeft="@mipmap/icon_time"
+        android:drawablePadding="@dimen/margin_padding_5"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
     <TextView
         android:id="@+id/fg_home_item_tv_sign"
-        style="@style/list_item_text"
-        android:layout_width="@dimen/margin_padding_100"
-        android:layout_height="@dimen/margin_padding_50"
-        android:gravity="right|center"
+        style="@style/common_text_button"
         android:textStyle="bold"
         android:text="@string/sign_up_title"
+        android:textColor="@color/app_color_white"
+        android:layout_marginTop="@dimen/margin_padding_10"
+        android:background="@drawable/shape_style_solid_3_34"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/fg_home_item_tv_title" />
+        app:layout_constraintTop_toBottomOf="@id/fg_home_item_tv_name" />
 </android.support.constraint.ConstraintLayout>

@@ -89,7 +89,7 @@ public  class BaseActivity extends FragmentActivity {
 	protected UserManager userManager;
 	protected Boolean isInitShare = false;
 	protected Boolean isTimeFinish = true;
-	protected int screenWidth, screenHeight, statusHeight, titleHeight;
+	protected int screenWidth, screenHeight, statusHeight;
 
 	private LinearLayout ll_head;
 	private RelativeLayout rl_left;
@@ -118,10 +118,9 @@ public  class BaseActivity extends FragmentActivity {
 
 		userManager = UserManager.getInstance();
 
-		titleHeight = shared.getInt(AppConfig.KEY_TITLE_HEIGHT, 0);
-		statusHeight = shared.getInt(AppConfig.KEY_STATUS_HEIGHT, 0);
-		screenHeight = shared.getInt(AppConfig.KEY_SCREEN_HEIGHT, 0);
-		screenWidth = shared.getInt(AppConfig.KEY_SCREEN_WIDTH, 0);
+		screenWidth = AppApplication.screen_width;
+		screenHeight = AppApplication.screen_height;
+		statusHeight = AppApplication.status_height;
 		dialogWidth = screenWidth * 2/3;
 		myDialog = DialogManager.getInstance(mContext);
 
@@ -202,8 +201,8 @@ public  class BaseActivity extends FragmentActivity {
 			myDialog.clearInstance();
 		}
 		// 缓存标题View高度
-		if (titleHeight <= 0) {
-			shared.edit().putInt(AppConfig.KEY_TITLE_HEIGHT, ll_head.getHeight()).apply();
+		if (AppApplication.title_height <= 0) {
+			AppApplication.title_height = ll_head.getHeight();
 		}
 		super.onPause();
 	}
@@ -653,9 +652,9 @@ public  class BaseActivity extends FragmentActivity {
 	protected void changeViewState(View view, boolean isState) {
 		if (view == null) return;
 		if (isState) {
-			view.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.shape_button_style_2_20, null));
+			view.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.shape_style_solid_7_18, null));
 		} else {
-			view.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.shape_button_style_3_20, null));
+			view.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.shape_style_solid_8_18, null));
 		}
 	}
 

@@ -99,6 +99,9 @@ public class AppConfig {
 	// Error状态码：手机号未注册
 	public static final int ERROR_CODE_PHONE_UNREGISTERED = 706;
 
+	// 图片宽高比例
+	public static final int IMG_WIDTHS = 345;
+	public static final int IMG_HEIGHT = 194;
 	// 加载数据数量
 	public static final String LOAD_SIZE = "10";
 	// 加载缓冲时间
@@ -226,15 +229,6 @@ public class AppConfig {
 	/**
 	 ******************************************* 偏好设置Key值设置开始 ******************************************
 	 */
-
-	// 偏好设置Key-记录屏幕宽
-	public static final String KEY_SCREEN_WIDTH = "screen_width";
-	// 偏好设置Key-记录屏幕高
-	public static final String KEY_SCREEN_HEIGHT = "screen_height";
-	// 偏好设置Key-记录状态栏高
-	public static final String KEY_STATUS_HEIGHT = "status_height";
-	// 偏好设置Key-记录标题栏高
-	public static final String KEY_TITLE_HEIGHT = "title_height";
 
 	// 偏好设置Key-记录剪切相片的类型
 	public static final String KEY_CLIP_PHOTO_TYPE = "clip_photo_type";

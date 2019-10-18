@@ -18,7 +18,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="@dimen/screen_margin_default"
         android:layout_marginTop="@dimen/margin_padding_10"
-        android:background="@drawable/shape_frame_style_1_11"
+        android:background="@drawable/shape_style_empty_1_18"
         android:padding="@dimen/margin_padding_2"
         app:layout_constraintTop_toBottomOf="@id/my_sign_up_item_time">
 

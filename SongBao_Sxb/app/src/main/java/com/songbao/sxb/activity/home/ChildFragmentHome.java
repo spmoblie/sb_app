@@ -109,13 +109,15 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
         mContext = getActivity();
 
         // 动态调整宽高
+        int ind_margin = CommonTools.dpToPx(mContext, 5);
         indicatorsLP = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        indicatorsLP.setMargins(10, 0, 10, 0);
+        indicatorsLP.setMargins(ind_margin, 0, 0, 0);
 
-        int screenWidth = AppApplication.getSharedPreferences().getInt(AppConfig.KEY_SCREEN_WIDTH, 0);
+        int ban_margin = CommonTools.dpToPx(mContext, 15 * 2);
+        int ban_widths = AppApplication.screen_width - ban_margin;
         bannerLP = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        bannerLP.width = screenWidth - CommonTools.dpToPx(mContext, 30);
-        bannerLP.height = screenWidth / 2;
+        bannerLP.width = ban_widths;
+        bannerLP.height = ban_widths * AppConfig.IMG_HEIGHT / AppConfig.IMG_WIDTHS;
 
         View view = null;
         try {

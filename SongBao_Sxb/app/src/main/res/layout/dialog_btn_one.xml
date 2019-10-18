@@ -25,7 +25,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/screen_margin_default"
-        android:background="@drawable/shape_button_style_2_04"
+        android:background="@drawable/shape_style_solid_7_18"
         android:gravity="center"
         android:paddingBottom="@dimen/margin_padding_5"
         android:paddingLeft="@dimen/margin_padding_30"

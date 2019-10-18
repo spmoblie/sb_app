@@ -8,14 +8,13 @@ import android.util.AttributeSet;
 import android.view.View;
 
 import com.songbao.sxb.AppApplication;
-import com.songbao.sxb.AppConfig;
 
 /**
  * 裁剪圆形边框
  */
 public class ClipViewCircular extends View {
 
-	private static int screenWidth = AppApplication.getSharedPreferences().getInt(AppConfig.KEY_SCREEN_WIDTH, 0);
+	private static int screenWidth = AppApplication.screen_width;
 
 	/**
 	 * 内圆半径

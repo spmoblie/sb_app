@@ -13,7 +13,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.songbao.sxb.AppApplication;
-import com.songbao.sxb.AppConfig;
 import com.songbao.sxb.R;
 import com.songbao.sxb.entity.ClipPhotoEntity;
 import com.songbao.sxb.utils.CommonTools;
@@ -40,7 +39,7 @@ public class ClipPhotoGridAdapter extends AppBaseAdapter {
 		options.inDither = false;
 		options.inPreferredConfig = Bitmap.Config.RGB_565;
 
-		int imageSize = (AppApplication.getSharedPreferences().getInt(AppConfig.KEY_SCREEN_WIDTH, 0) - CommonTools.dpToPx(context, 35)) / 2;
+		int imageSize = (AppApplication.screen_width - CommonTools.dpToPx(context, 35)) / 2;
 		this.imageLP = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 		this.imageLP.width = imageSize;
 		this.imageLP.height = imageSize;

@@ -4,7 +4,7 @@
     android:id="@+id/select_area_ll_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/ui_bg_color_nut"
+    android:background="@color/ui_color_app_bg_02"
     android:orientation="vertical">
 
     <android.support.constraint.ConstraintLayout
@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             android:text="其它地区"
             android:textSize="@dimen/app_text_size_small"
-            android:textColor="@color/app_color_g_ash"/>
+            android:textColor="@color/app_color_gray"/>
 
         <TextView
             android:id="@+id/area_tv_other_name"
@@ -28,7 +28,7 @@
             android:layout_marginTop="@dimen/screen_margin_default"
             android:text="山卡拉"
             android:textSize="@dimen/app_text_size_content"
-            android:textColor="@color/app_color_black"
+            android:textColor="@color/shows_text_color"
             app:layout_constraintTop_toBottomOf="@id/area_tv_other_title"/>
 
     </android.support.constraint.ConstraintLayout>

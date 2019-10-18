@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/ui_bg_color_nut"
+    android:background="@color/ui_color_app_bg_02"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -13,7 +13,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/pay_amount"
-            android:textColor="@color/label_text_color"
+            android:textColor="@color/shows_text_color"
             android:textSize="@dimen/text_size_14" />
 
         <TextView
@@ -57,7 +57,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/pay_type"
-                        android:textColor="@color/label_text_color"
+                        android:textColor="@color/shows_text_color"
                         android:textSize="@dimen/text_size_14" />
                 </RelativeLayout>
 
@@ -83,7 +83,7 @@
                         android:layout_marginTop="@dimen/screen_margin_default"
                         android:layout_toRightOf="@id/payment_iv_pay_wx"
                         android:text="@string/pay_wx"
-                        android:textColor="@color/app_color_black"
+                        android:textColor="@color/shows_text_color"
                         android:textSize="@dimen/text_size_15" />
 
                     <TextView
@@ -93,7 +93,7 @@
                         android:layout_marginLeft="@dimen/margin_padding_10"
                         android:layout_toRightOf="@id/payment_iv_pay_wx"
                         android:text="@string/pay_wx_hint"
-                        android:textColor="@color/label_text_color"
+                        android:textColor="@color/shows_text_color"
                         android:textSize="@dimen/text_size_12" />
 
                     <ImageView
@@ -129,7 +129,7 @@
                         android:layout_marginTop="@dimen/screen_margin_default"
                         android:layout_toRightOf="@id/payment_iv_pay_zfb"
                         android:text="@string/pay_zfb"
-                        android:textColor="@color/app_color_black"
+                        android:textColor="@color/shows_text_color"
                         android:textSize="@dimen/text_size_15" />
 
                     <TextView
@@ -139,7 +139,7 @@
                         android:layout_marginLeft="@dimen/margin_padding_10"
                         android:layout_toRightOf="@id/payment_iv_pay_zfb"
                         android:text="@string/pay_zfb_hint"
-                        android:textColor="@color/label_text_color"
+                        android:textColor="@color/shows_text_color"
                         android:textSize="@dimen/text_size_12" />
 
                     <ImageView
@@ -175,7 +175,7 @@
                         android:layout_marginTop="@dimen/screen_margin_default"
                         android:layout_toRightOf="@id/payment_iv_pay_union"
                         android:text="@string/pay_union"
-                        android:textColor="@color/app_color_black"
+                        android:textColor="@color/shows_text_color"
                         android:textSize="@dimen/text_size_15" />
 
                     <TextView
@@ -185,7 +185,7 @@
                         android:layout_marginLeft="@dimen/margin_padding_10"
                         android:layout_toRightOf="@id/payment_iv_pay_union"
                         android:text="@string/pay_union_hint"
-                        android:textColor="@color/label_text_color"
+                        android:textColor="@color/shows_text_color"
                         android:textSize="@dimen/text_size_12" />
 
                     <ImageView

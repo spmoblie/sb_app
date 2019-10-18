@@ -3,7 +3,7 @@
     xmlns:openxu="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/ui_bg_color_nut"
+    android:background="@color/ui_color_app_bg_02"
     android:orientation="vertical">
 
     <ScrollView
@@ -24,7 +24,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
 
-                openxu:mCurrentBg="@color/app_color_g_ash"
+                openxu:mCurrentBg="@color/app_color_gray"
                 openxu:mCurrentBgDashPath="@array/customCalendar_currentDay"
                 openxu:mCurrentBgStrokeWidth="1.5dip"
 
@@ -36,19 +36,19 @@
                 openxu:mDayUpSpac="@dimen/margin_padding_10"
                 openxu:mDayDnSpac="@dimen/margin_padding_10"
 
-                openxu:mSelectBg="@color/app_color_o_rge"
+                openxu:mSelectBg="@color/app_color_orange"
                 openxu:mSelectNot="@color/debar_text_color"
                 openxu:mSelectRadius="@dimen/margin_padding_15"
                 openxu:mSelectTextColor="@color/app_color_white"
-                openxu:mSelectWeekTextColor="@color/app_color_o_rge"
-                openxu:mTextColorDay="@color/app_color_black"
-                openxu:mTextColorMonth="@color/app_color_black"
+                openxu:mSelectWeekTextColor="@color/app_color_orange"
+                openxu:mTextColorDay="@color/shows_text_color"
+                openxu:mTextColorMonth="@color/title_text_color"
 
-                openxu:mTextColorPreFinish="@color/app_color_o_rge"
+                openxu:mTextColorPreFinish="@color/app_color_orange"
                 openxu:mTextColorPreNull="@color/debar_text_color"
                 openxu:mTextColorPreUnFinish="@color/app_color_green"
 
-                openxu:mTextColorWeek="@color/app_color_black"
+                openxu:mTextColorWeek="@color/shows_text_color"
                 openxu:mTextSizeDay="@dimen/text_size_16"
                 openxu:mTextSizeMonth="@dimen/text_size_18"
                 openxu:mTextSizePre="@dimen/text_size_10"

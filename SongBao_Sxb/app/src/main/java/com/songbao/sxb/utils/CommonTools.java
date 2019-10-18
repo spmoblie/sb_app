@@ -17,7 +17,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.songbao.sxb.AppApplication;
-import com.songbao.sxb.AppConfig;
 import com.songbao.sxb.R;
 
 import java.io.File;
@@ -29,7 +28,7 @@ import java.util.regex.Pattern;
  */
 public class CommonTools {
 
-	private static int screenHeight = AppApplication.getSharedPreferences().getInt(AppConfig.KEY_SCREEN_HEIGHT, 0);
+	private static int screenHeight = AppApplication.screen_height;
 	private static Toast toast;
 
 	/**
