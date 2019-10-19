@@ -3,21 +3,13 @@
 
     <item android:state_pressed="true">
         <shape android:shape="rectangle">
-            <solid android:color="@color/app_color_gray_l" />
-
-            <!--<stroke
-                android:width="0.5dp"
-                android:color="@color/ui_bg_color_div_min_01" />-->
-
-            <corners android:radius="18dp" />
+            <solid android:color="@color/app_color_gray_f" />
         </shape>
     </item>
 
     <item android:state_pressed="false" >
         <shape android:shape="rectangle">
             <solid android:color="@color/app_color_white" />
-
-            <corners android:radius="18dp" />
         </shape>
     </item>
 

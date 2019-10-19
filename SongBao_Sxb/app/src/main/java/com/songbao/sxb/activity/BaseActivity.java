@@ -652,9 +652,9 @@ public  class BaseActivity extends FragmentActivity {
 	protected void changeViewState(View view, boolean isState) {
 		if (view == null) return;
 		if (isState) {
-			view.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.shape_style_solid_7_18, null));
+			view.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.shape_style_solid_1_34, null));
 		} else {
-			view.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.shape_style_solid_8_18, null));
+			view.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.shape_style_solid_6_34, null));
 		}
 	}
 
@@ -827,7 +827,7 @@ public  class BaseActivity extends FragmentActivity {
 	 */
 	protected void loadSVData(String head, String path, HashMap<String, String> map, int httpType, final int dataType) {
 		if (StringUtil.isNull(head)) {
-			head = "base_2";
+			head = "base_1";
 		}
 		HttpRequests.getInstance()
 				.loadData(head, path, map, httpType)

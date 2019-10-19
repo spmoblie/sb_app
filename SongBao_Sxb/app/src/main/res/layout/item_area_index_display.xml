@@ -3,7 +3,7 @@
     android:id="@+id/item_area_indexRootLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/ui_color_app_bg_02"
+    android:background="@color/ui_color_app_bg_01"
     android:orientation="vertical" >
 
     <LinearLayout

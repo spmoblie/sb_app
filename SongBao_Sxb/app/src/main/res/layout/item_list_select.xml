@@ -3,20 +3,19 @@
     android:id="@+id/list_item_select_main"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/ui_color_app_bg_02"
-    android:orientation="vertical"
-    android:paddingTop="@dimen/margin_padding_10" >
+    android:background="@color/ui_color_app_bg_01"
+    android:orientation="vertical" >
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingRight="@dimen/margin_padding_10">
+        android:layout_height="@dimen/setting_cell_height"
+        android:paddingLeft="@dimen/margin_padding_20"
+        android:paddingRight="@dimen/margin_padding_20">
 
         <ImageView
             android:id="@+id/list_item_select_iv_logo"
             android:layout_width="@dimen/margin_padding_80"
             android:layout_height="@dimen/margin_padding_30"
-            android:layout_marginLeft="@dimen/margin_padding_20"
             android:scaleType="fitXY"
             android:contentDescription="@string/desc"
             android:visibility="gone" />
@@ -26,7 +25,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="@dimen/margin_padding_20"
             android:layout_toRightOf="@id/list_item_select_iv_logo"
             android:ellipsize="end"
             android:lines="1"
@@ -55,7 +53,6 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/margin_padding_20"
             android:contentDescription="@string/desc"
             android:src="@mipmap/icon_go_right" />
     </RelativeLayout>
@@ -64,13 +61,11 @@
         android:id="@+id/list_item_select_iv_line_1"
         style="@style/set_line_horizontal_bg"
         android:layout_marginLeft="@dimen/margin_padding_20"
-        android:layout_marginTop="@dimen/margin_padding_10"
         android:contentDescription="@string/desc" />
     
     <ImageView
         android:id="@+id/list_item_select_iv_line_2"
         style="@style/set_line_horizontal_bg"
-        android:layout_marginTop="@dimen/margin_padding_10"
         android:contentDescription="@string/desc" 
         android:visibility="gone" />
 

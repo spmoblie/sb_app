@@ -11,6 +11,6 @@
         android:color="@color/app_color_gray" />
 
     <!-- 圆角 -->
-    <corners android:radius="18dp" />
+    <corners android:radius="34dp" />
 
 </shape>

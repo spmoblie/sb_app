@@ -27,7 +27,7 @@ import com.songbao.sxb.R;
 import com.songbao.sxb.activity.BaseFragment;
 import com.songbao.sxb.activity.common.MyWebViewActivity;
 import com.songbao.sxb.adapter.AdapterCallback;
-import com.songbao.sxb.adapter.HomeListAdapter;
+import com.songbao.sxb.adapter.ThemeListAdapter;
 import com.songbao.sxb.entity.BaseEntity;
 import com.songbao.sxb.entity.ShareEntity;
 import com.songbao.sxb.entity.ThemeEntity;
@@ -74,12 +74,13 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
 
     MyRecyclerView mRecyclerView;
     ViewPager fg_home_vp;
+    ImageView iv_buy, iv_reserve;
     LinearLayout ll_head_main, fg_home_indicator;
 
     private Context mContext;
     private Runnable mPagerAction;
     private AdapterCallback apCallback;
-    private HomeListAdapter lv_Adapter;
+    private ThemeListAdapter lv_Adapter;
     private LinearLayout.LayoutParams bannerLP;
     private LinearLayout.LayoutParams indicatorsLP;
 
@@ -205,12 +206,18 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
                 }
             }
         };
-        lv_Adapter = new HomeListAdapter(mContext, al_show, apCallback);
+        lv_Adapter = new ThemeListAdapter(mContext, al_show, apCallback);
 
         // 添加头部View
         ll_head_main = (LinearLayout) FrameLayout.inflate(mContext, R.layout.layout_list_head_home, null);
+        iv_buy = ll_head_main.findViewById(R.id.fg_home_head_iv_buy);
+        iv_reserve = ll_head_main.findViewById(R.id.fg_home_head_iv_reserve);
         fg_home_vp = ll_head_main.findViewById(R.id.fg_home_head_viewPager);
         fg_home_indicator = ll_head_main.findViewById(R.id.fg_home_head_indicator);
+
+        iv_buy.setOnClickListener(this);
+        iv_reserve.setOnClickListener(this);
+
         ll_head_main.setVisibility(View.GONE);
         lv_Adapter.setHeaderView(ll_head_main);
 
@@ -468,6 +475,12 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.fg_home_head_iv_buy:
+                startActivity(new Intent(getActivity(), TicketsActivity.class));
+                break;
+            case R.id.fg_home_head_iv_reserve:
+                startActivity(new Intent(getActivity(), ReserveActivity.class));
+                break;
             case R.id.loading_fail_tv_update: //重新加载
                 resetData();
                 break;
@@ -756,26 +769,41 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
         isEn_1.setLinkUrl("https://mp.weixin.qq.com/s/tMi8j08jb7oEHKtmYqdl0g");
         isEn_1.setTitle("北欧教育 | 比NOKIA更震惊世界的芬兰品牌");
         isEn_1.setUserName("松堡王国设计部");
+        isEn_1.setSeries("美学培养系列");
+        isEn_1.setAddTime("2019-10-18 10:30");
+        isEn_1.setThemeType(1);
         mainLists.add(isEn_1);
         isEn_2.setPicUrl(AppConfig.IMAGE_URL+ "items_002.png");
         isEn_2.setLinkUrl("https://mp.weixin.qq.com/s/p1j-Mv0yAW45tkVvjqLBTA");
         isEn_2.setTitle("全球都在追捧的北欧教育，到底有哪些秘密？");
         isEn_2.setUserName("松小堡线下运营");
+        isEn_2.setSeries("益智系列");
+        isEn_2.setAddTime("2019-10-10 15:30");
+        isEn_2.setThemeType(1);
         mainLists.add(isEn_2);
         isEn_3.setPicUrl(AppConfig.IMAGE_URL+ "items_003.png");
         isEn_3.setLinkUrl("https://mp.weixin.qq.com/s/Ln0z3fqwBxT9dUP_dJL1uQ");
         isEn_3.setTitle("上海妈妈在挪威，享受北欧式教育的幸福");
         isEn_3.setUserName("安安和全全");
+        isEn_3.setSeries("手工积木系列");
+        isEn_3.setAddTime("2019-10-08 10:30");
+        isEn_3.setThemeType(2);
         mainLists.add(isEn_3);
         isEn_4.setPicUrl(AppConfig.IMAGE_URL+ "items_004.png");
         isEn_4.setLinkUrl("https://mp.weixin.qq.com/s/7wPFWTCMn850gxgGqaOchw");
         isEn_4.setTitle("芬兰：北欧小国的大教育观");
         isEn_4.setUserName("Sampo");
+        isEn_4.setSeries("益智系列");
+        isEn_4.setAddTime("2019-09-26 14:00");
+        isEn_4.setThemeType(1);
         mainLists.add(isEn_4);
         isEn_5.setPicUrl(AppConfig.IMAGE_URL+ "items_005.png");
         isEn_5.setLinkUrl("http://www.sohu.com/a/195309958_100007192");
         isEn_5.setTitle("走进北欧教育——每个孩子都是独一无二的天使");
         isEn_5.setUserName("松堡王国设计部");
+        isEn_5.setSeries("动手动脑系列");
+        isEn_5.setAddTime("2019-09-18 13:30");
+        isEn_5.setThemeType(2);
         mainLists.add(isEn_5);
 
         baseEn.setMainLists(mainLists);

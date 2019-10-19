@@ -28,8 +28,8 @@
                 openxu:mCurrentBgDashPath="@array/customCalendar_currentDay"
                 openxu:mCurrentBgStrokeWidth="1.5dip"
 
-                openxu:mMonthRowL="@mipmap/icon_go_left"
-                openxu:mMonthRowR="@mipmap/icon_go_right"
+                openxu:mMonthRowL="@mipmap/icon_go_back"
+                openxu:mMonthRowR="@mipmap/icon_go_next"
                 openxu:mMonthRowSpac="@dimen/margin_padding_100"
 
                 openxu:mMonthSpac="@dimen/margin_padding_20"

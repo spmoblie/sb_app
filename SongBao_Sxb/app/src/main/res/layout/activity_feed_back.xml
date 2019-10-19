@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/ui_color_app_bg_02"
+    android:background="@color/ui_color_app_bg_01"
     android:orientation="vertical" >
 
     <LinearLayout
@@ -40,7 +40,7 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="@dimen/screen_margin_default"
             android:layout_marginRight="@dimen/screen_margin_default"
-            android:background="@drawable/shape_style_solid_7_18"
+            android:background="@drawable/shape_style_solid_1_34"
             android:gravity="center"
             android:text="@string/submit"
             android:textColor="@color/tv_color_button"

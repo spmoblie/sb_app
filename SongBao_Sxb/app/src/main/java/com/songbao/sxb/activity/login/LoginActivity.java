@@ -49,9 +49,9 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 
     String TAG = LoginActivity.class.getSimpleName();
 
-    public static final String LOGIN_TYPE_WX = "wechat_app";
+    public static final String LOGIN_TYPE_WX = "wx";
     public static final String LOGIN_TYPE_QQ = "qq";
-    public static final String LOGIN_TYPE_WB = "weibo";
+    public static final String LOGIN_TYPE_WB = "wb";
 
     @BindView(R.id.login_iv_close)
     ImageView login_iv_close;

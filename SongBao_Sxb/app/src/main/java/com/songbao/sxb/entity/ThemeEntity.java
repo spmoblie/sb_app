@@ -13,6 +13,7 @@ public class ThemeEntity extends BaseEntity {
 	private String userId; //用户Id
 	private String userName; //用户名称
 	private String userHead; //用户头像
+	private String series; //活动系列
 	private String suit; //适用人群
 	private String author; //活动讲师
 	private String synopsis; //活动简介
@@ -102,6 +103,14 @@ public class ThemeEntity extends BaseEntity {
 
 	public void setUserHead(String userHead) {
 		this.userHead = userHead;
+	}
+
+	public String getSeries() {
+		return series;
+	}
+
+	public void setSeries(String series) {
+		this.series = series;
 	}
 
 	public String getSuit() {

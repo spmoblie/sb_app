@@ -52,7 +52,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/screen_margin_default"
         android:layout_marginBottom="@dimen/margin_padding_20"
-        android:background="@drawable/shape_style_solid_7_18"
+        android:background="@drawable/shape_style_solid_1_34"
         android:gravity="center"
         android:paddingBottom="@dimen/margin_padding_5"
         android:paddingLeft="@dimen/margin_padding_30"

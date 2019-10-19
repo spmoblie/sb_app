@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/loading_min_height"
     android:baselineAligned="false"
-    android:background="@color/ui_color_app_bg_02"
+    android:background="@color/ui_color_app_bg_01"
     android:orientation="horizontal" >
 
     <RelativeLayout

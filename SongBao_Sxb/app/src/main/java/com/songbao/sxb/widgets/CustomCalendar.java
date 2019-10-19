@@ -102,8 +102,8 @@ public class CustomCalendar extends View {
         mBgDay = a.getColor(R.styleable.CustomCalendar_mBgDay, Color.TRANSPARENT);
         mBgPre = a.getColor(R.styleable.CustomCalendar_mBgPre, Color.TRANSPARENT);
 
-        mMonthRowL = a.getResourceId(R.styleable.CustomCalendar_mMonthRowL, R.mipmap.icon_go_left);
-        mMonthRowR = a.getResourceId(R.styleable.CustomCalendar_mMonthRowR, R.mipmap.icon_go_right);
+        mMonthRowL = a.getResourceId(R.styleable.CustomCalendar_mMonthRowL, R.mipmap.icon_go_back);
+        mMonthRowR = a.getResourceId(R.styleable.CustomCalendar_mMonthRowR, R.mipmap.icon_go_next);
         mMonthRowSpac = a.getDimension(R.styleable.CustomCalendar_mMonthRowSpac, 20);
         mTextColorMonth = a.getColor(R.styleable.CustomCalendar_mTextColorMonth, Color.BLACK);
         mTextSizeMonth = a.getDimension(R.styleable.CustomCalendar_mTextSizeMonth, 100);

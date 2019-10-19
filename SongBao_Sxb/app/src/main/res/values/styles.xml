@@ -122,7 +122,7 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:clickable">true</item>
-        <item name="android:background">@drawable/selector_item_bg</item>
+        <item name="android:background">@drawable/selector_item_change_1</item>
     </style>
 
     <!-- 设置页面标题文本样式 -->
@@ -130,8 +130,8 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginLeft">@dimen/screen_margin_default</item>
-        <item name="android:paddingTop">@dimen/margin_padding_10</item>
-        <item name="android:paddingBottom">@dimen/margin_padding_10</item>
+        <item name="android:paddingTop">@dimen/margin_padding_15</item>
+        <item name="android:paddingBottom">@dimen/margin_padding_15</item>
         <item name="android:drawablePadding">@dimen/margin_padding_10</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:ellipsize">end</item>
@@ -184,7 +184,7 @@
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">@dimen/login_bt_height_default</item>
         <item name="android:layout_marginTop">@dimen/margin_padding_30</item>
-        <item name="android:background">@drawable/shape_style_solid_7_18</item>
+        <item name="android:background">@drawable/shape_style_solid_1_34</item>
         <item name="android:gravity">center</item>
         <item name="android:textSize">@dimen/app_text_size_button</item>
         <item name="android:textColor">@color/tv_color_button</item>
@@ -367,7 +367,7 @@
         <item name="android:paddingTop">@dimen/margin_padding_10</item>
         <item name="android:paddingRight">@dimen/margin_padding_30</item>
         <item name="android:paddingBottom">@dimen/margin_padding_10</item>
-        <item name="android:background">@drawable/shape_style_solid_7_18</item>
+        <item name="android:background">@drawable/shape_style_solid_1_34</item>
     </style>
 
     <!-- 通用垂直Item布局样式 -->

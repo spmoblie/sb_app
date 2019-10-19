@@ -68,6 +68,7 @@
     <string name="edit">编辑</string>
     <string name="unfold">展开</string>
     <string name="put_away">收起</string>
+    <string name="rmb">￥</string>
     <string name="day">d</string>
     <string name="hour">h</string>
     <string name="minute">m</string>
@@ -112,6 +113,8 @@
     <string name="main_tab_text_1">首页</string>
     <string name="main_tab_text_2">松小堡</string>
     <string name="main_tab_text_3">我的</string>
+    <string name="main_head_tickets">门票购买</string>
+    <string name="main_head_reserve">课程预订</string>
     <string name="main_head_title_cn">最新活动</string>
     <string name="main_head_title_en">LATEST ACTIVITY</string>
 
@@ -186,6 +189,12 @@
     <string name="sign_up_info_time">%1$s 至 %2$s</string>
     <string name="sign_up_info_number">"已报名%1$d人/限%2$d人报名"</string>
     <string name="sign_up_cost_hint">费用为大赛统一报名费，主要用于场地租赁和组织等;</string>
+
+    <!-- Coupon -->
+    <string name="coupon_member_meal">会员套餐</string>
+    <string name="coupon_member_meal_en">MEMBERS PACKAGE</string>
+    <string name="coupon_discount">立省%1$s元</string>
+    <string name="coupon_buy_now">立即购买</string>
 
     <!-- Find -->
     <string name="find_comment">评论</string>

@@ -18,7 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@mipmap/icon_setting"
-            android:visibility="gone"/>
+            android:visibility="visible"/>
 
         <ImageView
             android:id="@+id/fg_mine_iv_message"
@@ -93,7 +93,7 @@
         <RelativeLayout
             android:id="@+id/fg_mine_coupon_main"
             style="@style/setting_lay_item"
-            android:background="@drawable/selector_item_bg">
+            android:background="@drawable/selector_item_change_2">
 
             <TextView
                 style="@style/setting_lay_text_title"
@@ -110,7 +110,7 @@
         <RelativeLayout
             android:id="@+id/fg_mine_sign_up_main"
             style="@style/setting_lay_item"
-            android:background="@drawable/selector_item_bg">
+            android:background="@drawable/selector_item_change_2">
 
             <TextView
                 style="@style/setting_lay_text_title"
@@ -127,7 +127,7 @@
         <RelativeLayout
             android:id="@+id/fg_mine_reserve_main"
             style="@style/setting_lay_item"
-            android:background="@drawable/selector_item_bg">
+            android:background="@drawable/selector_item_change_2">
 
             <TextView
                 style="@style/setting_lay_text_title"
@@ -144,7 +144,7 @@
         <RelativeLayout
             android:id="@+id/fg_mine_bill_main"
             style="@style/setting_lay_item"
-            android:background="@drawable/selector_item_bg">
+            android:background="@drawable/selector_item_change_2">
 
             <TextView
                 style="@style/setting_lay_text_title"
@@ -161,7 +161,7 @@
         <RelativeLayout
             android:id="@+id/fg_mine_help_main"
             style="@style/setting_lay_item"
-            android:background="@drawable/selector_item_bg">
+            android:background="@drawable/selector_item_change_2">
 
             <TextView
                 style="@style/setting_lay_text_title"

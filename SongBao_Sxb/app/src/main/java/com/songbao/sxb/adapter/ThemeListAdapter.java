@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHolder>{
+public class ThemeListAdapter extends RecyclerView.Adapter<ThemeListAdapter.ViewHolder>{
 
     private Context mContext;
     private View mHeaderView;
@@ -29,7 +29,7 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
     private ArrayList<ThemeEntity> mData;
     private ConstraintLayout.LayoutParams showImgLP;
 
-    public HomeListAdapter(Context context, ArrayList<ThemeEntity> data, AdapterCallback apCallback) {
+    public ThemeListAdapter(Context context, ArrayList<ThemeEntity> data, AdapterCallback apCallback) {
         super();
         mContext = context;
         this.apCallback = apCallback;
@@ -95,9 +95,8 @@ public class HomeListAdapter extends RecyclerView.Adapter<HomeListAdapter.ViewHo
 
         viewHolder.tv_title.setText(data.getTitle());
         viewHolder.tv_name.setText(data.getUserName());
-        viewHolder.tv_series.setText(data.getUserName());
-        //viewHolder.tv_time.setText(data.getAddTime());
-        viewHolder.tv_time.setText("2019-11-11 08:30");
+        viewHolder.tv_series.setText(data.getSeries());
+        viewHolder.tv_time.setText(data.getAddTime());
 
         if (data.getThemeType() == AppConfig.THEME_TYPE_1) {
             viewHolder.tv_sign.setText(mContext.getString(R.string.reserve_now));

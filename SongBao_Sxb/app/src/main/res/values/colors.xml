@@ -5,39 +5,42 @@
     <color name="app_color_style">#72CEFF</color><!-- 风格 -->
     <color name="app_color_white">#FFFFFF</color><!-- 白色 -->
     <color name="app_color_black">#000000</color><!-- 黑色 -->
-    <color name="app_color_black_s">#222222</color><!-- 浅黑 -->
+    <color name="app_color_black_2">#222222</color><!-- 浅黑 -->
     <color name="app_color_gray">#999999</color><!-- 灰色 -->
-    <color name="app_color_gray_d">#666666</color><!-- 深灰 -->
-    <color name="app_color_gray_s">#CCCCCC</color><!-- 浅灰 -->
-    <color name="app_color_gray_l">#F5F5F5</color><!-- 淡灰 -->
+    <color name="app_color_gray_6">#666666</color><!-- 深灰 -->
+    <color name="app_color_gray_c">#CCCCCC</color><!-- 浅灰 -->
+    <color name="app_color_gray_e">#E5E5E5</color><!-- 淡灰 -->
+    <color name="app_color_gray_f">#F5F5F5</color><!-- 淡灰 -->
     <color name="app_color_red">#FF0000</color><!-- 红色 -->
     <color name="app_color_orange">#FC7451</color><!-- 橙色 -->
+    <color name="app_color_brown">#C9A97A</color><!-- 棕色 -->
+    <color name="app_color_brown_f">#FFF7EB</color><!-- 淡棕 -->
     <color name="app_color_yellow">#FFCC43</color><!-- 黄色 -->
     <color name="app_color_green">#60BA8D</color><!-- 绿色 -->
     <color name="app_color_blue">#72A2FF</color><!-- 蓝色 -->
-    <color name="app_color_blue_s">#72CEFF</color><!-- 浅蓝 -->
+    <color name="app_color_blue_c">#72CEFF</color><!-- 浅蓝 -->
 
     <!-- 标题区文字颜色 -->
     <color name="title_text_color">@color/app_color_black</color>
     <!-- 展示区文字颜色 -->
-    <color name="shows_text_color">@color/app_color_black_s</color>
+    <color name="shows_text_color">@color/app_color_black_2</color>
     <!-- 输入框文字颜色 -->
-    <color name="input_text_color">@color/app_color_black_s</color>
+    <color name="input_text_color">@color/app_color_black_2</color>
     <!-- 提示语文字颜色 -->
-    <color name="input_hint_color">@color/app_color_gray_s</color>
+    <color name="input_hint_color">@color/app_color_gray_c</color>
     <!-- 禁操作文字颜色 -->
-    <color name="debar_text_color">@color/app_color_gray_s</color>
+    <color name="debar_text_color">@color/app_color_gray_c</color>
     <!-- 温馨提示颜色值 -->
     <color name="warns_text_color">@color/app_color_red</color>
     <!-- 商品价格颜色值 -->
-    <color name="price_text_color">@color/app_color_black_s</color>
+    <color name="price_text_color">@color/app_color_yellow</color>
     <!-- 负金额文字颜色 -->
     <color name="lower_text_color">@color/app_color_green</color>
 
     <!-- App背景主色 -->
     <color name="ui_color_app_bg_01">@color/app_color_white</color>
     <!-- App背景副色 -->
-    <color name="ui_color_app_bg_02">@color/app_color_gray_l</color>
+    <color name="ui_color_app_bg_02">@color/app_color_gray_f</color>
     <!-- App背景区色 -->
     <color name="ui_color_app_bg_03">@color/app_color_white</color>
 
@@ -48,9 +51,9 @@
     <!-- App按钮文字 -->
     <color name="tv_color_button">@color/app_color_white</color>
     <!-- App按钮背景 -->
-    <color name="ui_color_button">@color/app_color_gray_d</color>
+    <color name="ui_color_button">@color/app_color_gray_6</color>
     <!-- HomeTab文字 -->
-    <color name="tv_color_bottom">@color/app_color_blue_s</color>
+    <color name="tv_color_bottom">@color/app_color_blue_c</color>
 
     <!-- UI背景常用颜色值 -->
     <color name="ui_bg_color_div_min_01">#E0E0E0</color><!-- 分割线颜色值:细 -->
