@@ -146,23 +146,25 @@
     <string name="mine_intro">签名</string>
     <string name="mine_intro_hint">填写个性签名更容易获得别人的关注哦</string>
 
-    <!-- reserve -->
+    <!-- Reserve -->
     <string name="reserve_now">立即预约</string>
     <string name="reserve_slot">预约时段：</string>
-    <string name="reserve_place">课程地点：%1$s</string>
-    <string name="reserve_suit">适用人群：%1$s</string>
-    <string name="reserve_date">预约日期：%1$s</string>
-    <string name="reserve_time">预约时间：%1$s</string>
-    <string name="reserve_empty">\t\t\t\t\t\t\t\t\t\t</string>
-    <string name="reserve_choice">请选择场次</string>
+    <string name="reserve_place">课程地点：</string>
+    <string name="reserve_suit">适用人群：</string>
+    <string name="reserve_date">预约日期</string>
+    <string name="reserve_time">预约时间</string>
+    <string name="reserve_desc">课程介绍</string>
+    <string name="reserve_desc_en">COURSE DESCRIPTION</string>
+    <string name="reserve_choice">选择场次</string>
     <string name="reserve_success">恭喜您^_^ 预约成功^_^</string>
 
-    <!-- choice -->
-    <string name="choice_date">选择时间</string>
+    <!-- Choice -->
+    <string name="choice_date">选择场次</string>
     <string name="choice_select_date">请选择日期</string>
     <string name="choice_select_time">请选择场次</string>
     <string name="choice_select_time_empty">此日期无可选场次</string>
     <string name="choice_select_option">可选场次</string>
+    <string name="choice_select_option_en">OPTIONAL EVENTS</string>
     <string name="choice_reserve_yes">已预约</string>
     <string name="choice_reserve_ok">可预约</string>
     <string name="choice_reserve_no">已预满</string>
@@ -173,18 +175,21 @@
     <string name="sign_up_already">您已报名</string>
     <string name="sign_up_end">报名已截止</string>
     <string name="sign_up_success">报名成功</string>
+    <string name="sign_up_input_info">填写资料</string>
+    <string name="sign_up_input_info_en">FILL IN INFORMATION</string>
+    <string name="sign_up_explain">活动说明</string>
+    <string name="sign_up_explain_en">ACTIVITY DESCRIPTION</string>
     <string name="sign_up_name">姓名：</string>
     <string name="sign_up_input_name">请输入姓名</string>
     <string name="sign_up_gender">性别：</string>
     <string name="sign_up_age">年龄：</string>
     <string name="sign_up_input_age">请选择年龄范围</string>
-    <string name="sign_up_phone">电话：</string>
+    <string name="sign_up_phone">手机：</string>
     <string name="sign_up_input_phone">请输入手机号码</string>
     <string name="sign_up_input_phone_error">请输入正确的11位数手机号码</string>
-    <string name="sign_up_time">活动时间：%1$s</string>
-    <string name="sign_up_address">活动地点：%1$s</string>
-    <string name="sign_up_show">活动说明：</string>
-    <string name="sign_up_explain">活动简介</string>
+    <string name="sign_up_time">活动时间：</string>
+    <string name="sign_up_address">活动地点：</string>
+    <string name="sign_up_people">报名情况：</string>
     <string name="sign_up_info">活动信息</string>
     <string name="sign_up_info_time">%1$s 至 %2$s</string>
     <string name="sign_up_info_number">"已报名%1$d人/限%2$d人报名"</string>

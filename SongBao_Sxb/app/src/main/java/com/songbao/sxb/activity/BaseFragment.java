@@ -189,7 +189,7 @@ public class BaseFragment extends Fragment {
 	 */
 	protected void loadSVData(String head, String path, HashMap<String, String> map, int httpType, final int dataType) {
 		if (StringUtil.isNull(head)) {
-			head = "base_1";
+			head = "base_2";
 		}
 		HttpRequests.getInstance()
 				.loadData(head, path, map, httpType)

@@ -87,9 +87,9 @@ public class MySignUpAdapter extends RecyclerView.Adapter<MySignUpAdapter.ViewHo
 
         viewHolder.item_time.setText(TimeUtil.strToStrItem(data.getAddTime()));
         viewHolder.tv_title.setText(data.getTitle());
-        viewHolder.tv_time.setText(mContext.getString(R.string.sign_up_time,
-                TimeUtil.strToStrYMD("yyyy-MM-dd", data.getStartTime())));
-        viewHolder.tv_address.setText(mContext.getString(R.string.sign_up_address, data.getAddress()));
+        viewHolder.tv_time.setText(mContext.getString(R.string.sign_up_time) +
+                TimeUtil.strToStrYMD("yyyy-MM-dd", data.getStartTime()));
+        viewHolder.tv_address.setText(mContext.getString(R.string.sign_up_address) + data.getAddress());
 
         viewHolder.item_main.setOnClickListener(new View.OnClickListener() {
 

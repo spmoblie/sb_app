@@ -138,13 +138,13 @@ public class ViewPagerActivity extends BaseActivity {
 					imageView.setImageBitmap(task.getBitmap());
 					am_btm.put(HASH_MAP_KEY_BTM + imgUrl, task.getBitmap()); //记录图片
 				}else {
-					imageView.setImageResource(R.drawable.icon_default_null);
+					imageView.setImageResource(R.drawable.icon_default_show);
 					progress.setVisibility(View.VISIBLE);
 					am_bar.put(HASH_MAP_KEY_BAR + imgUrl, progress); //记录加载动画
 					am_img.put(HASH_MAP_KEY_IMG + imgUrl, imageView); //记录View
 				}
 			} else {
-				imageView.setImageResource(R.drawable.icon_default_null);
+				imageView.setImageResource(R.drawable.icon_default_show);
 			}
 			imageView.setImgOnMoveListener(new DragImageView.ImgOnMoveListener() {
 				@Override

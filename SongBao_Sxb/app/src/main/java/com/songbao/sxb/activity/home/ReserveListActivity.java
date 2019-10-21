@@ -34,9 +34,9 @@ import java.util.List;
 import butterknife.BindView;
 
 
-public class ReserveActivity extends BaseActivity implements OnClickListener {
+public class ReserveListActivity extends BaseActivity implements OnClickListener {
 
-	String TAG = ReserveActivity.class.getSimpleName();
+	String TAG = ReserveListActivity.class.getSimpleName();
 
 	@BindView(R.id.refresh_view_rv)
 	PullToRefreshRecyclerView refresh_rv;
@@ -138,7 +138,7 @@ public class ReserveActivity extends BaseActivity implements OnClickListener {
 	 */
 	private void openDetailActivity(ThemeEntity data) {
 		if (data == null) return;
-		Intent intent = new Intent(mContext, DetailActivity.class);
+		Intent intent = new Intent(mContext, ReserveDetailActivity.class);
 		intent.putExtra(AppConfig.PAGE_DATA, data);
 		startActivity(intent);
 	}

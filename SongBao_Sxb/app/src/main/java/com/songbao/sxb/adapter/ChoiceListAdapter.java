@@ -51,7 +51,7 @@ public class ChoiceListAdapter extends AppBaseAdapter {
 		holder.tv_time.setText(data.getTime());
 		if (data.isState()) {
 			holder.tv_state.setText(context.getString(R.string.choice_reserve_ok));
-			holder.tv_state.setTextColor(context.getResources().getColor(R.color.warns_text_color));
+			holder.tv_state.setTextColor(context.getResources().getColor(R.color.tv_color_status));
 		} else {
 			if (data.isReserve()) {
 				holder.tv_state.setText(context.getString(R.string.choice_reserve_yes));
@@ -61,6 +61,7 @@ public class ChoiceListAdapter extends AppBaseAdapter {
 			holder.tv_state.setTextColor(context.getResources().getColor(R.color.debar_text_color));
 		}
 		holder.iv_select.setSelected(data.isSelect());
+		holder.item_main.setSelected(data.isSelect());
 
 		holder.item_main.setOnClickListener(new OnClickListener() {
 			

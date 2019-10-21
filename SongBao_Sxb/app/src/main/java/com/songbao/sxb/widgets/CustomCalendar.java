@@ -226,10 +226,10 @@ public class CustomCalendar extends View {
         //宽度 = 填充父窗体
         int widthSize = MeasureSpec.getSize(widthMeasureSpec); //获取宽的尺寸
         columnWidth = widthSize / 7;
-        //高度 = 标题高度 + 星期高度 + 日期行数*每行高度
-        float height = titleHeight + weekHeight + (lineNum * oneHeight);
-        LogUtil.i(TAG, "标题高度："+titleHeight+" 星期高度："+weekHeight+" 每行高度："+oneHeight+
-                " 行数："+ lineNum + "  \n控件高度："+height);
+        //高度 = 标题高度 + 星期高度 + 日期行数*每行高度 + 底部边距
+        float height = titleHeight + weekHeight + (lineNum * oneHeight) + 50;
+        LogUtil.i(TAG, "标题高度：" + titleHeight + " 星期高度：" + weekHeight + " 每行高度：" + oneHeight +
+                " 行数：" + lineNum + "  \n控件高度：" + height);
         setMeasuredDimension(getDefaultSize(getSuggestedMinimumWidth(), widthMeasureSpec), (int)height);
 
     }

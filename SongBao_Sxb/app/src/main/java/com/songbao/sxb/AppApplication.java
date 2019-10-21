@@ -122,8 +122,8 @@ public class AppApplication extends Application {
         if (showOptions == null) {
             showOptions = new RequestOptions()
                     .placeholder(R.drawable.icon_default_show) //图片加载出来前，显示的图片
-                    .fallback(R.drawable.icon_default_null) //url为空的时候,显示的图片
-                    .error(R.drawable.icon_default_error); //图片加载失败后，显示的图片
+                    .fallback(R.drawable.icon_default_show) //url为空的时候,显示的图片
+                    .error(R.drawable.icon_default_show); //图片加载失败后，显示的图片
         }
         return showOptions;
     }

@@ -17,7 +17,7 @@ public class AppConfig {
 	// Base域名
 	public final static String BASE_URL_1 = APP_HTTP + "119.145.16.116:8080/app/";
 	// Base域名
-	public final static String BASE_URL_2 = APP_HTTP + "192.168.1.143/app/";
+	public final static String BASE_URL_2 = APP_HTTP + "192.168.1.105/app/";
 	// 图片域名
 	public final static String IMAGE_URL = "file:///android_asset/";
 	// 推广域名
@@ -100,8 +100,8 @@ public class AppConfig {
 	public static final int ERROR_CODE_PHONE_UNREGISTERED = 706;
 
 	// 图片宽高比例
-	public static final int IMG_WIDTHS = 345;
-	public static final int IMG_HEIGHT = 194;
+	public static final int IMG_WIDTHS = 16;
+	public static final int IMG_HEIGHT = 9;
 	// 加载数据数量
 	public static final String LOAD_SIZE = "10";
 	// 加载缓冲时间

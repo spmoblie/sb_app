@@ -16,8 +16,7 @@ public class ThemeEntity extends BaseEntity {
 	private String series; //活动系列
 	private String suit; //适用人群
 	private String author; //活动讲师
-	private String synopsis; //活动简介
-	private String description; //活动说明
+	private String synopsis; //活动介绍
 	private String area; //活动地区
 	private String address; //活动地址
 	private String addTime; //活动生产时间
@@ -33,6 +32,8 @@ public class ThemeEntity extends BaseEntity {
 	private double fees; //费用
 	private OptionEntity option; //课程场次
 	private UserInfoEntity userData; //报名信息
+	private List<String> picUrls; //头部轮播图片集
+	private List<String> desUrls; //活动说明图片集
 	private List<ThemeEntity> headLists; //首页头部数集
 	private List<ThemeEntity> mainLists; //首页列表数集
 
@@ -135,14 +136,6 @@ public class ThemeEntity extends BaseEntity {
 
 	public void setSynopsis(String synopsis) {
 		this.synopsis = synopsis;
-	}
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
 	}
 
 	public String getArea() {
@@ -263,6 +256,22 @@ public class ThemeEntity extends BaseEntity {
 
 	public void setUserData(UserInfoEntity userData) {
 		this.userData = userData;
+	}
+
+	public List<String> getPicUrls() {
+		return picUrls;
+	}
+
+	public void setPicUrls(List<String> picUrls) {
+		this.picUrls = picUrls;
+	}
+
+	public List<String> getDesUrls() {
+		return desUrls;
+	}
+
+	public void setDesUrls(List<String> desUrls) {
+		this.desUrls = desUrls;
 	}
 
 	public List<ThemeEntity> getHeadLists() {

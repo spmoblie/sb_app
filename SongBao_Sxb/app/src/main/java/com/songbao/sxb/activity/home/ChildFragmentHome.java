@@ -191,18 +191,22 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
                 if (themeEn != null) {
                     switch (type) {
                         case 0:
-                            openDetailActivity(themeEn);
+                            if (themeEn.getThemeType() == AppConfig.THEME_TYPE_1) {
+                                openReserveDetailActivity(themeEn);
+                            } else {
+                                openSignUpDetailActivity(themeEn);
+                            }
                             break;
                         case 1:
                             if (themeEn.getThemeType() == AppConfig.THEME_TYPE_1) {
-                                openDetailActivity(themeEn);
+                                openReserveDetailActivity(themeEn);
                             } else {
                                 openSignUpActivity(themeEn);
                             }
                             break;
                     }
                 } else {
-                    CommonTools.showToast(getString(R.string.toast_error_data_page));
+                    CommonTools.showToast(getString(R.string.toast_error_data_app));
                 }
             }
         };
@@ -451,12 +455,23 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
     }
 
     /**
-     * 跳转至详情页面
+     * 跳转至预约详情页面
      * @param data
      */
-    private void openDetailActivity(ThemeEntity data) {
+    private void openReserveDetailActivity(ThemeEntity data) {
         if (data == null) return;
-        Intent intent = new Intent(getActivity(), DetailActivity.class);
+        Intent intent = new Intent(getActivity(), ReserveDetailActivity.class);
+        intent.putExtra(AppConfig.PAGE_DATA, data);
+        startActivity(intent);
+    }
+
+    /**
+     * 跳转至活动详情页面
+     * @param data
+     */
+    private void openSignUpDetailActivity(ThemeEntity data) {
+        if (data == null) return;
+        Intent intent = new Intent(getActivity(), SignUpDetailActivity.class);
         intent.putExtra(AppConfig.PAGE_DATA, data);
         startActivity(intent);
     }
@@ -479,7 +494,7 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
                 startActivity(new Intent(getActivity(), TicketsActivity.class));
                 break;
             case R.id.fg_home_head_iv_reserve:
-                startActivity(new Intent(getActivity(), ReserveActivity.class));
+                startActivity(new Intent(getActivity(), ReserveListActivity.class));
                 break;
             case R.id.loading_fail_tv_update: //重新加载
                 resetData();

@@ -26,7 +26,6 @@ import com.songbao.sxb.utils.ExceptionUtil;
 import com.songbao.sxb.utils.JsonUtils;
 import com.songbao.sxb.utils.LogUtil;
 import com.songbao.sxb.utils.StringUtil;
-import com.songbao.sxb.utils.TimeUtil;
 import com.songbao.sxb.utils.retrofit.HttpRequests;
 
 import org.json.JSONObject;
@@ -58,11 +57,11 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
     @BindView(R.id.sign_et_phone)
     EditText et_phone;
 
-    @BindView(R.id.sign_tv_cost)
-    TextView tv_cost;
-
     @BindView(R.id.sign_tv_explain)
     TextView tv_explain;
+
+    @BindView(R.id.sign_tv_cost)
+    TextView tv_cost;
 
     @BindView(R.id.sign_tv_click)
     TextView tv_click;
@@ -198,25 +197,21 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
             if (payAmount > 0) {
                 isPay = true;
             }
-            tv_cost.setText(getString(R.string.pay_rmb, new DecimalFormat("0.00").format(payAmount)));
+            tv_cost.setText(new DecimalFormat("0.00").format(payAmount));
 
-            String timeStr = getString(R.string.time) + getString(R.string.sign_up_info_time,
-                    TimeUtil.strToStrMdHm(data.getStartTime()), TimeUtil.strToStrMdHm(data.getEndTime()));
+            String timeStr = getString(R.string.time) + getString(R.string.sign_up_info_time, data.getStartTime(), data.getEndTime());
             String infoStr = timeStr +
-                    "\n" + getString(R.string.place) + data.getAddress() +
-                    "\n" + getString(R.string.number_p) + getString(R.string.sign_up_info_number, data.getPeople(), data.getQuantity()) +
-                    "\n" + getString(R.string.suit) + data.getSuit();
+                    "\n\n" + getString(R.string.place) + data.getAddress() +
+                    "\n\n" + getString(R.string.number_p) + getString(R.string.sign_up_info_number, data.getPeople(), data.getQuantity()) +
+                    "\n\n" + getString(R.string.suit) + data.getSuit();
 
-            String otherStr = data.getDescription();
+            String otherStr = data.getSynopsis();
             if (StringUtil.isNull(otherStr)) {
                 otherStr = getString(R.string.sign_up_cost_hint);
             }
 
-            String showStr = getString(R.string.sign_up_show) +
-                    "\n" +
-                    "\n" + infoStr +
-                    "\n" +
-                    "\n" + getString(R.string.other) + otherStr;
+            String showStr = infoStr +
+                    "\n\n" + getString(R.string.other) + otherStr;
 
             tv_explain.setText(showStr);
 

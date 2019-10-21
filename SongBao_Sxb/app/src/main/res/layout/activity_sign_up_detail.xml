@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/ui_color_app_bg_01">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/margin_padding_150">
+
+            <ImageView
+                android:id="@+id/sign_up_detail_iv_show"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:scaleType="fitXY"
+                android:src="@drawable/icon_default_show" />
+
+            <TextView
+                android:id="@+id/sign_up_detail_tv_title"
+                style="@style/detail_text"
+                android:textSize="@dimen/app_text_size_content" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/screen_margin_default"
+                android:paddingRight="@dimen/screen_margin_default">
+
+                <TextView
+                    android:id="@+id/sign_up_detail_tv_name"
+                    style="@style/common_text_bg_frame"
+                    android:maxEms="9" />
+
+                <TextView
+                    android:id="@+id/sign_up_detail_tv_series"
+                    style="@style/common_text_bg_frame"
+                    android:layout_marginLeft="@dimen/margin_padding_10"
+                    android:background="@drawable/shape_style_empty_2_18"
+                    android:maxEms="9"
+                    android:textColor="@color/app_color_blue" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_padding_10"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/detail_text"
+                    android:drawableLeft="@mipmap/icon_time"
+                    android:drawablePadding="@dimen/margin_padding_5"
+                    android:text="@string/sign_up_time" />
+
+                <TextView
+                    android:id="@+id/sign_up_detail_tv_time"
+                    style="@style/detail_text"
+                    android:layout_marginLeft="0dp"
+                    android:textColor="@color/app_color_gray_5" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/detail_text"
+                    android:drawableLeft="@mipmap/icon_site"
+                    android:drawablePadding="@dimen/margin_padding_5"
+                    android:text="@string/sign_up_address" />
+
+                <TextView
+                    android:id="@+id/sign_up_detail_tv_place"
+                    style="@style/detail_text"
+                    android:layout_marginLeft="0dp"
+                    android:textColor="@color/app_color_gray_5" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/detail_text"
+                    android:drawableLeft="@mipmap/icon_data"
+                    android:drawablePadding="@dimen/margin_padding_5"
+                    android:text="@string/sign_up_people" />
+
+                <TextView
+                    android:id="@+id/sign_up_detail_tv_people"
+                    style="@style/detail_text"
+                    android:layout_marginLeft="0dp"
+                    android:textColor="@color/app_color_gray_5" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/detail_text"
+                    android:drawableLeft="@mipmap/icon_people"
+                    android:drawablePadding="@dimen/margin_padding_5"
+                    android:text="@string/reserve_suit" />
+
+                <TextView
+                    android:id="@+id/sign_up_detail_tv_suit"
+                    style="@style/detail_text"
+                    android:layout_marginLeft="0dp"
+                    android:textColor="@color/app_color_gray_5" />
+            </LinearLayout>
+
+            <ImageView
+                style="@style/set_line_horizontal_bg"
+                android:layout_height="@dimen/margin_padding_10"
+                android:layout_marginTop="@dimen/margin_padding_25"
+                android:contentDescription="@string/desc" />
+
+            <TextView
+                style="@style/detail_text"
+                android:layout_marginTop="@dimen/margin_padding_20"
+                android:text="@string/reserve_desc"
+                android:textSize="@dimen/app_text_size_title"
+                android:textStyle="bold" />
+
+            <TextView
+                style="@style/detail_text"
+                android:layout_marginTop="@dimen/margin_padding_10"
+                android:text="@string/reserve_desc_en"
+                android:textColor="@color/app_color_gray"
+                android:textSize="@dimen/app_text_size_small"
+                android:textStyle="bold" />
+
+            <com.songbao.sxb.widgets.ScrollViewListView
+                android:id="@+id/sign_up_detail_desc_listView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_padding_20" />
+        </LinearLayout>
+
+    </ScrollView>
+
+    <TextView
+        android:id="@+id/sign_up_detail_tv_click"
+        style="@style/common_text_button"
+        android:layout_width="match_parent"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="@dimen/margin_padding_50"
+        android:layout_marginLeft="@dimen/screen_margin_default"
+        android:layout_marginRight="@dimen/screen_margin_default"
+        android:padding="@dimen/screen_margin_default"
+        android:text="@string/sign_up_title"
+        android:textSize="@dimen/app_text_size_title"
+        android:textStyle="bold" />
+
+</FrameLayout>

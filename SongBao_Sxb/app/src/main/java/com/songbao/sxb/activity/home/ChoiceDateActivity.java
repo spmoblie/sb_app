@@ -194,9 +194,9 @@ public class ChoiceDateActivity extends BaseActivity implements View.OnClickList
      */
     private void updateViewSate() {
         if (StringUtil.isNull(selectTime)) {
-            tv_confirm.setBackgroundColor(getResources().getColor(R.color.debar_text_color));
+            tv_confirm.setBackgroundResource(R.drawable.shape_style_solid_6_34);
         } else {
-            tv_confirm.setBackgroundColor(getResources().getColor(R.color.ui_color_button));
+            tv_confirm.setBackgroundResource(R.drawable.shape_style_solid_1_34);
         }
     }
 
@@ -271,6 +271,9 @@ public class ChoiceDateActivity extends BaseActivity implements View.OnClickList
 
     private void getTimeData() {
         loadServerData();
+        /*al_show.clear();
+        al_show.addAll(getDemoData());
+        initListView();*/
     }
 
     /**
@@ -327,7 +330,7 @@ public class ChoiceDateActivity extends BaseActivity implements View.OnClickList
         }
     }
 
-    private List<OptionEntity> initTimeData() {
+    private List<OptionEntity> getDemoData() {
         List<OptionEntity> lists = new ArrayList<>();
 
         OptionEntity option_1 = new OptionEntity();

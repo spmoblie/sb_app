@@ -105,9 +105,10 @@
 
         <!-- home -->
         <activity android:name=".activity.home.ChoiceDateActivity"/>
-        <activity android:name=".activity.home.DetailActivity"/>
-        <activity android:name=".activity.home.ReserveActivity"/>
+        <activity android:name=".activity.home.ReserveDetailActivity"/>
+        <activity android:name=".activity.home.ReserveListActivity"/>
         <activity android:name=".activity.home.SignUpActivity"/>
+        <activity android:name=".activity.home.SignUpDetailActivity"/>
         <activity android:name=".activity.home.TicketsActivity"/>
 
         <!-- login -->

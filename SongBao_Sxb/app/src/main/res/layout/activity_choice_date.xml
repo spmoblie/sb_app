@@ -1,15 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:openxu="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/ui_color_app_bg_02"
-    android:orientation="vertical">
+    android:background="@color/ui_color_app_bg_02">
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_height="match_parent"
         android:fillViewport="true"
         android:scrollbars="none">
 
@@ -17,51 +15,65 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical"
-            android:paddingBottom="@dimen/screen_margin_default">
+            android:paddingBottom="@dimen/margin_padding_150"
+            android:paddingLeft="@dimen/screen_margin_default"
+            android:paddingRight="@dimen/screen_margin_default"
+            android:paddingTop="@dimen/screen_margin_default">
 
             <com.songbao.sxb.widgets.CustomCalendar
                 android:id="@+id/choice_date_cal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@drawable/shape_style_solid_5_18"
 
                 openxu:mCurrentBg="@color/app_color_gray"
                 openxu:mCurrentBgDashPath="@array/customCalendar_currentDay"
                 openxu:mCurrentBgStrokeWidth="1.5dip"
 
-                openxu:mMonthRowL="@mipmap/icon_go_back"
-                openxu:mMonthRowR="@mipmap/icon_go_next"
-                openxu:mMonthRowSpac="@dimen/margin_padding_100"
-
-                openxu:mMonthSpac="@dimen/margin_padding_20"
-                openxu:mDayUpSpac="@dimen/margin_padding_10"
                 openxu:mDayDnSpac="@dimen/margin_padding_10"
+                openxu:mDayUpSpac="@dimen/margin_padding_10"
+                openxu:mMonthRowL="@mipmap/icon_go_back"
 
-                openxu:mSelectBg="@color/app_color_orange"
+                openxu:mMonthRowR="@mipmap/icon_go_next"
+                openxu:mMonthRowSpac="@dimen/margin_padding_60"
+                openxu:mMonthSpac="@dimen/margin_padding_20"
+
+                openxu:mSelectBg="@color/app_color_style"
                 openxu:mSelectNot="@color/debar_text_color"
                 openxu:mSelectRadius="@dimen/margin_padding_15"
                 openxu:mSelectTextColor="@color/app_color_white"
-                openxu:mSelectWeekTextColor="@color/app_color_orange"
+                openxu:mSelectWeekTextColor="@color/app_color_style"
                 openxu:mTextColorDay="@color/shows_text_color"
-                openxu:mTextColorMonth="@color/title_text_color"
+                openxu:mTextColorMonth="@color/shows_text_color"
 
-                openxu:mTextColorPreFinish="@color/app_color_orange"
+                openxu:mTextColorPreFinish="@color/app_color_style"
                 openxu:mTextColorPreNull="@color/debar_text_color"
                 openxu:mTextColorPreUnFinish="@color/app_color_green"
 
                 openxu:mTextColorWeek="@color/shows_text_color"
                 openxu:mTextSizeDay="@dimen/text_size_16"
-                openxu:mTextSizeMonth="@dimen/text_size_18"
+                openxu:mTextSizeMonth="@dimen/text_size_16"
                 openxu:mTextSizePre="@dimen/text_size_10"
                 openxu:mTextSizeWeek="@dimen/text_size_16" />
 
-            <ImageView
-                style="@style/set_line_horizontal_bg"
-                android:layout_marginTop="@dimen/margin_padding_10"
-                android:contentDescription="@string/desc" />
+            <TextView
+                style="@style/detail_text"
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"
+                android:layout_marginTop="@dimen/margin_padding_40"
+                android:text="@string/choice_select_option"
+                android:textSize="@dimen/app_text_size_title"
+                android:textStyle="bold" />
 
             <TextView
                 style="@style/detail_text"
-                android:text="@string/choice_select_option" />
+                android:layout_marginLeft="0dp"
+                android:layout_marginRight="0dp"
+                android:layout_marginTop="@dimen/margin_padding_10"
+                android:text="@string/choice_select_option_en"
+                android:textColor="@color/app_color_gray"
+                android:textSize="@dimen/app_text_size_small"
+                android:textStyle="bold" />
 
             <com.songbao.sxb.widgets.ScrollViewListView
                 android:id="@+id/choice_date_listView"
@@ -76,9 +88,13 @@
         android:id="@+id/choice_date_tv_confirm"
         style="@style/common_text_button"
         android:layout_width="match_parent"
-        android:background="@color/ui_color_button"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="@dimen/margin_padding_50"
+        android:layout_marginLeft="@dimen/screen_margin_default"
+        android:layout_marginRight="@dimen/screen_margin_default"
         android:padding="@dimen/screen_margin_default"
         android:text="@string/confirm"
-        android:textColor="@color/app_color_white" />
+        android:textSize="@dimen/app_text_size_title"
+        android:textStyle="bold" />
 
-</LinearLayout>
+</FrameLayout>

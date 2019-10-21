@@ -124,16 +124,14 @@ public class JsonUtils {
                 ThemeEntity childEn = new ThemeEntity();
                 childEn.setId(item.getInt("id"));
                 childEn.setTitle(item.getString("title"));
-                childEn.setPicUrl(item.getString("picUrl"));
+                //childEn.setPicUrl(item.getString("picUrl"));
                 childEn.setLinkUrl(item.getString("linkUrl"));
                 childEn.setUserId(item.getString("adminId"));
                 childEn.setSuit(item.getString("crowd"));
-                childEn.setAuthor(item.getString("userName"));
-                childEn.setSynopsis(item.getString("synopsis"));
-                childEn.setDescription(item.getString("description"));
+                childEn.setUserName(item.getString("userName"));
+                childEn.setSeries(item.getString("userName"));
+                childEn.setSynopsis(item.getString("description"));
                 childEn.setAddress(item.getString("address"));
-                childEn.setStartTime(item.getString("startTime"));
-                childEn.setEndTime(item.getString("endTime"));
                 childEn.setQuantity(item.getInt("quantity"));
                 childEn.setPeople(item.getInt("people"));
                 childEn.setStatus(item.getInt("status"));
@@ -143,11 +141,38 @@ public class JsonUtils {
                 if (StringUtil.notNull(item, "timeStr")) {
                     childEn.setDateSlot(item.getString("timeStr"));
                 }
+                if (StringUtil.notNull(item, "startTimeValue")) {
+                    childEn.setStartTime(item.getString("startTimeValue"));
+                }
+                if (StringUtil.notNull(item, "endTimeValue")) {
+                    childEn.setEndTime(item.getString("endTimeValue"));
+                }
+                if (StringUtil.notNull(item, "picUrl")) {
+                    childEn.setPicUrls(getImgUrls(item.getString("picUrl")));
+                }
+                if (StringUtil.notNull(item, "duplicationUrl")) {
+                    childEn.setDesUrls(getImgUrls(item.getString("duplicationUrl")));
+                }
 
                 mainEn.setData(childEn);
             }
         }
         return mainEn;
+    }
+
+    /**
+     * 解析获取图片集
+     * @param urlStr
+     * @return
+     * @throws JSONException
+     */
+    private static List<String> getImgUrls(String urlStr) throws JSONException {
+        ArrayList<String> urls = new ArrayList<>();
+        JSONArray param = new JSONArray(urlStr);
+        for (int i =0; i < param.length(); i++){
+            urls.add(param.get(i).toString());
+        }
+        return urls;
     }
 
     /**
@@ -357,8 +382,7 @@ public class JsonUtils {
                     childEn.setPicUrl(item.getString("picUrl"));
                     childEn.setLinkUrl(item.getString("linkUrl"));
                     childEn.setUserId(item.getString("adminId"));
-                    childEn.setSynopsis(item.getString("synopsis"));
-                    childEn.setDescription(item.getString("description"));
+                    childEn.setSynopsis(item.getString("description"));
                     childEn.setArea(item.getString("areaName"));
                     childEn.setAddress(item.getString("address"));
                     childEn.setStartTime(item.getString("startTime"));
