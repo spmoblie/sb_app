@@ -229,6 +229,17 @@ public class TimeUtil {
 
     /**
      * 将传入的时间格式转换为指定的时间格式
+     * @param strDate HH:mm-HH:mm
+     * @return String  HH:mm:00
+     */
+    public static String strToStrSlot(String strDate){
+        if (strDate.length() < 5) return " 00:00:00";
+        String newDate = strDate.substring(0, 5);
+        return " " + newDate + ":00";
+    }
+
+    /**
+     * 将传入的时间格式转换为指定的时间格式
      * @param longDate 毫秒格式
      * @return String MM月dd日 HH:mm
      */

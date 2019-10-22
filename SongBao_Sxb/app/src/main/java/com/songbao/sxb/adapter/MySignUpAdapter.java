@@ -124,6 +124,9 @@ public class MySignUpAdapter extends RecyclerView.Adapter<MySignUpAdapter.ViewHo
         @BindView(R.id.my_sign_up_item_iv_show)
         RoundImageView iv_show;
 
+        @BindView(R.id.my_sign_up_item_tv_cover)
+        TextView tv_cover;
+
         @BindView(R.id.my_sign_up_item_tv_title)
         TextView tv_title;
 

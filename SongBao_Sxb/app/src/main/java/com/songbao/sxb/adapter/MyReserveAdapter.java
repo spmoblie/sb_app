@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide;
 import com.songbao.sxb.AppApplication;
 import com.songbao.sxb.R;
 import com.songbao.sxb.entity.ThemeEntity;
+import com.songbao.sxb.utils.TimeUtil;
 import com.songbao.sxb.widgets.RoundImageView;
 
 import java.util.ArrayList;
@@ -84,11 +85,10 @@ public class MyReserveAdapter extends RecyclerView.Adapter<MyReserveAdapter.View
                 .apply(AppApplication.getShowOptions())
                 .into(viewHolder.iv_show);
 
-        viewHolder.item_time.setText(data.getAddTime());
+        viewHolder.item_time.setText(TimeUtil.strToStrItem(data.getAddTime()));
         viewHolder.tv_title.setText(data.getTitle());
-        viewHolder.tv_date.setText(mContext.getString(R.string.reserve_date) + data.getReserveDate());
-        viewHolder.tv_time.setText(mContext.getString(R.string.reserve_time) + data.getReserveTime());
-        viewHolder.tv_address.setText(mContext.getString(R.string.reserve_place) + data.getAddress());
+        viewHolder.tv_date.setText(mContext.getString(R.string.reserve_date_item, data.getReserveDate()));
+        viewHolder.tv_time.setText(mContext.getString(R.string.reserve_time_item, data.getReserveTime()));
 
         viewHolder.item_main.setOnClickListener(new View.OnClickListener() {
 
@@ -123,6 +123,9 @@ public class MyReserveAdapter extends RecyclerView.Adapter<MyReserveAdapter.View
         @BindView(R.id.my_reserve_item_iv_show)
         RoundImageView iv_show;
 
+        @BindView(R.id.my_reserve_item_tv_cover)
+        TextView tv_cover;
+
         @BindView(R.id.my_reserve_item_tv_title)
         TextView tv_title;
 
@@ -131,9 +134,6 @@ public class MyReserveAdapter extends RecyclerView.Adapter<MyReserveAdapter.View
 
         @BindView(R.id.my_reserve_item_tv_time)
         TextView tv_time;
-
-        @BindView(R.id.my_reserve_item_tv_address)
-        TextView tv_address;
 
         public ViewHolder(View itemView) {
             super(itemView);

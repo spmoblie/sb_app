@@ -107,8 +107,7 @@
             </LinearLayout>
 
             <ImageView
-                style="@style/set_line_horizontal_bg"
-                android:layout_height="@dimen/margin_padding_10"
+                style="@style/set_line_margin_10"
                 android:layout_marginTop="@dimen/margin_padding_25"
                 android:contentDescription="@string/desc" />
 
@@ -167,8 +166,7 @@
             </android.support.constraint.ConstraintLayout>
 
             <ImageView
-                style="@style/set_line_horizontal_bg"
-                android:layout_height="@dimen/margin_padding_10"
+                style="@style/set_line_margin_10"
                 android:layout_marginTop="@dimen/margin_padding_10"
                 android:contentDescription="@string/desc" />
 

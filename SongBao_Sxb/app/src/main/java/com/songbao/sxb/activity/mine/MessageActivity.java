@@ -59,7 +59,7 @@ public class MessageActivity extends BaseActivity implements OnClickListener {
 	}
 
 	private void initView() {
-		setTitle("消息");
+		setTitle(getString(R.string.mine_message));
 
 		initRecyclerView();
 		loadMoreData();

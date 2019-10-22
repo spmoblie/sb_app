@@ -247,11 +247,7 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
             tv_click.setText(text);
         }
         isOnClick = isState;
-        if (isState) {
-            tv_click.setTextColor(getResources().getColor(R.color.shows_text_color));
-        } else {
-            tv_click.setTextColor(getResources().getColor(R.color.app_color_gray));
-        }
+        changeViewState(tv_click, isState);
     }
 
     @Override

@@ -78,6 +78,7 @@
                     android:paddingBottom="@dimen/margin_padding_10"
                     android:paddingTop="@dimen/margin_padding_10"
                     android:text="@string/mine_gender_male"
+                    android:textStyle="bold"
                     app:layout_constraintLeft_toRightOf="@id/sign_tv_gender"
                     app:layout_constraintTop_toTopOf="@id/sign_tv_gender" />
 
@@ -89,6 +90,7 @@
                     android:paddingBottom="@dimen/margin_padding_10"
                     android:paddingTop="@dimen/margin_padding_10"
                     android:text="@string/mine_gender_female"
+                    android:textStyle="bold"
                     app:layout_constraintLeft_toRightOf="@id/sign_tv_gender_man"
                     app:layout_constraintTop_toTopOf="@id/sign_tv_gender" />
 
@@ -138,8 +140,7 @@
             </android.support.constraint.ConstraintLayout>
 
             <ImageView
-                style="@style/set_line_horizontal_bg"
-                android:layout_height="@dimen/margin_padding_10"
+                style="@style/set_line_margin_10"
                 android:layout_marginTop="@dimen/margin_padding_10"
                 android:contentDescription="@string/desc" />
 
@@ -205,7 +206,7 @@
         <TextView
             android:id="@+id/sign_tv_click"
             style="@style/common_text_button"
-            android:background="@drawable/shape_style_solid_1_34"
+            android:background="@drawable/shape_style_solid_6_34"
             android:paddingBottom="@dimen/margin_padding_13"
             android:paddingTop="@dimen/margin_padding_13"
             android:text="@string/sign_up_now"

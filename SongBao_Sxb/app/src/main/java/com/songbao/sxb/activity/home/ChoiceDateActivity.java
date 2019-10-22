@@ -55,7 +55,7 @@ public class ChoiceDateActivity extends BaseActivity implements View.OnClickList
     private OptionEntity optionEn;
     private int themeId; //课程Id
     private boolean isChange = false;
-    private String selectDay, assignDay, selectTime, assignTime;
+    private String selectDay, assignDay, selectTime, selectTimeId, assignTime;
     private ArrayList<OptionEntity> al_show = new ArrayList<>();
 
     @Override
@@ -177,8 +177,10 @@ public class ChoiceDateActivity extends BaseActivity implements View.OnClickList
                     boolean isSelect = !optionEn.isSelect();
                     if (isSelect) {
                         selectTime = optionEn.getTime();
+                        selectTimeId = optionEn.getEntityId();
                     } else {
                         selectTime = "";
+                        selectTimeId = "";
                     }
                     al_show.get(i).setSelect(isSelect);
                 } else {
@@ -292,7 +294,7 @@ public class ChoiceDateActivity extends BaseActivity implements View.OnClickList
     private void postCheckData() {
         HashMap<String, String> map = new HashMap<>();
         map.put("activityId", String.valueOf(themeId));
-        map.put("raStartTime", selectDay + " 00:00:00");
+        map.put("reservationActivityId", selectTimeId);
         loadSVData(AppConfig.URL_RESERVATION_IS, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_RESERVATION_IS);
     }
 
@@ -319,6 +321,10 @@ public class ChoiceDateActivity extends BaseActivity implements View.OnClickList
                     if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
                         isChange = true;
                         finish();
+                    } else
+                    if (baseEn.getErrno() == AppConfig.ERROR_CODE_FULL) { //该时段已约满
+                        loadServerData(); //刷新预约状态
+                        CommonTools.showToast(baseEn.getErrmsg());
                     } else {
                         handleErrorCode(baseEn);
                     }

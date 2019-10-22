@@ -15,19 +15,21 @@
 
         <ImageView
             android:id="@+id/fg_mine_iv_setting"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/title_height"
+            android:layout_height="@dimen/title_height"
             android:src="@mipmap/icon_setting"
-            android:visibility="visible"/>
+            android:scaleType="center"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent"/>
 
         <ImageView
             android:id="@+id/fg_mine_iv_message"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/screen_margin_default"
+            android:layout_width="@dimen/title_height"
+            android:layout_height="@dimen/title_height"
             android:src="@mipmap/icon_message_no"
+            android:scaleType="center"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintRight_toLeftOf="@id/fg_mine_iv_debunk" />
+            app:layout_constraintRight_toLeftOf="@id/fg_mine_iv_setting" />
 
         <ImageView
             android:id="@+id/fg_mine_iv_debunk"

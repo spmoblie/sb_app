@@ -94,12 +94,16 @@ public class JsonUtils {
                     childEn = new ThemeEntity();
                     childEn.setId(item.getInt("id"));
                     childEn.setTitle(item.getString("title"));
-                    childEn.setPicUrl(item.getString("picUrl"));
-                    childEn.setLinkUrl(item.getString("linkUrl"));
+                    //childEn.setPicUrl(item.getString("picUrl"));
                     childEn.setUserName(item.getString("userName"));
-                    childEn.setUserHead(item.getString("avatar"));
+                    childEn.setSeries(item.getString("typeValue"));
+                    childEn.setAddTime(item.getString("addTime"));
                     childEn.setStatus(item.getInt("status"));
                     childEn.setThemeType(item.getInt("isReservation"));
+
+                    if (StringUtil.notNull(item, "picUrl")) {
+                        childEn.setPicUrls(getImgUrls(item.getString("picUrl")));
+                    }
                     lists.add(childEn);
                 }
                 mainEn.setLists(lists);
@@ -208,9 +212,9 @@ public class JsonUtils {
                 childEn = new OptionEntity();
                 childEn.setId(item.getInt("id"));
                 childEn.setTime(item.getString("timeValue"));
-                childEn.setState(!item.getBoolean("reservation"));
-                childEn.setReserve(item.getBoolean("display"));
-                childEn.setSelect(item.getBoolean("display"));
+                childEn.setState(item.getBoolean("display"));
+                childEn.setReserve(item.getBoolean("reservation"));
+                childEn.setSelect(item.getBoolean("reservation"));
                 lists.add(childEn);
             }
             mainEn.setLists(lists);

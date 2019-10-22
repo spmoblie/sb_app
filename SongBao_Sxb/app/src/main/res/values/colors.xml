@@ -44,8 +44,6 @@
     <color name="ui_color_app_bg_01">@color/app_color_white</color>
     <!-- App背景副色 -->
     <color name="ui_color_app_bg_02">@color/app_color_gray_f</color>
-    <!-- App背景区色 -->
-    <color name="ui_color_app_bg_03">@color/app_color_white</color>
 
     <!-- App状态文字 -->
     <color name="tv_color_status">@color/app_color_style</color>
@@ -59,9 +57,11 @@
     <color name="tv_color_bottom">@color/app_color_blue_c</color>
 
     <!-- UI背景常用颜色值 -->
-    <color name="ui_bg_color_div_min_01">#F5F5F5</color><!-- 分割线颜色值:细 -->
-    <color name="ui_bg_color_div_min_10">#EAEAEA</color><!-- 分割线颜色值:淡 -->
-    <color name="ui_bg_color_percent_05">#7F000000</color><!-- 黑色50%透明度 -->
+    <color name="ui_bg_color_div_min_01">#E5E5E5</color><!-- 分割线颜色值:细 -->
+    <color name="ui_bg_color_div_min_10">#F5F5F5</color><!-- 分割线颜色值:淡 -->
+    <color name="ui_bg_color_percent_03">#B3000000</color><!-- 黑色30%透明度 -->
+    <color name="ui_bg_color_percent_05">#80000000</color><!-- 黑色50%透明度 -->
+    <color name="ui_bg_color_percent_07">#4D000000</color><!-- 黑色70%透明度 -->
     <color name="ui_bg_color_percent_08">#33000000</color><!-- 黑色80%透明度 -->
     <color name="ui_bg_color_percent_10">#00000000</color><!-- 黑色100透明度 -->
 

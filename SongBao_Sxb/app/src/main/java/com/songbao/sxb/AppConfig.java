@@ -94,6 +94,8 @@ public class AppConfig {
 	public static final int ERROR_CODE_SUCCESS = 0;
 	// Error状态码：登录超时
 	public static final int ERROR_CODE_TIMEOUT = 501;
+	// Error状态码：课程时段已约满
+	public static final int ERROR_CODE_FULL = 503;
 	// Error状态码：手机号已注册
 	public static final int ERROR_CODE_PHONE_REGISTERED = 705;
 	// Error状态码：手机号未注册

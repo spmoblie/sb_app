@@ -89,6 +89,7 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
     private DescriptionAdapter lv_Adapter;
     private LinearLayout.LayoutParams showImgLP;
 
+    private DecimalFormat df;
     private ThemeEntity data;
     private double payAmount = 0.00;
     private int themeId; //课程Id
@@ -97,7 +98,7 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
     private boolean isTimeOk = false;
     private boolean isLoadOk = false;
     private boolean isOnClick = true;
-    private String imgUrl, titleStr, dateStr, timeStr;
+    private String imgUrl, titleStr, dateStr, timeStr, timeId, orderNo;
     private ArrayList<String> al_head = new ArrayList<>();
     private ArrayList<String> al_show = new ArrayList<>();
 
@@ -112,6 +113,7 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
             imgUrl = data.getPicUrl();
             titleStr = data.getTitle();
         }
+        df = new DecimalFormat("0.00");
 
         initView();
         loadServerData();
@@ -153,7 +155,7 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
             }
 
             payAmount = data.getFees();
-            tv_cost.setText(new DecimalFormat("0.00").format(payAmount));
+            tv_cost.setText(df.format(payAmount));
 
             StringBuffer sb = new StringBuffer();
             String dateSlot = data.getDateSlot();
@@ -207,10 +209,10 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
                     openLoginActivity();
                     return;
                 }
-                /*if (!isLoadOk) {
+                if (!isLoadOk) {
                     dataErrorHandle();
                     return;
-                }*/
+                }
                 openChoiceDateActivity(data);
                 break;
             case R.id.reserve_detail_tv_click:
@@ -250,6 +252,7 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
                 if (optionEn != null) {
                     dateStr = optionEn.getDate();
                     timeStr = optionEn.getTime();
+                    timeId = optionEn.getEntityId();
                     checkDateState();
                 }
             }
@@ -286,11 +289,7 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
             tv_click.setText(text);
         }
         isOnClick = isState;
-        if (isState) {
-            tv_click.setTextColor(getResources().getColor(R.color.shows_text_color));
-        } else {
-            tv_click.setTextColor(getResources().getColor(R.color.app_color_gray));
-        }
+        changeViewState(tv_click, isState);
     }
 
     @Override
@@ -347,8 +346,8 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
             public void run() {
                 HashMap<String, String> map = new HashMap<>();
                 map.put("activityId", String.valueOf(themeId));
-                map.put("dateStr", dateStr);
-                map.put("timeStr", timeStr);
+                map.put("reservationActivityId", timeId);
+                map.put("paymentType", "1");
                 loadSVData(AppConfig.URL_RESERVATION_ADD, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_RESERVATION_ADD);
             }
         }, AppConfig.LOADING_TIME);
@@ -359,8 +358,8 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
      */
     private void startPay() {
         Intent intent = new Intent(mContext, WXPayEntryActivity.class);
-        intent.putExtra("orderSn", "51135156651");
-        intent.putExtra("orderTotal", "88.88");
+        intent.putExtra("orderSn", orderNo);
+        intent.putExtra("orderTotal", df.format(payAmount));
         startActivity(intent);
     }
 
@@ -379,9 +378,14 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
                     }
                     break;
                 case AppConfig.REQUEST_SV_RESERVATION_ADD:
-                    baseEn = JsonUtils.getThemeDetail(jsonObject);
+                    baseEn = JsonUtils.getPayInfo(jsonObject);
                     if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
-
+                        orderNo = (String) baseEn.getData();
+                        if (!StringUtil.isNull(orderNo)) {
+                            startPay();
+                        } else {
+                            //无需支付处理
+                        }
                     } else {
                         handleErrorCode(baseEn);
                     }

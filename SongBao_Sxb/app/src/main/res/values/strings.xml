@@ -5,7 +5,7 @@
     <string name="app_name">松小堡</string>
 
     <!-- General -->
-    <string name="confirm">确定</string>
+    <string name="confirm">确认</string>
     <string name="cancel">取消</string>
     <string name="i_see">知道了</string>
     <string name="ignore">忽略</string>
@@ -126,6 +126,8 @@
     <string name="mine_my_reserve">我的预约</string>
     <string name="mine_my_order">我的账单</string>
     <string name="mine_call">联系客服</string>
+    <string name="mine_message">消息中心</string>
+    <string name="mine_message_history">以下为历史消息</string>
     <string name="mine_sign_num">%1$d人已报名</string>
     <string name="mine_info">我的资料</string>
     <string name="mine_head">头像</string>
@@ -152,11 +154,15 @@
     <string name="reserve_place">课程地点：</string>
     <string name="reserve_suit">适用人群：</string>
     <string name="reserve_date">预约日期</string>
+    <string name="reserve_date_item">预约日期：%1$s</string>
     <string name="reserve_time">预约时间</string>
+    <string name="reserve_time_item">预约时间：%1$s</string>
     <string name="reserve_desc">课程介绍</string>
     <string name="reserve_desc_en">COURSE DESCRIPTION</string>
     <string name="reserve_choice">选择场次</string>
     <string name="reserve_success">恭喜您^_^ 预约成功^_^</string>
+    <string name="reserve_expired">已过期</string>
+    <string name="reserve_cancelled">已核销</string>
 
     <!-- Choice -->
     <string name="choice_date">选择场次</string>
@@ -315,7 +321,7 @@
     <string name="pay_title">在线支付</string>
     <string name="pay_rmb">￥%1$s</string>
     <string name="pay_ok">已支付</string>
-    <string name="pay_now">立即支付</string>
+    <string name="pay_now">立即付款</string>
     <string name="pay_line">在线支付</string>
     <string name="pay_amount">支付金额</string>
     <string name="pay_type">支付方式</string>

@@ -121,8 +121,8 @@ public class SignUpDetailActivity extends BaseActivity implements View.OnClickLi
 
     private void setView(ThemeEntity data) {
         if (data != null) {
-            al_head.clear();
             if (data.getPicUrls() != null && data.getPicUrls().size() > 0) {
+                al_head.clear();
                 al_head.addAll(data.getPicUrls());
                 imgUrl = al_head.get(0);
                 Glide.with(AppApplication.getAppContext())

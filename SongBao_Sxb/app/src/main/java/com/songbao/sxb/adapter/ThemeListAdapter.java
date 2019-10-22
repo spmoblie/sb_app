@@ -88,8 +88,12 @@ public class ThemeListAdapter extends RecyclerView.Adapter<ThemeListAdapter.View
         final ThemeEntity data = mData.get(pos);
 
         // 绑定数据到ViewHolder
+        String imgUrl = "";
+        if (data.getPicUrls() != null && data.getPicUrls().size() > 0) {
+            imgUrl = data.getPicUrls().get(0);
+        }
         Glide.with(AppApplication.getAppContext())
-                .load(data.getPicUrl())
+                .load(imgUrl)
                 .apply(AppApplication.getShowOptions())
                 .into(viewHolder.iv_show);
 

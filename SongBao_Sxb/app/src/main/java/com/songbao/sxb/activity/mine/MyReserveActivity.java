@@ -172,10 +172,10 @@ public class MyReserveActivity extends BaseActivity implements OnClickListener {
 	 * 翻页加载
 	 */
 	private void loadMoreData() {
-		loadServerData();
-		/*al_show.clear();
+		//loadServerData();
+		al_show.clear();
 		al_show.addAll(getDemoData());
-		updateListData();*/
+		updateListData();
 	}
 
 	/**
@@ -256,15 +256,15 @@ public class MyReserveActivity extends BaseActivity implements OnClickListener {
 		ThemeEntity chEn_4 = new ThemeEntity();
 		ThemeEntity chEn_5 = new ThemeEntity();
 
-		chEn_1.setAddTime("09月28日 09:28");
+		chEn_1.setAddTime("2019-10-28 09:28:28");
 		chEn_1.setPicUrl("");
-		chEn_1.setTitle("我的活动标题1我的活动标题1");
+		chEn_1.setTitle("我的活动标题1我的活动标题1我的活动标题1我的活动标题1");
 		chEn_1.setReserveDate("2019-10-18");
 		chEn_1.setReserveTime("09:00-10:30");
-		chEn_1.setAddress("松堡旗舰店松堡旗舰店松堡旗舰店");
+		chEn_1.setAddress("松堡旗舰店松堡旗舰店松堡旗舰店松堡旗舰店松堡旗舰店松堡旗舰店");
 		chEn_1.setPeople(1);
 		mainLists.add(chEn_1);
-		chEn_2.setAddTime("09月26日 09:26");
+		chEn_2.setAddTime("2019-10-26 09:26:26");
 		chEn_2.setPicUrl("");
 		chEn_2.setTitle("我的活动标题2");
 		chEn_2.setReserveDate("2019-10-18");
@@ -272,15 +272,15 @@ public class MyReserveActivity extends BaseActivity implements OnClickListener {
 		chEn_2.setAddress("松堡旗舰店");
 		chEn_2.setPeople(2);
 		mainLists.add(chEn_2);
-		chEn_3.setAddTime("09月23日 09:23");
+		chEn_3.setAddTime("2019-10-23 09:23:23");
 		chEn_3.setPicUrl("");
 		chEn_3.setTitle("我的活动标题3");
 		chEn_3.setReserveDate("2019-10-18");
 		chEn_3.setReserveTime("09:00-10:30");
-		chEn_3.setAddress("松堡旗舰店松堡旗舰店");
+		chEn_3.setAddress("松堡旗舰店松堡旗舰店松堡旗舰店松堡旗舰店松堡旗舰店松堡旗舰店松堡旗舰店松堡旗舰店松堡旗舰店松堡旗舰店");
 		chEn_3.setPeople(3);
 		mainLists.add(chEn_3);
-		chEn_4.setAddTime("09月20日 09:20");
+		chEn_4.setAddTime("2019-10-20 09:20:20");
 		chEn_4.setPicUrl("");
 		chEn_4.setTitle("我的活动标题4");
 		chEn_4.setReserveDate("2019-10-18");
@@ -288,7 +288,7 @@ public class MyReserveActivity extends BaseActivity implements OnClickListener {
 		chEn_4.setAddress("松堡旗舰店");
 		chEn_4.setPeople(4);
 		mainLists.add(chEn_4);
-		chEn_5.setAddTime("09月18日 09:18");
+		chEn_5.setAddTime("2019-10-18 09:18:18");
 		chEn_5.setPicUrl("");
 		chEn_5.setTitle("我的活动标题5");
 		chEn_5.setReserveDate("2019-10-18");

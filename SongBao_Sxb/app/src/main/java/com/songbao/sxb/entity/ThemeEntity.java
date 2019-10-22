@@ -16,10 +16,10 @@ public class ThemeEntity extends BaseEntity {
 	private String series; //活动系列
 	private String suit; //适用人群
 	private String author; //活动讲师
-	private String synopsis; //活动介绍
+	private String synopsis; //活动简介
 	private String area; //活动地区
 	private String address; //活动地址
-	private String addTime; //活动生产时间
+	private String addTime; //活动创建时间
 	private String startTime; //活动开始时间
 	private String endTime; //活动结束时间
 	private String dateSlot; //课程场次时间段
@@ -28,7 +28,7 @@ public class ThemeEntity extends BaseEntity {
 	private int quantity; //限制报名数量
 	private int people; //报名人数
 	private int status; //1:报名中,2:已截止
-	private int themeType; //课程类型:0:报名/1:预约
+	private int themeType; //活动类型:0:报名/1:预约
 	private double fees; //费用
 	private OptionEntity option; //课程场次
 	private UserInfoEntity userData; //报名信息
