@@ -85,6 +85,20 @@ public class MyReserveAdapter extends RecyclerView.Adapter<MyReserveAdapter.View
                 .apply(AppApplication.getShowOptions())
                 .into(viewHolder.iv_show);
 
+        switch (data.getWriteOffStatus()) {
+            case 3: //已核销
+                viewHolder.tv_cover.setText(mContext.getString(R.string.reserve_cancelled));
+                viewHolder.tv_cover.setVisibility(View.VISIBLE);
+                break;
+            case 10: //已过期
+                viewHolder.tv_cover.setText(mContext.getString(R.string.reserve_expired));
+                viewHolder.tv_cover.setVisibility(View.VISIBLE);
+                break;
+            default:
+                viewHolder.tv_cover.setVisibility(View.GONE);
+                break;
+        }
+
         viewHolder.item_time.setText(TimeUtil.strToStrItem(data.getAddTime()));
         viewHolder.tv_title.setText(data.getTitle());
         viewHolder.tv_date.setText(mContext.getString(R.string.reserve_date_item, data.getReserveDate()));

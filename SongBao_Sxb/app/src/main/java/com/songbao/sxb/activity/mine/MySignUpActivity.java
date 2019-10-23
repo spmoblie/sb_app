@@ -1,5 +1,6 @@
 package com.songbao.sxb.activity.mine;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.util.ArrayMap;
@@ -11,6 +12,7 @@ import com.songbao.sxb.AppApplication;
 import com.songbao.sxb.AppConfig;
 import com.songbao.sxb.R;
 import com.songbao.sxb.activity.BaseActivity;
+import com.songbao.sxb.activity.home.SignUpDetailActivity;
 import com.songbao.sxb.adapter.AdapterCallback;
 import com.songbao.sxb.adapter.MySignUpAdapter;
 import com.songbao.sxb.entity.BaseEntity;
@@ -115,7 +117,10 @@ public class MySignUpActivity extends BaseActivity implements OnClickListener {
 
 			@Override
 			public void setOnClick(Object data, int position, int type) {
-
+				ThemeEntity themeEn = al_show.get(position);
+				if (themeEn != null) {
+					openSignUpDetailActivity(themeEn);
+				}
 			}
 		};
 		rvAdapter = new MySignUpAdapter(mContext, al_show, apCallback);
@@ -126,6 +131,18 @@ public class MySignUpActivity extends BaseActivity implements OnClickListener {
 		if (rvAdapter != null) {
 			rvAdapter.updateData(al_show);
 		}
+	}
+
+	/**
+	 * 跳转至活动详情页面
+	 * @param data
+	 */
+	private void openSignUpDetailActivity(ThemeEntity data) {
+		if (data == null) return;
+		Intent intent = new Intent(mContext, SignUpDetailActivity.class);
+		intent.putExtra(AppConfig.PAGE_TYPE, 1);
+		intent.putExtra(AppConfig.PAGE_DATA, data);
+		startActivity(intent);
 	}
 
 	@Override
@@ -172,10 +189,10 @@ public class MySignUpActivity extends BaseActivity implements OnClickListener {
 	 * 翻页加载
 	 */
 	private void loadMoreData() {
-		//loadServerData();
-		al_show.clear();
+		loadServerData();
+		/*al_show.clear();
 		al_show.addAll(getDemoData());
-		updateListData();
+		updateListData();*/
 	}
 
 	/**
@@ -194,7 +211,7 @@ public class MySignUpActivity extends BaseActivity implements OnClickListener {
 		try {
 			switch (dataType) {
 				case AppConfig.REQUEST_SV_USER_ACTIVITY:
-					baseEn = JsonUtils.getMySignUpList(jsonObject);
+					baseEn = JsonUtils.getMyThemeList(jsonObject);
 					if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
 						data_total = baseEn.getDataTotal(); //加载更多数据控制符
 						List<MessageEntity> lists = baseEn.getLists();
@@ -258,38 +275,38 @@ public class MySignUpActivity extends BaseActivity implements OnClickListener {
 
 		chEn_1.setAddTime("2019-10-28 09:28:28");
 		chEn_1.setPicUrl("");
-		chEn_1.setTitle("我的活动标题1我的活动标题1我的活动标题1我的活动标题1");
+		chEn_1.setTitle("我的活动标题1");
 		chEn_1.setStartTime("2019-11-08 09:28:28");
-		chEn_1.setAddress("松堡旗舰店松堡旗舰店松堡旗舰店松堡旗舰店松堡旗舰店松堡旗舰店");
-		chEn_1.setPeople(1);
+		chEn_1.setAddress("松堡旗舰店");
+		chEn_1.setStatus(0);
 		mainLists.add(chEn_1);
 		chEn_2.setAddTime("2019-10-26 09:26:26");
 		chEn_2.setPicUrl("");
 		chEn_2.setTitle("我的活动标题2");
 		chEn_2.setStartTime("2019-11-02 09:28:28");
 		chEn_2.setAddress("松堡旗舰店");
-		chEn_2.setPeople(2);
+		chEn_2.setStatus(1);
 		mainLists.add(chEn_2);
 		chEn_3.setAddTime("2019-10-23 09:23:23");
 		chEn_3.setPicUrl("");
 		chEn_3.setTitle("我的活动标题3");
 		chEn_3.setStartTime("2019-10-28 09:28:28");
-		chEn_3.setAddress("松堡旗舰店松堡旗舰店松堡旗舰店松堡旗舰店松堡旗舰店松堡旗舰店松堡旗舰店松堡旗舰店松堡旗舰店松堡旗舰店");
-		chEn_3.setPeople(3);
+		chEn_3.setAddress("松堡旗舰店");
+		chEn_3.setStatus(2);
 		mainLists.add(chEn_3);
 		chEn_4.setAddTime("2019-10-20 09:20:20");
 		chEn_4.setPicUrl("");
 		chEn_4.setTitle("我的活动标题4");
 		chEn_4.setStartTime("2019-10-28 09:28:28");
 		chEn_4.setAddress("松堡旗舰店");
-		chEn_4.setPeople(4);
+		chEn_4.setStatus(1);
 		mainLists.add(chEn_4);
 		chEn_5.setAddTime("2019-10-18 09:18:18");
 		chEn_5.setPicUrl("");
 		chEn_5.setTitle("我的活动标题5");
 		chEn_5.setStartTime("2019-10-20 09:28:28");
 		chEn_5.setAddress("松堡旗舰店");
-		chEn_5.setPeople(5);
+		chEn_5.setStatus(2);
 		mainLists.add(chEn_5);
 
 		return mainLists;

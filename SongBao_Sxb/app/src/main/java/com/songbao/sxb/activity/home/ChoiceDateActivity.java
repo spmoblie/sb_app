@@ -22,7 +22,6 @@ import com.songbao.sxb.utils.ExceptionUtil;
 import com.songbao.sxb.utils.JsonUtils;
 import com.songbao.sxb.utils.LogUtil;
 import com.songbao.sxb.utils.StringUtil;
-import com.songbao.sxb.utils.TimeUtil;
 import com.songbao.sxb.utils.retrofit.HttpRequests;
 import com.songbao.sxb.widgets.CustomCalendar;
 import com.songbao.sxb.widgets.ScrollViewListView;
@@ -30,6 +29,7 @@ import com.songbao.sxb.widgets.ScrollViewListView;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -52,10 +52,11 @@ public class ChoiceDateActivity extends BaseActivity implements View.OnClickList
     private AdapterCallback apCallback;
     private ChoiceListAdapter lv_Adapter;
     private ThemeEntity data;
-    private OptionEntity optionEn;
     private int themeId; //课程Id
     private boolean isChange = false;
-    private String selectDay, assignDay, selectTime, selectTimeId, assignTime;
+    private boolean loadDateOk = false;
+    private String selectDay, assignDay, assignTime, selectTime, selectTimeId;
+    private ArrayList<String> al_date = new ArrayList<>();
     private ArrayList<OptionEntity> al_show = new ArrayList<>();
 
     @Override
@@ -66,7 +67,6 @@ public class ChoiceDateActivity extends BaseActivity implements View.OnClickList
         data = (ThemeEntity) getIntent().getExtras().getSerializable(AppConfig.PAGE_DATA);
         if (data != null) {
             themeId = data.getId();
-            optionEn = data.getOption();
         }
 
         initView();
@@ -76,22 +76,6 @@ public class ChoiceDateActivity extends BaseActivity implements View.OnClickList
         setTitle(getString(R.string.choice_date));
 
         tv_confirm.setOnClickListener(this);
-
-        if (optionEn != null && !StringUtil.isNull(optionEn.getDate())) {
-            assignDay = optionEn.getDate();
-            assignTime = optionEn.getTime();
-            if (assignDay.contains("-")) {
-                String[] dates = assignDay.split("-");
-                if (dates.length > 2) {
-                    String date = dates[0] + "年" + dates[1] + "月";
-                    int day = Integer.valueOf(dates[2]);
-                    calendar.setSelectDate(date, day); //指定日期
-                }
-            }
-            selectDay = assignDay;
-        } else {
-            selectDay = TimeUtil.getNowString("yyyy-MM-dd");
-        }
 
         calendar.setOnClickListener(new CustomCalendar.onClickListener() {
 
@@ -120,13 +104,49 @@ public class ChoiceDateActivity extends BaseActivity implements View.OnClickList
             @Override
             public void onDayClick(int day, String dayStr, DayFinish finish) {
                 LogUtil.i(LogUtil.LOG_TAG, TAG + " 点击了日期：" + dayStr);
+                if (!StringUtil.isNull(selectDay) && selectDay.equals(dayStr)) return;
                 clearData();
                 selectDay = dayStr;
                 getTimeData();
             }
         });
 
-        getTimeData();
+        updateViewSate();
+    }
+
+    private void setCalendarView() {
+        if (al_date.size() > 0) {
+            // 设置可选日期
+            calendar.setActiveDateList(al_date);
+
+            int now_mon = Calendar.getInstance().get(Calendar.MONTH) + 1;
+            int now_day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+            int ass_mon = 0;
+            int ass_day = 0;
+            int i = 0;
+            String date = "";
+            do {
+                if (i < al_date.size()) {
+                    assignDay = al_date.get(i);
+                    if (assignDay.contains("-")) {
+                        String[] dates = assignDay.split("-");
+                        if (dates.length > 2) {
+                            date = dates[0] + "年" + dates[1] + "月";
+                            ass_mon = Integer.valueOf(dates[1]);
+                            ass_day = Integer.valueOf(dates[2]);
+                        }
+                    }
+                } else {
+                    assignDay = "";
+                    date = "";
+                    ass_mon = 0;
+                    ass_day = 0;
+                }
+                i++;
+            } while (i <= al_date.size() && (ass_mon < now_mon || (ass_mon == now_mon && ass_day < now_day)));
+
+            calendar.setSelectDate(date, ass_day); //指定日期
+        }
     }
 
     private void initListView() {
@@ -151,9 +171,7 @@ public class ChoiceDateActivity extends BaseActivity implements View.OnClickList
      * 勾选已预约场次
      */
     private void reviseData() {
-        if (!StringUtil.isNull(assignDay)
-                && !StringUtil.isNull(assignTime)
-                && assignDay.equals(selectDay)) {
+        if (!StringUtil.isNull(assignDay) && !StringUtil.isNull(assignTime) && assignDay.equals(selectDay)) {
             for (int i = 0; i < al_show.size(); i++) {
                 String time = al_show.get(i).getTime();
                 if (assignTime.equals(time)) {
@@ -206,9 +224,21 @@ public class ChoiceDateActivity extends BaseActivity implements View.OnClickList
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.choice_date_tv_confirm:
+                if (!checkClickState()) return;
                 checkData();
                 break;
         }
+    }
+
+    /**
+     * 校验点击事件
+     */
+    private boolean checkClickState() {
+        if (!loadDateOk) {
+            dataErrorHandle();
+            return false;
+        }
+        return true;
     }
 
     @Override
@@ -216,6 +246,10 @@ public class ChoiceDateActivity extends BaseActivity implements View.OnClickList
         LogUtil.i(LogUtil.LOG_TAG, TAG + ": onResume");
         // 页面开始
         AppApplication.onPageStart(this, TAG);
+
+        if (!loadDateOk) {
+            loadDateData();
+        }
 
         super.onResume();
     }
@@ -236,6 +270,10 @@ public class ChoiceDateActivity extends BaseActivity implements View.OnClickList
 
     @Override
     public void finish() {
+        // 清空旧数据
+        if (calendar != null) {
+            calendar.setActiveDateList(null);
+        }
         if (isChange) {
             OptionEntity optionEn = new OptionEntity();
             optionEn.setDate(selectDay);
@@ -246,6 +284,14 @@ public class ChoiceDateActivity extends BaseActivity implements View.OnClickList
             setResult(RESULT_OK, returnIntent);
         }
         super.finish();
+    }
+
+    /**
+     * 数据报错处理
+     */
+    private void dataErrorHandle() {
+        //showDataError();
+        loadDateData();
     }
 
     private void clearData() {
@@ -272,16 +318,25 @@ public class ChoiceDateActivity extends BaseActivity implements View.OnClickList
     }
 
     private void getTimeData() {
-        loadServerData();
+        loadTimeData();
         /*al_show.clear();
         al_show.addAll(getDemoData());
         initListView();*/
     }
 
     /**
-     * 加载数据
+     * 加载日期数据
      */
-    private void loadServerData() {
+    private void loadDateData() {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("activityId", String.valueOf(themeId));
+        loadSVData(AppConfig.URL_RESERVATION_DATE, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_RESERVATION_DATE);
+    }
+
+    /**
+     * 加载时段数据
+     */
+    private void loadTimeData() {
         HashMap<String, String> map = new HashMap<>();
         map.put("activityId", String.valueOf(themeId));
         map.put("raStartTime", selectDay + " 00:00:00");
@@ -289,7 +344,7 @@ public class ChoiceDateActivity extends BaseActivity implements View.OnClickList
     }
 
     /**
-     * 提交并校验数据
+     * 提交校验时段数据
      */
     private void postCheckData() {
         HashMap<String, String> map = new HashMap<>();
@@ -303,6 +358,20 @@ public class ChoiceDateActivity extends BaseActivity implements View.OnClickList
         BaseEntity baseEn;
         try {
             switch (dataType) {
+                case AppConfig.REQUEST_SV_RESERVATION_DATE:
+                    baseEn = JsonUtils.getDateList(jsonObject);
+                    if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+                        List<String> lists = baseEn.getLists();
+                        if (lists.size() > 0) {
+                            al_date.clear();
+                            al_date.addAll(lists);
+                            setCalendarView();
+                            loadDateOk = true;
+                        }
+                    } else {
+                        handleErrorCode(baseEn);
+                    }
+                    break;
                 case AppConfig.REQUEST_SV_RESERVATION_TIME:
                     baseEn = JsonUtils.getTimeSlot(jsonObject);
                     if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
@@ -323,7 +392,7 @@ public class ChoiceDateActivity extends BaseActivity implements View.OnClickList
                         finish();
                     } else
                     if (baseEn.getErrno() == AppConfig.ERROR_CODE_FULL) { //该时段已约满
-                        loadServerData(); //刷新预约状态
+                        getTimeData(); //刷新预约状态
                         CommonTools.showToast(baseEn.getErrmsg());
                     } else {
                         handleErrorCode(baseEn);

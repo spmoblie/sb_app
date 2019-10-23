@@ -35,7 +35,7 @@
             android:layout_width="@dimen/margin_padding_110"
             android:layout_height="@dimen/margin_padding_110"
             android:gravity="center"
-            android:text="@string/reserve_cancelled"
+            android:text="@string/reserve_expired"
             android:textStyle="bold"
             android:textColor="@color/app_color_white"
             android:textSize="@dimen/app_text_size_title"

@@ -186,11 +186,12 @@ public class CustomCalendar extends View {
         //判断是否为当月
         if(cM.getTime() == month.getTime()){
             isCurrentMonth = true;
-            if (assignMonth == null) { //未指定月份
+            /*if (assignMonth == null) { //未指定月份
                 selectDay = currentDay;//当月默认选中当前日
             } else {
                 selectDay = 0;
-            }
+            }*/
+            selectDay = 0;
         }else{
             isCurrentMonth = false;
             selectDay = 0;
@@ -432,18 +433,30 @@ public class CustomCalendar extends View {
             if (day < currentDay) {
                 return false;
             } else {
-                //判定工作日
-                if (!isWorkDay(month, day)) {
-                    //return false;
+                //判定是否可选
+                if (!orSelectDay(month, day)) {
+                    return false;
                 }
             }
         } else {
-            //判定工作日
-            if (!isWorkDay(month, day)) {
-                //return false;
+            //判定是否可选
+            if (!orSelectDay(month, day)) {
+                return false;
             }
         }
         return true;
+    }
+
+    /**
+     * 日期是否可选
+     * @param month
+     * @param day
+     * @return
+     */
+    private boolean orSelectDay(Date month, int day) {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(TimeUtil.strToDate("yyyy-MM-dd", getCalendarStr(month, day)));
+        return CalendarUtil.getInstance().orSelectDay(calendar);
     }
 
     /**
@@ -589,7 +602,7 @@ public class CustomCalendar extends View {
                 //第一行
                 if(xIndex<=firstIndex){
                     LogUtil.i(TAG, "点到开始空位了");
-                    setSelectedDay(selectDay, true);
+                    //setSelectedDay(selectDay, true);
                 }else{
                     setSelectedDay(xIndex-firstIndex, eventEnd);
                 }
@@ -597,7 +610,7 @@ public class CustomCalendar extends View {
                 //最后一行
                 if(xIndex>lastLineNum){
                     LogUtil.i(TAG, "点到结尾空位了");
-                    setSelectedDay(selectDay, true);
+                    //setSelectedDay(selectDay, true);
                 }else{
                     setSelectedDay(firstLineNum + (foucsLine-2)*7+ xIndex, eventEnd);
                 }
@@ -606,7 +619,7 @@ public class CustomCalendar extends View {
             }
         }else{
             //超出日期区域后，视为事件结束，响应最后一个选择日期的回调
-            setSelectedDay(selectDay, true);
+            //setSelectedDay(selectDay, true);
         }
     }
 
@@ -651,6 +664,14 @@ public class CustomCalendar extends View {
             }
         }
         invalidate();
+    }
+
+    /**
+     * 设置可选择的日期集
+     * @param dateList
+     */
+    public void setActiveDateList(List<String> dateList) {
+        CalendarUtil.getInstance().setActiveDateList(dateList);
     }
 
     /**

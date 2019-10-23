@@ -20,7 +20,6 @@ import com.songbao.sxb.R;
 import com.songbao.sxb.activity.BaseActivity;
 import com.songbao.sxb.entity.BaseEntity;
 import com.songbao.sxb.entity.ThemeEntity;
-import com.songbao.sxb.entity.UserInfoEntity;
 import com.songbao.sxb.utils.CommonTools;
 import com.songbao.sxb.utils.ExceptionUtil;
 import com.songbao.sxb.utils.JsonUtils;
@@ -68,13 +67,13 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
 
     LinearLayout.LayoutParams showImgLP;
 
+    private DecimalFormat df;
     private ThemeEntity data;
-    private double payAmount = 0.00;
-    private int pageType = 0; //2:查看我的活动
     private int themeId; //课程Id
     private int status; //1:报名中, 2:已截止
     private int genderCode = 1; //1:男, 2:女
     private int payType = 1; //1:微信支付
+    private double payAmount = 0.00;
     private boolean isSignUp = false;
     private boolean isPay = false;
     private boolean isName_Ok = false;
@@ -89,21 +88,16 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
-        pageType = getIntent().getIntExtra(AppConfig.PAGE_TYPE, 0);
         data = (ThemeEntity) getIntent().getExtras().getSerializable(AppConfig.PAGE_DATA);
         if (data != null) {
             themeId = data.getId();
             status = data.getStatus();
-            imgUrl = data.getPicUrl();
         }
+        df = new DecimalFormat("0.00");
 
         initView();
 
-        if (pageType == 1) {
-            setView(data);
-        } else {
-            loadServerData();
-        }
+        loadServerData();
     }
 
     private void initView() {
@@ -122,10 +116,6 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
         showImgLP = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         showImgLP.height = screenWidth / 2;
         iv_show.setLayoutParams(showImgLP);
-        Glide.with(AppApplication.getAppContext())
-                .load(imgUrl)
-                .apply(AppApplication.getShowOptions())
-                .into(iv_show);
 
         initEditText();
     }
@@ -193,11 +183,19 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
 
     private void setView(ThemeEntity data) {
         if (data != null) {
+            if (data.getPicUrls() != null && data.getPicUrls().size() > 0) {
+                imgUrl = data.getPicUrls().get(0);
+                Glide.with(AppApplication.getAppContext())
+                        .load(imgUrl)
+                        .apply(AppApplication.getShowOptions())
+                        .into(iv_show);
+            }
+
             payAmount = data.getFees();
             if (payAmount > 0) {
                 isPay = true;
             }
-            tv_cost.setText(new DecimalFormat("0.00").format(payAmount));
+            tv_cost.setText(df.format(payAmount));
 
             String timeStr = getString(R.string.time) + getString(R.string.sign_up_info_time, data.getStartTime(), data.getEndTime());
             String infoStr = timeStr +
@@ -205,7 +203,7 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
                     "\n\n" + getString(R.string.number_p) + getString(R.string.sign_up_info_number, data.getPeople(), data.getQuantity()) +
                     "\n\n" + getString(R.string.suit) + data.getSuit();
 
-            String otherStr = data.getSynopsis();
+            String otherStr = data.getDescription();
             if (StringUtil.isNull(otherStr)) {
                 otherStr = getString(R.string.sign_up_cost_hint);
             }
@@ -214,21 +212,6 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
                     "\n\n" + getString(R.string.other) + otherStr;
 
             tv_explain.setText(showStr);
-
-            if (pageType == 2) { //查看我的活动
-                setTitle(getString(R.string.mine_my_sing_up));
-                UserInfoEntity userData = data.getUserData();
-                if (userData != null) {
-                    et_name.setFocusable(false);
-                    et_name.setFocusableInTouchMode(false);
-                    et_name.setText(userData.getUserName());
-                    selectGender(userData.getGenderCode());
-                    et_age.setText(userData.getBirthday());
-                    et_phone.setFocusable(false);
-                    et_phone.setFocusableInTouchMode(false);
-                    et_phone.setText(userData.getUserPhone());
-                }
-            }
 
             isLoadOk = true;
         }
@@ -254,15 +237,12 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.sign_tv_gender_man:
-                if (pageType == 2) return;
                 selectGender(1);
                 break;
             case R.id.sign_tv_gender_woman:
-                if (pageType == 2) return;
                 selectGender(2);
                 break;
             case R.id.sign_et_age:
-                if (pageType == 2) return;
                 selectAge();
                 break;
             case R.id.sign_tv_click:

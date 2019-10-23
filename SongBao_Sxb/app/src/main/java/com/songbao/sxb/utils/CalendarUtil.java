@@ -12,17 +12,34 @@ public class CalendarUtil {
 
     private String TAG = CalendarUtil.class.getSimpleName();
 
-    private static CalendarUtil cswdu = null;
+    private static CalendarUtil instance = null;
+
+    private List<String> activeDateList;
 
     private CalendarUtil() {
 
     }
 
     public static CalendarUtil getInstance() {
-        if (cswdu == null) {
-            cswdu = new CalendarUtil();
+        if (instance == null) {
+            instance = new CalendarUtil();
         }
-        return cswdu;
+        return instance;
+    }
+
+    /**
+     * 设置可选择的日期集
+     * @param dateList
+     */
+    public void setActiveDateList(List<String> dateList) {
+        activeDateList = dateList;
+    }
+
+    private List<String> getActiveDateList() {
+        if (activeDateList != null) {
+            return activeDateList;
+        }
+        return new ArrayList<>();
     }
 
     /** 
@@ -76,6 +93,18 @@ public class CalendarUtil {
             return getWeekendIsWorkDateList().contains(sdf.format(calendar.getTime()));
         }
     }
+
+    /**
+     * 判断日期是否可选
+     *
+     * @param calendar
+     * @return
+     */
+    public boolean orSelectDay(Calendar calendar) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        return getActiveDateList().contains(sdf.format(calendar.getTime()));
+    }
+
 
     /**
      * 业务规则-获得第二个工作日

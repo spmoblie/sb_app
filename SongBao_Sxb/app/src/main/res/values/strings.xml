@@ -160,9 +160,12 @@
     <string name="reserve_desc">课程介绍</string>
     <string name="reserve_desc_en">COURSE DESCRIPTION</string>
     <string name="reserve_choice">选择场次</string>
-    <string name="reserve_success">恭喜您^_^ 预约成功^_^</string>
+    <string name="reserve_qr_code">预约二维码</string>
     <string name="reserve_expired">已过期</string>
     <string name="reserve_cancelled">已核销</string>
+    <string name="reserve_success">预约成功</string>
+    <string name="reserve_success_can">预约成功（已核销）</string>
+    <string name="reserve_success_end">预约成功（已过期）</string>
 
     <!-- Choice -->
     <string name="choice_date">选择场次</string>
@@ -181,6 +184,7 @@
     <string name="sign_up_already">您已报名</string>
     <string name="sign_up_end">报名已截止</string>
     <string name="sign_up_success">报名成功</string>
+    <string name="sign_up_success_end">报名成功（已过期）</string>
     <string name="sign_up_input_info">填写资料</string>
     <string name="sign_up_input_info_en">FILL IN INFORMATION</string>
     <string name="sign_up_explain">活动说明</string>

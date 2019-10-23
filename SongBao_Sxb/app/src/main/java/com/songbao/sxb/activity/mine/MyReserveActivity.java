@@ -1,16 +1,16 @@
 package com.songbao.sxb.activity.mine;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.util.ArrayMap;
 import android.support.v7.widget.LinearLayoutManager;
-import android.view.View;
-import android.view.View.OnClickListener;
 
 import com.songbao.sxb.AppApplication;
 import com.songbao.sxb.AppConfig;
 import com.songbao.sxb.R;
 import com.songbao.sxb.activity.BaseActivity;
+import com.songbao.sxb.activity.home.ReserveDetailActivity;
 import com.songbao.sxb.adapter.AdapterCallback;
 import com.songbao.sxb.adapter.MyReserveAdapter;
 import com.songbao.sxb.entity.BaseEntity;
@@ -33,7 +33,7 @@ import java.util.List;
 import butterknife.BindView;
 
 
-public class MyReserveActivity extends BaseActivity implements OnClickListener {
+public class MyReserveActivity extends BaseActivity {
 
 	String TAG = MyReserveActivity.class.getSimpleName();
 
@@ -115,7 +115,10 @@ public class MyReserveActivity extends BaseActivity implements OnClickListener {
 
 			@Override
 			public void setOnClick(Object data, int position, int type) {
-
+				ThemeEntity themeEn = al_show.get(position);
+				if (themeEn != null) {
+					openReserveDetailActivity(themeEn);
+				}
 			}
 		};
 		rvAdapter = new MyReserveAdapter(mContext, al_show, apCallback);
@@ -128,13 +131,16 @@ public class MyReserveActivity extends BaseActivity implements OnClickListener {
 		}
 	}
 
-	@Override
-	public void onClick(View v) {
-		switch (v.getId()) {
-		case R.id.feed_back_btn_submit:
-
-			break;
-		}
+	/**
+	 * 跳转至预约详情页面
+	 * @param data
+	 */
+	private void openReserveDetailActivity(ThemeEntity data) {
+		if (data == null) return;
+		Intent intent = new Intent(mContext, ReserveDetailActivity.class);
+		intent.putExtra(AppConfig.PAGE_TYPE, 2);
+		intent.putExtra(AppConfig.PAGE_DATA, data);
+		startActivity(intent);
 	}
 
 	@Override
@@ -185,7 +191,7 @@ public class MyReserveActivity extends BaseActivity implements OnClickListener {
 		HashMap<String, String> map = new HashMap<>();
 		map.put("page", String.valueOf(current_Page));
 		map.put("size", AppConfig.LOAD_SIZE);
-		loadSVData(AppConfig.URL_USER_ACTIVITY, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_USER_ACTIVITY);
+		loadSVData(AppConfig.URL_USER_RESERVATION, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_USER_RESERVATION);
 	}
 
 	@Override
@@ -193,8 +199,8 @@ public class MyReserveActivity extends BaseActivity implements OnClickListener {
 		BaseEntity baseEn;
 		try {
 			switch (dataType) {
-				case AppConfig.REQUEST_SV_USER_ACTIVITY:
-					baseEn = JsonUtils.getMyReserveList(jsonObject);
+				case AppConfig.REQUEST_SV_USER_RESERVATION:
+					baseEn = JsonUtils.getMyThemeList(jsonObject);
 					if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
 						data_total = baseEn.getDataTotal(); //加载更多数据控制符
 						List<MessageEntity> lists = baseEn.getLists();
@@ -258,43 +264,38 @@ public class MyReserveActivity extends BaseActivity implements OnClickListener {
 
 		chEn_1.setAddTime("2019-10-28 09:28:28");
 		chEn_1.setPicUrl("");
-		chEn_1.setTitle("我的活动标题1我的活动标题1我的活动标题1我的活动标题1");
+		chEn_1.setTitle("我的预约标题1");
 		chEn_1.setReserveDate("2019-10-18");
 		chEn_1.setReserveTime("09:00-10:30");
-		chEn_1.setAddress("松堡旗舰店松堡旗舰店松堡旗舰店松堡旗舰店松堡旗舰店松堡旗舰店");
-		chEn_1.setPeople(1);
+		chEn_1.setWriteOffStatus(0);
 		mainLists.add(chEn_1);
 		chEn_2.setAddTime("2019-10-26 09:26:26");
 		chEn_2.setPicUrl("");
-		chEn_2.setTitle("我的活动标题2");
+		chEn_2.setTitle("我的预约标题2");
 		chEn_2.setReserveDate("2019-10-18");
 		chEn_2.setReserveTime("09:00-10:30");
-		chEn_2.setAddress("松堡旗舰店");
-		chEn_2.setPeople(2);
+		chEn_2.setWriteOffStatus(1);
 		mainLists.add(chEn_2);
 		chEn_3.setAddTime("2019-10-23 09:23:23");
 		chEn_3.setPicUrl("");
-		chEn_3.setTitle("我的活动标题3");
+		chEn_3.setTitle("我的预约标题3");
 		chEn_3.setReserveDate("2019-10-18");
 		chEn_3.setReserveTime("09:00-10:30");
-		chEn_3.setAddress("松堡旗舰店松堡旗舰店松堡旗舰店松堡旗舰店松堡旗舰店松堡旗舰店松堡旗舰店松堡旗舰店松堡旗舰店松堡旗舰店");
-		chEn_3.setPeople(3);
+		chEn_3.setWriteOffStatus(2);
 		mainLists.add(chEn_3);
 		chEn_4.setAddTime("2019-10-20 09:20:20");
 		chEn_4.setPicUrl("");
-		chEn_4.setTitle("我的活动标题4");
+		chEn_4.setTitle("我的预约标题4");
 		chEn_4.setReserveDate("2019-10-18");
 		chEn_4.setReserveTime("09:00-10:30");
-		chEn_4.setAddress("松堡旗舰店");
-		chEn_4.setPeople(4);
+		chEn_4.setWriteOffStatus(3);
 		mainLists.add(chEn_4);
 		chEn_5.setAddTime("2019-10-18 09:18:18");
 		chEn_5.setPicUrl("");
-		chEn_5.setTitle("我的活动标题5");
+		chEn_5.setTitle("我的预约标题5");
 		chEn_5.setReserveDate("2019-10-18");
 		chEn_5.setReserveTime("09:00-10:30");
-		chEn_5.setAddress("松堡旗舰店");
-		chEn_5.setPeople(5);
+		chEn_5.setWriteOffStatus(10);
 		mainLists.add(chEn_5);
 
 		return mainLists;

@@ -200,7 +200,7 @@ public class ReserveListActivity extends BaseActivity implements OnClickListener
 		HashMap<String, String> map = new HashMap<>();
 		map.put("page", String.valueOf(current_Page));
 		map.put("size", AppConfig.LOAD_SIZE);
-		loadSVData(AppConfig.URL_USER_ACTIVITY, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_USER_ACTIVITY);
+		loadSVData(AppConfig.URL_HOME_LIST, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_HOME_LIST);
 	}
 
 	@Override
@@ -208,8 +208,8 @@ public class ReserveListActivity extends BaseActivity implements OnClickListener
 		BaseEntity baseEn;
 		try {
 			switch (dataType) {
-				case AppConfig.REQUEST_SV_USER_ACTIVITY:
-					baseEn = JsonUtils.getMyReserveList(jsonObject);
+				case AppConfig.REQUEST_SV_HOME_LIST:
+					baseEn = JsonUtils.getHomeList(jsonObject);
 					if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
 						data_total = baseEn.getDataTotal(); //加载更多数据控制符
 						List<MessageEntity> lists = baseEn.getLists();

@@ -15,9 +15,8 @@ public class ThemeEntity extends BaseEntity {
 	private String userHead; //用户头像
 	private String series; //活动系列
 	private String suit; //适用人群
-	private String author; //活动讲师
-	private String synopsis; //活动简介
-	private String area; //活动地区
+	private String checkValue; //核心验证码
+	private String description; //活动说明
 	private String address; //活动地址
 	private String addTime; //活动创建时间
 	private String startTime; //活动开始时间
@@ -25,13 +24,13 @@ public class ThemeEntity extends BaseEntity {
 	private String dateSlot; //课程场次时间段
 	private String reserveDate; //预约日期
 	private String reserveTime; //预约时间
-	private int quantity; //限制报名数量
 	private int people; //报名人数
-	private int status; //1:报名中,2:已截止
+	private int quantity; //限制报名数量
 	private int themeType; //活动类型:0:报名/1:预约
+	private int status; //1:报名中,2:已截止
+	private int writeOffStatus; //0:创建, 1:未付款, 2:已付款, 3:已核销, 10:已过期
 	private double fees; //费用
 	private OptionEntity option; //课程场次
-	private UserInfoEntity userData; //报名信息
 	private List<String> picUrls; //头部轮播图片集
 	private List<String> desUrls; //活动说明图片集
 	private List<ThemeEntity> headLists; //首页头部数集
@@ -122,28 +121,20 @@ public class ThemeEntity extends BaseEntity {
 		this.suit = suit;
 	}
 
-	public String getAuthor() {
-		return author;
+	public String getCheckValue() {
+		return checkValue;
 	}
 
-	public void setAuthor(String author) {
-		this.author = author;
+	public void setCheckValue(String checkValue) {
+		this.checkValue = checkValue;
 	}
 
-	public String getSynopsis() {
-		return synopsis;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setSynopsis(String synopsis) {
-		this.synopsis = synopsis;
-	}
-
-	public String getArea() {
-		return area;
-	}
-
-	public void setArea(String area) {
-		this.area = area;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 
 	public String getAddress() {
@@ -226,6 +217,14 @@ public class ThemeEntity extends BaseEntity {
 		this.status = status;
 	}
 
+	public int getWriteOffStatus() {
+		return writeOffStatus;
+	}
+
+	public void setWriteOffStatus(int writeOffStatus) {
+		this.writeOffStatus = writeOffStatus;
+	}
+
 	public int getThemeType() {
 		return themeType;
 	}
@@ -248,14 +247,6 @@ public class ThemeEntity extends BaseEntity {
 
 	public void setOption(OptionEntity option) {
 		this.option = option;
-	}
-
-	public UserInfoEntity getUserData() {
-		return userData;
-	}
-
-	public void setUserData(UserInfoEntity userData) {
-		this.userData = userData;
 	}
 
 	public List<String> getPicUrls() {

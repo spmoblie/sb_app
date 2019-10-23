@@ -85,6 +85,12 @@ public class MySignUpAdapter extends RecyclerView.Adapter<MySignUpAdapter.ViewHo
                 .apply(AppApplication.getShowOptions())
                 .into(viewHolder.iv_show);
 
+        if (data.getStatus() == 2) { //已过期
+            viewHolder.tv_cover.setVisibility(View.VISIBLE);
+        } else {
+            viewHolder.tv_cover.setVisibility(View.GONE);
+        }
+
         viewHolder.item_time.setText(TimeUtil.strToStrItem(data.getAddTime()));
         viewHolder.tv_title.setText(data.getTitle());
         viewHolder.tv_time.setText(mContext.getString(R.string.sign_up_time) +

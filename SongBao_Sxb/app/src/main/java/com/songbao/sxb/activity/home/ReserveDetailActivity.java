@@ -2,6 +2,8 @@ package com.songbao.sxb.activity.home;
 
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.constraint.ConstraintLayout;
@@ -26,6 +28,7 @@ import com.songbao.sxb.utils.CommonTools;
 import com.songbao.sxb.utils.ExceptionUtil;
 import com.songbao.sxb.utils.JsonUtils;
 import com.songbao.sxb.utils.LogUtil;
+import com.songbao.sxb.utils.QRCodeUtil;
 import com.songbao.sxb.utils.StringUtil;
 import com.songbao.sxb.utils.retrofit.HttpRequests;
 import com.songbao.sxb.widgets.ScrollViewListView;
@@ -70,17 +73,38 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
     @BindView(R.id.reserve_detail_tv_date)
     TextView tv_date;
 
+    @BindView(R.id.reserve_detail_iv_date_go)
+    ImageView iv_date_go;
+
     @BindView(R.id.reserve_detail_time_main)
     ConstraintLayout time_main;
 
     @BindView(R.id.reserve_detail_tv_time)
     TextView tv_time;
 
+    @BindView(R.id.reserve_detail_iv_time_go)
+    ImageView iv_time_go;
+
+    @BindView(R.id.reserve_detail_code_main)
+    ConstraintLayout code_main;
+
+    @BindView(R.id.reserve_detail_iv_code)
+    ImageView iv_code;
+
+    @BindView(R.id.reserve_detail_tv_cover)
+    TextView tv_cover;
+
+    @BindView(R.id.reserve_detail_click_main)
+    ConstraintLayout click_main;
+
     @BindView(R.id.reserve_detail_tv_cost)
     TextView tv_cost;
 
     @BindView(R.id.reserve_detail_tv_click)
     TextView tv_click;
+
+    @BindView(R.id.reserve_detail_tv_success)
+    TextView tv_success;
 
     @BindView(R.id.reserve_detail_desc_listView)
     ScrollViewListView listView;
@@ -91,8 +115,9 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
 
     private DecimalFormat df;
     private ThemeEntity data;
-    private double payAmount = 0.00;
+    private int pageType = 0; //2:我的预约
     private int themeId; //课程Id
+    private double payAmount = 0.00;
     private boolean isPayOk = false;
     private boolean isDateOk = false;
     private boolean isTimeOk = false;
@@ -107,10 +132,10 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reserve_detail);
 
+        pageType = getIntent().getIntExtra(AppConfig.PAGE_TYPE, 0);
         data = (ThemeEntity) getIntent().getExtras().getSerializable(AppConfig.PAGE_DATA);
         if (data != null) {
             themeId = data.getId();
-            imgUrl = data.getPicUrl();
             titleStr = data.getTitle();
         }
         df = new DecimalFormat("0.00");
@@ -130,16 +155,13 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
         showImgLP.width = AppApplication.screen_width;
         showImgLP.height = AppApplication.screen_width * AppConfig.IMG_HEIGHT / AppConfig.IMG_WIDTHS;
         iv_show.setLayoutParams(showImgLP);
-        Glide.with(AppApplication.getAppContext())
-                .load(imgUrl)
-                .apply(AppApplication.getShowOptions())
-                .into(iv_show);
 
         tv_title.setText(titleStr);
         if (data != null) {
             tv_name.setText(data.getUserName());
             tv_series.setText(data.getSeries());
         }
+        setView(data);
     }
 
     private void setView(ThemeEntity data) {
@@ -175,6 +197,38 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
             tv_place.setText(data.getAddress());
             tv_suit.setText(data.getSuit());
 
+            if (pageType == 2) { //我的预约
+                tv_date.setText(data.getReserveDate());
+                iv_date_go.setVisibility(View.GONE);
+                tv_time.setText(data.getReserveTime());
+                iv_time_go.setVisibility(View.GONE);
+
+                code_main.setVisibility(View.VISIBLE);
+                click_main.setVisibility(View.GONE);
+                tv_success.setVisibility(View.VISIBLE);
+
+                switch (data.getWriteOffStatus()) {
+                    case 3: //已核销
+                        tv_cover.setText(mContext.getString(R.string.reserve_cancelled));
+                        tv_cover.setVisibility(View.VISIBLE);
+                        tv_success.setText(mContext.getString(R.string.reserve_success_can));
+                        break;
+                    case 10: //已过期
+                        tv_cover.setText(mContext.getString(R.string.reserve_expired));
+                        tv_cover.setVisibility(View.VISIBLE);
+                        tv_success.setText(mContext.getString(R.string.reserve_success_end));
+                        break;
+                    default:
+                        tv_cover.setVisibility(View.GONE);
+                        tv_success.setText(mContext.getString(R.string.reserve_success));
+                        break;
+                }
+
+                Bitmap logoImg = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher_my);
+                Bitmap qrImage = QRCodeUtil.createQRImage("df645464f5df", 360, 360, 0, logoImg);
+                iv_code.setImageBitmap(qrImage);
+            }
+
             al_show.clear();
             if (data.getDesUrls() != null) {
                 al_show.addAll(data.getDesUrls());
@@ -205,25 +259,11 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
         switch (v.getId()) {
             case R.id.reserve_detail_date_main:
             case R.id.reserve_detail_time_main:
-                if (!isLogin()) { //未登录
-                    openLoginActivity();
-                    return;
-                }
-                if (!isLoadOk) {
-                    dataErrorHandle();
-                    return;
-                }
+                if (!checkClickState()) return;
                 openChoiceDateActivity(data);
                 break;
             case R.id.reserve_detail_tv_click:
-                if (!isLoadOk) {
-                    dataErrorHandle();
-                    return;
-                }
-                if (!isLogin()) { //未登录
-                    openLoginActivity();
-                    return;
-                }
+                if (!checkClickState()) return;
                 if (isDateOk && isTimeOk) {
                     getPayOrderSn();
                 } else {
@@ -231,6 +271,20 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
                 }
                 break;
         }
+    }
+
+    private boolean checkClickState() {
+        if (pageType == 2)
+            return false;
+        if (!isLoadOk) {
+            dataErrorHandle();
+            return false;
+        }
+        if (!isLogin()) { //未登录
+            openLoginActivity();
+            return false;
+        }
+        return true;
     }
 
     /**

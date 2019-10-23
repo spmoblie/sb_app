@@ -72,6 +72,7 @@ public class SignUpDetailActivity extends BaseActivity implements View.OnClickLi
     private LinearLayout.LayoutParams showImgLP;
 
     private ThemeEntity data;
+    private int pageType = 0; //1:我的报名
     private int status; //1:报名中, 2:已截止
     private int themeId; //课程Id
     private boolean isSignUp = false;
@@ -86,11 +87,11 @@ public class SignUpDetailActivity extends BaseActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up_detail);
 
+        pageType = getIntent().getIntExtra(AppConfig.PAGE_TYPE, 0);
         data = (ThemeEntity) getIntent().getExtras().getSerializable(AppConfig.PAGE_DATA);
         if (data != null) {
-            status = data.getStatus();
             themeId = data.getId();
-            imgUrl = data.getPicUrl();
+            status = data.getStatus();
             titleStr = data.getTitle();
         }
 
@@ -107,10 +108,6 @@ public class SignUpDetailActivity extends BaseActivity implements View.OnClickLi
         showImgLP.width = AppApplication.screen_width;
         showImgLP.height = AppApplication.screen_width * AppConfig.IMG_HEIGHT / AppConfig.IMG_WIDTHS;
         iv_show.setLayoutParams(showImgLP);
-        Glide.with(AppApplication.getAppContext())
-                .load(imgUrl)
-                .apply(AppApplication.getShowOptions())
-                .into(iv_show);
 
         tv_title.setText(titleStr);
         if (data != null) {
@@ -166,11 +163,7 @@ public class SignUpDetailActivity extends BaseActivity implements View.OnClickLi
             tv_click.setText(text);
         }
         isOnClick = isState;
-        if (isState) {
-            tv_click.setTextColor(getResources().getColor(R.color.shows_text_color));
-        } else {
-            tv_click.setTextColor(getResources().getColor(R.color.app_color_gray));
-        }
+        changeViewState(tv_click, isState);
     }
 
     /**
@@ -192,6 +185,7 @@ public class SignUpDetailActivity extends BaseActivity implements View.OnClickLi
                     dataErrorHandle();
                     return;
                 }
+                if (pageType == 1) return;
                 if (isOnClick) {
                     openSignUpActivity(data);
                 }
@@ -205,14 +199,22 @@ public class SignUpDetailActivity extends BaseActivity implements View.OnClickLi
         // 页面开始
         AppApplication.onPageStart(this, TAG);
 
-        if (isLogin()) {
-            // 报名状态
-            isSignUp = userManager.isThemeSignUp(themeId);
-            if (isSignUp) { //已报名
-                setClickState(getString(R.string.sign_up_already), false);
+        if (pageType == 1) { //我的报名
+            if (status == 2) { //已过期
+                setClickState(getString(R.string.sign_up_success_end), true);
             } else {
-                if (status == 2) { //已截止
-                    setClickState(getString(R.string.sign_up_end), false);
+                setClickState(getString(R.string.sign_up_success), true);
+            }
+        } else {
+            if (isLogin()) {
+                // 报名状态
+                isSignUp = userManager.isThemeSignUp(themeId);
+                if (isSignUp) { //已报名
+                    setClickState(getString(R.string.sign_up_already), false);
+                } else {
+                    if (status == 2) { //已截止
+                        setClickState(getString(R.string.sign_up_end), false);
+                    }
                 }
             }
         }

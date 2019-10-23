@@ -48,7 +48,9 @@ public class AppConfig {
 	public final static String URL_SIGN_UP_CALLBACK = "activity/sign_up/callback";
 	// 提交预约数据
 	public final static String URL_RESERVATION_ADD = "reservation/add";
-	// 获取指定日期时间段
+	// 获取课程日期
+	public final static String URL_RESERVATION_DATE = "reservation/findDateTime";
+	// 获取课程时段
 	public final static String URL_RESERVATION_TIME = "reservation/findCourseTime";
 	// 校验时间段是否有效
 	public final static String URL_RESERVATION_IS = "reservation/isReservation";
@@ -58,12 +60,14 @@ public class AppConfig {
 	// 修改用户资料
 	public final static String URL_USER_SAVE = "user/save";
 
-	// 获取我的设计
-	public final static String URL_DESIGN_ALL = "design/all";
-	// 获取我的消息
+	// 我的消息
 	public final static String URL_MESSAGE = "message";
-	// 获取我的课程
+	// 我的设计
+	public final static String URL_DESIGN_ALL = "design/all";
+	// 我的活动
 	public final static String URL_USER_ACTIVITY = "user/activity";
+	// 我的预约
+	public final static String URL_USER_RESERVATION = "user/reservation";
 
 	// 上传接口
 	public final static String URL_UPLOAD_PUSH = "upload/push";
@@ -206,10 +210,12 @@ public class AppConfig {
 	public static final int REQUEST_SV_SIGN_UP_CALLBACK = 0X2005;
 	// 提交预约
 	public static final int REQUEST_SV_RESERVATION_ADD = 0X2006;
-	// 指定日期时间段
-	public static final int REQUEST_SV_RESERVATION_TIME = 0X2007;
-	// 校验时段有效性
-	public static final int REQUEST_SV_RESERVATION_IS = 0X2008;
+	// 课程日期
+	public static final int REQUEST_SV_RESERVATION_DATE = 0X2007;
+	// 课程时段
+	public static final int REQUEST_SV_RESERVATION_TIME = 0X2008;
+	// 校验时段
+	public static final int REQUEST_SV_RESERVATION_IS = 0X2009;
 
 	// 上传用户头像
 	public static final int REQUEST_SV_UPLOAD_HEAD = 0X3001;
@@ -217,12 +223,14 @@ public class AppConfig {
 	public static final int REQUEST_SV_USER_GET = 0X3002;
 	// 修改用户资料
 	public static final int REQUEST_SV_USER_SAVE = 0X3003;
-	// 获取我的设计
-	public static final int REQUEST_SV_DESIGN_ALL = 0X3004;
 	// 获取我的消息
-	public static final int REQUEST_SV_MESSAGE = 0X3005;
-	// 获取我的课程
+	public static final int REQUEST_SV_MESSAGE = 0X3004;
+	// 获取我的设计
+	public static final int REQUEST_SV_DESIGN_ALL = 0X3005;
+	// 获取我的活动
 	public static final int REQUEST_SV_USER_ACTIVITY = 0X3006;
+	// 获取我的预约
+	public static final int REQUEST_SV_USER_RESERVATION = 0X3007;
 
 	/**
 	 ******************************************* RequestCode参数设置结束 ******************************************
