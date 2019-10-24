@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/ui_color_app_bg_01">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingBottom="@dimen/margin_padding_150">
+
+            <ImageView
+                android:id="@+id/sign_iv_show"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/icon_default_show" />
+
+            <TextView
+                style="@style/detail_text"
+                android:layout_marginTop="@dimen/margin_padding_20"
+                android:text="@string/sign_up_input_info"
+                android:textSize="@dimen/app_text_size_title"
+                android:textStyle="bold" />
+
+            <TextView
+                style="@style/detail_text"
+                android:layout_marginTop="@dimen/margin_padding_10"
+                android:text="@string/sign_up_input_info_en"
+                android:textColor="@color/app_color_gray_9"
+                android:textSize="@dimen/app_text_size_small"
+                android:textStyle="bold" />
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/screen_margin_default">
+
+                <TextView
+                    android:id="@+id/sign_tv_name"
+                    style="@style/sign_up_text"
+                    android:text="@string/sign_up_name" />
+
+                <EditText
+                    android:id="@+id/sign_et_name"
+                    style="@style/sign_up_edit"
+                    android:layout_marginLeft="@dimen/margin_padding_20"
+                    android:hint="@string/must_fill"
+                    app:layout_constraintLeft_toRightOf="@id/sign_tv_name"
+                    app:layout_constraintTop_toTopOf="@id/sign_tv_name"
+                    app:layout_constraintWidth_percent="0.8" />
+
+                <ImageView
+                    style="@style/set_line_horizontal_bg"
+                    android:contentDescription="@string/desc"
+                    app:layout_constraintTop_toBottomOf="@id/sign_tv_name" />
+
+                <TextView
+                    android:id="@+id/sign_tv_gender"
+                    style="@style/sign_up_text"
+                    android:layout_marginTop="@dimen/margin_padding_1"
+                    android:text="@string/sign_up_gender"
+                    app:layout_constraintTop_toBottomOf="@id/sign_tv_name" />
+
+                <TextView
+                    android:id="@+id/sign_tv_gender_man"
+                    style="@style/common_checkbox_min"
+                    android:layout_width="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_padding_30"
+                    android:paddingBottom="@dimen/margin_padding_10"
+                    android:paddingTop="@dimen/margin_padding_10"
+                    android:text="@string/mine_gender_male"
+                    android:textStyle="bold"
+                    app:layout_constraintLeft_toRightOf="@id/sign_tv_gender"
+                    app:layout_constraintTop_toTopOf="@id/sign_tv_gender" />
+
+                <TextView
+                    android:id="@+id/sign_tv_gender_woman"
+                    style="@style/common_checkbox_min"
+                    android:layout_width="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_padding_30"
+                    android:paddingBottom="@dimen/margin_padding_10"
+                    android:paddingTop="@dimen/margin_padding_10"
+                    android:text="@string/mine_gender_female"
+                    android:textStyle="bold"
+                    app:layout_constraintLeft_toRightOf="@id/sign_tv_gender_man"
+                    app:layout_constraintTop_toTopOf="@id/sign_tv_gender" />
+
+                <TextView
+                    android:id="@+id/sign_tv_age"
+                    style="@style/sign_up_text"
+                    android:text="@string/sign_up_age"
+                    app:layout_constraintTop_toBottomOf="@id/sign_tv_gender" />
+
+                <EditText
+                    android:id="@+id/sign_et_age"
+                    style="@style/sign_up_edit"
+                    android:layout_marginLeft="@dimen/margin_padding_20"
+                    android:hint="@string/must_fill"
+                    app:layout_constraintLeft_toRightOf="@id/sign_tv_age"
+                    app:layout_constraintTop_toTopOf="@id/sign_tv_age"
+                    app:layout_constraintWidth_percent="0.8" />
+
+                <ImageView
+                    style="@style/common_go_right"
+                    android:layout_marginRight="@dimen/screen_margin_default"
+                    android:layout_marginTop="@dimen/screen_margin_default"
+                    app:layout_constraintRight_toRightOf="@id/sign_et_age"
+                    app:layout_constraintTop_toTopOf="@id/sign_et_age" />
+
+                <TextView
+                    android:id="@+id/sign_tv_phone"
+                    style="@style/sign_up_text"
+                    android:text="@string/sign_up_phone"
+                    app:layout_constraintTop_toBottomOf="@id/sign_tv_age" />
+
+                <EditText
+                    android:id="@+id/sign_et_phone"
+                    style="@style/sign_up_edit"
+                    android:layout_marginLeft="@dimen/margin_padding_20"
+                    android:hint="@string/must_fill"
+                    android:inputType="phone"
+                    android:maxLength="13"
+                    app:layout_constraintLeft_toRightOf="@id/sign_tv_phone"
+                    app:layout_constraintTop_toTopOf="@id/sign_tv_phone"
+                    app:layout_constraintWidth_percent="0.8" />
+
+                <ImageView
+                    style="@style/set_line_horizontal_bg"
+                    android:contentDescription="@string/desc"
+                    app:layout_constraintTop_toBottomOf="@id/sign_tv_phone" />
+            </android.support.constraint.ConstraintLayout>
+
+            <ImageView
+                style="@style/set_line_margin_10"
+                android:layout_marginTop="@dimen/margin_padding_10"
+                android:contentDescription="@string/desc" />
+
+            <TextView
+                style="@style/detail_text"
+                android:layout_marginTop="@dimen/margin_padding_20"
+                android:text="@string/sign_up_explain"
+                android:textSize="@dimen/app_text_size_title"
+                android:textStyle="bold" />
+
+            <TextView
+                style="@style/detail_text"
+                android:layout_marginTop="@dimen/margin_padding_10"
+                android:text="@string/sign_up_explain_en"
+                android:textColor="@color/app_color_gray_9"
+                android:textSize="@dimen/app_text_size_small"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/sign_tv_explain"
+                style="@style/detail_text"
+                android:layout_marginTop="@dimen/margin_padding_25" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="@dimen/margin_padding_50"
+        android:layout_marginLeft="@dimen/screen_margin_default"
+        android:layout_marginRight="@dimen/screen_margin_default"
+        android:background="@drawable/shape_style_solid_1_33"
+        android:padding="@dimen/margin_padding_2">
+
+        <TextView
+            android:id="@+id/sign_tv_cost_curr"
+            style="@style/detail_text"
+            android:layout_marginLeft="@dimen/margin_padding_30"
+            android:layout_marginTop="@dimen/margin_padding_3"
+            android:text="@string/rmb"
+            android:textColor="@color/app_color_red_7"
+            android:textSize="@dimen/app_text_size_small"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/sign_tv_cost"
+            style="@style/detail_text"
+            android:layout_marginLeft="0dp"
+            android:layout_marginTop="0dp"
+            android:textColor="@color/app_color_red_7"
+            android:textSize="@dimen/app_text_size_title"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@id/sign_tv_cost_curr"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/sign_tv_click"
+            style="@style/common_text_button"
+            android:background="@drawable/shape_style_solid_3_33"
+            android:paddingBottom="@dimen/margin_padding_13"
+            android:paddingTop="@dimen/margin_padding_13"
+            android:text="@string/sign_up_now"
+            android:textSize="@dimen/app_text_size_title"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </android.support.constraint.ConstraintLayout>
+
+</FrameLayout>
