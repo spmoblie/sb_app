@@ -131,8 +131,8 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginLeft">@dimen/screen_margin_default</item>
-        <item name="android:paddingTop">@dimen/margin_padding_15</item>
-        <item name="android:paddingBottom">@dimen/margin_padding_15</item>
+        <item name="android:paddingTop">@dimen/screen_margin_default</item>
+        <item name="android:paddingBottom">@dimen/screen_margin_default</item>
         <item name="android:drawablePadding">@dimen/margin_padding_10</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:ellipsize">end</item>

@@ -119,7 +119,7 @@ public class JsonUtils {
     }
 
     /**
-     * 解析活动详情数据
+     * 解析活动、课程详情数据
      */
     public static BaseEntity getThemeDetail(JSONObject jsonObject) throws JSONException {
         BaseEntity mainEn = getCommonKeyValue(jsonObject);
@@ -154,11 +154,11 @@ public class JsonUtils {
                 if (StringUtil.notNull(item, "endTimeValue")) {
                     childEn.setEndTime(item.getString("endTimeValue"));
                 }
+                if (StringUtil.notNull(item, "checkValue")) {
+                    childEn.setCheckValue(item.getString("checkValue"));
+                }
                 if (StringUtil.notNull(item, "picUrl")) {
                     childEn.setPicUrls(getStringList(item.getString("picUrl")));
-                }
-                if (StringUtil.notNull(item, "duplicationUrl")) {
-                    childEn.setDesUrls(getStringList(item.getString("duplicationUrl")));
                 }
 
                 mainEn.setData(childEn);

@@ -38,6 +38,8 @@ public class AppConfig {
 
 	// 提交支付参数
 	public final static String URL_PAY_PARAMETER = "pay/parameter";
+	// 查询支付结果
+	public final static String URL_PAY_CHECK_RESULT = "pay/check";
 
 	// 首页banner列表
 	public final static String URL_HOME_BANNER = "home/index";
@@ -51,6 +53,8 @@ public class AppConfig {
 	public final static String URL_SIGN_UP_CALLBACK = "activity/sign_up/callback";
 	// 提交预约数据
 	public final static String URL_RESERVATION_ADD = "reservation/add";
+	// 预约结果反馈
+	public final static String URL_RESERVATION_CALLBACK = "reservation/callback";
 	// 获取课程日期
 	public final static String URL_RESERVATION_DATE = "reservation/findDateTime";
 	// 获取课程时段
@@ -203,6 +207,8 @@ public class AppConfig {
 
 	// 提交支付参数
 	public static final int REQUEST_SV_PAY_PARAMETER = 0X1101;
+	// 查询支付结果
+	public static final int REQUEST_SV_PAY_CHECK_RESULT = 0X1102;
 
 	// 首頁头部
 	public static final int REQUEST_SV_HOME_HEAD = 0X2001;
@@ -212,16 +218,18 @@ public class AppConfig {
 	public static final int REQUEST_SV_ACTIVITY_DETAIL = 0X2003;
 	// 报名提交
 	public static final int REQUEST_SV_SIGN_UP_ADD = 0X2004;
-	// 报名支付反馈
+	// 报名反馈
 	public static final int REQUEST_SV_SIGN_UP_CALLBACK = 0X2005;
 	// 提交预约
 	public static final int REQUEST_SV_RESERVATION_ADD = 0X2006;
+	// 预约反馈
+	public static final int REQUEST_SV_RESERVATION_CALLBACK = 0X2007;
 	// 课程日期
-	public static final int REQUEST_SV_RESERVATION_DATE = 0X2007;
+	public static final int REQUEST_SV_RESERVATION_DATE = 0X2008;
 	// 课程时段
-	public static final int REQUEST_SV_RESERVATION_TIME = 0X2008;
+	public static final int REQUEST_SV_RESERVATION_TIME = 0X2009;
 	// 校验时段
-	public static final int REQUEST_SV_RESERVATION_IS = 0X2009;
+	public static final int REQUEST_SV_RESERVATION_IS = 0X2010;
 
 	// 上传用户头像
 	public static final int REQUEST_SV_UPLOAD_HEAD = 0X3001;
@@ -320,17 +328,19 @@ public class AppConfig {
 
 	public static final String PAGE_TYPE = "page_type";
 	public static final String PAGE_DATA = "page_data";
+	public static final String ACTIVITY_KEY_PAY_RESULT = "pay_result";
 	public static final String ACTIVITY_KEY_PHOTO_PATH = "photo_path";
 	public static final String ACTIVITY_KEY_USER_INFO = "user_info";
 	public static final String ACTIVITY_KEY_SELECT_LIST = "select_list";
 	public static final String ACTIVITY_KEY_CHOICE_DATE = "choice_date";
 
 	public static final int ACTIVITY_CODE_VIA_CAMERA = 0X9001;
-	public static final int ACTIVITY_CODE_USER_NICK = 0X9002;
-	public static final int ACTIVITY_CODE_USER_GENDER = 0X9003;
-	public static final int ACTIVITY_CODE_USER_AREA = 0X9004;
-	public static final int ACTIVITY_CODE_USER_INTRO = 0X9005;
-	public static final int ACTIVITY_CODE_CHOICE_DATE = 0X9006;
+	public static final int ACTIVITY_CODE_PAY_DATA = 0X9002;
+	public static final int ACTIVITY_CODE_USER_NICK = 0X9003;
+	public static final int ACTIVITY_CODE_USER_GENDER = 0X9004;
+	public static final int ACTIVITY_CODE_USER_AREA = 0X9005;
+	public static final int ACTIVITY_CODE_USER_INTRO = 0X9006;
+	public static final int ACTIVITY_CODE_CHOICE_DATE = 0X9007;
 
 	/**
 	 ******************************************* Activity传参设置结束 ******************************************

@@ -15,7 +15,7 @@ public class ThemeEntity extends BaseEntity {
 	private String userHead; //用户头像
 	private String series; //活动系列
 	private String suit; //适用人群
-	private String checkValue; //核心验证码
+	private String checkValue; //核销验证码
 	private String description; //活动说明
 	private String address; //活动地址
 	private String addTime; //活动创建时间
@@ -32,7 +32,6 @@ public class ThemeEntity extends BaseEntity {
 	private double fees; //费用
 	private OptionEntity option; //课程场次
 	private List<String> picUrls; //头部轮播图片集
-	private List<String> desUrls; //活动说明图片集
 	private List<ThemeEntity> headLists; //首页头部数集
 	private List<ThemeEntity> mainLists; //首页列表数集
 
@@ -255,14 +254,6 @@ public class ThemeEntity extends BaseEntity {
 
 	public void setPicUrls(List<String> picUrls) {
 		this.picUrls = picUrls;
-	}
-
-	public List<String> getDesUrls() {
-		return desUrls;
-	}
-
-	public void setDesUrls(List<String> desUrls) {
-		this.desUrls = desUrls;
 	}
 
 	public List<ThemeEntity> getHeadLists() {

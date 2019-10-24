@@ -13,13 +13,14 @@
 
         <RelativeLayout
             android:id="@+id/personal_rl_head"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/head_size_parent"
-            android:background="@color/app_color_white">
+            style="@style/setting_lay_item"
+            android:paddingTop="@dimen/screen_margin_default"
+            android:paddingBottom="@dimen/screen_margin_default">
 
             <TextView
                 android:id="@+id/personal_tv_head_title"
                 style="@style/setting_lay_text_title"
+                android:layout_centerVertical="true"
                 android:text="@string/mine_head" />
 
             <com.songbao.sxb.widgets.RoundImageView

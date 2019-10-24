@@ -416,7 +416,22 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
         Intent intent = new Intent(mContext, WXPayEntryActivity.class);
         intent.putExtra("orderSn", orderNo);
         intent.putExtra("orderTotal", df.format(payAmount));
-        startActivity(intent);
+        startActivityForResult(intent, AppConfig.ACTIVITY_CODE_PAY_DATA);
+    }
+
+    /**
+     * 校验报名状态
+     */
+    private void checkSignUpState() {
+        startAnimation();
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                HashMap<String, String> map = new HashMap<>();
+                map.put("orderNo", orderNo);
+                loadSVData(AppConfig.URL_SIGN_UP_CALLBACK, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_SIGN_UP_CALLBACK);
+            }
+        }, AppConfig.LOADING_TIME);
     }
 
     @Override
@@ -445,6 +460,25 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
                         handleErrorCode(baseEn);
                     }
                     break;
+                case AppConfig.REQUEST_SV_SIGN_UP_CALLBACK:
+                    baseEn = JsonUtils.getBaseErrorData(jsonObject);
+                    if (baseEn != null) {
+                        if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+                            showSuccessDialog(getString(R.string.sign_up_success), true);
+
+                            new Handler().postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    finish();
+                                }
+                            }, 2000);
+                        } else {
+                            showSuccessDialog(getString(R.string.sign_up_fail), false);
+                        }
+                    } else {
+                        showSuccessDialog(getString(R.string.sign_up_error), false);
+                    }
+                    break;
             }
         } catch (Exception e) {
             loadFailHandle();
@@ -452,18 +486,27 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
         }
     }
 
-    private void isPaySuccess() {
-        isSignUp = true;
-        userManager.saveThemeId(themeId);
-        AppApplication.updateMineData(true);
-        setClickState(getString(R.string.sign_up_already), false);
-        CommonTools.showToast(getString(R.string.sign_up_success));
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                finish();
+    @Override
+    protected void loadFailHandle() {
+        super.loadFailHandle();
+        handleErrorCode(null);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            if (requestCode == AppConfig.ACTIVITY_CODE_PAY_DATA) {
+                boolean isPayOk = data.getBooleanExtra(AppConfig.ACTIVITY_KEY_PAY_RESULT, false);
+                if (isPayOk) {
+                    isSignUp = true;
+                    userManager.saveThemeId(themeId);
+                    setClickState(getString(R.string.sign_up_already), false);
+
+                    checkSignUpState();
+                }
             }
-        }, 500);
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
 }

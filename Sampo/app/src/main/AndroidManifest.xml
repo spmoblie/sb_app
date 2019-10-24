@@ -105,10 +105,15 @@
 
         <!-- home -->
         <activity android:name=".activity.home.ChoiceDateActivity"/>
-        <activity android:name=".activity.home.ReserveDetailActivity"/>
+        <activity
+            android:name=".activity.home.ReserveDetailActivity"
+            android:hardwareAccelerated="false"/>
+
         <activity android:name=".activity.home.ReserveListActivity"/>
         <activity android:name=".activity.home.SignUpActivity"/>
-        <activity android:name=".activity.home.SignUpDetailActivity"/>
+        <activity
+            android:name=".activity.home.SignUpDetailActivity"
+            android:hardwareAccelerated="false"/>
         <activity android:name=".activity.home.TicketsActivity"/>
 
         <!-- login -->

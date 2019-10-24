@@ -29,192 +29,168 @@
         style="@style/set_line_horizontal_bg"
         android:contentDescription="@string/desc" />
 
-    <FrameLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="5"
-        android:background="@color/app_color_white">
+        android:layout_weight="1"
+        android:scrollbars="none">
 
-        <ImageView
-            style="@style/set_line_horizontal_bg"
-            android:contentDescription="@string/desc" />
-
-        <ScrollView
+        <LinearLayout
+            android:id="@+id/payment_ll_select_pay_select"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scrollbars="none" >
+            android:orientation="vertical">
 
-            <LinearLayout
-                android:id="@+id/payment_ll_select_pay_select"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+            <RelativeLayout style="@style/common_item_vertical">
 
-                <RelativeLayout
-                    style="@style/common_item_vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/pay_type"
+                    android:textColor="@color/shows_text_color"
+                    android:textSize="@dimen/text_size_14" />
+            </RelativeLayout>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/pay_type"
-                        android:textColor="@color/shows_text_color"
-                        android:textSize="@dimen/text_size_14" />
-                </RelativeLayout>
+            <RelativeLayout
+                android:id="@+id/payment_rl_select_wx"
+                style="@style/common_item_vertical"
+                android:paddingTop="0dp">
 
-                <RelativeLayout
-                    android:id="@+id/payment_rl_select_wx"
-                    style="@style/common_item_vertical"
-                    android:paddingTop="0dp">
-
-                    <ImageView
-                        style="@style/set_line_horizontal_bg"/>
-
-                    <ImageView
-                        android:id="@+id/payment_iv_pay_wx"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/screen_margin_default"
-                        android:src="@mipmap/payment_wx" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/margin_padding_10"
-                        android:layout_marginTop="@dimen/screen_margin_default"
-                        android:layout_toRightOf="@id/payment_iv_pay_wx"
-                        android:text="@string/pay_wx"
-                        android:textColor="@color/shows_text_color"
-                        android:textSize="@dimen/text_size_15" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignBottom="@id/payment_iv_pay_wx"
-                        android:layout_marginLeft="@dimen/margin_padding_10"
-                        android:layout_toRightOf="@id/payment_iv_pay_wx"
-                        android:text="@string/pay_wx_hint"
-                        android:textColor="@color/shows_text_color"
-                        android:textSize="@dimen/text_size_12" />
-
-                    <ImageView
-                        android:id="@+id/payment_iv_select_wx"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:src="@drawable/selector_checkbox_small" />
-
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:id="@+id/payment_rl_select_zfb"
-                    style="@style/common_item_vertical"
-                    android:paddingTop="0dp"
-                    android:visibility="gone">
-
-                    <ImageView
-                        style="@style/set_line_horizontal_bg"/>
-
-                    <ImageView
-                        android:id="@+id/payment_iv_pay_zfb"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/screen_margin_default"
-                        android:src="@mipmap/payment_zfb" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/margin_padding_10"
-                        android:layout_marginTop="@dimen/screen_margin_default"
-                        android:layout_toRightOf="@id/payment_iv_pay_zfb"
-                        android:text="@string/pay_zfb"
-                        android:textColor="@color/shows_text_color"
-                        android:textSize="@dimen/text_size_15" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignBottom="@id/payment_iv_pay_zfb"
-                        android:layout_marginLeft="@dimen/margin_padding_10"
-                        android:layout_toRightOf="@id/payment_iv_pay_zfb"
-                        android:text="@string/pay_zfb_hint"
-                        android:textColor="@color/shows_text_color"
-                        android:textSize="@dimen/text_size_12" />
-
-                    <ImageView
-                        android:id="@+id/payment_iv_select_zfb"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:src="@drawable/selector_checkbox_small" />
-
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:id="@+id/payment_rl_select_union"
-                    style="@style/common_item_vertical"
-                    android:paddingTop="0dp"
-                    android:visibility="gone">
-
-                    <ImageView
-                        style="@style/set_line_horizontal_bg"/>
-
-                    <ImageView
-                        android:id="@+id/payment_iv_pay_union"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/screen_margin_default"
-                        android:src="@mipmap/payment_union" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/margin_padding_10"
-                        android:layout_marginTop="@dimen/screen_margin_default"
-                        android:layout_toRightOf="@id/payment_iv_pay_union"
-                        android:text="@string/pay_union"
-                        android:textColor="@color/shows_text_color"
-                        android:textSize="@dimen/text_size_15" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignBottom="@id/payment_iv_pay_union"
-                        android:layout_marginLeft="@dimen/margin_padding_10"
-                        android:layout_toRightOf="@id/payment_iv_pay_union"
-                        android:text="@string/pay_union_hint"
-                        android:textColor="@color/shows_text_color"
-                        android:textSize="@dimen/text_size_12" />
-
-                    <ImageView
-                        android:id="@+id/payment_iv_select_union"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:contentDescription="@string/desc"
-                        android:src="@drawable/selector_checkbox_small" />
-                </RelativeLayout>
+                <ImageView style="@style/set_line_horizontal_bg" />
 
                 <ImageView
-                    style="@style/set_line_horizontal_bg"
-                    android:contentDescription="@string/desc" />
+                    android:id="@+id/payment_iv_pay_wx"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/screen_margin_default"
+                    android:src="@mipmap/payment_wx" />
 
-            </LinearLayout>
-        </ScrollView>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_padding_10"
+                    android:layout_marginTop="@dimen/screen_margin_default"
+                    android:layout_toRightOf="@id/payment_iv_pay_wx"
+                    android:text="@string/pay_wx"
+                    android:textColor="@color/shows_text_color"
+                    android:textSize="@dimen/text_size_15" />
 
-        <TextView
-            android:id="@+id/payment_tv_pay_start"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:textColor="@color/tv_color_status"
-            android:textSize="@dimen/text_size_18"
-            android:textStyle="bold"
-            android:visibility="gone" />
-    </FrameLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/payment_iv_pay_wx"
+                    android:layout_marginLeft="@dimen/margin_padding_10"
+                    android:layout_toRightOf="@id/payment_iv_pay_wx"
+                    android:text="@string/pay_wx_hint"
+                    android:textColor="@color/shows_text_color"
+                    android:textSize="@dimen/text_size_12" />
+
+                <ImageView
+                    android:id="@+id/payment_iv_select_wx"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/selector_checkbox_small" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/payment_rl_select_zfb"
+                style="@style/common_item_vertical"
+                android:paddingTop="0dp"
+                android:visibility="gone">
+
+                <ImageView style="@style/set_line_horizontal_bg" />
+
+                <ImageView
+                    android:id="@+id/payment_iv_pay_zfb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/screen_margin_default"
+                    android:src="@mipmap/payment_zfb" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_padding_10"
+                    android:layout_marginTop="@dimen/screen_margin_default"
+                    android:layout_toRightOf="@id/payment_iv_pay_zfb"
+                    android:text="@string/pay_zfb"
+                    android:textColor="@color/shows_text_color"
+                    android:textSize="@dimen/text_size_15" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/payment_iv_pay_zfb"
+                    android:layout_marginLeft="@dimen/margin_padding_10"
+                    android:layout_toRightOf="@id/payment_iv_pay_zfb"
+                    android:text="@string/pay_zfb_hint"
+                    android:textColor="@color/shows_text_color"
+                    android:textSize="@dimen/text_size_12" />
+
+                <ImageView
+                    android:id="@+id/payment_iv_select_zfb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:src="@drawable/selector_checkbox_small" />
+
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/payment_rl_select_union"
+                style="@style/common_item_vertical"
+                android:paddingTop="0dp"
+                android:visibility="gone">
+
+                <ImageView style="@style/set_line_horizontal_bg" />
+
+                <ImageView
+                    android:id="@+id/payment_iv_pay_union"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/screen_margin_default"
+                    android:src="@mipmap/payment_union" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_padding_10"
+                    android:layout_marginTop="@dimen/screen_margin_default"
+                    android:layout_toRightOf="@id/payment_iv_pay_union"
+                    android:text="@string/pay_union"
+                    android:textColor="@color/shows_text_color"
+                    android:textSize="@dimen/text_size_15" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@id/payment_iv_pay_union"
+                    android:layout_marginLeft="@dimen/margin_padding_10"
+                    android:layout_toRightOf="@id/payment_iv_pay_union"
+                    android:text="@string/pay_union_hint"
+                    android:textColor="@color/shows_text_color"
+                    android:textSize="@dimen/text_size_12" />
+
+                <ImageView
+                    android:id="@+id/payment_iv_select_union"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:contentDescription="@string/desc"
+                    android:src="@drawable/selector_checkbox_small" />
+            </RelativeLayout>
+
+            <ImageView
+                style="@style/set_line_horizontal_bg"
+                android:contentDescription="@string/desc" />
+
+        </LinearLayout>
+    </ScrollView>
 
     <ImageView
         style="@style/set_line_horizontal_bg"
@@ -224,8 +200,8 @@
         android:id="@+id/payment_bt_pay_confirm"
         style="@style/common_text_button"
         android:layout_width="match_parent"
-        android:text="@string/confirm"
+        android:layout_margin="@dimen/screen_margin_default"
         android:padding="@dimen/screen_margin_default"
-        android:layout_margin="@dimen/screen_margin_default"/>
+        android:text="@string/confirm" />
 
 </LinearLayout>

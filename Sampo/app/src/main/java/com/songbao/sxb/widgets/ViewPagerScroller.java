@@ -13,7 +13,7 @@ import java.lang.reflect.Field;
  */
 public class ViewPagerScroller extends Scroller {
 
-    private int mScrollDuration = 2000; // 滑动速度
+    private int mScrollDuration = 1300; // 滑动速度
 
     /**
      * 设置速度速度

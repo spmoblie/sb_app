@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -61,10 +60,9 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
     // 银联  mMode参数解释： "00" - 启动银联正式环境 "01" - 连接银联测试环境
     private final String mMode = AppConfig.IS_PUBLISH ? "00" : "01";
 
-    private TextView tv_pay_amount, tv_pay_start;
+    private TextView tv_pay_amount;
     private ImageView iv_select_wx, iv_select_zfb, iv_select_union;
     private RelativeLayout rl_select_wx, rl_select_zfb, rl_select_union;
-    private LinearLayout ll_pay_select;
     private Button btn_confirm;
 
     private int payStatus = PAY_CANCEL; //支付状态
@@ -117,8 +115,6 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
         rl_select_wx = findViewById(R.id.payment_rl_select_wx);
         rl_select_zfb = findViewById(R.id.payment_rl_select_zfb);
         rl_select_union = findViewById(R.id.payment_rl_select_union);
-        ll_pay_select = findViewById(R.id.payment_ll_select_pay_select);
-        tv_pay_start = findViewById(R.id.payment_tv_pay_start);
         btn_confirm = findViewById(R.id.payment_bt_pay_confirm);
     }
 
@@ -200,8 +196,9 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
             checkPayResult();
             return;
         }
-        startAnimation();
-        postPayInfo();
+        //startAnimation();
+        //postPayInfo();
+        showPayResult(PAY_SUCCESS);
     }
 
     /**
@@ -276,10 +273,9 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
     @Override
     public void finish() {
         if (payStatus == PAY_SUCCESS || payStatus == PAY_ERROR) {
-            /*if (OrderDetailActivity.instance != null) {
-				OrderDetailActivity.instance.finish();
-			}
-			updateActivityData(10);*/
+            Intent returnIntent = new Intent();
+            returnIntent.putExtra(AppConfig.ACTIVITY_KEY_PAY_RESULT, true);
+            setResult(RESULT_OK, returnIntent);
         }
         super.finish();
     }
@@ -414,37 +410,6 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
         showPayResult(payCode);
     }
 
-    private void showPayResult(int payCode) {
-        stopAnimation();
-        String startStr;
-        payStatus = payCode;
-        switch (payCode) {
-            case PAY_SUCCESS:
-                startStr = getString(R.string.pay_success);
-                updateViewStatus(startStr);
-                break;
-            case PAY_CANCEL:
-                CommonTools.showToast(getString(R.string.pay_cancel));
-                break;
-            case PAY_FAIL:
-                CommonTools.showToast(getString(R.string.pay_fail));
-                break;
-            case PAY_ERROR:
-                startStr = getString(R.string.pay_abnormal);
-                updateViewStatus(startStr);
-                break;
-        }
-    }
-
-    /**
-     * 支付完成后更新界面显示状态
-     */
-    private void updateViewStatus(String startStr) {
-        ll_pay_select.setVisibility(View.GONE);
-        tv_pay_start.setText(startStr);
-        tv_pay_start.setVisibility(View.VISIBLE);
-    }
-
     /**
      * 提交支付信息
      */
@@ -461,7 +426,7 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
     private void postPayCheck() {
         HashMap<String, String> map = new HashMap<>();
         map.put("orderNo", orderSn);
-        loadSVData(AppConfig.URL_SIGN_UP_CALLBACK, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_SIGN_UP_CALLBACK);
+        loadSVData(AppConfig.URL_PAY_CHECK_RESULT, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_PAY_CHECK_RESULT);
     }
 
     @Override
@@ -488,18 +453,47 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
                         getPayDataFail();
                     }
                     break;
-                case AppConfig.REQUEST_SV_SIGN_UP_CALLBACK:
+                case AppConfig.REQUEST_SV_PAY_CHECK_RESULT:
                     baseEn = JsonUtils.getBaseErrorData(jsonObject);
-                    if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
-                        //isPaySuccess();
+                    if (baseEn != null && baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+                        showPayResult(PAY_SUCCESS);
                     } else {
-                        showSuccessDialog(baseEn.getErrmsg(), false);
+                        if (checkCount < 3) {
+                            checkPayResult();
+                        } else {
+                            showPayResult(PAY_ERROR);
+                        }
                     }
                     break;
             }
         } catch (Exception e) {
             loadFailHandle();
             ExceptionUtil.handle(e);
+        }
+    }
+
+    private void showPayResult(int payCode) {
+        stopAnimation();
+        payStatus = payCode;
+        switch (payCode) {
+            case PAY_SUCCESS:
+                CommonTools.showToast(getString(R.string.pay_success));
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        finish();
+                    }
+                }, 500);
+                break;
+            case PAY_CANCEL:
+                CommonTools.showToast(getString(R.string.pay_cancel));
+                break;
+            case PAY_FAIL:
+                CommonTools.showToast(getString(R.string.pay_fail));
+                break;
+            case PAY_ERROR:
+                showErrorDialog(getString(R.string.pay_abnormal));
+                break;
         }
     }
 

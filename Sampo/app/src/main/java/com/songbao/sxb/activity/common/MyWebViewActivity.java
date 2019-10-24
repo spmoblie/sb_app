@@ -96,7 +96,7 @@ public class MyWebViewActivity extends BaseActivity {
 		setTitle(titleStr);
 
 		//loadShareImg();
-		initWebview();
+		initWebView();
 	}
 
 	private void loadShareImg() {
@@ -124,7 +124,7 @@ public class MyWebViewActivity extends BaseActivity {
 
 	@SuppressWarnings("static-access")
 	@SuppressLint({ "JavascriptInterface", "SetJavaScriptEnabled" })
-	private void initWebview() {
+	private void initWebView() {
 		if (myWebView != null){
 			//WebView属性设置
 			WebSettings webSettings = myWebView.getSettings();

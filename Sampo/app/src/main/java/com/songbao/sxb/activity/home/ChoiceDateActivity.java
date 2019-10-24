@@ -52,6 +52,7 @@ public class ChoiceDateActivity extends BaseActivity implements View.OnClickList
     private AdapterCallback apCallback;
     private ChoiceListAdapter lv_Adapter;
     private ThemeEntity data;
+    private OptionEntity selectEn;
     private int themeId; //课程Id
     private boolean isChange = false;
     private boolean loadDateOk = false;
@@ -194,6 +195,7 @@ public class ChoiceDateActivity extends BaseActivity implements View.OnClickList
                 if (i == position) {
                     boolean isSelect = !optionEn.isSelect();
                     if (isSelect) {
+                        selectEn = optionEn;
                         selectTime = optionEn.getTime();
                         selectTimeId = optionEn.getEntityId();
                     } else {
@@ -224,7 +226,7 @@ public class ChoiceDateActivity extends BaseActivity implements View.OnClickList
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.choice_date_tv_confirm:
-                if (!checkClickState()) return;
+                if (!checkOnClick()) return;
                 checkData();
                 break;
         }
@@ -233,7 +235,7 @@ public class ChoiceDateActivity extends BaseActivity implements View.OnClickList
     /**
      * 校验点击事件
      */
-    private boolean checkClickState() {
+    private boolean checkOnClick() {
         if (!loadDateOk) {
             dataErrorHandle();
             return false;
@@ -274,13 +276,11 @@ public class ChoiceDateActivity extends BaseActivity implements View.OnClickList
         if (calendar != null) {
             calendar.setActiveDateList(null);
         }
-        if (isChange) {
-            OptionEntity optionEn = new OptionEntity();
-            optionEn.setDate(selectDay);
-            optionEn.setTime(selectTime);
+        if (isChange && selectEn != null) {
+            selectEn.setDate(selectDay);
 
             Intent returnIntent = new Intent();
-            returnIntent.putExtra(AppConfig.ACTIVITY_KEY_CHOICE_DATE, optionEn);
+            returnIntent.putExtra(AppConfig.ACTIVITY_KEY_CHOICE_DATE, selectEn);
             setResult(RESULT_OK, returnIntent);
         }
         super.finish();

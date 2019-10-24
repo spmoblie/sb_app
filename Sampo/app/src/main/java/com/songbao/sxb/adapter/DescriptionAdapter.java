@@ -11,9 +11,6 @@ import com.bumptech.glide.Glide;
 import com.songbao.sxb.AppApplication;
 import com.songbao.sxb.R;
 
-/**
- * 课程可选场次列表适配器
- */
 public class DescriptionAdapter extends AppBaseAdapter {
 
 	private Context context;

@@ -1,13 +1,16 @@
 package com.songbao.sxb.activity.home;
 
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -15,8 +18,6 @@ import com.songbao.sxb.AppApplication;
 import com.songbao.sxb.AppConfig;
 import com.songbao.sxb.R;
 import com.songbao.sxb.activity.BaseActivity;
-import com.songbao.sxb.adapter.AdapterCallback;
-import com.songbao.sxb.adapter.DescriptionAdapter;
 import com.songbao.sxb.entity.BaseEntity;
 import com.songbao.sxb.entity.ThemeEntity;
 import com.songbao.sxb.utils.ExceptionUtil;
@@ -24,7 +25,7 @@ import com.songbao.sxb.utils.JsonUtils;
 import com.songbao.sxb.utils.LogUtil;
 import com.songbao.sxb.utils.StringUtil;
 import com.songbao.sxb.utils.retrofit.HttpRequests;
-import com.songbao.sxb.widgets.ScrollViewListView;
+import com.songbao.sxb.widgets.ObservableWebView;
 
 import org.json.JSONObject;
 
@@ -64,11 +65,9 @@ public class SignUpDetailActivity extends BaseActivity implements View.OnClickLi
     @BindView(R.id.sign_up_detail_tv_click)
     TextView tv_click;
 
-    @BindView(R.id.sign_up_detail_desc_listView)
-    ScrollViewListView listView;
+    @BindView(R.id.sign_up_detail_web_view)
+    ObservableWebView myWebView;
 
-    private AdapterCallback apCallback;
-    private DescriptionAdapter lv_Adapter;
     private LinearLayout.LayoutParams showImgLP;
 
     private ThemeEntity data;
@@ -78,9 +77,8 @@ public class SignUpDetailActivity extends BaseActivity implements View.OnClickLi
     private boolean isSignUp = false;
     private boolean isLoadOk = false;
     private boolean isOnClick = true;
-    private String imgUrl, titleStr;
+    private String imgUrl, webUrl, titleStr;
     private ArrayList<String> al_head = new ArrayList<>();
-    private ArrayList<String> al_show = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,34 +125,47 @@ public class SignUpDetailActivity extends BaseActivity implements View.OnClickLi
             tv_title.setText(titleStr);
             tv_name.setText(data.getUserName());
             tv_series.setText(data.getSeries());
-            tv_time.setText(data.getStartTime());
+            tv_time.setText(getString(R.string.sign_up_info_time, data.getStartTime(), data.getEndTime()));
             tv_place.setText(data.getAddress());
             tv_people.setText(getString(R.string.number_p) + getString(R.string.sign_up_info_number, data.getPeople(), data.getQuantity()));
             tv_suit.setText(data.getSuit());
 
-            al_show.clear();
-            if (data.getDesUrls() != null) {
-                al_show.addAll(data.getDesUrls());
-            }
-            initListView();
-
-            isLoadOk = true;
+            webUrl = data.getLinkUrl();
+            initWebView();
         }
     }
 
-    private void initListView() {
-        apCallback = new AdapterCallback() {
-            @Override
-            public void setOnClick(Object data, int position, int type) {
+    @SuppressLint({ "JavascriptInterface", "SetJavaScriptEnabled" })
+    private void initWebView() {
+        if (myWebView != null){
+            //WebView属性设置
+            WebSettings webSettings = myWebView.getSettings();
+            webSettings.setDefaultTextEncodingName("UTF-8");
+            webSettings.setJavaScriptEnabled(true); //设置支持javascript脚本
+            webSettings.setCacheMode(WebSettings.LOAD_DEFAULT); //设置缓冲的模式
+            webSettings.setBuiltInZoomControls(false); //设置是否支持缩放
+            webSettings.setBlockNetworkImage(false); //解决图片不显示
 
-            }
-        };
-        lv_Adapter = new DescriptionAdapter(mContext);
-        lv_Adapter.setDataList(al_show);
-        lv_Adapter.setCallback(apCallback);
+            myWebView.setVerticalScrollBarEnabled(false);
+            //开启硬件加速(华为部分手机会出现卡顿)
+            myWebView.setLayerType(View.LAYER_TYPE_HARDWARE,null);
 
-        listView.setAdapter(lv_Adapter);
-        listView.setOverScrollMode(ListView.OVER_SCROLL_NEVER);
+            //设置不允许外部浏览器打开
+            myWebView.setWebViewClient(new WebViewClient(){
+
+                @Override
+                public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                    if (url.contains("sxb")) {
+                        view.loadUrl(url);
+                        return true; //当加载重定向URL时，物理返回按键myWebView.canGoBack()判断为true。
+                    }
+                    return false;
+                }
+            });
+
+            //加载Url
+            myWebView.loadUrl(webUrl);
+        }
     }
 
     private void setClickState(String text, boolean isState) {
@@ -180,16 +191,25 @@ public class SignUpDetailActivity extends BaseActivity implements View.OnClickLi
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.sign_up_detail_tv_click:
-                if (!isLoadOk) {
-                    dataErrorHandle();
-                    return;
-                }
-                if (pageType == 1) return;
+                if (!checkOnClick()) return;
                 if (isOnClick) {
                     openSignUpActivity(data);
                 }
                 break;
         }
+    }
+
+    /**
+     * 校验点击事件
+     */
+    private boolean checkOnClick() {
+        if (!isLoadOk) {
+            dataErrorHandle();
+            return false;
+        }
+        if (pageType == 1)
+            return false;
+        return true;
     }
 
     @Override
@@ -262,6 +282,7 @@ public class SignUpDetailActivity extends BaseActivity implements View.OnClickLi
                     if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
                         data = (ThemeEntity) baseEn.getData();
                         setView(data);
+                        isLoadOk = true;
                     } else {
                         handleErrorCode(baseEn);
                     }
