@@ -7,7 +7,7 @@
     <!-- General -->
     <string name="confirm">确认</string>
     <string name="cancel">取消</string>
-    <string name="i_see">知道了</string>
+    <string name="i_see">我知道了</string>
     <string name="ignore">忽略</string>
     <string name="proceed">继续</string>
     <string name="being_not">暂不</string>
@@ -48,9 +48,7 @@
     <string name="delete">删除</string>
     <string name="delete_pain">忍痛删了</string>
     <string name="delete_think">我再想想</string>
-    <string name="delete_confirm">&#160;确定要删除么？</string>
     <string name="leave_confirm">去意已决</string>
-    <string name="abandon_confirm">确定放弃？</string>
     <string name="send_confirm">确认发送</string>
     <string name="next">下一步</string>
     <string name="skip">跳过</string>
@@ -79,14 +77,14 @@
     <string name="toast_server_busy">服务器繁忙~</string>
     <string name="toast_exit_prompt">再按一次退出程序</string>
     <string name="toast_error_data_app">应用数据出错 (T_T)\n请重启此应用 (T_T)</string>
-    <string name="toast_error_data_page">页面出现错误 (T_T)\n正在刷新页面 (T_T)</string>
+    <string name="toast_error_data_page">数据出现错误 (T_T)\n正在加载数据 (T_T)</string>
 
     <!-- Dialog -->
     <string name="dialog_version_new">当前版本已是最新版本</string>
     <string name="dialog_version_update">检测到新版本\n确定开始更新</string>
     <string name="dialog_version_update_force">当前版本低于最低版本！\n需升级后才能正常使用！</string>
-    <string name="dialog_error_msg">发生错误，请稍后再尝试</string>
-    <string name="dialog_error_video_url">视频出现错误，无法播放</string>
+    <string name="dialog_error_msg">发生错误，请稍后再试</string>
+    <string name="dialog_error_video_url">视频出错，无法播放</string>
 
     <!-- network -->
     <string name="network">网络</string>
@@ -107,7 +105,7 @@
     <string name="loading_no_data">暂无%1$s</string>
     <string name="loading_process">正在%1$s</string>
     <string name="loading_click_load">重新加载</string>
-    <string name="loading_submit_fail">上载失败</string>
+    <string name="loading_submit_fail">上传失败</string>
 
     <!-- Main -->
     <string name="main_tab_text_1">首页</string>
@@ -119,7 +117,7 @@
     <string name="main_head_title_en">LATEST ACTIVITY</string>
 
     <!-- Mine -->
-    <string name="mine_login">点击登录</string>
+    <string name="mine_login">点击头像登录</string>
     <string name="mine_my_design">我的设计</string>
     <string name="mine_my_coupon">我的卡券</string>
     <string name="mine_my_sing_up">我的活动</string>
@@ -166,8 +164,9 @@
     <string name="reserve_success">预约成功</string>
     <string name="reserve_success_can">预约成功（已核销）</string>
     <string name="reserve_success_end">预约成功（已过期）</string>
-    <string name="reserve_fail">预约失败 (T_T)\n如有疑问请联系客服~</string>
-    <string name="reserve_error">未能获取到预约结果~\n如有疑问请联系客服~</string>
+    <string name="reserve_success_show">恭喜您！预约成功</string>
+    <string name="reserve_fail">预约失败！</string>
+    <string name="reserve_error">预约结果未知~</string>
 
     <!-- Choice -->
     <string name="choice_date">选择场次</string>
@@ -235,21 +234,13 @@
     <string name="photo_upload_img">正在上传%1$s，请稍后&#8230;</string>
     <string name="photo_upload_img_ok">上传%1$s成功</string>
     <string name="photo_img_url_error">%1$s出现错误！请重新编辑！</string>
-    <string name="photo_upload_head_fail">上传头像失败！请点击头像重新上传！</string>
-    <string name="photo_clip_error">裁剪相片时出现错误！请重新选择相片！</string>
-    <string name="photo_ID_photo">身份证明相片</string>
-    <string name="photo_ID_photo_null">身份证明相片不能为空</string>
-    <string name="photo_upload_ID_fail">上传身份证明相片失败！请重新提交审核！</string>
-    <string name="photo_show_save_one">保存1张</string>
-    <string name="photo_show_save_more">保存%1$d张</string>
+    <string name="photo_clip_error">裁剪相片时出错！\n请重新选择相片！</string>
     <string name="photo_show_save_image">保存到手机</string>
     <string name="photo_show_save_ok">保存成功</string>
     <string name="photo_show_save_fail">保存图片出错！请检查SD卡是否正确安装或重试！</string>
     <string name="photo_save_sd_error">没有储存卡</string>
     <string name="photo_save_directory_error">没有找到储存目录</string>
     <string name="photo_scan_text_hint">将二维码放入框内, 即可自动扫描</string>
-    <string name="photo_crop_image_instru">移动并缩放相片以符合空间大小</string>
-    <string name="photo_camera_authority">您已禁用摄像头权限，请到设置或手机管家的权限管理中重新配置权限。</string>
 
     <!-- Setting Page -->
     <string name="setting_about_us">关于我们</string>

@@ -3,38 +3,36 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/shape_style_solid_1_18"
-    android:orientation="vertical"
-    android:padding="0dp" >
+    android:padding="@dimen/margin_padding_25"
+    android:orientation="vertical" >
 
     <TextView
         android:id="@+id/dialog_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/screen_margin_default"
         android:gravity="center"
-        android:paddingLeft="@dimen/screen_margin_default"
-        android:paddingRight="@dimen/screen_margin_default"
         android:textColor="@color/dialog_text_title"
-        android:textSize="@dimen/app_text_size_title"
+        android:textSize="@dimen/app_text_size_dialog"
         android:visibility="gone" />
 
     <TextView
         android:id="@+id/dialog_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/screen_margin_default"
+        android:paddingTop="@dimen/screen_margin_default"
+        android:paddingBottom="@dimen/screen_margin_default"
         android:gravity="center"
-        android:padding="@dimen/screen_margin_default"
         android:ellipsize="end"
         android:minLines="1"
-        android:maxLines="6"
+        android:maxLines="3"
         android:textColor="@color/dialog_text_content"
-        android:textSize="@dimen/app_text_size_content" />
+        android:textSize="@dimen/app_text_size_dialog" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
+        android:layout_marginTop="@dimen/margin_padding_25"
         android:orientation="horizontal" >
 
         <Button
@@ -42,10 +40,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_margin="@dimen/screen_margin_default"
+            android:layout_marginRight="@dimen/screen_margin_default"
             android:background="@drawable/shape_style_empty_2_33"
-            android:gravity="center"
             android:padding="@dimen/margin_padding_8"
+            android:gravity="center"
             android:text="@string/cancel"
             android:textColor="@color/dialog_text_button_1"
             android:textSize="@dimen/app_text_size_button" />
@@ -55,10 +53,9 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_margin="@dimen/screen_margin_default"
             android:background="@drawable/shape_style_solid_5_33"
-            android:gravity="center"
             android:padding="@dimen/margin_padding_8"
+            android:gravity="center"
             android:text="@string/confirm"
             android:textColor="@color/dialog_text_button_2"
             android:textSize="@dimen/app_text_size_button" />

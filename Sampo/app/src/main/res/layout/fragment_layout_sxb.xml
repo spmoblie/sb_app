@@ -28,7 +28,8 @@
             android:layout_width="match_parent"
             android:layout_height="600dp"
             android:src="@drawable/icon_sampo_show"
-            android:scaleType="fitStart"/>
+            android:scaleType="centerCrop"
+            android:adjustViewBounds="true"/>
 
     </LinearLayout>
 

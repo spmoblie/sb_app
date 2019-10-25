@@ -99,21 +99,29 @@
         <activity android:name=".activity.common.clip.ClipImageSquareActivity"/>
         <activity android:name=".activity.common.clip.ClipPhotoGridActivity"/>
         <activity android:name=".activity.common.clip.ClipPhotoOneActivity"/>
-        <activity android:name=".activity.common.MyWebViewActivity"/>
+        <activity
+            android:name=".activity.common.MyWebViewActivity"
+            android:hardwareAccelerated="false"/>
         <activity android:name=".activity.common.SelectListActivity"/>
         <activity android:name=".activity.common.ViewPagerActivity"/>
 
         <!-- home -->
         <activity android:name=".activity.home.ChoiceDateActivity"/>
+
         <activity
             android:name=".activity.home.ReserveDetailActivity"
+            android:launchMode="singleTask"
             android:hardwareAccelerated="false"/>
 
         <activity android:name=".activity.home.ReserveListActivity"/>
+
         <activity android:name=".activity.home.SignUpActivity"/>
+
         <activity
             android:name=".activity.home.SignUpDetailActivity"
+            android:launchMode="singleTask"
             android:hardwareAccelerated="false"/>
+
         <activity android:name=".activity.home.TicketsActivity"/>
 
         <!-- login -->

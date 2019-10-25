@@ -115,7 +115,7 @@ public class ResetPasswordActivity extends BaseActivity implements OnClickListen
 				setResetState(false);
 				isPhone_Ok = false;
 				phoneStr = s.toString();
-				if (phoneStr.isEmpty()) {
+				if (StringUtil.isNull(phoneStr)) {
 					iv_phone_clear.setVisibility(View.GONE);
 				}else {
 					iv_phone_clear.setVisibility(View.VISIBLE);
@@ -276,7 +276,7 @@ public class ResetPasswordActivity extends BaseActivity implements OnClickListen
 	private boolean checkData() {
 		// 验证非空
 		//phoneStr = et_phone.getText().toString();
-		if (phoneStr.isEmpty()) {
+		if (StringUtil.isNull(phoneStr)) {
 			CommonTools.showToast(getString(R.string.login_phone_input));
 			return false;
 		}
@@ -294,7 +294,7 @@ public class ResetPasswordActivity extends BaseActivity implements OnClickListen
 		}
 		// 验证非空
 		codeStr = et_code.getText().toString();
-		if (codeStr.isEmpty()) {
+		if (StringUtil.isNull(codeStr)) {
 			CommonTools.showToast(getString(R.string.login_verify_code_input));
 			return false;
 		}
@@ -305,7 +305,7 @@ public class ResetPasswordActivity extends BaseActivity implements OnClickListen
 		}
 		// 验证非空
 		passwordStr = et_password.getText().toString();
-		if (passwordStr.isEmpty()) {
+		if (StringUtil.isNull(passwordStr)) {
 			CommonTools.showToast(getString(R.string.login_password_input));
 			return false;
 		}

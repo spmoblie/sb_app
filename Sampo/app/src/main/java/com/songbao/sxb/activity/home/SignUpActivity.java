@@ -137,7 +137,7 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
             @Override
             public void afterTextChanged(Editable s) {
                 isName_Ok = false;
-                if (!s.toString().isEmpty()) {
+                if (!StringUtil.isNull(s.toString())) {
                     isName_Ok = true;
                 }
                 changeState();
@@ -306,19 +306,19 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
     private boolean checkData() {
         // 姓名非空
         nameStr = et_name.getText().toString();
-        if (nameStr.isEmpty()) {
+        if (StringUtil.isNull(nameStr)) {
             CommonTools.showToast(getString(R.string.sign_up_input_name));
             return false;
         }
         // 年龄非空
         ageStr = et_age.getText().toString();
-        if (ageStr.isEmpty()) {
+        if (StringUtil.isNull(ageStr)) {
             CommonTools.showToast(getString(R.string.sign_up_input_age));
             return false;
         }
         // 电话非空
         phoneStr = et_phone.getText().toString();
-        if (phoneStr.isEmpty()) {
+        if (StringUtil.isNull(phoneStr)) {
             CommonTools.showToast(getString(R.string.sign_up_input_phone));
             return false;
         }

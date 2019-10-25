@@ -23,7 +23,7 @@ import com.songbao.sxb.R;
 import com.songbao.sxb.activity.home.ChildFragmentHome;
 import com.songbao.sxb.activity.login.LoginActivity;
 import com.songbao.sxb.activity.mine.ChildFragmentMine;
-import com.songbao.sxb.activity.sxb.ChildFragmentSXB;
+import com.songbao.sxb.activity.sampo.ChildFragmentSampo;
 import com.songbao.sxb.utils.CommonTools;
 import com.songbao.sxb.utils.ExceptionUtil;
 import com.songbao.sxb.utils.LogUtil;
@@ -283,7 +283,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 			case R.id.main_fragment_fl_2:
 				fragment = manager.findFragmentByTag(current_fragment);
 				if (fragment == null) {
-					fragment = new ChildFragmentSXB();
+					fragment = new ChildFragmentSampo();
 				}
 				return fragment;
 			case R.id.main_fragment_fl_3:
@@ -319,7 +319,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 						// 移除旧的fragment
 						ft.remove(fragment);
 						// 换成新的fragment
-						fragment = new ChildFragmentSXB();
+						fragment = new ChildFragmentSampo();
 						// 添加新fragment时必须用前面获得的tag，这点很重要
 						ft.add(container.getId(), fragment, fragmentTag);
 						ft.attach(fragment);

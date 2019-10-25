@@ -311,6 +311,8 @@ public class AppConfig {
 	public static final String KEY_MAIN_CURRENT_INDEX = "main_current_index";
 	// 偏好设置Key-记录是否跳转子页面
 	public static final String KEY_JUMP_PAGE = "jump_page";
+	// 偏好设置Key-记录是否打开我的消息
+	public static final String KEY_OPEN_MESSAGE = "open_message";
 	// 偏好设置Key-记录发送短信验证码的累计次数
 	public static final String KEY_SEND_VERIFY_NUMBER = "send_verify_number";
 	// 偏好设置Key-记录最近一次发送短信验证码的时间

@@ -106,7 +106,8 @@
     <dimen name="app_text_size_content">@dimen/text_size_15</dimen>
     <dimen name="app_text_size_label">@dimen/text_size_13</dimen>
     <dimen name="app_text_size_small">@dimen/text_size_12</dimen>
-    <dimen name="app_text_size_button">@dimen/text_size_15</dimen>
+    <dimen name="app_text_size_dialog">@dimen/text_size_18</dimen>
+    <dimen name="app_text_size_button">@dimen/text_size_16</dimen>
 
     <!-- title -->
     <dimen name="title_height">@dimen/margin_padding_50</dimen>

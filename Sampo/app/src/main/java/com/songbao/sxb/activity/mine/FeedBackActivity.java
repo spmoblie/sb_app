@@ -14,6 +14,7 @@ import com.songbao.sxb.R;
 import com.songbao.sxb.activity.BaseActivity;
 import com.songbao.sxb.utils.CommonTools;
 import com.songbao.sxb.utils.LogUtil;
+import com.songbao.sxb.utils.StringUtil;
 
 import butterknife.BindView;
 
@@ -46,7 +47,7 @@ public class FeedBackActivity extends BaseActivity implements OnClickListener {
 	private boolean checkData() {
 		contentStr = et_content.getText().toString();
 		// 校验非空
-		if (contentStr.isEmpty()) {
+		if (StringUtil.isNull(contentStr)) {
 			CommonTools.showToast(getString(R.string.setting_input_error_feedback), Toast.LENGTH_SHORT);
 			return false;
 		}

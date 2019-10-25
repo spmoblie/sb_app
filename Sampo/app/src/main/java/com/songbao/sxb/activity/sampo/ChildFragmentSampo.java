@@ -1,4 +1,4 @@
-package com.songbao.sxb.activity.sxb;
+package com.songbao.sxb.activity.sampo;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -25,9 +25,9 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class ChildFragmentSXB extends BaseFragment implements OnClickListener {
+public class ChildFragmentSampo extends BaseFragment implements OnClickListener {
 
-	String TAG = ChildFragmentSXB.class.getSimpleName();
+	String TAG = ChildFragmentSampo.class.getSimpleName();
 
 	@BindView(R.id.fg_sxb_iv_show)
 	ImageView iv_show;

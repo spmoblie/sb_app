@@ -231,7 +231,7 @@ public class JsonUtils {
                 childEn = new OptionEntity();
                 childEn.setId(item.getInt("id"));
                 childEn.setTime(item.getString("timeValue"));
-                childEn.setState(item.getBoolean("display"));
+                childEn.setState(!item.getBoolean("display"));
                 childEn.setReserve(item.getBoolean("reservation"));
                 childEn.setSelect(item.getBoolean("reservation"));
                 lists.add(childEn);
@@ -346,7 +346,7 @@ public class JsonUtils {
                     childEn = new ThemeEntity();
                     childEn.setId(item.getInt("id"));
                     childEn.setTitle(item.getString("title"));
-                    childEn.setPicUrl(item.getString("picUrl"));
+                    childEn.setPicUrl(item.getString("picUrlValue"));
                     childEn.setAddTime(item.getString("addTime"));
                     childEn.setStartTime(item.getString("startTime"));
                     childEn.setEndTime(item.getString("endTime"));

@@ -260,8 +260,13 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
         LogUtil.i(LogUtil.LOG_TAG, TAG + ": onResume");
         // 页面开始
         AppApplication.onPageStart(TAG);
+
         // 用户信息
         if (isLogin()) {
+            if (shared.getBoolean(AppConfig.KEY_OPEN_MESSAGE, false)) {
+                startActivity(new Intent(mContext, MessageActivity.class));
+                shared.edit().putBoolean(AppConfig.KEY_OPEN_MESSAGE, false).apply();
+            }
             if (shared.getBoolean(AppConfig.KEY_UPDATE_USER_DATA, true)) {
                 loadUserInfo();
             }

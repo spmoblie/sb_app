@@ -5,7 +5,8 @@
     android:layout_height="match_parent"
     android:background="@color/ui_color_app_bg_02">
 
-    <ScrollView
+    <com.songbao.sxb.widgets.MyScrollView
+        android:id="@+id/choice_date_sv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fillViewport="true"
@@ -82,7 +83,7 @@
 
         </LinearLayout>
 
-    </ScrollView>
+    </com.songbao.sxb.widgets.MyScrollView>
 
     <TextView
         android:id="@+id/choice_date_tv_confirm"

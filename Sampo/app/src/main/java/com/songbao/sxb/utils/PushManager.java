@@ -13,6 +13,7 @@ import com.umeng.commonsdk.UMConfigure;
 import com.umeng.message.IUmengCallback;
 import com.umeng.message.IUmengRegisterCallback;
 import com.umeng.message.PushAgent;
+import com.umeng.message.UTrack;
 
 public class PushManager {
 
@@ -166,20 +167,13 @@ public class PushManager {
 			try {
 				// 账号统计登入
 				MobclickAgent.onProfileSignIn(mUserManager.getUserId());
-				LogUtil.i(TAG, "账号登入：alias = " + mUserManager.getUserId() + " type = " + ALIAS_TYPE);
-				// 异步设置用户标签
-				/*final String tagStr = mUserManager.getUserName();
-				new Thread(new Runnable() {
+				// 添加Alias标签
+				mPushAgent.addAlias(mUserManager.getUserId(), ALIAS_TYPE, new UTrack.ICallBack() {
 					@Override
-					public void run() {
-						try {
-							mPushAgent.getTagManager().add(tagStr);
-							LogUtil.i(TAG, "设置标签：tag = " + tagStr);
-						} catch (Exception e) {
-							ExceptionUtil.handle(e);
-						}
+					public void onMessage(boolean b, String s) {
+						LogUtil.i(TAG, "b = " + b + " s = " + s);
 					}
-				}).start();*/
+				});
 			} catch (Exception e) {
 				ExceptionUtil.handle(e);
 			}
@@ -194,20 +188,13 @@ public class PushManager {
 			try {
 				// 账号统计登出
 				MobclickAgent.onProfileSignOff();
-				LogUtil.i(TAG, "账号登出：alias = " + mUserManager.getUserId() + " type = " + ALIAS_TYPE);
-				// 异步删除用户标签
-				/*final String tagStr = um.getUserName();
-				new Thread(new Runnable() {
+				// 移除Alias标签
+				mPushAgent.deleteAlias(mUserManager.getUserId(), ALIAS_TYPE, new UTrack.ICallBack() {
 					@Override
-					public void run() {
-						try {
-							pa.getTagManager().delete(tagStr);
-							LogUtil.i(TAG, "移除标签：tag = " + tagStr);
-						} catch (Exception e) {
-							ExceptionUtil.handle(e);
-						}
+					public void onMessage(boolean b, String s) {
+						LogUtil.i(TAG, "b = " + b + " s = " + s);
 					}
-				}).start();*/
+				});
 			} catch (Exception e) {
 				ExceptionUtil.handle(e);
 			}

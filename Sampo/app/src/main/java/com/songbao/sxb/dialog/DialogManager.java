@@ -107,7 +107,7 @@ public class DialogManager {
 		// 初始化对话框中的子控件
 		ImageView iv_logo = mDialog.findViewById(R.id.dialog_logo);
 		if (!isSuccess) {
-			iv_logo.setImageResource(R.mipmap.icon_fail);
+			iv_logo.setImageResource(R.mipmap.icon_dialog_fail);
 		}
 
 		TextView tv_content = mDialog.findViewById(R.id.dialog_content);
@@ -278,7 +278,7 @@ public class DialogManager {
 			@Override
 			public void onClick(View v) {
 				String passStr = et_password.getText().toString();
-				if (passStr.isEmpty()) return;
+				if (StringUtil.isNull(passStr)) return;
 				if (handler != null) { //确定
 					Message msg = Message.obtain();
 					msg.obj = passStr;

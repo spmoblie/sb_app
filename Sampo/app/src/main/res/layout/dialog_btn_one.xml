@@ -3,34 +3,32 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/shape_style_solid_1_18"
+    android:padding="@dimen/margin_padding_25"
     android:gravity="center_horizontal"
-    android:orientation="vertical"
-    android:padding="0dp" >
+    android:orientation="vertical" >
 
     <TextView
         android:id="@+id/dialog_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/screen_margin_default"
+        android:paddingTop="@dimen/screen_margin_default"
+        android:paddingBottom="@dimen/screen_margin_default"
         android:gravity="center"
-        android:padding="@dimen/screen_margin_default"
         android:ellipsize="end"
         android:minLines="1"
-        android:maxLines="6"
+        android:maxLines="3"
         android:textColor="@color/dialog_text_content"
-        android:textSize="@dimen/app_text_size_content" />
+        android:textSize="@dimen/app_text_size_dialog" />
 
     <Button
         android:id="@+id/dialog_button_ok"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/screen_margin_default"
+        android:layout_marginTop="@dimen/margin_padding_25"
         android:background="@drawable/shape_style_solid_5_33"
         android:gravity="center"
-        android:paddingBottom="@dimen/margin_padding_5"
-        android:paddingLeft="@dimen/margin_padding_30"
-        android:paddingRight="@dimen/margin_padding_30"
-        android:paddingTop="@dimen/margin_padding_5"
+        android:padding="@dimen/margin_padding_10"
+        android:textStyle="bold"
         android:text="@string/confirm"
         android:textColor="@color/dialog_text_button_2"
         android:textSize="@dimen/app_text_size_button" />

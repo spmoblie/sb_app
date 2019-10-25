@@ -307,6 +307,8 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
     private void openChoiceDateActivity(ThemeEntity data) {
         if (data == null) return;
         Intent intent = new Intent(mContext, ChoiceDateActivity.class);
+        intent.putExtra("assignDay", dateStr);
+        intent.putExtra("assignTime", timeStr);
         intent.putExtra(AppConfig.PAGE_DATA, data);
         startActivityForResult(intent, AppConfig.ACTIVITY_CODE_CHOICE_DATE);
     }
@@ -459,32 +461,24 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
                     baseEn = JsonUtils.getBaseErrorData(jsonObject);
                     if (baseEn != null) {
                         if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
-                            showSuccessDialog(getString(R.string.reserve_success), true);
-
-                            new Handler().postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    finish();
-                                }
-                            }, 2000);
+                            handleReserveResult(1);
                         } else {
-                            showSuccessDialog(getString(R.string.reserve_fail), false);
+                            handleReserveResult(2);
                         }
                     } else {
-                        showSuccessDialog(getString(R.string.reserve_error), false);
+                        handleReserveResult(3);
                     }
                     break;
             }
         } catch (Exception e) {
+            if (dataType == AppConfig.REQUEST_SV_RESERVATION_CALLBACK) {
+                handleReserveResult(3);
+            } else {
+                handleErrorCode(null);
+            }
             loadFailHandle();
             ExceptionUtil.handle(e);
         }
-    }
-
-    @Override
-    protected void loadFailHandle() {
-        super.loadFailHandle();
-        handleErrorCode(null);
     }
 
     @Override
@@ -506,13 +500,32 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
                     iv_date_go.setVisibility(View.GONE);
                     iv_time_go.setVisibility(View.GONE);
                     click_main.setVisibility(View.GONE);
-                    tv_success.setVisibility(View.VISIBLE);
 
                     checkReserveState();
                 }
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void handleReserveResult(int resultCode) {
+        String showStr;
+        switch (resultCode) {
+            case 2: //失败
+                showStr = getString(R.string.reserve_fail);
+                showSuccessDialog(showStr, false);
+                break;
+            case 3: //错误
+                showStr = getString(R.string.reserve_error);
+                showSuccessDialog(showStr, false);
+                break;
+            default: //成功
+                showStr = getString(R.string.reserve_success);
+                showSuccessDialog(showStr, true);
+                break;
+        }
+        tv_success.setText(showStr);
+        tv_success.setVisibility(View.VISIBLE);
     }
 
 }

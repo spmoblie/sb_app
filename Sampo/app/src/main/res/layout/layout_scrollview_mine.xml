@@ -19,7 +19,7 @@
             android:layout_height="@dimen/title_height"
             android:src="@mipmap/icon_setting"
             android:scaleType="center"
-            android:visibility="gone"
+            android:visibility="visible"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintRight_toRightOf="parent"/>
 

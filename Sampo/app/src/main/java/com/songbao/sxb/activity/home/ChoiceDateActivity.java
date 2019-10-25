@@ -24,6 +24,7 @@ import com.songbao.sxb.utils.LogUtil;
 import com.songbao.sxb.utils.StringUtil;
 import com.songbao.sxb.utils.retrofit.HttpRequests;
 import com.songbao.sxb.widgets.CustomCalendar;
+import com.songbao.sxb.widgets.MyScrollView;
 import com.songbao.sxb.widgets.ScrollViewListView;
 
 import org.json.JSONObject;
@@ -39,6 +40,9 @@ import butterknife.BindView;
 public class ChoiceDateActivity extends BaseActivity implements View.OnClickListener {
 
     String TAG = ChoiceDateActivity.class.getSimpleName();
+
+    @BindView(R.id.choice_date_sv)
+    MyScrollView myScrollView;
 
     @BindView(R.id.choice_date_cal)
     CustomCalendar calendar;
@@ -65,6 +69,8 @@ public class ChoiceDateActivity extends BaseActivity implements View.OnClickList
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choice_date);
 
+        assignDay = getIntent().getStringExtra("assignDay");
+        assignTime = getIntent().getStringExtra("assignTime");
         data = (ThemeEntity) getIntent().getExtras().getSerializable(AppConfig.PAGE_DATA);
         if (data != null) {
             themeId = data.getId();
@@ -84,12 +90,14 @@ public class ChoiceDateActivity extends BaseActivity implements View.OnClickList
             public void onLeftRowClick() {
                 calendar.monthChange(-1);
                 clearData();
+                initListView();
             }
 
             @Override
             public void onRightRowClick() {
                 calendar.monthChange(1);
                 clearData();
+                initListView();
             }
 
             @Override
@@ -128,9 +136,13 @@ public class ChoiceDateActivity extends BaseActivity implements View.OnClickList
             String date = "";
             do {
                 if (i < al_date.size()) {
-                    assignDay = al_date.get(i);
-                    if (assignDay.contains("-")) {
-                        String[] dates = assignDay.split("-");
+                    String dateStr = al_date.get(i);
+                    if (!StringUtil.isNull(assignDay)) {
+                        dateStr = assignDay;
+                        i = al_date.size();
+                    }
+                    if (dateStr.contains("-")) {
+                        String[] dates = dateStr.split("-");
                         if (dates.length > 2) {
                             date = dates[0] + "年" + dates[1] + "月";
                             ass_mon = Integer.valueOf(dates[1]);
@@ -138,7 +150,6 @@ public class ChoiceDateActivity extends BaseActivity implements View.OnClickList
                         }
                     }
                 } else {
-                    assignDay = "";
                     date = "";
                     ass_mon = 0;
                     ass_day = 0;
@@ -151,7 +162,6 @@ public class ChoiceDateActivity extends BaseActivity implements View.OnClickList
     }
 
     private void initListView() {
-        reviseData();
         apCallback = new AdapterCallback() {
             @Override
             public void setOnClick(Object data, int position, int type) {
@@ -169,19 +179,19 @@ public class ChoiceDateActivity extends BaseActivity implements View.OnClickList
     }
 
     /**
-     * 勾选已预约场次
+     * 勾选已选择场次
      */
     private void reviseData() {
-        if (!StringUtil.isNull(assignDay) && !StringUtil.isNull(assignTime) && assignDay.equals(selectDay)) {
+        if (!StringUtil.isNull(assignTime)) {
             for (int i = 0; i < al_show.size(); i++) {
-                String time = al_show.get(i).getTime();
-                if (assignTime.equals(time)) {
-                    al_show.get(i).setReserve(true); //已预约
-                    al_show.get(i).setSelect(true);  //勾选中
-                    al_show.get(i).setState(false);  //不可选
+                String timeStr = al_show.get(i).getTime();
+                if (assignTime.equals(timeStr)) {
+                    updateItemState(i); //选中
+                    return;
                 }
             }
         }
+        initListView();
     }
 
     /**
@@ -199,6 +209,7 @@ public class ChoiceDateActivity extends BaseActivity implements View.OnClickList
                         selectTime = optionEn.getTime();
                         selectTimeId = optionEn.getEntityId();
                     } else {
+                        selectEn = null;
                         selectTime = "";
                         selectTimeId = "";
                     }
@@ -222,6 +233,17 @@ public class ChoiceDateActivity extends BaseActivity implements View.OnClickList
         }
     }
 
+    /**
+     * 清除缓存数据
+     */
+    private void clearData() {
+        selectEn = null;
+        selectDay = "";
+        selectTime = "";
+        selectTimeId = "";
+        al_show.clear();
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -241,6 +263,25 @@ public class ChoiceDateActivity extends BaseActivity implements View.OnClickList
             return false;
         }
         return true;
+    }
+
+    /**
+     * 校验数据
+     */
+    private void checkData() {
+        if (StringUtil.isNull(selectDay)) {
+            CommonTools.showToast(getString(R.string.choice_select_date));
+            return;
+        }
+        if (StringUtil.isNull(selectTime)) {
+            if (al_show.size() > 0) {
+                CommonTools.showToast(getString(R.string.choice_select_time));
+            } else {
+                CommonTools.showToast(getString(R.string.choice_select_time_empty));
+            }
+            return;
+        }
+        postCheckData();
     }
 
     @Override
@@ -290,38 +331,11 @@ public class ChoiceDateActivity extends BaseActivity implements View.OnClickList
      * 数据报错处理
      */
     private void dataErrorHandle() {
-        //showDataError();
         loadDateData();
-    }
-
-    private void clearData() {
-        selectDay = "";
-        selectTime = "";
-        al_show.clear();
-        initListView();
-    }
-
-    private void checkData() {
-        if (StringUtil.isNull(selectDay)) {
-            CommonTools.showToast(getString(R.string.choice_select_date));
-            return;
-        }
-        if (StringUtil.isNull(selectTime)) {
-            if (al_show.size() > 0) {
-                CommonTools.showToast(getString(R.string.choice_select_time));
-            } else {
-                CommonTools.showToast(getString(R.string.choice_select_time_empty));
-            }
-            return;
-        }
-        postCheckData();
     }
 
     private void getTimeData() {
         loadTimeData();
-        /*al_show.clear();
-        al_show.addAll(getDemoData());
-        initListView();*/
     }
 
     /**
@@ -379,9 +393,14 @@ public class ChoiceDateActivity extends BaseActivity implements View.OnClickList
                         if (lists.size() > 0) {
                             al_show.clear();
                             al_show.addAll(lists);
-                            initListView();
+                            if (!StringUtil.isNull(assignDay) && assignDay.equals(selectDay)) {
+                                reviseData(); //选中日期==指定日期
+                            } else {
+                                initListView();
+                            }
                         }
                     } else {
+                        initListView();
                         handleErrorCode(baseEn);
                     }
                     break;
@@ -400,35 +419,12 @@ public class ChoiceDateActivity extends BaseActivity implements View.OnClickList
                     break;
             }
         } catch (Exception e) {
+            if (dataType == AppConfig.REQUEST_SV_RESERVATION_TIME) {
+                initListView();
+            }
             loadFailHandle();
             ExceptionUtil.handle(e);
         }
-    }
-
-    private List<OptionEntity> getDemoData() {
-        List<OptionEntity> lists = new ArrayList<>();
-
-        OptionEntity option_1 = new OptionEntity();
-        option_1.setTime("09:00-10:30");
-        option_1.setState(true);
-        lists.add(option_1);
-
-        OptionEntity option_2 = new OptionEntity();
-        option_2.setTime("11:00-12:30");
-        option_2.setState(true);
-        lists.add(option_2);
-
-        OptionEntity option_3 = new OptionEntity();
-        option_3.setTime("13:00-14:30");
-        option_3.setState(true);
-        lists.add(option_3);
-
-        OptionEntity option_4 = new OptionEntity();
-        option_4.setTime("16:00-17:30");
-        option_4.setState(false);
-        lists.add(option_4);
-
-        return lists;
     }
 
 }

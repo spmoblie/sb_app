@@ -85,7 +85,7 @@ public class EditUserInfoActivity extends BaseActivity {
 			
 			@Override
 			public void afterTextChanged(Editable s) {
-				if (s.toString().isEmpty()) {
+				if (StringUtil.isNull(s.toString())) {
 					iv_clear.setVisibility(View.GONE);
 				}else {
 					iv_clear.setVisibility(View.VISIBLE);
@@ -113,7 +113,7 @@ public class EditUserInfoActivity extends BaseActivity {
 
 	private boolean checkData() {
 		showStr = et_content.getText().toString();
-		if (showStr.isEmpty()) {
+		if (StringUtil.isNull(showStr)) {
 			CommonTools.showToast(hintStr);
 			return false;
 		}

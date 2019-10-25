@@ -130,13 +130,16 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
                 openActivity(RegisterActivity.class);
                 break;
             case R.id.login_tv_wx:
-                loginWX();
+                //loginWX();
+                CommonTools.showToast("当前版本仅支持手机号登录");
                 break;
             case R.id.login_tv_qq:
-                loginQQ();
+                //loginQQ();
+                CommonTools.showToast("当前版本仅支持手机号登录");
                 break;
             case R.id.login_tv_wb:
-                loginWB();
+                //loginWB();
+                CommonTools.showToast("当前版本仅支持手机号登录");
                 break;
         }
     }
