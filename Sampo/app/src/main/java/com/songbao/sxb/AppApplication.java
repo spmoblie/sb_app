@@ -15,14 +15,13 @@ import android.util.DisplayMetrics;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.songbao.sxb.activity.MainActivity;
-import com.songbao.sxb.utils.SharedUtil;
 import com.songbao.sxb.utils.BitmapUtil;
 import com.songbao.sxb.utils.CommonTools;
 import com.songbao.sxb.utils.DeviceUtil;
 import com.songbao.sxb.utils.ExceptionUtil;
 import com.songbao.sxb.utils.LogUtil;
 import com.songbao.sxb.utils.PushManager;
-import com.songbao.sxb.utils.UserManager;
+import com.songbao.sxb.utils.SharedUtil;
 import com.songbao.sxb.utils.retrofit.HttpRequests;
 import com.umeng.analytics.MobclickAgent;
 
@@ -302,8 +301,7 @@ public class AppApplication extends Application {
     public static void AppLogout() {
         // 远程退出
         HashMap<String, String> map = new HashMap<>();
-        map.put("userId", UserManager.getInstance().getUserId());
-        HttpRequests.getInstance().loadData("url_head:pay", AppConfig.URL_AUTH_LOGOUT, map, HttpRequests.HTTP_POST);
+        HttpRequests.getInstance().loadData(AppConfig.BASE_TYPE, AppConfig.URL_AUTH_LOGOUT, map, HttpRequests.HTTP_POST);
         // 本地退出
         AppManager.getInstance().AppLogout(getAppContext());
     }

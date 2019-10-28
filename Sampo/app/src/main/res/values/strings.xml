@@ -83,8 +83,8 @@
     <string name="dialog_version_new">当前版本已是最新版本</string>
     <string name="dialog_version_update">检测到新版本\n确定开始更新</string>
     <string name="dialog_version_update_force">当前版本低于最低版本！\n需升级后才能正常使用！</string>
-    <string name="dialog_error_msg">发生错误，请稍后再试</string>
-    <string name="dialog_error_video_url">视频出错，无法播放</string>
+    <string name="dialog_error_msg">出错啦！请稍后再试！</string>
+    <string name="dialog_error_video_url">视频出错！无法播放！</string>
 
     <!-- network -->
     <string name="network">网络</string>
@@ -205,7 +205,7 @@
     <string name="sign_up_cost_hint">费用为大赛统一报名费，主要用于场地租赁和组织等;</string>
     <string name="sign_up_success">报名成功</string>
     <string name="sign_up_success_end">报名成功（已过期）</string>
-    <string name="sign_up_fail">报名失败 (T_T)\n如有疑问请联系客服~</string>
+    <string name="sign_up_fail">报名失败~\n如有疑问请联系客服~</string>
     <string name="sign_up_error">未能获取到报名结果~\n如有疑问请联系客服~</string>
 
     <!-- Coupon -->
@@ -294,7 +294,7 @@
     <string name="login_bound">绑定账号</string>
     <string name="login_immediately_bound">立即绑定</string>
     <string name="login_no_account">没有账号？马上去注册</string>
-    <string name="login_timeout">登录失效 (T_T)\n请重新登录 (^_^)</string>
+    <string name="login_timeout">登录已失效\n请重新登录</string>
     <string name="login_treaty">登录即同意《松小堡用户协议》</string>
 
     <!-- Share -->

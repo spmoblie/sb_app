@@ -13,9 +13,11 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.songbao.sxb.AppApplication;
 import com.songbao.sxb.AppConfig;
 import com.songbao.sxb.AppManager;
@@ -37,14 +39,8 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 
 	public static final String TAG = MainActivity.class.getSimpleName();
 
-	@BindView(R.id.main_fragment_fl_0)
-	FrameLayout fragment_0;
-	@BindView(R.id.main_fragment_fl_1)
-	FrameLayout fragment_1;
-	@BindView(R.id.main_fragment_fl_2)
-	FrameLayout fragment_2;
-	@BindView(R.id.main_fragment_fl_3)
-	FrameLayout fragment_3;
+	@BindView(R.id.main_fragment_fl_show)
+	FrameLayout fl_show;
 
 	@BindView(R.id.main_fragment_tab_tv_1)
 	TextView tab_text_1;
@@ -52,6 +48,13 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 	TextView tab_text_2;
 	@BindView(R.id.main_fragment_tab_tv_3)
 	TextView tab_text_3;
+
+	@BindView(R.id.main_fragment_tab_iv_1)
+	ImageView tab_icon_1;
+	@BindView(R.id.main_fragment_tab_iv_2)
+	ImageView tab_icon_2;
+	@BindView(R.id.main_fragment_tab_iv_3)
+	ImageView tab_icon_3;
 
 	private SharedPreferences shared;
 	private FragmentManager manager;
@@ -85,9 +88,9 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 	}
 
 	private void initView() {
-		fragment_1.setOnClickListener(this);
-		fragment_2.setOnClickListener(this);
-		fragment_3.setOnClickListener(this);
+		tab_text_1.setOnClickListener(this);
+		tab_text_2.setOnClickListener(this);
+		tab_text_3.setOnClickListener(this);
 
 		boolean isJump = shared.getBoolean(AppConfig.KEY_JUMP_PAGE, false);
 		int open_index = shared.getInt(AppConfig.KEY_MAIN_CURRENT_INDEX, 0);
@@ -101,16 +104,16 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 		// 设置默认初始化的界面
 		switch (open_index) {
 		case 0:
-			fragment_1.performClick();
+			tab_text_1.performClick();
 			break;
 		case 1:
-			fragment_2.performClick();
+			tab_text_2.performClick();
 			break;
 		case 2:
-			fragment_3.performClick();
+			tab_text_3.performClick();
 			break;
 		default:
-			fragment_1.performClick();
+			tab_text_1.performClick();
 			break;
 		}
 		shared.edit().putBoolean(AppConfig.KEY_JUMP_PAGE, false).apply();
@@ -131,20 +134,20 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 	public void changeFragment(int index) {
 		switch (index) {
 			case 0:
-				fragment = (Fragment) mFragmentPagerAdapter.instantiateItem(fragment_0, R.id.main_fragment_fl_1);
+				fragment = (Fragment) mFragmentPagerAdapter.instantiateItem(fl_show, R.id.main_fragment_tab_tv_1);
 				break;
 			case 1:
-				fragment = (Fragment) mFragmentPagerAdapter.instantiateItem(fragment_0, R.id.main_fragment_fl_2);
+				fragment = (Fragment) mFragmentPagerAdapter.instantiateItem(fl_show, R.id.main_fragment_tab_tv_2);
 				break;
 			case 2:
-				fragment = (Fragment) mFragmentPagerAdapter.instantiateItem(fragment_0, R.id.main_fragment_fl_3);
+				fragment = (Fragment) mFragmentPagerAdapter.instantiateItem(fl_show, R.id.main_fragment_tab_tv_3);
 				break;
 		}
 		current_index = index;
 		current_fragment = FRAGMENT_CONTAINER[current_index];
-		mFragmentPagerAdapter.setPrimaryItem(fragment_0, 0, fragment);
-		mFragmentPagerAdapter.finishUpdate(fragment_0);
-		updateImageViewStatus();
+		mFragmentPagerAdapter.setPrimaryItem(fl_show, 0, fragment);
+		mFragmentPagerAdapter.finishUpdate(fl_show);
+		updateViewStatus();
 	}
 
 	@Override
@@ -207,14 +210,14 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.main_fragment_fl_1:
+		case R.id.main_fragment_tab_tv_1:
 			current_index = 0;
 			break;
-		case R.id.main_fragment_fl_2:
+		case R.id.main_fragment_tab_tv_2:
 			if (current_index == 1) return;
 			current_index = 1;
 			break;
-		case R.id.main_fragment_fl_3:
+		case R.id.main_fragment_tab_tv_3:
 			/*if (!UserManager.getInstance().checkIsLogin()) {
 				openLoginActivity();
 				return;
@@ -223,12 +226,12 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 			current_index = 2;
 			break;
 		}
-		fragment = (Fragment) mFragmentPagerAdapter.instantiateItem(fragment_0, v.getId());
-		mFragmentPagerAdapter.setPrimaryItem(fragment_0, 0, fragment);
-		mFragmentPagerAdapter.finishUpdate(fragment_0);
+		fragment = (Fragment) mFragmentPagerAdapter.instantiateItem(fl_show, v.getId());
+		mFragmentPagerAdapter.setPrimaryItem(fl_show, 0, fragment);
+		mFragmentPagerAdapter.finishUpdate(fl_show);
 		current_fragment = FRAGMENT_CONTAINER[current_index];
 		shared.edit().putInt(AppConfig.KEY_MAIN_CURRENT_INDEX, current_index).apply();
-		updateImageViewStatus();
+		updateViewStatus();
 		exit = Boolean.FALSE;
 	}
 
@@ -243,23 +246,38 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 	}
 
 	/**
-	 * 自定义切换底栏的ImgaeView状态
+	 * 自定义切换底栏的View状态
 	 */
-	private void updateImageViewStatus() {
+	private void updateViewStatus() {
 		tab_text_1.setSelected(false);
 		tab_text_2.setSelected(false);
 		tab_text_3.setSelected(false);
+		//tab_icon_1.setSelected(false);
+		tab_icon_1.setImageResource(R.mipmap.selector_home_tab_1_no);
+		tab_icon_2.setSelected(false);
+		tab_icon_3.setSelected(false);
 		switch (current_index) {
 		case 0:
 			tab_text_1.setSelected(true);
+			//tab_icon_1.setSelected(true);
+			changeImage(tab_icon_1, R.drawable.timg);
 			break;
 		case 1:
 			tab_text_2.setSelected(true);
+			tab_icon_2.setSelected(true);
 			break;
 		case 2:
 			tab_text_3.setSelected(true);
+			tab_icon_3.setSelected(true);
 			break;
 		}
+	}
+
+	private void changeImage(ImageView iv_show, int imgUrl) {
+		Glide.with(AppApplication.getAppContext())
+				.load(imgUrl)
+				.apply(AppApplication.getHeadOptions())
+				.into(iv_show);
 	}
 
 	class MyFragmentPagerAdapter extends FragmentPagerAdapter{
@@ -274,19 +292,19 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 		@Override
 		public Fragment getItem(int position) {
 			switch (position) {
-			case R.id.main_fragment_fl_1:
+			case R.id.main_fragment_tab_tv_1:
 				fragment = manager.findFragmentByTag(current_fragment);
 				if (fragment == null) {
 					fragment = new ChildFragmentHome();
 				}
 				return fragment;
-			case R.id.main_fragment_fl_2:
+			case R.id.main_fragment_tab_tv_2:
 				fragment = manager.findFragmentByTag(current_fragment);
 				if (fragment == null) {
 					fragment = new ChildFragmentSampo();
 				}
 				return fragment;
-			case R.id.main_fragment_fl_3:
+			case R.id.main_fragment_tab_tv_3:
 				fragment = manager.findFragmentByTag(current_fragment);
 				if (fragment == null) {
 					fragment = new ChildFragmentMine();
@@ -313,7 +331,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 			// 得到tag，这点很重要
 			/*String fragmentTag = fragment.getTag();
 			switch (position) {
-				case R.id.main_fragment_fl_2:
+				case R.id.main_fragment_tab_tv_2:
 					if (isNewFour) {
 						FragmentTransaction ft = fm.beginTransaction();
 						// 移除旧的fragment

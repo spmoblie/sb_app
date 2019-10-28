@@ -827,7 +827,7 @@ public  class BaseActivity extends FragmentActivity {
 	 */
 	protected void loadSVData(String head, String path, HashMap<String, String> map, int httpType, final int dataType) {
 		if (StringUtil.isNull(head)) {
-			head = "base_2";
+			head = AppConfig.BASE_TYPE;
 		}
 		HttpRequests.getInstance()
 				.loadData(head, path, map, httpType)
@@ -896,7 +896,7 @@ public  class BaseActivity extends FragmentActivity {
 
 		//5.最后进行HTTP请求，传入parts即可
 		HttpRequests.getInstance()
-				.uploadFile("base_1", AppConfig.URL_UPLOAD_PUSH, parts)
+				.uploadFile(AppConfig.BASE_TYPE, AppConfig.URL_UPLOAD_PUSH, parts)
 				.subscribe(new Observer<ResponseBody>() {
 					@Override
 					public void onNext(ResponseBody body) {

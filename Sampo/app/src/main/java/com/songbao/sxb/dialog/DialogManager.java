@@ -67,16 +67,16 @@ public class DialogManager {
 	 * 弹出下载缓冲对话框
 	 * 
 	 * @param width 对话框宽度
-	 * @param keylistener 物理键盘监听器
+	 * @param keyListener 物理键盘监听器
 	 */
-	public void showLoadDialog(int width, OnKeyListener keylistener){
+	public void showLoadDialog(int width, OnKeyListener keyListener){
 		// 销毁旧对话框
 		dismiss();
 		// 创建新对话框
 		mDialog = new Dialog(mContext, R.style.MyDialog);
 		mDialog.setCanceledOnTouchOutside(false);
-		if (keylistener != null) {
-			mDialog.setOnKeyListener(keylistener);
+		if (keyListener != null) {
+			mDialog.setOnKeyListener(keyListener);
 		}
 		mDialog.setContentView(R.layout.dialog_download);
 		// 设置对话框的坐标及宽高

@@ -132,7 +132,8 @@ public class JsonUtils {
                 childEn.setId(item.getInt("id"));
                 childEn.setTitle(item.getString("title"));
                 //childEn.setPicUrl(item.getString("picUrl"));
-                childEn.setLinkUrl(item.getString("linkUrl"));
+                //childEn.setLinkUrl(item.getString("linkUrl"));
+                childEn.setLinkUrl("https://mp.weixin.qq.com/s/uhg0hWDZCvtkyFQUs5FguQ");
                 childEn.setUserId(item.getString("adminId"));
                 childEn.setSuit(item.getString("crowd"));
                 childEn.setUserName(item.getString("userName"));
@@ -337,8 +338,8 @@ public class JsonUtils {
             if (StringUtil.notNull(jsonData, "total")) {
                 mainEn.setDataTotal(jsonData.getInt("total"));
             }
-            if (StringUtil.notNull(jsonData, "activityList")) {
-                JSONArray data = jsonData.getJSONArray("activityList");
+            if (StringUtil.notNull(jsonData, "dataList")) {
+                JSONArray data = jsonData.getJSONArray("dataList");
                 ThemeEntity childEn;
                 List<ThemeEntity> lists = new ArrayList<>();
                 for (int j = 0; j < data.length(); j++) {

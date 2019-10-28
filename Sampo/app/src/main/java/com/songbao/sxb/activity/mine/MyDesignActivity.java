@@ -179,7 +179,6 @@ public class MyDesignActivity extends BaseActivity {
 	 */
 	private void loadServerData() {
 		HashMap<String, String> map = new HashMap<>();
-		map.put("userId", userManager.getUserId());
 		loadSVData(AppConfig.URL_DESIGN_ALL, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_DESIGN_ALL);
 	}
 

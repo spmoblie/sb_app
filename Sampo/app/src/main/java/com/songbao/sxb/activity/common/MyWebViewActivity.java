@@ -150,7 +150,7 @@ public class MyWebViewActivity extends BaseActivity {
 			//webSettings.setLoadWithOverviewMode(true);  //设置加载页面的模式
 			//webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN); //支持内容重新布局
 
-			//解决微信链文图片不显示
+			//设置可同时加载Https、Http的混合模式（解决微信链文图片不显示的问题）
 			if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
 				webSettings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
 
@@ -194,7 +194,7 @@ public class MyWebViewActivity extends BaseActivity {
 
 			//加载Url
 			if (!StringUtil.isNull(lodUrl)) {
-				//webview.addJavascriptInterface(new JsToJava(), "stub");
+				//myWebView.addJavascriptInterface(new JsToJava(), "stub");
 				myLoadUrl(lodUrl);
 			}
 		}
@@ -249,8 +249,9 @@ public class MyWebViewActivity extends BaseActivity {
 	@Override
 	protected void onDestroy() {
 		//清除缓存
-		myWebView.clearCache(true);
-
+		if (myWebView != null) {
+			myWebView.clearCache(true);
+		}
 		super.onDestroy();
 	}
 

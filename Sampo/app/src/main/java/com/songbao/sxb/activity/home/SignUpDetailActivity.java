@@ -3,6 +3,7 @@ package com.songbao.sxb.activity.home;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -121,7 +122,6 @@ public class SignUpDetailActivity extends BaseActivity implements View.OnClickLi
                         .apply(AppApplication.getShowOptions())
                         .into(iv_show);
             }
-            status = data.getStatus();
             tv_title.setText(titleStr);
             tv_name.setText(data.getUserName());
             tv_series.setText(data.getSeries());
@@ -129,6 +129,9 @@ public class SignUpDetailActivity extends BaseActivity implements View.OnClickLi
             tv_place.setText(data.getAddress());
             tv_people.setText(getString(R.string.number_p) + getString(R.string.sign_up_info_number, data.getPeople(), data.getQuantity()));
             tv_suit.setText(data.getSuit());
+
+            status = data.getStatus();
+            checkState();
 
             webUrl = data.getLinkUrl();
             initWebView();
@@ -146,9 +149,13 @@ public class SignUpDetailActivity extends BaseActivity implements View.OnClickLi
             webSettings.setBuiltInZoomControls(false); //设置是否支持缩放
             webSettings.setBlockNetworkImage(false); //解决图片不显示
 
-            myWebView.setVerticalScrollBarEnabled(false);
+            //设置可同时加载Https、Http的混合模式（解决微信链文图片不显示的问题）
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+                webSettings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
             //开启硬件加速(华为部分手机会出现卡顿)
             myWebView.setLayerType(View.LAYER_TYPE_HARDWARE,null);
+            //隐藏垂直滚动条
+            myWebView.setVerticalScrollBarEnabled(false);
 
             //设置不允许外部浏览器打开
             myWebView.setWebViewClient(new WebViewClient(){
@@ -191,7 +198,7 @@ public class SignUpDetailActivity extends BaseActivity implements View.OnClickLi
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.sign_up_detail_tv_click:
-                if (!checkOnClick()) return;
+                if (!checkClick()) return;
                 if (isOnClick) {
                     openSignUpActivity(data);
                 }
@@ -200,16 +207,39 @@ public class SignUpDetailActivity extends BaseActivity implements View.OnClickLi
     }
 
     /**
-     * 校验点击事件
+     * 校验事件
      */
-    private boolean checkOnClick() {
+    private boolean checkClick() {
         if (!isLoadOk) {
             dataErrorHandle();
             return false;
         }
-        if (pageType == 1)
+        if (pageType == 1 || status == 2)
             return false;
         return true;
+    }
+
+    /**
+     * 校验状态
+     */
+    private void checkState() {
+        if (pageType == 1) { //我的报名
+            if (status == 2) { //已过期
+                setClickState(getString(R.string.sign_up_success_end), true);
+            } else {
+                setClickState(getString(R.string.sign_up_success), true);
+            }
+        } else {
+            // 有效状态
+            if (status == 2) { //已截止
+                setClickState(getString(R.string.sign_up_end), false);
+            }
+            // 报名状态
+            isSignUp = userManager.isThemeSignUp(themeId);
+            if (isLogin() && isSignUp) { //已报名
+                setClickState(getString(R.string.sign_up_already), false);
+            }
+        }
     }
 
     @Override
@@ -218,25 +248,7 @@ public class SignUpDetailActivity extends BaseActivity implements View.OnClickLi
         // 页面开始
         AppApplication.onPageStart(this, TAG);
 
-        if (pageType == 1) { //我的报名
-            if (status == 2) { //已过期
-                setClickState(getString(R.string.sign_up_success_end), true);
-            } else {
-                setClickState(getString(R.string.sign_up_success), true);
-            }
-        } else {
-            if (isLogin()) {
-                // 报名状态
-                isSignUp = userManager.isThemeSignUp(themeId);
-                if (isSignUp) { //已报名
-                    setClickState(getString(R.string.sign_up_already), false);
-                } else {
-                    if (status == 2) { //已截止
-                        setClickState(getString(R.string.sign_up_end), false);
-                    }
-                }
-            }
-        }
+        checkState();
 
         super.onResume();
     }
@@ -252,6 +264,10 @@ public class SignUpDetailActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     protected void onDestroy() {
+        //清除缓存
+        if (myWebView != null) {
+            myWebView.clearCache(true);
+        }
         super.onDestroy();
     }
 

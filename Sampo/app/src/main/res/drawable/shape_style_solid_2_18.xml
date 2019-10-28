@@ -7,9 +7,9 @@
 
     <!-- 圆角 -->
     <corners
-        android:bottomLeftRadius="16dip"
-        android:bottomRightRadius="2dip"
-        android:topLeftRadius="2dip"
-        android:topRightRadius="16dip" />
+        android:bottomLeftRadius="18dip"
+        android:bottomRightRadius="18dip"
+        android:topLeftRadius="18dip"
+        android:topRightRadius="18dip" />
 
 </shape>

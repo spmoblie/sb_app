@@ -14,7 +14,7 @@
         android:ellipsize="end"
         android:lines="1"
         android:textColor="@color/dialog_text_title"
-        android:textSize="@dimen/app_text_size_title" />
+        android:textSize="@dimen/app_text_size_dialog" />
 
     <ImageView
         style="@style/set_line_horizontal_bg"

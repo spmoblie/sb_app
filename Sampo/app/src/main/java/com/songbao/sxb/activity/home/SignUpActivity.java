@@ -191,7 +191,6 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
                         .apply(AppApplication.getShowOptions())
                         .into(iv_show);
             }
-            status = data.getStatus();
             payAmount = data.getFees();
             if (payAmount > 0) {
                 isPay = true;
@@ -213,6 +212,9 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
                     "\n\n" + getString(R.string.other) + otherStr;
 
             tv_explain.setText(showStr);
+
+            status = data.getStatus();
+            checkState();
 
             isLoadOk = true;
         }
@@ -247,16 +249,8 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
                 selectAge();
                 break;
             case R.id.sign_tv_click:
-                if (!isLoadOk) {
-                    dataErrorHandle();
-                    return;
-                }
-                if (!isLogin()) { //未登录
-                    openLoginActivity();
-                    return;
-                }
-                if (isSignUp) return; //已报名
-                if (status == 1 && checkData() && isOnClick) {
+                if (!checkClick()) return;
+                if (checkData() && isOnClick) {
                     postSignUpData();
                 }
                 break;
@@ -301,6 +295,25 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
     }
 
     /**
+     * 校验事件
+     */
+    private boolean checkClick() {
+        if (!isLoadOk) {
+            dataErrorHandle();
+            return false;
+        }
+        if (status == 2) //已过期
+            return false;
+        if (!isLogin()) { //未登录
+            openLoginActivity();
+            return false;
+        }
+        if (isSignUp) //已报名
+            return false;
+        return true;
+    }
+
+    /**
      * 校验数据
      */
     private boolean checkData() {
@@ -334,23 +347,28 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
         return true;
     }
 
+    /**
+     * 校验状态
+     */
+    private void checkState() {
+        // 有效状态
+        if (status == 2) { //已截止
+            setClickState(getString(R.string.sign_up_end), false);
+        }
+        // 报名状态
+        isSignUp = userManager.isThemeSignUp(themeId);
+        if (isLogin() && isSignUp) { //已报名
+            setClickState(getString(R.string.sign_up_already), false);
+        }
+    }
+
     @Override
     protected void onResume() {
         LogUtil.i(LogUtil.LOG_TAG, TAG + ": onResume");
         // 页面开始
         AppApplication.onPageStart(this, TAG);
 
-        // 报名状态
-        isSignUp = userManager.isThemeSignUp(themeId);
-        if (isLogin()) {
-            if (isSignUp) { //已报名
-                setClickState(getString(R.string.sign_up_already), false);
-            } else {
-                if (status == 2) { //已截止
-                    setClickState(getString(R.string.sign_up_end), false);
-                }
-            }
-        }
+        checkState();
 
         super.onResume();
     }
@@ -387,7 +405,7 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
     }
 
     /**
-     * 提交报名数据
+     * 报名提交
      */
     private void postSignUpData() {
         if (data == null || themeId <= 0) {
@@ -410,19 +428,9 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
     }
 
     /**
-     * 在线支付
+     * 报名反馈
      */
-    private void startPay() {
-        Intent intent = new Intent(mContext, WXPayEntryActivity.class);
-        intent.putExtra("orderSn", orderNo);
-        intent.putExtra("orderTotal", df.format(payAmount));
-        startActivityForResult(intent, AppConfig.ACTIVITY_CODE_PAY_DATA);
-    }
-
-    /**
-     * 校验报名状态
-     */
-    private void checkSignUpState() {
+    private void backSignUpData() {
         startAnimation();
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -432,6 +440,16 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
                 loadSVData(AppConfig.URL_SIGN_UP_CALLBACK, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_SIGN_UP_CALLBACK);
             }
         }, AppConfig.LOADING_TIME);
+    }
+
+    /**
+     * 在线支付
+     */
+    private void startPay() {
+        Intent intent = new Intent(mContext, WXPayEntryActivity.class);
+        intent.putExtra("orderSn", orderNo);
+        intent.putExtra("orderTotal", df.format(payAmount));
+        startActivityForResult(intent, AppConfig.ACTIVITY_CODE_PAY_DATA);
     }
 
     @Override
@@ -502,7 +520,7 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
                     userManager.saveThemeId(themeId);
                     setClickState(getString(R.string.sign_up_already), false);
 
-                    checkSignUpState();
+                    backSignUpData();
                 }
             }
         }

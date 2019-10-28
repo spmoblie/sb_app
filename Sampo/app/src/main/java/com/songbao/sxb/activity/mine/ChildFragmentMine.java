@@ -311,7 +311,6 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
      */
     private void loadUserInfo() {
         HashMap<String, String> map = new HashMap<>();
-        map.put("userId", userManager.getUserId());
         loadSVData(AppConfig.URL_USER_GET, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_USER_GET);
     }
 

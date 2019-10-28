@@ -5,6 +5,7 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.constraint.ConstraintLayout;
@@ -240,9 +241,14 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
             webSettings.setBuiltInZoomControls(false); //设置是否支持缩放
             webSettings.setBlockNetworkImage(false); //解决图片不显示
 
-            myWebView.setVerticalScrollBarEnabled(false);
+            //设置可同时加载Https、Http的混合模式（解决微信链文图片不显示的问题）
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                webSettings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+            }
             //开启硬件加速(华为部分手机会出现卡顿)
             myWebView.setLayerType(View.LAYER_TYPE_HARDWARE,null);
+            //隐藏垂直滚动条
+            myWebView.setVerticalScrollBarEnabled(false);
 
             //设置不允许外部浏览器打开
             myWebView.setWebViewClient(new WebViewClient(){
@@ -275,7 +281,7 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
             case R.id.reserve_detail_tv_click:
                 if (!checkOnClick()) return;
                 if (isDateOk && isTimeOk) {
-                    getPayOrderSn();
+                    postReserveData();
                 } else {
                     openChoiceDateActivity(data);
                 }
@@ -364,6 +370,10 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
 
     @Override
     protected void onDestroy() {
+        //清除缓存
+        if (myWebView != null) {
+            myWebView.clearCache(true);
+        }
         super.onDestroy();
     }
 
@@ -385,9 +395,9 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
     }
 
     /**
-     * 获取支付参数
+     * 预约提交
      */
-    private void getPayOrderSn() {
+    private void postReserveData() {
         if (data == null || themeId <= 0) {
             CommonTools.showToast(getString(R.string.toast_error_data_app));
             return;
@@ -405,19 +415,9 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
     }
 
     /**
-     * 在线支付
+     * 预约反馈
      */
-    private void startPay() {
-        Intent intent = new Intent(mContext, WXPayEntryActivity.class);
-        intent.putExtra("orderSn", orderNo);
-        intent.putExtra("orderTotal", df.format(payAmount));
-        startActivityForResult(intent, AppConfig.ACTIVITY_CODE_PAY_DATA);
-    }
-
-    /**
-     * 校验预约状态
-     */
-    private void checkReserveState() {
+    private void backReserveData() {
         startAnimation();
         new Handler().postDelayed(new Runnable() {
             @Override
@@ -427,6 +427,16 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
                 loadSVData(AppConfig.URL_RESERVATION_CALLBACK, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_RESERVATION_CALLBACK);
             }
         }, AppConfig.LOADING_TIME);
+    }
+
+    /**
+     * 在线支付
+     */
+    private void startPay() {
+        Intent intent = new Intent(mContext, WXPayEntryActivity.class);
+        intent.putExtra("orderSn", orderNo);
+        intent.putExtra("orderTotal", df.format(payAmount));
+        startActivityForResult(intent, AppConfig.ACTIVITY_CODE_PAY_DATA);
     }
 
     @Override
@@ -501,7 +511,7 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
                     iv_time_go.setVisibility(View.GONE);
                     click_main.setVisibility(View.GONE);
 
-                    checkReserveState();
+                    backReserveData();
                 }
             }
         }

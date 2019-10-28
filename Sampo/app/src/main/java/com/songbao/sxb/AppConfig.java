@@ -14,6 +14,8 @@ public class AppConfig {
 	public static final boolean IS_PUBLISH = false;
 	// http协议
 	public final static String APP_HTTP = "http://";
+	// Base类型
+	public final static String BASE_TYPE = "base_2"; //base_1:发布Url、base_2:测试Url
 	// Base域名
 	public final static String BASE_URL_1 = APP_HTTP + "119.145.16.116:8080/app/";
 	// Base域名
@@ -59,7 +61,7 @@ public class AppConfig {
 	public final static String URL_RESERVATION_DATE = "reservation/findDateTime";
 	// 获取课程时段
 	public final static String URL_RESERVATION_TIME = "reservation/findCourseTime";
-	// 校验时间段是否有效
+	// 校验时段有效性
 	public final static String URL_RESERVATION_IS = "reservation/isReservation";
 
 	// 获取用户资料

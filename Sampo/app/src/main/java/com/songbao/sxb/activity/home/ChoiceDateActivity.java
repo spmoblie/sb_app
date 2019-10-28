@@ -185,7 +185,7 @@ public class ChoiceDateActivity extends BaseActivity implements View.OnClickList
         if (!StringUtil.isNull(assignTime)) {
             for (int i = 0; i < al_show.size(); i++) {
                 String timeStr = al_show.get(i).getTime();
-                if (assignTime.equals(timeStr)) {
+                if (assignTime.equals(timeStr) && al_show.get(i).isState()) {
                     updateItemState(i); //选中
                     return;
                 }
@@ -411,6 +411,9 @@ public class ChoiceDateActivity extends BaseActivity implements View.OnClickList
                         finish();
                     } else
                     if (baseEn.getErrno() == AppConfig.ERROR_CODE_FULL) { //该时段已约满
+                        String dayStr = selectDay;
+                        clearData();
+                        selectDay = dayStr;
                         getTimeData(); //刷新预约状态
                         CommonTools.showToast(baseEn.getErrmsg());
                     } else {

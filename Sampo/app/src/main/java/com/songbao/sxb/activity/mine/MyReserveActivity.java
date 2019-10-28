@@ -14,7 +14,6 @@ import com.songbao.sxb.activity.home.ReserveDetailActivity;
 import com.songbao.sxb.adapter.AdapterCallback;
 import com.songbao.sxb.adapter.MyReserveAdapter;
 import com.songbao.sxb.entity.BaseEntity;
-import com.songbao.sxb.entity.MessageEntity;
 import com.songbao.sxb.entity.ThemeEntity;
 import com.songbao.sxb.utils.ExceptionUtil;
 import com.songbao.sxb.utils.JsonUtils;
@@ -178,10 +177,10 @@ public class MyReserveActivity extends BaseActivity {
 	 * 翻页加载
 	 */
 	private void loadMoreData() {
-		//loadServerData();
-		al_show.clear();
+		loadServerData();
+		/*al_show.clear();
 		al_show.addAll(getDemoData());
-		updateListData();
+		updateListData();*/
 	}
 
 	/**
@@ -203,7 +202,7 @@ public class MyReserveActivity extends BaseActivity {
 					baseEn = JsonUtils.getMyThemeList(jsonObject);
 					if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
 						data_total = baseEn.getDataTotal(); //加载更多数据控制符
-						List<MessageEntity> lists = baseEn.getLists();
+						List<ThemeEntity> lists = baseEn.getLists();
 						if (lists.size() > 0) {
 							if (current_Page == 1) {
 								al_show.clear();

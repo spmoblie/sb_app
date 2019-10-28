@@ -57,19 +57,14 @@
         <item name="android:alpha">0.3</item>
     </style>
 
-    <!-- 主页底部Tab布局样式 -->
-    <style name="main_tab_frame">
-        <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">match_parent</item>
-        <item name="android:layout_weight">1</item>
-    </style>
-
     <!-- 主页底部Tab文字样式 -->
     <style name="main_tab_text">
-        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_gravity">center</item>
-        <item name="android:gravity">center</item>
+        <item name="android:paddingTop">@dimen/margin_padding_35</item>
+        <item name="android:paddingBottom">@dimen/margin_padding_10</item>
+        <item name="android:background">@color/ui_color_app_bg_01</item>
+        <item name="android:gravity">center_horizontal|bottom</item>
         <item name="android:textSize">@dimen/text_size_11</item>
         <item name="android:textColor">@color/selector_home_tab_text</item>
     </style>
