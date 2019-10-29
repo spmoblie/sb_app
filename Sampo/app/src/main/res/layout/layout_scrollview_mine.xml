@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:background="@color/ui_color_app_bg_02"
     android:orientation="vertical"
-    android:padding="@dimen/screen_margin_default">
+    android:padding="@dimen/app_margin_screen">
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -15,37 +15,29 @@
 
         <ImageView
             android:id="@+id/fg_mine_iv_setting"
-            android:layout_width="@dimen/title_height"
-            android:layout_height="@dimen/title_height"
+            android:layout_width="@dimen/app_height_events"
+            android:layout_height="@dimen/app_height_events"
             android:src="@mipmap/icon_setting"
             android:scaleType="center"
-            android:visibility="visible"
+            android:visibility="gone"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintRight_toRightOf="parent"/>
 
         <ImageView
             android:id="@+id/fg_mine_iv_message"
-            android:layout_width="@dimen/title_height"
-            android:layout_height="@dimen/title_height"
+            android:layout_width="@dimen/app_height_events"
+            android:layout_height="@dimen/app_height_events"
             android:src="@mipmap/icon_message_no"
             android:scaleType="center"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintRight_toLeftOf="@id/fg_mine_iv_setting" />
-
-        <ImageView
-            android:id="@+id/fg_mine_iv_debunk"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@mipmap/icon_debunk"
-            app:layout_constraintRight_toRightOf="parent"
-            android:visibility="gone"/>
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/fg_mine_cl_head_main"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_padding_30"
-            android:background="@mipmap/bg_me_head"
+            android:background="@mipmap/icon_bg_mine"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -88,7 +80,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/shape_style_solid_1_18"
-        android:layout_marginTop="@dimen/screen_margin_default"
+        android:layout_marginTop="@dimen/app_margin_screen"
         android:paddingTop="@dimen/margin_padding_8"
         android:paddingBottom="@dimen/margin_padding_8"
         android:orientation="vertical">

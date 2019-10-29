@@ -57,10 +57,9 @@ public class ChoiceDateActivity extends BaseActivity implements View.OnClickList
     private ChoiceListAdapter lv_Adapter;
     private ThemeEntity data;
     private OptionEntity selectEn;
-    private int themeId; //课程Id
     private boolean isChange = false;
     private boolean loadDateOk = false;
-    private String selectDay, assignDay, assignTime, selectTime, selectTimeId;
+    private String themeId, selectDay, assignDay, assignTime, selectTime, selectTimeId;
     private ArrayList<String> al_date = new ArrayList<>();
     private ArrayList<OptionEntity> al_show = new ArrayList<>();
 
@@ -73,7 +72,7 @@ public class ChoiceDateActivity extends BaseActivity implements View.OnClickList
         assignTime = getIntent().getStringExtra("assignTime");
         data = (ThemeEntity) getIntent().getExtras().getSerializable(AppConfig.PAGE_DATA);
         if (data != null) {
-            themeId = data.getId();
+            themeId = data.getThemeId();
         }
 
         initView();
@@ -343,7 +342,7 @@ public class ChoiceDateActivity extends BaseActivity implements View.OnClickList
      */
     private void loadDateData() {
         HashMap<String, String> map = new HashMap<>();
-        map.put("activityId", String.valueOf(themeId));
+        map.put("activityId", themeId);
         loadSVData(AppConfig.URL_RESERVATION_DATE, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_RESERVATION_DATE);
     }
 
@@ -352,7 +351,7 @@ public class ChoiceDateActivity extends BaseActivity implements View.OnClickList
      */
     private void loadTimeData() {
         HashMap<String, String> map = new HashMap<>();
-        map.put("activityId", String.valueOf(themeId));
+        map.put("activityId", themeId);
         map.put("raStartTime", selectDay + " 00:00:00");
         loadSVData(AppConfig.URL_RESERVATION_TIME, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_RESERVATION_TIME);
     }
@@ -362,7 +361,7 @@ public class ChoiceDateActivity extends BaseActivity implements View.OnClickList
      */
     private void postCheckData() {
         HashMap<String, String> map = new HashMap<>();
-        map.put("activityId", String.valueOf(themeId));
+        map.put("activityId", themeId);
         map.put("reservationActivityId", selectTimeId);
         loadSVData(AppConfig.URL_RESERVATION_IS, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_RESERVATION_IS);
     }

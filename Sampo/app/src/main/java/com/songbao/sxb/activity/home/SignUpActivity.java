@@ -71,18 +71,15 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
 
     private DecimalFormat df;
     private ThemeEntity data;
-    private int themeId; //课程Id
     private int status; //1:报名中, 2:已截止
     private int genderCode = 1; //1:男, 2:女
     private double payAmount = 0.00;
-    private boolean isSignUp = false;
-    private boolean isPay = false;
     private boolean isName_Ok = false;
     private boolean isAge_Ok = false;
     private boolean isPhone_Ok = false;
     private boolean isLoadOk = false;
     private boolean isOnClick = false;
-    private String imgUrl, nameStr, ageStr, phoneStr, orderNo;
+    private String themeId, imgUrl, nameStr, ageStr, phoneStr, orderNo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,7 +88,7 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
 
         data = (ThemeEntity) getIntent().getExtras().getSerializable(AppConfig.PAGE_DATA);
         if (data != null) {
-            themeId = data.getId();
+            themeId = data.getThemeId();
             status = data.getStatus();
         }
         df = new DecimalFormat("0.00");
@@ -115,7 +112,8 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
         tv_click.setOnClickListener(this);
 
         showImgLP = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        showImgLP.height = screenWidth / 2;
+        showImgLP.width = AppApplication.screen_width;
+        showImgLP.height = AppApplication.screen_width * AppConfig.IMG_HEIGHT / AppConfig.IMG_WIDTHS;
         iv_show.setLayoutParams(showImgLP);
 
         initEditText();
@@ -192,9 +190,6 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
                         .into(iv_show);
             }
             payAmount = data.getFees();
-            if (payAmount > 0) {
-                isPay = true;
-            }
             tv_cost.setText(df.format(payAmount));
 
             String timeStr = getString(R.string.time) + getString(R.string.sign_up_info_time, data.getStartTime(), data.getEndTime());
@@ -221,7 +216,6 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
     }
 
     private void changeState() {
-        if (isSignUp) return;
         setClickState("", false);
         if (isName_Ok && isAge_Ok && isPhone_Ok) {
             setClickState("", true);
@@ -308,8 +302,6 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
             openLoginActivity();
             return false;
         }
-        if (isSignUp) //已报名
-            return false;
         return true;
     }
 
@@ -351,14 +343,8 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
      * 校验状态
      */
     private void checkState() {
-        // 有效状态
         if (status == 2) { //已截止
             setClickState(getString(R.string.sign_up_end), false);
-        }
-        // 报名状态
-        isSignUp = userManager.isThemeSignUp(themeId);
-        if (isLogin() && isSignUp) { //已报名
-            setClickState(getString(R.string.sign_up_already), false);
         }
     }
 
@@ -400,7 +386,7 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
      */
     private void loadServerData() {
         HashMap<String, String> map = new HashMap<>();
-        map.put("activityId", String.valueOf(themeId));
+        map.put("activityId", themeId);
         loadSVData(AppConfig.URL_ACTIVITY_DETAIL, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_ACTIVITY_DETAIL);
     }
 
@@ -408,16 +394,12 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
      * 报名提交
      */
     private void postSignUpData() {
-        if (data == null || themeId <= 0) {
-            CommonTools.showToast(getString(R.string.toast_error_data_app));
-            return;
-        }
         startAnimation();
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 HashMap<String, String> map = new HashMap<>();
-                map.put("activityId", String.valueOf(themeId));
+                map.put("activityId", themeId);
                 map.put("name", nameStr);
                 map.put("gender", String.valueOf(genderCode));
                 map.put("ageStage", ageStr);
@@ -482,32 +464,24 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
                     baseEn = JsonUtils.getBaseErrorData(jsonObject);
                     if (baseEn != null) {
                         if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
-                            showSuccessDialog(getString(R.string.sign_up_success), true);
-
-                            new Handler().postDelayed(new Runnable() {
-                                @Override
-                                public void run() {
-                                    finish();
-                                }
-                            }, 2000);
+                            handleSignUpResult(1);
                         } else {
-                            showSuccessDialog(getString(R.string.sign_up_fail), false);
+                            handleSignUpResult(2);
                         }
                     } else {
-                        showSuccessDialog(getString(R.string.sign_up_error), false);
+                        handleSignUpResult(3);
                     }
                     break;
             }
         } catch (Exception e) {
+            if (dataType == AppConfig.REQUEST_SV_SIGN_UP_CALLBACK) {
+                handleSignUpResult(3);
+            } else {
+                handleErrorCode(null);
+            }
             loadFailHandle();
             ExceptionUtil.handle(e);
         }
-    }
-
-    @Override
-    protected void loadFailHandle() {
-        super.loadFailHandle();
-        handleErrorCode(null);
     }
 
     @Override
@@ -516,15 +490,30 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
             if (requestCode == AppConfig.ACTIVITY_CODE_PAY_DATA) {
                 boolean isPayOk = data.getBooleanExtra(AppConfig.ACTIVITY_KEY_PAY_RESULT, false);
                 if (isPayOk) {
-                    isSignUp = true;
-                    userManager.saveThemeId(themeId);
-                    setClickState(getString(R.string.sign_up_already), false);
-
+                    setClickState(getString(R.string.pay_success), false);
                     backSignUpData();
                 }
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void handleSignUpResult(int resultCode) {
+        String showStr;
+        switch (resultCode) {
+            case 2: //失败
+                showStr = getString(R.string.sign_up_fail);
+                showSuccessDialog(showStr, false);
+                break;
+            case 3: //错误
+                showStr = getString(R.string.sign_up_error);
+                showSuccessDialog(showStr, false);
+                break;
+            default: //成功
+                showStr = getString(R.string.sign_up_success_show);
+                showSuccessDialog(showStr, true);
+                break;
+        }
     }
 
 }

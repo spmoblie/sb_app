@@ -10,7 +10,7 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/screen_margin_default"
+        android:padding="@dimen/app_margin_screen"
         android:visibility="gone">
 
         <TextView
@@ -25,7 +25,7 @@
             android:id="@+id/area_tv_other_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/screen_margin_default"
+            android:layout_marginTop="@dimen/app_margin_screen"
             android:text="山卡拉"
             android:textSize="@dimen/app_text_size_content"
             android:textColor="@color/shows_text_color"
@@ -36,8 +36,8 @@
     <ImageView
         android:id="@+id/item_area_dividerImageView"
         style="@style/set_line_horizontal_bg"
-        android:layout_marginLeft="@dimen/screen_margin_default"
-        android:layout_marginRight="@dimen/screen_margin_default"
+        android:layout_marginLeft="@dimen/app_margin_screen"
+        android:layout_marginRight="@dimen/app_margin_screen"
         android:contentDescription="@string/desc"
         android:visibility="gone"/>
 

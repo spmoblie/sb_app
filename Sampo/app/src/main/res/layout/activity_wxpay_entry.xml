@@ -20,7 +20,7 @@
             android:id="@+id/payment_tv_pay_amount"
             style="@style/common_text_price"
             android:layout_centerInParent="true"
-            android:layout_marginTop="@dimen/screen_margin_default"
+            android:layout_marginTop="@dimen/app_margin_screen"
             android:textSize="@dimen/text_size_22"
             android:textStyle="bold" />
     </RelativeLayout>
@@ -62,14 +62,14 @@
                     android:id="@+id/payment_iv_pay_wx"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/screen_margin_default"
+                    android:layout_marginTop="@dimen/app_margin_screen"
                     android:src="@mipmap/payment_wx" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/margin_padding_10"
-                    android:layout_marginTop="@dimen/screen_margin_default"
+                    android:layout_marginTop="@dimen/app_margin_screen"
                     android:layout_toRightOf="@id/payment_iv_pay_wx"
                     android:text="@string/pay_wx"
                     android:textColor="@color/shows_text_color"
@@ -107,14 +107,14 @@
                     android:id="@+id/payment_iv_pay_zfb"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/screen_margin_default"
+                    android:layout_marginTop="@dimen/app_margin_screen"
                     android:src="@mipmap/payment_zfb" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/margin_padding_10"
-                    android:layout_marginTop="@dimen/screen_margin_default"
+                    android:layout_marginTop="@dimen/app_margin_screen"
                     android:layout_toRightOf="@id/payment_iv_pay_zfb"
                     android:text="@string/pay_zfb"
                     android:textColor="@color/shows_text_color"
@@ -152,14 +152,14 @@
                     android:id="@+id/payment_iv_pay_union"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/screen_margin_default"
+                    android:layout_marginTop="@dimen/app_margin_screen"
                     android:src="@mipmap/payment_union" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/margin_padding_10"
-                    android:layout_marginTop="@dimen/screen_margin_default"
+                    android:layout_marginTop="@dimen/app_margin_screen"
                     android:layout_toRightOf="@id/payment_iv_pay_union"
                     android:text="@string/pay_union"
                     android:textColor="@color/shows_text_color"
@@ -200,8 +200,8 @@
         android:id="@+id/payment_bt_pay_confirm"
         style="@style/common_text_button"
         android:layout_width="match_parent"
-        android:layout_margin="@dimen/screen_margin_default"
-        android:padding="@dimen/screen_margin_default"
+        android:layout_margin="@dimen/app_margin_screen"
+        android:padding="@dimen/app_margin_screen"
         android:text="@string/confirm" />
 
 </LinearLayout>

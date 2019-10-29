@@ -33,20 +33,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:paddingLeft="@dimen/screen_margin_default"
-                android:paddingRight="@dimen/screen_margin_default">
+                android:paddingLeft="@dimen/app_margin_screen"
+                android:paddingRight="@dimen/app_margin_screen">
 
                 <TextView
                     android:id="@+id/reserve_detail_tv_name"
-                    style="@style/common_text_bg_frame"
-                    android:maxEms="9" />
+                    style="@style/common_text_bg_frame" />
 
                 <TextView
                     android:id="@+id/reserve_detail_tv_series"
                     style="@style/common_text_bg_frame"
                     android:layout_marginLeft="@dimen/margin_padding_10"
                     android:background="@drawable/shape_style_empty_7_18"
-                    android:maxEms="9"
                     android:textColor="@color/app_color_yellow" />
 
             </LinearLayout>
@@ -59,7 +57,7 @@
 
                 <TextView
                     style="@style/detail_text"
-                    android:drawableLeft="@mipmap/icon_time"
+                    android:drawableLeft="@mipmap/icon_time_1"
                     android:drawablePadding="@dimen/margin_padding_5"
                     android:text="@string/reserve_slot" />
 
@@ -116,7 +114,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:paddingBottom="@dimen/screen_margin_default"
+                android:paddingBottom="@dimen/app_margin_screen"
                 android:paddingTop="@dimen/margin_padding_10">
 
                 <TextView
@@ -134,7 +132,7 @@
                     android:textColor="@color/app_color_red_7"
                     android:textSize="@dimen/app_text_size_content"
                     android:textStyle="bold"
-                    android:layout_marginTop="@dimen/screen_margin_default"
+                    android:layout_marginTop="@dimen/app_margin_screen"
                     android:layout_marginRight="@dimen/margin_padding_50"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintRight_toRightOf="parent" />
@@ -145,7 +143,7 @@
                     android:layout_height="wrap_content"
                     android:src="@mipmap/icon_go_right"
                     android:layout_marginTop="@dimen/margin_padding_17"
-                    android:layout_marginRight="@dimen/screen_margin_default"
+                    android:layout_marginRight="@dimen/app_margin_screen"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintRight_toRightOf="parent" />
             </android.support.constraint.ConstraintLayout>
@@ -155,7 +153,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:paddingBottom="@dimen/screen_margin_default"
+                android:paddingBottom="@dimen/app_margin_screen"
                 android:paddingTop="@dimen/margin_padding_10">
 
                 <TextView
@@ -173,7 +171,7 @@
                     android:textColor="@color/app_color_red_7"
                     android:textSize="@dimen/app_text_size_content"
                     android:textStyle="bold"
-                    android:layout_marginTop="@dimen/screen_margin_default"
+                    android:layout_marginTop="@dimen/app_margin_screen"
                     android:layout_marginRight="@dimen/margin_padding_50"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintRight_toRightOf="parent" />
@@ -184,7 +182,7 @@
                     android:layout_height="wrap_content"
                     android:src="@mipmap/icon_go_right"
                     android:layout_marginTop="@dimen/margin_padding_17"
-                    android:layout_marginRight="@dimen/screen_margin_default"
+                    android:layout_marginRight="@dimen/app_margin_screen"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintRight_toRightOf="parent" />
             </android.support.constraint.ConstraintLayout>
@@ -194,7 +192,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:paddingBottom="@dimen/screen_margin_default"
+                android:paddingBottom="@dimen/app_margin_screen"
                 android:paddingTop="@dimen/margin_padding_10"
                 android:visibility="gone">
 
@@ -211,7 +209,7 @@
                     android:layout_width="@dimen/margin_padding_120"
                     android:layout_height="@dimen/margin_padding_120"
                     android:layout_marginRight="@dimen/margin_padding_50"
-                    android:layout_marginTop="@dimen/screen_margin_default"
+                    android:layout_marginTop="@dimen/app_margin_screen"
                     android:scaleType="center"
                     android:src="@drawable/icon_default_head"
                     app:layout_constraintRight_toRightOf="parent"
@@ -222,7 +220,7 @@
                     android:layout_width="@dimen/margin_padding_120"
                     android:layout_height="@dimen/margin_padding_120"
                     android:layout_marginRight="@dimen/margin_padding_50"
-                    android:layout_marginTop="@dimen/screen_margin_default"
+                    android:layout_marginTop="@dimen/app_margin_screen"
                     android:background="@color/ui_bg_color_percent_03"
                     android:gravity="center"
                     android:text="@string/reserve_cancelled"
@@ -269,8 +267,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:layout_marginBottom="@dimen/margin_padding_50"
-        android:layout_marginLeft="@dimen/screen_margin_default"
-        android:layout_marginRight="@dimen/screen_margin_default"
+        android:layout_marginLeft="@dimen/app_margin_screen"
+        android:layout_marginRight="@dimen/app_margin_screen"
         android:background="@drawable/shape_style_solid_1_33"
         android:padding="@dimen/margin_padding_2">
 
@@ -278,14 +276,14 @@
             android:id="@+id/reserve_detail_tv_cost_curr"
             style="@style/detail_text"
             android:layout_marginLeft="@dimen/margin_padding_30"
-            android:layout_marginTop="@dimen/margin_padding_3"
             android:text="@string/rmb"
             android:textColor="@color/app_color_red_7"
             android:textSize="@dimen/app_text_size_small"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBaseline_toBaselineOf="@id/reserve_detail_tv_cost"/>
 
         <TextView
             android:id="@+id/reserve_detail_tv_cost"
@@ -295,8 +293,8 @@
             android:textColor="@color/app_color_red_7"
             android:textSize="@dimen/app_text_size_title"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toRightOf="@id/reserve_detail_tv_cost_curr"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
@@ -320,9 +318,9 @@
         android:layout_width="match_parent"
         android:layout_gravity="bottom"
         android:layout_marginBottom="@dimen/margin_padding_50"
-        android:layout_marginLeft="@dimen/screen_margin_default"
-        android:layout_marginRight="@dimen/screen_margin_default"
-        android:padding="@dimen/screen_margin_default"
+        android:layout_marginLeft="@dimen/app_margin_screen"
+        android:layout_marginRight="@dimen/app_margin_screen"
+        android:padding="@dimen/app_margin_screen"
         android:text="@string/reserve_success"
         android:textSize="@dimen/app_text_size_title"
         android:textStyle="bold"

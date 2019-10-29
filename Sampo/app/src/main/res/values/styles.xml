@@ -72,7 +72,7 @@
     <!-- Top父布局样式 -->
     <style name="top_main_layout">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">@dimen/title_height</item>
+        <item name="android:layout_height">@dimen/app_height_events</item>
         <item name="android:background">@color/ui_color_app_bg_01</item>
     </style>
 
@@ -80,7 +80,7 @@
     <style name="top_left_back">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">match_parent</item>
-        <item name="android:paddingLeft">@dimen/screen_margin_default</item>
+        <item name="android:paddingLeft">@dimen/app_margin_screen</item>
         <item name="android:src">@mipmap/icon_back</item>
     </style>
 
@@ -89,13 +89,13 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_centerInParent">true</item>
-        <item name="android:paddingLeft">@dimen/screen_margin_default</item>
-        <item name="android:paddingRight">@dimen/screen_margin_default</item>
+        <item name="android:paddingLeft">@dimen/app_margin_screen</item>
+        <item name="android:paddingRight">@dimen/app_margin_screen</item>
         <item name="android:gravity">center</item>
         <item name="android:singleLine">true</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/title_text_color</item>
-        <item name="android:textSize">@dimen/title_text_size</item>
+        <item name="android:textSize">@dimen/app_text_size_title</item>
     </style>
 
     <!-- Top右边文字按钮样式 -->
@@ -104,13 +104,13 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_alignParentRight">true</item>
         <item name="android:layout_centerVertical">true</item>
-        <item name="android:layout_marginRight">@dimen/screen_margin_default</item>
+        <item name="android:layout_marginRight">@dimen/app_margin_screen</item>
         <item name="android:background">@color/ui_bg_color_percent_10</item>
         <item name="android:gravity">right|center_vertical</item>
         <item name="android:ellipsize">end</item>
         <item name="android:lines">1</item>
         <item name="android:textColor">@color/title_text_color</item>
-        <item name="android:textSize">@dimen/title_text_size_right</item>
+        <item name="android:textSize">@dimen/app_text_size_title</item>
     </style>
 
     <!-- 设置页面布局样式 -->
@@ -125,9 +125,9 @@
     <style name="setting_lay_text_title">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginLeft">@dimen/screen_margin_default</item>
-        <item name="android:paddingTop">@dimen/screen_margin_default</item>
-        <item name="android:paddingBottom">@dimen/screen_margin_default</item>
+        <item name="android:layout_marginLeft">@dimen/app_margin_screen</item>
+        <item name="android:paddingTop">@dimen/app_margin_screen</item>
+        <item name="android:paddingBottom">@dimen/app_margin_screen</item>
         <item name="android:drawablePadding">@dimen/margin_padding_10</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:ellipsize">end</item>
@@ -140,7 +140,7 @@
     <style name="setting_lay_text_content">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginRight">@dimen/screen_margin_default</item>
+        <item name="android:layout_marginRight">@dimen/app_margin_screen</item>
         <item name="android:layout_alignParentRight">true</item>
         <item name="android:drawableRight">@mipmap/icon_go_right</item>
         <item name="android:drawablePadding">@dimen/margin_padding_10</item>
@@ -178,7 +178,11 @@
     <!-- 注册页面Button样式 -->
     <style name="register_button">
         <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">@dimen/login_bt_height_default</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingLeft">@dimen/margin_padding_20</item>
+        <item name="android:paddingTop">@dimen/margin_padding_10</item>
+        <item name="android:paddingRight">@dimen/margin_padding_20</item>
+        <item name="android:paddingBottom">@dimen/margin_padding_10</item>
         <item name="android:layout_marginTop">@dimen/margin_padding_30</item>
         <item name="android:background">@drawable/shape_style_solid_5_33</item>
         <item name="android:gravity">center</item>
@@ -199,9 +203,9 @@
     <style name="detail_text">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginTop">@dimen/screen_margin_default</item>
-        <item name="android:layout_marginLeft">@dimen/screen_margin_default</item>
-        <item name="android:layout_marginRight">@dimen/screen_margin_default</item>
+        <item name="android:layout_marginTop">@dimen/app_margin_screen</item>
+        <item name="android:layout_marginLeft">@dimen/app_margin_screen</item>
+        <item name="android:layout_marginRight">@dimen/app_margin_screen</item>
         <item name="android:textSize">@dimen/app_text_size_label</item>
         <item name="android:textColor">@color/shows_text_color</item>
     </style>
@@ -210,9 +214,9 @@
     <style name="detail_lay_text_go">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:paddingTop">@dimen/screen_margin_default</item>
-        <item name="android:paddingLeft">@dimen/screen_margin_default</item>
-        <item name="android:paddingRight">@dimen/screen_margin_default</item>
+        <item name="android:paddingTop">@dimen/app_margin_screen</item>
+        <item name="android:paddingLeft">@dimen/app_margin_screen</item>
+        <item name="android:paddingRight">@dimen/app_margin_screen</item>
         <item name="android:drawableRight">@mipmap/icon_go_right</item>
         <item name="android:drawablePadding">@dimen/margin_padding_10</item>
         <item name="android:gravity">center_vertical|left</item>
@@ -295,8 +299,8 @@
 
     <!-- 通用红点数字提醒TextView样式 -->
     <style name="common_warn_red_text_number">
-        <item name="android:layout_width">@dimen/screen_margin_default</item>
-        <item name="android:layout_height">@dimen/screen_margin_default</item>
+        <item name="android:layout_width">@dimen/app_margin_screen</item>
+        <item name="android:layout_height">@dimen/app_margin_screen</item>
         <item name="android:background">@drawable/shape_style_app_warns</item>
         <item name="android:layout_gravity">center_horizontal</item>
         <item name="android:layout_marginLeft">@dimen/margin_padding_10</item>
@@ -338,8 +342,8 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">bottom|right</item>
-        <item name="android:layout_marginBottom">@dimen/to_top_margin_bottom</item>
-        <item name="android:layout_marginRight">@dimen/to_top_margin_right</item>
+        <item name="android:layout_marginBottom">@dimen/margin_padding_30</item>
+        <item name="android:layout_marginRight">@dimen/margin_padding_30</item>
         <item name="android:src">@mipmap/icon_go_top</item>
         <item name="android:visibility">gone</item>
     </style>
@@ -371,19 +375,19 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:background">@color/app_color_white</item>
-        <item name="android:paddingLeft">@dimen/screen_margin_default</item>
-        <item name="android:paddingTop">@dimen/screen_margin_default</item>
-        <item name="android:paddingRight">@dimen/screen_margin_default</item>
-        <item name="android:paddingBottom">@dimen/screen_margin_default</item>
+        <item name="android:paddingLeft">@dimen/app_margin_screen</item>
+        <item name="android:paddingTop">@dimen/app_margin_screen</item>
+        <item name="android:paddingRight">@dimen/app_margin_screen</item>
+        <item name="android:paddingBottom">@dimen/app_margin_screen</item>
     </style>
 
     <!-- 带边距的水平分割线 -->
     <style name="set_line_margin">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/margin_padding_05</item>
-        <item name="android:layout_marginTop">@dimen/screen_margin_default</item>
-        <item name="android:layout_marginLeft">@dimen/screen_margin_default</item>
-        <item name="android:layout_marginRight">@dimen/screen_margin_default</item>
+        <item name="android:layout_marginTop">@dimen/app_margin_screen</item>
+        <item name="android:layout_marginLeft">@dimen/app_margin_screen</item>
+        <item name="android:layout_marginRight">@dimen/app_margin_screen</item>
         <item name="android:background">@color/ui_bg_color_div_min_01</item>
     </style>
 

@@ -4,7 +4,6 @@ package com.songbao.sxb.activity.home;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -26,7 +25,6 @@ import com.songbao.sxb.activity.BaseActivity;
 import com.songbao.sxb.entity.BaseEntity;
 import com.songbao.sxb.entity.OptionEntity;
 import com.songbao.sxb.entity.ThemeEntity;
-import com.songbao.sxb.utils.CommonTools;
 import com.songbao.sxb.utils.ExceptionUtil;
 import com.songbao.sxb.utils.JsonUtils;
 import com.songbao.sxb.utils.LogUtil;
@@ -116,12 +114,11 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
     private DecimalFormat df;
     private ThemeEntity data;
     private int pageType = 0; //2:我的预约
-    private int themeId; //课程Id
     private double payAmount = 0.00;
     private boolean isDateOk = false;
     private boolean isTimeOk = false;
     private boolean isLoadOk = false;
-    private String imgUrl, webUrl, titleStr, dateStr, timeStr, timeId, orderNo;
+    private String themeId, reserveId, imgUrl, webUrl, titleStr, dateStr, timeStr, timeId, orderNo;
     private ArrayList<String> al_head = new ArrayList<>();
 
     @Override
@@ -132,8 +129,11 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
         pageType = getIntent().getIntExtra(AppConfig.PAGE_TYPE, 0);
         data = (ThemeEntity) getIntent().getExtras().getSerializable(AppConfig.PAGE_DATA);
         if (data != null) {
-            themeId = data.getId();
+            themeId = data.getThemeId();
             titleStr = data.getTitle();
+            if (pageType == 2) { //我的预约
+                reserveId = data.getEntityId();
+            }
         }
         df = new DecimalFormat("0.00");
 
@@ -152,8 +152,6 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
         showImgLP.width = AppApplication.screen_width;
         showImgLP.height = AppApplication.screen_width * AppConfig.IMG_HEIGHT / AppConfig.IMG_WIDTHS;
         iv_show.setLayoutParams(showImgLP);
-
-        setView(data);
     }
 
     private void setView(ThemeEntity data) {
@@ -220,8 +218,8 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
                         break;
                 }
 
-                Bitmap logoImg = BitmapFactory.decodeResource(getResources(), R.mipmap.icon_logo);
-                Bitmap qrImage = QRCodeUtil.createQRImage(data.getCheckValue(), 360, 360, 0, logoImg);
+                //Bitmap logoImg = BitmapFactory.decodeResource(getResources(), R.mipmap.icon_logo);
+                Bitmap qrImage = QRCodeUtil.createQRImage(data.getCheckValue(), 360, 360, 0, null);
                 iv_code.setImageBitmap(qrImage);
             }
 
@@ -390,7 +388,10 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
      */
     private void loadServerData() {
         HashMap<String, String> map = new HashMap<>();
-        map.put("activityId", String.valueOf(themeId));
+        map.put("activityId", themeId);
+        if (pageType == 2) {
+            map.put("reservationId", reserveId);
+        }
         loadSVData(AppConfig.URL_ACTIVITY_DETAIL, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_ACTIVITY_DETAIL);
     }
 
@@ -398,16 +399,12 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
      * 预约提交
      */
     private void postReserveData() {
-        if (data == null || themeId <= 0) {
-            CommonTools.showToast(getString(R.string.toast_error_data_app));
-            return;
-        }
         startAnimation();
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 HashMap<String, String> map = new HashMap<>();
-                map.put("activityId", String.valueOf(themeId));
+                map.put("activityId", themeId);
                 map.put("reservationActivityId", timeId);
                 loadSVData(AppConfig.URL_RESERVATION_ADD, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_RESERVATION_ADD);
             }
@@ -530,7 +527,7 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
                 showSuccessDialog(showStr, false);
                 break;
             default: //成功
-                showStr = getString(R.string.reserve_success);
+                showStr = getString(R.string.reserve_success_show);
                 showSuccessDialog(showStr, true);
                 break;
         }

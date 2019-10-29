@@ -68,6 +68,7 @@ public class JsonUtils {
                     JSONObject item = data.getJSONObject(j);
                     childEn = new ThemeEntity();
                     childEn.setId(item.getInt("id"));
+                    childEn.setThemeId(String.valueOf(item.getInt("id")));
                     childEn.setTitle(item.getString("name"));
                     childEn.setPicUrl(item.getString("url"));
                     childEn.setLinkUrl(item.getString("link"));
@@ -97,7 +98,8 @@ public class JsonUtils {
                 for (int j = 0; j < data.length(); j++) {
                     JSONObject item = data.getJSONObject(j);
                     childEn = new ThemeEntity();
-                    childEn.setId(item.getInt("id"));
+                    childEn.setId(item.getInt("activityId"));
+                    childEn.setThemeId(String.valueOf(item.getInt("activityId")));
                     childEn.setTitle(item.getString("title"));
                     childEn.setUserName(item.getString("userName"));
                     childEn.setSeries(item.getString("typeValue"));
@@ -130,6 +132,7 @@ public class JsonUtils {
                 JSONObject item = jsonData.getJSONObject("data");
                 ThemeEntity childEn = new ThemeEntity();
                 childEn.setId(item.getInt("id"));
+                childEn.setThemeId(String.valueOf(item.getInt("id")));
                 childEn.setTitle(item.getString("title"));
                 //childEn.setPicUrl(item.getString("picUrl"));
                 //childEn.setLinkUrl(item.getString("linkUrl"));
@@ -137,7 +140,7 @@ public class JsonUtils {
                 childEn.setUserId(item.getString("adminId"));
                 childEn.setSuit(item.getString("crowd"));
                 childEn.setUserName(item.getString("userName"));
-                childEn.setSeries(item.getString("userName"));
+                childEn.setSeries(item.getString("typeValue"));
                 childEn.setDescription(item.getString("description"));
                 childEn.setAddress(item.getString("address"));
                 childEn.setQuantity(item.getInt("quantity"));
@@ -155,8 +158,17 @@ public class JsonUtils {
                 if (StringUtil.notNull(item, "endTimeValue")) {
                     childEn.setEndTime(item.getString("endTimeValue"));
                 }
+                if (StringUtil.notNull(item, "reservationDateValue")) {
+                    childEn.setReserveDate(item.getString("reservationDateValue"));
+                }
+                if (StringUtil.notNull(item, "reservationTimeValue")) {
+                    childEn.setReserveTime(item.getString("reservationTimeValue"));
+                }
                 if (StringUtil.notNull(item, "checkValue")) {
                     childEn.setCheckValue(item.getString("checkValue"));
+                }
+                if (StringUtil.notNull(item, "writeOffStatus")) {
+                    childEn.setWriteOffStatus(item.getInt("writeOffStatus"));
                 }
                 if (StringUtil.notNull(item, "picUrl")) {
                     childEn.setPicUrls(getStringList(item.getString("picUrl")));
@@ -260,7 +272,6 @@ public class JsonUtils {
                 userInfo.setBirthday(data.getString("birthdayValue"));
                 userInfo.setUserArea(data.getString("address"));
                 userInfo.setUserIntro(data.getString("signature"));
-                userInfo.setSignUpId(data.getString("activityValues"));
             }
         }
         mainEn.setData(userInfo);
@@ -346,6 +357,7 @@ public class JsonUtils {
                     JSONObject item = data.getJSONObject(j);
                     childEn = new ThemeEntity();
                     childEn.setId(item.getInt("id"));
+                    childEn.setThemeId(String.valueOf(item.getInt("activityId")));
                     childEn.setTitle(item.getString("title"));
                     childEn.setPicUrl(item.getString("picUrlValue"));
                     childEn.setAddTime(item.getString("addTime"));
@@ -357,15 +369,10 @@ public class JsonUtils {
                     }
                     if (StringUtil.notNull(item, "status")) {
                         childEn.setStatus(item.getInt("status"));
+                        childEn.setWriteOffStatus(item.getInt("status"));
                     }
-                    if (StringUtil.notNull(item, "reservationDateValue")) {
-                        childEn.setReserveDate(item.getString("reservationDateValue"));
-                    }
-                    if (StringUtil.notNull(item, "reservationTimeValue")) {
-                        childEn.setReserveTime(item.getString("reservationTimeValue"));
-                    }
-                    if (StringUtil.notNull(item, "WriteOffStatus")) {
-                        childEn.setWriteOffStatus(item.getInt("WriteOffStatus"));
+                    if (StringUtil.notNull(item, "timeValue")) {
+                        childEn.setReserveTime(item.getString("timeValue"));
                     }
 
                     lists.add(childEn);

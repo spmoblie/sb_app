@@ -12,7 +12,7 @@
         android:gravity="center"
         android:numColumns="2"
         android:scrollbars="none"
-        android:horizontalSpacing="@dimen/photo_grid_item_Spacing"
-        android:verticalSpacing="@dimen/photo_grid_item_Spacing" />
+        android:horizontalSpacing="@dimen/photo_grid_item_spacing"
+        android:verticalSpacing="@dimen/photo_grid_item_spacing" />
 
 </LinearLayout>

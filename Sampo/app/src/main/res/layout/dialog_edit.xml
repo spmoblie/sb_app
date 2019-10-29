@@ -3,14 +3,14 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/shape_style_solid_1_18"
-    android:padding="@dimen/margin_padding_25"
+    android:padding="@dimen/app_margin_dialog"
     android:orientation="vertical" >
 
     <TextView
         android:id="@+id/dialog_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/margin_padding_25"
+        android:layout_marginBottom="@dimen/app_margin_dialog"
         android:gravity="center"
         android:textColor="@color/dialog_text_title"
         android:textSize="@dimen/app_text_size_dialog"
@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/shape_style_app_input"
         android:gravity="center"
-        android:padding="@dimen/screen_margin_default"
+        android:padding="@dimen/app_margin_screen"
         android:textColor="@color/dialog_text_content"
         android:textSize="@dimen/app_text_size_content" />
 
@@ -30,7 +30,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:layout_marginTop="@dimen/margin_padding_25"
+        android:layout_marginTop="@dimen/app_margin_dialog"
         android:orientation="horizontal">
 
         <Button
@@ -38,7 +38,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_marginRight="@dimen/screen_margin_default"
+            android:layout_marginRight="@dimen/app_margin_screen"
             android:background="@drawable/shape_style_empty_2_33"
             android:padding="@dimen/margin_padding_8"
             android:gravity="center"

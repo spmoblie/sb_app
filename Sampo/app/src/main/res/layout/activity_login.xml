@@ -7,8 +7,8 @@
 
     <ImageView
         android:id="@+id/login_iv_close"
-        android:layout_width="@dimen/title_height"
-        android:layout_height="@dimen/title_height"
+        android:layout_width="@dimen/app_height_events"
+        android:layout_height="@dimen/app_height_events"
         android:contentDescription="@string/desc"
         android:scaleType="center"
         android:src="@mipmap/icon_close" />
@@ -91,8 +91,8 @@
             android:layout_weight="1"
             android:gravity="center_vertical"
             android:orientation="horizontal"
-            android:paddingLeft="@dimen/screen_margin_default"
-            android:paddingRight="@dimen/screen_margin_default">
+            android:paddingLeft="@dimen/app_margin_screen"
+            android:paddingRight="@dimen/app_margin_screen">
 
             <TextView
                 android:id="@+id/login_tv_wx"

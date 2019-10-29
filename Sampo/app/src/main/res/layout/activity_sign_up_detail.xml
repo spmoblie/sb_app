@@ -31,20 +31,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:paddingLeft="@dimen/screen_margin_default"
-                android:paddingRight="@dimen/screen_margin_default">
+                android:paddingLeft="@dimen/app_margin_screen"
+                android:paddingRight="@dimen/app_margin_screen">
 
                 <TextView
                     android:id="@+id/sign_up_detail_tv_name"
-                    style="@style/common_text_bg_frame"
-                    android:maxEms="9" />
+                    style="@style/common_text_bg_frame" />
 
                 <TextView
                     android:id="@+id/sign_up_detail_tv_series"
                     style="@style/common_text_bg_frame"
                     android:layout_marginLeft="@dimen/margin_padding_10"
                     android:background="@drawable/shape_style_empty_6_18"
-                    android:maxEms="9"
                     android:textColor="@color/app_color_blue" />
 
             </LinearLayout>
@@ -57,7 +55,7 @@
 
                 <TextView
                     style="@style/detail_text"
-                    android:drawableLeft="@mipmap/icon_time"
+                    android:drawableLeft="@mipmap/icon_time_1"
                     android:drawablePadding="@dimen/margin_padding_5"
                     android:text="@string/sign_up_time" />
 
@@ -157,9 +155,9 @@
         android:layout_width="match_parent"
         android:layout_gravity="bottom"
         android:layout_marginBottom="@dimen/margin_padding_50"
-        android:layout_marginLeft="@dimen/screen_margin_default"
-        android:layout_marginRight="@dimen/screen_margin_default"
-        android:padding="@dimen/screen_margin_default"
+        android:layout_marginLeft="@dimen/app_margin_screen"
+        android:layout_marginRight="@dimen/app_margin_screen"
+        android:padding="@dimen/app_margin_screen"
         android:text="@string/sign_up_title"
         android:textSize="@dimen/app_text_size_title"
         android:textStyle="bold" />

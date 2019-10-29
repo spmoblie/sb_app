@@ -9,7 +9,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/shape_style_app_load"
-        android:padding="@dimen/screen_margin_default" >
+        android:padding="@dimen/app_margin_screen" >
 
         <ProgressBar
             style="?android:attr/progressBarStyleSmall"

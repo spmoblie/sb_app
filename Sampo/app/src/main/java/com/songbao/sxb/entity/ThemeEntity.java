@@ -7,6 +7,7 @@ public class ThemeEntity extends BaseEntity {
 	private static final long serialVersionUID = 1L;
 
 	private int id;
+	private String themeId; //课程Id
 	private String title; //标题
 	private String picUrl; //图片
 	private String linkUrl; //链接
@@ -54,6 +55,14 @@ public class ThemeEntity extends BaseEntity {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public String getThemeId() {
+		return themeId;
+	}
+
+	public void setThemeId(String themeId) {
+		this.themeId = themeId;
 	}
 
 	public String getTitle() {

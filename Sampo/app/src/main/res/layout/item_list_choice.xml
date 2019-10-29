@@ -11,14 +11,14 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_padding_25"
         android:background="@drawable/selector_option_choice"
-        android:padding="@dimen/screen_margin_default">
+        android:padding="@dimen/app_margin_screen">
 
         <TextView
             android:id="@+id/list_item_choice_tv_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableLeft="@mipmap/home_icon_time"
-            android:drawablePadding="@dimen/screen_margin_default"
+            android:drawableLeft="@mipmap/icon_time_2"
+            android:drawablePadding="@dimen/app_margin_screen"
             android:textColor="@color/shows_text_color"
             android:textSize="@dimen/app_text_size_content"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -38,7 +38,7 @@
             android:id="@+id/list_item_choice_tv_state"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/screen_margin_default"
+            android:layout_marginRight="@dimen/app_margin_screen"
             android:textColor="@color/tv_color_status"
             android:textSize="@dimen/app_text_size_small"
             app:layout_constraintBottom_toBottomOf="parent"

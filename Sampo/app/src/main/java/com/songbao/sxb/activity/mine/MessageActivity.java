@@ -4,8 +4,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.util.ArrayMap;
 import android.support.v7.widget.LinearLayoutManager;
-import android.view.View;
-import android.view.View.OnClickListener;
 
 import com.songbao.sxb.AppApplication;
 import com.songbao.sxb.AppConfig;
@@ -32,7 +30,7 @@ import java.util.List;
 import butterknife.BindView;
 
 
-public class MessageActivity extends BaseActivity implements OnClickListener {
+public class MessageActivity extends BaseActivity {
 
 	String TAG = MessageActivity.class.getSimpleName();
 
@@ -122,15 +120,6 @@ public class MessageActivity extends BaseActivity implements OnClickListener {
 	private void updateListData() {
 		if (rvAdapter != null) {
 			rvAdapter.updateData(al_show);
-		}
-	}
-
-	@Override
-	public void onClick(View v) {
-		switch (v.getId()) {
-		case R.id.feed_back_btn_submit:
-
-			break;
 		}
 	}
 

@@ -14,7 +14,6 @@ import com.songbao.sxb.AppApplication;
 import com.songbao.sxb.AppConfig;
 import com.songbao.sxb.R;
 import com.songbao.sxb.entity.ThemeEntity;
-import com.songbao.sxb.utils.CommonTools;
 
 import java.util.ArrayList;
 
@@ -27,7 +26,6 @@ public class ThemeListAdapter extends RecyclerView.Adapter<ThemeListAdapter.View
     private View mHeaderView;
     private AdapterCallback apCallback;
     private ArrayList<ThemeEntity> mData;
-    private ConstraintLayout.LayoutParams showImgLP;
 
     public ThemeListAdapter(Context context, ArrayList<ThemeEntity> data, AdapterCallback apCallback) {
         super();
@@ -38,12 +36,6 @@ public class ThemeListAdapter extends RecyclerView.Adapter<ThemeListAdapter.View
         } else {
             mData = new ArrayList<>();
         }
-
-        int ban_margin = CommonTools.dpToPx(mContext, 15 * 2);
-        int ban_widths = AppApplication.screen_width - ban_margin;
-        showImgLP = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        showImgLP.width = ban_widths;
-        showImgLP.height = ban_widths * AppConfig.IMG_HEIGHT / AppConfig.IMG_WIDTHS;
     }
 
     public void updateData(ArrayList<ThemeEntity> data){
@@ -171,8 +163,6 @@ public class ThemeListAdapter extends RecyclerView.Adapter<ThemeListAdapter.View
             super(itemView);
             if(itemView == mHeaderView) return;
             ButterKnife.bind(this, itemView);
-
-            iv_show.setLayoutParams(showImgLP);
         }
     }
 

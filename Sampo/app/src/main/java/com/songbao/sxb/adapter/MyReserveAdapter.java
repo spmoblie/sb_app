@@ -101,7 +101,8 @@ public class MyReserveAdapter extends RecyclerView.Adapter<MyReserveAdapter.View
 
         viewHolder.item_time.setText(TimeUtil.strToStrItem(data.getAddTime()));
         viewHolder.tv_title.setText(data.getTitle());
-        viewHolder.tv_date.setText(mContext.getString(R.string.reserve_date_item, data.getReserveDate()));
+        viewHolder.tv_date.setText(mContext.getString(R.string.reserve_date_item,
+                TimeUtil.strToStrYMD("yyyy-MM-dd", data.getStartTime())));
         viewHolder.tv_time.setText(mContext.getString(R.string.reserve_time_item, data.getReserveTime()));
 
         viewHolder.item_main.setOnClickListener(new View.OnClickListener() {

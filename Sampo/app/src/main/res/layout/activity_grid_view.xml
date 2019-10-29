@@ -4,7 +4,7 @@
     android:id="@+id/refresh_view_gv"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="@dimen/screen_margin_default"
+    android:paddingTop="@dimen/app_margin_screen"
     android:background="@color/ui_color_app_bg_01" >
 
 </com.songbao.sxb.widgets.pullrefresh.PullToRefreshGridView>

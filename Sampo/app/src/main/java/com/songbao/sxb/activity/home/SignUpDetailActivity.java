@@ -74,11 +74,9 @@ public class SignUpDetailActivity extends BaseActivity implements View.OnClickLi
     private ThemeEntity data;
     private int pageType = 0; //1:我的报名
     private int status; //1:报名中, 2:已截止
-    private int themeId; //课程Id
-    private boolean isSignUp = false;
     private boolean isLoadOk = false;
     private boolean isOnClick = true;
-    private String imgUrl, webUrl, titleStr;
+    private String themeId, imgUrl, webUrl, titleStr;
     private ArrayList<String> al_head = new ArrayList<>();
 
     @Override
@@ -89,7 +87,7 @@ public class SignUpDetailActivity extends BaseActivity implements View.OnClickLi
         pageType = getIntent().getIntExtra(AppConfig.PAGE_TYPE, 0);
         data = (ThemeEntity) getIntent().getExtras().getSerializable(AppConfig.PAGE_DATA);
         if (data != null) {
-            themeId = data.getId();
+            themeId = data.getThemeId();
             status = data.getStatus();
             titleStr = data.getTitle();
         }
@@ -230,14 +228,8 @@ public class SignUpDetailActivity extends BaseActivity implements View.OnClickLi
                 setClickState(getString(R.string.sign_up_success), true);
             }
         } else {
-            // 有效状态
             if (status == 2) { //已截止
                 setClickState(getString(R.string.sign_up_end), false);
-            }
-            // 报名状态
-            isSignUp = userManager.isThemeSignUp(themeId);
-            if (isLogin() && isSignUp) { //已报名
-                setClickState(getString(R.string.sign_up_already), false);
             }
         }
     }
@@ -284,7 +276,7 @@ public class SignUpDetailActivity extends BaseActivity implements View.OnClickLi
      */
     private void loadServerData() {
         HashMap<String, String> map = new HashMap<>();
-        map.put("activityId", String.valueOf(themeId));
+        map.put("activityId", themeId);
         loadSVData(AppConfig.URL_ACTIVITY_DETAIL, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_ACTIVITY_DETAIL);
     }
 

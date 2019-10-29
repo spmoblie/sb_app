@@ -65,11 +65,11 @@ public class RotateLoadingLayout extends LoadingLayout {
      * @param context context
      */
     private void init(Context context) {
-        mHeaderContainer = (RelativeLayout) findViewById(R.id.pull_to_refresh_header_content);
-        mArrowImageView = (ImageView) findViewById(R.id.pull_to_refresh_header_arrow);
-        mHintTextView = (TextView) findViewById(R.id.pull_to_refresh_header_hint_textview);
-        mHeaderTimeView = (TextView) findViewById(R.id.pull_to_refresh_header_time);
-        mHeaderTimeViewTitle = (TextView) findViewById(R.id.pull_to_refresh_last_update_time_text);
+        mHeaderContainer = (RelativeLayout) findViewById(R.id.pull_to_load_header_content);
+        mArrowImageView = (ImageView) findViewById(R.id.pull_to_load_header_arrow);
+        mHintTextView = (TextView) findViewById(R.id.pull_to_load_header_tv_hint);
+        mHeaderTimeView = (TextView) findViewById(R.id.pull_to_load_header_tv_time);
+        mHeaderTimeViewTitle = (TextView) findViewById(R.id.pull_to_load_header_tv_last_time);
         
         mArrowImageView.setScaleType(ScaleType.CENTER);
         mArrowImageView.setImageResource(R.mipmap.loading_anim_small);
@@ -87,7 +87,7 @@ public class RotateLoadingLayout extends LoadingLayout {
     
     @Override
     protected View createLoadingView(Context context, AttributeSet attrs) {
-        View container = LayoutInflater.from(context).inflate(R.layout.pull_to_refresh_header1, null);
+        View container = LayoutInflater.from(context).inflate(R.layout.pull_to_load_header, null);
         return container;
     }
 

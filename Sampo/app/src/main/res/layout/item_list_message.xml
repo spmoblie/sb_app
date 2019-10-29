@@ -4,9 +4,9 @@
     android:id="@+id/message_item_main"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingTop="@dimen/screen_margin_default"
-    android:paddingRight="@dimen/screen_margin_default"
-    android:paddingBottom="@dimen/screen_margin_default">
+    android:paddingTop="@dimen/app_margin_screen"
+    android:paddingRight="@dimen/app_margin_screen"
+    android:paddingBottom="@dimen/app_margin_screen">
 
     <LinearLayout
         android:id="@+id/message_item_line_main"
@@ -59,8 +59,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_padding_18"
-        android:layout_marginLeft="@dimen/screen_margin_default"
-        android:padding="@dimen/screen_margin_default"
+        android:layout_marginLeft="@dimen/app_margin_screen"
+        android:padding="@dimen/app_margin_screen"
         android:background="@drawable/shape_style_solid_2_18"
         android:orientation="vertical"
         app:layout_constraintTop_toBottomOf="@id/message_item_time">

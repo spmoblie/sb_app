@@ -122,7 +122,8 @@ public class PullToRefreshRecyclerView extends PullToRefreshBase<MyRecyclerView>
     @Override
     public void setScrollLoadEnabled(boolean scrollLoadEnabled) {
         super.setScrollLoadEnabled(scrollLoadEnabled);
-        
+
+        scrollLoadEnabled = false; //Xu RecyclerView addFooterView 时有Bug未修复
         if (scrollLoadEnabled) {
             // 设置Footer
             if (null == mLoadMoreFooterLayout) {

@@ -69,7 +69,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="@dimen/screen_margin_default"
+                    android:layout_marginRight="@dimen/app_margin_screen"
                     android:clickable="true"
                     android:contentDescription="@string/desc"
                     android:src="@drawable/selector_icon_push" />

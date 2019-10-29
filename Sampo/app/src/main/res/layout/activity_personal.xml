@@ -14,8 +14,8 @@
         <RelativeLayout
             android:id="@+id/personal_rl_head"
             style="@style/setting_lay_item"
-            android:paddingTop="@dimen/screen_margin_default"
-            android:paddingBottom="@dimen/screen_margin_default">
+            android:paddingTop="@dimen/app_margin_screen"
+            android:paddingBottom="@dimen/app_margin_screen">
 
             <TextView
                 android:id="@+id/personal_tv_head_title"

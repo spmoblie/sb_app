@@ -17,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:padding="@dimen/screen_margin_default">
+        android:padding="@dimen/app_margin_screen">
 
         <TextView
             android:id="@+id/tickets_tv_title"
@@ -47,7 +47,7 @@
             android:background="@drawable/selector_meal_member"
             android:gravity="center_horizontal"
             android:orientation="vertical"
-            android:padding="@dimen/screen_margin_default"
+            android:padding="@dimen/app_margin_screen"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tickets_tv_title_en"
             app:layout_constraintWidth_percent="0.31">
@@ -71,9 +71,9 @@
                     android:textColor="@color/price_text_color"
                     android:textSize="@dimen/app_text_size_small"
                     android:textStyle="bold"
-                    android:layout_marginBottom="@dimen/margin_padding_2"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent" />
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintBaseline_toBaselineOf="@id/tickets_set_meal_1_tv_price_new"/>
 
                 <TextView
                     android:id="@+id/tickets_set_meal_1_tv_price_new"
@@ -124,7 +124,7 @@
             android:background="@drawable/selector_meal_member"
             android:gravity="center_horizontal"
             android:orientation="vertical"
-            android:padding="@dimen/screen_margin_default"
+            android:padding="@dimen/app_margin_screen"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tickets_tv_title_en"
@@ -149,9 +149,9 @@
                     android:textColor="@color/price_text_color"
                     android:textSize="@dimen/app_text_size_small"
                     android:textStyle="bold"
-                    android:layout_marginBottom="@dimen/margin_padding_2"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent" />
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintBaseline_toBaselineOf="@id/tickets_set_meal_2_tv_price_new"/>
 
                 <TextView
                     android:id="@+id/tickets_set_meal_2_tv_price_new"
@@ -202,7 +202,7 @@
             android:background="@drawable/selector_meal_member"
             android:gravity="center_horizontal"
             android:orientation="vertical"
-            android:padding="@dimen/screen_margin_default"
+            android:padding="@dimen/app_margin_screen"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/tickets_tv_title_en"
             app:layout_constraintWidth_percent="0.31">
@@ -226,9 +226,9 @@
                     android:textColor="@color/price_text_color"
                     android:textSize="@dimen/app_text_size_small"
                     android:textStyle="bold"
-                    android:layout_marginBottom="@dimen/margin_padding_2"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent" />
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintBaseline_toBaselineOf="@id/tickets_set_meal_3_tv_price_new"/>
 
                 <TextView
                     android:id="@+id/tickets_set_meal_3_tv_price_new"
@@ -276,7 +276,7 @@
             style="@style/common_text_button"
             android:layout_width="match_parent"
             android:layout_marginBottom="@dimen/margin_padding_35"
-            android:padding="@dimen/screen_margin_default"
+            android:padding="@dimen/app_margin_screen"
             android:text="@string/coupon_buy_now"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent" />

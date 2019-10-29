@@ -4,7 +4,7 @@
     android:id="@+id/fg_home_list_head_main"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="@dimen/screen_margin_default"
+    android:padding="@dimen/app_margin_screen"
     android:background="@color/ui_color_app_bg_01"
     android:orientation="vertical">
 
@@ -39,7 +39,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_marginLeft="@dimen/screen_margin_default"
+            android:layout_marginLeft="@dimen/app_margin_screen"
             android:src="@mipmap/icon_home_reserve"/>
     </LinearLayout>
 

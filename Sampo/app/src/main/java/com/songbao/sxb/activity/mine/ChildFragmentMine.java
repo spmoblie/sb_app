@@ -51,7 +51,7 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
     //LinearLayout sv_main;
     ConstraintLayout cl_head_main;
     RoundImageView iv_user_head;
-    ImageView iv_setting, iv_message, iv_debunk;
+    ImageView iv_setting, iv_message;
     TextView tv_user_nick, tv_user_member;
     RelativeLayout rl_coupon_main, rl_sign_up_main, rl_reserve_main, rl_bill_main, rl_help_main;
 
@@ -98,7 +98,6 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
         cl_head_main = view.findViewById(R.id.fg_mine_cl_head_main);
         iv_setting = view.findViewById(R.id.fg_mine_iv_setting);
         iv_message = view.findViewById(R.id.fg_mine_iv_message);
-        iv_debunk = view.findViewById(R.id.fg_mine_iv_debunk);
         iv_user_head = view.findViewById(R.id.fg_mine_iv_head);
         tv_user_nick = view.findViewById(R.id.fg_mine_tv_nick);
         tv_user_member = view.findViewById(R.id.fg_mine_tv_member);
@@ -113,7 +112,6 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
     private void initView() {
         iv_setting.setOnClickListener(this);
         iv_message.setOnClickListener(this);
-        iv_debunk.setOnClickListener(this);
         iv_user_head.setOnClickListener(this);
         rl_coupon_main.setOnClickListener(this);
         rl_sign_up_main.setOnClickListener(this);
@@ -186,52 +184,43 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
                 startActivity(new Intent(mContext, SettingActivity.class));
                 break;
             case R.id.fg_mine_iv_message:
-                if (!isLogin()) {
-                    openLoginActivity();
-                    return;
-                }
+                if (!checkClick()) return;
                 startActivity(new Intent(mContext, MessageActivity.class));
                 break;
-            case R.id.fg_mine_iv_debunk:
-                openWebViewActivity(getString(R.string.setting_question), "https://support.qq.com/product/1221");
-                break;
             case R.id.fg_mine_iv_head:
-                if (!isLogin()) {
-                    openLoginActivity();
-                    return;
-                }
+                if (!checkClick()) return;
                 openPersonalActivity();
                 break;
             case R.id.fg_mine_coupon_main:
-                if (!isLogin()) {
-                    openLoginActivity();
-                    return;
-                }
+                if (!checkClick()) return;
                 //startActivity(new Intent(mContext, MyDesignActivity.class));
                 break;
             case R.id.fg_mine_sign_up_main:
-                if (!isLogin()) {
-                    openLoginActivity();
-                    return;
-                }
+                if (!checkClick()) return;
                 startActivity(new Intent(mContext, MySignUpActivity.class));
                 break;
             case R.id.fg_mine_reserve_main:
-                if (!isLogin()) {
-                    openLoginActivity();
-                    return;
-                }
+                if (!checkClick()) return;
                 startActivity(new Intent(mContext, MyReserveActivity.class));
                 break;
             case R.id.fg_mine_bill_main:
-                if (!isLogin()) {
-                    openLoginActivity();
-                    return;
-                }
+                if (!checkClick()) return;
                 break;
             case R.id.fg_mine_help_main:
+                openWebViewActivity(getString(R.string.setting_question), "https://support.qq.com/product/1221");
                 break;
         }
+    }
+
+    /**
+     * 校验事件
+     */
+    private boolean checkClick() {
+        if (!isLogin()) { //未登录
+            openLoginActivity();
+            return false;
+        }
+        return true;
     }
 
     /**

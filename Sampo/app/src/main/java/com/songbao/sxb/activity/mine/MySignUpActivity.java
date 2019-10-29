@@ -5,8 +5,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.util.ArrayMap;
 import android.support.v7.widget.LinearLayoutManager;
-import android.view.View;
-import android.view.View.OnClickListener;
 
 import com.songbao.sxb.AppApplication;
 import com.songbao.sxb.AppConfig;
@@ -34,7 +32,7 @@ import java.util.List;
 import butterknife.BindView;
 
 
-public class MySignUpActivity extends BaseActivity implements OnClickListener {
+public class MySignUpActivity extends BaseActivity {
 
 	String TAG = MySignUpActivity.class.getSimpleName();
 
@@ -142,15 +140,6 @@ public class MySignUpActivity extends BaseActivity implements OnClickListener {
 		intent.putExtra(AppConfig.PAGE_TYPE, 1);
 		intent.putExtra(AppConfig.PAGE_DATA, data);
 		startActivity(intent);
-	}
-
-	@Override
-	public void onClick(View v) {
-		switch (v.getId()) {
-		case R.id.feed_back_btn_submit:
-
-			break;
-		}
 	}
 
 	@Override

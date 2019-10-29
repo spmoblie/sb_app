@@ -64,13 +64,13 @@ public class HeaderLoadingLayout extends LoadingLayout {
      * @param context context
      */
     private void init(Context context) {
-        mHeaderContainer = (RelativeLayout) findViewById(R.id.pull_to_refresh_header_content);
-        mArrowImageView = (ImageView) findViewById(R.id.pull_to_refresh_header_arrow);
-        mHintTextView = (TextView) findViewById(R.id.pull_to_refresh_header_hint_textview);
-        mProgressBar = (ProgressBar) findViewById(R.id.pull_to_refresh_header_progressbar);
-        mHeaderTimeView = (TextView) findViewById(R.id.pull_to_refresh_header_time);
-        mHeaderTimeViewTitle = (TextView) findViewById(R.id.pull_to_refresh_last_update_time_text);
-        
+        mHeaderContainer = (RelativeLayout) findViewById(R.id.pull_to_load_header_content);
+        mArrowImageView = (ImageView) findViewById(R.id.pull_to_load_header_arrow);
+        mHintTextView = (TextView) findViewById(R.id.pull_to_load_header_tv_hint);
+        mHeaderTimeView = (TextView) findViewById(R.id.pull_to_load_header_tv_time);
+        mHeaderTimeViewTitle = (TextView) findViewById(R.id.pull_to_load_header_tv_last_time);
+        mProgressBar = (ProgressBar) findViewById(R.id.pull_to_load_header_progress);
+
         float pivotValue = 0.5f;    // SUPPRESS CHECKSTYLE
         float toDegree = -180f;     // SUPPRESS CHECKSTYLE
         // 初始化旋转动画
@@ -102,7 +102,7 @@ public class HeaderLoadingLayout extends LoadingLayout {
     
     @Override
     protected View createLoadingView(Context context, AttributeSet attrs) {
-        View container = LayoutInflater.from(context).inflate(R.layout.pull_to_refresh_header1, null);
+        View container = LayoutInflater.from(context).inflate(R.layout.pull_to_load_header, null);
         return container;
     }
     
@@ -126,7 +126,6 @@ public class HeaderLoadingLayout extends LoadingLayout {
             mArrowImageView.clearAnimation();
             mArrowImageView.startAnimation(mRotateDownAnim);
         }
-        
         mHintTextView.setText(R.string.loading_pull_refresh);
     }
 

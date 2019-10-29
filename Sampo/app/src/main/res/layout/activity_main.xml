@@ -29,10 +29,10 @@
 
     <ImageView
         android:id="@+id/main_fragment_tab_iv_1"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:scaleType="center"
-        android:src="@mipmap/selector_home_tab_1_no"
+        android:src="@drawable/selector_home_tab_1"
         android:layout_marginBottom="@dimen/margin_padding_25"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="@id/main_fragment_tab_tv_1"

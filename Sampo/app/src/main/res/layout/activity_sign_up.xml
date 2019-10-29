@@ -42,7 +42,7 @@
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/screen_margin_default">
+                android:padding="@dimen/app_margin_screen">
 
                 <TextView
                     android:id="@+id/sign_tv_name"
@@ -111,8 +111,8 @@
 
                 <ImageView
                     style="@style/common_go_right"
-                    android:layout_marginRight="@dimen/screen_margin_default"
-                    android:layout_marginTop="@dimen/screen_margin_default"
+                    android:layout_marginRight="@dimen/app_margin_screen"
+                    android:layout_marginTop="@dimen/app_margin_screen"
                     app:layout_constraintRight_toRightOf="@id/sign_et_age"
                     app:layout_constraintTop_toTopOf="@id/sign_et_age" />
 
@@ -173,8 +173,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:layout_marginBottom="@dimen/margin_padding_50"
-        android:layout_marginLeft="@dimen/screen_margin_default"
-        android:layout_marginRight="@dimen/screen_margin_default"
+        android:layout_marginLeft="@dimen/app_margin_screen"
+        android:layout_marginRight="@dimen/app_margin_screen"
         android:background="@drawable/shape_style_solid_1_33"
         android:padding="@dimen/margin_padding_2">
 
@@ -182,14 +182,14 @@
             android:id="@+id/sign_tv_cost_curr"
             style="@style/detail_text"
             android:layout_marginLeft="@dimen/margin_padding_30"
-            android:layout_marginTop="@dimen/margin_padding_3"
             android:text="@string/rmb"
             android:textColor="@color/app_color_red_7"
             android:textSize="@dimen/app_text_size_small"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBaseline_toBaselineOf="@id/sign_tv_cost"/>
 
         <TextView
             android:id="@+id/sign_tv_cost"

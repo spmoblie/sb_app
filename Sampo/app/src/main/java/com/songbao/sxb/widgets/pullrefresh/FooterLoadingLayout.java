@@ -45,8 +45,8 @@ public class FooterLoadingLayout extends LoadingLayout {
      * @param context context
      */
     private void init(Context context) {
-        mProgressBar = (ProgressBar) findViewById(R.id.pull_to_load_footer_progressbar);
-        mHintView = (TextView) findViewById(R.id.pull_to_load_footer_hint_textview);
+        mProgressBar = (ProgressBar) findViewById(R.id.pull_to_load_footer_progress);
+        mHintView = (TextView) findViewById(R.id.pull_to_load_footer_tv_hint);
         
         setState(State.RESET);
     }

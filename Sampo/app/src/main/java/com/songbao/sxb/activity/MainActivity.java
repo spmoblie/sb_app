@@ -120,34 +120,12 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 	}
 
 	/**
-	 * 重启HomeFragmentActivity
+	 * 重启MainActivity
 	 */
 	private void startFragment() {
 		shared.edit().putInt(AppConfig.KEY_MAIN_CURRENT_INDEX, current_index).apply();
 		finish();
 		startActivity(new Intent(this, MainActivity.class));
-	}
-
-	/**
-	 * 跳转到Fragment子界面
-	 */
-	public void changeFragment(int index) {
-		switch (index) {
-			case 0:
-				fragment = (Fragment) mFragmentPagerAdapter.instantiateItem(fl_show, R.id.main_fragment_tab_tv_1);
-				break;
-			case 1:
-				fragment = (Fragment) mFragmentPagerAdapter.instantiateItem(fl_show, R.id.main_fragment_tab_tv_2);
-				break;
-			case 2:
-				fragment = (Fragment) mFragmentPagerAdapter.instantiateItem(fl_show, R.id.main_fragment_tab_tv_3);
-				break;
-		}
-		current_index = index;
-		current_fragment = FRAGMENT_CONTAINER[current_index];
-		mFragmentPagerAdapter.setPrimaryItem(fl_show, 0, fragment);
-		mFragmentPagerAdapter.finishUpdate(fl_show);
-		updateViewStatus();
 	}
 
 	@Override
@@ -231,7 +209,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 		mFragmentPagerAdapter.finishUpdate(fl_show);
 		current_fragment = FRAGMENT_CONTAINER[current_index];
 		shared.edit().putInt(AppConfig.KEY_MAIN_CURRENT_INDEX, current_index).apply();
-		updateViewStatus();
+		changeState();
 		exit = Boolean.FALSE;
 	}
 
@@ -246,33 +224,33 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 	}
 
 	/**
-	 * 自定义切换底栏的View状态
+	 * 切换状态
 	 */
-	private void updateViewStatus() {
+	private void changeState() {
 		tab_text_1.setSelected(false);
 		tab_text_2.setSelected(false);
 		tab_text_3.setSelected(false);
-		//tab_icon_1.setSelected(false);
 		tab_icon_1.setImageResource(R.mipmap.selector_home_tab_1_no);
-		tab_icon_2.setSelected(false);
-		tab_icon_3.setSelected(false);
+		tab_icon_3.setImageResource(R.mipmap.selector_home_tab_3_no);
 		switch (current_index) {
 		case 0:
 			tab_text_1.setSelected(true);
-			//tab_icon_1.setSelected(true);
-			changeImage(tab_icon_1, R.drawable.timg);
+			//changeImage(tab_icon_1, R.drawable.timg);
+			tab_icon_1.setImageResource(R.mipmap.selector_home_tab_1_ok);
 			break;
 		case 1:
 			tab_text_2.setSelected(true);
-			tab_icon_2.setSelected(true);
 			break;
 		case 2:
 			tab_text_3.setSelected(true);
-			tab_icon_3.setSelected(true);
+			tab_icon_3.setImageResource(R.mipmap.selector_home_tab_3_ok);
 			break;
 		}
 	}
 
+	/**
+	 * 切换图片
+	 */
 	private void changeImage(ImageView iv_show, int imgUrl) {
 		Glide.with(AppApplication.getAppContext())
 				.load(imgUrl)

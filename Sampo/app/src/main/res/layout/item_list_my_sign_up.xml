@@ -4,7 +4,7 @@
     android:id="@+id/my_sign_up_item_main"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="@dimen/screen_margin_default" >
+    android:padding="@dimen/app_margin_screen" >
 
     <TextView
         android:id="@+id/my_sign_up_item_time"
@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_padding_18"
         android:background="@drawable/shape_style_solid_2_18"
-        android:padding="@dimen/screen_margin_default"
+        android:padding="@dimen/app_margin_screen"
         app:layout_constraintTop_toBottomOf="@id/my_sign_up_item_time">
 
         <com.songbao.sxb.widgets.RoundImageView
@@ -45,7 +45,7 @@
         <TextView
             android:id="@+id/my_sign_up_item_tv_title"
             style="@style/list_item_text"
-            android:layout_marginLeft="@dimen/screen_margin_default"
+            android:layout_marginLeft="@dimen/app_margin_screen"
             android:lines="2"
             android:maxLines="2"
             android:textStyle="bold"
