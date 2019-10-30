@@ -25,6 +25,9 @@
     <string name="item_select_no">请选择：</string>
     <string name="item_select_ok">已选择：</string>
     <string name="recommend">推荐</string>
+    <string name="active">生效中</string>
+    <string name="expired">已过期</string>
+    <string name="cancelled">已核销</string>
     <string name="login">登录</string>
     <string name="color">颜色</string>
     <string name="size">尺码</string>
@@ -119,10 +122,10 @@
     <!-- Mine -->
     <string name="mine_login">点击头像登录</string>
     <string name="mine_my_design">我的设计</string>
-    <string name="mine_my_coupon">我的卡券</string>
+    <string name="mine_my_tickets">我的门票</string>
     <string name="mine_my_sing_up">我的活动</string>
     <string name="mine_my_reserve">我的预约</string>
-    <string name="mine_my_order">我的账单</string>
+    <string name="mine_my_order">我的订单</string>
     <string name="mine_call">联系客服</string>
     <string name="mine_message">消息中心</string>
     <string name="mine_message_history">以下为历史消息</string>
@@ -159,8 +162,6 @@
     <string name="reserve_desc_en">COURSE DESCRIPTION</string>
     <string name="reserve_choice">选择场次</string>
     <string name="reserve_qr_code">预约二维码</string>
-    <string name="reserve_expired">已过期</string>
-    <string name="reserve_cancelled">已核销</string>
     <string name="reserve_success">预约成功</string>
     <string name="reserve_success_can">预约成功（已核销）</string>
     <string name="reserve_success_end">预约成功（已过期）</string>
@@ -214,6 +215,7 @@
     <string name="coupon_member_meal_en">MEMBERS PACKAGE</string>
     <string name="coupon_discount">立省%1$s元</string>
     <string name="coupon_buy_now">立即购买</string>
+    <string name="coupon_expired_time">过期日：%1$s</string>
 
     <!-- Find -->
     <string name="find_comment">评论</string>
@@ -320,7 +322,7 @@
     <!-- Pay -->
     <string name="pay_title">在线支付</string>
     <string name="pay_rmb">￥%1$s</string>
-    <string name="pay_ok">已支付</string>
+    <string name="pay_ok">已付款</string>
     <string name="pay_now">立即付款</string>
     <string name="pay_line">在线支付</string>
     <string name="pay_amount">支付金额</string>

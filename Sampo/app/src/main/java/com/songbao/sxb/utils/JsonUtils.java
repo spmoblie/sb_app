@@ -1,9 +1,11 @@
 package com.songbao.sxb.utils;
 
 import com.songbao.sxb.entity.BaseEntity;
+import com.songbao.sxb.entity.CouponEntity;
 import com.songbao.sxb.entity.DesignEntity;
 import com.songbao.sxb.entity.MessageEntity;
 import com.songbao.sxb.entity.OptionEntity;
+import com.songbao.sxb.entity.OrderEntity;
 import com.songbao.sxb.entity.PaymentEntity;
 import com.songbao.sxb.entity.ThemeEntity;
 import com.songbao.sxb.entity.UserInfoEntity;
@@ -330,6 +332,52 @@ public class JsonUtils {
                     JSONObject item = data.getJSONObject(j);
                     childEn = new DesignEntity();
                     childEn.setImgUrl(item.getString("url"));
+                    lists.add(childEn);
+                }
+                mainEn.setLists(lists);
+            }
+        }
+        return mainEn;
+    }
+
+    /**
+     * 解析我的门票数据
+     */
+    public static BaseEntity getMyTicketsData(JSONObject jsonObject) throws JSONException {
+        BaseEntity mainEn = getCommonKeyValue(jsonObject);
+
+        if (StringUtil.notNull(jsonObject, "data")) {
+            JSONObject jsonData = jsonObject.getJSONObject("data");
+            if (StringUtil.notNull(jsonData, "dataList")) {
+                JSONArray data = jsonData.getJSONArray("dataList");
+                CouponEntity childEn;
+                List<CouponEntity> lists = new ArrayList<>();
+                for (int j = 0; j < data.length(); j++) {
+                    JSONObject item = data.getJSONObject(j);
+                    childEn = new CouponEntity();
+                    lists.add(childEn);
+                }
+                mainEn.setLists(lists);
+            }
+        }
+        return mainEn;
+    }
+
+    /**
+     * 解析我的订单数据
+     */
+    public static BaseEntity getMyOrderData(JSONObject jsonObject) throws JSONException {
+        BaseEntity mainEn = getCommonKeyValue(jsonObject);
+
+        if (StringUtil.notNull(jsonObject, "data")) {
+            JSONObject jsonData = jsonObject.getJSONObject("data");
+            if (StringUtil.notNull(jsonData, "dataList")) {
+                JSONArray data = jsonData.getJSONArray("dataList");
+                OrderEntity childEn;
+                List<OrderEntity> lists = new ArrayList<>();
+                for (int j = 0; j < data.length(); j++) {
+                    JSONObject item = data.getJSONObject(j);
+                    childEn = new OrderEntity();
                     lists.add(childEn);
                 }
                 mainEn.setLists(lists);

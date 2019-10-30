@@ -67,7 +67,6 @@ public class MyDesignActivity extends BaseActivity {
 	private void initRecyclerView() {
 		refresh_gv.setPullRefreshEnabled(true); //下拉刷新
 		refresh_gv.setPullLoadEnabled(true); //上拉加载
-		refresh_gv.setScrollLoadEnabled(false); //底部翻页
 		refresh_gv.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<GridView>() {
 			@Override
 			public void onPullDownToRefresh(PullToRefreshBase<GridView> refreshView) {

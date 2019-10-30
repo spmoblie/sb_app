@@ -1,6 +1,5 @@
 package com.songbao.sxb.activity.mine;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.util.ArrayMap;
@@ -10,11 +9,10 @@ import com.songbao.sxb.AppApplication;
 import com.songbao.sxb.AppConfig;
 import com.songbao.sxb.R;
 import com.songbao.sxb.activity.BaseActivity;
-import com.songbao.sxb.activity.home.ReserveDetailActivity;
 import com.songbao.sxb.adapter.AdapterCallback;
-import com.songbao.sxb.adapter.MyReserveAdapter;
+import com.songbao.sxb.adapter.MyOrderAdapter;
 import com.songbao.sxb.entity.BaseEntity;
-import com.songbao.sxb.entity.ThemeEntity;
+import com.songbao.sxb.entity.OrderEntity;
 import com.songbao.sxb.utils.ExceptionUtil;
 import com.songbao.sxb.utils.JsonUtils;
 import com.songbao.sxb.utils.LogUtil;
@@ -32,20 +30,20 @@ import java.util.List;
 import butterknife.BindView;
 
 
-public class MyReserveActivity extends BaseActivity {
+public class MyOrderActivity extends BaseActivity {
 
-	String TAG = MyReserveActivity.class.getSimpleName();
+	String TAG = MyOrderActivity.class.getSimpleName();
 
 	@BindView(R.id.refresh_view_rv)
 	PullToRefreshRecyclerView refresh_rv;
 
 	MyRecyclerView mRecyclerView;
-	MyReserveAdapter rvAdapter;
+	MyOrderAdapter rvAdapter;
 	AdapterCallback apCallback;
 
 	private int data_total = -1; //数据总量
 	private int current_Page = 1;  //当前列表加载页
-	private ArrayList<ThemeEntity> al_show = new ArrayList<>();
+	private ArrayList<OrderEntity> al_show = new ArrayList<>();
 	private ArrayMap<String, Boolean> am_show = new ArrayMap<>();
 
 	@Override
@@ -57,7 +55,7 @@ public class MyReserveActivity extends BaseActivity {
 	}
 
 	private void initView() {
-		setTitle(getString(R.string.mine_my_reserve));
+		setTitle(getString(R.string.mine_my_order));
 
 		initRecyclerView();
 		loadMoreData();
@@ -114,13 +112,10 @@ public class MyReserveActivity extends BaseActivity {
 			@Override
 			public void setOnClick(Object data, int position, int type) {
 				if (position < 0 || position >= al_show.size()) return;
-				ThemeEntity themeEn = al_show.get(position);
-				if (themeEn != null) {
-					openReserveDetailActivity(themeEn);
-				}
+				OrderEntity orderEn = al_show.get(position);
 			}
 		};
-		rvAdapter = new MyReserveAdapter(mContext, al_show, apCallback);
+		rvAdapter = new MyOrderAdapter(mContext, al_show, apCallback);
 		mRecyclerView.setAdapter(rvAdapter);
 	}
 
@@ -128,18 +123,6 @@ public class MyReserveActivity extends BaseActivity {
 		if (rvAdapter != null) {
 			rvAdapter.updateData(al_show);
 		}
-	}
-
-	/**
-	 * 跳转至预约详情页面
-	 * @param data
-	 */
-	private void openReserveDetailActivity(ThemeEntity data) {
-		if (data == null) return;
-		Intent intent = new Intent(mContext, ReserveDetailActivity.class);
-		intent.putExtra(AppConfig.PAGE_TYPE, 2);
-		intent.putExtra(AppConfig.PAGE_DATA, data);
-		startActivity(intent);
 	}
 
 	@Override
@@ -177,10 +160,10 @@ public class MyReserveActivity extends BaseActivity {
 	 * 翻页加载
 	 */
 	private void loadMoreData() {
-		loadServerData();
-		/*al_show.clear();
+		//loadServerData();
+		al_show.clear();
 		al_show.addAll(getDemoData());
-		updateListData();*/
+		updateListData();
 	}
 
 	/**
@@ -190,7 +173,7 @@ public class MyReserveActivity extends BaseActivity {
 		HashMap<String, String> map = new HashMap<>();
 		map.put("page", String.valueOf(current_Page));
 		map.put("size", AppConfig.LOAD_SIZE);
-		loadSVData(AppConfig.URL_USER_RESERVATION, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_USER_RESERVATION);
+		loadSVData(AppConfig.URL_USER_ORDER, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_USER_ORDER);
 	}
 
 	@Override
@@ -198,11 +181,11 @@ public class MyReserveActivity extends BaseActivity {
 		BaseEntity baseEn;
 		try {
 			switch (dataType) {
-				case AppConfig.REQUEST_SV_USER_RESERVATION:
-					baseEn = JsonUtils.getMyThemeList(jsonObject);
+				case AppConfig.REQUEST_SV_USER_ORDER:
+					baseEn = JsonUtils.getMyOrderData(jsonObject);
 					if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
 						data_total = baseEn.getDataTotal(); //加载更多数据控制符
-						List<ThemeEntity> lists = baseEn.getLists();
+						List<OrderEntity> lists = baseEn.getLists();
 						if (lists.size() > 0) {
 							if (current_Page == 1) {
 								al_show.clear();
@@ -232,14 +215,8 @@ public class MyReserveActivity extends BaseActivity {
 	private void addNewShowLists(List<BaseEntity> showLists) {
 		al_show.clear();
 		for (int i = 0; i < showLists.size(); i++) {
-			al_show.add((ThemeEntity) showLists.get(i));
+			al_show.add((OrderEntity) showLists.get(i));
 		}
-	}
-
-	@Override
-	protected void loadFailHandle() {
-		super.loadFailHandle();
-		handleErrorCode(null);
 	}
 
 	@Override
@@ -252,60 +229,37 @@ public class MyReserveActivity extends BaseActivity {
 	/**
 	 * 构建Demo数据
 	 */
-	private List<ThemeEntity> getDemoData() {
-		List<ThemeEntity> mainLists = new ArrayList<>();
+	private List<OrderEntity> getDemoData() {
+		List<OrderEntity> mainLists = new ArrayList<>();
 
-		ThemeEntity chEn_1 = new ThemeEntity();
-		ThemeEntity chEn_2 = new ThemeEntity();
-		ThemeEntity chEn_3 = new ThemeEntity();
-		ThemeEntity chEn_4 = new ThemeEntity();
-		ThemeEntity chEn_5 = new ThemeEntity();
+		OrderEntity chEn_1 = new OrderEntity();
+		OrderEntity chEn_2 = new OrderEntity();
+		OrderEntity chEn_3 = new OrderEntity();
 
 		chEn_1.setId(1);
-		chEn_1.setAddTime("2019-10-28 09:28:28");
-		chEn_1.setPicUrl("");
-		chEn_1.setTitle("我的预约标题1");
-		chEn_1.setReserveDate("2019-10-18");
-		chEn_1.setReserveTime("09:00-10:30");
-		chEn_1.setCheckValue("ALF54SD1F5F4");
-		chEn_1.setWriteOffStatus(0);
+		chEn_1.setTitle("从受欢迎到被需要：小小小木匠的家具设计课第一百六十");
+		chEn_1.setName("松小堡南山方大城店");
+		chEn_1.setPayType("微信支付");
+		chEn_1.setCost("299");
+		chEn_1.setAddTime("2019-11-18 18:18");
+		chEn_1.setStatus(1);
 		mainLists.add(chEn_1);
 		chEn_2.setId(2);
-		chEn_2.setAddTime("2019-10-26 09:26:26");
-		chEn_2.setPicUrl("");
-		chEn_2.setTitle("我的预约标题2");
-		chEn_2.setReserveDate("2019-10-18");
-		chEn_2.setReserveTime("09:00-10:30");
-		chEn_2.setCheckValue("ALF54SD1F5F4");
-		chEn_2.setWriteOffStatus(1);
+		chEn_2.setTitle("从受欢迎到被需要：小小小木匠的家具设计课第一百六十");
+		chEn_2.setName("松小堡南山方大城店");
+		chEn_2.setPayType("微信支付");
+		chEn_2.setCost("299");
+		chEn_2.setAddTime("2019-11-18 18:18");
+		chEn_2.setStatus(2);
 		mainLists.add(chEn_2);
 		chEn_3.setId(3);
-		chEn_3.setAddTime("2019-10-23 09:23:23");
-		chEn_3.setPicUrl("");
-		chEn_3.setTitle("我的预约标题3");
-		chEn_3.setReserveDate("2019-10-18");
-		chEn_3.setReserveTime("09:00-10:30");
-		chEn_3.setCheckValue("ALF54SD1F5F4");
-		chEn_3.setWriteOffStatus(2);
+		chEn_3.setTitle("从受欢迎到被需要：小小小木匠的家具设计课第一百六十");
+		chEn_3.setName("松小堡南山方大城店");
+		chEn_3.setPayType("微信支付");
+		chEn_3.setCost("299");
+		chEn_3.setAddTime("2019-11-18 18:18");
+		chEn_3.setStatus(3);
 		mainLists.add(chEn_3);
-		chEn_4.setId(4);
-		chEn_4.setAddTime("2019-10-20 09:20:20");
-		chEn_4.setPicUrl("");
-		chEn_4.setTitle("我的预约标题4");
-		chEn_4.setReserveDate("2019-10-18");
-		chEn_4.setReserveTime("09:00-10:30");
-		chEn_4.setCheckValue("ALF54SD1F5F4");
-		chEn_4.setWriteOffStatus(3);
-		mainLists.add(chEn_4);
-		chEn_5.setId(5);
-		chEn_5.setAddTime("2019-10-18 09:18:18");
-		chEn_5.setPicUrl("");
-		chEn_5.setTitle("我的预约标题5");
-		chEn_5.setReserveDate("2019-10-18");
-		chEn_5.setReserveTime("09:00-10:30");
-		chEn_5.setCheckValue("ALF54SD1F5F4");
-		chEn_5.setWriteOffStatus(10);
-		mainLists.add(chEn_5);
 
 		return mainLists;
 	}

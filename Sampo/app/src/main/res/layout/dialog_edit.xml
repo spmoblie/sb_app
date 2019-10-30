@@ -39,7 +39,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_marginRight="@dimen/app_margin_screen"
-            android:background="@drawable/shape_style_empty_2_33"
+            android:background="@drawable/shape_style_empty_2_18"
             android:padding="@dimen/margin_padding_8"
             android:gravity="center"
             android:text="@string/cancel"

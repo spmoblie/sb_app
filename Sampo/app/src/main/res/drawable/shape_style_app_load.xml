@@ -6,6 +6,6 @@
     <solid android:color="@color/ui_bg_color_percent_03" />
 
     <!-- 圆角 -->
-    <corners android:radius="6dip" />
+    <corners android:radius="6dp" />
 
 </shape>

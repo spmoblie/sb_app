@@ -73,10 +73,14 @@ public class AppConfig {
 	public final static String URL_MESSAGE = "message";
 	// 我的设计
 	public final static String URL_DESIGN_ALL = "design/all";
+	// 我的门票
+	public final static String URL_USER_TICKETS = "user/tickets";
 	// 我的活动
 	public final static String URL_USER_ACTIVITY = "user/activity";
 	// 我的预约
 	public final static String URL_USER_RESERVATION = "user/reservation";
+	// 我的订单
+	public final static String URL_USER_ORDER = "user/order";
 
 	// 上传接口
 	public final static String URL_UPLOAD_PUSH = "upload/push";
@@ -243,10 +247,14 @@ public class AppConfig {
 	public static final int REQUEST_SV_MESSAGE = 0X3004;
 	// 获取我的设计
 	public static final int REQUEST_SV_DESIGN_ALL = 0X3005;
+	// 获取我的门票
+	public static final int REQUEST_SV_USER_TICKETS = 0X3006;
 	// 获取我的活动
-	public static final int REQUEST_SV_USER_ACTIVITY = 0X3006;
+	public static final int REQUEST_SV_USER_ACTIVITY = 0X3007;
 	// 获取我的预约
-	public static final int REQUEST_SV_USER_RESERVATION = 0X3007;
+	public static final int REQUEST_SV_USER_RESERVATION = 0X3008;
+	// 获取我的订单
+	public static final int REQUEST_SV_USER_ORDER = 0X3009;
 
 	/**
 	 ******************************************* RequestCode参数设置结束 ******************************************

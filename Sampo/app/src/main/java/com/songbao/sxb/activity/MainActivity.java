@@ -17,7 +17,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.songbao.sxb.AppApplication;
 import com.songbao.sxb.AppConfig;
 import com.songbao.sxb.AppManager;
@@ -62,7 +61,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 	private static Fragment fragment = null;
 	private static String current_fragment; //当前要显示的Fragment
 	private static final String[] FRAGMENT_CONTAINER = { "fragment_1", "fragment_2", "fragment_3" };
-	private int current_index = 0; //当前要显示的Fragment下标索引
+	private int current_index = -1; //当前显示的Fragment下标索引
 	private boolean exit = false;
 
 
@@ -93,19 +92,16 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 		tab_text_3.setOnClickListener(this);
 
 		boolean isJump = shared.getBoolean(AppConfig.KEY_JUMP_PAGE, false);
-		int open_index = shared.getInt(AppConfig.KEY_MAIN_CURRENT_INDEX, 0);
-		LogUtil.i(LogUtil.LOG_TAG, TAG + ": current_index = " + current_index
-				             + " open_index = " + open_index + " isJump = " + isJump);
-		// 非跳转页面时出现错误 重启Home
-		if (!isJump && current_index != open_index) {
-			startFragment();
-			return;
+		int save_index = shared.getInt(AppConfig.KEY_MAIN_CURRENT_INDEX, 0);
+		LogUtil.i(LogUtil.LOG_TAG, TAG + ": isJump = " + isJump + " save = " + save_index + " current = " + current_index);
+		// 非主动跳转且页面出现错误时
+		if (!isJump && save_index > 0 && current_index == -1) {
+			/*startFragment();
+			return;*/
+			save_index = 0;
 		}
 		// 设置默认初始化的界面
-		switch (open_index) {
-		case 0:
-			tab_text_1.performClick();
-			break;
+		switch (save_index) {
 		case 1:
 			tab_text_2.performClick();
 			break;
@@ -123,7 +119,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 	 * 重启MainActivity
 	 */
 	private void startFragment() {
-		shared.edit().putInt(AppConfig.KEY_MAIN_CURRENT_INDEX, current_index).apply();
+		shared.edit().putInt(AppConfig.KEY_MAIN_CURRENT_INDEX, 0).apply();
 		finish();
 		startActivity(new Intent(this, MainActivity.class));
 	}
@@ -180,6 +176,8 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 	@Override
 	protected void onDestroy() {
 		LogUtil.i(LogUtil.LOG_TAG, TAG + ": onDestroy");
+
+		shared.edit().putInt(AppConfig.KEY_MAIN_CURRENT_INDEX, 0).apply();
 		AppManager.getInstance().finishActivity(this);
 
 		super.onDestroy();
@@ -189,6 +187,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 	public void onClick(View v) {
 		switch (v.getId()) {
 		case R.id.main_fragment_tab_tv_1:
+			if (current_index == 0) return;
 			current_index = 0;
 			break;
 		case R.id.main_fragment_tab_tv_2:
@@ -230,32 +229,21 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 		tab_text_1.setSelected(false);
 		tab_text_2.setSelected(false);
 		tab_text_3.setSelected(false);
-		tab_icon_1.setImageResource(R.mipmap.selector_home_tab_1_no);
-		tab_icon_3.setImageResource(R.mipmap.selector_home_tab_3_no);
+		tab_icon_1.setSelected(false);
+		tab_icon_3.setSelected(false);
 		switch (current_index) {
-		case 0:
-			tab_text_1.setSelected(true);
-			//changeImage(tab_icon_1, R.drawable.timg);
-			tab_icon_1.setImageResource(R.mipmap.selector_home_tab_1_ok);
-			break;
 		case 1:
 			tab_text_2.setSelected(true);
 			break;
 		case 2:
 			tab_text_3.setSelected(true);
-			tab_icon_3.setImageResource(R.mipmap.selector_home_tab_3_ok);
+			tab_icon_3.setSelected(true);
+			break;
+		default:
+			tab_text_1.setSelected(true);
+			tab_icon_1.setSelected(true);
 			break;
 		}
-	}
-
-	/**
-	 * 切换图片
-	 */
-	private void changeImage(ImageView iv_show, int imgUrl) {
-		Glide.with(AppApplication.getAppContext())
-				.load(imgUrl)
-				.apply(AppApplication.getHeadOptions())
-				.into(iv_show);
 	}
 
 	class MyFragmentPagerAdapter extends FragmentPagerAdapter{

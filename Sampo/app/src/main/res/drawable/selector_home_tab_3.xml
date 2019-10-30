@@ -1,7 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<selector xmlns:android="http://schemas.android.com/apk/res/android">
+<animated-selector xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:state_selected="true" android:drawable="@mipmap/selector_home_tab_3_ok" />
-    <item android:state_selected="false" android:drawable="@mipmap/selector_home_tab_3_no" />
+    <item android:id="@+id/state_ok" android:state_selected="true" android:drawable="@mipmap/selector_home_tab_3_ok"/>
+    <item android:id="@+id/state_no" android:state_selected="false" android:drawable="@mipmap/selector_home_tab_3_no"/>
 
-</selector>
+    <transition android:fromId="@+id/state_no" android:toId="@+id/state_ok">
+        <animation-list>
+            <item android:drawable="@mipmap/selector_home_tab_3_ok" android:duration="200"/>
+            <item android:drawable="@mipmap/selector_home_tab_3_no" android:duration="200"/>
+            <item android:drawable="@mipmap/selector_home_tab_3_ok" android:duration="200"/>
+            <item android:drawable="@mipmap/selector_home_tab_3_no" android:duration="200"/>
+            <item android:drawable="@mipmap/selector_home_tab_3_ok" android:duration="200"/>
+            <item android:drawable="@mipmap/selector_home_tab_3_no" android:duration="200"/>
+            <item android:drawable="@mipmap/selector_home_tab_3_ok" android:duration="200"/>
+            <item android:drawable="@mipmap/selector_home_tab_3_no" android:duration="200"/>
+            <item android:drawable="@mipmap/selector_home_tab_3_ok" android:duration="200"/>
+        </animation-list>
+    </transition>
+
+</animated-selector>

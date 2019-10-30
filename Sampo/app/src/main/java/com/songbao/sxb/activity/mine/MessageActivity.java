@@ -66,7 +66,6 @@ public class MessageActivity extends BaseActivity {
 	private void initRecyclerView() {
 		refresh_rv.setPullRefreshEnabled(true); //下拉刷新
 		refresh_rv.setPullLoadEnabled(true); //上拉加载
-		refresh_rv.setScrollLoadEnabled(false); //底部翻页
 		refresh_rv.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<MyRecyclerView>() {
 			@Override
 			public void onPullDownToRefresh(PullToRefreshBase<MyRecyclerView> refreshView) {

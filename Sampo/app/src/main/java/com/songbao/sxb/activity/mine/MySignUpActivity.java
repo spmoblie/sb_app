@@ -66,7 +66,6 @@ public class MySignUpActivity extends BaseActivity {
 	private void initRecyclerView() {
 		refresh_rv.setPullRefreshEnabled(true); //下拉刷新
 		refresh_rv.setPullLoadEnabled(true); //上拉加载
-		refresh_rv.setScrollLoadEnabled(false); //底部翻页
 		refresh_rv.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<MyRecyclerView>() {
 			@Override
 			public void onPullDownToRefresh(PullToRefreshBase<MyRecyclerView> refreshView) {
@@ -114,6 +113,7 @@ public class MySignUpActivity extends BaseActivity {
 
 			@Override
 			public void setOnClick(Object data, int position, int type) {
+				if (position < 0 || position >= al_show.size()) return;
 				ThemeEntity themeEn = al_show.get(position);
 				if (themeEn != null) {
 					openSignUpDetailActivity(themeEn);

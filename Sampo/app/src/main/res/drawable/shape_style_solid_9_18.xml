@@ -3,9 +3,9 @@
     android:shape="rectangle" >
 
     <!-- 填充 -->
-    <solid android:color="@color/ui_bg_color_percent_03" />
+    <solid android:color="@color/app_color_red_7" />
 
     <!-- 圆角 -->
-    <corners android:radius="18dip" />
+    <corners android:radius="18dp" />
 
 </shape>

@@ -93,7 +93,7 @@
             <TextView
                 style="@style/setting_lay_text_title"
                 android:drawableLeft="@mipmap/icon_me_coupon"
-                android:text="@string/mine_my_coupon"
+                android:text="@string/mine_my_tickets"
                 android:textSize="@dimen/app_text_size_content" />
 
             <TextView

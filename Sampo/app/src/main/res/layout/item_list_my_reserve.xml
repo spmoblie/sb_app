@@ -35,11 +35,11 @@
             android:layout_width="@dimen/margin_padding_110"
             android:layout_height="@dimen/margin_padding_110"
             android:gravity="center"
-            android:text="@string/reserve_cancelled"
+            android:text="@string/cancelled"
             android:textStyle="bold"
             android:textColor="@color/app_color_white"
             android:textSize="@dimen/app_text_size_title"
-            android:background="@drawable/shape_style_solid_9_18"
+            android:background="@drawable/shape_style_solid_0_18"
             android:visibility="gone"/>
 
         <TextView

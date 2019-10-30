@@ -6,10 +6,10 @@
             <solid android:color="@color/app_color_beige" />
 
             <stroke
-                android:width="0.5dip"
+                android:width="0.5dp"
                 android:color="@color/app_color_brown" />
 
-            <corners android:radius="18dip" />
+            <corners android:radius="18dp" />
         </shape>
     </item>
 
@@ -18,10 +18,10 @@
             <solid android:color="@color/app_color_white" />
 
             <stroke
-                android:width="0.5dip"
+                android:width="0.5dp"
                 android:color="@color/app_color_gray_e" />
 
-            <corners android:radius="18dip" />
+            <corners android:radius="18dp" />
         </shape>
     </item>
 

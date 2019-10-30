@@ -193,7 +193,7 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
                 break;
             case R.id.fg_mine_coupon_main:
                 if (!checkClick()) return;
-                //startActivity(new Intent(mContext, MyDesignActivity.class));
+                startActivity(new Intent(mContext, MyTicketsActivity.class));
                 break;
             case R.id.fg_mine_sign_up_main:
                 if (!checkClick()) return;
@@ -205,6 +205,7 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
                 break;
             case R.id.fg_mine_bill_main:
                 if (!checkClick()) return;
+                startActivity(new Intent(mContext, MyOrderActivity.class));
                 break;
             case R.id.fg_mine_help_main:
                 openWebViewActivity(getString(R.string.setting_question), "https://support.qq.com/product/1221");

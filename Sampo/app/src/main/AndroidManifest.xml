@@ -141,8 +141,10 @@
         <activity android:name=".activity.mine.FeedBackActivity"/>
         <activity android:name=".activity.mine.MessageActivity"/>
         <activity android:name=".activity.mine.MyDesignActivity"/>
+        <activity android:name=".activity.mine.MyOrderActivity"/>
         <activity android:name=".activity.mine.MyReserveActivity"/>
         <activity android:name=".activity.mine.MySignUpActivity"/>
+        <activity android:name=".activity.mine.MyTicketsActivity"/>
         <activity android:name=".activity.mine.PersonalActivity"/>
         <activity android:name=".activity.mine.SelectAreaActivity"/>
         <activity android:name=".activity.mine.SettingActivity"/>

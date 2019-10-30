@@ -12,16 +12,12 @@ public class CouponEntity extends BaseEntity {
 	private double priceNew; //促销价
 	private double priceOld; //销售价
 	private double discount; //折扣价
+	private int status; //1:生效中，2:已核销，3:已过期
 	private List<CouponEntity> mainLists; //数集
 
 	public CouponEntity() {
 		super();
 	}
-
-	public CouponEntity(int errno, String errmsg) {
-		super(errno, errmsg);
-	}
-
 
 	@Override
 	public String getEntityId() {
@@ -74,6 +70,14 @@ public class CouponEntity extends BaseEntity {
 
 	public void setDiscount(double discount) {
 		this.discount = discount;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
 	}
 
 	public List<CouponEntity> getMainLists() {

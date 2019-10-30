@@ -141,7 +141,7 @@ deps.nohttp_ok = "com.yanzhenjie.nohttp:okhttp:$versions.nohttp_ok"
 ext.deps = deps
 
 def build_versions = [:]
-build_versions.min_sdk = 14
+build_versions.min_sdk = 15
 build_versions.target_sdk = 28
 ext.build_versions = build_versions
 

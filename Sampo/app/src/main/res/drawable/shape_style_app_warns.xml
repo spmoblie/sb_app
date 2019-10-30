@@ -6,6 +6,6 @@
     <solid android:color="@color/warns_text_color" />
 
     <!-- 圆角 -->
-    <corners android:radius="90dip" />
+    <corners android:radius="90dp" />
 
 </shape>

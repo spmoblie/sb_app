@@ -6,6 +6,6 @@
     <solid android:color="@color/debar_text_color" />
 
     <!-- 圆角 -->
-    <corners android:radius="33dip" />
+    <corners android:radius="33dp" />
 
 </shape>

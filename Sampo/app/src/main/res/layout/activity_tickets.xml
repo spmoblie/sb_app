@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:scaleType="fitStart"
-        android:src="@mipmap/icon_card" />
+        android:src="@mipmap/icon_card_bg" />
 
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
@@ -94,13 +94,10 @@
 
             <TextView
                 android:id="@+id/tickets_set_meal_1_tv_discount"
-                style="@style/list_item_text"
-                android:layout_marginTop="@dimen/margin_padding_10"
-                android:background="@drawable/shape_style_solid_8_15"
-                android:paddingBottom="@dimen/margin_padding_2"
+                style="@style/common_text_bg_frame"
                 android:paddingLeft="@dimen/margin_padding_11"
                 android:paddingRight="@dimen/margin_padding_11"
-                android:paddingTop="@dimen/margin_padding_2"
+                android:background="@drawable/shape_style_solid_8_18"
                 android:textColor="@color/app_color_white"
                 android:textSize="@dimen/text_size_10" />
         </LinearLayout>
@@ -172,13 +169,10 @@
 
             <TextView
                 android:id="@+id/tickets_set_meal_2_tv_discount"
-                style="@style/list_item_text"
-                android:layout_marginTop="@dimen/margin_padding_10"
-                android:background="@drawable/shape_style_solid_8_15"
-                android:paddingBottom="@dimen/margin_padding_2"
+                style="@style/common_text_bg_frame"
                 android:paddingLeft="@dimen/margin_padding_11"
                 android:paddingRight="@dimen/margin_padding_11"
-                android:paddingTop="@dimen/margin_padding_2"
+                android:background="@drawable/shape_style_solid_8_18"
                 android:textColor="@color/app_color_white"
                 android:textSize="@dimen/text_size_10" />
         </LinearLayout>
@@ -249,13 +243,10 @@
 
             <TextView
                 android:id="@+id/tickets_set_meal_3_tv_discount"
-                style="@style/list_item_text"
-                android:layout_marginTop="@dimen/margin_padding_10"
-                android:background="@drawable/shape_style_solid_8_15"
-                android:paddingBottom="@dimen/margin_padding_2"
+                style="@style/common_text_bg_frame"
                 android:paddingLeft="@dimen/margin_padding_11"
                 android:paddingRight="@dimen/margin_padding_11"
-                android:paddingTop="@dimen/margin_padding_2"
+                android:background="@drawable/shape_style_solid_8_18"
                 android:textColor="@color/app_color_white"
                 android:textSize="@dimen/text_size_10" />
         </LinearLayout>

@@ -115,6 +115,7 @@ public class ReserveListActivity extends BaseActivity implements OnClickListener
 
 			@Override
 			public void setOnClick(Object data, int position, int type) {
+				if (position < 0 || position >= al_show.size()) return;
 				ThemeEntity themeEn = al_show.get(position);
 				if (themeEn != null) {
 					openDetailActivity(themeEn);

@@ -202,12 +202,12 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
 
                 switch (data.getWriteOffStatus()) {
                     case 3: //已核销
-                        tv_cover.setText(mContext.getString(R.string.reserve_cancelled));
+                        tv_cover.setText(mContext.getString(R.string.cancelled));
                         tv_cover.setVisibility(View.VISIBLE);
                         tv_success.setText(mContext.getString(R.string.reserve_success_can));
                         break;
                     case 10: //已过期
-                        tv_cover.setText(mContext.getString(R.string.reserve_expired));
+                        tv_cover.setText(mContext.getString(R.string.expired));
                         tv_cover.setVisibility(View.VISIBLE);
                         tv_success.setText(mContext.getString(R.string.reserve_success_end));
                         break;

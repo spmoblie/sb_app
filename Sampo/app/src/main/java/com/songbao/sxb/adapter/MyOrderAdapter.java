@@ -6,13 +6,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.songbao.sxb.AppApplication;
 import com.songbao.sxb.R;
-import com.songbao.sxb.entity.ThemeEntity;
-import com.songbao.sxb.utils.TimeUtil;
+import com.songbao.sxb.entity.OrderEntity;
 import com.songbao.sxb.widgets.RoundImageView;
 
 import java.util.ArrayList;
@@ -20,14 +20,14 @@ import java.util.ArrayList;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MyReserveAdapter extends RecyclerView.Adapter<MyReserveAdapter.ViewHolder>{
+public class MyOrderAdapter extends RecyclerView.Adapter<MyOrderAdapter.ViewHolder>{
 
     private Context mContext;
     private View mHeaderView;
     private AdapterCallback apCallback;
-    private ArrayList<ThemeEntity> mData;
+    private ArrayList<OrderEntity> mData;
 
-    public MyReserveAdapter(Context context, ArrayList<ThemeEntity> data, AdapterCallback apCallback) {
+    public MyOrderAdapter(Context context, ArrayList<OrderEntity> data, AdapterCallback apCallback) {
         super();
         mContext = context;
         this.apCallback = apCallback;
@@ -38,7 +38,7 @@ public class MyReserveAdapter extends RecyclerView.Adapter<MyReserveAdapter.View
         }
     }
 
-    public void updateData(ArrayList<ThemeEntity> data){
+    public void updateData(ArrayList<OrderEntity> data){
         if (data != null) {
             mData = data;
         } else {
@@ -68,7 +68,7 @@ public class MyReserveAdapter extends RecyclerView.Adapter<MyReserveAdapter.View
         // 创建头部View
         if(mHeaderView != null && i == 0) return new ViewHolder(mHeaderView);
         // 创建一个View
-        View view = LayoutInflater.from(mContext).inflate(R.layout.item_list_my_reserve, viewGroup, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.item_list_my_order, viewGroup, false);
         // 创建一个ViewHolder
         return new ViewHolder(view);
     }
@@ -77,33 +77,39 @@ public class MyReserveAdapter extends RecyclerView.Adapter<MyReserveAdapter.View
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
         if(getItemViewType(i) == 0) return;
         final int pos = getRealPosition(viewHolder);
-        final ThemeEntity data = mData.get(pos);
+        final OrderEntity data = mData.get(pos);
 
+        if (pos == 0) {
+            viewHolder.iv_top.setVisibility(View.VISIBLE);
+        } else {
+            viewHolder.iv_top.setVisibility(View.GONE);
+        }
         // 绑定数据到ViewHolder
         Glide.with(AppApplication.getAppContext())
                 .load(data.getPicUrl())
                 .apply(AppApplication.getShowOptions())
                 .into(viewHolder.iv_show);
 
-        switch (data.getWriteOffStatus()) {
-            case 3: //已核销
-                viewHolder.tv_cover.setText(mContext.getString(R.string.cancelled));
-                viewHolder.tv_cover.setVisibility(View.VISIBLE);
+        viewHolder.tv_name.setText(data.getName());
+        viewHolder.tv_title.setText(data.getTitle());
+        viewHolder.tv_pay_type.setText(data.getPayType());
+        viewHolder.tv_cost.setText(data.getCost());
+        viewHolder.tv_time.setText(data.getAddTime());
+
+        switch (data.getStatus()) {
+            case 2:
+                viewHolder.tv_state.setText(mContext.getString(R.string.cancelled));
+                viewHolder.tv_state.setTextColor(mContext.getResources().getColor(R.color.app_color_red_7));
                 break;
-            case 10: //已过期
-                viewHolder.tv_cover.setText(mContext.getString(R.string.expired));
-                viewHolder.tv_cover.setVisibility(View.VISIBLE);
+            case 3:
+                viewHolder.tv_state.setText(mContext.getString(R.string.expired));
+                viewHolder.tv_state.setTextColor(mContext.getResources().getColor(R.color.app_color_gray_5));
                 break;
             default:
-                viewHolder.tv_cover.setVisibility(View.GONE);
+                viewHolder.tv_state.setText(mContext.getString(R.string.pay_ok));
+                viewHolder.tv_state.setTextColor(mContext.getResources().getColor(R.color.tv_color_status));
                 break;
         }
-
-        viewHolder.item_time.setText(TimeUtil.strToStrItem(data.getAddTime()));
-        viewHolder.tv_title.setText(data.getTitle());
-        viewHolder.tv_date.setText(mContext.getString(R.string.reserve_date_item,
-                TimeUtil.strToStrYMD("yyyy-MM-dd", data.getStartTime())));
-        viewHolder.tv_time.setText(mContext.getString(R.string.reserve_time_item, data.getReserveTime()));
 
         viewHolder.item_main.setOnClickListener(new View.OnClickListener() {
 
@@ -129,25 +135,31 @@ public class MyReserveAdapter extends RecyclerView.Adapter<MyReserveAdapter.View
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        @BindView(R.id.my_reserve_item_main)
+        @BindView(R.id.my_order_item_main)
         ConstraintLayout item_main;
 
-        @BindView(R.id.my_reserve_item_time)
-        TextView item_time;
+        @BindView(R.id.my_order_item_iv_top)
+        ImageView iv_top;
 
-        @BindView(R.id.my_reserve_item_iv_show)
+        @BindView(R.id.my_order_item_tv_name)
+        TextView tv_name;
+
+        @BindView(R.id.my_order_item_tv_state)
+        TextView tv_state;
+
+        @BindView(R.id.my_order_item_iv_show)
         RoundImageView iv_show;
 
-        @BindView(R.id.my_reserve_item_tv_cover)
-        TextView tv_cover;
-
-        @BindView(R.id.my_reserve_item_tv_title)
+        @BindView(R.id.my_order_item_tv_title)
         TextView tv_title;
 
-        @BindView(R.id.my_reserve_item_tv_date)
-        TextView tv_date;
+        @BindView(R.id.my_order_item_tv_pay_type)
+        TextView tv_pay_type;
 
-        @BindView(R.id.my_reserve_item_tv_time)
+        @BindView(R.id.my_order_item_tv_cost)
+        TextView tv_cost;
+
+        @BindView(R.id.my_order_item_tv_time)
         TextView tv_time;
 
         public ViewHolder(View itemView) {

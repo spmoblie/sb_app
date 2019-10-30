@@ -223,7 +223,7 @@
                     android:layout_marginTop="@dimen/app_margin_screen"
                     android:background="@color/ui_bg_color_percent_03"
                     android:gravity="center"
-                    android:text="@string/reserve_cancelled"
+                    android:text="@string/cancelled"
                     android:textColor="@color/app_color_white"
                     android:textSize="@dimen/app_text_size_title"
                     android:textStyle="bold"

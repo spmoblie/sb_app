@@ -6,28 +6,25 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.songbao.sxb.AppApplication;
 import com.songbao.sxb.R;
-import com.songbao.sxb.entity.ThemeEntity;
-import com.songbao.sxb.utils.TimeUtil;
-import com.songbao.sxb.widgets.RoundImageView;
+import com.songbao.sxb.entity.CouponEntity;
 
 import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class MyReserveAdapter extends RecyclerView.Adapter<MyReserveAdapter.ViewHolder>{
+public class MyTicketsAdapter extends RecyclerView.Adapter<MyTicketsAdapter.ViewHolder>{
 
     private Context mContext;
     private View mHeaderView;
     private AdapterCallback apCallback;
-    private ArrayList<ThemeEntity> mData;
+    private ArrayList<CouponEntity> mData;
 
-    public MyReserveAdapter(Context context, ArrayList<ThemeEntity> data, AdapterCallback apCallback) {
+    public MyTicketsAdapter(Context context, ArrayList<CouponEntity> data, AdapterCallback apCallback) {
         super();
         mContext = context;
         this.apCallback = apCallback;
@@ -38,7 +35,7 @@ public class MyReserveAdapter extends RecyclerView.Adapter<MyReserveAdapter.View
         }
     }
 
-    public void updateData(ArrayList<ThemeEntity> data){
+    public void updateData(ArrayList<CouponEntity> data){
         if (data != null) {
             mData = data;
         } else {
@@ -68,7 +65,7 @@ public class MyReserveAdapter extends RecyclerView.Adapter<MyReserveAdapter.View
         // 创建头部View
         if(mHeaderView != null && i == 0) return new ViewHolder(mHeaderView);
         // 创建一个View
-        View view = LayoutInflater.from(mContext).inflate(R.layout.item_list_my_reserve, viewGroup, false);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.item_list_my_tickets, viewGroup, false);
         // 创建一个ViewHolder
         return new ViewHolder(view);
     }
@@ -77,33 +74,31 @@ public class MyReserveAdapter extends RecyclerView.Adapter<MyReserveAdapter.View
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
         if(getItemViewType(i) == 0) return;
         final int pos = getRealPosition(viewHolder);
-        final ThemeEntity data = mData.get(pos);
+        final CouponEntity data = mData.get(pos);
 
+        if (pos == 0) {
+            viewHolder.iv_top.setVisibility(View.VISIBLE);
+        } else {
+            viewHolder.iv_top.setVisibility(View.GONE);
+        }
         // 绑定数据到ViewHolder
-        Glide.with(AppApplication.getAppContext())
-                .load(data.getPicUrl())
-                .apply(AppApplication.getShowOptions())
-                .into(viewHolder.iv_show);
+        viewHolder.tv_title.setText(data.getName());
+        viewHolder.tv_time.setText(mContext.getString(R.string.coupon_expired_time, data.getTermTime()));
 
-        switch (data.getWriteOffStatus()) {
-            case 3: //已核销
-                viewHolder.tv_cover.setText(mContext.getString(R.string.cancelled));
-                viewHolder.tv_cover.setVisibility(View.VISIBLE);
+        switch (data.getStatus()) {
+            case 2:
+                viewHolder.tv_state.setText(mContext.getString(R.string.cancelled));
+                viewHolder.tv_state.setBackgroundResource(R.drawable.shape_style_solid_9_18);
                 break;
-            case 10: //已过期
-                viewHolder.tv_cover.setText(mContext.getString(R.string.expired));
-                viewHolder.tv_cover.setVisibility(View.VISIBLE);
+            case 3:
+                viewHolder.tv_state.setText(mContext.getString(R.string.expired));
+                viewHolder.tv_state.setBackgroundResource(R.drawable.shape_style_solid_3_18);
                 break;
             default:
-                viewHolder.tv_cover.setVisibility(View.GONE);
+                viewHolder.tv_state.setText(mContext.getString(R.string.active));
+                viewHolder.tv_state.setBackgroundResource(R.drawable.shape_style_solid_5_18);
                 break;
         }
-
-        viewHolder.item_time.setText(TimeUtil.strToStrItem(data.getAddTime()));
-        viewHolder.tv_title.setText(data.getTitle());
-        viewHolder.tv_date.setText(mContext.getString(R.string.reserve_date_item,
-                TimeUtil.strToStrYMD("yyyy-MM-dd", data.getStartTime())));
-        viewHolder.tv_time.setText(mContext.getString(R.string.reserve_time_item, data.getReserveTime()));
 
         viewHolder.item_main.setOnClickListener(new View.OnClickListener() {
 
@@ -129,25 +124,19 @@ public class MyReserveAdapter extends RecyclerView.Adapter<MyReserveAdapter.View
 
     public class ViewHolder extends RecyclerView.ViewHolder{
 
-        @BindView(R.id.my_reserve_item_main)
+        @BindView(R.id.my_tickets_item_main)
         ConstraintLayout item_main;
 
-        @BindView(R.id.my_reserve_item_time)
-        TextView item_time;
+        @BindView(R.id.my_tickets_item_iv_top)
+        ImageView iv_top;
 
-        @BindView(R.id.my_reserve_item_iv_show)
-        RoundImageView iv_show;
-
-        @BindView(R.id.my_reserve_item_tv_cover)
-        TextView tv_cover;
-
-        @BindView(R.id.my_reserve_item_tv_title)
+        @BindView(R.id.my_tickets_item_tv_title)
         TextView tv_title;
 
-        @BindView(R.id.my_reserve_item_tv_date)
-        TextView tv_date;
+        @BindView(R.id.my_tickets_item_tv_state)
+        TextView tv_state;
 
-        @BindView(R.id.my_reserve_item_tv_time)
+        @BindView(R.id.my_tickets_item_tv_time)
         TextView tv_time;
 
         public ViewHolder(View itemView) {
