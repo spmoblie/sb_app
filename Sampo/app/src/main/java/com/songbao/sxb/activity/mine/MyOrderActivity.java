@@ -37,9 +37,7 @@ public class MyOrderActivity extends BaseActivity {
 	@BindView(R.id.refresh_view_rv)
 	PullToRefreshRecyclerView refresh_rv;
 
-	MyRecyclerView mRecyclerView;
 	MyOrderAdapter rvAdapter;
-	AdapterCallback apCallback;
 
 	private int data_total = -1; //数据总量
 	private int current_Page = 1;  //当前列表加载页
@@ -103,26 +101,25 @@ public class MyOrderActivity extends BaseActivity {
 		LinearLayoutManager layoutManager = new LinearLayoutManager(mContext);
 		layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 		// 设置布局管理器
-		mRecyclerView = refresh_rv.getRefreshableView();
+		MyRecyclerView mRecyclerView = refresh_rv.getRefreshableView();
 		mRecyclerView.setLayoutManager(layoutManager);
 
 		// 配置适配器
-		apCallback = new AdapterCallback() {
+		rvAdapter = new MyOrderAdapter(mContext, R.layout.item_list_my_order);
+		rvAdapter.addData(al_show);
+		rvAdapter.addCallback(new AdapterCallback() {
 
 			@Override
 			public void setOnClick(Object data, int position, int type) {
 				if (position < 0 || position >= al_show.size()) return;
 				OrderEntity orderEn = al_show.get(position);
 			}
-		};
-		rvAdapter = new MyOrderAdapter(mContext, al_show, apCallback);
+		});
 		mRecyclerView.setAdapter(rvAdapter);
 	}
 
 	private void updateListData() {
-		if (rvAdapter != null) {
-			rvAdapter.updateData(al_show);
-		}
+		rvAdapter.updateData(al_show);
 	}
 
 	@Override

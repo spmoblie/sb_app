@@ -6,24 +6,43 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.List;
 
 public abstract class AppBaseAdapter<T> extends BaseAdapter {
 
-	protected Object tag;
+	protected Context context;
 	protected List<T> mDataList;
 	protected AdapterCallback apCallback;
 	protected WeakReference<Context> weakContext;
 
-	public AppBaseAdapter(Context mContext) {
-		weakContext = new WeakReference<>(mContext);
+	public AppBaseAdapter(Context context) {
+		this.context = context;
+		this.mDataList = new ArrayList<>();
+		this.weakContext = new WeakReference<>(context);
 	}
 
-	public void setTag(Object tag) {
-		this.tag = tag;
+	/**
+	 * 添加数据
+	 */
+	public void addData(List<T> data){
+		this.mDataList.addAll(data);
+		this.notifyDataSetChanged();
 	}
 
-	public void setCallback(AdapterCallback callback) {
+	/**
+	 * 刷新数据
+	 */
+	public void updateData(List<T> data){
+		this.mDataList.clear();
+		this.mDataList.addAll(data);
+		this.notifyDataSetChanged();
+	}
+
+	/**
+	 * 设置回调
+	 */
+	public void addCallback(AdapterCallback callback) {
 		this.apCallback = callback;
 	}
 
@@ -46,29 +65,6 @@ public abstract class AppBaseAdapter<T> extends BaseAdapter {
 	@Override
 	public long getItemId(int arg0) {
 		return 0;
-	}
-
-	public void setDataList(List<T> mDataList) {
-		this.mDataList = mDataList;
-		this.notifyDataSetChanged();
-	}
-
-	public void addDataList(List<T> mDataList) {
-		if (this.mDataList == null) {
-			setDataList(mDataList);
-		} else {
-			this.mDataList.addAll(mDataList);
-			this.notifyDataSetChanged();
-		}
-	}
-
-	public List<T> getDataList() {
-		return mDataList;
-	}
-
-	public void clearDataList() {
-		if (mDataList != null)
-			mDataList.clear();
 	}
 
 	@Override

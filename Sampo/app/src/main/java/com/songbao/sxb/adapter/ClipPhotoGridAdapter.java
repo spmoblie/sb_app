@@ -25,15 +25,13 @@ import java.util.List;
  */
 public class ClipPhotoGridAdapter extends AppBaseAdapter {
 
-	private List<ClipPhotoEntity> albumList;
-	private Context context;
 	private BitmapFactory.Options options;
 	private LinearLayout.LayoutParams imageLP;
 
-	public ClipPhotoGridAdapter(List<ClipPhotoEntity> list, Context context) {
+	public ClipPhotoGridAdapter(Context context, List<ClipPhotoEntity> data) {
 		super(context);
-		this.albumList = list;
-		this.context = context;
+
+		addData(data);
 
 		options = new BitmapFactory.Options();
 		options.inDither = false;
@@ -43,21 +41,6 @@ public class ClipPhotoGridAdapter extends AppBaseAdapter {
 		this.imageLP = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 		this.imageLP.width = imageSize;
 		this.imageLP.height = imageSize;
-	}
-
-	@Override
-	public int getCount() {
-		return albumList.size();
-	}
-
-	@Override
-	public Object getItem(int position) {
-		return albumList.get(position);
-	}
-
-	@Override
-	public long getItemId(int position) {
-		return position;
 	}
 
 	static class ViewHolder {
@@ -79,10 +62,12 @@ public class ClipPhotoGridAdapter extends AppBaseAdapter {
 			holder = (ViewHolder) convertView.getTag();
 		}
 		/** 通过ID 获取缩略图 */
+		ClipPhotoEntity data = (ClipPhotoEntity) mDataList.get(position);
+
 		Bitmap bitmap = MediaStore.Images.Thumbnails.getThumbnail(context .getContentResolver(),
-				albumList.get(position).getFirstId(), Thumbnails.MINI_KIND, options);
+				data.getFirstId(), Thumbnails.MINI_KIND, options);
 		holder.iv.setImageBitmap(bitmap);
-		holder.tv.setText(albumList.get(position).getName() + " ( " + albumList.get(position).getCount() + " )");
+		holder.tv.setText(data.getName() + " ( " + data.getCount() + " )");
 
 		return convertView;
 	}

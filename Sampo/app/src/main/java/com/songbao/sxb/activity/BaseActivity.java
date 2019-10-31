@@ -115,14 +115,11 @@ public  class BaseActivity extends FragmentActivity {
 
 		mContext = this;
 		shared = AppApplication.getSharedPreferences();
-
 		userManager = UserManager.getInstance();
-
 		screenWidth = AppApplication.screen_width;
 		screenHeight = AppApplication.screen_height;
 		statusHeight = AppApplication.status_height;
 		dialogWidth = screenWidth * 2/3;
-		myDialog = DialogManager.getInstance(mContext);
 
 		// 推送服务统计应用启动数据
 		AppApplication.onPushAppStartData();
@@ -564,11 +561,17 @@ public  class BaseActivity extends FragmentActivity {
 
 	protected void showErrorDialog(String content, boolean isVanish, final Handler handler) {
 		content = (TextUtils.isEmpty(content)) ? getString(R.string.dialog_error_msg) : content;
+		if (myDialog == null) {
+			myDialog = DialogManager.getInstance(mContext);
+		}
 		myDialog.showOneBtnDialog(content, dialogWidth, true, isVanish, handler, null);
 	}
 
 	protected void showSuccessDialog(String content, boolean isSuccess) {
 		content = (TextUtils.isEmpty(content)) ? getString(R.string.dialog_error_msg) : content;
+		if (myDialog == null) {
+			myDialog = DialogManager.getInstance(mContext);
+		}
 		myDialog.showSuccessDialog(content, dialogWidth, isSuccess);
 	}
 
@@ -594,6 +597,9 @@ public  class BaseActivity extends FragmentActivity {
 									 int width, boolean isCenter, boolean isVanish, final Handler handler) {
 		positiveBtnStr = (positiveBtnStr == null) ? getString(R.string.confirm) : positiveBtnStr;
 		negativeBtnStr = (negativeBtnStr == null) ? getString(R.string.cancel) : negativeBtnStr;
+		if (myDialog == null) {
+			myDialog = DialogManager.getInstance(mContext);
+		}
 		myDialog.showTwoBtnDialog(title, content, positiveBtnStr, negativeBtnStr, width, isCenter, isVanish, handler);
 	}
 
@@ -601,6 +607,9 @@ public  class BaseActivity extends FragmentActivity {
 	 * 可输入的对话框
 	 */
 	protected void showEditDialog(String title, int inputType, boolean isVanish, final Handler handler) {
+		if (myDialog == null) {
+			myDialog = DialogManager.getInstance(mContext);
+		}
 		myDialog.showEditDialog(title, dialogWidth, inputType, isVanish, handler);
 	}
 
@@ -620,6 +629,9 @@ public  class BaseActivity extends FragmentActivity {
 	}
 
 	protected void showListDialog(String content, CharSequence[] items, int width, boolean isCenter, final Handler handler) {
+		if (myDialog == null) {
+			myDialog = DialogManager.getInstance(mContext);
+		}
 		myDialog.showListItemDialog(content, items, width, isCenter, handler);
 	}
 

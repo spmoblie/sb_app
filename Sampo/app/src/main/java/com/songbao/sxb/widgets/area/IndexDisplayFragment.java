@@ -74,7 +74,7 @@ public class IndexDisplayFragment extends BaseFragment {
 
 	public void updateDataList(List<Pair<String, List<? extends IndexDisplay>>> dataList) {
 		if (indexAdapter != null) {
-			indexAdapter.setDataList(dataList);
+			indexAdapter.updateData(dataList);
 			indexAdapter.notifyDataSetChanged();
 			indexDisplay_ListView.setAdapter(indexAdapter);
 		}
@@ -174,7 +174,7 @@ public class IndexDisplayFragment extends BaseFragment {
 			indexDisplay_ListView.addHeaderView(headerView);
 		}
 		if (dataList != null) {
-			indexAdapter.setDataList(dataList);
+			indexAdapter.addData(dataList);
 			indexDisplay_ListView.setAdapter(indexAdapter);
 		}
 

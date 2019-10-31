@@ -46,7 +46,7 @@ public class ClipPhotoOneActivity extends BaseActivity {
 		setTitle(R.string.photo_select_one_title);
 		
 		sizeNub = album.getBitList().size();
-		adapter = new ClipPhotoOneAdapter(this, album);
+		adapter = new ClipPhotoOneAdapter(mContext, album);
 		gv.setAdapter(adapter);
 		gv.setSelector(R.color.ui_color_app_bg_01);
 		gv.setOnItemClickListener(gvItemClickListener);

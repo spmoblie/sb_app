@@ -34,8 +34,7 @@ public class SelectListActivity extends BaseActivity {
 	private boolean isChange = false;
 	private int dataType = SelectListAdapter.DATA_TYPE_2;
 
-	private ListView lv;
-	private AdapterCallback lv_Callback;
+	private ListView mListView;
 	private SelectListAdapter lv_Adapter;
 	
 	private SelectListEntity data, selectEn;
@@ -55,7 +54,7 @@ public class SelectListActivity extends BaseActivity {
 	}
 	
 	private void findViewById() {
-		lv = findViewById(R.id.select_list_lv);
+		mListView = findViewById(R.id.select_list_lv);
 	}
 
 	private void initView() {
@@ -85,34 +84,35 @@ public class SelectListActivity extends BaseActivity {
 	 * 设置适配器
 	 */
 	private void setAdapter() {
-		lv_Callback = new AdapterCallback() {
-			
-			@Override
-			public void setOnClick(Object data, int position, int type) {
-				selectEn = (SelectListEntity) data;
-				switch (dataType) {
-				case SelectListAdapter.DATA_TYPE_5: //PersonalActivity --> SelectListActivity
-					if (selectEn != null) {
-						userKey = "gender";
-						userValue = String.valueOf(selectEn.getChildId());
-						saveUserInfo();
-					}else {
-						finish();
-					}
-					break;
-				case SelectListAdapter.DATA_TYPE_8: //AddressEditActivity --> SelectListActivity
-					isChange = true;
-					finish();
-					break;
-				}
-			}
-		};
-		lv_Adapter = new SelectListAdapter(mContext, dataType, selectEn);
-		lv_Adapter.setDataList(lv_lists);
-		lv_Adapter.setCallback(lv_Callback);
+		if (lv_Adapter == null) {
+			lv_Adapter = new SelectListAdapter(mContext);
+			lv_Adapter.addCallback(new AdapterCallback() {
 
-		lv.setAdapter(lv_Adapter);
-		lv.setOverScrollMode(ListView.OVER_SCROLL_NEVER);
+				@Override
+				public void setOnClick(Object data, int position, int type) {
+					selectEn = (SelectListEntity) data;
+					switch (dataType) {
+						case SelectListAdapter.DATA_TYPE_5: //PersonalActivity --> SelectListActivity
+							if (selectEn != null) {
+								userKey = "gender";
+								userValue = String.valueOf(selectEn.getChildId());
+								saveUserInfo();
+							}else {
+								finish();
+							}
+							break;
+						case SelectListAdapter.DATA_TYPE_8: //AddressEditActivity --> SelectListActivity
+							isChange = true;
+							finish();
+							break;
+					}
+				}
+			});
+		}
+		lv_Adapter.updateData(lv_lists, dataType, selectEn);
+
+		mListView.setAdapter(lv_Adapter);
+		mListView.setOverScrollMode(ListView.OVER_SCROLL_NEVER);
 	}
 
 	@Override

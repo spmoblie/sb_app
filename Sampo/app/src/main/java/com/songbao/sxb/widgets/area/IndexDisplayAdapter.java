@@ -17,7 +17,7 @@ public abstract class IndexDisplayAdapter extends AppBaseAdapter<Pair<String, Li
 
 	public interface OnIndexDisplayItemClick {
 		
-		public void onIndexDisplayItemClick(IndexDisplay indexDisplay);
+		void onIndexDisplayItemClick(IndexDisplay indexDisplay);
 		
 	}
 	
@@ -54,7 +54,7 @@ public abstract class IndexDisplayAdapter extends AppBaseAdapter<Pair<String, Li
 				count += mDataList.get(i).second.size();
 			}
 		}
-		LogUtil.i(TAG, "item count="+count);
+		LogUtil.i(TAG, "item count = " + count);
 		return count;
 	}
 	

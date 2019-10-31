@@ -18,22 +18,18 @@ import com.songbao.sxb.utils.CommonTools;
  */
 public class MyDesignAdapter extends AppBaseAdapter {
 
-	private Context context;
 	private ConstraintLayout.LayoutParams showImgLP;
 
 	public MyDesignAdapter(Context context) {
 		super(context);
-		this.context = context;
 
 		showImgLP = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 		showImgLP.height = (AppApplication.screen_width - CommonTools.dpToPx(context, 6*3)) / 2;
 	}
 
 	static class ViewHolder {
-
 		ConstraintLayout item_main;
 		ImageView iv_show;
-
 	}
 
 	/**代表了ListView中的一个item对象*/

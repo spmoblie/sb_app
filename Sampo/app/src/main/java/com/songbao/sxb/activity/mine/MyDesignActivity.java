@@ -39,9 +39,7 @@ public class MyDesignActivity extends BaseActivity {
 	@BindView(R.id.refresh_view_gv)
 	PullToRefreshGridView refresh_gv;
 
-	GridView mGridView;
 	MyDesignAdapter gvAdapter;
-	AdapterCallback apCallback;
 
 	private int data_total = -1; //数据总量
 	private int current_Page = 1;  //当前列表加载页
@@ -97,15 +95,16 @@ public class MyDesignActivity extends BaseActivity {
 				}, AppConfig.LOADING_TIME);
 			}
 		});
-		mGridView = refresh_gv.getRefreshableView();
+		GridView mGridView = refresh_gv.getRefreshableView();
 		mGridView.setNumColumns(2);
 		mGridView.setHorizontalSpacing(CommonTools.dpToPx(mContext, 6));
 		mGridView.setVerticalSpacing(CommonTools.dpToPx(mContext, 6));
 		mGridView.setVerticalScrollBarEnabled(false);
 
 		// 配置适配器
-		apCallback = new AdapterCallback() {
-
+		gvAdapter = new MyDesignAdapter(mContext);
+		gvAdapter.addData(al_show);
+		gvAdapter.addCallback(new AdapterCallback() {
 			@Override
 			public void setOnClick(Object data, int position, int type) {
 				Intent intent = new Intent(mContext, ViewPagerActivity.class);
@@ -113,22 +112,17 @@ public class MyDesignActivity extends BaseActivity {
 				intent.putExtra(ViewPagerActivity.EXTRA_IMAGE_INDEX, position);
 				startActivity(intent);
 			}
-		};
-		gvAdapter = new MyDesignAdapter(mContext);
-		gvAdapter.setDataList(al_show);
-		gvAdapter.setCallback(apCallback);
+		});
 		mGridView.setAdapter(gvAdapter);
 	}
 
 	private void updateListData() {
-		if (gvAdapter != null) {
-			gvAdapter.setDataList(al_show);
+		gvAdapter.updateData(al_show);
 
-			data_total = al_show.size();
-			urlLists.clear();
-			for (int i = 0; i < al_show.size(); i++) {
-				urlLists.add(al_show.get(i).getImgUrl());
-			}
+		data_total = al_show.size();
+		urlLists.clear();
+		for (int i = 0; i < al_show.size(); i++) {
+			urlLists.add(al_show.get(i).getImgUrl());
 		}
 	}
 

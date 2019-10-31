@@ -37,9 +37,8 @@ public class MessageActivity extends BaseActivity {
 	@BindView(R.id.refresh_view_rv)
 	PullToRefreshRecyclerView refresh_rv;
 
-	MyRecyclerView mRecyclerView;
 	MessageAdapter rvAdapter;
-	AdapterCallback apCallback;
+	MyRecyclerView mRecyclerView;
 
 	private int data_total = 0; //数据总量
 	private int current_Page = 1;  //当前列表加载页
@@ -105,21 +104,20 @@ public class MessageActivity extends BaseActivity {
 		mRecyclerView.setLayoutManager(layoutManager);
 
 		// 配置适配器
-		apCallback = new AdapterCallback() {
+		rvAdapter = new MessageAdapter(mContext, R.layout.item_list_message);
+		rvAdapter.addData(al_show);
+		rvAdapter.addCallback(new AdapterCallback() {
 
 			@Override
 			public void setOnClick(Object data, int position, int type) {
 
 			}
-		};
-		rvAdapter = new MessageAdapter(mContext, al_show, apCallback);
+		});
 		mRecyclerView.setAdapter(rvAdapter);
 	}
 
 	private void updateListData() {
-		if (rvAdapter != null) {
-			rvAdapter.updateData(al_show);
-		}
+		rvAdapter.updateData(al_show);
 	}
 
 	@Override

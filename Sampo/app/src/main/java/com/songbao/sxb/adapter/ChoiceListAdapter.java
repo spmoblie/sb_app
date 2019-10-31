@@ -16,19 +16,14 @@ import com.songbao.sxb.entity.OptionEntity;
  */
 public class ChoiceListAdapter extends AppBaseAdapter {
 
-	private Context context;
-
 	public ChoiceListAdapter(Context context) {
 		super(context);
-		this.context = context;
 	}
 
 	static class ViewHolder {
-
 		LinearLayout item_main;
 		TextView tv_time, tv_state;
 		ImageView iv_select;
-
 	}
 
 	/**代表了ListView中的一个item对象*/

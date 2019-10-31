@@ -29,34 +29,23 @@ public class SelectListAdapter extends AppBaseAdapter {
 	public static final int DATA_TYPE_7 = 7; //ShowListHeadActivity --> SelectListActivity
 	public static final int DATA_TYPE_8 = 8; //AddressEditActivity --> SelectListActivity
 
-	private Context context;
 	private int dataType;
 	private SelectListEntity selectData;
 
-	public SelectListAdapter(Context context, int dataType) {
+	public SelectListAdapter(Context context) {
 		super(context);
-		this.context = context;
-		this.dataType = dataType;
 	}
 	
-	public SelectListAdapter(Context context, int dataType, SelectListEntity selectEn) {
-		super(context);
-		this.context = context;
+	public void updateData(List<SelectListEntity> data, int dataType, SelectListEntity selectEn){
+		updateData(data);
 		this.dataType = dataType;
 		this.selectData = selectEn;
 	}
-	
-	public void updateAdapter(List<SelectListEntity> data, int dataType){
-		this.dataType = dataType;
-		setDataList(data);
-	}
 
 	static class ViewHolder{
-
 		LinearLayout ll_item;
 		TextView tv_item_name, tv_select_name;
 		ImageView iv_logo, iv_go, iv_line_1, iv_line_2;
-
 	}
 
 	/**代表了ListView中的一个item对象*/

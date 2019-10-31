@@ -39,9 +39,7 @@ public class MySignUpActivity extends BaseActivity {
 	@BindView(R.id.refresh_view_rv)
 	PullToRefreshRecyclerView refresh_rv;
 
-	MyRecyclerView mRecyclerView;
 	MySignUpAdapter rvAdapter;
-	AdapterCallback apCallback;
 
 	private int data_total = -1; //数据总量
 	private int current_Page = 1;  //当前列表加载页
@@ -105,11 +103,13 @@ public class MySignUpActivity extends BaseActivity {
 		LinearLayoutManager layoutManager = new LinearLayoutManager(mContext);
 		layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 		// 设置布局管理器
-		mRecyclerView = refresh_rv.getRefreshableView();
+		MyRecyclerView mRecyclerView = refresh_rv.getRefreshableView();
 		mRecyclerView.setLayoutManager(layoutManager);
 
 		// 配置适配器
-		apCallback = new AdapterCallback() {
+		rvAdapter = new MySignUpAdapter(mContext, R.layout.item_list_my_sign_up);
+		rvAdapter.addData(al_show);
+		rvAdapter.addCallback(new AdapterCallback() {
 
 			@Override
 			public void setOnClick(Object data, int position, int type) {
@@ -119,15 +119,12 @@ public class MySignUpActivity extends BaseActivity {
 					openSignUpDetailActivity(themeEn);
 				}
 			}
-		};
-		rvAdapter = new MySignUpAdapter(mContext, al_show, apCallback);
+		});
 		mRecyclerView.setAdapter(rvAdapter);
 	}
 
 	private void updateListData() {
-		if (rvAdapter != null) {
-			rvAdapter.updateData(al_show);
-		}
+		rvAdapter.updateData(al_show);
 	}
 
 	/**

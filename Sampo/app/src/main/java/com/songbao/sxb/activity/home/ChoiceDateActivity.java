@@ -53,10 +53,9 @@ public class ChoiceDateActivity extends BaseActivity implements View.OnClickList
     @BindView(R.id.choice_date_tv_confirm)
     TextView tv_confirm;
 
-    private AdapterCallback apCallback;
-    private ChoiceListAdapter lv_Adapter;
     private ThemeEntity data;
     private OptionEntity selectEn;
+    private ChoiceListAdapter lv_Adapter;
     private boolean isChange = false;
     private boolean loadDateOk = false;
     private String themeId, selectDay, assignDay, assignTime, selectTime, selectTimeId;
@@ -161,19 +160,18 @@ public class ChoiceDateActivity extends BaseActivity implements View.OnClickList
     }
 
     private void initListView() {
-        apCallback = new AdapterCallback() {
-            @Override
-            public void setOnClick(Object data, int position, int type) {
-                updateItemState(position);
-            }
-        };
-        lv_Adapter = new ChoiceListAdapter(mContext);
-        lv_Adapter.setDataList(al_show);
-        lv_Adapter.setCallback(apCallback);
-
+        if (lv_Adapter == null) {
+            lv_Adapter = new ChoiceListAdapter(mContext);
+            lv_Adapter.addCallback(new AdapterCallback() {
+                @Override
+                public void setOnClick(Object data, int position, int type) {
+                    updateItemState(position);
+                }
+            });
+        }
+        lv_Adapter.updateData(al_show);
         listView.setAdapter(lv_Adapter);
         listView.setOverScrollMode(ListView.OVER_SCROLL_NEVER);
-
         updateViewSate();
     }
 

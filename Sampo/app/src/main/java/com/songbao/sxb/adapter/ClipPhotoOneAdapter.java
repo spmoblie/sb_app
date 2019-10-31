@@ -18,13 +18,11 @@ import com.songbao.sxb.widgets.photo.PhotoGridItem;
  */
 public class ClipPhotoOneAdapter extends AppBaseAdapter {
 
-	private Context context;
 	private ClipPhotoEntity album;
 	private BitmapFactory.Options options;
 
 	public ClipPhotoOneAdapter(Context context, ClipPhotoEntity album) {
 		super(context);
-		this.context = context;
 		this.album = album;
 
 		options = new BitmapFactory.Options();
@@ -56,13 +54,11 @@ public class ClipPhotoOneAdapter extends AppBaseAdapter {
 		} else {
 			item = (PhotoGridItem) convertView;
 		}
-
 		// 通过ID 加载缩略图
 		Bitmap bitmap = MediaStore.Images.Thumbnails.getThumbnail(context.getContentResolver(),
 				album.getBitList().get(getCount() - 1 - position).getPhotoId(), Thumbnails.MINI_KIND, options);
 		item.SetBitmap(bitmap);
-		boolean flag = album.getBitList().get(getCount() - 1 - position).isSelect();
-		item.setChecked(flag);
+		item.setChecked(album.getBitList().get(getCount() - 1 - position).isSelect());
 		return item;
 	}
 

@@ -32,7 +32,7 @@ public class ClipPhotoGridActivity extends BaseActivity {
 	String TAG = ClipPhotoGridActivity.class.getSimpleName();
 
 	private GridView gv_album;
-	private List<ClipPhotoEntity> albumList = new ArrayList<ClipPhotoEntity>();
+	private List<ClipPhotoEntity> albumList = new ArrayList<>();
 
 	// 设置获取图片的字段信
 	private static final String[] STORE_IMAGES = {
@@ -65,7 +65,7 @@ public class ClipPhotoGridActivity extends BaseActivity {
 		if (albumList.size() < 1) {
 			CommonTools.showToast(getString(R.string.photo_select_no_data));
 		}
-		gv_album.setAdapter(new ClipPhotoGridAdapter(albumList, this));
+		gv_album.setAdapter(new ClipPhotoGridAdapter(mContext, albumList));
 		gv_album.setOnItemClickListener(albumClickListener);
 		gv_album.setSelector(R.color.ui_color_app_bg_01);
 	}
