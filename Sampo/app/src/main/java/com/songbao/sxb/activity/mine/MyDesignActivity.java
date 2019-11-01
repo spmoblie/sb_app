@@ -42,7 +42,9 @@ public class MyDesignActivity extends BaseActivity {
 	MyDesignAdapter gvAdapter;
 
 	private int data_total = -1; //数据总量
-	private int current_Page = 1;  //当前列表加载页
+	private int load_page = 1; //加载页数
+	private int load_type = 1; //加载类型(0:下拉刷新/1:翻页加载)
+	private boolean isLoadOk = true; //加载控制
 	private ArrayList<String> urlLists = new ArrayList<>();
 	private ArrayList<DesignEntity> al_show = new ArrayList<>();
 	private ArrayMap<String, Boolean> am_show = new ArrayMap<>();
@@ -73,7 +75,7 @@ public class MyDesignActivity extends BaseActivity {
 
 					@Override
 					public void run() {
-						refresh_gv.onPullDownRefreshComplete();
+						refreshData();
 					}
 				}, AppConfig.LOADING_TIME);
 			}
@@ -119,7 +121,6 @@ public class MyDesignActivity extends BaseActivity {
 	private void updateListData() {
 		gvAdapter.updateData(al_show);
 
-		data_total = al_show.size();
 		urlLists.clear();
 		for (int i = 0; i < al_show.size(); i++) {
 			urlLists.add(al_show.get(i).getImgUrl());
@@ -153,7 +154,7 @@ public class MyDesignActivity extends BaseActivity {
 	 *下拉刷新
 	 */
 	private void refreshData() {
-		current_Page = 1;
+		load_type = 0;
 		loadServerData();
 	}
 
@@ -161,17 +162,24 @@ public class MyDesignActivity extends BaseActivity {
 	 * 翻页加载
 	 */
 	private void loadMoreData() {
+		load_type = 1;
 		//loadServerData();
-		al_show.clear();
-		al_show.addAll(getDemoData());
-		updateListData();
+		loadDemoData();
 	}
 
 	/**
 	 * 加载数据
 	 */
 	private void loadServerData() {
+		if (!isLoadOk) return; //加载频率控制
+		isLoadOk = false;
+		String page = String.valueOf(load_page);
+		if (load_type == 0) {
+			page = "1";
+		}
 		HashMap<String, String> map = new HashMap<>();
+		map.put("page", page);
+		map.put("size", AppConfig.LOAD_SIZE);
 		loadSVData(AppConfig.URL_DESIGN_ALL, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_DESIGN_ALL);
 	}
 
@@ -183,17 +191,20 @@ public class MyDesignActivity extends BaseActivity {
 				case AppConfig.REQUEST_SV_DESIGN_ALL:
 					baseEn = JsonUtils.getDesignData(jsonObject);
 					if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
-						List<DesignEntity> lists = baseEn.getLists();
-						if (lists.size() > 0) {
-							if (current_Page == 1) {
+						data_total = baseEn.getDataTotal();
+						List<DesignEntity> lists = filterData(baseEn.getLists(), am_show);
+						if (lists != null && lists.size() > 0) {
+							if (load_type == 0) {
+								//下拉
+								LogUtil.i(LogUtil.LOG_HTTP, TAG + " 刷新数据 —> size = " + lists.size());
+								lists.addAll(al_show);
 								al_show.clear();
-								am_show.clear();
+							}else {
+								//翻页
+								LogUtil.i(LogUtil.LOG_HTTP, TAG + " 翻页数据 —> size = " + lists.size());
+								load_page++;
 							}
-							List<BaseEntity> newLists = addNewEntity(lists, al_show, am_show);
-							if (newLists != null) {
-								current_Page++;
-								addNewShowLists(newLists);
-							}
+							al_show.addAll(lists);
 							updateListData();
 						}
 					} else if (baseEn.getErrno() == AppConfig.ERROR_CODE_TIMEOUT) {
@@ -210,13 +221,6 @@ public class MyDesignActivity extends BaseActivity {
 		}
 	}
 
-	private void addNewShowLists(List<BaseEntity> showLists) {
-		al_show.clear();
-		for (int i = 0; i < showLists.size(); i++) {
-			al_show.add((DesignEntity) showLists.get(i));
-		}
-	}
-
 	@Override
 	protected void loadFailHandle() {
 		super.loadFailHandle();
@@ -226,15 +230,17 @@ public class MyDesignActivity extends BaseActivity {
 	@Override
 	protected void stopAnimation() {
 		super.stopAnimation();
-		refresh_gv.onPullDownRefreshComplete();
+		isLoadOk = true;
 		refresh_gv.onPullUpRefreshComplete();
+		refresh_gv.onPullDownRefreshComplete();
 	}
 
 	/**
 	 * 构建Demo数据
 	 */
-	private List<DesignEntity> getDemoData() {
-		List<DesignEntity> mainLists = new ArrayList<>();
+	private void loadDemoData() {
+		al_show.clear();
+
 		DesignEntity chEn_1 = new DesignEntity();
 		DesignEntity chEn_2 = new DesignEntity();
 		DesignEntity chEn_3 = new DesignEntity();
@@ -242,17 +248,18 @@ public class MyDesignActivity extends BaseActivity {
 		DesignEntity chEn_5 = new DesignEntity();
 
 		chEn_1.setImgUrl(AppConfig.IMAGE_URL + "design_001.png");
-		mainLists.add(chEn_1);
+		al_show.add(chEn_1);
 		chEn_2.setImgUrl(AppConfig.IMAGE_URL + "design_002.png");
-		mainLists.add(chEn_2);
+		al_show.add(chEn_2);
 		chEn_3.setImgUrl(AppConfig.IMAGE_URL + "design_003.png");
-		mainLists.add(chEn_3);
+		al_show.add(chEn_3);
 		chEn_4.setImgUrl(AppConfig.IMAGE_URL + "design_004.png");
-		mainLists.add(chEn_4);
+		al_show.add(chEn_4);
 		chEn_5.setImgUrl(AppConfig.IMAGE_URL + "design_005.png");
-		mainLists.add(chEn_5);
+		al_show.add(chEn_5);
 
-		return mainLists;
+		updateListData();
+		stopAnimation();
 	}
 
 }

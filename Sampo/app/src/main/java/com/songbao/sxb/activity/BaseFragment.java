@@ -93,64 +93,57 @@ public class BaseFragment extends Fragment {
 	}
 
 	/**
-	 * 数据刷新函数
+	 * 刷新数据
 	 */
-	protected List<BaseEntity> updNewEntity(int newTotal, int oldTotal, List<? extends BaseEntity> newData,
-												List<? extends BaseEntity> oldData, ArrayMap<String, Boolean> oldMap) {
-		if (oldData == null || newData == null || oldMap == null) return null;
-		if (oldTotal < newTotal) {
-			List<BaseEntity> newLists = new ArrayList<BaseEntity>();
-			BaseEntity newEn, oldEn;
-			String dataId;
-			int newCount = newTotal - oldTotal;
+	protected <T extends BaseEntity> void refreshData(int newTotal, int oldTotal, List<T> newData,
+													  List<T> oldData, ArrayMap<String, Boolean> cacheMap) {
+		if (oldData == null || newData == null) return;
+		int newCount = newTotal - oldTotal;
+		if (newCount > 0) {
 			if (newCount > newData.size()) {
 				newCount = newData.size();
 			}
+			List<T> newLists = new ArrayList<>();
+			T newEn, oldEn;
 			for (int i = 0; i < newCount; i++) {
 				newEn = newData.get(i);
 				if (newEn != null) {
-					dataId = newEn.getEntityId();
-					if (!StringUtil.isNull(dataId) && !oldMap.containsKey(dataId)) {
-						// 添加至顶层
-						newLists.add(newEn);
-						oldMap.put(dataId, true);
-						// 移除最底层
-						if (oldData.size() >= 1) {
-							oldEn = oldData.remove(oldData.size()-1);
-							if (oldEn != null && oldMap.containsKey(oldEn.getEntityId())) {
-								oldMap.remove(oldEn.getEntityId());
-							}
+					// 添加至顶层
+					newLists.add(newEn);
+					cacheMap.put(newEn.getEntityId(), true);
+					// 移除最底层
+					if (oldData.size() > 0) {
+						oldEn = oldData.remove(oldData.size() - 1);
+						if (oldEn != null && cacheMap.containsKey(oldEn.getEntityId())) {
+							cacheMap.remove(oldEn.getEntityId());
 						}
 					}
 				}
 			}
 			newLists.addAll(oldData);
-			return newLists;
+			oldData.clear();
+			oldData.addAll(newLists);
 		}
-		return null;
 	}
 
 	/**
-	 * 数据去重函数
+	 * 过滤数据
 	 */
-	protected List<BaseEntity> addNewEntity(List<? extends BaseEntity> newData,
-												List<? extends BaseEntity> oldData, ArrayMap<String, Boolean> oldMap) {
-		if (oldData == null || newData == null || oldMap == null) return null;
-		List<BaseEntity> newLists = new ArrayList<>();
-		newLists.addAll(oldData);
-		BaseEntity newEn;
-		String dataId;
+	protected <T extends BaseEntity>List<T> filterData(List<T> newData, ArrayMap<String, Boolean> cacheMap) {
+		if (newData == null || cacheMap == null) return null;
+		List<T> newList = new ArrayList<>();
+		T newEn;
 		for (int i = 0; i < newData.size(); i++) {
 			newEn = newData.get(i);
 			if (newEn != null) {
-				dataId = newEn.getEntityId();
-				if (!StringUtil.isNull(dataId) && !oldMap.containsKey(dataId)) {
-					newLists.add(newEn);
-					oldMap.put(dataId, true);
+				String enId = newEn.getEntityId();
+				if (!StringUtil.isNull(enId) && !cacheMap.containsKey(enId)) {
+					newList.add(newEn);
+					cacheMap.put(enId, true);
 				}
 			}
 		}
-		return newLists;
+		return newList;
 	}
 
 	/**

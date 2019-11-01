@@ -122,7 +122,7 @@ public class AppConfig {
 	public static final int IMG_WIDTHS = 16;
 	public static final int IMG_HEIGHT = 9;
 	// 加载数据数量
-	public static final String LOAD_SIZE = "10";
+	public static final String LOAD_SIZE = "3";
 	// 加载缓冲时间
 	public static final int LOADING_TIME = 1000;
 	// 验证码倒计时

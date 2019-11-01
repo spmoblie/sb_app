@@ -33,7 +33,7 @@ public class MyRecyclerView extends RecyclerView {
         mHeadView.add(headerView);
         if (mAdapter != null) {
             if (!(mAdapter instanceof MyRecyclerAdapter)) {
-                mAdapter = new MyRecyclerAdapter(mHeadView,mFootView, mAdapter);
+                mAdapter = new MyRecyclerAdapter(mHeadView, mFootView, mAdapter);
             }
         }
     }
@@ -43,7 +43,7 @@ public class MyRecyclerView extends RecyclerView {
         mFootView.add(footView);
         if (mAdapter != null) {
             if (!(mAdapter instanceof MyRecyclerAdapter)) {
-                mAdapter = new MyRecyclerAdapter(mHeadView,mFootView, mAdapter);
+                mAdapter = new MyRecyclerAdapter(mHeadView, mFootView, mAdapter);
             }
         }
     }

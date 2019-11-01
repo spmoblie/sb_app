@@ -15,7 +15,6 @@ import com.songbao.sxb.activity.BaseActivity;
 import com.songbao.sxb.adapter.AdapterCallback;
 import com.songbao.sxb.adapter.ThemeListAdapter;
 import com.songbao.sxb.entity.BaseEntity;
-import com.songbao.sxb.entity.MessageEntity;
 import com.songbao.sxb.entity.ThemeEntity;
 import com.songbao.sxb.utils.ExceptionUtil;
 import com.songbao.sxb.utils.JsonUtils;
@@ -46,7 +45,9 @@ public class ReserveListActivity extends BaseActivity implements OnClickListener
 	AdapterCallback apCallback;
 
 	private int data_total = -1; //数据总量
-	private int current_Page = 1;  //当前列表加载页
+	private int load_page = 1; //加载页数
+	private int load_type = 1; //加载类型(0:下拉刷新/1:翻页加载)
+	private boolean isLoadOk = true; //加载控制
 	private ArrayList<ThemeEntity> al_show = new ArrayList<>();
 	private ArrayMap<String, Boolean> am_show = new ArrayMap<>();
 
@@ -76,11 +77,7 @@ public class ReserveListActivity extends BaseActivity implements OnClickListener
 
 					@Override
 					public void run() {
-						if (data_total < 0) {
-							refreshData();
-						} else {
-							refresh_rv.onPullDownRefreshComplete();
-						}
+						refreshData();
 					}
 				}, AppConfig.LOADING_TIME);
 			}
@@ -179,26 +176,31 @@ public class ReserveListActivity extends BaseActivity implements OnClickListener
 	 *下拉刷新
 	 */
 	private void refreshData() {
-		current_Page = 1;
-		//loadServerData();
+		load_type = 0;
+		loadServerData();
 	}
 
 	/**
 	 * 翻页加载
 	 */
 	private void loadMoreData() {
+		load_type = 1;
 		loadServerData();
-		/*al_show.clear();
-		al_show.addAll(getDemoData());
-		updateListData();*/
+		//loadDemoData();
 	}
 
 	/**
 	 * 加载数据
 	 */
 	private void loadServerData() {
+		if (!isLoadOk) return; //加载频率控制
+		isLoadOk = false;
+		String page = String.valueOf(load_page);
+		if (load_type == 0) {
+			page = "1";
+		}
 		HashMap<String, String> map = new HashMap<>();
-		map.put("page", String.valueOf(current_Page));
+		map.put("page", page);
 		map.put("size", AppConfig.LOAD_SIZE);
 		map.put("isReservation", "1");
 		loadSVData(AppConfig.URL_HOME_LIST, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_HOME_LIST);
@@ -212,18 +214,20 @@ public class ReserveListActivity extends BaseActivity implements OnClickListener
 				case AppConfig.REQUEST_SV_HOME_LIST:
 					baseEn = JsonUtils.getHomeList(jsonObject);
 					if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
-						data_total = baseEn.getDataTotal(); //加载更多数据控制符
-						List<MessageEntity> lists = baseEn.getLists();
-						if (lists.size() > 0) {
-							if (current_Page == 1) {
+						data_total = baseEn.getDataTotal();
+						List<ThemeEntity> lists = filterData(baseEn.getLists(), am_show);
+						if (lists != null && lists.size() > 0) {
+							if (load_type == 0) {
+								//下拉
+								LogUtil.i(LogUtil.LOG_HTTP, TAG + " 刷新数据 —> size = " + lists.size());
+								lists.addAll(al_show);
 								al_show.clear();
-								am_show.clear();
+							}else {
+								//翻页
+								LogUtil.i(LogUtil.LOG_HTTP, TAG + " 翻页数据 —> size = " + lists.size());
+								load_page++;
 							}
-							List<BaseEntity> newLists = addNewEntity(lists, al_show, am_show);
-							if (newLists != null) {
-								current_Page++;
-								addNewShowLists(newLists);
-							}
+							al_show.addAll(lists);
 							updateListData();
 						}
 					} else if (baseEn.getErrno() == AppConfig.ERROR_CODE_TIMEOUT) {
@@ -240,13 +244,6 @@ public class ReserveListActivity extends BaseActivity implements OnClickListener
 		}
 	}
 
-	private void addNewShowLists(List<BaseEntity> showLists) {
-		al_show.clear();
-		for (int i = 0; i < showLists.size(); i++) {
-			al_show.add((ThemeEntity) showLists.get(i));
-		}
-	}
-
 	@Override
 	protected void loadFailHandle() {
 		super.loadFailHandle();
@@ -256,15 +253,16 @@ public class ReserveListActivity extends BaseActivity implements OnClickListener
 	@Override
 	protected void stopAnimation() {
 		super.stopAnimation();
-		refresh_rv.onPullDownRefreshComplete();
+		isLoadOk = true;
 		refresh_rv.onPullUpRefreshComplete();
+		refresh_rv.onPullDownRefreshComplete();
 	}
 
 	/**
 	 * 构建Demo数据
 	 */
-	private List<ThemeEntity> getDemoData() {
-		List<ThemeEntity> mainLists = new ArrayList<>();
+	private void loadDemoData() {
+		al_show.clear();
 
 		ThemeEntity chEn_1 = new ThemeEntity();
 		ThemeEntity chEn_2 = new ThemeEntity();
@@ -276,23 +274,24 @@ public class ReserveListActivity extends BaseActivity implements OnClickListener
 		chEn_1.setSeries("美学培养系列");
 		chEn_1.setAddTime("2019-10-18 10:30");
 		chEn_1.setThemeType(1);
-		mainLists.add(chEn_1);
+		al_show.add(chEn_1);
 		chEn_2.setPicUrl(AppConfig.IMAGE_URL+ "items_002.png");
 		chEn_2.setTitle("全球都在追捧的北欧教育，到底有哪些秘密？");
 		chEn_2.setUserName("松小堡线下运营");
 		chEn_2.setSeries("益智系列");
 		chEn_2.setAddTime("2019-10-10 15:30");
 		chEn_2.setThemeType(1);
-		mainLists.add(chEn_2);
+		al_show.add(chEn_2);
 		chEn_3.setPicUrl(AppConfig.IMAGE_URL+ "items_004.png");
 		chEn_3.setTitle("芬兰：北欧小国的大教育观");
 		chEn_3.setUserName("Sampo");
 		chEn_3.setSeries("益智系列");
 		chEn_3.setAddTime("2019-09-26 14:00");
 		chEn_3.setThemeType(1);
-		mainLists.add(chEn_3);
+		al_show.add(chEn_3);
 
-		return mainLists;
+		updateListData();
+		stopAnimation();
 	}
 
 }

@@ -40,7 +40,9 @@ public class MyOrderActivity extends BaseActivity {
 	MyOrderAdapter rvAdapter;
 
 	private int data_total = -1; //数据总量
-	private int current_Page = 1;  //当前列表加载页
+	private int load_page = 1; //加载页数
+	private int load_type = 1; //加载类型(0:下拉刷新/1:翻页加载)
+	private boolean isLoadOk = true; //加载控制
 	private ArrayList<OrderEntity> al_show = new ArrayList<>();
 	private ArrayMap<String, Boolean> am_show = new ArrayMap<>();
 
@@ -70,11 +72,7 @@ public class MyOrderActivity extends BaseActivity {
 
 					@Override
 					public void run() {
-						if (data_total < 0) {
-							refreshData();
-						} else {
-							refresh_rv.onPullDownRefreshComplete();
-						}
+						refreshData();
 					}
 				}, AppConfig.LOADING_TIME);
 			}
@@ -149,7 +147,7 @@ public class MyOrderActivity extends BaseActivity {
 	 *下拉刷新
 	 */
 	private void refreshData() {
-		current_Page = 1;
+		load_type = 0;
 		loadServerData();
 	}
 
@@ -157,18 +155,23 @@ public class MyOrderActivity extends BaseActivity {
 	 * 翻页加载
 	 */
 	private void loadMoreData() {
+		load_type = 1;
 		//loadServerData();
-		al_show.clear();
-		al_show.addAll(getDemoData());
-		updateListData();
+		loadDemoData();
 	}
 
 	/**
 	 * 加载数据
 	 */
 	private void loadServerData() {
+		if (!isLoadOk) return; //加载频率控制
+		isLoadOk = false;
+		String page = String.valueOf(load_page);
+		if (load_type == 0) {
+			page = "1";
+		}
 		HashMap<String, String> map = new HashMap<>();
-		map.put("page", String.valueOf(current_Page));
+		map.put("page", page);
 		map.put("size", AppConfig.LOAD_SIZE);
 		loadSVData(AppConfig.URL_USER_ORDER, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_USER_ORDER);
 	}
@@ -181,18 +184,20 @@ public class MyOrderActivity extends BaseActivity {
 				case AppConfig.REQUEST_SV_USER_ORDER:
 					baseEn = JsonUtils.getMyOrderData(jsonObject);
 					if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
-						data_total = baseEn.getDataTotal(); //加载更多数据控制符
-						List<OrderEntity> lists = baseEn.getLists();
-						if (lists.size() > 0) {
-							if (current_Page == 1) {
+						data_total = baseEn.getDataTotal();
+						List<OrderEntity> lists = filterData(baseEn.getLists(), am_show);
+						if (lists != null && lists.size() > 0) {
+							if (load_type == 0) {
+								//下拉
+								LogUtil.i(LogUtil.LOG_HTTP, TAG + " 刷新数据 —> size = " + lists.size());
+								lists.addAll(al_show);
 								al_show.clear();
-								am_show.clear();
+							}else {
+								//翻页
+								LogUtil.i(LogUtil.LOG_HTTP, TAG + " 翻页数据 —> size = " + lists.size());
+								load_page++;
 							}
-							List<BaseEntity> newLists = addNewEntity(lists, al_show, am_show);
-							if (newLists != null) {
-								current_Page++;
-								addNewShowLists(newLists);
-							}
+							al_show.addAll(lists);
 							updateListData();
 						}
 					} else if (baseEn.getErrno() == AppConfig.ERROR_CODE_TIMEOUT) {
@@ -209,25 +214,19 @@ public class MyOrderActivity extends BaseActivity {
 		}
 	}
 
-	private void addNewShowLists(List<BaseEntity> showLists) {
-		al_show.clear();
-		for (int i = 0; i < showLists.size(); i++) {
-			al_show.add((OrderEntity) showLists.get(i));
-		}
-	}
-
 	@Override
 	protected void stopAnimation() {
 		super.stopAnimation();
-		refresh_rv.onPullDownRefreshComplete();
+		isLoadOk = true;
 		refresh_rv.onPullUpRefreshComplete();
+		refresh_rv.onPullDownRefreshComplete();
 	}
 
 	/**
 	 * 构建Demo数据
 	 */
-	private List<OrderEntity> getDemoData() {
-		List<OrderEntity> mainLists = new ArrayList<>();
+	private void loadDemoData() {
+		al_show.clear();
 
 		OrderEntity chEn_1 = new OrderEntity();
 		OrderEntity chEn_2 = new OrderEntity();
@@ -240,7 +239,7 @@ public class MyOrderActivity extends BaseActivity {
 		chEn_1.setCost("299");
 		chEn_1.setAddTime("2019-11-18 18:18");
 		chEn_1.setStatus(1);
-		mainLists.add(chEn_1);
+		al_show.add(chEn_1);
 		chEn_2.setId(2);
 		chEn_2.setTitle("从受欢迎到被需要：小小小木匠的家具设计课第一百六十");
 		chEn_2.setName("松小堡南山方大城店");
@@ -248,7 +247,7 @@ public class MyOrderActivity extends BaseActivity {
 		chEn_2.setCost("299");
 		chEn_2.setAddTime("2019-11-18 18:18");
 		chEn_2.setStatus(2);
-		mainLists.add(chEn_2);
+		al_show.add(chEn_2);
 		chEn_3.setId(3);
 		chEn_3.setTitle("从受欢迎到被需要：小小小木匠的家具设计课第一百六十");
 		chEn_3.setName("松小堡南山方大城店");
@@ -256,9 +255,10 @@ public class MyOrderActivity extends BaseActivity {
 		chEn_3.setCost("299");
 		chEn_3.setAddTime("2019-11-18 18:18");
 		chEn_3.setStatus(3);
-		mainLists.add(chEn_3);
+		al_show.add(chEn_3);
 
-		return mainLists;
+		updateListData();
+		stopAnimation();
 	}
 
 }

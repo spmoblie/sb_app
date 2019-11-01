@@ -2,18 +2,17 @@ package com.songbao.sxb.widgets.pullrefresh;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.RecyclerView.OnScrollListener;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.AbsListView;
-import android.widget.AbsListView.OnScrollListener;
 
-import com.songbao.sxb.widgets.recycler.MyRecyclerView;
 import com.songbao.sxb.widgets.pullrefresh.ILoadingLayout.State;
+import com.songbao.sxb.widgets.recycler.MyRecyclerView;
 
 /**
  * 这个类实现了ListView下拉刷新，上加载更多和滑到底部自动加载
  */
-public class PullToRefreshRecyclerView extends PullToRefreshBase<MyRecyclerView> implements OnScrollListener {
+public class PullToRefreshRecyclerView extends PullToRefreshBase<MyRecyclerView> {
     
     /**RecyclerView*/
     private MyRecyclerView mRecyclerView;
@@ -58,7 +57,32 @@ public class PullToRefreshRecyclerView extends PullToRefreshBase<MyRecyclerView>
     protected MyRecyclerView createRefreshableView(Context context, AttributeSet attrs) {
         MyRecyclerView recyclerView = new MyRecyclerView(context, attrs);
         mRecyclerView = recyclerView;
-        //recyclerView.setOnScrollListener(this);
+        if (mScrollListener == null) {
+            recyclerView.addOnScrollListener(new OnScrollListener() {
+                @Override
+                public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                    if (isScrollLoadEnabled() && hasMoreData()) {
+                        if (newState == RecyclerView.SCROLL_STATE_IDLE || newState == RecyclerView.SCROLL_STATE_SETTLING) {
+                            if (isReadyForPullUp()) {
+                                startLoading();
+                            }
+                        }
+                    }
+                    if (null != mScrollListener) {
+                        mScrollListener.onScrollStateChanged(recyclerView, newState);
+                    }
+                }
+
+                @Override
+                public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                    if (null != mScrollListener) {
+                        mScrollListener.onScrolled(recyclerView, dx, dy);
+                    }
+                }
+            });
+        } else {
+            recyclerView.addOnScrollListener(mScrollListener);
+        }
         return recyclerView;
     }
     
@@ -123,7 +147,6 @@ public class PullToRefreshRecyclerView extends PullToRefreshBase<MyRecyclerView>
     public void setScrollLoadEnabled(boolean scrollLoadEnabled) {
         super.setScrollLoadEnabled(scrollLoadEnabled);
 
-        scrollLoadEnabled = false; //Xu RecyclerView addFooterView 时有Bug未修复
         if (scrollLoadEnabled) {
             // 设置Footer
             if (null == mLoadMoreFooterLayout) {
@@ -150,29 +173,6 @@ public class PullToRefreshRecyclerView extends PullToRefreshBase<MyRecyclerView>
         return super.getFooterLoadingLayout();
     }
 
-    @Override
-    public void onScrollStateChanged(AbsListView view, int scrollState) {
-        if (isScrollLoadEnabled() && hasMoreData()) {
-            if (scrollState == OnScrollListener.SCROLL_STATE_IDLE
-                    || scrollState == OnScrollListener.SCROLL_STATE_FLING) {
-                if (isReadyForPullUp()) {
-                    startLoading();
-                }
-            }
-        }
-        
-        if (null != mScrollListener) {
-            mScrollListener.onScrollStateChanged(view, scrollState);
-        }
-    }
-
-    @Override
-    public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-        if (null != mScrollListener) {
-            mScrollListener.onScroll(view, firstVisibleItem, visibleItemCount, totalItemCount);
-        }
-    }
-    
     @Override
     protected LoadingLayout createHeaderLoadingLayout(Context context, AttributeSet attrs) {
         return new RotateLoadingLayout(context);

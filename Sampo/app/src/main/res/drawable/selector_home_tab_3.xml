@@ -15,6 +15,7 @@
             <item android:drawable="@mipmap/tab_me_sel_00006" android:duration="50"/>
             <item android:drawable="@mipmap/tab_me_sel_00007" android:duration="50"/>
             <item android:drawable="@mipmap/tab_me_sel_00008" android:duration="50"/>
+            <item android:drawable="@mipmap/tab_me_sel_00009" android:duration="50"/>
             <item android:drawable="@mipmap/sel_home_tab_03_ok" android:duration="50"/>
         </animation-list>
     </transition>

@@ -86,9 +86,11 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
 
     private boolean vprStop = false;
     private boolean isLoadHead = true;
-    private int data_total = 0; //数据总量
-    private int current_Page = 1;  //当前列表加载页
     private int idsSize, idsPosition, vprPosition;
+    private int data_total = -1; //数据总量
+    private int load_page = 1; //加载页数
+    private int load_type = 1; //加载类型(0:下拉刷新/1:翻页加载)
+    private boolean isLoadOk = true; //加载控制
     private ImageView[] indicators = null;
     private ArrayList<ImageView> viewLists = new ArrayList<>();
     private ArrayList<ThemeEntity> al_head = new ArrayList<>();
@@ -142,8 +144,8 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
 
     private void initListView() {
         refresh_lv.setPullRefreshEnabled(true); //下拉刷新
-        refresh_lv.setPullLoadEnabled(true); //上拉加载
-        refresh_lv.setScrollLoadEnabled(false); //底部翻页
+        refresh_lv.setPullLoadEnabled(false); //上拉加载
+        refresh_lv.setScrollLoadEnabled(true); //加载更多
         refresh_lv.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<MyRecyclerView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<MyRecyclerView> refreshView) {
@@ -152,7 +154,7 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
 
                     @Override
                     public void run() {
-                        refresh_lv.onPullDownRefreshComplete();
+                        refreshData();
                     }
                 }, AppConfig.LOADING_TIME);
             }
@@ -160,18 +162,18 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<MyRecyclerView> refreshView) {
                 // 加载更多
-                new Handler().postDelayed(new Runnable() {
+                if (!isStopLoadMore(al_show.size(), data_total, 0)) {
+                    loadMoreData();
+                } else {
+                    new Handler().postDelayed(new Runnable() {
 
-                    @Override
-                    public void run() {
-                        if (!isStopLoadMore(al_show.size(), data_total, 0)) {
-                            loadListData();
-                        } else {
+                        @Override
+                        public void run() {
                             refresh_lv.onPullUpRefreshComplete();
                             refresh_lv.setHasMoreData(false);
                         }
-                    }
-                }, AppConfig.LOADING_TIME);
+                    }, AppConfig.LOADING_TIME);
+                }
             }
         });
 
@@ -542,22 +544,44 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                current_Page = 1;
+                load_page = 1;
                 isLoadHead = true;
-                loadListData();
+                loadMoreData();
             }
         }, AppConfig.LOADING_TIME);
     }
 
     /**
+     *下拉刷新
+     */
+    private void refreshData() {
+        load_type = 0;
+        loadServerData();
+    }
+
+    /**
+     * 翻页加载
+     */
+    private void loadMoreData() {
+        load_type = 1;
+        loadServerData();
+    }
+
+    /**
      * 加载列表翻页数据
      */
-    private void loadListData() {
+    private void loadServerData() {
+        if (!isLoadOk) return; //加载频率控制
+        isLoadOk = false;
         if (isLoadHead) { //加载头部数据
             loadHeadData();
         }
+        String page = String.valueOf(load_page);
+        if (load_type == 0) {
+            page = "1";
+        }
         HashMap<String, String> map = new HashMap<>();
-        map.put("page", String.valueOf(current_Page));
+        map.put("page", page);
         map.put("size", AppConfig.LOAD_SIZE);
         loadSVData(AppConfig.URL_HOME_LIST, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_HOME_LIST);
     }
@@ -599,45 +623,40 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
                 case AppConfig.REQUEST_SV_HOME_LIST:
                     baseEn = JsonUtils.getHomeList(jsonObject);
                     if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
-                        data_total = baseEn.getDataTotal(); //加载更多数据控制符
-                        List<ThemeEntity> lists = baseEn.getLists();
+                        data_total = baseEn.getDataTotal();
+                        if (load_page == 1) {
+                            al_show.clear();
+                            am_show.clear();
+                        }
+                        List<ThemeEntity> lists = filterData(baseEn.getLists(), am_show);
                         if (lists != null && lists.size() > 0) {
-                            if (current_Page == 1) { //缓存第1页数据
+                            if (load_type == 0) {
+                                //下拉
+                                LogUtil.i(LogUtil.LOG_HTTP, TAG + " 刷新数据 —> size = " + lists.size());
+                                lists.addAll(al_show);
                                 al_show.clear();
-                                am_show.clear();
-                                ThemeEntity listEn = new ThemeEntity();
-                                listEn.setMainLists(lists);
-                                FileManager.writeFileSaveObject(AppConfig.homeListFileName, listEn, 1);
+                            }else {
+                                //翻页
+                                LogUtil.i(LogUtil.LOG_HTTP, TAG + " 翻页数据 —> page = " + load_page);
+                                if (load_page == 1) { //缓存第1页数据
+                                    ThemeEntity listEn = new ThemeEntity();
+                                    listEn.setMainLists(lists);
+                                    FileManager.writeFileSaveObject(AppConfig.homeListFileName, listEn, 1);
+                                }
+                                load_page++;
                             }
-                            List<BaseEntity> newLists = addNewEntity(lists, al_show, am_show);
-                            if (newLists != null) {
-                                addNewShowLists(newLists);
-                                current_Page++;
-                            }
-                            updateListData();
-                            LogUtil.i(LogUtil.LOG_HTTP, TAG + " List数据加载成功 —> page = " + current_Page);
-                        } else {
-                            loadFailHandle();
-                            LogUtil.i(LogUtil.LOG_HTTP, TAG + " List数据加载失败 —> page = "
-                                    + current_Page + " error msg = null or size is 0");
+                            al_show.addAll(lists);
                         }
                     } else {
                         loadFailHandle();
-                        LogUtil.i(LogUtil.LOG_HTTP, TAG + " List数据加载失败 —> page = "
-                                + current_Page + " error msg = " + baseEn.getErrmsg());
+                        LogUtil.i(LogUtil.LOG_HTTP, TAG + " 加载失败 —> page = " + load_page + " error msg = " + baseEn.getErrmsg());
                     }
+                    updateListData();
                     break;
             }
         } catch (Exception e) {
             loadFailHandle();
             ExceptionUtil.handle(e);
-        }
-    }
-
-    private void addNewShowLists(List<BaseEntity> showLists) {
-        al_show.clear();
-        for (int i = 0; i < showLists.size(); i++) {
-            al_show.add((ThemeEntity) showLists.get(i));
         }
     }
 
@@ -669,7 +688,9 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
     @Override
     protected void stopAnimation() {
         super.stopAnimation();
+        isLoadOk = true;
         refresh_lv.onPullUpRefreshComplete();
+        refresh_lv.onPullDownRefreshComplete();
     }
 
     /**
@@ -733,7 +754,7 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
         if (al_show.size() > 0) {
             initHeadView();
             updateListData();
-            loadListData();
+            loadMoreData();
         } else {
             resetData();
         }

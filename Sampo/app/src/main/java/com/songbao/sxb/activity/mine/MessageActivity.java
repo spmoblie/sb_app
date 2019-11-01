@@ -41,9 +41,9 @@ public class MessageActivity extends BaseActivity {
 	MyRecyclerView mRecyclerView;
 
 	private int data_total = 0; //数据总量
-	private int current_Page = 1;  //当前列表加载页
-	private int loadType = 1; //(0:下拉刷新/1:翻页加载)
-	private boolean isLoadOk = true; //加载数据控制符
+	private int load_page = 1; //加载页数
+	private int load_type = 1; //加载类型(0:下拉刷新/1:翻页加载)
+	private boolean isLoadOk = true; //加载控制
 	private ArrayList<MessageEntity> al_show = new ArrayList<>();
 	private ArrayMap<String, Boolean> am_show = new ArrayMap<>();
 
@@ -144,47 +144,34 @@ public class MessageActivity extends BaseActivity {
 	}
 
 	/**
-	 * 重置数据
-	 */
-	private void resetData() {
-		current_Page = 1;
-		loadMoreData();
-	}
-
-	/**
 	 *下拉刷新
 	 */
 	private void refreshData() {
-		loadType = 0;
-		//loadServerData();
-		loadMoreData();
+		load_type = 0;
+		loadServerData();
 	}
 
 	/**
 	 * 翻页加载
 	 */
 	private void loadMoreData() {
-		loadType = 1;
+		load_type = 1;
 		//loadServerData();
-		al_show.clear();
-		al_show.addAll(getDemoData().getLists());
-		updateListData();
-		stopAnimation();
+		loadDemoData();
 	}
 
 	/**
 	 * 加载数据
 	 */
 	private void loadServerData() {
-		if (!isLoadOk) { //加载频率控制
-			if (loadType == 0) {
-				refresh_rv.onPullDownRefreshComplete();
-			}
-			return;
-		}
+		if (!isLoadOk) return; //加载频率控制
 		isLoadOk = false;
+		String page = String.valueOf(load_page);
+		if (load_type == 0) {
+			page = "1";
+		}
 		HashMap<String, String> map = new HashMap<>();
-		map.put("page", String.valueOf(current_Page));
+		map.put("page", page);
 		map.put("size", AppConfig.LOAD_SIZE);
 		loadSVData(AppConfig.URL_MESSAGE, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_MESSAGE);
 	}
@@ -197,28 +184,20 @@ public class MessageActivity extends BaseActivity {
 				case AppConfig.REQUEST_SV_MESSAGE:
 					baseEn = JsonUtils.getMessageData(jsonObject);
 					if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
-						int newTotal = baseEn.getDataTotal(); //加载更多数据控制符
-						List<MessageEntity> lists = baseEn.getLists();
-						if (lists.size() > 0) {
-							if (current_Page == 1) {
-								al_show.clear();
-								am_show.clear();
-							}
-							List<BaseEntity> newLists;
-							if (loadType == 0) {
+						data_total = baseEn.getDataTotal();
+						List<MessageEntity> lists = filterData(baseEn.getLists(), am_show);
+						if (lists != null && lists.size() > 0) {
+							if (load_type == 0) {
 								//下拉
-								newLists = updNewEntity(newTotal, data_total, lists, al_show, am_show);
+								LogUtil.i(LogUtil.LOG_HTTP, TAG + " 刷新数据 —> size = " + lists.size());
+								lists.addAll(al_show);
+								al_show.clear();
 							}else {
 								//翻页
-								newLists = addNewEntity(lists, al_show, am_show);
-								if (newLists != null) {
-									current_Page++;
-								}
+								LogUtil.i(LogUtil.LOG_HTTP, TAG + " 翻页数据 —> size = " + lists.size());
+								load_page++;
 							}
-							if (newLists != null) {
-								addNewShowLists(newLists);
-							}
-							data_total = newTotal;
+							al_show.addAll(lists);
 							updateListData();
 						}
 					} else if (baseEn.getErrno() == AppConfig.ERROR_CODE_TIMEOUT) {
@@ -235,13 +214,6 @@ public class MessageActivity extends BaseActivity {
 		}
 	}
 
-	private void addNewShowLists(List<BaseEntity> showLists) {
-		al_show.clear();
-		for (int i = 0; i < showLists.size(); i++) {
-			al_show.add((MessageEntity) showLists.get(i));
-		}
-	}
-
 	@Override
 	protected void loadFailHandle() {
 		super.loadFailHandle();
@@ -252,15 +224,15 @@ public class MessageActivity extends BaseActivity {
 	protected void stopAnimation() {
 		super.stopAnimation();
 		isLoadOk = true;
-		refresh_rv.onPullDownRefreshComplete();
 		refresh_rv.onPullUpRefreshComplete();
+		refresh_rv.onPullDownRefreshComplete();
 	}
 
 	/**
 	 * 构建Demo数据
 	 */
-	private BaseEntity getDemoData() {
-		BaseEntity baseEn = new BaseEntity();
+	private void loadDemoData() {
+		al_show.clear();
 
 		MessageEntity chEn_1 = new MessageEntity();
 		MessageEntity chEn_2 = new MessageEntity();
@@ -268,37 +240,34 @@ public class MessageActivity extends BaseActivity {
 		MessageEntity chEn_4 = new MessageEntity();
 		MessageEntity chEn_5 = new MessageEntity();
 
-		List<MessageEntity> mainLists = new ArrayList<>();
-
 		chEn_1.setAddTime("10月08日 10:08");
 		chEn_1.setTitle("使用成功");
 		chEn_1.setContent("您好！尊敬的松堡迪迪，您已在10月08日 10:06成功参与课程，谢谢您的光临！");
 		chEn_1.setRead(false);
-		mainLists.add(chEn_1);
+		al_show.add(chEn_1);
 		chEn_2.setAddTime("10月06日 13:18");
 		chEn_2.setTitle("预约成功");
 		chEn_2.setContent("您好！尊敬的松堡迪迪，您已在10月06日 13:15成功预约并购买小小木匠课程，请注意预约时间，期待您的光临！");
 		chEn_2.setRead(false);
-		mainLists.add(chEn_2);
+		al_show.add(chEn_2);
 		chEn_3.setAddTime("09月18日 10:08");
 		chEn_3.setTitle("使用成功");
 		chEn_3.setContent("您好！尊敬的松堡迪迪，您已在09月18日 10:06成功参与课程，谢谢您的光临！");
 		chEn_3.setRead(true);
-		mainLists.add(chEn_3);
+		al_show.add(chEn_3);
 		chEn_4.setAddTime("09月16日 13:18");
 		chEn_4.setTitle("预约成功");
 		chEn_4.setContent("您好！尊敬的松堡迪迪，您已在09月16日 13:15成功预约并购买小小木匠课程，请注意预约时间，期待您的光临！");
 		chEn_4.setRead(true);
-		mainLists.add(chEn_4);
+		al_show.add(chEn_4);
 		chEn_5.setAddTime("09月08日 10:28");
 		chEn_5.setTitle("欢迎您来到松小堡");
 		chEn_5.setContent("恭喜您成为松小堡家庭中心成员，松小堡欢迎您的到来。");
 		chEn_5.setRead(true);
-		mainLists.add(chEn_5);
+		al_show.add(chEn_5);
 
-		baseEn.setLists(mainLists);
-
-		return baseEn;
+		updateListData();
+		stopAnimation();
 	}
 
 }
