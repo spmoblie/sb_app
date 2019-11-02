@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:background="@color/ui_color_app_bg_01">
 
-    <com.songbao.sxb.widgets.pullrefresh.PullToRefreshRecyclerView
+    <com.songbao.sampo.widgets.pullrefresh.PullToRefreshRecyclerView
         android:id="@+id/fg_home_refresh_lv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>

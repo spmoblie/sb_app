@@ -42,7 +42,7 @@
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <com.songbao.sxb.widgets.RoundImageView
+            <com.songbao.sampo.widgets.RoundImageView
                 android:id="@+id/fg_mine_iv_head"
                 android:layout_width="@dimen/head_size_default"
                 android:layout_height="@dimen/head_size_default"

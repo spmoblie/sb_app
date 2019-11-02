@@ -252,7 +252,7 @@
                 android:textSize="@dimen/app_text_size_small"
                 android:textStyle="bold" />
 
-            <com.songbao.sxb.widgets.ObservableWebView
+            <com.songbao.sampo.widgets.ObservableWebView
                 android:id="@+id/reserve_detail_web_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

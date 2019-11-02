@@ -41,7 +41,7 @@
             android:layout_below="@id/my_order_item_tv_name"
             android:layout_marginTop="@dimen/margin_padding_10" />
 
-        <com.songbao.sxb.widgets.RoundImageView
+        <com.songbao.sampo.widgets.RoundImageView
             android:id="@+id/my_order_item_iv_show"
             android:layout_width="@dimen/margin_padding_110"
             android:layout_height="@dimen/margin_padding_110"

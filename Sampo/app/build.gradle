@@ -15,7 +15,7 @@ android {
     }
     compileSdkVersion build_versions.target_sdk
     defaultConfig {
-        applicationId "com.songbao.sxb"
+        applicationId "com.songbao.sampo"
         minSdkVersion build_versions.min_sdk
         targetSdkVersion build_versions.target_sdk
         versionCode app_version.version_code

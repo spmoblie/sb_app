@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:background="@color/ui_color_app_bg_01" >
 
-    <com.songbao.sxb.widgets.IViewPager
+    <com.songbao.sampo.widgets.IViewPager
         android:id="@+id/my_viewpager"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

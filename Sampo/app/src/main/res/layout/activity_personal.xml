@@ -23,7 +23,7 @@
                 android:layout_centerVertical="true"
                 android:text="@string/mine_head" />
 
-            <com.songbao.sxb.widgets.RoundImageView
+            <com.songbao.sampo.widgets.RoundImageView
                 android:id="@+id/personal_iv_head"
                 android:layout_width="@dimen/head_size_default"
                 android:layout_height="@dimen/head_size_default"

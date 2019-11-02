@@ -7,7 +7,7 @@
     android:padding="@dimen/app_margin_screen"
     android:background="@color/ui_color_app_bg_01">
 
-    <com.songbao.sxb.widgets.RoundImageView
+    <com.songbao.sampo.widgets.RoundImageView
         android:id="@+id/fg_home_item_iv"
         android:layout_width="match_parent"
         android:layout_height="0dp"

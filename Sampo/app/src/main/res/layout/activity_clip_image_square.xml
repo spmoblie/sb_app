@@ -3,12 +3,12 @@
     android:layout_height="match_parent"
     android:background="@android:color/black" >
 
-    <com.songbao.sxb.widgets.photo.ClipImageView
+    <com.songbao.sampo.widgets.photo.ClipImageView
         android:id="@+id/clip_image_square_src_pic"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" />
 
-    <com.songbao.sxb.widgets.photo.ClipViewSquare
+    <com.songbao.sampo.widgets.photo.ClipViewSquare
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" />
 

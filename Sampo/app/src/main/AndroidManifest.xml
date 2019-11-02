@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.songbao.sxb">
+    package="com.songbao.sampo">
 
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -41,7 +41,7 @@
         <!-- API23以上调用系统相机需配置 -->
         <provider
             android:name="android.support.v4.content.FileProvider"
-            android:authorities="com.songbao.sxb.fileprovider"
+            android:authorities="com.songbao.sampo.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
@@ -82,7 +82,7 @@
         <!-- UM -->
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="5da43f66570df31535000db7"/>
+            android:value="5dbcdc7f570df3c577000c24"/>
         <meta-data
             android:name="UMENG_CHANNEL"
             android:value="SongBao"/> <!-- 渠道标识 -->

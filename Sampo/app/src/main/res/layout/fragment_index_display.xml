@@ -16,7 +16,7 @@
         android:fastScrollEnabled="false" >
     </ListView>
 
-    <com.songbao.sxb.widgets.area.SectionIndexerView
+    <com.songbao.sampo.widgets.area.SectionIndexerView
         android:id="@+id/indexDisplay_section_indexer"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"

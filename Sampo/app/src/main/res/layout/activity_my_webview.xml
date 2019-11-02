@@ -5,12 +5,12 @@
     android:background="@color/ui_color_app_bg_01"
     android:orientation="vertical">
 
-        <com.songbao.sxb.widgets.WebViewLoadingBar
+        <com.songbao.sampo.widgets.WebViewLoadingBar
             android:id="@+id/web_view_loading_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <com.songbao.sxb.widgets.ObservableWebView
+        <com.songbao.sampo.widgets.ObservableWebView
             android:id="@+id/my_web_view"
             android:layout_width="match_parent"
             android:layout_height="0dp"

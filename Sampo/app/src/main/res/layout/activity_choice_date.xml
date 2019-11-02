@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/ui_color_app_bg_02">
 
-    <com.songbao.sxb.widgets.MyScrollView
+    <com.songbao.sampo.widgets.MyScrollView
         android:id="@+id/choice_date_sv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -21,7 +21,7 @@
             android:paddingRight="@dimen/app_margin_screen"
             android:paddingTop="@dimen/app_margin_screen">
 
-            <com.songbao.sxb.widgets.CustomCalendar
+            <com.songbao.sampo.widgets.CustomCalendar
                 android:id="@+id/choice_date_cal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -76,14 +76,14 @@
                 android:textSize="@dimen/app_text_size_small"
                 android:textStyle="bold" />
 
-            <com.songbao.sxb.widgets.ScrollViewListView
+            <com.songbao.sampo.widgets.ScrollViewListView
                 android:id="@+id/choice_date_listView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
         </LinearLayout>
 
-    </com.songbao.sxb.widgets.MyScrollView>
+    </com.songbao.sampo.widgets.MyScrollView>
 
     <TextView
         android:id="@+id/choice_date_tv_confirm"
