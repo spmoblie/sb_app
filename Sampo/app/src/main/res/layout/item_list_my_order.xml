@@ -81,7 +81,7 @@
             android:layout_marginRight="@dimen/margin_padding_5"
             android:layout_marginBottom="@dimen/margin_padding_2"
             android:text="@string/rmb"
-            android:textColor="@color/app_color_red_7"
+            android:textColor="@color/price_text_color"
             android:textSize="@dimen/app_text_size_small"
             android:textStyle="bold" />
 
@@ -91,7 +91,7 @@
             android:layout_alignParentRight="true"
             android:layout_below="@id/my_order_item_tv_pay_type"
             android:layout_marginTop="@dimen/margin_padding_5"
-            android:textColor="@color/app_color_red_7"
+            android:textColor="@color/price_text_color"
             android:textSize="@dimen/app_text_size_title"
             android:textStyle="bold" />
 

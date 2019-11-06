@@ -59,7 +59,6 @@
             android:id="@+id/fg_home_head_tv_title_en"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_padding_5"
             android:layout_marginLeft="@dimen/margin_padding_1"
             android:text="@string/main_head_title_en"
             android:textSize="@dimen/text_size_13"

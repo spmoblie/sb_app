@@ -204,9 +204,9 @@ public class JsonUtils {
         switch (payType) {
             case WXPayEntryActivity.PAY_WX: //微信支付
                 JSONObject data = jsonObject.getJSONObject("data");
-                payEn.setPrepayid(data.getString("prepayid"));
-                payEn.setNoncestr(data.getString("noncestr"));
-                payEn.setTimestamp(data.getString("timestamp"));
+                payEn.setPrepayid(data.getString("prepayId"));
+                payEn.setNoncestr(data.getString("nonceStr"));
+                payEn.setTimestamp(data.getString("timeStamp"));
                 payEn.setSign(data.getString("sign"));
                 break;
             case WXPayEntryActivity.PAY_ZFB: //支付宝支付

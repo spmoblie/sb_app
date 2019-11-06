@@ -134,11 +134,10 @@
 
             <TextView
                 style="@style/detail_text"
-                android:layout_marginTop="@dimen/margin_padding_10"
+                android:layout_marginTop="0dp"
                 android:text="@string/reserve_desc_en"
                 android:textColor="@color/app_color_gray_9"
-                android:textSize="@dimen/app_text_size_small"
-                android:textStyle="bold" />
+                android:textSize="@dimen/app_text_size_small" />
 
             <com.songbao.sampo.widgets.ObservableWebView
                 android:id="@+id/sign_up_detail_web_view"

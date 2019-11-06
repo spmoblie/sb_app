@@ -96,60 +96,33 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
-				//添加数字
-				if (count == 1) {
-					String str = s.toString();
-					int length = str.length();
-					if (length > 3 && length < 9) {
-						String str_4 = String.valueOf(str.charAt(3));
-						if (!str_4.equals(" ")) {
-							if (str.contains(" ")) {
-								str = str.replaceAll(" ", "");
-							}
-							length = str.length();
-							if (length > 7) {
-								length = 7;
-							}
-							String part1 = str.substring(0, 3);
-							String part2 = str.substring(3, length);
-							et_phone.setText(part1 + " " + part2);
-							if (start == 3) {
-								start += 2;
-							} else {
-								start += 1;
-							}
-							if (start < et_phone.getText().length()) {
-								et_phone.setSelection(start);
-							} else {
-								et_phone.setSelection(et_phone.getText().length());
-							}
-						}
-					}else
-					if (length >= 9){
-						String str_4 = String.valueOf(str.charAt(3));
-						String str_9 = String.valueOf(str.charAt(8));
-						if (!str_4.equals(" ") || !str_9.equals(" ")) {
-							str = str.replaceAll(" ", "");
-							length = str.length();
-							if (length > 11) {
-								length = 11;
-							}
-							String part1 = str.substring(0, 3);
-							String part2 = str.substring(3, 7);
-							String part3 = str.substring(7, length);
-							et_phone.setText(part1 + " " + part2 + " " + part3);
-							if (start == 3 || start == 8) {
-								start += 2;
-							} else {
-								start += 1;
-							}
-							if (start < et_phone.getText().length()) {
-								et_phone.setSelection(start);
-							} else {
-								et_phone.setSelection(et_phone.getText().length());
-							}
+				if (s == null || s.length() == 0) return;
+				StringBuilder sb = new StringBuilder();
+				for (int i = 0; i < s.length(); i++) {
+					if (i != 3 && i != 8 && s.charAt(i) == ' ') {
+						continue;
+					} else {
+						sb.append(s.charAt(i));
+						if ((sb.length() == 4 || sb.length() == 9) && sb.charAt(sb.length() - 1) != ' ') {
+							sb.insert(sb.length() - 1, ' ');
 						}
 					}
+				}
+				if (!sb.toString().equals(s.toString())) {
+					int index = start + 1;
+					if (sb.charAt(start) == ' ') {
+						if (before == 0) {
+							index++;
+						} else {
+							index--;
+						}
+					} else {
+						if (before == 1) {
+							index--;
+						}
+					}
+					et_phone.setText(sb.toString());
+					et_phone.setSelection(index);
 				}
 			}
 

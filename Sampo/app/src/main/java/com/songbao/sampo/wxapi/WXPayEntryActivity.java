@@ -44,9 +44,9 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
 
     String TAG = WXPayEntryActivity.class.getSimpleName();
 
-    public static final int PAY_WX = 11;
-    public static final int PAY_ZFB = 12;
-    public static final int PAY_UNION = 13;
+    public static final int PAY_WX = 1;
+    public static final int PAY_ZFB = 2;
+    public static final int PAY_UNION = 3;
 
     public static final int PAY_SUCCESS = 1;
     public static final int PAY_CANCEL = 0;
@@ -196,9 +196,8 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
             checkPayResult();
             return;
         }
-        //startAnimation();
-        //postPayInfo();
-        showPayResult(PAY_SUCCESS);
+        startAnimation();
+        postPayInfo();
     }
 
     /**
@@ -313,7 +312,7 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
     private void sendWeiXiPayReq(PaymentEntity payEntity) {
         if (payEntity == null || StringUtil.isNull(payEntity.getPrepayid())
                 || StringUtil.isNull(payEntity.getNoncestr())
-                || StringUtil.isNull(payEntity.getSign())
+                || StringUtil.isNull(payEntity.getTimestamp())
                 || StringUtil.isNull(payEntity.getSign())) {
             getPayDataFail();
             return;
@@ -415,8 +414,10 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
      */
     private void postPayInfo() {
         HashMap<String, String> map = new HashMap<>();
-        map.put("pay_id", String.valueOf(payType));
-        map.put("orderNo", orderSn);
+        map.put("paymentType", String.valueOf(payType));
+        map.put("outTradeNo", orderSn);
+        map.put("sourceType", "1");
+        map.put("tradeType", "APP");
         loadSVData(AppConfig.URL_PAY_PARAMETER, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_PAY_PARAMETER);
     }
 
@@ -425,7 +426,9 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
      */
     private void postPayCheck() {
         HashMap<String, String> map = new HashMap<>();
-        map.put("orderNo", orderSn);
+        map.put("outTradeNo", orderSn);
+        map.put("sourceType", "1");
+        map.put("tradeType", "APP");
         loadSVData(AppConfig.URL_PAY_CHECK_RESULT, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_PAY_CHECK_RESULT);
     }
 

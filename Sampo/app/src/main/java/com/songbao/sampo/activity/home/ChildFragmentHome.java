@@ -144,8 +144,8 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
 
     private void initListView() {
         refresh_lv.setPullRefreshEnabled(true); //下拉刷新
-        refresh_lv.setPullLoadEnabled(false); //上拉加载
-        refresh_lv.setScrollLoadEnabled(true); //加载更多
+        refresh_lv.setPullLoadEnabled(true); //上拉加载
+        refresh_lv.setScrollLoadEnabled(false); //加载更多
         refresh_lv.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<MyRecyclerView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<MyRecyclerView> refreshView) {

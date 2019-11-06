@@ -36,7 +36,7 @@
     <!-- 温馨提示颜色值 -->
     <color name="warns_text_color">@color/app_color_red_0</color>
     <!-- 商品价格颜色值 -->
-    <color name="price_text_color">@color/app_color_yellow</color>
+    <color name="price_text_color">@color/app_color_red_7</color>
     <!-- 负金额文字颜色 -->
     <color name="lower_text_color">@color/app_color_green</color>
 
@@ -63,6 +63,7 @@
     <color name="ui_bg_color_percent_05">#80000000</color><!-- 黑色50%透明度 -->
     <color name="ui_bg_color_percent_07">#4D000000</color><!-- 黑色70%透明度 -->
     <color name="ui_bg_color_percent_08">#33000000</color><!-- 黑色80%透明度 -->
+    <color name="ui_bg_color_percent_09">#11000000</color><!-- 黑色90%透明度 -->
     <color name="ui_bg_color_percent_10">#00000000</color><!-- 黑色100透明度 -->
 
     <!-- dialog -->

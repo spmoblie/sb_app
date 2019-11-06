@@ -32,7 +32,6 @@
             android:id="@+id/tickets_tv_title_en"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/margin_padding_5"
             android:text="@string/coupon_member_meal_en"
             android:textColor="@color/app_color_gray_9"
             android:textSize="@dimen/app_text_size_small"

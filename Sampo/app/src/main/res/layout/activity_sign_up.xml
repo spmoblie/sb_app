@@ -33,11 +33,10 @@
 
             <TextView
                 style="@style/detail_text"
-                android:layout_marginTop="@dimen/margin_padding_10"
+                android:layout_marginTop="0dp"
                 android:text="@string/sign_up_input_info_en"
                 android:textColor="@color/app_color_gray_9"
-                android:textSize="@dimen/app_text_size_small"
-                android:textStyle="bold" />
+                android:textSize="@dimen/app_text_size_small" />
 
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
@@ -153,11 +152,10 @@
 
             <TextView
                 style="@style/detail_text"
-                android:layout_marginTop="@dimen/margin_padding_10"
+                android:layout_marginTop="0dp"
                 android:text="@string/sign_up_explain_en"
                 android:textColor="@color/app_color_gray_9"
-                android:textSize="@dimen/app_text_size_small"
-                android:textStyle="bold" />
+                android:textSize="@dimen/app_text_size_small" />
 
             <TextView
                 android:id="@+id/sign_tv_explain"
@@ -176,6 +174,7 @@
         android:layout_marginLeft="@dimen/app_margin_screen"
         android:layout_marginRight="@dimen/app_margin_screen"
         android:background="@drawable/shape_style_solid_1_33"
+        android:elevation="80dp"
         android:padding="@dimen/margin_padding_2">
 
         <TextView
@@ -183,7 +182,7 @@
             style="@style/detail_text"
             android:layout_marginLeft="@dimen/margin_padding_30"
             android:text="@string/rmb"
-            android:textColor="@color/app_color_red_7"
+            android:textColor="@color/price_text_color"
             android:textSize="@dimen/app_text_size_small"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -196,7 +195,7 @@
             style="@style/detail_text"
             android:layout_marginLeft="0dp"
             android:layout_marginTop="0dp"
-            android:textColor="@color/app_color_red_7"
+            android:textColor="@color/price_text_color"
             android:textSize="@dimen/app_text_size_title"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"

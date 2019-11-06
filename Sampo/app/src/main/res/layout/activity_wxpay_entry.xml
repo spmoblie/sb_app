@@ -14,14 +14,14 @@
             android:layout_height="wrap_content"
             android:text="@string/pay_amount"
             android:textColor="@color/shows_text_color"
-            android:textSize="@dimen/text_size_14" />
+            android:textSize="@dimen/app_text_size_content" />
 
         <TextView
             android:id="@+id/payment_tv_pay_amount"
             style="@style/common_text_price"
             android:layout_centerInParent="true"
             android:layout_marginTop="@dimen/app_margin_screen"
-            android:textSize="@dimen/text_size_22"
+            android:textSize="@dimen/text_size_30"
             android:textStyle="bold" />
     </RelativeLayout>
 
@@ -48,7 +48,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/pay_type"
                     android:textColor="@color/shows_text_color"
-                    android:textSize="@dimen/text_size_14" />
+                    android:textSize="@dimen/app_text_size_content" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -73,7 +73,7 @@
                     android:layout_toRightOf="@id/payment_iv_pay_wx"
                     android:text="@string/pay_wx"
                     android:textColor="@color/shows_text_color"
-                    android:textSize="@dimen/text_size_15" />
+                    android:textSize="@dimen/app_text_size_content" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -83,7 +83,7 @@
                     android:layout_toRightOf="@id/payment_iv_pay_wx"
                     android:text="@string/pay_wx_hint"
                     android:textColor="@color/shows_text_color"
-                    android:textSize="@dimen/text_size_12" />
+                    android:textSize="@dimen/app_text_size_small" />
 
                 <ImageView
                     android:id="@+id/payment_iv_select_wx"
@@ -91,7 +91,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:src="@drawable/selector_checkbox_small" />
+                    android:src="@drawable/selector_checkbox_large" />
 
             </RelativeLayout>
 
@@ -118,7 +118,7 @@
                     android:layout_toRightOf="@id/payment_iv_pay_zfb"
                     android:text="@string/pay_zfb"
                     android:textColor="@color/shows_text_color"
-                    android:textSize="@dimen/text_size_15" />
+                    android:textSize="@dimen/app_text_size_content" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -128,7 +128,7 @@
                     android:layout_toRightOf="@id/payment_iv_pay_zfb"
                     android:text="@string/pay_zfb_hint"
                     android:textColor="@color/shows_text_color"
-                    android:textSize="@dimen/text_size_12" />
+                    android:textSize="@dimen/app_text_size_small" />
 
                 <ImageView
                     android:id="@+id/payment_iv_select_zfb"
@@ -136,7 +136,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:src="@drawable/selector_checkbox_small" />
+                    android:src="@drawable/selector_checkbox_large" />
 
             </RelativeLayout>
 
@@ -163,7 +163,7 @@
                     android:layout_toRightOf="@id/payment_iv_pay_union"
                     android:text="@string/pay_union"
                     android:textColor="@color/shows_text_color"
-                    android:textSize="@dimen/text_size_15" />
+                    android:textSize="@dimen/app_text_size_content" />
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -173,7 +173,7 @@
                     android:layout_toRightOf="@id/payment_iv_pay_union"
                     android:text="@string/pay_union_hint"
                     android:textColor="@color/shows_text_color"
-                    android:textSize="@dimen/text_size_12" />
+                    android:textSize="@dimen/app_text_size_small" />
 
                 <ImageView
                     android:id="@+id/payment_iv_select_union"
@@ -182,7 +182,7 @@
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
                     android:contentDescription="@string/desc"
-                    android:src="@drawable/selector_checkbox_small" />
+                    android:src="@drawable/selector_checkbox_large" />
             </RelativeLayout>
 
             <ImageView

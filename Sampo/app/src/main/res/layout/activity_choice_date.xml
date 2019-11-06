@@ -70,11 +70,10 @@
                 style="@style/detail_text"
                 android:layout_marginLeft="0dp"
                 android:layout_marginRight="0dp"
-                android:layout_marginTop="@dimen/margin_padding_10"
+                android:layout_marginTop="0dp"
                 android:text="@string/choice_select_option_en"
                 android:textColor="@color/app_color_gray_9"
-                android:textSize="@dimen/app_text_size_small"
-                android:textStyle="bold" />
+                android:textSize="@dimen/app_text_size_small" />
 
             <com.songbao.sampo.widgets.ScrollViewListView
                 android:id="@+id/choice_date_listView"

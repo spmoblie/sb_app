@@ -13,11 +13,11 @@ public class AppConfig {
 	// 是否正式发布
 	public static final boolean IS_PUBLISH = false;
 	// http协议
-	public final static String APP_HTTP = "http://";
+	public final static String APP_HTTP = "https://";
 	// Base类型
-	public final static String BASE_TYPE = "base_2"; //base_1:发布Url、base_2:测试Url
+	public final static String BASE_TYPE = "base_1"; //base_1:发布Url、base_2:测试Url
 	// Base域名
-	public final static String BASE_URL_1 = APP_HTTP + "119.145.16.116:8080/app/";
+	public final static String BASE_URL_1 = APP_HTTP + "xiaobao.sbwg.cn/app/";
 	// Base域名
 	public final static String BASE_URL_2 = APP_HTTP + "192.168.1.105/app/";
 	// 图片域名
@@ -39,9 +39,9 @@ public class AppConfig {
 	public final static String URL_AUTH_LOGOUT = "auth/logout";
 
 	// 提交支付参数
-	public final static String URL_PAY_PARAMETER = "pay/parameter";
+	public final static String URL_PAY_PARAMETER = "payment/paymentType";
 	// 查询支付结果
-	public final static String URL_PAY_CHECK_RESULT = "pay/check";
+	public final static String URL_PAY_CHECK_RESULT = "payment/callback";
 
 	// 首页banner列表
 	public final static String URL_HOME_BANNER = "home/index";
@@ -141,11 +141,11 @@ public class AppConfig {
 	// QQ授权接口参数：Scope权限
 	public static final String QQ_SCOPE = "all";
 	// 微信AppID
-	public static final String WX_APP_ID = "wxe75d3ed35d5ec0a3";
+	public static final String WX_APP_ID = "wx3752761ec2277f9a";
 	// 微信AppSecret
-	public static final String WX_APP_SECRET = "6dbb91d8aa799a13237179092ab690c8";
+	public static final String WX_APP_SECRET = "84221323948ca7853d110a3b1b7c5aa3";
 	// 微信商户号
-	public static final String WX_MCH_ID = "1376997902";
+	public static final String WX_MCH_ID = "1519773011";
 	// 微博AppID
 	public static final String WB_APP_ID = "2435385654";
 	// 微博授权回调Url
