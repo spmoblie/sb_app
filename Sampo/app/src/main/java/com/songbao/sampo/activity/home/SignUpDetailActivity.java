@@ -125,7 +125,7 @@ public class SignUpDetailActivity extends BaseActivity implements View.OnClickLi
             tv_series.setText(data.getSeries());
             tv_time.setText(getString(R.string.sign_up_info_time, data.getStartTime(), data.getEndTime()));
             tv_place.setText(data.getAddress());
-            tv_people.setText(getString(R.string.number_p) + getString(R.string.sign_up_info_number, data.getPeople(), data.getQuantity()));
+            tv_people.setText(getString(R.string.sign_up_info_number, data.getPeople(), data.getQuantity()));
             tv_suit.setText(data.getSuit());
 
             status = data.getStatus();

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.util.ArrayMap;
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.View;
 
 import com.songbao.sampo.AppApplication;
 import com.songbao.sampo.AppConfig;
@@ -117,6 +118,11 @@ public class MyTicketsActivity extends BaseActivity {
 	}
 
 	private void updateListData() {
+		if (al_show.size() <= 0) {
+			setNullVisibility(View.VISIBLE);
+		} else {
+			setNullVisibility(View.GONE);
+		}
 		rvAdapter.updateData(al_show);
 	}
 
@@ -148,7 +154,8 @@ public class MyTicketsActivity extends BaseActivity {
 	 */
 	private void refreshData() {
 		load_type = 0;
-		loadServerData();
+		//loadServerData();
+		stopAnimation();
 	}
 
 	/**
@@ -198,8 +205,8 @@ public class MyTicketsActivity extends BaseActivity {
 								load_page++;
 							}
 							al_show.addAll(lists);
-							updateListData();
 						}
+						updateListData();
 					} else if (baseEn.getErrno() == AppConfig.ERROR_CODE_TIMEOUT) {
 						handleTimeOut();
 						finish();
@@ -212,6 +219,12 @@ public class MyTicketsActivity extends BaseActivity {
 			loadFailHandle();
 			ExceptionUtil.handle(e);
 		}
+	}
+
+	@Override
+	protected void loadFailHandle() {
+		super.loadFailHandle();
+		handleErrorCode(null);
 	}
 
 	@Override
@@ -228,7 +241,7 @@ public class MyTicketsActivity extends BaseActivity {
 	private void loadDemoData() {
 		al_show.clear();
 
-		CouponEntity chEn_1 = new CouponEntity();
+		/*CouponEntity chEn_1 = new CouponEntity();
 		CouponEntity chEn_2 = new CouponEntity();
 		CouponEntity chEn_3 = new CouponEntity();
 
@@ -246,7 +259,7 @@ public class MyTicketsActivity extends BaseActivity {
 		chEn_3.setName("松小堡南山方大城店专用（半年卡）");
 		chEn_3.setTermTime("2019-10-18");
 		chEn_3.setStatus(3);
-		al_show.add(chEn_3);
+		al_show.add(chEn_3);*/
 
 		updateListData();
 		stopAnimation();

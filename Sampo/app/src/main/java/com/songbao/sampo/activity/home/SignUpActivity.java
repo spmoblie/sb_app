@@ -361,6 +361,16 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
     }
 
     /**
+     * 清除数据
+     */
+    private void clearData() {
+        selectGender(1);
+        et_phone.setText("");
+        et_age.setText("");
+        et_name.setText("");
+    }
+
+    /**
      * 校验状态
      */
     private void checkState() {
@@ -431,25 +441,11 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
     }
 
     /**
-     * 报名反馈
-     */
-    private void backSignUpData() {
-        startAnimation();
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                HashMap<String, String> map = new HashMap<>();
-                map.put("orderNo", orderNo);
-                loadSVData(AppConfig.URL_SIGN_UP_CALLBACK, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_SIGN_UP_CALLBACK);
-            }
-        }, AppConfig.LOADING_TIME);
-    }
-
-    /**
      * 在线支付
      */
     private void startPay() {
         Intent intent = new Intent(mContext, WXPayEntryActivity.class);
+        intent.putExtra(AppConfig.PAGE_TYPE, 1);
         intent.putExtra("orderSn", orderNo);
         intent.putExtra("orderTotal", df.format(payAmount));
         startActivityForResult(intent, AppConfig.ACTIVITY_CODE_PAY_DATA);
@@ -478,31 +474,20 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
                             //无需支付处理
                         }
                     } else {
-                        handleErrorCode(baseEn);
-                    }
-                    break;
-                case AppConfig.REQUEST_SV_SIGN_UP_CALLBACK:
-                    baseEn = JsonUtils.getBaseErrorData(jsonObject);
-                    if (baseEn != null) {
-                        if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
-                            handleSignUpResult(1);
-                        } else {
-                            handleSignUpResult(2);
-                        }
-                    } else {
-                        handleSignUpResult(3);
+                        showSuccessDialog(baseEn.getErrmsg(), false);
                     }
                     break;
             }
         } catch (Exception e) {
-            if (dataType == AppConfig.REQUEST_SV_SIGN_UP_CALLBACK) {
-                handleSignUpResult(3);
-            } else {
-                handleErrorCode(null);
-            }
             loadFailHandle();
             ExceptionUtil.handle(e);
         }
+    }
+
+    @Override
+    protected void loadFailHandle() {
+        super.loadFailHandle();
+        handleErrorCode(null);
     }
 
     @Override
@@ -511,8 +496,10 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
             if (requestCode == AppConfig.ACTIVITY_CODE_PAY_DATA) {
                 boolean isPayOk = data.getBooleanExtra(AppConfig.ACTIVITY_KEY_PAY_RESULT, false);
                 if (isPayOk) {
-                    setClickState(getString(R.string.pay_success), false);
-                    backSignUpData();
+                    clearData();
+                    setClickState("", false);
+                    loadServerData();
+                    handleSignUpResult(1);
                 }
             }
         }
@@ -522,17 +509,13 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
     private void handleSignUpResult(int resultCode) {
         String showStr;
         switch (resultCode) {
-            case 2: //失败
-                showStr = getString(R.string.sign_up_fail);
-                showSuccessDialog(showStr, false);
-                break;
-            case 3: //错误
-                showStr = getString(R.string.sign_up_error);
-                showSuccessDialog(showStr, false);
-                break;
             default: //成功
                 showStr = getString(R.string.sign_up_success_show);
                 showSuccessDialog(showStr, true);
+                break;
+            case 2: //失败
+                showStr = getString(R.string.sign_up_fail);
+                showSuccessDialog(showStr, false);
                 break;
         }
     }

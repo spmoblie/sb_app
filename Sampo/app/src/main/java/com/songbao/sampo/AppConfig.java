@@ -51,12 +51,8 @@ public class AppConfig {
 	public final static String URL_ACTIVITY_DETAIL = "activity/detail";
 	// 提交报名数据
 	public final static String URL_SIGN_UP_ADD = "activity/sign_up/add";
-	// 报名结果反馈
-	public final static String URL_SIGN_UP_CALLBACK = "activity/sign_up/callback";
 	// 提交预约数据
 	public final static String URL_RESERVATION_ADD = "reservation/add";
-	// 预约结果反馈
-	public final static String URL_RESERVATION_CALLBACK = "reservation/callback";
 	// 获取课程日期
 	public final static String URL_RESERVATION_DATE = "reservation/findDateTime";
 	// 获取课程时段
@@ -121,8 +117,10 @@ public class AppConfig {
 	// 图片宽高比例
 	public static final int IMG_WIDTHS = 16;
 	public static final int IMG_HEIGHT = 9;
+	// 网络请求标识
+	public static final String LOAD_TYPE = "APP";
 	// 加载数据数量
-	public static final String LOAD_SIZE = "3";
+	public static final String LOAD_SIZE = "10";
 	// 加载缓冲时间
 	public static final int LOADING_TIME = 1000;
 	// 验证码倒计时
@@ -224,18 +222,14 @@ public class AppConfig {
 	public static final int REQUEST_SV_ACTIVITY_DETAIL = 0X2003;
 	// 报名提交
 	public static final int REQUEST_SV_SIGN_UP_ADD = 0X2004;
-	// 报名反馈
-	public static final int REQUEST_SV_SIGN_UP_CALLBACK = 0X2005;
 	// 提交预约
-	public static final int REQUEST_SV_RESERVATION_ADD = 0X2006;
-	// 预约反馈
-	public static final int REQUEST_SV_RESERVATION_CALLBACK = 0X2007;
+	public static final int REQUEST_SV_RESERVATION_ADD = 0X2005;
 	// 课程日期
-	public static final int REQUEST_SV_RESERVATION_DATE = 0X2008;
+	public static final int REQUEST_SV_RESERVATION_DATE = 0X2006;
 	// 课程时段
-	public static final int REQUEST_SV_RESERVATION_TIME = 0X2009;
+	public static final int REQUEST_SV_RESERVATION_TIME = 0X2007;
 	// 校验时段
-	public static final int REQUEST_SV_RESERVATION_IS = 0X2010;
+	public static final int REQUEST_SV_RESERVATION_IS = 0X2008;
 
 	// 上传用户头像
 	public static final int REQUEST_SV_UPLOAD_HEAD = 0X3001;

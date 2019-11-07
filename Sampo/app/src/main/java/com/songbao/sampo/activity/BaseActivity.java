@@ -93,8 +93,8 @@ public  class BaseActivity extends FragmentActivity {
 
 	private LinearLayout ll_head;
 	private RelativeLayout rl_left;
-	private ImageView iv_left;
-	private TextView tv_title;
+	private ImageView iv_left, iv_data_null;
+	private TextView tv_title, tv_data_null;
 	private Button bt_right;
 	private ViewFlipper mLayoutBase;
 	private MyCountDownTimer myTimer;
@@ -144,6 +144,8 @@ public  class BaseActivity extends FragmentActivity {
 		iv_left = findViewById(R.id.top_bar_left);
 		tv_title = findViewById(R.id.top_bar_title);
 		bt_right = findViewById(R.id.top_bar_right);
+		iv_data_null = findViewById(R.id.base_iv_data_null);
+		tv_data_null = findViewById(R.id.base_tv_data_null);
 		mLayoutBase = findViewById(R.id.base_ll_container);
 	}
 
@@ -165,6 +167,8 @@ public  class BaseActivity extends FragmentActivity {
 
 		inAnim = new AnimationUtils().loadAnimation(mContext, R.anim.in_from_right);
 		outAnim = new AnimationUtils().loadAnimation(mContext, R.anim.out_to_left);
+
+		setNullVisibility(View.GONE);
 	}
 
 	@Override
@@ -264,6 +268,14 @@ public  class BaseActivity extends FragmentActivity {
 				break;
 		}
 		ll_head.setVisibility(visibility);
+	}
+
+	/**
+	 * 设置内容为空是否可见
+	 */
+	protected void setNullVisibility(int visibility) {
+		iv_data_null.setVisibility(visibility);
+		tv_data_null.setVisibility(visibility);
 	}
 
 	/**

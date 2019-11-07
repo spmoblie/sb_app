@@ -208,7 +208,7 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
                 startActivity(new Intent(mContext, MyOrderActivity.class));
                 break;
             case R.id.fg_mine_help_main:
-                openWebViewActivity(getString(R.string.setting_question), "https://support.qq.com/product/1221");
+                openWebViewActivity(getString(R.string.setting_question), "https://support.qq.com/product/100041");
                 break;
         }
     }

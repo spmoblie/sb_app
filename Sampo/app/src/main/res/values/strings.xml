@@ -60,6 +60,7 @@
     <string name="submit_success">提交成功</string>
     <string name="must_fill">必填</string>
     <string name="not_empty">不能为空</string>
+    <string name="data_null">没有内容</string>
     <string name="setting">设置</string>
     <string name="error">错误</string>
     <string name="post">发布</string>
@@ -77,10 +78,11 @@
     <string name="viewpager_indicator">%1$d/%2$d</string>
 
     <!-- Toast -->
-    <string name="toast_server_busy">服务器繁忙~</string>
+    <string name="toast_no_open">暂未开放&#8230; 敬请期待&#8230;</string>
+    <string name="toast_server_busy">服务器繁忙 T_T</string>
     <string name="toast_exit_prompt">再按一次退出程序</string>
-    <string name="toast_error_data_app">应用数据出错 (T_T)\n请重启此应用 (T_T)</string>
-    <string name="toast_error_data_page">数据出现错误 (T_T)\n正在加载数据 (T_T)</string>
+    <string name="toast_error_data_app">应用数据出错 T_T\n请重启此应用 T_T</string>
+    <string name="toast_error_data_page">数据出现错误 T_T\n正在加载数据 T_T</string>
 
     <!-- Dialog -->
     <string name="dialog_version_new">当前版本已是最新版本</string>
@@ -166,7 +168,7 @@
     <string name="reserve_success_can">预约成功（已核销）</string>
     <string name="reserve_success_end">预约成功（已过期）</string>
     <string name="reserve_success_show">恭喜您！预约成功</string>
-    <string name="reserve_fail">预约失败(T_T)</string>
+    <string name="reserve_fail">预约失败 T_T</string>
     <string name="reserve_error">预约结果未知~</string>
 
     <!-- Choice -->
@@ -204,11 +206,10 @@
     <string name="sign_up_info_time">%1$s 至 %2$s</string>
     <string name="sign_up_info_number">"已报名%1$d人/限%2$d人报名"</string>
     <string name="sign_up_cost_hint">费用为大赛统一报名费，主要用于场地租赁和组织等;</string>
+    <string name="sign_up_fail">报名失败 T_T</string>
     <string name="sign_up_success">报名成功</string>
     <string name="sign_up_success_end">报名成功（已过期）</string>
     <string name="sign_up_success_show">恭喜您！报名成功</string>
-    <string name="sign_up_fail">报名失败~\n如有疑问请联系客服~</string>
-    <string name="sign_up_error">未能获取到报名结果~\n如有疑问请联系客服~</string>
 
     <!-- Coupon -->
     <string name="coupon_member_meal">会员套餐</string>
@@ -248,7 +249,7 @@
     <!-- Setting Page -->
     <string name="setting_about_us">关于我们</string>
     <string name="setting_feedback">意见反馈</string>
-    <string name="setting_question">问题反馈</string>
+    <string name="setting_question">联系客服</string>
     <string name="setting_version">检查更新</string>
     <string name="setting_push">消息推送</string>
     <string name="setting_logout">退出帐户</string>
@@ -340,10 +341,9 @@
     <string name="pay_success">支付成功</string>
     <string name="pay_fail">支付失败</string>
     <string name="pay_cancel">支付取消</string>
-    <string name="pay_wait_notice">等待支付通知</string>
-    <string name="pay_result_ok">您已完成支付，请勿重复支付。</string>
-    <string name="pay_info_error">支付信息异常，请与客服联系并确认支付信息。</string>
-    <string name="pay_abnormal">获取支付结果异常，\n请与客服联系并确认支付结果。</string>
+    <string name="pay_info_error">获取支付信息异常，\n请联系客服并确认。</string>
+    <string name="pay_result_ok">您已完成支付，\n请勿重复支付。</string>
+    <string name="pay_result_error">获取支付结果异常，\n请联系客服并确认。</string>
 
     <!-- Address -->
     <string name="address_store_pickup">上门自取</string>

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.util.ArrayMap;
+import android.view.View;
 import android.widget.GridView;
 
 import com.songbao.sampo.AppApplication;
@@ -119,6 +120,11 @@ public class MyDesignActivity extends BaseActivity {
 	}
 
 	private void updateListData() {
+		if (al_show.size() <= 0) {
+			setNullVisibility(View.VISIBLE);
+		} else {
+			setNullVisibility(View.GONE);
+		}
 		gvAdapter.updateData(al_show);
 
 		urlLists.clear();
@@ -205,8 +211,8 @@ public class MyDesignActivity extends BaseActivity {
 								load_page++;
 							}
 							al_show.addAll(lists);
-							updateListData();
 						}
+						updateListData();
 					} else if (baseEn.getErrno() == AppConfig.ERROR_CODE_TIMEOUT) {
 						handleTimeOut();
 						finish();

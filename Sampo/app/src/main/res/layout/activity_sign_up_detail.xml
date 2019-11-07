@@ -91,7 +91,7 @@
 
                 <TextView
                     style="@style/detail_text"
-                    android:drawableLeft="@mipmap/icon_data"
+                    android:drawableLeft="@mipmap/icon_statistics"
                     android:drawablePadding="@dimen/margin_padding_5"
                     android:text="@string/sign_up_people" />
 
@@ -143,6 +143,7 @@
                 android:id="@+id/sign_up_detail_web_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_padding_10"
                 android:layerType="software" />
         </LinearLayout>
 

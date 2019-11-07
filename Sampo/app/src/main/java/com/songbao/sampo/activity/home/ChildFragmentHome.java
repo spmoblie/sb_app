@@ -494,7 +494,8 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.fg_home_head_iv_buy:
-                startActivity(new Intent(getActivity(), TicketsActivity.class));
+                CommonTools.showToast(getString(R.string.toast_no_open));
+                //startActivity(new Intent(getActivity(), TicketsActivity.class));
                 break;
             case R.id.fg_home_head_iv_reserve:
                 startActivity(new Intent(getActivity(), ReserveListActivity.class));

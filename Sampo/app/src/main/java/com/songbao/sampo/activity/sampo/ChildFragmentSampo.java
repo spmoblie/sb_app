@@ -99,7 +99,7 @@ public class ChildFragmentSampo extends BaseFragment implements OnClickListener 
 			view.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					CommonTools.showToast("功能开发中...敬请期待^_^");
+					CommonTools.showToast("功能开发中... 敬请期待...");
 				}
 			});
 			ll_module_main.addView(view);

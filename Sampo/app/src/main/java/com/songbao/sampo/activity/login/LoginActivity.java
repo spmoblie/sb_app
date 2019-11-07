@@ -1,8 +1,13 @@
 package com.songbao.sampo.activity.login;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Html;
+import android.text.Spannable;
+import android.text.method.LinkMovementMethod;
+import android.text.style.URLSpan;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -29,6 +34,7 @@ import com.songbao.sampo.utils.ExceptionUtil;
 import com.songbao.sampo.utils.JsonLogin;
 import com.songbao.sampo.utils.LogUtil;
 import com.songbao.sampo.utils.StringUtil;
+import com.songbao.sampo.utils.URLSpanUtil;
 import com.songbao.sampo.utils.retrofit.HttpRequests;
 import com.tencent.connect.UserInfo;
 import com.tencent.connect.common.Constants;
@@ -70,6 +76,9 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 
     @BindView(R.id.login_tv_wb)
     TextView login_tv_wb;
+
+    @BindView(R.id.login_tv_agreement)
+    TextView tv_agreement;
 
     private UserInfoEntity fbOauthEn;
     private boolean isStop = false;
@@ -115,6 +124,44 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
         login_tv_wx.setOnClickListener(this);
         login_tv_qq.setOnClickListener(this);
         login_tv_wb.setOnClickListener(this);
+
+        setTextUrl();
+    }
+
+    @SuppressLint("NewApi")
+    private void setTextUrl() {
+        String s1 = "<font  color='#222222'>登录即同意</font>";
+        s1 += "<a href = 'http://www.baidu.com'>《松小堡用户协议》</a>";
+        //<font>：设置颜色和字体。
+        //<big>：设置字体大号
+        //<small>：设置字体小号
+        //<i><b>：斜体粗体
+        //<a>：连接网址
+        //<img>：图片
+        //其中的flags表示：
+        //FROM_HTML_MODE_COMPACT：html块元素之间使用一个换行符分隔
+        //FROM_HTML_MODE_LEGACY：html块元素之间使用两个换行符分隔
+        CharSequence charSequence = Html.fromHtml(s1, Html.FROM_HTML_MODE_COMPACT);
+        tv_agreement.setText(charSequence);
+        tv_agreement.setLinkTextColor(getResources().getColor(R.color.tv_color_status));
+        //为TextView添加链接
+        tv_agreement.setMovementMethod(LinkMovementMethod.getInstance());
+        stripUnderlines(tv_agreement);
+    }
+
+    private void stripUnderlines(TextView textView) {
+        if(null != textView && textView.getText() instanceof Spannable){
+            Spannable s = (Spannable)textView.getText();
+            URLSpan[] spans = s.getSpans(0, s.length(), URLSpan.class);
+            for (URLSpan span: spans) {
+                int start = s.getSpanStart(span);
+                int end = s.getSpanEnd(span);
+                s.removeSpan(span);
+                span = new URLSpanUtil(span.getURL());
+                s.setSpan(span, start, end, 0);
+            }
+            textView.setText(s);
+        }
     }
 
     @Override

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.util.ArrayMap;
 import android.support.v7.widget.LinearLayoutManager;
+import android.view.View;
 
 import com.songbao.sampo.AppApplication;
 import com.songbao.sampo.AppConfig;
@@ -122,6 +123,11 @@ public class MyReserveActivity extends BaseActivity {
 	}
 
 	private void updateListData() {
+		if (al_show.size() <= 0) {
+			setNullVisibility(View.VISIBLE);
+		} else {
+			setNullVisibility(View.GONE);
+		}
 		rvAdapter.updateData(al_show);
 	}
 
@@ -215,8 +221,8 @@ public class MyReserveActivity extends BaseActivity {
 								load_page++;
 							}
 							al_show.addAll(lists);
-							updateListData();
 						}
+						updateListData();
 					} else if (baseEn.getErrno() == AppConfig.ERROR_CODE_TIMEOUT) {
 						handleTimeOut();
 						finish();

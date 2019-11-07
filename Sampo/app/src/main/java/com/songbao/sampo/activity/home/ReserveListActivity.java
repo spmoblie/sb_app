@@ -124,9 +124,12 @@ public class ReserveListActivity extends BaseActivity implements OnClickListener
 	}
 
 	private void updateListData() {
-		if (rvAdapter != null) {
-			rvAdapter.updateData(al_show);
+		if (al_show.size() <= 0) {
+			setNullVisibility(View.VISIBLE);
+		} else {
+			setNullVisibility(View.GONE);
 		}
+		rvAdapter.updateData(al_show);
 	}
 
 	/**
@@ -228,8 +231,8 @@ public class ReserveListActivity extends BaseActivity implements OnClickListener
 								load_page++;
 							}
 							al_show.addAll(lists);
-							updateListData();
 						}
+						updateListData();
 					} else if (baseEn.getErrno() == AppConfig.ERROR_CODE_TIMEOUT) {
 						handleTimeOut();
 						finish();

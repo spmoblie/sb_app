@@ -412,25 +412,11 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
     }
 
     /**
-     * 预约反馈
-     */
-    private void backReserveData() {
-        startAnimation();
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                HashMap<String, String> map = new HashMap<>();
-                map.put("orderNo", orderNo);
-                loadSVData(AppConfig.URL_RESERVATION_CALLBACK, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_RESERVATION_CALLBACK);
-            }
-        }, AppConfig.LOADING_TIME);
-    }
-
-    /**
      * 在线支付
      */
     private void startPay() {
         Intent intent = new Intent(mContext, WXPayEntryActivity.class);
+        intent.putExtra(AppConfig.PAGE_TYPE, 2);
         intent.putExtra("orderSn", orderNo);
         intent.putExtra("orderTotal", df.format(payAmount));
         startActivityForResult(intent, AppConfig.ACTIVITY_CODE_PAY_DATA);
@@ -461,31 +447,20 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
                             //无需支付处理
                         }
                     } else {
-                        handleErrorCode(baseEn);
-                    }
-                    break;
-                case AppConfig.REQUEST_SV_RESERVATION_CALLBACK:
-                    baseEn = JsonUtils.getBaseErrorData(jsonObject);
-                    if (baseEn != null) {
-                        if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
-                            handleReserveResult(1);
-                        } else {
-                            handleReserveResult(2);
-                        }
-                    } else {
-                        handleReserveResult(3);
+                        showSuccessDialog(baseEn.getErrmsg(), false);
                     }
                     break;
             }
         } catch (Exception e) {
-            if (dataType == AppConfig.REQUEST_SV_RESERVATION_CALLBACK) {
-                handleReserveResult(3);
-            } else {
-                handleErrorCode(null);
-            }
             loadFailHandle();
             ExceptionUtil.handle(e);
         }
+    }
+
+    @Override
+    protected void loadFailHandle() {
+        super.loadFailHandle();
+        handleErrorCode(null);
     }
 
     @Override
@@ -508,7 +483,7 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
                     iv_time_go.setVisibility(View.GONE);
                     click_main.setVisibility(View.GONE);
 
-                    backReserveData();
+                    handleReserveResult(1);
                 }
             }
         }

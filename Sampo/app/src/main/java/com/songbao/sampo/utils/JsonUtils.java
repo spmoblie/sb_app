@@ -138,7 +138,7 @@ public class JsonUtils {
                 childEn.setTitle(item.getString("title"));
                 //childEn.setPicUrl(item.getString("picUrl"));
                 //childEn.setLinkUrl(item.getString("linkUrl"));
-                childEn.setLinkUrl("https://mp.weixin.qq.com/s/uhg0hWDZCvtkyFQUs5FguQ");
+                childEn.setLinkUrl("https://baijiahao.baidu.com/s?id=1626134258413691915&wfr=spider&for=pc");
                 childEn.setUserId(item.getString("adminId"));
                 childEn.setSuit(item.getString("crowd"));
                 childEn.setUserName(item.getString("userName"));
@@ -200,21 +200,23 @@ public class JsonUtils {
     public static BaseEntity getPayInfo(JSONObject jsonObject, int payType) throws JSONException {
         BaseEntity mainEn = getCommonKeyValue(jsonObject);
 
-        PaymentEntity payEn = new PaymentEntity();
-        switch (payType) {
-            case WXPayEntryActivity.PAY_WX: //微信支付
-                JSONObject data = jsonObject.getJSONObject("data");
-                payEn.setPrepayid(data.getString("prepayId"));
-                payEn.setNoncestr(data.getString("nonceStr"));
-                payEn.setTimestamp(data.getString("timeStamp"));
-                payEn.setSign(data.getString("sign"));
-                break;
-            case WXPayEntryActivity.PAY_ZFB: //支付宝支付
-            case WXPayEntryActivity.PAY_UNION: //银联支付
-                payEn.setContent(jsonObject.getString("data"));
-                break;
+        if (StringUtil.notNull(jsonObject, "data")) {
+            PaymentEntity payEn = new PaymentEntity();
+            switch (payType) {
+                case WXPayEntryActivity.PAY_WX: //微信支付
+                    JSONObject data = jsonObject.getJSONObject("data");
+                    payEn.setPrepayid(data.getString("prepayId"));
+                    payEn.setNoncestr(data.getString("nonceStr"));
+                    payEn.setTimestamp(data.getString("timeStamp"));
+                    payEn.setSign(data.getString("sign"));
+                    break;
+                case WXPayEntryActivity.PAY_ZFB: //支付宝支付
+                case WXPayEntryActivity.PAY_UNION: //银联支付
+                    payEn.setContent(jsonObject.getString("data"));
+                    break;
+            }
+            mainEn.setData(payEn);
         }
-        mainEn.setData(payEn);
 
         return mainEn;
     }

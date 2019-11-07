@@ -255,10 +255,25 @@
                 android:id="@+id/reserve_detail_web_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_padding_10"
                 android:layerType="software" />
         </LinearLayout>
 
     </ScrollView>
+
+    <TextView
+        android:id="@+id/reserve_detail_tv_success"
+        style="@style/common_text_button"
+        android:layout_width="match_parent"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="@dimen/margin_padding_50"
+        android:layout_marginLeft="@dimen/app_margin_screen"
+        android:layout_marginRight="@dimen/app_margin_screen"
+        android:padding="@dimen/app_margin_screen"
+        android:text="@string/reserve_success"
+        android:textSize="@dimen/app_text_size_title"
+        android:textStyle="bold"
+        android:visibility="gone" />
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/reserve_detail_click_main"
@@ -269,6 +284,7 @@
         android:layout_marginLeft="@dimen/app_margin_screen"
         android:layout_marginRight="@dimen/app_margin_screen"
         android:background="@drawable/shape_style_solid_1_33"
+        android:elevation="80dp"
         android:padding="@dimen/margin_padding_2">
 
         <TextView
@@ -310,19 +326,5 @@
             app:layout_constraintTop_toTopOf="parent" />
 
     </android.support.constraint.ConstraintLayout>
-
-    <TextView
-        android:id="@+id/reserve_detail_tv_success"
-        style="@style/common_text_button"
-        android:layout_width="match_parent"
-        android:layout_gravity="bottom"
-        android:layout_marginBottom="@dimen/margin_padding_50"
-        android:layout_marginLeft="@dimen/app_margin_screen"
-        android:layout_marginRight="@dimen/app_margin_screen"
-        android:padding="@dimen/app_margin_screen"
-        android:text="@string/reserve_success"
-        android:textSize="@dimen/app_text_size_title"
-        android:textStyle="bold"
-        android:visibility="gone" />
 
 </FrameLayout>
