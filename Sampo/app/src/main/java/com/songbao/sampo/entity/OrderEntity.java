@@ -14,6 +14,7 @@ public class OrderEntity extends BaseEntity {
 	private String payType; //支付类型
 	private String addTime; //有效期
 	private int status; //1:已付款，2:已核销，3:已过期
+	private ThemeEntity themeEn; //活动
 	private List<OrderEntity> mainLists; //数集
 
 	public OrderEntity() {
@@ -87,6 +88,14 @@ public class OrderEntity extends BaseEntity {
 
 	public void setStatus(int status) {
 		this.status = status;
+	}
+
+	public ThemeEntity getThemeEn() {
+		return themeEn;
+	}
+
+	public void setThemeEn(ThemeEntity themeEn) {
+		this.themeEn = themeEn;
 	}
 
 	public List<OrderEntity> getMainLists() {

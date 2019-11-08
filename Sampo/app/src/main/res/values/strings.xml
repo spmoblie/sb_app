@@ -163,7 +163,7 @@
     <string name="reserve_desc">课程介绍</string>
     <string name="reserve_desc_en">COURSE DESCRIPTION</string>
     <string name="reserve_choice">选择场次</string>
-    <string name="reserve_qr_code">预约二维码</string>
+    <string name="reserve_qr_code">预约券码</string>
     <string name="reserve_success">预约成功</string>
     <string name="reserve_success_can">预约成功（已核销）</string>
     <string name="reserve_success_end">预约成功（已过期）</string>
@@ -341,9 +341,9 @@
     <string name="pay_success">支付成功</string>
     <string name="pay_fail">支付失败</string>
     <string name="pay_cancel">支付取消</string>
-    <string name="pay_info_error">获取支付信息异常，\n请联系客服并确认。</string>
+    <string name="pay_info_error">获取支付信息异常，\n联系客服确认信息。</string>
     <string name="pay_result_ok">您已完成支付，\n请勿重复支付。</string>
-    <string name="pay_result_error">获取支付结果异常，\n请联系客服并确认。</string>
+    <string name="pay_result_error">获取支付结果异常，\n联系客服确认结果。</string>
 
     <!-- Address -->
     <string name="address_store_pickup">上门自取</string>

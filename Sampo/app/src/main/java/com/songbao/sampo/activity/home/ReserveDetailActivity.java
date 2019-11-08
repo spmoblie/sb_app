@@ -25,6 +25,7 @@ import com.songbao.sampo.activity.BaseActivity;
 import com.songbao.sampo.entity.BaseEntity;
 import com.songbao.sampo.entity.OptionEntity;
 import com.songbao.sampo.entity.ThemeEntity;
+import com.songbao.sampo.utils.BitmapUtil;
 import com.songbao.sampo.utils.ExceptionUtil;
 import com.songbao.sampo.utils.JsonUtils;
 import com.songbao.sampo.utils.LogUtil;
@@ -88,8 +89,14 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
     @BindView(R.id.reserve_detail_code_main)
     ConstraintLayout code_main;
 
+    @BindView(R.id.reserve_detail_tv_code)
+    TextView tv_code;
+
     @BindView(R.id.reserve_detail_iv_code)
     ImageView iv_code;
+
+    @BindView(R.id.reserve_detail_iv_code_large)
+    ImageView iv_code_large;
 
     @BindView(R.id.reserve_detail_tv_cover)
     TextView tv_cover;
@@ -113,6 +120,7 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
 
     private DecimalFormat df;
     private ThemeEntity data;
+    private Bitmap qrImage;
     private int pageType = 0; //2:我的预约
     private double payAmount = 0.00;
     private boolean isDateOk = false;
@@ -146,6 +154,8 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
 
         date_main.setOnClickListener(this);
         time_main.setOnClickListener(this);
+        iv_code.setOnClickListener(this);
+        iv_code_large.setOnClickListener(this);
         tv_click.setOnClickListener(this);
 
         showImgLP = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -218,9 +228,11 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
                         break;
                 }
 
+                tv_code.setText(data.getCheckValue());
+                int imgSize = AppApplication.screen_width;
                 //Bitmap logoImg = BitmapFactory.decodeResource(getResources(), R.mipmap.icon_logo);
-                Bitmap qrImage = QRCodeUtil.createQRImage(data.getCheckValue(), 360, 360, 0, null);
-                iv_code.setImageBitmap(qrImage);
+                qrImage = QRCodeUtil.createQRImage(data.getCheckValue(), imgSize, imgSize, 0, null);
+                iv_code.setImageBitmap(BitmapUtil.getBitmap(qrImage, 360, 360));
             }
 
             webUrl = data.getLinkUrl();
@@ -275,6 +287,13 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
                 openChoiceDateActivity(data);
                 break;
             case R.id.reserve_detail_iv_code:
+                if (qrImage != null) {
+                    iv_code_large.setVisibility(View.VISIBLE);
+                    iv_code_large.setImageBitmap(qrImage);
+                }
+                break;
+            case R.id.reserve_detail_iv_code_large:
+                iv_code_large.setVisibility(View.GONE);
                 break;
             case R.id.reserve_detail_tv_click:
                 if (!checkOnClick()) return;

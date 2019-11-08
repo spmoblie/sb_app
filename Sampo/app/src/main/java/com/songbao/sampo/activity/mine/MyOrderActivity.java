@@ -1,5 +1,6 @@
 package com.songbao.sampo.activity.mine;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.util.ArrayMap;
@@ -10,10 +11,13 @@ import com.songbao.sampo.AppApplication;
 import com.songbao.sampo.AppConfig;
 import com.songbao.sampo.R;
 import com.songbao.sampo.activity.BaseActivity;
+import com.songbao.sampo.activity.home.ReserveDetailActivity;
+import com.songbao.sampo.activity.home.SignUpDetailActivity;
 import com.songbao.sampo.adapter.AdapterCallback;
 import com.songbao.sampo.adapter.MyOrderAdapter;
 import com.songbao.sampo.entity.BaseEntity;
 import com.songbao.sampo.entity.OrderEntity;
+import com.songbao.sampo.entity.ThemeEntity;
 import com.songbao.sampo.utils.ExceptionUtil;
 import com.songbao.sampo.utils.JsonUtils;
 import com.songbao.sampo.utils.LogUtil;
@@ -112,6 +116,17 @@ public class MyOrderActivity extends BaseActivity {
 			public void setOnClick(Object data, int position, int type) {
 				if (position < 0 || position >= al_show.size()) return;
 				OrderEntity orderEn = al_show.get(position);
+				if (orderEn != null && orderEn.getThemeEn() != null) {
+					ThemeEntity themeEn = orderEn.getThemeEn();
+					switch (themeEn.getThemeType()) {
+						case AppConfig.THEME_TYPE_0:
+							openSignUpDetailActivity(themeEn);
+							break;
+						case AppConfig.THEME_TYPE_1:
+							openReserveDetailActivity(themeEn);
+							break;
+					}
+				}
 			}
 		});
 		mRecyclerView.setAdapter(rvAdapter);
@@ -124,6 +139,30 @@ public class MyOrderActivity extends BaseActivity {
 			setNullVisibility(View.GONE);
 		}
 		rvAdapter.updateData(al_show);
+	}
+
+	/**
+	 * 跳转至活动详情页面
+	 * @param data
+	 */
+	private void openSignUpDetailActivity(ThemeEntity data) {
+		if (data == null) return;
+		Intent intent = new Intent(mContext, SignUpDetailActivity.class);
+		intent.putExtra(AppConfig.PAGE_TYPE, 1);
+		intent.putExtra(AppConfig.PAGE_DATA, data);
+		startActivity(intent);
+	}
+
+	/**
+	 * 跳转至预约详情页面
+	 * @param data
+	 */
+	private void openReserveDetailActivity(ThemeEntity data) {
+		if (data == null) return;
+		Intent intent = new Intent(mContext, ReserveDetailActivity.class);
+		intent.putExtra(AppConfig.PAGE_TYPE, 2);
+		intent.putExtra(AppConfig.PAGE_DATA, data);
+		startActivity(intent);
 	}
 
 	@Override
@@ -162,8 +201,8 @@ public class MyOrderActivity extends BaseActivity {
 	 */
 	private void loadMoreData() {
 		load_type = 1;
-		loadServerData();
-		//loadDemoData();
+		//loadServerData();
+		loadDemoData();
 	}
 
 	/**
@@ -243,6 +282,9 @@ public class MyOrderActivity extends BaseActivity {
 		OrderEntity chEn_1 = new OrderEntity();
 		OrderEntity chEn_2 = new OrderEntity();
 		OrderEntity chEn_3 = new OrderEntity();
+		ThemeEntity themeEn_1 = new ThemeEntity();
+		ThemeEntity themeEn_2 = new ThemeEntity();
+		ThemeEntity themeEn_3 = new ThemeEntity();
 
 		chEn_1.setId(1);
 		chEn_1.setTitle("从受欢迎到被需要：小小小木匠的家具设计课第一百六十");
@@ -251,6 +293,10 @@ public class MyOrderActivity extends BaseActivity {
 		chEn_1.setCost("299");
 		chEn_1.setAddTime("2019-11-18 18:18");
 		chEn_1.setStatus(1);
+		themeEn_1.setThemeType(0);
+		themeEn_1.setId(1);
+		themeEn_1.setThemeId("1");
+		chEn_1.setThemeEn(themeEn_1);
 		al_show.add(chEn_1);
 		chEn_2.setId(2);
 		chEn_2.setTitle("从受欢迎到被需要：小小小木匠的家具设计课第一百六十");
@@ -259,6 +305,10 @@ public class MyOrderActivity extends BaseActivity {
 		chEn_2.setCost("299");
 		chEn_2.setAddTime("2019-11-18 18:18");
 		chEn_2.setStatus(2);
+		themeEn_2.setThemeType(1);
+		themeEn_2.setId(2);
+		themeEn_2.setThemeId("2");
+		chEn_2.setThemeEn(themeEn_2);
 		al_show.add(chEn_2);
 		chEn_3.setId(3);
 		chEn_3.setTitle("从受欢迎到被需要：小小小木匠的家具设计课第一百六十");
@@ -267,6 +317,10 @@ public class MyOrderActivity extends BaseActivity {
 		chEn_3.setCost("299");
 		chEn_3.setAddTime("2019-11-18 18:18");
 		chEn_3.setStatus(3);
+		themeEn_3.setThemeType(0);
+		themeEn_3.setId(3);
+		themeEn_3.setThemeId("3");
+		chEn_3.setThemeEn(themeEn_3);
 		al_show.add(chEn_3);
 
 		updateListData();
