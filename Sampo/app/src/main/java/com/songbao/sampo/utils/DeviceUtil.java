@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.graphics.Rect;
 import android.location.LocationManager;
+import android.os.Build;
 import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.WindowManager;
@@ -191,7 +192,7 @@ public class DeviceUtil {
 	
 	public static boolean isDisplayFullNumBannerInSR1()
 	{
-		if(android.os.Build.VERSION.SDK_INT >= 11)
+		if(android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
 		{
 			return true;
 		}

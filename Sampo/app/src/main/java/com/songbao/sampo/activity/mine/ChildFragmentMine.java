@@ -53,7 +53,7 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
     RoundImageView iv_user_head;
     ImageView iv_setting, iv_message;
     TextView tv_user_nick, tv_user_member;
-    RelativeLayout rl_coupon_main, rl_sign_up_main, rl_reserve_main, rl_bill_main, rl_help_main;
+    RelativeLayout rl_coupon_main, rl_sign_up_main, rl_reserve_main, rl_customize_main, rl_help_main;
 
     private Context mContext;
 
@@ -105,7 +105,7 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
         rl_coupon_main = view.findViewById(R.id.fg_mine_coupon_main);
         rl_sign_up_main = view.findViewById(R.id.fg_mine_sign_up_main);
         rl_reserve_main = view.findViewById(R.id.fg_mine_reserve_main);
-        rl_bill_main = view.findViewById(R.id.fg_mine_bill_main);
+        rl_customize_main = view.findViewById(R.id.fg_mine_customize_main);
         rl_help_main = view.findViewById(R.id.fg_mine_help_main);
     }
 
@@ -116,7 +116,7 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
         rl_coupon_main.setOnClickListener(this);
         rl_sign_up_main.setOnClickListener(this);
         rl_reserve_main.setOnClickListener(this);
-        rl_bill_main.setOnClickListener(this);
+        rl_customize_main.setOnClickListener(this);
         rl_help_main.setOnClickListener(this);
 
         //initScrollView();
@@ -167,7 +167,7 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
                 iv_user_head.setImageResource(R.drawable.icon_default_head);
             }
             tv_user_nick.setText(infoEn.getUserNick());
-            tv_user_member.setText("门店年卡会员");
+            tv_user_member.setText("普通会员");
             tv_user_member.setVisibility(View.VISIBLE);
         } else {
             iv_user_head.setImageResource(R.drawable.icon_default_head);
@@ -203,9 +203,9 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
                 if (!checkClick()) return;
                 startActivity(new Intent(mContext, MyReserveActivity.class));
                 break;
-            case R.id.fg_mine_bill_main:
+            case R.id.fg_mine_customize_main:
                 if (!checkClick()) return;
-                startActivity(new Intent(mContext, MyOrderActivity.class));
+                startActivity(new Intent(mContext, MyCustomizeActivity.class));
                 break;
             case R.id.fg_mine_help_main:
                 openWebViewActivity(getString(R.string.setting_question), "https://support.qq.com/product/100041");

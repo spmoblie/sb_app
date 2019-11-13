@@ -76,4 +76,9 @@
     <color name="product_menu_bg_color_dn">@color/ui_color_status</color>
     <color name="product_menu_bg_color_up">@color/ui_bg_color_percent_10</color>
 
+    <!-- 二维码扫描组件 -->
+    <color name="zxing_color_result_view">#B0000000</color>
+    <color name="zxing_color_result_points">#C0FFFF00</color>
+    <color name="zxing_color_viewfinder_mask">#60000000</color>
+
 </resources>

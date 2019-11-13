@@ -13,11 +13,13 @@ public class AppConfig {
 	// 是否正式发布
 	public static final boolean IS_PUBLISH = false;
 	// http协议
-	public final static String APP_HTTP = "https://";
+	public final static String APP_HTTP = "http://";
+	// https协议
+	public final static String APP_HTTPS = "https://";
 	// Base类型
 	public final static String BASE_TYPE = "base_1"; //base_1:发布Url、base_2:测试Url
 	// Base域名
-	public final static String BASE_URL_1 = APP_HTTP + "xiaobao.sbwg.cn/app/";
+	public final static String BASE_URL_1 = APP_HTTPS + "xiaobao.sbwg.cn/app/";
 	// Base域名
 	public final static String BASE_URL_2 = APP_HTTP + "192.168.1.105/app/";
 	// 图片域名
@@ -129,6 +131,7 @@ public class AppConfig {
 	// 动态授权-权限集
 	public static final String[] PERMISSIONS = new String[]{
 			Manifest.permission.CAMERA,
+			Manifest.permission.VIBRATE,
 			Manifest.permission.READ_EXTERNAL_STORAGE,
 			Manifest.permission.WRITE_EXTERNAL_STORAGE };
 

@@ -13,10 +13,11 @@ import com.songbao.sampo.R;
 import com.songbao.sampo.activity.BaseActivity;
 import com.songbao.sampo.activity.home.ReserveDetailActivity;
 import com.songbao.sampo.activity.home.SignUpDetailActivity;
+import com.songbao.sampo.activity.sampo.CustomizeActivity;
 import com.songbao.sampo.adapter.AdapterCallback;
-import com.songbao.sampo.adapter.MyOrderAdapter;
+import com.songbao.sampo.adapter.MyCustomizeAdapter;
 import com.songbao.sampo.entity.BaseEntity;
-import com.songbao.sampo.entity.OrderEntity;
+import com.songbao.sampo.entity.CustomizeEntity;
 import com.songbao.sampo.entity.ThemeEntity;
 import com.songbao.sampo.utils.ExceptionUtil;
 import com.songbao.sampo.utils.JsonUtils;
@@ -35,20 +36,20 @@ import java.util.List;
 import butterknife.BindView;
 
 
-public class MyOrderActivity extends BaseActivity {
+public class MyCustomizeActivity extends BaseActivity {
 
-	String TAG = MyOrderActivity.class.getSimpleName();
+	String TAG = MyCustomizeActivity.class.getSimpleName();
 
 	@BindView(R.id.refresh_view_rv)
 	PullToRefreshRecyclerView refresh_rv;
 
-	MyOrderAdapter rvAdapter;
+	MyCustomizeAdapter rvAdapter;
 
 	private int data_total = -1; //数据总量
 	private int load_page = 1; //加载页数
 	private int load_type = 1; //加载类型(0:下拉刷新/1:翻页加载)
 	private boolean isLoadOk = true; //加载控制
-	private ArrayList<OrderEntity> al_show = new ArrayList<>();
+	private ArrayList<CustomizeEntity> al_show = new ArrayList<>();
 	private ArrayMap<String, Boolean> am_show = new ArrayMap<>();
 
 	@Override
@@ -60,7 +61,7 @@ public class MyOrderActivity extends BaseActivity {
 	}
 
 	private void initView() {
-		setTitle(getString(R.string.mine_my_order));
+		setTitle(getString(R.string.mine_my_customize));
 
 		initRecyclerView();
 		loadMoreData();
@@ -104,29 +105,18 @@ public class MyOrderActivity extends BaseActivity {
 		LinearLayoutManager layoutManager = new LinearLayoutManager(mContext);
 		layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 		// 设置布局管理器
-		MyRecyclerView mRecyclerView = refresh_rv.getRefreshableView();
+		final MyRecyclerView mRecyclerView = refresh_rv.getRefreshableView();
 		mRecyclerView.setLayoutManager(layoutManager);
 
 		// 配置适配器
-		rvAdapter = new MyOrderAdapter(mContext, R.layout.item_list_my_order);
+		rvAdapter = new MyCustomizeAdapter(mContext, R.layout.item_list_my_customize);
 		rvAdapter.addData(al_show);
 		rvAdapter.addCallback(new AdapterCallback() {
 
 			@Override
 			public void setOnClick(Object data, int position, int type) {
 				if (position < 0 || position >= al_show.size()) return;
-				OrderEntity orderEn = al_show.get(position);
-				if (orderEn != null && orderEn.getThemeEn() != null) {
-					ThemeEntity themeEn = orderEn.getThemeEn();
-					switch (themeEn.getThemeType()) {
-						case AppConfig.THEME_TYPE_0:
-							openSignUpDetailActivity(themeEn);
-							break;
-						case AppConfig.THEME_TYPE_1:
-							openReserveDetailActivity(themeEn);
-							break;
-					}
-				}
+				startActivity(new Intent(mContext, CustomizeActivity.class));
 			}
 		});
 		mRecyclerView.setAdapter(rvAdapter);
@@ -230,7 +220,7 @@ public class MyOrderActivity extends BaseActivity {
 					baseEn = JsonUtils.getMyOrderData(jsonObject);
 					if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
 						data_total = baseEn.getDataTotal();
-						List<OrderEntity> lists = filterData(baseEn.getLists(), am_show);
+						List<CustomizeEntity> lists = filterData(baseEn.getLists(), am_show);
 						if (lists != null && lists.size() > 0) {
 							if (load_type == 0) {
 								//下拉
@@ -279,9 +269,9 @@ public class MyOrderActivity extends BaseActivity {
 	private void loadDemoData() {
 		al_show.clear();
 
-		OrderEntity chEn_1 = new OrderEntity();
-		OrderEntity chEn_2 = new OrderEntity();
-		OrderEntity chEn_3 = new OrderEntity();
+		CustomizeEntity chEn_1 = new CustomizeEntity();
+		CustomizeEntity chEn_2 = new CustomizeEntity();
+		CustomizeEntity chEn_3 = new CustomizeEntity();
 		ThemeEntity themeEn_1 = new ThemeEntity();
 		ThemeEntity themeEn_2 = new ThemeEntity();
 		ThemeEntity themeEn_3 = new ThemeEntity();

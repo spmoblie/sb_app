@@ -2,7 +2,7 @@ package com.songbao.sampo.entity;
 
 import java.util.List;
 
-public class OrderEntity extends BaseEntity {
+public class CustomizeEntity extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
 
@@ -15,9 +15,9 @@ public class OrderEntity extends BaseEntity {
 	private String addTime; //有效期
 	private int status; //1:已付款，2:已核销，3:已过期
 	private ThemeEntity themeEn; //活动
-	private List<OrderEntity> mainLists; //数集
+	private List<CustomizeEntity> mainLists; //数集
 
-	public OrderEntity() {
+	public CustomizeEntity() {
 		super();
 	}
 
@@ -98,11 +98,11 @@ public class OrderEntity extends BaseEntity {
 		this.themeEn = themeEn;
 	}
 
-	public List<OrderEntity> getMainLists() {
+	public List<CustomizeEntity> getMainLists() {
 		return mainLists;
 	}
 
-	public void setMainLists(List<OrderEntity> mainLists) {
+	public void setMainLists(List<CustomizeEntity> mainLists) {
 		this.mainLists = mainLists;
 	}
 }

@@ -162,8 +162,8 @@ public class MessageActivity extends BaseActivity {
 	 */
 	private void loadMoreData() {
 		load_type = 1;
-		loadServerData();
-		//loadDemoData();
+		//loadServerData();
+		loadDemoData();
 	}
 
 	/**
@@ -250,26 +250,26 @@ public class MessageActivity extends BaseActivity {
 		chEn_1.setTitle("使用成功");
 		chEn_1.setContent("您好！尊敬的松堡迪迪，您已在10月08日 10:06成功参与课程，谢谢您的光临！");
 		chEn_1.setRead(false);
-		al_show.add(chEn_1);
+		//al_show.add(chEn_1);
 		chEn_2.setAddTime("10月06日 13:18");
 		chEn_2.setTitle("预约成功");
 		chEn_2.setContent("您好！尊敬的松堡迪迪，您已在10月06日 13:15成功预约并购买小小木匠课程，请注意预约时间，期待您的光临！");
 		chEn_2.setRead(false);
-		al_show.add(chEn_2);
+		//al_show.add(chEn_2);
 		chEn_3.setAddTime("09月18日 10:08");
 		chEn_3.setTitle("使用成功");
 		chEn_3.setContent("您好！尊敬的松堡迪迪，您已在09月18日 10:06成功参与课程，谢谢您的光临！");
 		chEn_3.setRead(true);
-		al_show.add(chEn_3);
+		//al_show.add(chEn_3);
 		chEn_4.setAddTime("09月16日 13:18");
 		chEn_4.setTitle("预约成功");
 		chEn_4.setContent("您好！尊敬的松堡迪迪，您已在09月16日 13:15成功预约并购买小小木匠课程，请注意预约时间，期待您的光临！");
 		chEn_4.setRead(true);
-		al_show.add(chEn_4);
+		//al_show.add(chEn_4);
 		chEn_5.setAddTime("09月08日 10:28");
 		chEn_5.setTitle("欢迎您来到松小堡");
 		chEn_5.setContent("恭喜您成为松小堡家庭中心成员，松小堡欢迎您的到来。");
-		chEn_5.setRead(true);
+		chEn_5.setRead(false);
 		al_show.add(chEn_5);
 
 		updateListData();

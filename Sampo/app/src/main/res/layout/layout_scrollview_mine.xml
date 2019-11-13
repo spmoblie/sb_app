@@ -137,18 +137,18 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/fg_mine_bill_main"
+            android:id="@+id/fg_mine_customize_main"
             style="@style/setting_lay_item"
             android:background="@drawable/selector_item_change_2">
 
             <TextView
                 style="@style/setting_lay_text_title"
                 android:drawableLeft="@mipmap/icon_me_bill"
-                android:text="@string/mine_my_order"
+                android:text="@string/mine_my_customize"
                 android:textSize="@dimen/app_text_size_content" />
 
             <TextView
-                android:id="@+id/fg_mine_tv_bill"
+                android:id="@+id/fg_mine_tv_customize"
                 style="@style/setting_lay_text_content"
                 android:textSize="@dimen/app_text_size_label" />
         </RelativeLayout>

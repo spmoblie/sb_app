@@ -229,7 +229,7 @@ public class BitmapUtil {
 		MediaMetadataRetriever retriever = new MediaMetadataRetriever();
 		int kind = MediaStore.Video.Thumbnails.MINI_KIND;
 		try {
-			if (Build.VERSION.SDK_INT >= 14) {
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
 				retriever.setDataSource(url, new HashMap<String, String>());
 			} else {
 				retriever.setDataSource(url);

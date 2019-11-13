@@ -150,8 +150,10 @@ public class SignUpDetailActivity extends BaseActivity implements View.OnClickLi
             //设置可同时加载Https、Http的混合模式（解决微信链文图片不显示的问题）
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
                 webSettings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+
             //开启硬件加速(华为部分手机会出现卡顿)
             myWebView.setLayerType(View.LAYER_TYPE_HARDWARE,null);
+
             //隐藏垂直滚动条
             myWebView.setVerticalScrollBarEnabled(false);
 

@@ -237,6 +237,7 @@
                     android:textColor="@color/app_color_red_7"
                     android:textSize="@dimen/app_text_size_small"
                     android:textStyle="bold"
+                    android:visibility="gone"
                     app:layout_constraintLeft_toLeftOf="@id/reserve_detail_iv_code"
                     app:layout_constraintRight_toRightOf="@id/reserve_detail_iv_code"
                     app:layout_constraintTop_toBottomOf="@id/reserve_detail_iv_code"/>

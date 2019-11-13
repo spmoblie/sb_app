@@ -177,7 +177,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 	protected void onDestroy() {
 		LogUtil.i(LogUtil.LOG_TAG, TAG + ": onDestroy");
 
-		shared.edit().putInt(AppConfig.KEY_MAIN_CURRENT_INDEX, 0).apply();
+		AppApplication.getSharedPreferences().edit().putInt(AppConfig.KEY_MAIN_CURRENT_INDEX, 0).apply();
 		AppManager.getInstance().finishActivity(this);
 
 		super.onDestroy();

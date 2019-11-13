@@ -100,17 +100,6 @@ public class LoginPhoneActivity extends BaseActivity implements OnClickListener 
         iv_password_check.setSelected(false);//设置默认隐藏密码
 
         initEditText();
-
-        // 偏好设置-手机号
-        phoneStr = userManager.getLoginAccount();
-        String phoneNew = StringUtil.changeMobileNo(phoneStr);
-        if (!StringUtil.isNull(phoneNew)) {
-            isPassword = true;
-            isPhone_Ok = true;
-            et_phone.setText(phoneNew);
-            et_phone.setSelection(et_phone.length());
-        }
-        changeViewState();
     }
 
     private void initEditText() {
@@ -390,6 +379,18 @@ public class LoginPhoneActivity extends BaseActivity implements OnClickListener 
         LogUtil.i(LogUtil.LOG_TAG, TAG + ": onResume");
         // 页面开始
         AppApplication.onPageStart(this, TAG);
+        // 偏好设置-手机号
+        if (StringUtil.isNull(phoneStr)) {
+            phoneStr = userManager.getLoginAccount();
+            String phoneNew = StringUtil.changeMobileNo(phoneStr);
+            if (!StringUtil.isNull(phoneNew)) {
+                isPassword = true;
+                isPhone_Ok = true;
+                et_phone.setText(phoneNew);
+                et_phone.setSelection(et_phone.length());
+            }
+        }
+        changeViewState();
         // 验证码-倒计时
         initTimeState();
 

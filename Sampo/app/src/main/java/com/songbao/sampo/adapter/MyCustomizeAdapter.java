@@ -9,30 +9,30 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.songbao.sampo.AppApplication;
 import com.songbao.sampo.R;
-import com.songbao.sampo.entity.OrderEntity;
+import com.songbao.sampo.entity.CustomizeEntity;
 import com.songbao.sampo.widgets.RoundImageView;
 
-public class MyOrderAdapter extends BaseRecyclerAdapter {
+public class MyCustomizeAdapter extends BaseRecyclerAdapter {
 
-    public MyOrderAdapter(Context context, int resLayout) {
+    public MyCustomizeAdapter(Context context, int resLayout) {
         super(context, resLayout);
     }
 
     @Override
     public void bindData(BaseRecyclerHolder holder, final int pos) {
         // 获取View
-        ConstraintLayout item_main = holder.getView(R.id.my_order_item_main);
-        ImageView iv_top = holder.getView(R.id.my_order_item_iv_top);
-        TextView tv_name = holder.getView(R.id.my_order_item_tv_name);
-        TextView tv_state = holder.getView(R.id.my_order_item_tv_state);
-        RoundImageView iv_show = holder.getView(R.id.my_order_item_iv_show);
-        TextView tv_title = holder.getView(R.id.my_order_item_tv_title);
-        TextView tv_pay_type = holder.getView(R.id.my_order_item_tv_pay_type);
-        TextView tv_cost = holder.getView(R.id.my_order_item_tv_cost);
-        TextView tv_time = holder.getView(R.id.my_order_item_tv_time);
+        ConstraintLayout item_main = holder.getView(R.id.my_customize_item_main);
+        ImageView iv_top = holder.getView(R.id.my_customize_item_iv_top);
+        TextView tv_name = holder.getView(R.id.my_customize_item_tv_name);
+        TextView tv_state = holder.getView(R.id.my_customize_item_tv_state);
+        RoundImageView iv_show = holder.getView(R.id.my_customize_item_iv_show);
+        TextView tv_title = holder.getView(R.id.my_customize_item_tv_title);
+        TextView tv_pay_type = holder.getView(R.id.my_customize_item_tv_pay_type);
+        TextView tv_cost = holder.getView(R.id.my_customize_item_tv_cost);
+        TextView tv_time = holder.getView(R.id.my_customize_item_tv_time);
 
         // 绑定View
-        final OrderEntity data = (OrderEntity) mDataList.get(pos);
+        final CustomizeEntity data = (CustomizeEntity) mDataList.get(pos);
         if (pos == 0) {
             iv_top.setVisibility(View.VISIBLE);
         } else {

@@ -2,6 +2,7 @@ package com.songbao.sampo.activity.login;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.Html;
@@ -125,7 +126,11 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
         login_tv_qq.setOnClickListener(this);
         login_tv_wb.setOnClickListener(this);
 
-        setTextUrl();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) { //API 24
+            setTextUrl();
+        } else {
+
+        }
     }
 
     @SuppressLint("NewApi")
@@ -385,6 +390,14 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
     private void showLoginCancel() {
         stopAnimation();
         CommonTools.showToast(getString(R.string.login_oauth_cancel));
+    }
+
+    /**
+     * 提示功能无法使用
+     */
+    private void showObjectNull() {
+        stopAnimation();
+        CommonTools.showToast(getString(R.string.toast_object_null));
     }
 
     /**

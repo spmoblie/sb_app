@@ -224,13 +224,14 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
                     default:
                         tv_cover.setVisibility(View.GONE);
                         tv_success.setText(mContext.getString(R.string.reserve_success));
+                        tv_code.setText(data.getCheckValue());
+                        tv_code.setVisibility(View.VISIBLE);
                         iv_code.setOnClickListener(this);
                         break;
                 }
 
-                tv_code.setText(data.getCheckValue());
-                int imgSize = AppApplication.screen_width;
                 //Bitmap logoImg = BitmapFactory.decodeResource(getResources(), R.mipmap.icon_logo);
+                int imgSize = AppApplication.screen_width;
                 qrImage = QRCodeUtil.createQRImage(data.getCheckValue(), imgSize, imgSize, 0, null);
                 iv_code.setImageBitmap(BitmapUtil.getBitmap(qrImage, 360, 360));
             }
@@ -252,11 +253,12 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
             webSettings.setBlockNetworkImage(false); //解决图片不显示
 
             //设置可同时加载Https、Http的混合模式（解决微信链文图片不显示的问题）
-            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
                 webSettings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
-            }
+
             //开启硬件加速(华为部分手机会出现卡顿)
             myWebView.setLayerType(View.LAYER_TYPE_HARDWARE,null);
+
             //隐藏垂直滚动条
             myWebView.setVerticalScrollBarEnabled(false);
 

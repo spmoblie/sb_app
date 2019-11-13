@@ -2,10 +2,10 @@ package com.songbao.sampo.utils;
 
 import com.songbao.sampo.entity.BaseEntity;
 import com.songbao.sampo.entity.CouponEntity;
-import com.songbao.sampo.entity.DesignEntity;
+import com.songbao.sampo.entity.DesignerEntity;
 import com.songbao.sampo.entity.MessageEntity;
 import com.songbao.sampo.entity.OptionEntity;
-import com.songbao.sampo.entity.OrderEntity;
+import com.songbao.sampo.entity.CustomizeEntity;
 import com.songbao.sampo.entity.PaymentEntity;
 import com.songbao.sampo.entity.ThemeEntity;
 import com.songbao.sampo.entity.UserInfoEntity;
@@ -137,13 +137,12 @@ public class JsonUtils {
                 childEn.setThemeId(String.valueOf(item.getInt("id")));
                 childEn.setTitle(item.getString("title"));
                 //childEn.setPicUrl(item.getString("picUrl"));
-                //childEn.setLinkUrl(item.getString("linkUrl"));
-                childEn.setLinkUrl("https://baijiahao.baidu.com/s?id=1626134258413691915&wfr=spider&for=pc");
+                childEn.setLinkUrl(item.getString("linkUrl"));
+                //childEn.setLinkUrl("https://baijiahao.baidu.com/s?id=1626134258413691915&wfr=spider&for=pc");
                 childEn.setUserId(item.getString("adminId"));
                 childEn.setSuit(item.getString("crowd"));
                 childEn.setUserName(item.getString("userName"));
                 childEn.setSeries(item.getString("typeValue"));
-                childEn.setDescription(item.getString("description"));
                 childEn.setAddress(item.getString("address"));
                 childEn.setQuantity(item.getInt("quantity"));
                 childEn.setPeople(item.getInt("people"));
@@ -151,6 +150,9 @@ public class JsonUtils {
                 childEn.setThemeType(item.getInt("isReservation"));
                 childEn.setFees(item.getDouble("fee"));
 
+                if (StringUtil.notNull(item, "description")) {
+                    childEn.setDescription(item.getString("description"));
+                }
                 if (StringUtil.notNull(item, "timeStr")) {
                     childEn.setDateSlot(item.getString("timeStr"));
                 }
@@ -328,11 +330,11 @@ public class JsonUtils {
             JSONObject jsonData = jsonObject.getJSONObject("data");
             if (StringUtil.notNull(jsonData, "values")) {
                 JSONArray data = jsonData.getJSONArray("values");
-                DesignEntity childEn;
-                List<DesignEntity> lists = new ArrayList<>();
+                DesignerEntity childEn;
+                List<DesignerEntity> lists = new ArrayList<>();
                 for (int j = 0; j < data.length(); j++) {
                     JSONObject item = data.getJSONObject(j);
-                    childEn = new DesignEntity();
+                    childEn = new DesignerEntity();
                     childEn.setImgUrl(item.getString("url"));
                     lists.add(childEn);
                 }
@@ -375,11 +377,11 @@ public class JsonUtils {
             JSONObject jsonData = jsonObject.getJSONObject("data");
             if (StringUtil.notNull(jsonData, "dataList")) {
                 JSONArray data = jsonData.getJSONArray("dataList");
-                OrderEntity childEn;
-                List<OrderEntity> lists = new ArrayList<>();
+                CustomizeEntity childEn;
+                List<CustomizeEntity> lists = new ArrayList<>();
                 for (int j = 0; j < data.length(); j++) {
                     JSONObject item = data.getJSONObject(j);
-                    childEn = new OrderEntity();
+                    childEn = new CustomizeEntity();
                     lists.add(childEn);
                 }
                 mainEn.setLists(lists);

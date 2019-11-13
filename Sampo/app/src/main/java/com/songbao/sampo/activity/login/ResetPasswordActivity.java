@@ -432,6 +432,7 @@ public class ResetPasswordActivity extends BaseActivity implements OnClickListen
 					baseEn = JsonLogin.getLoginData(jsonObject);
 					if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
 						CommonTools.showToast(getString(R.string.login_reset_ok));
+						userManager.saveLoginAccount(phoneStr);
 						openActivity(LoginPhoneActivity.class);
 					} else
 					if (baseEn.getErrno() == AppConfig.ERROR_CODE_PHONE_UNREGISTERED) {

@@ -76,6 +76,7 @@
     <string name="minute">m</string>
     <string name="second">s</string>
     <string name="viewpager_indicator">%1$d/%2$d</string>
+    <string name="qr_code_scan">二维码扫描</string>
 
     <!-- Toast -->
     <string name="toast_no_open">暂未开放&#8230; 敬请期待&#8230;</string>
@@ -83,6 +84,7 @@
     <string name="toast_exit_prompt">再按一次退出程序</string>
     <string name="toast_error_data_app">应用数据出错 T_T\n请重启此应用 T_T</string>
     <string name="toast_error_data_page">数据出现错误 T_T\n正在加载数据 T_T</string>
+    <string name="toast_object_null">因手机系统版本过低 T_T\n此功能无法正常使用 T_T</string>
 
     <!-- Dialog -->
     <string name="dialog_version_new">当前版本已是最新版本</string>
@@ -127,7 +129,7 @@
     <string name="mine_my_tickets">我的门票</string>
     <string name="mine_my_sing_up">我的活动</string>
     <string name="mine_my_reserve">我的预约</string>
-    <string name="mine_my_order">我的订单</string>
+    <string name="mine_my_customize">我的订制</string>
     <string name="mine_call">联系客服</string>
     <string name="mine_message">消息中心</string>
     <string name="mine_message_history">以下为历史消息</string>
@@ -282,7 +284,7 @@
     <string name="login_password_new">新密码（6-20位字母+数字）</string>
     <string name="login_password_input">请输入密码</string>
     <string name="login_password_error">密码必须为6-20位英文字母+数字</string>
-    <string name="login_password_reset">找回密码</string>
+    <string name="login_password_reset">重置密码</string>
     <string name="login_mode_password">密码登录</string>
     <string name="login_mode_verify_code">验证码登录</string>
     <string name="login_email_input">请输入邮箱</string>

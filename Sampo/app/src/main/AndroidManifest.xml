@@ -3,6 +3,7 @@
     package="com.songbao.sampo">
 
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -25,7 +26,8 @@
         android:theme="@style/SxbTheme"
         android:networkSecurityConfig="@xml/network_security_config">
         <activity
-            android:name=".activity.SplashActivity">
+            android:name=".activity.SplashActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -95,59 +97,120 @@
             android:launchMode="singleTask" />
 
         <!-- common -->
-        <activity android:name=".activity.common.clip.ClipImageCircularActivity"/>
-        <activity android:name=".activity.common.clip.ClipImageSquareActivity"/>
-        <activity android:name=".activity.common.clip.ClipPhotoGridActivity"/>
-        <activity android:name=".activity.common.clip.ClipPhotoOneActivity"/>
-        <activity android:name=".activity.common.MyWebViewActivity"/>
-        <activity android:name=".activity.common.SelectListActivity"/>
-        <activity android:name=".activity.common.ViewPagerActivity"/>
+        <activity
+            android:name=".activity.common.clip.ClipImageCircularActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.common.clip.ClipImageSquareActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.common.clip.ClipPhotoGridActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.common.clip.ClipPhotoOneActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.common.MyWebViewActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.common.ScanActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.common.SelectListActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.common.ViewPagerActivity"
+            android:screenOrientation="portrait"/>
 
         <!-- home -->
-        <activity android:name=".activity.home.ChoiceDateActivity"/>
+        <activity
+            android:name=".activity.home.ChoiceDateActivity"
+            android:screenOrientation="portrait"/>
 
         <activity
             android:name=".activity.home.ReserveDetailActivity"
             android:launchMode="singleTask"
-            android:hardwareAccelerated="false"/>
+            android:hardwareAccelerated="false"
+            android:screenOrientation="portrait"/>
 
-        <activity android:name=".activity.home.ReserveListActivity"/>
+        <activity
+            android:name=".activity.home.ReserveListActivity"
+            android:screenOrientation="portrait"/>
 
-        <activity android:name=".activity.home.SignUpActivity"/>
+        <activity
+            android:name=".activity.home.SignUpActivity"
+            android:screenOrientation="portrait"/>
 
         <activity
             android:name=".activity.home.SignUpDetailActivity"
             android:launchMode="singleTask"
-            android:hardwareAccelerated="false"/>
+            android:hardwareAccelerated="false"
+            android:screenOrientation="portrait"/>
 
-        <activity android:name=".activity.home.TicketsActivity"/>
+        <activity
+            android:name=".activity.home.TicketsActivity"
+            android:screenOrientation="portrait"/>
 
         <!-- login -->
         <activity
             android:name=".activity.login.LoginActivity"
-            android:launchMode="singleTask"/>
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.login.LoginPhoneActivity"
-            android:launchMode="singleTask"/>
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.login.RegisterActivity"
-            android:launchMode="singleTask"/>
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.login.ResetPasswordActivity"
-            android:launchMode="singleTask"/>
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"/>
+
+        <!-- sampo -->
+        <activity
+            android:name=".activity.sampo.CustomizeActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.sampo.DesignerActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.sampo.GoodsActivity"
+            android:screenOrientation="portrait"/>
 
         <!-- mine -->
-        <activity android:name=".activity.mine.EditUserInfoActivity"/>
-        <activity android:name=".activity.mine.FeedBackActivity"/>
-        <activity android:name=".activity.mine.MessageActivity"/>
-        <activity android:name=".activity.mine.MyDesignActivity"/>
-        <activity android:name=".activity.mine.MyOrderActivity"/>
-        <activity android:name=".activity.mine.MyReserveActivity"/>
-        <activity android:name=".activity.mine.MySignUpActivity"/>
-        <activity android:name=".activity.mine.MyTicketsActivity"/>
-        <activity android:name=".activity.mine.PersonalActivity"/>
-        <activity android:name=".activity.mine.SelectAreaActivity"/>
-        <activity android:name=".activity.mine.SettingActivity"/>
+        <activity
+            android:name=".activity.mine.EditUserInfoActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.mine.FeedBackActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.mine.MessageActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.mine.MyCustomizeActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.mine.MyReserveActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.mine.MySignUpActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.mine.MyTicketsActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.mine.PersonalActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.mine.SelectAreaActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.mine.SettingActivity"
+            android:screenOrientation="portrait"/>
 
         <!-- wxapi -->
         <activity
