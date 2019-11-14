@@ -23,7 +23,7 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
 	}
 
 	private void initView() {
-		setTitle("我的订制");
+		setTitle("我的定制");
 	}
 
 	@Override

@@ -179,6 +179,9 @@
         <activity
             android:name=".activity.sampo.GoodsActivity"
             android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.sampo.SketchActivity"
+            android:screenOrientation="portrait"/>
 
         <!-- mine -->
         <activity

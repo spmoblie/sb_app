@@ -142,12 +142,12 @@ public class MyWebViewActivity extends BaseActivity {
 			//webSettings.setFixedFontFamily(""); //设置固定使用的字体
 			//webSettings.setAllowFileAccess(true); //是否允许访问文件
 			//webSettings.setDatabaseEnabled(true); //是否允许使用数据库api
-			//webSettings.setDomStorageEnabled(true); //是否允许使用Dom缓存
+			webSettings.setDomStorageEnabled(true); //是否允许使用Dom缓存
 			//webSettings.setAppCacheEnabled(true); //有选择的缓存web浏览器中的东西
 			//webSettings.setAppCachePath(""); //设置缓存路径
 			//webSettings.setSavePassword(true); //是否允许保存密码
-			//webSettings.setUseWideViewPort(true);  //设置推荐使用的窗口
-			//webSettings.setLoadWithOverviewMode(true);  //设置加载页面的模式
+			webSettings.setUseWideViewPort(true);  //设置推荐使用的窗口
+			webSettings.setLoadWithOverviewMode(true);  //设置加载页面的模式
 			//webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN); //支持内容重新布局
 
 			//设置可同时加载Https、Http的混合模式（解决微信链文图片不显示的问题）

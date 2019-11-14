@@ -146,6 +146,8 @@ public class SignUpDetailActivity extends BaseActivity implements View.OnClickLi
             webSettings.setCacheMode(WebSettings.LOAD_DEFAULT); //设置缓冲的模式
             webSettings.setBuiltInZoomControls(false); //设置是否支持缩放
             webSettings.setBlockNetworkImage(false); //解决图片不显示
+            webSettings.setUseWideViewPort(true);  //设置推荐使用的窗口
+            webSettings.setLoadWithOverviewMode(true);  //设置加载页面的模式
 
             //设置可同时加载Https、Http的混合模式（解决微信链文图片不显示的问题）
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)

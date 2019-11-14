@@ -11,8 +11,6 @@ import com.songbao.sampo.AppApplication;
 import com.songbao.sampo.AppConfig;
 import com.songbao.sampo.R;
 import com.songbao.sampo.activity.BaseActivity;
-import com.songbao.sampo.activity.home.ReserveDetailActivity;
-import com.songbao.sampo.activity.home.SignUpDetailActivity;
 import com.songbao.sampo.activity.sampo.CustomizeActivity;
 import com.songbao.sampo.adapter.AdapterCallback;
 import com.songbao.sampo.adapter.MyCustomizeAdapter;
@@ -129,30 +127,6 @@ public class MyCustomizeActivity extends BaseActivity {
 			setNullVisibility(View.GONE);
 		}
 		rvAdapter.updateData(al_show);
-	}
-
-	/**
-	 * 跳转至活动详情页面
-	 * @param data
-	 */
-	private void openSignUpDetailActivity(ThemeEntity data) {
-		if (data == null) return;
-		Intent intent = new Intent(mContext, SignUpDetailActivity.class);
-		intent.putExtra(AppConfig.PAGE_TYPE, 1);
-		intent.putExtra(AppConfig.PAGE_DATA, data);
-		startActivity(intent);
-	}
-
-	/**
-	 * 跳转至预约详情页面
-	 * @param data
-	 */
-	private void openReserveDetailActivity(ThemeEntity data) {
-		if (data == null) return;
-		Intent intent = new Intent(mContext, ReserveDetailActivity.class);
-		intent.putExtra(AppConfig.PAGE_TYPE, 2);
-		intent.putExtra(AppConfig.PAGE_DATA, data);
-		startActivity(intent);
 	}
 
 	@Override
@@ -299,7 +273,7 @@ public class MyCustomizeActivity extends BaseActivity {
 		themeEn_2.setId(2);
 		themeEn_2.setThemeId("2");
 		chEn_2.setThemeEn(themeEn_2);
-		al_show.add(chEn_2);
+		//al_show.add(chEn_2);
 		chEn_3.setId(3);
 		chEn_3.setTitle("从受欢迎到被需要：小小小木匠的家具设计课第一百六十");
 		chEn_3.setName("松小堡南山方大城店");
@@ -311,7 +285,7 @@ public class MyCustomizeActivity extends BaseActivity {
 		themeEn_3.setId(3);
 		themeEn_3.setThemeId("3");
 		chEn_3.setThemeEn(themeEn_3);
-		al_show.add(chEn_3);
+		//al_show.add(chEn_3);
 
 		updateListData();
 		stopAnimation();

@@ -48,6 +48,7 @@ import com.songbao.sampo.activity.login.RegisterActivity;
 import com.songbao.sampo.activity.login.ResetPasswordActivity;
 import com.songbao.sampo.activity.sampo.DesignerActivity;
 import com.songbao.sampo.activity.sampo.GoodsActivity;
+import com.songbao.sampo.activity.sampo.SketchActivity;
 import com.songbao.sampo.dialog.DialogManager;
 import com.songbao.sampo.dialog.LoadDialog;
 import com.songbao.sampo.entity.BaseEntity;
@@ -405,6 +406,7 @@ public  class BaseActivity extends FragmentActivity {
 	 */
 	protected void closeCustomizeActivity() {
 		AppManager.getInstance().finishActivity(GoodsActivity.class);
+		AppManager.getInstance().finishActivity(SketchActivity.class);
 		AppManager.getInstance().finishActivity(DesignerActivity.class);
 	}
 

@@ -1,108 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/my_customize_item_main"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:paddingBottom="@dimen/app_margin_screen"
-    android:paddingLeft="@dimen/app_margin_screen"
-    android:paddingRight="@dimen/app_margin_screen">
+    android:layout_height="wrap_content">
 
     <ImageView
-        android:id="@+id/my_customize_item_iv_top"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/app_margin_screen"
-        android:background="@color/ui_bg_color_percent_10" />
-
-    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/shape_style_solid_2_18"
-        android:padding="@dimen/app_margin_screen"
-        app:layout_constraintTop_toBottomOf="@id/my_customize_item_iv_top">
+        android:src="@drawable/icon_item"
+        android:scaleType="centerCrop"
+        android:adjustViewBounds="true"/>
 
-        <TextView
-            android:id="@+id/my_customize_item_tv_name"
-            style="@style/list_item_text"
-            android:textColor="@color/app_color_gray_5"
-            android:textSize="@dimen/app_text_size_content"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/my_customize_item_tv_state"
-            style="@style/list_item_text"
-            android:layout_alignParentRight="true"
-            android:textColor="@color/tv_color_status"
-            android:textSize="@dimen/app_text_size_content"
-            android:textStyle="bold" />
-
-        <ImageView
-            style="@style/set_line_horizontal_bg"
-            android:layout_below="@id/my_customize_item_tv_name"
-            android:layout_marginTop="@dimen/margin_padding_10" />
-
-        <com.songbao.sampo.widgets.RoundImageView
-            android:id="@+id/my_customize_item_iv_show"
-            android:layout_width="@dimen/margin_padding_110"
-            android:layout_height="@dimen/margin_padding_110"
-            android:layout_below="@id/my_customize_item_tv_name"
-            android:layout_marginTop="@dimen/margin_padding_30"
-            android:scaleType="centerCrop"
-            android:src="@drawable/icon_default_show"
-            app:type="round" />
-
-        <TextView
-            android:id="@+id/my_customize_item_tv_title"
-            style="@style/list_item_text"
-            android:layout_marginTop="@dimen/margin_padding_28"
-            android:layout_below="@id/my_customize_item_tv_name"
-            android:layout_marginLeft="@dimen/app_margin_screen"
-            android:layout_toRightOf="@+id/my_customize_item_iv_show"
-            android:lines="2"
-            android:maxLines="2"
-            android:textColor="@color/shows_text_color"
-            android:textSize="@dimen/app_text_size_content"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/my_customize_item_tv_pay_type"
-            style="@style/list_item_text"
-            android:layout_alignParentRight="true"
-            android:layout_below="@id/my_customize_item_tv_title"
-            android:layout_marginTop="@dimen/margin_padding_8"
-            android:textColor="@color/app_color_gray_9"
-            android:textSize="@dimen/app_text_size_small" />
-
-        <TextView
-            android:id="@+id/my_customize_item_tv_cost_curr"
-            style="@style/list_item_text"
-            android:layout_alignBottom="@id/my_customize_item_tv_cost"
-            android:layout_toLeftOf="@id/my_customize_item_tv_cost"
-            android:layout_marginRight="@dimen/margin_padding_5"
-            android:layout_marginBottom="@dimen/margin_padding_2"
-            android:text="@string/rmb"
-            android:textColor="@color/price_text_color"
-            android:textSize="@dimen/app_text_size_small"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/my_customize_item_tv_cost"
-            style="@style/list_item_text"
-            android:layout_alignParentRight="true"
-            android:layout_below="@id/my_customize_item_tv_pay_type"
-            android:layout_marginTop="@dimen/margin_padding_5"
-            android:textColor="@color/price_text_color"
-            android:textSize="@dimen/app_text_size_title"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/my_customize_item_tv_time"
-            style="@style/list_item_text"
-            android:layout_alignParentRight="true"
-            android:layout_below="@id/my_customize_item_tv_cost"
-            android:layout_marginTop="@dimen/margin_padding_5"
-            android:textColor="@color/app_color_gray_9"
-            android:textSize="@dimen/app_text_size_small" />
-
-    </RelativeLayout>
 </android.support.constraint.ConstraintLayout>

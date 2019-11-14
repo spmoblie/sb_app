@@ -137,8 +137,9 @@ public class JsonUtils {
                 childEn.setThemeId(String.valueOf(item.getInt("id")));
                 childEn.setTitle(item.getString("title"));
                 //childEn.setPicUrl(item.getString("picUrl"));
-                childEn.setLinkUrl(item.getString("linkUrl"));
-                //childEn.setLinkUrl("https://baijiahao.baidu.com/s?id=1626134258413691915&wfr=spider&for=pc");
+                //childEn.setLinkUrl(item.getString("linkUrl"));
+                //childEn.setLinkUrl("http://xiaobao.sbwg.cn:8080/description/description.html?activityId=21");
+                childEn.setLinkUrl("https://baijiahao.baidu.com/s?id=1626134258413691915&wfr=spider&for=pc");
                 childEn.setUserId(item.getString("adminId"));
                 childEn.setSuit(item.getString("crowd"));
                 childEn.setUserName(item.getString("userName"));

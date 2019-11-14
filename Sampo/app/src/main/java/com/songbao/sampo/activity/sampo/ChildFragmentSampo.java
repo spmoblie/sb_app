@@ -26,6 +26,9 @@ public class ChildFragmentSampo extends BaseFragment implements OnClickListener 
 	@BindView(R.id.sampo_iv_scan)
 	ImageView iv_scan;
 
+	@BindView(R.id.sampo_iv_show)
+	ImageView iv_show;
+
 	private Context mContext;
 
 	@Override
@@ -45,7 +48,7 @@ public class ChildFragmentSampo extends BaseFragment implements OnClickListener 
 
 		View view = null;
 		try {
-			view = inflater.inflate(R.layout.fragment_layout_sxb, null);
+			view = inflater.inflate(R.layout.fragment_layout_sampo, null);
 			//Butter Knife初始化
 			ButterKnife.bind(this, view);
 
@@ -58,14 +61,22 @@ public class ChildFragmentSampo extends BaseFragment implements OnClickListener 
 
 	private void initView() {
 		iv_scan.setOnClickListener(this);
+		iv_show.setOnClickListener(this);
 	}
 
 	@Override
 	public void onClick(View v) {
+		Intent intent;
 		switch (v.getId()) {
 			case R.id.sampo_iv_scan:
-				Intent intent = new Intent(mContext, ScanActivity.class);
+				intent = new Intent(mContext, ScanActivity.class);
 				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				startActivity(intent);
+				break;
+			case R.id.sampo_iv_show:
+				intent = new Intent(getActivity(), SketchActivity.class);
+				intent.putExtra("title", "定制效果图");
+				intent.putExtra("lodUrl", "https://pano.kujiale.com/xiaoguotu/pano/3FO2YBA0ALE2?fromqrcode=true&tdsourcetag=s_pcqq_aiomsg");
 				startActivity(intent);
 				break;
 		}

@@ -249,8 +249,12 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
             webSettings.setDefaultTextEncodingName("UTF-8");
             webSettings.setJavaScriptEnabled(true); //设置支持javascript脚本
             webSettings.setCacheMode(WebSettings.LOAD_DEFAULT); //设置缓冲的模式
+            webSettings.setSupportZoom(true); //设置是否支持缩放
             webSettings.setBuiltInZoomControls(false); //设置是否支持缩放
             webSettings.setBlockNetworkImage(false); //解决图片不显示
+            webSettings.setUseWideViewPort(true);  //设置推荐使用的窗口
+            webSettings.setLoadWithOverviewMode(true);  //设置加载页面的模式
+            webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN); //支持内容重新布局
 
             //设置可同时加载Https、Http的混合模式（解决微信链文图片不显示的问题）
             if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
@@ -261,6 +265,7 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
 
             //隐藏垂直滚动条
             myWebView.setVerticalScrollBarEnabled(false);
+            myWebView.setHorizontalScrollBarEnabled(false);
 
             //设置不允许外部浏览器打开
             myWebView.setWebViewClient(new WebViewClient(){

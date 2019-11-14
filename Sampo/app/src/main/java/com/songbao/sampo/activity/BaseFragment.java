@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 import com.songbao.sampo.AppApplication;
 import com.songbao.sampo.AppConfig;
+import com.songbao.sampo.activity.common.MyWebViewActivity;
 import com.songbao.sampo.activity.login.LoginActivity;
 import com.songbao.sampo.dialog.LoadDialog;
 import com.songbao.sampo.entity.BaseEntity;
@@ -89,6 +90,18 @@ public class BaseFragment extends Fragment {
 		shared.edit().putBoolean(AppConfig.KEY_JUMP_PAGE, true).apply();
 		Intent intent = new Intent(getActivity(), LoginActivity.class);
 		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		startActivity(intent);
+	}
+
+	/**
+	 * 跳转至WebView
+	 * @param title
+	 * @param url
+	 */
+	protected void openWebViewActivity(String title, String url) {
+		Intent intent = new Intent(getActivity(), MyWebViewActivity.class);
+		intent.putExtra("title", title);
+		intent.putExtra("lodUrl", url);
 		startActivity(intent);
 	}
 

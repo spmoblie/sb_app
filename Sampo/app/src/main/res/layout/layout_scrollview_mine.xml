@@ -14,23 +14,13 @@
         android:background="@drawable/shape_style_solid_1_18">
 
         <ImageView
-            android:id="@+id/fg_mine_iv_setting"
-            android:layout_width="@dimen/app_height_events"
-            android:layout_height="@dimen/app_height_events"
-            android:src="@mipmap/icon_setting"
-            android:scaleType="center"
-            android:visibility="visible"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintRight_toRightOf="parent"/>
-
-        <ImageView
             android:id="@+id/fg_mine_iv_message"
             android:layout_width="@dimen/app_height_events"
             android:layout_height="@dimen/app_height_events"
             android:src="@mipmap/icon_message_no"
             android:scaleType="center"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintRight_toLeftOf="@id/fg_mine_iv_setting" />
+            app:layout_constraintRight_toRightOf="parent" />
 
         <android.support.constraint.ConstraintLayout
             android:id="@+id/fg_mine_cl_head_main"
@@ -94,7 +84,8 @@
                 style="@style/setting_lay_text_title"
                 android:drawableLeft="@mipmap/icon_me_coupon"
                 android:text="@string/mine_my_tickets"
-                android:textSize="@dimen/app_text_size_content" />
+                android:textStyle="bold"
+                android:textColor="@color/app_color_gray_5" />
 
             <TextView
                 android:id="@+id/fg_mine_tv_coupon"
@@ -111,7 +102,8 @@
                 style="@style/setting_lay_text_title"
                 android:drawableLeft="@mipmap/icon_me_activity"
                 android:text="@string/mine_my_sing_up"
-                android:textSize="@dimen/app_text_size_content" />
+                android:textStyle="bold"
+                android:textColor="@color/app_color_gray_5" />
 
             <TextView
                 android:id="@+id/fg_mine_tv_sign_up"
@@ -128,7 +120,8 @@
                 style="@style/setting_lay_text_title"
                 android:drawableLeft="@mipmap/icon_me_reserve"
                 android:text="@string/mine_my_reserve"
-                android:textSize="@dimen/app_text_size_content" />
+                android:textStyle="bold"
+                android:textColor="@color/app_color_gray_5" />
 
             <TextView
                 android:id="@+id/fg_mine_tv_reserve"
@@ -145,7 +138,8 @@
                 style="@style/setting_lay_text_title"
                 android:drawableLeft="@mipmap/icon_me_bill"
                 android:text="@string/mine_my_customize"
-                android:textSize="@dimen/app_text_size_content" />
+                android:textStyle="bold"
+                android:textColor="@color/app_color_gray_5" />
 
             <TextView
                 android:id="@+id/fg_mine_tv_customize"
@@ -162,7 +156,25 @@
                 style="@style/setting_lay_text_title"
                 android:drawableLeft="@mipmap/icon_me_service"
                 android:text="@string/mine_call"
-                android:textSize="@dimen/app_text_size_content" />
+                android:textStyle="bold"
+                android:textColor="@color/app_color_gray_5" />
+
+            <TextView
+                style="@style/setting_lay_text_content"
+                android:textSize="@dimen/app_text_size_label" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/fg_mine_setting_main"
+            style="@style/setting_lay_item"
+            android:background="@drawable/selector_item_change_2">
+
+            <TextView
+                style="@style/setting_lay_text_title"
+                android:drawableLeft="@mipmap/icon_me_setting"
+                android:text="@string/mine_setting"
+                android:textStyle="bold"
+                android:textColor="@color/app_color_gray_5"/>
 
             <TextView
                 style="@style/setting_lay_text_content"

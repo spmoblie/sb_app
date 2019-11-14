@@ -141,7 +141,7 @@ public class DesignerActivity extends BaseActivity implements View.OnClickListen
 	public void onClick(View v) {
 		switch (v.getId()) {
 			case R.id.designer_tv_click:
-				CommonTools.showToast("预约成功，可在“我的订制”查看进度。");
+				CommonTools.showToast("预约成功，可在“我的定制”查看进度。");
 				new Handler().postDelayed(new Runnable() {
 					@Override
 					public void run() {
