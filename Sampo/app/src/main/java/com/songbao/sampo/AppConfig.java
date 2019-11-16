@@ -7,7 +7,7 @@ import android.os.Environment;
 public class AppConfig {
 
 	/**
-	 ******************************************* URL设置开始 ******************************************
+	 ******************************************* URL协议开始 ******************************************
 	 */
 
 	// 是否正式发布
@@ -17,7 +17,7 @@ public class AppConfig {
 	// https协议
 	public final static String APP_HTTPS = "https://";
 	// Base类型
-	public final static String BASE_TYPE = "base_1"; //base_1:发布Url、base_2:测试Url
+	public final static String BASE_TYPE = "base_2"; //base_1:发布Url、base_2:测试Url
 	// Base域名
 	public final static String BASE_URL_1 = APP_HTTPS + "xiaobao.sbwg.cn/app/";
 	// Base域名
@@ -84,7 +84,75 @@ public class AppConfig {
 	public final static String URL_UPLOAD_PUSH = "upload/push";
 
 	/**
-	 ******************************************* URL设置结束 ******************************************
+	 ******************************************* URL协议结束 ******************************************
+	 */
+
+	/**
+	 ******************************************* RequestCode协议开始 ******************************************
+	 */
+
+	// 授权监听
+	public static final int REQUEST_CORD_PERMISSION = 0X1000;
+	// 校验Sessions
+	public static final int REQUEST_SV_GET_SESSIONS = 0X1001;
+	// 检测版本更新
+	public static final int REQUEST_SV_POST_VERSION = 0X1002;
+	// 短信验证码
+	public static final int REQUEST_SV_AUTH_MESSAGE = 0X1003;
+	// 提交注册
+	public static final int REQUEST_SV_AUTH_REGISTER = 0X1004;
+	// 提交重置
+	public static final int REQUEST_SV_AUTH_RESET = 0X1005;
+	// 提交登录
+	public static final int REQUEST_SV_AUTH_LOGIN = 0X1006;
+	// 微信用户信息
+	public static final int REQUEST_SV_AUTH_WX_USER = 0X1011;
+	// 微博用户信息
+	public static final int REQUEST_SV_AUTH_WB_USER = 0X1012;
+
+	// 提交支付参数
+	public static final int REQUEST_SV_PAY_PARAMETER = 0X1101;
+	// 查询支付结果
+	public static final int REQUEST_SV_PAY_CHECK_RESULT = 0X1102;
+
+	// 首頁头部
+	public static final int REQUEST_SV_HOME_HEAD = 0X2001;
+	// 首页列表
+	public static final int REQUEST_SV_HOME_LIST = 0X2002;
+	// 活动详情
+	public static final int REQUEST_SV_ACTIVITY_DETAIL = 0X2003;
+	// 报名提交
+	public static final int REQUEST_SV_SIGN_UP_ADD = 0X2004;
+	// 提交预约
+	public static final int REQUEST_SV_RESERVATION_ADD = 0X2005;
+	// 课程日期
+	public static final int REQUEST_SV_RESERVATION_DATE = 0X2006;
+	// 课程时段
+	public static final int REQUEST_SV_RESERVATION_TIME = 0X2007;
+	// 校验时段
+	public static final int REQUEST_SV_RESERVATION_IS = 0X2008;
+
+	// 上传用户头像
+	public static final int REQUEST_SV_UPLOAD_HEAD = 0X3001;
+	// 获取用户资料
+	public static final int REQUEST_SV_USER_GET = 0X3002;
+	// 修改用户资料
+	public static final int REQUEST_SV_USER_SAVE = 0X3003;
+	// 获取我的消息
+	public static final int REQUEST_SV_MESSAGE = 0X3004;
+	// 获取我的设计
+	public static final int REQUEST_SV_DESIGN_ALL = 0X3005;
+	// 获取我的门票
+	public static final int REQUEST_SV_USER_TICKETS = 0X3006;
+	// 获取我的活动
+	public static final int REQUEST_SV_USER_ACTIVITY = 0X3007;
+	// 获取我的预约
+	public static final int REQUEST_SV_USER_RESERVATION = 0X3008;
+	// 获取我的订单
+	public static final int REQUEST_SV_USER_ORDER = 0X3009;
+
+	/**
+	 ******************************************* RequestCode协议结束 ******************************************
 	 */
 
 	/**
@@ -190,75 +258,7 @@ public class AppConfig {
 	 */
 
 	/**
-	 ******************************************* RequestCode参数设置开始 ******************************************
-	 */
-
-	// 授权监听
-	public static final int REQUEST_CORD_PERMISSION = 0X1000;
-	// 校验Sessions
-	public static final int REQUEST_SV_GET_SESSIONS = 0X1001;
-	// 检测版本更新
-	public static final int REQUEST_SV_POST_VERSION = 0X1002;
-	// 短信验证码
-	public static final int REQUEST_SV_AUTH_MESSAGE = 0X1003;
-	// 提交注册
-	public static final int REQUEST_SV_AUTH_REGISTER = 0X1004;
-	// 提交重置
-	public static final int REQUEST_SV_AUTH_RESET = 0X1005;
-	// 提交登录
-	public static final int REQUEST_SV_AUTH_LOGIN = 0X1006;
-	// 微信用户信息
-	public static final int REQUEST_SV_AUTH_WX_USER = 0X1011;
-	// 微博用户信息
-	public static final int REQUEST_SV_AUTH_WB_USER = 0X1012;
-
-	// 提交支付参数
-	public static final int REQUEST_SV_PAY_PARAMETER = 0X1101;
-	// 查询支付结果
-	public static final int REQUEST_SV_PAY_CHECK_RESULT = 0X1102;
-
-	// 首頁头部
-	public static final int REQUEST_SV_HOME_HEAD = 0X2001;
-	// 首页列表
-	public static final int REQUEST_SV_HOME_LIST = 0X2002;
-	// 活动详情
-	public static final int REQUEST_SV_ACTIVITY_DETAIL = 0X2003;
-	// 报名提交
-	public static final int REQUEST_SV_SIGN_UP_ADD = 0X2004;
-	// 提交预约
-	public static final int REQUEST_SV_RESERVATION_ADD = 0X2005;
-	// 课程日期
-	public static final int REQUEST_SV_RESERVATION_DATE = 0X2006;
-	// 课程时段
-	public static final int REQUEST_SV_RESERVATION_TIME = 0X2007;
-	// 校验时段
-	public static final int REQUEST_SV_RESERVATION_IS = 0X2008;
-
-	// 上传用户头像
-	public static final int REQUEST_SV_UPLOAD_HEAD = 0X3001;
-	// 获取用户资料
-	public static final int REQUEST_SV_USER_GET = 0X3002;
-	// 修改用户资料
-	public static final int REQUEST_SV_USER_SAVE = 0X3003;
-	// 获取我的消息
-	public static final int REQUEST_SV_MESSAGE = 0X3004;
-	// 获取我的设计
-	public static final int REQUEST_SV_DESIGN_ALL = 0X3005;
-	// 获取我的门票
-	public static final int REQUEST_SV_USER_TICKETS = 0X3006;
-	// 获取我的活动
-	public static final int REQUEST_SV_USER_ACTIVITY = 0X3007;
-	// 获取我的预约
-	public static final int REQUEST_SV_USER_RESERVATION = 0X3008;
-	// 获取我的订单
-	public static final int REQUEST_SV_USER_ORDER = 0X3009;
-
-	/**
-	 ******************************************* RequestCode参数设置结束 ******************************************
-	 */
-
-	/**
-	 ******************************************* 偏好设置Key值设置开始 ******************************************
+	 ******************************************* 偏好设置Key协议开始 ******************************************
 	 */
 
 	// 偏好设置Key-记录剪切相片的类型
@@ -326,11 +326,11 @@ public class AppConfig {
 	public static final String KEY_UPDATE_VERSION_LAST_TIME = "update_version_last_time";
 
 	/**
-	 ******************************************* 偏好设置Key值设置结束 ******************************************
+	 ******************************************* 偏好设置Key协议结束 ******************************************
 	 */
 
 	/**
-	 ******************************************* Activity传参设置开始 ******************************************
+	 ******************************************* Activity协议开始 ******************************************
 	 */
 
 	public static final String PAGE_TYPE = "page_type";
@@ -340,6 +340,7 @@ public class AppConfig {
 	public static final String ACTIVITY_KEY_USER_INFO = "user_info";
 	public static final String ACTIVITY_KEY_SELECT_LIST = "select_list";
 	public static final String ACTIVITY_KEY_CHOICE_DATE = "choice_date";
+	public static final String ACTIVITY_KEY_RESERVE_POS = "reserve_pos";
 
 	public static final int ACTIVITY_CODE_VIA_CAMERA = 0X9001;
 	public static final int ACTIVITY_CODE_PAY_DATA = 0X9002;
@@ -348,22 +349,34 @@ public class AppConfig {
 	public static final int ACTIVITY_CODE_USER_AREA = 0X9005;
 	public static final int ACTIVITY_CODE_USER_INTRO = 0X9006;
 	public static final int ACTIVITY_CODE_CHOICE_DATE = 0X9007;
+	public static final int ACTIVITY_CODE_RESERVE_POS = 0X9008;
 
 	/**
-	 ******************************************* Activity传参设置结束 ******************************************
+	 ******************************************* Activity协议结束 ******************************************
 	 */
 
 	/**
-	 ******************************************* 广播参数设置开始 ******************************************
+	 ******************************************* 推送协议开始 ******************************************
 	 */
 
-	public static final String RECEIVER_ACTION_HOME_DATA = "更新Home的数据";
-	public static final String RECEIVER_ACTION_MAIN_DATA = "更新Main的数据";
-	public static final String RECEIVER_ACTION_HOME_MSG_KEY = "传递数据给Home";
-	public static final String RECEIVER_ACTION_MAIN_MSG_KEY = "传递数据给Main";
+	// 刷新预约核销码
+	public static final int PUSH_MSG_TYPE_001 = 8001;
 
 	/**
-	 ******************************************* 广播参数设置结束 ******************************************
+	 ******************************************* 推送协议结束 ******************************************
+	 */
+
+	/**
+	 ******************************************* 广播协议开始 ******************************************
+	 */
+
+	public static final String RA_PAGE_MAIN = "receiver_action_main";
+	public static final String RA_PAGE_MAIN_KEY = "receiver_action_main_key";
+	public static final String RA_PAGE_RESERVE = "receiver_action_reserve";
+	public static final String RA_PAGE_RESERVE_KEY = "receiver_action_reserve_key";
+
+	/**
+	 ******************************************* 广播协议结束 ******************************************
 	 */
 
 }

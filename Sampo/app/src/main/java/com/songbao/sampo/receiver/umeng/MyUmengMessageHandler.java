@@ -2,8 +2,11 @@ package com.songbao.sampo.receiver.umeng;
 
 import android.app.Notification;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 
+import com.songbao.sampo.AppConfig;
+import com.songbao.sampo.utils.LogUtil;
 import com.umeng.message.UmengMessageHandler;
 import com.umeng.message.entity.UMessage;
 
@@ -12,10 +15,22 @@ public class MyUmengMessageHandler extends UmengMessageHandler {
     @Override
     public void dealWithCustomMessage(Context context, UMessage uMessage) {
         super.dealWithCustomMessage(context, uMessage);
+        LogUtil.i("PushManager", "自定义消息 dealWithCustomMessage " + uMessage.custom);
+        int msgType = Integer.valueOf(uMessage.custom);
+        Intent intent = new Intent();
+        switch (msgType) {
+            case AppConfig.PUSH_MSG_TYPE_001: //刷新预约核销码
+                intent.setAction(AppConfig.RA_PAGE_RESERVE);
+                intent.putExtra(AppConfig.RA_PAGE_RESERVE_KEY, AppConfig.PUSH_MSG_TYPE_001);
+                context.sendBroadcast(intent);
+                break;
+        }
+        LogUtil.i("PushManager", "PushManager sendBroadcast msgType = " + msgType);
     }
 
     @Override
     public Notification getNotification(Context context, UMessage msg) {
+        LogUtil.i("PushManager", "自定义通知 getNotification " + msg.custom);
         switch (msg.builder_id) {
             case 1:
                 NotificationCompat.Builder builder = new NotificationCompat.Builder(context);

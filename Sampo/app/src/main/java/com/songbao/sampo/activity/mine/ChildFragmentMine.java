@@ -163,13 +163,13 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
                 iv_user_head.setImageBitmap(headBitmap);
             } else {
                 loadUserHead();
-                iv_user_head.setImageResource(R.drawable.icon_default_head);
+                iv_user_head.setImageResource(R.mipmap.icon_default_head);
             }
             tv_user_nick.setText(infoEn.getUserNick());
             tv_user_member.setText("普通会员");
             tv_user_member.setVisibility(View.VISIBLE);
         } else {
-            iv_user_head.setImageResource(R.drawable.icon_default_head);
+            iv_user_head.setImageResource(R.mipmap.icon_default_head);
             tv_user_nick.setText(getString(R.string.mine_login));
             tv_user_member.setText("无会员信息");
             tv_user_member.setVisibility(View.GONE);

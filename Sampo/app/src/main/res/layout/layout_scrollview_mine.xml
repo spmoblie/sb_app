@@ -39,7 +39,7 @@
                 android:layout_marginBottom="@dimen/margin_padding_33"
                 android:layout_marginLeft="@dimen/margin_padding_18"
                 android:layout_marginTop="@dimen/margin_padding_5"
-                android:src="@drawable/icon_default_head"
+                android:src="@mipmap/icon_default_head"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
                 app:layout_constraintTop_toTopOf="parent"

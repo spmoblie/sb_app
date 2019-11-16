@@ -133,9 +133,9 @@ public class AppApplication extends Application {
     public static RequestOptions getHeadOptions() {
         if (headOptions == null) {
             headOptions = new RequestOptions()
-                    .placeholder(R.drawable.icon_default_head) //图片加载出来前，显示的图片
-                    .fallback(R.drawable.icon_default_head) //url为空的时候,显示的图片
-                    .error(R.drawable.icon_default_head); //图片加载失败后，显示的图片
+                    .placeholder(R.mipmap.icon_default_head) //图片加载出来前，显示的图片
+                    .fallback(R.mipmap.icon_default_head) //url为空的时候,显示的图片
+                    .error(R.mipmap.icon_default_head); //图片加载失败后，显示的图片
         }
         return headOptions;
     }

@@ -2,7 +2,10 @@ package com.songbao.sampo.activity.home;
 
 
 import android.annotation.SuppressLint;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
@@ -118,14 +121,18 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
 
     private LinearLayout.LayoutParams showImgLP;
 
+    private MyBroadcastReceiver myReceiver;
     private DecimalFormat df;
     private ThemeEntity data;
     private Bitmap qrImage;
+    private int dataPos = 0; //列表定位器
     private int pageType = 0; //2:我的预约
+    private int writeOffStatus = 0;
     private double payAmount = 0.00;
     private boolean isDateOk = false;
     private boolean isTimeOk = false;
     private boolean isLoadOk = false;
+    private boolean isChange = false;
     private String themeId, reserveId, imgUrl, webUrl, titleStr, dateStr, timeStr, timeId, orderNo;
     private ArrayList<String> al_head = new ArrayList<>();
 
@@ -134,6 +141,7 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_reserve_detail);
 
+        dataPos = getIntent().getIntExtra("dataPos", 0);
         pageType = getIntent().getIntExtra(AppConfig.PAGE_TYPE, 0);
         data = (ThemeEntity) getIntent().getExtras().getSerializable(AppConfig.PAGE_DATA);
         if (data != null) {
@@ -144,6 +152,12 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
             }
         }
         df = new DecimalFormat("0.00");
+
+        // 注册广播
+        myReceiver = new MyBroadcastReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(AppConfig.RA_PAGE_RESERVE);
+        registerReceiver(myReceiver, filter);
 
         initView();
         loadServerData();
@@ -207,10 +221,12 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
                 iv_time_go.setVisibility(View.GONE);
 
                 code_main.setVisibility(View.VISIBLE);
+                tv_code.setVisibility(View.GONE);
                 click_main.setVisibility(View.GONE);
                 tv_success.setVisibility(View.VISIBLE);
 
-                switch (data.getWriteOffStatus()) {
+                writeOffStatus = data.getWriteOffStatus();
+                switch (writeOffStatus) {
                     case 3: //已核销
                         tv_cover.setText(mContext.getString(R.string.cancelled));
                         tv_cover.setVisibility(View.VISIBLE);
@@ -294,7 +310,7 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
                 openChoiceDateActivity(data);
                 break;
             case R.id.reserve_detail_iv_code:
-                if (qrImage != null) {
+                if (writeOffStatus == 2 && qrImage != null) {
                     iv_code_large.setVisibility(View.VISIBLE);
                     iv_code_large.setImageBitmap(qrImage);
                 }
@@ -375,6 +391,18 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
     }
 
     @Override
+    protected void OnListenerLeft() {
+        finish();
+        super.OnListenerLeft();
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+        super.onBackPressed();
+    }
+
+    @Override
     protected void onResume() {
         LogUtil.i(LogUtil.LOG_TAG, TAG + ": onResume");
         // 页面开始
@@ -394,11 +422,25 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
 
     @Override
     protected void onDestroy() {
-        //清除缓存
+        // 注销广播
+        if (myReceiver != null) {
+            unregisterReceiver(myReceiver);
+        }
+        // 清除缓存
         if (myWebView != null) {
             myWebView.clearCache(true);
         }
         super.onDestroy();
+    }
+
+    @Override
+    public void finish() {
+        if (isChange) {
+            Intent returnIntent = new Intent();
+            returnIntent.putExtra(AppConfig.ACTIVITY_KEY_RESERVE_POS, dataPos);
+            setResult(RESULT_OK, returnIntent);
+        }
+        super.finish();
     }
 
     /**
@@ -534,6 +576,20 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
         }
         tv_success.setText(showStr);
         tv_success.setVisibility(View.VISIBLE);
+    }
+
+    class MyBroadcastReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            int msgType = intent.getIntExtra(AppConfig.RA_PAGE_RESERVE_KEY, 0);
+            LogUtil.i("PushManager", TAG + " onReceive msgType = " + msgType);
+            switch (msgType) {
+                case AppConfig.PUSH_MSG_TYPE_001: //刷新预约核销码
+                    isChange = true;
+                    loadServerData();
+                    break;
+            }
+        }
     }
 
 }

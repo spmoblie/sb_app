@@ -135,7 +135,7 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
         if (headBitmap != null) {
             iv_head.setImageBitmap(headBitmap);
         } else {
-            iv_head.setImageResource(R.drawable.icon_default_head);
+            iv_head.setImageResource(R.mipmap.icon_default_head);
         }
     }
 

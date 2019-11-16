@@ -115,7 +115,7 @@ public class MyReserveActivity extends BaseActivity {
 				if (position < 0 || position >= al_show.size()) return;
 				ThemeEntity themeEn = al_show.get(position);
 				if (themeEn != null) {
-					openReserveDetailActivity(themeEn);
+					openReserveDetailActivity(themeEn, position);
 				}
 			}
 		});
@@ -135,12 +135,13 @@ public class MyReserveActivity extends BaseActivity {
 	 * 跳转至预约详情页面
 	 * @param data
 	 */
-	private void openReserveDetailActivity(ThemeEntity data) {
+	private void openReserveDetailActivity(ThemeEntity data, int pos) {
 		if (data == null) return;
 		Intent intent = new Intent(mContext, ReserveDetailActivity.class);
 		intent.putExtra(AppConfig.PAGE_TYPE, 2);
 		intent.putExtra(AppConfig.PAGE_DATA, data);
-		startActivity(intent);
+		intent.putExtra("dataPos", pos);
+		startActivityForResult(intent, AppConfig.ACTIVITY_CODE_RESERVE_POS);
 	}
 
 	@Override
@@ -249,6 +250,20 @@ public class MyReserveActivity extends BaseActivity {
 		isLoadOk = true;
 		refresh_rv.onPullUpRefreshComplete();
 		refresh_rv.onPullDownRefreshComplete();
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (resultCode == RESULT_OK) {
+			if (requestCode == AppConfig.ACTIVITY_CODE_RESERVE_POS) {
+				int pos = data.getIntExtra(AppConfig.ACTIVITY_KEY_RESERVE_POS, 0);
+				if (pos >= 0 && pos < al_show.size()) {
+					al_show.get(pos).setWriteOffStatus(3); // 已核销
+					updateListData();
+				}
+			}
+		}
+		super.onActivityResult(requestCode, resultCode, data);
 	}
 
 	/**
