@@ -30,6 +30,9 @@ import java.io.IOException;
 import java.util.Calendar;
 import java.util.HashMap;
 
+import okhttp3.ResponseBody;
+import rx.Observer;
+
 public class AppApplication extends Application {
 
     String TAG = AppApplication.class.getSimpleName();
@@ -301,9 +304,26 @@ public class AppApplication extends Application {
     public static void AppLogout() {
         // 远程退出
         HashMap<String, String> map = new HashMap<>();
-        HttpRequests.getInstance().loadData(AppConfig.BASE_TYPE, AppConfig.URL_AUTH_LOGOUT, map, HttpRequests.HTTP_POST);
-        // 本地退出
-        AppManager.getInstance().AppLogout(getAppContext());
+        HttpRequests.getInstance()
+                .loadData(AppConfig.BASE_TYPE, AppConfig.URL_AUTH_LOGOUT, map, HttpRequests.HTTP_POST)
+                .subscribe(new Observer<ResponseBody>() {
+                    @Override
+                    public void onNext(ResponseBody body) {
+                        LogUtil.i(LogUtil.LOG_HTTP,"onNext");
+                        // 本地退出
+                        AppManager.getInstance().AppLogout(getAppContext());
+                    }
+
+                    @Override
+                    public void onError(Throwable throwable) {
+                        LogUtil.i(LogUtil.LOG_HTTP,"error message : " + throwable.getMessage());
+                    }
+
+                    @Override
+                    public void onCompleted() {
+                        LogUtil.i(LogUtil.LOG_HTTP,"onCompleted");
+                    }
+                });
     }
 
     // 创建服务用于捕获崩溃异常

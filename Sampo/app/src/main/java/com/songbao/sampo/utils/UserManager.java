@@ -31,6 +31,7 @@ public class UserManager {
 	private String mUserMoney = null;
 
 	private String xAppToken = null;
+	private String deviceToken = null;
 
 	private String wxAccessToken = null;
 	private String wxOpenId = null;
@@ -224,6 +225,18 @@ public class UserManager {
 		xAppToken = app_token;
 	}
 
+	public String getDeviceToken(){
+		if(StringUtil.isNull(deviceToken)){
+			deviceToken = sp.getString(AppConfig.KEY_DEVICE_TOKEN, "");
+		}
+		return deviceToken;
+	}
+
+	public void saveDeviceToken(String devToken){
+		editor.putString(AppConfig.KEY_DEVICE_TOKEN, devToken).apply();
+		deviceToken = devToken;
+	}
+
 	public String getWXAccessToken(){
 		if(StringUtil.isNull(wxAccessToken)){
 			wxAccessToken = sp.getString(AppConfig.KEY_WX_ACCESS_TOKEN, "");
@@ -297,6 +310,8 @@ public class UserManager {
 			if (sp.getBoolean(AppConfig.KEY_JUMP_PAGE, false)) {
 				editor.putInt(AppConfig.KEY_MAIN_CURRENT_INDEX, 2).apply();
 			}
+			// 清除短信验证码次数限制
+			editor.putInt(AppConfig.KEY_SEND_VERIFY_NUMBER, 0).apply();
 		}
 	}
 

@@ -165,6 +165,10 @@
             android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
         <activity
+            android:name=".activity.login.RegisterOauthActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"/>
+        <activity
             android:name=".activity.login.ResetPasswordActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"/>

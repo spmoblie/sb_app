@@ -59,6 +59,7 @@ public class PushManager {
 		mPushAgent.register(new IUmengRegisterCallback() {
 			@Override
 			public void onSuccess(String deviceToken) {
+				mUserManager.saveDeviceToken(deviceToken);
 				LogUtil.i(TAG, "注册成功：deviceToken：-------->  " + deviceToken);
 			}
 			@Override

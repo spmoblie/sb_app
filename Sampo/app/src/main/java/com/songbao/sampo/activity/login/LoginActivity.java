@@ -1,7 +1,10 @@
 package com.songbao.sampo.activity.login;
 
 import android.annotation.SuppressLint;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -26,6 +29,7 @@ import com.songbao.sampo.AppApplication;
 import com.songbao.sampo.AppConfig;
 import com.songbao.sampo.R;
 import com.songbao.sampo.activity.BaseActivity;
+import com.songbao.sampo.entity.BaseEntity;
 import com.songbao.sampo.entity.QQEntity;
 import com.songbao.sampo.entity.QQUserInfoEntity;
 import com.songbao.sampo.entity.UserInfoEntity;
@@ -81,6 +85,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
     @BindView(R.id.login_tv_agreement)
     TextView tv_agreement;
 
+    private MyBroadcastReceiver myReceiver;
     private UserInfoEntity fbOauthEn;
     private boolean isStop = false;
     private String loginType, postUid;
@@ -113,6 +118,12 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
         WbSdk.install(this, new AuthInfo(this,
                 AppConfig.WB_APP_ID, AppConfig.WB_REDIRECT_URL, AppConfig.WB_SCOPE));
         mSsoHandler = new SsoHandler(this);
+
+        // 注册广播
+        myReceiver = new MyBroadcastReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(AppConfig.RA_PAGE_LOGIN);
+        registerReceiver(myReceiver, filter);
 
         initView();
     }
@@ -182,8 +193,8 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
                 openActivity(RegisterActivity.class);
                 break;
             case R.id.login_tv_wx:
-                //loginWX();
-                CommonTools.showToast("当前版本仅支持手机号登录");
+                loginWX();
+                //CommonTools.showToast("当前版本仅支持手机号登录");
                 break;
             case R.id.login_tv_qq:
                 //loginQQ();
@@ -224,7 +235,8 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
         unionid = userManager.getWXUnionId();
         refresh_token = userManager.getWXRefreshToken();
         postUid = unionid;
-        requestThirdPartiesLogin();
+        //requestThirdPartiesLogin();
+        startRegisterOauthActivity(null);
     }
 
     /**
@@ -421,7 +433,10 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 
 			@Override
 			public void run() {
-				//request(AppConfig.REQUEST_SV_THIRD_PARTIES_LOGIN);
+                HashMap<String, String> map = new HashMap<>();
+                map.put("type", loginType);
+                map.put("userid", postUid);
+                loadSVData(AppConfig.URL_AUTH_OAUTH, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_AUTH_OAUTH);
 			}
 		}, AppConfig.LOADING_TIME);
     }
@@ -431,10 +446,10 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
      */
     private void startRegisterOauthActivity(UserInfoEntity oauthEn) {
         if (isStop) return;
-//		Intent intent = new Intent(mContext, RegisterOauthActivity.class);
-//		intent.putExtra("oauthEn", oauthEn);
-//		startActivity(intent);
-//		stopAnimation();
+		Intent intent = new Intent(mContext, RegisterOauthActivity.class);
+		intent.putExtra("oauthEn", oauthEn);
+		startActivity(intent);
+		stopAnimation();
     }
 
     @Override
@@ -478,6 +493,10 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
     protected void onDestroy() {
         isStop = true;
 
+        // 注销广播
+        if (myReceiver != null) {
+            unregisterReceiver(myReceiver);
+        }
         super.onDestroy();
     }
 
@@ -511,10 +530,37 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
                         showLoginError();
                     }
                     break;
+                case AppConfig.REQUEST_SV_AUTH_OAUTH:
+                    BaseEntity baseEn = JsonLogin.getLoginData(jsonObject);
+                    if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) { //校验通过
+                        UserInfoEntity userInfo = (UserInfoEntity) baseEn.getData();
+                        userManager.saveLoginAccount(userInfo.getUserPhone());
+                        userManager.saveUserLoginSuccess(userInfo);
+                        closeLoginActivity();
+                    } else if (baseEn.getErrno() == 2) { //校验不通过
+                        if (loginType == LOGIN_TYPE_WX) {
+                            getWXUserInfo();
+                        }else if (loginType == LOGIN_TYPE_QQ) {
+                            getQQUserInfo();
+                        }else if (loginType == LOGIN_TYPE_WB) {
+                            getWBUserInfo();
+                        }
+                    } else {
+                        handleErrorCode(baseEn);
+                    }
+                    break;
             }
         } catch (Exception e) {
             showLoginError();
             ExceptionUtil.handle(e);
+        }
+    }
+
+
+    class MyBroadcastReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            postWXLoginRequest();
         }
     }
 

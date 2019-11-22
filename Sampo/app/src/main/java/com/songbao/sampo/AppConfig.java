@@ -19,9 +19,9 @@ public class AppConfig {
 	// Base类型
 	public final static String BASE_TYPE = "base_2"; //base_1:发布Url、base_2:测试Url
 	// Base域名
-	public final static String BASE_URL_1 = APP_HTTPS + "xiaobao.sbwg.cn/app/";
+	public final static String BASE_URL_1 = APP_HTTPS + "xiaobao.sbwg.cn/";
 	// Base域名
-	public final static String BASE_URL_2 = APP_HTTP + "192.168.1.105/app/";
+	public final static String BASE_URL_2 = APP_HTTP + "192.168.1.105/";
 	// 图片域名
 	public final static String IMAGE_URL = "file:///android_asset/";
 	// 推广域名
@@ -29,59 +29,63 @@ public class AppConfig {
 	// 关于我们
 	public final static String ABOUT_US = "https://www.sbwg.cn/";
 
+	// 保存设备号
+	public final static String URL_AUTH_DEVICE = "/app/auth/deviceToken";
 	// 短信验证码
-	public final static String URL_AUTH_MESSAGE = "auth/regCaptcha";
+	public final static String URL_AUTH_MESSAGE = "app/auth/regCaptcha";
 	// 提交注册
-	public final static String URL_AUTH_REGISTER = "auth/register";
+	public final static String URL_AUTH_REGISTER = "app/auth/register";
 	// 提交重置
-	public final static String URL_AUTH_RESET = "auth/reset";
+	public final static String URL_AUTH_RESET = "app/auth/reset";
 	// 提交登录
-	public final static String URL_AUTH_LOGIN = "auth/login";
+	public final static String URL_AUTH_LOGIN = "app/auth/login";
+	// 授权登录
+	public final static String URL_AUTH_OAUTH = "app/auth/oauth";
 	// 提交注销
-	public final static String URL_AUTH_LOGOUT = "auth/logout";
+	public final static String URL_AUTH_LOGOUT = "app/auth/logout";
 
 	// 提交支付参数
-	public final static String URL_PAY_PARAMETER = "payment/paymentType";
+	public final static String URL_PAY_PARAMETER = "app/payment/paymentType";
 	// 查询支付结果
-	public final static String URL_PAY_CHECK_RESULT = "payment/callback";
+	public final static String URL_PAY_CHECK_RESULT = "app/payment/callback";
 
 	// 首页banner列表
-	public final static String URL_HOME_BANNER = "home/index";
+	public final static String URL_HOME_BANNER = "app/home/index";
 	// 首页活动列表
-	public final static String URL_HOME_LIST = "activity/list";
+	public final static String URL_HOME_LIST = "app/activity/list";
 	// 活动课程详情
-	public final static String URL_ACTIVITY_DETAIL = "activity/detail";
+	public final static String URL_ACTIVITY_DETAIL = "app/activity/detail";
 	// 提交报名数据
-	public final static String URL_SIGN_UP_ADD = "activity/sign_up/add";
+	public final static String URL_SIGN_UP_ADD = "app/activity/sign_up/add";
 	// 提交预约数据
-	public final static String URL_RESERVATION_ADD = "reservation/add";
+	public final static String URL_RESERVATION_ADD = "app/reservation/add";
 	// 获取课程日期
-	public final static String URL_RESERVATION_DATE = "reservation/findDateTime";
+	public final static String URL_RESERVATION_DATE = "app/reservation/findDateTime";
 	// 获取课程时段
-	public final static String URL_RESERVATION_TIME = "reservation/findCourseTime";
+	public final static String URL_RESERVATION_TIME = "app/reservation/findCourseTime";
 	// 校验时段有效性
-	public final static String URL_RESERVATION_IS = "reservation/isReservation";
+	public final static String URL_RESERVATION_IS = "app/reservation/isReservation";
 
 	// 获取用户资料
-	public final static String URL_USER_GET = "user/get";
+	public final static String URL_USER_GET = "app/user/get";
 	// 修改用户资料
-	public final static String URL_USER_SAVE = "user/save";
+	public final static String URL_USER_SAVE = "app/user/save";
 
 	// 我的消息
-	public final static String URL_MESSAGE = "message";
+	public final static String URL_MESSAGE = "app/message";
 	// 我的设计
-	public final static String URL_DESIGN_ALL = "design/all";
+	public final static String URL_DESIGN_ALL = "app/design/all";
 	// 我的门票
-	public final static String URL_USER_TICKETS = "user/tickets";
+	public final static String URL_USER_TICKETS = "app/user/tickets";
 	// 我的活动
-	public final static String URL_USER_ACTIVITY = "user/activity";
+	public final static String URL_USER_ACTIVITY = "app/user/activity";
 	// 我的预约
-	public final static String URL_USER_RESERVATION = "user/reservation";
+	public final static String URL_USER_RESERVATION = "app/user/reservation";
 	// 我的订单
-	public final static String URL_USER_ORDER = "user/order";
+	public final static String URL_USER_ORDER = "app/user/order";
 
 	// 上传接口
-	public final static String URL_UPLOAD_PUSH = "upload/push";
+	public final static String URL_UPLOAD_PUSH = "app/upload/push";
 
 	/**
 	 ******************************************* URL协议结束 ******************************************
@@ -105,10 +109,14 @@ public class AppConfig {
 	public static final int REQUEST_SV_AUTH_RESET = 0X1005;
 	// 提交登录
 	public static final int REQUEST_SV_AUTH_LOGIN = 0X1006;
+	// 授权登录
+	public static final int REQUEST_SV_AUTH_OAUTH = 0X1007;
+	// 微信授权token
+	public static final int REQUEST_SV_AUTH_WX_TOKEN = 0X1011;
 	// 微信用户信息
-	public static final int REQUEST_SV_AUTH_WX_USER = 0X1011;
+	public static final int REQUEST_SV_AUTH_WX_USER = 0X1012;
 	// 微博用户信息
-	public static final int REQUEST_SV_AUTH_WB_USER = 0X1012;
+	public static final int REQUEST_SV_AUTH_WB_USER = 0X1013;
 
 	// 提交支付参数
 	public static final int REQUEST_SV_PAY_PARAMETER = 0X1101;
@@ -296,6 +304,8 @@ public class AppConfig {
 	public static final String KEY_USER_MONEY = "user_money";
 	// 偏好设置Key-记录用户登录授权码
 	public static final String KEY_X_APP_TOKEN = "x_app_token";
+	// 偏好设置Key-记录用户登录设备号
+	public static final String KEY_DEVICE_TOKEN = "device_token";
 	// 偏好设置Key-记录用户的微信授权码
 	public static final String KEY_WX_ACCESS_TOKEN = "wx_access_token";
 	// 偏好设置Key-记录用户的微信校验码
@@ -374,6 +384,7 @@ public class AppConfig {
 	public static final String RA_PAGE_MAIN_KEY = "receiver_action_main_key";
 	public static final String RA_PAGE_RESERVE = "receiver_action_reserve";
 	public static final String RA_PAGE_RESERVE_KEY = "receiver_action_reserve_key";
+	public static final String RA_PAGE_LOGIN = "receiver_action_login";
 
 	/**
 	 ******************************************* 广播协议结束 ******************************************

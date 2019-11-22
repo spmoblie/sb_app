@@ -1,7 +1,6 @@
 package com.songbao.sampo.wxapi;
 
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 
@@ -12,9 +11,16 @@ import com.songbao.sampo.activity.BaseActivity;
 import com.songbao.sampo.entity.WXEntity;
 import com.songbao.sampo.utils.CommonTools;
 import com.songbao.sampo.utils.ExceptionUtil;
+import com.songbao.sampo.utils.JsonLogin;
 import com.songbao.sampo.utils.NetworkUtil;
+import com.songbao.sampo.utils.UserManager;
+import com.songbao.sampo.utils.retrofit.HttpRequests;
 import com.tencent.mm.opensdk.modelbase.BaseResp;
 import com.tencent.mm.opensdk.modelmsg.SendAuth;
+
+import org.json.JSONObject;
+
+import java.util.HashMap;
 
 
 public class WXEntryActivity extends BaseActivity {
@@ -51,8 +57,7 @@ public class WXEntryActivity extends BaseActivity {
 				showWechatResult(getString(R.string.share_msg_success));
 			}else {
 				if (NetworkUtil.isNetworkAvailable()) {
-					new HttpAccess_token_Task().execute("https://api.weixin.qq.com/sns/oauth2/access_token?"
-							+ "appid=" + APP_ID + "&secret=" + SECRET + "&code=" + resp.code + "&grant_type=authorization_code");
+					getWXAccessToken(resp.code);
 				} else {
 					showWechatResult(getString(R.string.network_fault));
 				}
@@ -84,46 +89,42 @@ public class WXEntryActivity extends BaseActivity {
 		finish();
 	}
 
-	/**
-	 * 异步获取Access_token
-	 */
-	class HttpAccess_token_Task extends AsyncTask<String, Void, String> {
+	private void getWXAccessToken(String code) {
+		HashMap<String, String> map = new HashMap<>();
+		map.put("appid", APP_ID);
+		map.put("secret", SECRET);
+		map.put("code", code);
+		map.put("grant_type", "authorization_code");
+		loadSVData("https://api.weixin.qq.com/", "sns/oauth2/access_token", map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_AUTH_WX_TOKEN);
+	}
 
-		@Override
-		protected String doInBackground(String... params) {
-			try {
-//				return sc.getServerJSONString(params[0]);
-				return "";
-			} catch (Exception e) {
-				ExceptionUtil.handle(e);
-				return "";
-			}
-		}
-
-		@Override
-		protected void onPostExecute(String result) {
-			WXEntity wxEn = null;
-			if (result != null) {
-				/*try {
-					wxEn = LoginJsonParser.getWexiAccessToken(result);
-				} catch (JSONException e) {
-					ExceptionUtil.handle(e);
-				}
-				if (wxEn != null) {
-					UserManager.getInstance().saveWechatUserInfo(wxEn);
-					if (LoginActivity.instance != null) {
-						LoginActivity.instance.postWechatLoginRequest();
-					}else {
+	@Override
+	protected void callbackData(JSONObject jsonObject, int dataType) {
+		try {
+			switch (dataType) {
+				case AppConfig.REQUEST_SV_AUTH_WX_TOKEN:
+					WXEntity wxEn = JsonLogin.getWXAccessToken(jsonObject);
+					if (wxEn != null) {
+						UserManager.getInstance().saveWechatUserInfo(wxEn);
+						//发送广播
+						Intent intent = new Intent();
+						intent.setAction(AppConfig.RA_PAGE_LOGIN);
+						sendBroadcast(intent);
+						finish();
+					} else {
 						showWechatResult(getString(R.string.share_msg_error_license));
 					}
-					finish();
-				} else {
-					showWechatResult(getString(R.string.share_msg_error_license));
-				}*/
-			}else {
-				showWechatResult(getString(R.string.share_msg_error_license));
+					break;
 			}
+		} catch (Exception e) {
+			loadFailHandle();
+			ExceptionUtil.handle(e);
 		}
 	}
 
+	@Override
+	protected void loadFailHandle() {
+		super.loadFailHandle();
+		showWechatResult(getString(R.string.share_msg_error_license));
+	}
 }

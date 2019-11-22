@@ -399,6 +399,7 @@ public  class BaseActivity extends FragmentActivity {
 		AppManager.getInstance().finishActivity(LoginPhoneActivity.class);
 		AppManager.getInstance().finishActivity(RegisterActivity.class);
 		AppManager.getInstance().finishActivity(ResetPasswordActivity.class);
+		postDeviceToken();
 	}
 
 	/**
@@ -954,6 +955,15 @@ public  class BaseActivity extends FragmentActivity {
 	 */
 	protected void stopAnimation() {
 		LoadDialog.hidden();
+	}
+
+	/**
+	 * 上传设备号至服务端
+	 */
+	protected void postDeviceToken() {
+		HashMap<String, String> map = new HashMap<>();
+		map.put("deviceToken", UserManager.getInstance().getDeviceToken());
+		loadSVData(AppConfig.URL_AUTH_DEVICE, map, HttpRequests.HTTP_POST, 0);
 	}
 
 }

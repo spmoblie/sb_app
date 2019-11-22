@@ -67,9 +67,8 @@ public class JsonLogin {
 	/**
 	 * 获取微信AccessToken
 	 */
-	public static WXEntity getWXAccessToken(String jsonStr) throws JSONException {
-		JSONObject jsonObject = new JSONObject(jsonStr);
-		return new WXEntity(jsonObject.getString("access_token"), 
+	public static WXEntity getWXAccessToken(JSONObject jsonObject) throws JSONException {
+		return new WXEntity(jsonObject.getString("access_token"),
 				jsonObject.getString("expires_in"), jsonObject.getString("refresh_token"), 
 				jsonObject.getString("openid"), jsonObject.getString("scope"), jsonObject.getString("unionid"));
 	}
