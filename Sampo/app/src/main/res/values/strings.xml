@@ -129,6 +129,7 @@
     <string name="mine_my_tickets">我的门票</string>
     <string name="mine_my_sing_up">我的活动</string>
     <string name="mine_my_reserve">我的预约</string>
+    <string name="mine_my_buy">我的购买</string>
     <string name="mine_my_customize">我的定制</string>
     <string name="mine_call">联系客服</string>
     <string name="mine_setting">设置中心</string>
@@ -228,6 +229,14 @@
     <string name="find_comment_ok">评论已发布</string>
     <string name="find_comment_input">请输入评论内容</string>
 
+    <!-- Order -->
+    <string name="order_all">全部</string>
+    <string name="order_wait_pay">待付款</string>
+    <string name="order_producing">生产中</string>
+    <string name="order_wait_receive">待收货</string>
+    <string name="order_wait_opinion">待评价</string>
+    <string name="order_repair_return">退换货</string>
+
     <!-- Photo page -->
     <string name="photo_select_title">选择相册</string>
     <string name="photo_select_one_title">选择一张照片</string>
@@ -297,6 +306,7 @@
     <string name="login_reset_login">修改并登录</string>
     <string name="login_reset_ok">密码修改成功</string>
     <string name="login_quick">其它方式登录</string>
+    <string name="login_oauth_ok">绑定成功</string>
     <string name="login_oauth_cancel">登录取消</string>
     <string name="login_error_oauth">授权登录出现错误！请重试！</string>
     <string name="login_bound">绑定手机号</string>
@@ -304,7 +314,7 @@
     <string name="login_no_account">没有账号？马上去注册</string>
     <string name="login_timeout">登录已失效\n请重新登录</string>
     <string name="login_treaty">登录即同意《松小堡用户协议》</string>
-    <string name="login_bound_reminder">为了你的账号安全，请绑定一个手机号</string>
+    <string name="login_bound_reminder">*为了您的账号安全，请绑定一个手机号。</string>
 
     <!-- Share -->
     <string name="share">分享</string>

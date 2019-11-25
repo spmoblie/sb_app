@@ -45,6 +45,7 @@ import com.songbao.sampo.activity.common.clip.ClipPhotoOneActivity;
 import com.songbao.sampo.activity.login.LoginActivity;
 import com.songbao.sampo.activity.login.LoginPhoneActivity;
 import com.songbao.sampo.activity.login.RegisterActivity;
+import com.songbao.sampo.activity.login.RegisterOauthActivity;
 import com.songbao.sampo.activity.login.ResetPasswordActivity;
 import com.songbao.sampo.activity.sampo.DesignerActivity;
 import com.songbao.sampo.activity.sampo.GoodsActivity;
@@ -398,6 +399,7 @@ public  class BaseActivity extends FragmentActivity {
 		AppManager.getInstance().finishActivity(LoginActivity.class);
 		AppManager.getInstance().finishActivity(LoginPhoneActivity.class);
 		AppManager.getInstance().finishActivity(RegisterActivity.class);
+		AppManager.getInstance().finishActivity(RegisterOauthActivity.class);
 		AppManager.getInstance().finishActivity(ResetPasswordActivity.class);
 		postDeviceToken();
 	}

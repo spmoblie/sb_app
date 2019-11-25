@@ -29,6 +29,7 @@ public class UserManager {
 	private String mUserEmail = null;
 	private String mUserPhone = null;
 	private String mUserMoney = null;
+	private int mUserMegNum;
 
 	private String xAppToken = null;
 	private String deviceToken = null;
@@ -213,6 +214,15 @@ public class UserManager {
 		mUserMoney = userMoney;
 	}
 
+	public int getUserMsgNum(){
+		return sp.getInt(AppConfig.KEY_USER_MSG_NUM, 0);
+	}
+
+	public void saveUserMsgNum(int num){
+		editor.putInt(AppConfig.KEY_USER_MSG_NUM, num).commit();
+		mUserMegNum = num;
+	}
+
 	public String getXAppToken(){
 		if(StringUtil.isNull(xAppToken)){
 			xAppToken = sp.getString(AppConfig.KEY_X_APP_TOKEN, "");
@@ -299,6 +309,7 @@ public class UserManager {
 	 */
 	public void saveUserLoginSuccess(UserInfoEntity infoEn){
 		if (infoEn != null) {
+			saveLoginAccount(infoEn.getUserPhone());
 			saveUserId(infoEn.getUserId());
 			saveUserNick(infoEn.getUserNick());
 			saveUserHead(infoEn.getUserHead());

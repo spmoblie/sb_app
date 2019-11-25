@@ -60,9 +60,9 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 
     String TAG = LoginActivity.class.getSimpleName();
 
-    public static final String LOGIN_TYPE_WX = "wx";
-    public static final String LOGIN_TYPE_QQ = "qq";
-    public static final String LOGIN_TYPE_WB = "wb";
+    public static final String LOGIN_TYPE_WX = "1";
+    public static final String LOGIN_TYPE_QQ = "2";
+    public static final String LOGIN_TYPE_WB = "3";
 
     @BindView(R.id.login_iv_close)
     ImageView login_iv_close;
@@ -194,15 +194,14 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
                 break;
             case R.id.login_tv_wx:
                 loginWX();
-                //CommonTools.showToast("当前版本仅支持手机号登录");
                 break;
             case R.id.login_tv_qq:
-                //loginQQ();
-                CommonTools.showToast("当前版本仅支持手机号登录");
+                loginQQ();
+                //CommonTools.showToast("当前版本仅支持手机号登录");
                 break;
             case R.id.login_tv_wb:
-                //loginWB();
-                CommonTools.showToast("当前版本仅支持手机号登录");
+                loginWB();
+                //CommonTools.showToast("当前版本仅支持手机号登录");
                 break;
         }
     }
@@ -235,8 +234,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
         unionid = userManager.getWXUnionId();
         refresh_token = userManager.getWXRefreshToken();
         postUid = unionid;
-        //requestThirdPartiesLogin();
-        startRegisterOauthActivity(null);
+        requestThirdPartiesLogin();
     }
 
     /**
@@ -435,7 +433,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 			public void run() {
                 HashMap<String, String> map = new HashMap<>();
                 map.put("type", loginType);
-                map.put("userid", postUid);
+                map.put("otherId", postUid);
                 loadSVData(AppConfig.URL_AUTH_OAUTH, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_AUTH_OAUTH);
 			}
 		}, AppConfig.LOADING_TIME);
@@ -533,11 +531,9 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
                 case AppConfig.REQUEST_SV_AUTH_OAUTH:
                     BaseEntity baseEn = JsonLogin.getLoginData(jsonObject);
                     if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) { //校验通过
-                        UserInfoEntity userInfo = (UserInfoEntity) baseEn.getData();
-                        userManager.saveLoginAccount(userInfo.getUserPhone());
-                        userManager.saveUserLoginSuccess(userInfo);
+                        userManager.saveUserLoginSuccess((UserInfoEntity) baseEn.getData());
                         closeLoginActivity();
-                    } else if (baseEn.getErrno() == 2) { //校验不通过
+                    } else if (baseEn.getErrno() == 99990) { //校验不通过
                         if (loginType == LOGIN_TYPE_WX) {
                             getWXUserInfo();
                         }else if (loginType == LOGIN_TYPE_QQ) {

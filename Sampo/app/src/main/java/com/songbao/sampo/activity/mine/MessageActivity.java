@@ -17,6 +17,7 @@ import com.songbao.sampo.entity.MessageEntity;
 import com.songbao.sampo.utils.ExceptionUtil;
 import com.songbao.sampo.utils.JsonUtils;
 import com.songbao.sampo.utils.LogUtil;
+import com.songbao.sampo.utils.UserManager;
 import com.songbao.sampo.utils.retrofit.HttpRequests;
 import com.songbao.sampo.widgets.pullrefresh.PullToRefreshBase;
 import com.songbao.sampo.widgets.pullrefresh.PullToRefreshRecyclerView;
@@ -44,6 +45,7 @@ public class MessageActivity extends BaseActivity {
 	private int data_total = 0; //数据总量
 	private int load_page = 1; //加载页数
 	private int load_type = 1; //加载类型(0:下拉刷新/1:翻页加载)
+	private int newNum = 0; //新消息数量
 	private boolean isLoadOk = true; //加载控制
 	private ArrayList<MessageEntity> al_show = new ArrayList<>();
 	private ArrayMap<String, Boolean> am_show = new ArrayMap<>();
@@ -59,11 +61,14 @@ public class MessageActivity extends BaseActivity {
 	private void initView() {
 		setTitle(getString(R.string.mine_message));
 
+		newNum = UserManager.getInstance().getUserMsgNum();
+
 		initRecyclerView();
 		loadMoreData();
 	}
 
 	private void initRecyclerView() {
+		refresh_rv.setHeaderLayoutBackground(R.color.app_color_gray_f_8);
 		refresh_rv.setPullRefreshEnabled(true); //下拉刷新
 		refresh_rv.setPullLoadEnabled(true); //上拉加载
 		refresh_rv.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<MyRecyclerView>() {
@@ -106,7 +111,7 @@ public class MessageActivity extends BaseActivity {
 
 		// 配置适配器
 		rvAdapter = new MessageAdapter(mContext, R.layout.item_list_message);
-		rvAdapter.addData(al_show);
+		rvAdapter.addData(al_show, newNum);
 		rvAdapter.addCallback(new AdapterCallback() {
 
 			@Override
@@ -123,7 +128,7 @@ public class MessageActivity extends BaseActivity {
 		} else {
 			setNullVisibility(View.GONE);
 		}
-		rvAdapter.updateData(al_show);
+		rvAdapter.updateData(al_show, newNum);
 	}
 
 	@Override
@@ -162,8 +167,8 @@ public class MessageActivity extends BaseActivity {
 	 */
 	private void loadMoreData() {
 		load_type = 1;
-		//loadServerData();
-		loadDemoData();
+		loadServerData();
+		//loadDemoData();
 	}
 
 	/**
@@ -260,12 +265,12 @@ public class MessageActivity extends BaseActivity {
 		chEn_3.setTitle("使用成功");
 		chEn_3.setContent("您好！尊敬的松堡迪迪，您已在09月18日 10:06成功参与课程，谢谢您的光临！");
 		chEn_3.setRead(true);
-		//al_show.add(chEn_3);
+		al_show.add(chEn_3);
 		chEn_4.setAddTime("09月16日 13:18");
 		chEn_4.setTitle("预约成功");
 		chEn_4.setContent("您好！尊敬的松堡迪迪，您已在09月16日 13:15成功预约并购买小小木匠课程，请注意预约时间，期待您的光临！");
 		chEn_4.setRead(true);
-		//al_show.add(chEn_4);
+		al_show.add(chEn_4);
 		chEn_5.setAddTime("09月08日 10:28");
 		chEn_5.setTitle("欢迎您来到松小堡");
 		chEn_5.setContent("恭喜您成为松小堡家庭中心成员，松小堡欢迎您的到来。");

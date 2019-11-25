@@ -16,6 +16,7 @@ import com.songbao.sampo.AppConfig;
 import com.songbao.sampo.R;
 import com.songbao.sampo.activity.BaseActivity;
 import com.songbao.sampo.entity.BaseEntity;
+import com.songbao.sampo.entity.UserInfoEntity;
 import com.songbao.sampo.utils.CommonTools;
 import com.songbao.sampo.utils.ExceptionUtil;
 import com.songbao.sampo.utils.JsonLogin;
@@ -431,9 +432,9 @@ public class ResetPasswordActivity extends BaseActivity implements OnClickListen
 				case AppConfig.REQUEST_SV_AUTH_RESET:
 					baseEn = JsonLogin.getLoginData(jsonObject);
 					if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+						userManager.saveUserLoginSuccess((UserInfoEntity) baseEn.getData());
+						closeLoginActivity();
 						CommonTools.showToast(getString(R.string.login_reset_ok));
-						userManager.saveLoginAccount(phoneStr);
-						openActivity(LoginPhoneActivity.class);
 					} else
 					if (baseEn.getErrno() == AppConfig.ERROR_CODE_PHONE_UNREGISTERED) {
 						tv_phone_error.setVisibility(View.VISIBLE);

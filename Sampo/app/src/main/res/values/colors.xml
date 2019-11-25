@@ -12,6 +12,7 @@
     <color name="app_color_gray_c">#CCCCCC</color><!-- 浅灰 -->
     <color name="app_color_gray_e">#E5E5E5</color><!-- 淡灰 -->
     <color name="app_color_gray_f">#F5F5F5</color><!-- 淡灰 -->
+    <color name="app_color_gray_f_8">#F8F8F8</color><!-- 淡灰 -->
     <color name="app_color_red_0">#FF0000</color><!-- 红色 -->
     <color name="app_color_red_7">#FF7272</color><!-- 红色 -->
     <color name="app_color_orange">#FC7451</color><!-- 橙色 -->

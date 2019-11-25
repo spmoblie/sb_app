@@ -84,11 +84,11 @@ public class JsonLogin {
 	/**
 	 * 微信刷新AccessToken结果
 	 */
-	public static WXEntity getWXAccessAuth(String jsonStr) throws JSONException {
+	public static WXEntity refreshWXAccessToken(String jsonStr) throws JSONException {
 		JSONObject jsonObject = new JSONObject(jsonStr);
 		return new WXEntity(jsonObject.getString("access_token"), 
 				jsonObject.getString("expires_in"), jsonObject.getString("refresh_token"),
-				jsonObject.getString("openid"), jsonObject.getString("scope"));
+				jsonObject.getString("openid"), jsonObject.getString("scope"), jsonObject.getString("unionid"));
 	}
 
 	/**
@@ -101,14 +101,6 @@ public class JsonLogin {
 				jsonObject.getString("city"), jsonObject.getString("country"),
 				jsonObject.getString("headimgurl"), jsonObject.getString("privilege"),
 				jsonObject.getString("unionid"), jsonObject.getString("language"));
-	}
-
-	/**
-	 * 微信校验AccessToken有效性
-	 */
-	public static WXEntity getWXAccessTokenAuto(String jsonStr) throws JSONException {
-		JSONObject jsonObject = new JSONObject(jsonStr);
-		return new WXEntity(Integer.parseInt(jsonObject.getString("errcode")), jsonObject.getString("errmsg"));
 	}
 
 	/**

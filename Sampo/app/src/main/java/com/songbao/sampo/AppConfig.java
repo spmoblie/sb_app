@@ -21,7 +21,7 @@ public class AppConfig {
 	// Base域名
 	public final static String BASE_URL_1 = APP_HTTPS + "xiaobao.sbwg.cn/";
 	// Base域名
-	public final static String BASE_URL_2 = APP_HTTP + "192.168.1.105/";
+	public final static String BASE_URL_2 = APP_HTTP + "192.168.1.105:8080/";
 	// 图片域名
 	public final static String IMAGE_URL = "file:///android_asset/";
 	// 推广域名
@@ -33,14 +33,16 @@ public class AppConfig {
 	public final static String URL_AUTH_DEVICE = "/app/auth/deviceToken";
 	// 短信验证码
 	public final static String URL_AUTH_MESSAGE = "app/auth/regCaptcha";
-	// 提交注册
+	// 手机注册
 	public final static String URL_AUTH_REGISTER = "app/auth/register";
+	// 授权注册
+	public final static String URL_AUTH_OAUTH_REG = "app/auth/otherReg";
 	// 提交重置
 	public final static String URL_AUTH_RESET = "app/auth/reset";
 	// 提交登录
 	public final static String URL_AUTH_LOGIN = "app/auth/login";
 	// 授权登录
-	public final static String URL_AUTH_OAUTH = "app/auth/oauth";
+	public final static String URL_AUTH_OAUTH = "app/auth/otherLogin";
 	// 提交注销
 	public final static String URL_AUTH_LOGOUT = "app/auth/logout";
 
@@ -72,9 +74,7 @@ public class AppConfig {
 	public final static String URL_USER_SAVE = "app/user/save";
 
 	// 我的消息
-	public final static String URL_MESSAGE = "app/message";
-	// 我的设计
-	public final static String URL_DESIGN_ALL = "app/design/all";
+	public final static String URL_MESSAGE = "app/user/message";
 	// 我的门票
 	public final static String URL_USER_TICKETS = "app/user/tickets";
 	// 我的活动
@@ -83,6 +83,11 @@ public class AppConfig {
 	public final static String URL_USER_RESERVATION = "app/user/reservation";
 	// 我的订单
 	public final static String URL_USER_ORDER = "app/user/order";
+	// "我的"动态数据
+	public final static String URL_USER_DYNAMIC = "app/user/dynamic";
+
+	// 设计师列表
+	public final static String URL_DESIGN_ALL = "app/design/all";
 
 	// 上传接口
 	public final static String URL_UPLOAD_PUSH = "app/upload/push";
@@ -103,14 +108,16 @@ public class AppConfig {
 	public static final int REQUEST_SV_POST_VERSION = 0X1002;
 	// 短信验证码
 	public static final int REQUEST_SV_AUTH_MESSAGE = 0X1003;
-	// 提交注册
+	// 手机注册
 	public static final int REQUEST_SV_AUTH_REGISTER = 0X1004;
+	// 授权注册
+	public static final int REQUEST_SV_AUTH_OAUTH_REG = 0X1005;
 	// 提交重置
-	public static final int REQUEST_SV_AUTH_RESET = 0X1005;
+	public static final int REQUEST_SV_AUTH_RESET = 0X1006;
 	// 提交登录
-	public static final int REQUEST_SV_AUTH_LOGIN = 0X1006;
+	public static final int REQUEST_SV_AUTH_LOGIN = 0X1007;
 	// 授权登录
-	public static final int REQUEST_SV_AUTH_OAUTH = 0X1007;
+	public static final int REQUEST_SV_AUTH_OAUTH = 0X1008;
 	// 微信授权token
 	public static final int REQUEST_SV_AUTH_WX_TOKEN = 0X1011;
 	// 微信用户信息
@@ -148,8 +155,6 @@ public class AppConfig {
 	public static final int REQUEST_SV_USER_SAVE = 0X3003;
 	// 获取我的消息
 	public static final int REQUEST_SV_MESSAGE = 0X3004;
-	// 获取我的设计
-	public static final int REQUEST_SV_DESIGN_ALL = 0X3005;
 	// 获取我的门票
 	public static final int REQUEST_SV_USER_TICKETS = 0X3006;
 	// 获取我的活动
@@ -158,6 +163,11 @@ public class AppConfig {
 	public static final int REQUEST_SV_USER_RESERVATION = 0X3008;
 	// 获取我的订单
 	public static final int REQUEST_SV_USER_ORDER = 0X3009;
+	// "我的"动态数据
+	public static final int REQUEST_SV_USER_DYNAMIC = 0X3010;
+
+	// 获取设计师列表
+	public static final int REQUEST_SV_DESIGN_ALL = 0X4001;
 
 	/**
 	 ******************************************* RequestCode协议结束 ******************************************
@@ -302,6 +312,8 @@ public class AppConfig {
 	public static final String KEY_USER_PHONE = "user_phone";
 	// 偏好设置Key-记录用户账户余额
 	public static final String KEY_USER_MONEY = "user_money";
+	// 偏好设置Key-记录用户新消息数量
+	public static final String KEY_USER_MSG_NUM = "user_msg_num";
 	// 偏好设置Key-记录用户登录授权码
 	public static final String KEY_X_APP_TOKEN = "x_app_token";
 	// 偏好设置Key-记录用户登录设备号

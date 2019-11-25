@@ -477,7 +477,6 @@ public class LoginPhoneActivity extends BaseActivity implements OnClickListener 
                 case AppConfig.REQUEST_SV_AUTH_LOGIN:
                     baseEn = JsonLogin.getLoginData(jsonObject);
                     if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
-                        userManager.saveLoginAccount(phoneStr);
                         userManager.saveUserLoginSuccess((UserInfoEntity) baseEn.getData());
                         closeLoginActivity();
                     } else

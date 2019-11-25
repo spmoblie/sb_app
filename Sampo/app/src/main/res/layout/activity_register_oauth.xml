@@ -84,6 +84,13 @@
         app:layout_constraintTop_toBottomOf="@id/register_oauth_et_code"
         app:layout_constraintWidth_percent="0.8"/>
 
+    <TextView
+        style="@style/register_text"
+        android:layout_marginTop="@dimen/margin_padding_80"
+        android:text="@string/login_bound_reminder"
+        app:layout_constraintTop_toBottomOf="@id/register_oauth_et_code"
+        app:layout_constraintLeft_toLeftOf="@id/register_oauth_et_code"/>
+
     <Button
         android:id="@+id/register_oauth_btn_oauth"
         style="@style/register_button"

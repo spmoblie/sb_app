@@ -311,6 +311,29 @@
         <item name="android:visibility">gone</item>
     </style>
 
+    <!-- Top RadioGroup样式 -->
+    <style name="common_top_bar_radio_group">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <!--<item name="android:background">@drawable/selector_icon_bg_line</item>-->
+        <item name="android:button">@null</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/selector_group_bar_text</item>
+        <item name="android:textSize">@dimen/text_size_14</item>
+    </style>
+
+    <!-- Top ViewGroup样式 -->
+    <style name="common_top_bar_view_group">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:lines">1</item>
+        <item name="android:textColor">@color/selector_group_bar_text</item>
+        <item name="android:textSize">@dimen/text_size_14</item>
+    </style>
+
     <!-- 通用均分Tab文本样式:灰色 -->
     <style name="common_tab_text_assist">
         <item name="android:layout_width">0dp</item>

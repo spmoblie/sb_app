@@ -261,7 +261,6 @@ public class JsonUtils {
         return mainEn;
     }
 
-
     /**
      * 解析用户资料数据
      */
@@ -299,6 +298,21 @@ public class JsonUtils {
     }
 
     /**
+     * 解析用户动态数据
+     */
+    public static BaseEntity getUserDynamic(JSONObject jsonObject) throws JSONException {
+        BaseEntity mainEn = getCommonKeyValue(jsonObject);
+
+        if (StringUtil.notNull(jsonObject, "data")) {
+            JSONObject jsonData = jsonObject.getJSONObject("data");
+            if (StringUtil.notNull(jsonData, "messageCount")) {
+                mainEn.setDataTotal(jsonData.getInt("messageCount"));
+            }
+        }
+        return mainEn;
+    }
+
+    /**
      * 解析我的消息数据
      */
     public static BaseEntity getMessageData(JSONObject jsonObject) throws JSONException {
@@ -306,13 +320,21 @@ public class JsonUtils {
 
         if (StringUtil.notNull(jsonObject, "data")) {
             JSONObject jsonData = jsonObject.getJSONObject("data");
-            if (StringUtil.notNull(jsonData, "values")) {
-                JSONArray data = jsonData.getJSONArray("values");
+            if (StringUtil.notNull(jsonData, "total")) {
+                mainEn.setDataTotal(jsonData.getInt("total"));
+            }
+            if (StringUtil.notNull(jsonData, "dataList")) {
+                JSONArray data = jsonData.getJSONArray("dataList");
                 MessageEntity childEn;
                 List<MessageEntity> lists = new ArrayList<>();
                 for (int j = 0; j < data.length(); j++) {
                     JSONObject item = data.getJSONObject(j);
                     childEn = new MessageEntity();
+                    childEn.setId(item.getString("id"));
+                    childEn.setTitle(item.getString("title"));
+                    childEn.setContent(item.getString("text"));
+                    childEn.setAddTime(item.getString("addTime"));
+                    childEn.setRead(item.getInt("status") == 4 ? true : false);
                     lists.add(childEn);
                 }
                 mainEn.setLists(lists);

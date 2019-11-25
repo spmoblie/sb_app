@@ -22,6 +22,14 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintRight_toRightOf="parent" />
 
+        <TextView
+            android:id="@+id/fg_mine_tv_message_num"
+            style="@style/common_warn_red_text_number"
+            android:layout_marginTop="@dimen/margin_padding_8"
+            android:layout_marginRight="@dimen/margin_padding_8"
+            app:layout_constraintTop_toTopOf="@id/fg_mine_iv_message"
+            app:layout_constraintRight_toRightOf="@id/fg_mine_iv_message"/>
+
         <android.support.constraint.ConstraintLayout
             android:id="@+id/fg_mine_cl_head_main"
             android:layout_width="match_parent"
@@ -78,6 +86,7 @@
         <RelativeLayout
             android:id="@+id/fg_mine_coupon_main"
             style="@style/setting_lay_item"
+            android:visibility="gone"
             android:background="@drawable/selector_item_change_2">
 
             <TextView
@@ -125,6 +134,24 @@
 
             <TextView
                 android:id="@+id/fg_mine_tv_reserve"
+                style="@style/setting_lay_text_content"
+                android:textSize="@dimen/app_text_size_label" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/fg_mine_buy_main"
+            style="@style/setting_lay_item"
+            android:background="@drawable/selector_item_change_2">
+
+            <TextView
+                style="@style/setting_lay_text_title"
+                android:drawableLeft="@mipmap/icon_me_bill"
+                android:text="@string/mine_my_buy"
+                android:textStyle="bold"
+                android:textColor="@color/app_color_gray_5" />
+
+            <TextView
+                android:id="@+id/fg_mine_tv_buy"
                 style="@style/setting_lay_text_content"
                 android:textSize="@dimen/app_text_size_label" />
         </RelativeLayout>

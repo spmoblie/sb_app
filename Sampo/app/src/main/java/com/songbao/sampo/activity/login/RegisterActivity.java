@@ -429,8 +429,8 @@ public class RegisterActivity extends BaseActivity implements OnClickListener {
 					baseEn = JsonLogin.getLoginData(jsonObject);
 					if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
 						userManager.saveUserLoginSuccess((UserInfoEntity) baseEn.getData());
-						CommonTools.showToast(getString(R.string.login_register_ok));
 						closeLoginActivity();
+						CommonTools.showToast(getString(R.string.login_register_ok));
 					} else
 					if (baseEn.getErrno() == AppConfig.ERROR_CODE_PHONE_REGISTERED) {
 						tv_phone_error.setVisibility(View.VISIBLE);

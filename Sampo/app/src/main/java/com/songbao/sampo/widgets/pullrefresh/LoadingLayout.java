@@ -136,6 +136,15 @@ public abstract class LoadingLayout extends FrameLayout implements ILoadingLayou
         
     }
 
+    /**
+     * 设置头部View的背景色
+     *
+     * @param colorId
+     */
+    public void setHeaderLayoutBackground(int colorId) {
+
+    }
+
     @Override
     public void setState(State state) {
         if (mCurState != state) {

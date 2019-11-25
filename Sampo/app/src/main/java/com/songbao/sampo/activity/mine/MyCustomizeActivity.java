@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.support.v4.util.ArrayMap;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
+import android.widget.RadioButton;
 
 import com.songbao.sampo.AppApplication;
 import com.songbao.sampo.AppConfig;
@@ -34,9 +35,24 @@ import java.util.List;
 import butterknife.BindView;
 
 
-public class MyCustomizeActivity extends BaseActivity {
+public class MyCustomizeActivity extends BaseActivity implements View.OnClickListener{
 
 	String TAG = MyCustomizeActivity.class.getSimpleName();
+
+	@BindView(R.id.top_bar_radio_rb_1)
+	RadioButton rb_1;
+
+	@BindView(R.id.top_bar_radio_rb_2)
+	RadioButton rb_2;
+
+	@BindView(R.id.top_bar_radio_rb_3)
+	RadioButton rb_3;
+
+	@BindView(R.id.top_bar_radio_rb_4)
+	RadioButton rb_4;
+
+	@BindView(R.id.top_bar_radio_rb_5)
+	RadioButton rb_5;
 
 	@BindView(R.id.refresh_view_rv)
 	PullToRefreshRecyclerView refresh_rv;
@@ -53,7 +69,7 @@ public class MyCustomizeActivity extends BaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_recycler_view);
+		setContentView(R.layout.activity_recycler_view_top);
 
 		initView();
 	}
@@ -61,8 +77,22 @@ public class MyCustomizeActivity extends BaseActivity {
 	private void initView() {
 		setTitle(getString(R.string.mine_my_customize));
 
+		initRadioGroup();
 		initRecyclerView();
 		loadMoreData();
+	}
+
+	private void initRadioGroup() {
+		rb_1.setText(getString(R.string.order_all));
+		rb_2.setText(getString(R.string.order_wait_pay));
+		rb_3.setText(getString(R.string.order_producing));
+		rb_4.setText(getString(R.string.order_wait_receive));
+		rb_5.setText(getString(R.string.order_wait_opinion));
+		rb_1.setOnClickListener(this);
+		rb_2.setOnClickListener(this);
+		rb_3.setOnClickListener(this);
+		rb_4.setOnClickListener(this);
+		rb_5.setOnClickListener(this);
 	}
 
 	private void initRecyclerView() {
@@ -127,6 +157,22 @@ public class MyCustomizeActivity extends BaseActivity {
 			setNullVisibility(View.GONE);
 		}
 		rvAdapter.updateData(al_show);
+	}
+
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+			case R.id.top_bar_radio_rb_1:
+				break;
+			case R.id.top_bar_radio_rb_2:
+				break;
+			case R.id.top_bar_radio_rb_3:
+				break;
+			case R.id.top_bar_radio_rb_4:
+				break;
+			case R.id.top_bar_radio_rb_5:
+				break;
+		}
 	}
 
 	@Override

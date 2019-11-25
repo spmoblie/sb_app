@@ -51,8 +51,8 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
     ConstraintLayout cl_head_main;
     RoundImageView iv_user_head;
     ImageView iv_message;
-    TextView tv_user_nick, tv_user_member;
-    RelativeLayout rl_coupon, rl_sign_up, rl_reserve, rl_customize, rl_help, rl_setting;
+    TextView tv_user_nick, tv_user_member, tv_message_num;
+    RelativeLayout rl_coupon, rl_sign_up, rl_reserve, rl_buy, rl_customize, rl_help, rl_setting;
 
     private Context mContext;
 
@@ -99,10 +99,12 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
         iv_user_head = view.findViewById(R.id.fg_mine_iv_head);
         tv_user_nick = view.findViewById(R.id.fg_mine_tv_nick);
         tv_user_member = view.findViewById(R.id.fg_mine_tv_member);
+        tv_message_num = view.findViewById(R.id.fg_mine_tv_message_num);
 
         rl_coupon = view.findViewById(R.id.fg_mine_coupon_main);
         rl_sign_up = view.findViewById(R.id.fg_mine_sign_up_main);
         rl_reserve = view.findViewById(R.id.fg_mine_reserve_main);
+        rl_buy = view.findViewById(R.id.fg_mine_buy_main);
         rl_customize = view.findViewById(R.id.fg_mine_customize_main);
         rl_help = view.findViewById(R.id.fg_mine_help_main);
         rl_setting = view.findViewById(R.id.fg_mine_setting_main);
@@ -114,6 +116,7 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
         rl_coupon.setOnClickListener(this);
         rl_sign_up.setOnClickListener(this);
         rl_reserve.setOnClickListener(this);
+        rl_buy.setOnClickListener(this);
         rl_customize.setOnClickListener(this);
         rl_help.setOnClickListener(this);
         rl_setting.setOnClickListener(this);
@@ -168,11 +171,20 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
             tv_user_nick.setText(infoEn.getUserNick());
             tv_user_member.setText("普通会员");
             tv_user_member.setVisibility(View.VISIBLE);
+
+            int newNum = userManager.getUserMsgNum();
+            if (newNum > 0) {
+                tv_message_num.setVisibility(View.VISIBLE);
+            } else {
+                tv_message_num.setVisibility(View.GONE);
+            }
+            tv_message_num.setText(String.valueOf(newNum));
         } else {
             iv_user_head.setImageResource(R.mipmap.icon_default_head);
             tv_user_nick.setText(getString(R.string.mine_login));
             tv_user_member.setText("无会员信息");
             tv_user_member.setVisibility(View.GONE);
+            tv_message_num.setVisibility(View.GONE);
         }
     }
 
@@ -198,6 +210,10 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
             case R.id.fg_mine_reserve_main:
                 if (!checkClick()) return;
                 startActivity(new Intent(mContext, MyReserveActivity.class));
+                break;
+            case R.id.fg_mine_buy_main:
+                if (!checkClick()) return;
+                startActivity(new Intent(mContext, MyCustomizeActivity.class));
                 break;
             case R.id.fg_mine_customize_main:
                 if (!checkClick()) return;
@@ -238,6 +254,7 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
         // 页面开始
         AppApplication.onPageStart(TAG);
 
+        AppApplication.updateMineData(true);
         // 用户信息
         if (isLogin()) {
             if (shared.getBoolean(AppConfig.KEY_OPEN_MESSAGE, false)) {
@@ -248,7 +265,7 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
                 loadUserInfo();
             }
             if (shared.getBoolean(AppConfig.KEY_UPDATE_MINE_DATA, true)) {
-                // 刷新“我的”
+                refreshMineData();
             }
             if (infoEn == null) {
                 infoEn = getUserInfoData();
@@ -291,6 +308,14 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
         loadSVData(AppConfig.URL_USER_GET, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_USER_GET);
     }
 
+    /**
+     * 刷新“我的”数据
+     */
+    private void refreshMineData() {
+        HashMap<String, String> map = new HashMap<>();
+        loadSVData(AppConfig.URL_USER_DYNAMIC, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_USER_DYNAMIC);
+    }
+
     @Override
     protected void callbackData(JSONObject jsonObject, int dataType) {
         BaseEntity baseEn = null;
@@ -304,6 +329,13 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
                         initUserView();
                         loadUserHead();
                         AppApplication.updateUserData(false);
+                    }
+                    break;
+                case AppConfig.REQUEST_SV_USER_DYNAMIC:
+                    baseEn = JsonUtils.getUserDynamic(jsonObject);
+                    if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+                        userManager.saveUserMsgNum(baseEn.getDataTotal());
+                        initUserView();
                     }
                     break;
             }

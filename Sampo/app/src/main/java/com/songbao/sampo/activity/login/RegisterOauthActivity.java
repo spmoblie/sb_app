@@ -25,6 +25,7 @@ import com.songbao.sampo.utils.LogUtil;
 import com.songbao.sampo.utils.StringUtil;
 import com.songbao.sampo.utils.retrofit.HttpRequests;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -322,6 +323,7 @@ public class RegisterOauthActivity extends BaseActivity implements OnClickListen
 	private void sendMessageAuth() {
 		HashMap<String, String> map = new HashMap<>();
 		map.put("mobile", phoneStr);
+		map.put("type", "2020611");
 		loadSVData(AppConfig.URL_AUTH_MESSAGE, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_AUTH_MESSAGE);
 	}
 
@@ -330,10 +332,23 @@ public class RegisterOauthActivity extends BaseActivity implements OnClickListen
 		new Handler().postDelayed(new Runnable() {
 			@Override
 			public void run() {
-				HashMap<String, String> map = new HashMap<>();
-				map.put("mobile", phoneStr);
-				map.put("code", codeStr);
-				loadSVData(AppConfig.URL_AUTH_REGISTER, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_AUTH_REGISTER);
+				try {
+					JSONObject jsonObj = new JSONObject();
+					jsonObj.put("nickName", nickname);
+					jsonObj.put("avatarUrl", avatar);
+					jsonObj.put("gender", gender);
+
+					HashMap<String, String> map = new HashMap<>();
+					map.put("mobile", phoneStr);
+					map.put("code", codeStr);
+					map.put("codeType", "2020611");
+					map.put("type", loginType);
+					map.put("otherId", uidStr);
+					map.put("json", jsonObj.toString());
+					loadSVData(AppConfig.URL_AUTH_OAUTH_REG, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_AUTH_OAUTH_REG);
+				} catch (JSONException e) {
+					ExceptionUtil.handle(e);
+				}
 			}
 		}, AppConfig.LOADING_TIME);
 	}
@@ -361,16 +376,12 @@ public class RegisterOauthActivity extends BaseActivity implements OnClickListen
 						handleErrorCode(baseEn);
 					}
 					break;
-				case AppConfig.REQUEST_SV_AUTH_REGISTER:
+				case AppConfig.REQUEST_SV_AUTH_OAUTH_REG:
 					baseEn = JsonLogin.getLoginData(jsonObject);
 					if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
 						userManager.saveUserLoginSuccess((UserInfoEntity) baseEn.getData());
-						CommonTools.showToast(getString(R.string.login_register_ok));
 						closeLoginActivity();
-					} else
-					if (baseEn.getErrno() == AppConfig.ERROR_CODE_PHONE_REGISTERED) {
-						tv_phone_error.setVisibility(View.VISIBLE);
-						tv_phone_error.setText(getString(R.string.login_phone_registered));
+						CommonTools.showToast(getString(R.string.login_oauth_ok));
 					} else {
 						handleErrorCode(baseEn);
 					}

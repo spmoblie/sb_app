@@ -99,6 +99,11 @@ public class RotateLoadingLayout extends LoadingLayout {
     }
 
     @Override
+    public void setHeaderLayoutBackground(int colorId) {
+        mHeaderContainer.setBackgroundResource(colorId);
+    }
+
+    @Override
     public int getContentSize() {
         if (null != mHeaderContainer) {
             return mHeaderContainer.getHeight();
