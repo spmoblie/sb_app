@@ -937,4 +937,15 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
             mHeaderLayout.setHeaderLayoutBackground(colorId);
         }
     }
+
+    /**
+     * 设置底部加载View的背景色
+     *
+     * @param colorId
+     */
+    public void setFooterLayoutBackground(int colorId) {
+        if (mFooterLayout != null) {
+            mFooterLayout.setFooterLayoutBackground(colorId);
+        }
+    }
 }

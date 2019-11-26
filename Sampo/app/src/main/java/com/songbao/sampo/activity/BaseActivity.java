@@ -691,9 +691,9 @@ public  class BaseActivity extends FragmentActivity {
 	protected void changeViewState(View view, boolean isState) {
 		if (view == null) return;
 		if (isState) {
-			view.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.shape_style_solid_5_33, null));
+			view.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.shape_style_solid_04_08, null));
 		} else {
-			view.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.shape_style_solid_3_33, null));
+			view.setBackground(ResourcesCompat.getDrawable(getResources(), R.drawable.shape_style_solid_03_08, null));
 		}
 	}
 
@@ -773,8 +773,8 @@ public  class BaseActivity extends FragmentActivity {
 	 * 过滤数据
 	 */
 	protected <T extends BaseEntity>List<T> filterData(List<T> newData, ArrayMap<String, Boolean> cacheMap) {
-		if (newData == null || cacheMap == null) return null;
 		List<T> newList = new ArrayList<>();
+		if (newData == null || cacheMap == null) return newList;
 		T newEn;
 		for (int i = 0; i < newData.size(); i++) {
 			newEn = newData.get(i);

@@ -44,7 +44,7 @@
                     android:id="@+id/reserve_detail_tv_series"
                     style="@style/common_text_bg_frame"
                     android:layout_marginLeft="@dimen/margin_padding_10"
-                    android:background="@drawable/shape_style_empty_7_18"
+                    android:background="@drawable/shape_style_empty_06_08"
                     android:textColor="@color/app_color_yellow" />
 
             </LinearLayout>
@@ -129,7 +129,7 @@
                     android:id="@+id/reserve_detail_tv_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/app_color_red_7"
+                    android:textColor="@color/app_color_red_p"
                     android:textSize="@dimen/app_text_size_content"
                     android:textStyle="bold"
                     android:layout_marginTop="@dimen/app_margin_screen"
@@ -168,7 +168,7 @@
                     android:id="@+id/reserve_detail_tv_time"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/app_color_red_7"
+                    android:textColor="@color/app_color_red_p"
                     android:textSize="@dimen/app_text_size_content"
                     android:textStyle="bold"
                     android:layout_marginTop="@dimen/app_margin_screen"
@@ -234,7 +234,7 @@
                 <TextView
                     android:id="@+id/reserve_detail_tv_code"
                     style="@style/detail_text"
-                    android:textColor="@color/app_color_red_7"
+                    android:textColor="@color/app_color_red_p"
                     android:textSize="@dimen/app_text_size_small"
                     android:textStyle="bold"
                     android:visibility="gone"
@@ -294,7 +294,7 @@
         android:layout_marginBottom="@dimen/margin_padding_50"
         android:layout_marginLeft="@dimen/app_margin_screen"
         android:layout_marginRight="@dimen/app_margin_screen"
-        android:background="@drawable/shape_style_solid_1_33"
+        android:background="@drawable/shape_style_solid_01_08"
         android:elevation="80dp"
         android:padding="@dimen/margin_padding_2">
 
@@ -326,7 +326,7 @@
         <TextView
             android:id="@+id/reserve_detail_tv_click"
             style="@style/common_text_button"
-            android:background="@drawable/shape_style_solid_5_33"
+            android:background="@drawable/shape_style_solid_04_08"
             android:paddingBottom="@dimen/margin_padding_13"
             android:paddingTop="@dimen/margin_padding_13"
             android:text="@string/reserve_choice"

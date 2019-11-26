@@ -173,7 +173,7 @@
         android:layout_marginBottom="@dimen/margin_padding_50"
         android:layout_marginLeft="@dimen/app_margin_screen"
         android:layout_marginRight="@dimen/app_margin_screen"
-        android:background="@drawable/shape_style_solid_1_33"
+        android:background="@drawable/shape_style_solid_01_08"
         android:elevation="80dp"
         android:padding="@dimen/margin_padding_2">
 
@@ -205,7 +205,7 @@
         <TextView
             android:id="@+id/sign_tv_click"
             style="@style/common_text_button"
-            android:background="@drawable/shape_style_solid_3_33"
+            android:background="@drawable/shape_style_solid_03_08"
             android:paddingBottom="@dimen/margin_padding_13"
             android:paddingTop="@dimen/margin_padding_13"
             android:text="@string/sign_up_now"

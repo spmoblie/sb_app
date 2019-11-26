@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:paddingTop="@dimen/margin_padding_50"
     android:paddingBottom="@dimen/margin_padding_50"
-    android:background="@drawable/shape_style_solid_1_18">
+    android:background="@drawable/shape_style_solid_01_16">
 
     <ProgressBar
         android:id="@+id/dialog_progress"

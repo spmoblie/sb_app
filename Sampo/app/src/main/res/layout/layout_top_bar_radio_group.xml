@@ -3,7 +3,7 @@
     android:id="@+id/top_bar_radio_ll_main"
     android:layout_width="match_parent"
     android:layout_height="@dimen/app_height_events"
-    android:background="@color/app_color_white"
+    android:background="@color/ui_color_app_bg_02"
     android:orientation="vertical">
 
     <RadioGroup

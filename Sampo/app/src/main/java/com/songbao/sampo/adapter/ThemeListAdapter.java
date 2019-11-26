@@ -96,13 +96,13 @@ public class ThemeListAdapter extends RecyclerView.Adapter<ThemeListAdapter.View
 
         if (data.getThemeType() == AppConfig.THEME_TYPE_1) {
             viewHolder.tv_sign.setText(mContext.getString(R.string.reserve_now));
-            viewHolder.tv_sign.setBackgroundResource(R.drawable.shape_style_solid_5_33);
-            viewHolder.tv_series.setBackgroundResource(R.drawable.shape_style_empty_7_18);
+            viewHolder.tv_sign.setBackgroundResource(R.drawable.shape_style_solid_04_08);
+            viewHolder.tv_series.setBackgroundResource(R.drawable.shape_style_empty_06_08);
             viewHolder.tv_series.setTextColor(mContext.getResources().getColor(R.color.app_color_yellow));
         } else {
             viewHolder.tv_sign.setText(mContext.getString(R.string.sign_up_title));
-            viewHolder.tv_sign.setBackgroundResource(R.drawable.shape_style_solid_7_33);
-            viewHolder.tv_series.setBackgroundResource(R.drawable.shape_style_empty_6_18);
+            viewHolder.tv_sign.setBackgroundResource(R.drawable.shape_style_solid_06_08);
+            viewHolder.tv_series.setBackgroundResource(R.drawable.shape_style_empty_09_08);
             viewHolder.tv_series.setTextColor(mContext.getResources().getColor(R.color.app_color_blue));
         }
         viewHolder.tv_sign.setOnClickListener(new View.OnClickListener() {

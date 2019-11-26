@@ -10,11 +10,11 @@ public class CustomizeEntity extends BaseEntity {
 	private String title;
 	private String picUrl;
 	private String name;
+	private String phone;
 	private String cost; //订单价
 	private String payType; //支付类型
-	private String addTime; //有效期
-	private int status; //1:已付款，2:已核销，3:已过期
-	private ThemeEntity themeEn; //活动
+	private String addTime;
+	private int status; //1:待付款，2:生产中，3:待收货，4:待评价，5:已完成，6:退换货
 	private List<CustomizeEntity> mainLists; //数集
 
 	public CustomizeEntity() {
@@ -58,6 +58,14 @@ public class CustomizeEntity extends BaseEntity {
 		this.name = name;
 	}
 
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
 	public String getCost() {
 		return cost;
 	}
@@ -88,14 +96,6 @@ public class CustomizeEntity extends BaseEntity {
 
 	public void setStatus(int status) {
 		this.status = status;
-	}
-
-	public ThemeEntity getThemeEn() {
-		return themeEn;
-	}
-
-	public void setThemeEn(ThemeEntity themeEn) {
-		this.themeEn = themeEn;
 	}
 
 	public List<CustomizeEntity> getMainLists() {

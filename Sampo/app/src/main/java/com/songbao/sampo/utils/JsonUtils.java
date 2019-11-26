@@ -398,13 +398,23 @@ public class JsonUtils {
 
         if (StringUtil.notNull(jsonObject, "data")) {
             JSONObject jsonData = jsonObject.getJSONObject("data");
-            if (StringUtil.notNull(jsonData, "dataList")) {
-                JSONArray data = jsonData.getJSONArray("dataList");
+            if (StringUtil.notNull(jsonData, "total")) {
+                mainEn.setDataTotal(jsonData.getInt("total"));
+            }
+            if (StringUtil.notNull(jsonData, "activityList")) {
+                JSONArray data = jsonData.getJSONArray("activityList");
                 CustomizeEntity childEn;
                 List<CustomizeEntity> lists = new ArrayList<>();
                 for (int j = 0; j < data.length(); j++) {
                     JSONObject item = data.getJSONObject(j);
                     childEn = new CustomizeEntity();
+                    int id = j+1;
+                    childEn.setId(id);
+                    childEn.setTitle("运动女孩双层床");
+                    childEn.setName("史蒂芬00" + id);
+                    childEn.setPhone("188888800" + id);
+                    childEn.setAddTime("2019-11-18 18:18");
+                    childEn.setStatus(id);
                     lists.add(childEn);
                 }
                 mainEn.setLists(lists);

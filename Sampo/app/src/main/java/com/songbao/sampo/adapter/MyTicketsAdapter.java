@@ -37,15 +37,15 @@ public class MyTicketsAdapter extends BaseRecyclerAdapter {
         switch (data.getStatus()) {
             case 2:
                 tv_state.setText(context.getString(R.string.cancelled));
-                tv_state.setBackgroundResource(R.drawable.shape_style_solid_9_18);
+                tv_state.setBackgroundResource(R.drawable.shape_style_solid_03_08);
                 break;
             case 3:
                 tv_state.setText(context.getString(R.string.expired));
-                tv_state.setBackgroundResource(R.drawable.shape_style_solid_3_18);
+                tv_state.setBackgroundResource(R.drawable.shape_style_solid_03_04);
                 break;
             default:
                 tv_state.setText(context.getString(R.string.active));
-                tv_state.setBackgroundResource(R.drawable.shape_style_solid_5_18);
+                tv_state.setBackgroundResource(R.drawable.shape_style_solid_04_08);
                 break;
         }
 

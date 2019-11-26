@@ -2,7 +2,7 @@
 <resources>
 
     <!-- App常用颜色值 -->
-    <color name="app_color_style">#72CEFF</color><!-- 风格 -->
+    <color name="app_color_style">#3FBDFF</color><!-- 风格 -->
     <color name="app_color_white">#FFFFFF</color><!-- 白色 -->
     <color name="app_color_black">#000000</color><!-- 黑色 -->
     <color name="app_color_gray_2">#222222</color><!-- 浅黑 -->
@@ -11,18 +11,17 @@
     <color name="app_color_gray_9">#999999</color><!-- 灰色 -->
     <color name="app_color_gray_c">#CCCCCC</color><!-- 浅灰 -->
     <color name="app_color_gray_e">#E5E5E5</color><!-- 淡灰 -->
-    <color name="app_color_gray_f">#F5F5F5</color><!-- 淡灰 -->
-    <color name="app_color_gray_f_8">#F8F8F8</color><!-- 淡灰 -->
+    <color name="app_color_gray_f">#F8F8F8</color><!-- 淡灰 -->
     <color name="app_color_red_0">#FF0000</color><!-- 红色 -->
-    <color name="app_color_red_7">#FF7272</color><!-- 红色 -->
+    <color name="app_color_red_p">#FF6262</color><!-- 红色 -->
+    <color name="app_color_yellow">#FFBC25</color><!-- 黄色 -->
     <color name="app_color_orange">#FC7451</color><!-- 橙色 -->
-    <color name="app_color_yellow">#FFCC43</color><!-- 黄色 -->
     <color name="app_color_brown">#C9A97A</color><!-- 棕色 -->
     <color name="app_color_beige">#FFF7EB</color><!-- 淡棕 -->
     <color name="app_color_green">#60BA8D</color><!-- 绿色 -->
     <color name="app_color_blue">#72A2FF</color><!-- 蓝色 -->
-    <color name="app_color_blue_c">#72CEFF</color><!-- 浅蓝 -->
     <color name="app_color_blue_f">#F4FBFF</color><!-- 淡蓝 -->
+    <color name="app_color_violet">#AB72FF</color><!-- 紫色 -->
 
     <!-- 标题区文字颜色 -->
     <color name="title_text_color">@color/app_color_black</color>
@@ -37,7 +36,7 @@
     <!-- 温馨提示颜色值 -->
     <color name="warns_text_color">@color/app_color_red_0</color>
     <!-- 商品价格颜色值 -->
-    <color name="price_text_color">@color/app_color_red_7</color>
+    <color name="price_text_color">@color/app_color_red_p</color>
     <!-- 负金额文字颜色 -->
     <color name="lower_text_color">@color/app_color_green</color>
 
@@ -55,7 +54,7 @@
     <!-- App按钮背景 -->
     <color name="ui_color_button">@color/app_color_gray_6</color>
     <!-- HomeTab文字 -->
-    <color name="tv_color_bottom">@color/app_color_blue_c</color>
+    <color name="tv_color_bottom">@color/app_color_style</color>
 
     <!-- UI背景常用颜色值 -->
     <color name="ui_bg_color_div_min_01">#E5E5E5</color><!-- 分割线颜色值:细 -->

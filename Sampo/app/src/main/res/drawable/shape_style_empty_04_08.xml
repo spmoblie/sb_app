@@ -18,7 +18,7 @@
         android:color="@color/ui_color_status" />
 
     <!-- 圆角 -->
-    <corners android:radius="18dp" />
+    <corners android:radius="8dp" />
 
     <!-- 间隔  -->
     <!-- <padding

@@ -65,11 +65,11 @@ public class RotateLoadingLayout extends LoadingLayout {
      * @param context context
      */
     private void init(Context context) {
-        mHeaderContainer = (RelativeLayout) findViewById(R.id.pull_to_load_header_content);
-        mArrowImageView = (ImageView) findViewById(R.id.pull_to_load_header_arrow);
-        mHintTextView = (TextView) findViewById(R.id.pull_to_load_header_tv_hint);
-        mHeaderTimeView = (TextView) findViewById(R.id.pull_to_load_header_tv_time);
-        mHeaderTimeViewTitle = (TextView) findViewById(R.id.pull_to_load_header_tv_last_time);
+        mHeaderContainer = findViewById(R.id.pull_to_load_header_content);
+        mArrowImageView = findViewById(R.id.pull_to_load_header_arrow);
+        mHintTextView = findViewById(R.id.pull_to_load_header_tv_hint);
+        mHeaderTimeView = findViewById(R.id.pull_to_load_header_tv_time);
+        mHeaderTimeViewTitle = findViewById(R.id.pull_to_load_header_tv_last_time);
         
         mArrowImageView.setScaleType(ScaleType.CENTER);
         mArrowImageView.setImageResource(R.mipmap.loading_anim_small);

@@ -17,7 +17,6 @@ import com.songbao.sampo.adapter.AdapterCallback;
 import com.songbao.sampo.adapter.MyCustomizeAdapter;
 import com.songbao.sampo.entity.BaseEntity;
 import com.songbao.sampo.entity.CustomizeEntity;
-import com.songbao.sampo.entity.ThemeEntity;
 import com.songbao.sampo.utils.ExceptionUtil;
 import com.songbao.sampo.utils.JsonUtils;
 import com.songbao.sampo.utils.LogUtil;
@@ -57,14 +56,38 @@ public class MyCustomizeActivity extends BaseActivity implements View.OnClickLis
 	@BindView(R.id.refresh_view_rv)
 	PullToRefreshRecyclerView refresh_rv;
 
+	MyRecyclerView mRecyclerView;
 	MyCustomizeAdapter rvAdapter;
 
+	public static final int TYPE_1 = 0;  //全部
+	public static final int TYPE_2 = 1;  //待付款
+	public static final int TYPE_3 = 2;  //生产中
+	public static final int TYPE_4 = 3;  //待收货
+	public static final int TYPE_5 = 4;  //待评价
+
 	private int data_total = -1; //数据总量
-	private int load_page = 1; //加载页数
 	private int load_type = 1; //加载类型(0:下拉刷新/1:翻页加载)
+	private int load_page = 1; //加载页数
+	private int load_page_1 = 1;
+	private int load_page_2 = 1;
+	private int load_page_3 = 1;
+	private int load_page_4 = 1;
+	private int load_page_5 = 1;
+	private int top_type = TYPE_1; //Top标记
+	private int total_1, total_2, total_3, total_4, total_5;
 	private boolean isLoadOk = true; //加载控制
+
 	private ArrayList<CustomizeEntity> al_show = new ArrayList<>();
-	private ArrayMap<String, Boolean> am_show = new ArrayMap<>();
+	private ArrayList<CustomizeEntity> al_all_1 = new ArrayList<>();
+	private ArrayList<CustomizeEntity> al_all_2 = new ArrayList<>();
+	private ArrayList<CustomizeEntity> al_all_3 = new ArrayList<>();
+	private ArrayList<CustomizeEntity> al_all_4 = new ArrayList<>();
+	private ArrayList<CustomizeEntity> al_all_5 = new ArrayList<>();
+	private ArrayMap<String, Boolean> am_all_1 = new ArrayMap<>();
+	private ArrayMap<String, Boolean> am_all_2 = new ArrayMap<>();
+	private ArrayMap<String, Boolean> am_all_3 = new ArrayMap<>();
+	private ArrayMap<String, Boolean> am_all_4 = new ArrayMap<>();
+	private ArrayMap<String, Boolean> am_all_5 = new ArrayMap<>();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +102,8 @@ public class MyCustomizeActivity extends BaseActivity implements View.OnClickLis
 
 		initRadioGroup();
 		initRecyclerView();
-		loadMoreData();
+		setDefaultRadioButton();
+		loadFirstPageData();
 	}
 
 	private void initRadioGroup() {
@@ -96,6 +120,8 @@ public class MyCustomizeActivity extends BaseActivity implements View.OnClickLis
 	}
 
 	private void initRecyclerView() {
+		refresh_rv.setHeaderLayoutBackground(R.color.ui_color_app_bg_02);
+		refresh_rv.setFooterLayoutBackground(R.color.ui_color_app_bg_02);
 		refresh_rv.setPullRefreshEnabled(true); //下拉刷新
 		refresh_rv.setPullLoadEnabled(true); //上拉加载
 		refresh_rv.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<MyRecyclerView>() {
@@ -133,7 +159,7 @@ public class MyCustomizeActivity extends BaseActivity implements View.OnClickLis
 		LinearLayoutManager layoutManager = new LinearLayoutManager(mContext);
 		layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 		// 设置布局管理器
-		final MyRecyclerView mRecyclerView = refresh_rv.getRefreshableView();
+		mRecyclerView = refresh_rv.getRefreshableView();
 		mRecyclerView.setLayoutManager(layoutManager);
 
 		// 配置适配器
@@ -150,7 +176,114 @@ public class MyCustomizeActivity extends BaseActivity implements View.OnClickLis
 		mRecyclerView.setAdapter(rvAdapter);
 	}
 
+	/**
+	 * 设置默认项
+	 */
+	private void setDefaultRadioButton() {
+		RadioButton defaultBtn;
+		switch (top_type) {
+			case TYPE_1:
+				defaultBtn = rb_1;
+				break;
+			case TYPE_2:
+				defaultBtn = rb_2;
+				break;
+			case TYPE_3:
+				defaultBtn = rb_3;
+				break;
+			case TYPE_4:
+				defaultBtn = rb_4;
+				break;
+			case TYPE_5:
+				defaultBtn = rb_5;
+				break;
+			default:
+				defaultBtn = rb_1;
+				break;
+		}
+		defaultBtn.setChecked(true);
+	}
+
+	@Override
+	public void onClick(View v) {
+		if (!isLoadOk) { //加载频率控制
+			setDefaultRadioButton();
+			return;
+		}
+		switch (v.getId()) {
+			case R.id.top_bar_radio_rb_1:
+				if (top_type == TYPE_1) return;
+				top_type = TYPE_1;
+				addOldListData(al_all_1, load_page_1, total_1);
+				if (al_all_1.size() <= 0) {
+					load_page_1 = 1;
+					total_1 = 0;
+					loadFirstPageData();
+				}
+				break;
+			case R.id.top_bar_radio_rb_2:
+				if (top_type == TYPE_2) return;
+				top_type = TYPE_2;
+				addOldListData(al_all_2, load_page_2, total_2);
+				if (al_all_2.size() <= 0) {
+					load_page_2 = 1;
+					total_2 = 0;
+					loadFirstPageData();
+				}
+				break;
+			case R.id.top_bar_radio_rb_3:
+				if (top_type == TYPE_3) return;
+				top_type = TYPE_3;
+				addOldListData(al_all_3, load_page_3, total_3);
+				if (al_all_3.size() <= 0) {
+					load_page_3 = 1;
+					total_3 = 0;
+					loadFirstPageData();
+				}
+				break;
+			case R.id.top_bar_radio_rb_4:
+				if (top_type == TYPE_4) return;
+				top_type = TYPE_4;
+				addOldListData(al_all_4, load_page_4, total_4);
+				if (al_all_4.size() <= 0) {
+					load_page_4 = 1;
+					total_4 = 0;
+					loadFirstPageData();
+				}
+				break;
+			case R.id.top_bar_radio_rb_5:
+				if (top_type == TYPE_5) return;
+				top_type = TYPE_5;
+				addOldListData(al_all_5, load_page_5, total_5);
+				if (al_all_5.size() <= 0) {
+					load_page_5 = 1;
+					total_5 = 0;
+					loadFirstPageData();
+				}
+				break;
+		}
+	}
+
+	/**
+	 * 展示已缓存的数据并至顶
+	 */
+	private void addOldListData(List<CustomizeEntity> oldLists, int oldPage, int oldTotal) {
+		refreshAllShow(oldLists, oldTotal);
+		load_page = oldPage;
+		updateListData();
+		if (load_page != 1) {
+			toTop();
+		}
+		setLoadMoreState();
+	}
+
+	/**
+	 * 更新列表数据
+	 */
 	private void updateListData() {
+		if (load_page == 1) {
+			toTop();
+		}
 		if (al_show.size() <= 0) {
 			setNullVisibility(View.VISIBLE);
 		} else {
@@ -159,20 +292,27 @@ public class MyCustomizeActivity extends BaseActivity implements View.OnClickLis
 		rvAdapter.updateData(al_show);
 	}
 
-	@Override
-	public void onClick(View v) {
-		switch (v.getId()) {
-			case R.id.top_bar_radio_rb_1:
-				break;
-			case R.id.top_bar_radio_rb_2:
-				break;
-			case R.id.top_bar_radio_rb_3:
-				break;
-			case R.id.top_bar_radio_rb_4:
-				break;
-			case R.id.top_bar_radio_rb_5:
-				break;
-		}
+	/**
+	 * 刷新需要展示的数据
+	 */
+	private void refreshAllShow(List<CustomizeEntity> showLists, int total) {
+		al_show.clear();
+		al_show.addAll(showLists);
+		data_total = total;
+	}
+
+	/**
+	 * 滚动到顶部
+	 */
+	private void toTop() {
+		mRecyclerView.smoothScrollToPosition(0);
+	}
+
+	/**
+	 * 设置允许加载更多
+	 */
+	private void setLoadMoreState() {
+		refresh_rv.setHasMoreData(true);
 	}
 
 	@Override
@@ -199,6 +339,13 @@ public class MyCustomizeActivity extends BaseActivity implements View.OnClickLis
 	}
 
 	/**
+	 * 加载第一页数据
+	 */
+	private void loadFirstPageData() {
+		refresh_rv.doPullRefreshing(true, 0);
+	}
+
+	/**
 	 *下拉刷新
 	 */
 	private void refreshData() {
@@ -211,8 +358,24 @@ public class MyCustomizeActivity extends BaseActivity implements View.OnClickLis
 	 */
 	private void loadMoreData() {
 		load_type = 1;
-		//loadServerData();
-		loadDemoData();
+		switch (top_type) {
+			case TYPE_1:
+				load_page = load_page_1;
+				break;
+			case TYPE_2:
+				load_page = load_page_2;
+				break;
+			case TYPE_3:
+				load_page = load_page_3;
+				break;
+			case TYPE_4:
+				load_page = load_page_4;
+				break;
+			case TYPE_5:
+				load_page = load_page_5;
+				break;
+		}
+		loadServerData();
 	}
 
 	/**
@@ -226,9 +389,11 @@ public class MyCustomizeActivity extends BaseActivity implements View.OnClickLis
 			page = "1";
 		}
 		HashMap<String, String> map = new HashMap<>();
+		map.put("type", String.valueOf(top_type));
 		map.put("page", page);
 		map.put("size", AppConfig.LOAD_SIZE);
-		loadSVData(AppConfig.URL_USER_ORDER, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_USER_ORDER);
+		map.put("isReservation", "1");
+		loadSVData(AppConfig.URL_HOME_LIST, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_USER_ORDER);
 	}
 
 	@Override
@@ -239,20 +404,85 @@ public class MyCustomizeActivity extends BaseActivity implements View.OnClickLis
 				case AppConfig.REQUEST_SV_USER_ORDER:
 					baseEn = JsonUtils.getMyOrderData(jsonObject);
 					if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
-						data_total = baseEn.getDataTotal();
-						List<CustomizeEntity> lists = filterData(baseEn.getLists(), am_show);
-						if (lists != null && lists.size() > 0) {
-							if (load_type == 0) {
-								//下拉
-								LogUtil.i(LogUtil.LOG_HTTP, TAG + " 刷新数据 —> size = " + lists.size());
-								lists.addAll(al_show);
-								al_show.clear();
-							}else {
-								//翻页
-								LogUtil.i(LogUtil.LOG_HTTP, TAG + " 翻页数据 —> size = " + lists.size());
-								load_page++;
-							}
-							al_show.addAll(lists);
+						int newTotal = baseEn.getDataTotal();
+						List<CustomizeEntity> lists = new ArrayList<>();
+						switch (top_type) {
+							case TYPE_1:
+								lists = filterData(baseEn.getLists(), am_all_1);
+								if (lists.size() > 0) {
+									if (load_type == 0) {
+										lists.addAll(al_all_1);
+										al_all_1.clear();
+									}else {
+										load_page_1++;
+									}
+									total_1 = newTotal;
+									al_all_1.addAll(lists);
+									refreshAllShow(al_all_1, total_1);
+								}
+								break;
+							case TYPE_2:
+								lists = filterData(baseEn.getLists(), am_all_2);
+								if (lists.size() > 0) {
+									if (load_type == 0) {
+										lists.addAll(al_all_2);
+										al_all_2.clear();
+									}else {
+										load_page_2++;
+									}
+									total_2 = newTotal;
+									al_all_2.addAll(lists);
+									refreshAllShow(al_all_2, total_2);
+								}
+								break;
+							case TYPE_3:
+								lists = filterData(baseEn.getLists(), am_all_3);
+								if (lists.size() > 0) {
+									if (load_type == 0) {
+										lists.addAll(al_all_3);
+										al_all_3.clear();
+									}else {
+										load_page_3++;
+									}
+									total_3 = newTotal;
+									al_all_3.addAll(lists);
+									refreshAllShow(al_all_3, total_3);
+								}
+								break;
+							case TYPE_4:
+								lists = filterData(baseEn.getLists(), am_all_4);
+								if (lists.size() > 0) {
+									if (load_type == 0) {
+										lists.addAll(al_all_4);
+										al_all_4.clear();
+									}else {
+										load_page_4++;
+									}
+									total_4 = newTotal;
+									al_all_4.addAll(lists);
+									refreshAllShow(al_all_4, total_4);
+								}
+								break;
+							case TYPE_5:
+								lists = filterData(baseEn.getLists(), am_all_5);
+								if (lists.size() > 0) {
+									if (load_type == 0) {
+										lists.addAll(al_all_5);
+										al_all_5.clear();
+									}else {
+										load_page_5++;
+									}
+									total_5 = newTotal;
+									al_all_5.addAll(lists);
+									refreshAllShow(al_all_5, total_5);
+								}
+								break;
+						}
+						if (load_type == 0) {
+							setLoadMoreState();
+							LogUtil.i(LogUtil.LOG_HTTP, TAG + " 刷新数据 —> size = " + lists.size());
+						} else {
+							LogUtil.i(LogUtil.LOG_HTTP, TAG + " 翻页数据 —> size = " + lists.size());
 						}
 						updateListData();
 					} else if (baseEn.getErrno() == AppConfig.ERROR_CODE_TIMEOUT) {
@@ -272,7 +502,25 @@ public class MyCustomizeActivity extends BaseActivity implements View.OnClickLis
 	@Override
 	protected void loadFailHandle() {
 		super.loadFailHandle();
-		handleErrorCode(null);
+
+		switch (top_type) {
+			case TYPE_1:
+				refreshAllShow(al_all_1, total_1);
+				break;
+			case TYPE_2:
+				refreshAllShow(al_all_2, total_2);
+				break;
+			case TYPE_3:
+				refreshAllShow(al_all_3, total_3);
+				break;
+			case TYPE_4:
+				refreshAllShow(al_all_4, total_4);
+				break;
+			case TYPE_5:
+				refreshAllShow(al_all_5, total_5);
+				break;
+		}
+		updateListData();
 	}
 
 	@Override
@@ -282,59 +530,4 @@ public class MyCustomizeActivity extends BaseActivity implements View.OnClickLis
 		refresh_rv.onPullUpRefreshComplete();
 		refresh_rv.onPullDownRefreshComplete();
 	}
-
-	/**
-	 * 构建Demo数据
-	 */
-	private void loadDemoData() {
-		al_show.clear();
-
-		CustomizeEntity chEn_1 = new CustomizeEntity();
-		CustomizeEntity chEn_2 = new CustomizeEntity();
-		CustomizeEntity chEn_3 = new CustomizeEntity();
-		ThemeEntity themeEn_1 = new ThemeEntity();
-		ThemeEntity themeEn_2 = new ThemeEntity();
-		ThemeEntity themeEn_3 = new ThemeEntity();
-
-		chEn_1.setId(1);
-		chEn_1.setTitle("从受欢迎到被需要：小小小木匠的家具设计课第一百六十");
-		chEn_1.setName("松小堡南山方大城店");
-		chEn_1.setPayType("微信支付");
-		chEn_1.setCost("299");
-		chEn_1.setAddTime("2019-11-18 18:18");
-		chEn_1.setStatus(1);
-		themeEn_1.setThemeType(0);
-		themeEn_1.setId(1);
-		themeEn_1.setThemeId("1");
-		chEn_1.setThemeEn(themeEn_1);
-		al_show.add(chEn_1);
-		chEn_2.setId(2);
-		chEn_2.setTitle("从受欢迎到被需要：小小小木匠的家具设计课第一百六十");
-		chEn_2.setName("松小堡南山方大城店");
-		chEn_2.setPayType("微信支付");
-		chEn_2.setCost("299");
-		chEn_2.setAddTime("2019-11-18 18:18");
-		chEn_2.setStatus(2);
-		themeEn_2.setThemeType(1);
-		themeEn_2.setId(2);
-		themeEn_2.setThemeId("2");
-		chEn_2.setThemeEn(themeEn_2);
-		//al_show.add(chEn_2);
-		chEn_3.setId(3);
-		chEn_3.setTitle("从受欢迎到被需要：小小小木匠的家具设计课第一百六十");
-		chEn_3.setName("松小堡南山方大城店");
-		chEn_3.setPayType("微信支付");
-		chEn_3.setCost("299");
-		chEn_3.setAddTime("2019-11-18 18:18");
-		chEn_3.setStatus(3);
-		themeEn_3.setThemeType(0);
-		themeEn_3.setId(3);
-		themeEn_3.setThemeId("3");
-		chEn_3.setThemeEn(themeEn_3);
-		//al_show.add(chEn_3);
-
-		updateListData();
-		stopAnimation();
-	}
-
 }

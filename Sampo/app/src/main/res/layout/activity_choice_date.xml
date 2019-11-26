@@ -25,7 +25,7 @@
                 android:id="@+id/choice_date_cal"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/shape_style_solid_1_18"
+                android:background="@drawable/shape_style_solid_01_16"
 
                 openxu:mCurrentBg="@color/app_color_gray_9"
                 openxu:mCurrentBgDashPath="@array/customCalendar_currentDay"

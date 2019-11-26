@@ -68,7 +68,7 @@ public class MessageActivity extends BaseActivity {
 	}
 
 	private void initRecyclerView() {
-		refresh_rv.setHeaderLayoutBackground(R.color.app_color_gray_f_8);
+		refresh_rv.setHeaderLayoutBackground(R.color.ui_color_app_bg_02);
 		refresh_rv.setPullRefreshEnabled(true); //下拉刷新
 		refresh_rv.setPullLoadEnabled(true); //上拉加载
 		refresh_rv.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<MyRecyclerView>() {
@@ -116,7 +116,13 @@ public class MessageActivity extends BaseActivity {
 
 			@Override
 			public void setOnClick(Object data, int position, int type) {
-
+				if (position < 0 || position >= al_show.size()) return;
+				MessageEntity msgEn = al_show.get(position);
+				if (msgEn != null && !msgEn.isRead()) {
+					postReadMessage(msgEn.getId());
+					al_show.get(position).setRead(true);
+					updateListData();
+				}
 			}
 		});
 		mRecyclerView.setAdapter(rvAdapter);
@@ -169,6 +175,15 @@ public class MessageActivity extends BaseActivity {
 		load_type = 1;
 		loadServerData();
 		//loadDemoData();
+	}
+
+	/**
+	 * 提交读消息事件
+	 */
+	private void postReadMessage(String id) {
+		HashMap<String, String> map = new HashMap<>();
+		map.put("id", id);
+		loadSVData(AppConfig.URL_MESSAGE_STATUS, map, HttpRequests.HTTP_POST, 0);
 	}
 
 	/**

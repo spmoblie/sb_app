@@ -60,7 +60,7 @@
     <string name="submit_success">提交成功</string>
     <string name="must_fill">必填</string>
     <string name="not_empty">不能为空</string>
-    <string name="data_null">没有内容</string>
+    <string name="data_null">- 暂无内容 -</string>
     <string name="setting">设置</string>
     <string name="error">错误</string>
     <string name="post">发布</string>
@@ -234,8 +234,19 @@
     <string name="order_wait_pay">待付款</string>
     <string name="order_producing">生产中</string>
     <string name="order_wait_receive">待收货</string>
+    <string name="order_completed">已完成</string>
     <string name="order_wait_opinion">待评价</string>
     <string name="order_repair_return">退换货</string>
+    <string name="order_cancel">取消订单</string>
+    <string name="order_pay">立即付款</string>
+    <string name="order_progress">查看进度</string>
+    <string name="order_logistics">查看物流</string>
+    <string name="order_confirm_receipt">确认收货</string>
+    <string name="order_evaluate">我要评价</string>
+    <string name="order_delete">删除订单</string>
+    <string name="order_after_sale">申请售后</string>
+    <string name="order_refund_details">退款详情</string>
+    <string name="order_revoke_refund">撤销退款</string>
 
     <!-- Photo page -->
     <string name="photo_select_title">选择相册</string>

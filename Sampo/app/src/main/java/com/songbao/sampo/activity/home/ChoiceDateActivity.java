@@ -224,9 +224,9 @@ public class ChoiceDateActivity extends BaseActivity implements View.OnClickList
      */
     private void updateViewSate() {
         if (StringUtil.isNull(selectTime)) {
-            tv_confirm.setBackgroundResource(R.drawable.shape_style_solid_3_33);
+            tv_confirm.setBackgroundResource(R.drawable.shape_style_solid_03_08);
         } else {
-            tv_confirm.setBackgroundResource(R.drawable.shape_style_solid_5_33);
+            tv_confirm.setBackgroundResource(R.drawable.shape_style_solid_04_08);
         }
     }
 

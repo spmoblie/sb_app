@@ -184,7 +184,7 @@
         <item name="android:paddingRight">@dimen/margin_padding_20</item>
         <item name="android:paddingBottom">@dimen/margin_padding_15</item>
         <item name="android:layout_marginTop">@dimen/margin_padding_30</item>
-        <item name="android:background">@drawable/shape_style_solid_5_33</item>
+        <item name="android:background">@drawable/shape_style_solid_04_08</item>
         <item name="android:gravity">center</item>
         <item name="android:textSize">@dimen/app_text_size_button</item>
         <item name="android:textColor">@color/tv_color_button</item>
@@ -275,7 +275,7 @@
         <item name="android:paddingLeft">@dimen/margin_padding_9</item>
         <item name="android:paddingRight">@dimen/margin_padding_9</item>
         <item name="android:layout_marginTop">@dimen/margin_padding_10</item>
-        <item name="android:background">@drawable/shape_style_empty_5_18</item>
+        <item name="android:background">@drawable/shape_style_empty_04_08</item>
         <item name="android:maxLines">1</item>
         <item name="android:ellipsize">end</item>
         <item name="android:textColor">@color/tv_color_status</item>
@@ -390,7 +390,7 @@
         <item name="android:paddingTop">@dimen/margin_padding_10</item>
         <item name="android:paddingRight">@dimen/margin_padding_30</item>
         <item name="android:paddingBottom">@dimen/margin_padding_10</item>
-        <item name="android:background">@drawable/shape_style_solid_5_33</item>
+        <item name="android:background">@drawable/shape_style_solid_04_08</item>
     </style>
 
     <!-- 通用垂直Item布局样式 -->

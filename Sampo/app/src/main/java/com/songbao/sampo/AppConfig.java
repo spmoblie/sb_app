@@ -75,6 +75,8 @@ public class AppConfig {
 
 	// 我的消息
 	public final static String URL_MESSAGE = "app/user/message";
+	// 消息状态
+	public final static String URL_MESSAGE_STATUS = "app/user/message/updateStatus";
 	// 我的门票
 	public final static String URL_USER_TICKETS = "app/user/tickets";
 	// 我的活动

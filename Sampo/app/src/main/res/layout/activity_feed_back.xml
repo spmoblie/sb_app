@@ -40,7 +40,7 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="@dimen/app_margin_screen"
             android:layout_marginRight="@dimen/app_margin_screen"
-            android:background="@drawable/shape_style_solid_5_33"
+            android:background="@drawable/shape_style_solid_04_08"
             android:gravity="center"
             android:text="@string/submit"
             android:textColor="@color/tv_color_button"

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/shape_style_solid_1_18"
+    android:background="@drawable/shape_style_solid_01_16"
     android:padding="@dimen/app_margin_dialog">
 
     <ImageView
@@ -51,7 +51,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/app_margin_dialog"
-        android:background="@drawable/shape_style_solid_5_33"
+        android:background="@drawable/shape_style_solid_04_08"
         android:gravity="center"
         android:paddingBottom="@dimen/margin_padding_12"
         android:paddingLeft="@dimen/margin_padding_30"

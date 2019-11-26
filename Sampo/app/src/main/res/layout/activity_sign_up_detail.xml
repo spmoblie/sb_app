@@ -42,7 +42,7 @@
                     android:id="@+id/sign_up_detail_tv_series"
                     style="@style/common_text_bg_frame"
                     android:layout_marginLeft="@dimen/margin_padding_10"
-                    android:background="@drawable/shape_style_empty_6_18"
+                    android:background="@drawable/shape_style_empty_09_08"
                     android:textColor="@color/app_color_blue" />
 
             </LinearLayout>
