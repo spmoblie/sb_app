@@ -2,11 +2,13 @@ package com.songbao.sampo.utils;
 
 import com.songbao.sampo.entity.BaseEntity;
 import com.songbao.sampo.entity.CouponEntity;
+import com.songbao.sampo.entity.CustomizeEntity;
 import com.songbao.sampo.entity.DesignerEntity;
+import com.songbao.sampo.entity.GoodsEntity;
 import com.songbao.sampo.entity.MessageEntity;
 import com.songbao.sampo.entity.OptionEntity;
-import com.songbao.sampo.entity.CustomizeEntity;
 import com.songbao.sampo.entity.PaymentEntity;
+import com.songbao.sampo.entity.PurchaseEntity;
 import com.songbao.sampo.entity.ThemeEntity;
 import com.songbao.sampo.entity.UserInfoEntity;
 import com.songbao.sampo.wxapi.WXPayEntryActivity;
@@ -344,7 +346,7 @@ public class JsonUtils {
     }
 
     /**
-     * 解析我的设计数据
+     * 解析设计师数据
      */
     public static BaseEntity getDesignData(JSONObject jsonObject) throws JSONException {
         BaseEntity mainEn = getCommonKeyValue(jsonObject);
@@ -368,20 +370,44 @@ public class JsonUtils {
     }
 
     /**
-     * 解析我的门票数据
+     * 解析我的购买数据
      */
-    public static BaseEntity getMyTicketsData(JSONObject jsonObject) throws JSONException {
+    public static BaseEntity getMyPurchaseData(JSONObject jsonObject) throws JSONException {
         BaseEntity mainEn = getCommonKeyValue(jsonObject);
 
         if (StringUtil.notNull(jsonObject, "data")) {
             JSONObject jsonData = jsonObject.getJSONObject("data");
-            if (StringUtil.notNull(jsonData, "dataList")) {
-                JSONArray data = jsonData.getJSONArray("dataList");
-                CouponEntity childEn;
-                List<CouponEntity> lists = new ArrayList<>();
-                for (int j = 0; j < data.length(); j++) {
-                    JSONObject item = data.getJSONObject(j);
-                    childEn = new CouponEntity();
+            if (StringUtil.notNull(jsonData, "total")) {
+                mainEn.setDataTotal(jsonData.getInt("total"));
+            }
+            if (StringUtil.notNull(jsonData, "activityList")) {
+                JSONArray data = jsonData.getJSONArray("activityList");
+                PurchaseEntity childEn;
+                GoodsEntity goodsEn;
+                List<PurchaseEntity> lists = new ArrayList<>();
+                for (int i = 0; i < data.length(); i++) {
+                    JSONObject item = data.getJSONObject(i);
+                    childEn = new PurchaseEntity();
+                    int id = i+1;
+                    childEn.setId(id);
+                    childEn.setGoodsNum(id);
+                    childEn.setTotalPrice(5908);
+                    childEn.setAddTime("2019-11-18 18:18");
+                    childEn.setStatus(id);
+
+                    List<GoodsEntity> goods = new ArrayList<>();
+                    for (int j = 0; j < 2; j++) {
+                        goodsEn = new GoodsEntity();
+                        int is = id*10 + j;
+                        goodsEn.setId(is);
+                        goodsEn.setName("松堡王国现代简约彩条双层床");
+                        goodsEn.setAttribute("天蓝色；1350*1900");
+                        goodsEn.setNumber(is);
+                        goodsEn.setPrice(2999);
+                        goods.add(goodsEn);
+                    }
+                    childEn.setGoodsLists(goods);
+
                     lists.add(childEn);
                 }
                 mainEn.setLists(lists);
@@ -391,9 +417,9 @@ public class JsonUtils {
     }
 
     /**
-     * 解析我的订单数据
+     * 解析我的定制数据
      */
-    public static BaseEntity getMyOrderData(JSONObject jsonObject) throws JSONException {
+    public static BaseEntity getMyCustomizeData(JSONObject jsonObject) throws JSONException {
         BaseEntity mainEn = getCommonKeyValue(jsonObject);
 
         if (StringUtil.notNull(jsonObject, "data")) {
@@ -415,6 +441,29 @@ public class JsonUtils {
                     childEn.setPhone("188888800" + id);
                     childEn.setAddTime("2019-11-18 18:18");
                     childEn.setStatus(id);
+                    lists.add(childEn);
+                }
+                mainEn.setLists(lists);
+            }
+        }
+        return mainEn;
+    }
+
+    /**
+     * 解析我的门票数据
+     */
+    public static BaseEntity getMyTicketsData(JSONObject jsonObject) throws JSONException {
+        BaseEntity mainEn = getCommonKeyValue(jsonObject);
+
+        if (StringUtil.notNull(jsonObject, "data")) {
+            JSONObject jsonData = jsonObject.getJSONObject("data");
+            if (StringUtil.notNull(jsonData, "dataList")) {
+                JSONArray data = jsonData.getJSONArray("dataList");
+                CouponEntity childEn;
+                List<CouponEntity> lists = new ArrayList<>();
+                for (int j = 0; j < data.length(); j++) {
+                    JSONObject item = data.getJSONObject(j);
+                    childEn = new CouponEntity();
                     lists.add(childEn);
                 }
                 mainEn.setLists(lists);

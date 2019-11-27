@@ -6,34 +6,49 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.songbao.sampo.AppApplication;
 import com.songbao.sampo.R;
-import com.songbao.sampo.entity.CustomizeEntity;
-import com.songbao.sampo.widgets.RoundImageView;
+import com.songbao.sampo.entity.GoodsEntity;
+import com.songbao.sampo.entity.PurchaseEntity;
+import com.songbao.sampo.utils.CommonTools;
+import com.songbao.sampo.widgets.ScrollViewListView;
 
-public class MyCustomizeAdapter extends BaseRecyclerAdapter {
+import java.text.DecimalFormat;
 
-    public MyCustomizeAdapter(Context context, int resLayout) {
+public class MyPurchaseAdapter extends BaseRecyclerAdapter {
+
+    private DecimalFormat df;
+    private GoodsListAdapter lv_adapter;
+
+    public MyPurchaseAdapter(Context context, int resLayout) {
         super(context, resLayout);
+        df = new DecimalFormat("0.00");
+        lv_adapter = new GoodsListAdapter(context);
+        lv_adapter.addCallback(new AdapterCallback() {
+            @Override
+            public void setOnClick(Object data, int position, int type) {
+                GoodsEntity goodsEn = (GoodsEntity) data;
+                if (goodsEn != null) {
+                    CommonTools.showToast("点击了商品 " + goodsEn.getId());
+                }
+            }
+        });
     }
 
     @Override
     public void bindData(BaseRecyclerHolder holder, final int pos) {
         // 获取View
-        LinearLayout item_main = holder.getView(R.id.my_customize_item_main);
-        RelativeLayout tv_top = holder.getView(R.id.my_customize_item_rl_top);
-        TextView tv_time = holder.getView(R.id.my_customize_item_tv_time);
-        TextView tv_status = holder.getView(R.id.my_customize_item_tv_status);
-        RoundImageView iv_show = holder.getView(R.id.my_customize_item_iv_show);
-        TextView tv_title = holder.getView(R.id.my_customize_item_tv_title);
-        TextView tv_name = holder.getView(R.id.my_customize_item_tv_name);
-        TextView tv_phone = holder.getView(R.id.my_customize_item_tv_phone);
-        TextView tv_click_01 = holder.getView(R.id.my_customize_item_tv_click_01);
-        TextView tv_click_02 = holder.getView(R.id.my_customize_item_tv_click_02);
+        LinearLayout item_main = holder.getView(R.id.my_purchase_item_main);
+        RelativeLayout tv_top = holder.getView(R.id.my_purchase_item_rl_top);
+        TextView tv_time = holder.getView(R.id.my_purchase_item_tv_time);
+        TextView tv_status = holder.getView(R.id.my_purchase_item_tv_status);
+        ScrollViewListView lv_goods = holder.getView(R.id.my_purchase_item_lv_goods);
+        TextView tv_number = holder.getView(R.id.my_purchase_item_tv_number);
+        TextView tv_price = holder.getView(R.id.my_purchase_item_tv_price);
+        TextView tv_click_01 = holder.getView(R.id.my_purchase_item_tv_click_01);
+        TextView tv_click_02 = holder.getView(R.id.my_purchase_item_tv_click_02);
 
         // 绑定View
-        final CustomizeEntity data = (CustomizeEntity) mDataList.get(pos);
+        final PurchaseEntity data = (PurchaseEntity) mDataList.get(pos);
 
         if (pos == 0) {
             tv_top.setVisibility(View.VISIBLE);
@@ -41,15 +56,12 @@ public class MyCustomizeAdapter extends BaseRecyclerAdapter {
             tv_top.setVisibility(View.GONE);
         }
 
-        Glide.with(AppApplication.getAppContext())
-                .load(data.getPicUrl())
-                .apply(AppApplication.getShowOptions())
-                .into(iv_show);
+        lv_adapter.updateData(data.getGoodsLists());
+        lv_goods.setAdapter(lv_adapter);
 
         tv_time.setText(data.getAddTime());
-        tv_title.setText(data.getTitle());
-        tv_name.setText(data.getName());
-        tv_phone.setText(data.getPhone());
+        tv_number.setText(context.getString(R.string.order_goods_num, data.getGoodsNum()));
+        tv_price.setText(df.format(data.getTotalPrice()));
 
         switch (data.getStatus()) {
             case 1: //待付款

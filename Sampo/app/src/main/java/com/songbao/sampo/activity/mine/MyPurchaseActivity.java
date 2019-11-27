@@ -14,9 +14,9 @@ import com.songbao.sampo.R;
 import com.songbao.sampo.activity.BaseActivity;
 import com.songbao.sampo.activity.sampo.CustomizeActivity;
 import com.songbao.sampo.adapter.AdapterCallback;
-import com.songbao.sampo.adapter.MyCustomizeAdapter;
+import com.songbao.sampo.adapter.MyPurchaseAdapter;
 import com.songbao.sampo.entity.BaseEntity;
-import com.songbao.sampo.entity.CustomizeEntity;
+import com.songbao.sampo.entity.PurchaseEntity;
 import com.songbao.sampo.utils.ExceptionUtil;
 import com.songbao.sampo.utils.JsonUtils;
 import com.songbao.sampo.utils.LogUtil;
@@ -34,9 +34,9 @@ import java.util.List;
 import butterknife.BindView;
 
 
-public class MyCustomizeActivity extends BaseActivity implements View.OnClickListener{
+public class MyPurchaseActivity extends BaseActivity implements View.OnClickListener{
 
-	String TAG = MyCustomizeActivity.class.getSimpleName();
+	String TAG = MyPurchaseActivity.class.getSimpleName();
 
 	@BindView(R.id.top_bar_radio_rb_1)
 	RadioButton rb_1;
@@ -57,13 +57,13 @@ public class MyCustomizeActivity extends BaseActivity implements View.OnClickLis
 	PullToRefreshRecyclerView refresh_rv;
 
 	MyRecyclerView mRecyclerView;
-	MyCustomizeAdapter rvAdapter;
+	MyPurchaseAdapter rvAdapter;
 
 	public static final int TYPE_1 = 0;  //全部
 	public static final int TYPE_2 = 1;  //待付款
-	public static final int TYPE_3 = 2;  //生产中
-	public static final int TYPE_4 = 3;  //待收货
-	public static final int TYPE_5 = 4;  //待评价
+	public static final int TYPE_3 = 2;  //待收货
+	public static final int TYPE_4 = 3;  //待评价
+	public static final int TYPE_5 = 4;  //退换货
 
 	private int data_total = -1; //数据总量
 	private int load_type = 1; //加载类型(0:下拉刷新/1:翻页加载)
@@ -77,12 +77,12 @@ public class MyCustomizeActivity extends BaseActivity implements View.OnClickLis
 	private int total_1, total_2, total_3, total_4, total_5;
 	private boolean isLoadOk = true; //加载控制
 
-	private ArrayList<CustomizeEntity> al_show = new ArrayList<>();
-	private ArrayList<CustomizeEntity> al_all_1 = new ArrayList<>();
-	private ArrayList<CustomizeEntity> al_all_2 = new ArrayList<>();
-	private ArrayList<CustomizeEntity> al_all_3 = new ArrayList<>();
-	private ArrayList<CustomizeEntity> al_all_4 = new ArrayList<>();
-	private ArrayList<CustomizeEntity> al_all_5 = new ArrayList<>();
+	private ArrayList<PurchaseEntity> al_show = new ArrayList<>();
+	private ArrayList<PurchaseEntity> al_all_1 = new ArrayList<>();
+	private ArrayList<PurchaseEntity> al_all_2 = new ArrayList<>();
+	private ArrayList<PurchaseEntity> al_all_3 = new ArrayList<>();
+	private ArrayList<PurchaseEntity> al_all_4 = new ArrayList<>();
+	private ArrayList<PurchaseEntity> al_all_5 = new ArrayList<>();
 	private ArrayMap<String, Boolean> am_all_1 = new ArrayMap<>();
 	private ArrayMap<String, Boolean> am_all_2 = new ArrayMap<>();
 	private ArrayMap<String, Boolean> am_all_3 = new ArrayMap<>();
@@ -98,7 +98,7 @@ public class MyCustomizeActivity extends BaseActivity implements View.OnClickLis
 	}
 
 	private void initView() {
-		setTitle(getString(R.string.mine_my_customize));
+		setTitle(getString(R.string.mine_my_purchase));
 
 		initRadioGroup();
 		initRecyclerView();
@@ -109,9 +109,9 @@ public class MyCustomizeActivity extends BaseActivity implements View.OnClickLis
 	private void initRadioGroup() {
 		rb_1.setText(getString(R.string.order_all));
 		rb_2.setText(getString(R.string.order_wait_pay));
-		rb_3.setText(getString(R.string.order_producing));
-		rb_4.setText(getString(R.string.order_wait_receive));
-		rb_5.setText(getString(R.string.order_wait_opinion));
+		rb_3.setText(getString(R.string.order_wait_receive));
+		rb_4.setText(getString(R.string.order_wait_opinion));
+		rb_5.setText(getString(R.string.order_repair_return));
 		rb_1.setOnClickListener(this);
 		rb_2.setOnClickListener(this);
 		rb_3.setOnClickListener(this);
@@ -163,7 +163,7 @@ public class MyCustomizeActivity extends BaseActivity implements View.OnClickLis
 		mRecyclerView.setLayoutManager(layoutManager);
 
 		// 配置适配器
-		rvAdapter = new MyCustomizeAdapter(mContext, R.layout.item_list_my_customize);
+		rvAdapter = new MyPurchaseAdapter(mContext, R.layout.item_list_my_purchase);
 		rvAdapter.addData(al_show);
 		rvAdapter.addCallback(new AdapterCallback() {
 
@@ -267,7 +267,7 @@ public class MyCustomizeActivity extends BaseActivity implements View.OnClickLis
 	/**
 	 * 展示已缓存的数据并至顶
 	 */
-	private void addOldListData(List<CustomizeEntity> oldLists, int oldPage, int oldTotal) {
+	private void addOldListData(List<PurchaseEntity> oldLists, int oldPage, int oldTotal) {
 		refreshAllShow(oldLists, oldTotal);
 		load_page = oldPage;
 		updateListData();
@@ -295,7 +295,7 @@ public class MyCustomizeActivity extends BaseActivity implements View.OnClickLis
 	/**
 	 * 刷新需要展示的数据
 	 */
-	private void refreshAllShow(List<CustomizeEntity> showLists, int total) {
+	private void refreshAllShow(List<PurchaseEntity> showLists, int total) {
 		al_show.clear();
 		al_show.addAll(showLists);
 		data_total = total;
@@ -402,10 +402,10 @@ public class MyCustomizeActivity extends BaseActivity implements View.OnClickLis
 		try {
 			switch (dataType) {
 				case AppConfig.REQUEST_SV_USER_ORDER:
-					baseEn = JsonUtils.getMyCustomizeData(jsonObject);
+					baseEn = JsonUtils.getMyPurchaseData(jsonObject);
 					if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
 						int newTotal = baseEn.getDataTotal();
-						List<CustomizeEntity> lists = new ArrayList<>();
+						List<PurchaseEntity> lists = new ArrayList<>();
 						switch (top_type) {
 							case TYPE_1:
 								lists = filterData(baseEn.getLists(), am_all_1);

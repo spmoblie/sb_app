@@ -175,7 +175,11 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
             } else {
                 tv_message_num.setVisibility(View.GONE);
             }
-            tv_message_num.setText(String.valueOf(newNum));
+            if (newNum > 99) {
+                tv_message_num.setText("⋅⋅⋅");
+            } else {
+                tv_message_num.setText(String.valueOf(newNum));
+            }
         } else {
             iv_user_head.setImageResource(R.mipmap.icon_default_head);
             tv_user_nick.setText(getString(R.string.mine_login));
@@ -199,7 +203,7 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
                 break;
             case R.id.fg_mine_purchase_main:
                 if (!checkClick()) return;
-                startActivity(new Intent(mContext, MyCustomizeActivity.class));
+                startActivity(new Intent(mContext, MyPurchaseActivity.class));
                 break;
             case R.id.fg_mine_customize_main:
                 if (!checkClick()) return;
