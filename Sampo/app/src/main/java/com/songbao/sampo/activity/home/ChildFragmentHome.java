@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
-import android.support.constraint.ConstraintLayout;
 import android.support.v4.util.ArrayMap;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -18,7 +17,6 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.songbao.sampo.AppApplication;
@@ -65,12 +63,6 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
 
     @BindView(R.id.fg_home_refresh_lv)
     PullToRefreshRecyclerView refresh_lv;
-
-    @BindView(R.id.loading_fail_main)
-    ConstraintLayout rl_load_fail;
-
-    @BindView(R.id.loading_fail_tv_update)
-    TextView tv_load_again;
 
     MyRecyclerView mRecyclerView;
     ViewPager fg_home_vp;
@@ -136,8 +128,6 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
     }
 
     private void initView() {
-        tv_load_again.setOnClickListener(this);
-
         initListView();
         loadDBData();
     }
@@ -500,9 +490,6 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
             case R.id.fg_home_head_iv_reserve:
                 startActivity(new Intent(getActivity(), ReserveListActivity.class));
                 break;
-            case R.id.loading_fail_tv_update: //重新加载
-                resetData();
-                break;
         }
     }
 
@@ -664,14 +651,6 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
     @Override
     protected void loadFailHandle() {
         super.loadFailHandle();
-        if (al_show.size() == 0) {
-            ll_head_main.setVisibility(View.GONE);
-            rl_load_fail.setVisibility(View.VISIBLE);
-        } else {
-            if (ll_head_main.getVisibility() == View.GONE) {
-                initHeadView();
-            }
-        }
     }
 
     /**
@@ -680,7 +659,6 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
     @Override
     protected void startAnimation() {
         super.startAnimation();
-        rl_load_fail.setVisibility(View.GONE);
     }
 
     /**

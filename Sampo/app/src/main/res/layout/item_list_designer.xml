@@ -29,7 +29,7 @@
         android:id="@+id/list_item_designer_tv_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:drawableLeft="@mipmap/icon_name"
+        android:drawableLeft="@mipmap/icon_designer"
         android:drawablePadding="@dimen/margin_padding_5"
         android:layout_marginTop="@dimen/margin_padding_5"
         android:textStyle="bold"

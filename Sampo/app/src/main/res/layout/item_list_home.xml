@@ -45,7 +45,7 @@
     <TextView
         android:id="@+id/fg_home_item_tv_time"
         style="@style/list_item_text"
-        android:drawableLeft="@mipmap/icon_time_1"
+        android:drawableLeft="@mipmap/icon_time"
         android:drawablePadding="@dimen/margin_padding_5"
         android:textColor="@color/app_color_gray_9"
         android:textSize="@dimen/app_text_size_small"

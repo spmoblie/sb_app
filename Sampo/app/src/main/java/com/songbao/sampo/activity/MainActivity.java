@@ -230,10 +230,12 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 		tab_text_2.setSelected(false);
 		tab_text_3.setSelected(false);
 		tab_icon_1.setSelected(false);
+		tab_icon_2.setSelected(false);
 		tab_icon_3.setSelected(false);
 		switch (current_index) {
 		case 1:
 			tab_text_2.setSelected(true);
+			tab_icon_2.setSelected(true);
 			break;
 		case 2:
 			tab_text_3.setSelected(true);

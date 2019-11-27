@@ -1,4 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item android:state_selected="true" android:drawable="@mipmap/sel_home_tab_01_ok" />
+    <item android:state_selected="false" android:drawable="@mipmap/sel_home_tab_01_no" />
+
+</selector>
+<!--
 <animated-selector xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item android:id="@+id/state_ok" android:state_selected="true" android:drawable="@mipmap/sel_home_tab_01_ok"/>
@@ -20,4 +27,4 @@
         </animation-list>
     </transition>
 
-</animated-selector>
+</animated-selector>-->

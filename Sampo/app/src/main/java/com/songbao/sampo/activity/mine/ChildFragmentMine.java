@@ -50,9 +50,9 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
     //LinearLayout sv_main;
     ConstraintLayout cl_head_main;
     RoundImageView iv_user_head;
-    ImageView iv_message;
-    TextView tv_user_nick, tv_user_member, tv_message_num;
-    RelativeLayout rl_coupon, rl_sign_up, rl_reserve, rl_buy, rl_customize, rl_help, rl_setting;
+    ImageView iv_setting, iv_message;
+    TextView tv_user_nick, tv_message_num;
+    RelativeLayout rl_coupon, rl_purchase, rl_customize, rl_sign_up, rl_reserve, rl_help;
 
     private Context mContext;
 
@@ -95,31 +95,30 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
         //sv_main = (LinearLayout) FrameLayout.inflate(mContext, R.layout.layout_scrollview_mine, null);
 
         cl_head_main = view.findViewById(R.id.fg_mine_cl_head_main);
+        iv_setting = view.findViewById(R.id.fg_mine_iv_setting);
         iv_message = view.findViewById(R.id.fg_mine_iv_message);
         iv_user_head = view.findViewById(R.id.fg_mine_iv_head);
         tv_user_nick = view.findViewById(R.id.fg_mine_tv_nick);
-        tv_user_member = view.findViewById(R.id.fg_mine_tv_member);
         tv_message_num = view.findViewById(R.id.fg_mine_tv_message_num);
 
+        rl_purchase = view.findViewById(R.id.fg_mine_purchase_main);
+        rl_customize = view.findViewById(R.id.fg_mine_customize_main);
         rl_coupon = view.findViewById(R.id.fg_mine_coupon_main);
         rl_sign_up = view.findViewById(R.id.fg_mine_sign_up_main);
         rl_reserve = view.findViewById(R.id.fg_mine_reserve_main);
-        rl_buy = view.findViewById(R.id.fg_mine_buy_main);
-        rl_customize = view.findViewById(R.id.fg_mine_customize_main);
         rl_help = view.findViewById(R.id.fg_mine_help_main);
-        rl_setting = view.findViewById(R.id.fg_mine_setting_main);
     }
 
     private void initView() {
+        iv_setting.setOnClickListener(this);
         iv_message.setOnClickListener(this);
-        iv_user_head.setOnClickListener(this);
+        cl_head_main.setOnClickListener(this);
+        rl_purchase.setOnClickListener(this);
+        rl_customize.setOnClickListener(this);
         rl_coupon.setOnClickListener(this);
         rl_sign_up.setOnClickListener(this);
         rl_reserve.setOnClickListener(this);
-        rl_buy.setOnClickListener(this);
-        rl_customize.setOnClickListener(this);
         rl_help.setOnClickListener(this);
-        rl_setting.setOnClickListener(this);
 
         //initScrollView();
     }
@@ -169,8 +168,6 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
                 iv_user_head.setImageResource(R.mipmap.icon_default_head);
             }
             tv_user_nick.setText(infoEn.getUserNick());
-            tv_user_member.setText("普通会员");
-            tv_user_member.setVisibility(View.VISIBLE);
 
             int newNum = userManager.getUserMsgNum();
             if (newNum > 0) {
@@ -182,8 +179,6 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
         } else {
             iv_user_head.setImageResource(R.mipmap.icon_default_head);
             tv_user_nick.setText(getString(R.string.mine_login));
-            tv_user_member.setText("无会员信息");
-            tv_user_member.setVisibility(View.GONE);
             tv_message_num.setVisibility(View.GONE);
         }
     }
@@ -191,13 +186,24 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.fg_mine_iv_setting:
+                startActivity(new Intent(mContext, SettingActivity.class));
+                break;
             case R.id.fg_mine_iv_message:
                 if (!checkClick()) return;
                 startActivity(new Intent(mContext, MessageActivity.class));
                 break;
-            case R.id.fg_mine_iv_head:
+            case R.id.fg_mine_cl_head_main:
                 if (!checkClick()) return;
                 openPersonalActivity();
+                break;
+            case R.id.fg_mine_purchase_main:
+                if (!checkClick()) return;
+                startActivity(new Intent(mContext, MyCustomizeActivity.class));
+                break;
+            case R.id.fg_mine_customize_main:
+                if (!checkClick()) return;
+                startActivity(new Intent(mContext, MyCustomizeActivity.class));
                 break;
             case R.id.fg_mine_coupon_main:
                 if (!checkClick()) return;
@@ -211,19 +217,8 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
                 if (!checkClick()) return;
                 startActivity(new Intent(mContext, MyReserveActivity.class));
                 break;
-            case R.id.fg_mine_buy_main:
-                if (!checkClick()) return;
-                startActivity(new Intent(mContext, MyCustomizeActivity.class));
-                break;
-            case R.id.fg_mine_customize_main:
-                if (!checkClick()) return;
-                startActivity(new Intent(mContext, MyCustomizeActivity.class));
-                break;
             case R.id.fg_mine_help_main:
                 openWebViewActivity(getString(R.string.setting_question), "https://support.qq.com/product/100041");
-                break;
-            case R.id.fg_mine_setting_main:
-                startActivity(new Intent(mContext, SettingActivity.class));
                 break;
         }
     }

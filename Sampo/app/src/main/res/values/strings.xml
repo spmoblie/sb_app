@@ -116,7 +116,7 @@
 
     <!-- Main -->
     <string name="main_tab_text_1">首页</string>
-    <string name="main_tab_text_2">定制</string>
+    <string name="main_tab_text_2">商城</string>
     <string name="main_tab_text_3">我的</string>
     <string name="main_head_tickets">门票购买</string>
     <string name="main_head_reserve">课程预订</string>
@@ -129,7 +129,7 @@
     <string name="mine_my_tickets">我的门票</string>
     <string name="mine_my_sing_up">我的活动</string>
     <string name="mine_my_reserve">我的预约</string>
-    <string name="mine_my_buy">我的购买</string>
+    <string name="mine_my_purchase">我的购买</string>
     <string name="mine_my_customize">我的定制</string>
     <string name="mine_call">联系客服</string>
     <string name="mine_setting">设置中心</string>

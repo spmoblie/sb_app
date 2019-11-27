@@ -40,7 +40,7 @@ public class RoundImageView extends AppCompatImageView {
     /**
      * 圆角半径
      */
-    private int currRound = dp2px(17);
+    private int currRound = dp2px(8);
 
     public RoundImageView(Context context) {
         super(context);

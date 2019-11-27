@@ -367,7 +367,7 @@
         <item name="android:layout_gravity">bottom|right</item>
         <item name="android:layout_marginBottom">@dimen/margin_padding_30</item>
         <item name="android:layout_marginRight">@dimen/margin_padding_30</item>
-        <item name="android:src">@mipmap/icon_go_top</item>
+        <item name="android:src">@mipmap/icon_back</item>
         <item name="android:visibility">gone</item>
     </style>
 

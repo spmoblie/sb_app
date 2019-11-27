@@ -125,7 +125,7 @@ public class SelectListAdapter extends AppBaseAdapter {
 	 * Item选中后标记“√”
 	 */
 	private void itemChangeImgTick(ViewHolder holder, final SelectListEntity data) {
-		holder.iv_go.setImageDrawable(context.getResources().getDrawable(R.mipmap.icon_tick));
+		holder.iv_go.setImageDrawable(context.getResources().getDrawable(R.mipmap.sel_checkbox_large_ok));
 		if (selectData != null && selectData.getChildId() == data.getChildId()) {
 			holder.iv_go.setVisibility(View.VISIBLE);
 		}else {

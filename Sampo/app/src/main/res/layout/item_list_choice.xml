@@ -17,7 +17,7 @@
             android:id="@+id/list_item_choice_tv_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:drawableLeft="@mipmap/icon_time_2"
+            android:drawableLeft="@mipmap/icon_time"
             android:drawablePadding="@dimen/app_margin_screen"
             android:textColor="@color/shows_text_color"
             android:textSize="@dimen/app_text_size_content"

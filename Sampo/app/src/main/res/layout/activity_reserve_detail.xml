@@ -57,7 +57,7 @@
 
                 <TextView
                     style="@style/detail_text"
-                    android:drawableLeft="@mipmap/icon_time_1"
+                    android:drawableLeft="@mipmap/icon_time"
                     android:drawablePadding="@dimen/margin_padding_5"
                     android:text="@string/reserve_slot" />
 
