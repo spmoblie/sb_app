@@ -229,6 +229,13 @@
     <string name="find_comment_ok">评论已发布</string>
     <string name="find_comment_input">请输入评论内容</string>
 
+    <!-- Goods -->
+    <string name="goods_search_et_hint">输入商品关键字</string>
+    <string name="goods_new_line">新品上线</string>
+    <string name="goods_new_line_en">NEW PRODUCT LAUNCH</string>
+    <string name="goods_hot_single">热门单品</string>
+    <string name="goods_hot_single_en">THE LOG SERIES</string>
+
     <!-- Cart -->
     <string name="cart_goods_num">x%1$d</string>
 

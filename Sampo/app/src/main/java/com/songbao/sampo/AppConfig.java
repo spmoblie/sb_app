@@ -21,7 +21,7 @@ public class AppConfig {
 	// Base域名
 	public final static String BASE_URL_1 = APP_HTTPS + "xiaobao.sbwg.cn/";
 	// Base域名
-	public final static String BASE_URL_2 = APP_HTTP + "192.168.1.105:8080/";
+	public final static String BASE_URL_2 = APP_HTTP + "192.168.1.105/";
 	// 图片域名
 	public final static String IMAGE_URL = "file:///android_asset/";
 	// 推广域名
@@ -74,9 +74,9 @@ public class AppConfig {
 	public final static String URL_USER_SAVE = "app/user/save";
 
 	// 我的消息
-	public final static String URL_MESSAGE = "app/user/message";
+	public final static String URL_USER_MESSAGE = "app/user/message";
 	// 消息状态
-	public final static String URL_MESSAGE_STATUS = "app/user/message/updateStatus";
+	public final static String URL_USER_MESSAGE_STATUS = "app/user/message/updateStatus";
 	// 我的门票
 	public final static String URL_USER_TICKETS = "app/user/tickets";
 	// 我的活动
@@ -156,20 +156,24 @@ public class AppConfig {
 	// 修改用户资料
 	public static final int REQUEST_SV_USER_SAVE = 0X3003;
 	// 获取我的消息
-	public static final int REQUEST_SV_MESSAGE = 0X3004;
+	public static final int REQUEST_SV_USER_MESSAGE = 0X3004;
+	// 获取我的购买
+	public static final int REQUEST_SV_USER_PURCHASE = 0X3005;
+	// 获取我的定制
+	public static final int REQUEST_SV_USER_CUSTOMIZE = 0X3006;
 	// 获取我的门票
-	public static final int REQUEST_SV_USER_TICKETS = 0X3006;
+	public static final int REQUEST_SV_USER_TICKETS = 0X3007;
 	// 获取我的活动
-	public static final int REQUEST_SV_USER_ACTIVITY = 0X3007;
+	public static final int REQUEST_SV_USER_ACTIVITY = 0X3008;
 	// 获取我的预约
-	public static final int REQUEST_SV_USER_RESERVATION = 0X3008;
-	// 获取我的订单
-	public static final int REQUEST_SV_USER_ORDER = 0X3009;
+	public static final int REQUEST_SV_USER_RESERVATION = 0X3009;
 	// "我的"动态数据
 	public static final int REQUEST_SV_USER_DYNAMIC = 0X3010;
 
+	// 获取商品分类列表
+	public static final int REQUEST_SV_SORT_ALL = 0X4001;
 	// 获取设计师列表
-	public static final int REQUEST_SV_DESIGN_ALL = 0X4001;
+	public static final int REQUEST_SV_DESIGN_ALL = 0X4010;
 
 	/**
 	 ******************************************* RequestCode协议结束 ******************************************

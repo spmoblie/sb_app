@@ -1,4 +1,4 @@
-package com.songbao.sampo.activity.sampo;
+package com.songbao.sampo.activity.two;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;

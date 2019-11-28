@@ -175,16 +175,16 @@
 
         <!-- sampo -->
         <activity
-            android:name=".activity.sampo.CustomizeActivity"
+            android:name=".activity.two.CustomizeActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.sampo.DesignerActivity"
+            android:name=".activity.two.DesignerActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.sampo.GoodsActivity"
+            android:name=".activity.two.GoodsActivity"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.sampo.SketchActivity"
+            android:name=".activity.two.SketchActivity"
             android:screenOrientation="portrait"/>
 
         <!-- mine -->

@@ -1,34 +1,45 @@
-package com.songbao.sampo.activity.sampo;
+package com.songbao.sampo.activity.two;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.TextView;
 
 import com.songbao.sampo.AppApplication;
 import com.songbao.sampo.R;
 import com.songbao.sampo.activity.BaseActivity;
 import com.songbao.sampo.utils.LogUtil;
 
+import butterknife.BindView;
 
-public class CustomizeActivity extends BaseActivity implements OnClickListener {
 
-	String TAG = CustomizeActivity.class.getSimpleName();
+public class GoodsActivity extends BaseActivity implements OnClickListener {
+
+	String TAG = GoodsActivity.class.getSimpleName();
+
+	@BindView(R.id.goods_tv_click)
+	TextView tv_click;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_customize);
+		setContentView(R.layout.activity_goods);
 
 		initView();
 	}
 
 	private void initView() {
-		setTitle("我的定制");
+		setTitle("商品详情");
+		tv_click.setOnClickListener(this);
 	}
 
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
+		case R.id.goods_tv_click:
+			startActivity(new Intent(mContext, DesignerActivity.class));
+			break;
 		}
 	}
 

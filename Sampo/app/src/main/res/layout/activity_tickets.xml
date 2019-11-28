@@ -98,7 +98,7 @@
                 android:paddingRight="@dimen/margin_padding_11"
                 android:background="@drawable/shape_style_solid_07_08"
                 android:textColor="@color/app_color_white"
-                android:textSize="@dimen/text_size_10" />
+                android:textSize="@dimen/app_text_size_minis" />
         </LinearLayout>
 
         <ImageView
@@ -173,7 +173,7 @@
                 android:paddingRight="@dimen/margin_padding_11"
                 android:background="@drawable/shape_style_solid_07_08"
                 android:textColor="@color/app_color_white"
-                android:textSize="@dimen/text_size_10" />
+                android:textSize="@dimen/app_text_size_minis" />
         </LinearLayout>
 
         <ImageView
@@ -247,7 +247,7 @@
                 android:paddingRight="@dimen/margin_padding_11"
                 android:background="@drawable/shape_style_solid_07_08"
                 android:textColor="@color/app_color_white"
-                android:textSize="@dimen/text_size_10" />
+                android:textSize="@dimen/app_text_size_minis" />
         </LinearLayout>
 
         <ImageView

@@ -20,7 +20,7 @@ import com.google.zxing.Result;
 import com.songbao.sampo.AppApplication;
 import com.songbao.sampo.R;
 import com.songbao.sampo.activity.BaseActivity;
-import com.songbao.sampo.activity.sampo.GoodsActivity;
+import com.songbao.sampo.activity.two.GoodsActivity;
 import com.songbao.sampo.utils.CommonTools;
 import com.songbao.sampo.utils.LogUtil;
 import com.songbao.sampo.utils.StringUtil;

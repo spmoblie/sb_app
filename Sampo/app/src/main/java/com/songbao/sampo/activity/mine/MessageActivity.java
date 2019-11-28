@@ -183,7 +183,7 @@ public class MessageActivity extends BaseActivity {
 	private void postReadMessage(String id) {
 		HashMap<String, String> map = new HashMap<>();
 		map.put("id", id);
-		loadSVData(AppConfig.URL_MESSAGE_STATUS, map, HttpRequests.HTTP_POST, 0);
+		loadSVData(AppConfig.URL_USER_MESSAGE_STATUS, map, HttpRequests.HTTP_POST, 0);
 	}
 
 	/**
@@ -199,7 +199,7 @@ public class MessageActivity extends BaseActivity {
 		HashMap<String, String> map = new HashMap<>();
 		map.put("page", page);
 		map.put("size", AppConfig.LOAD_SIZE);
-		loadSVData(AppConfig.URL_MESSAGE, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_MESSAGE);
+		loadSVData(AppConfig.URL_USER_MESSAGE, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_USER_MESSAGE);
 	}
 
 	@Override
@@ -207,7 +207,7 @@ public class MessageActivity extends BaseActivity {
 		BaseEntity baseEn;
 		try {
 			switch (dataType) {
-				case AppConfig.REQUEST_SV_MESSAGE:
+				case AppConfig.REQUEST_SV_USER_MESSAGE:
 					baseEn = JsonUtils.getMessageData(jsonObject);
 					if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
 						data_total = baseEn.getDataTotal();

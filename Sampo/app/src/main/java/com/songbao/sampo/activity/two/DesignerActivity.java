@@ -1,4 +1,4 @@
-package com.songbao.sampo.activity.sampo;
+package com.songbao.sampo.activity.two;
 
 import android.content.Intent;
 import android.os.Bundle;

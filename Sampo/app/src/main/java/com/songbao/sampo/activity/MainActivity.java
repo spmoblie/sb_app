@@ -24,7 +24,7 @@ import com.songbao.sampo.R;
 import com.songbao.sampo.activity.home.ChildFragmentHome;
 import com.songbao.sampo.activity.login.LoginActivity;
 import com.songbao.sampo.activity.mine.ChildFragmentMine;
-import com.songbao.sampo.activity.sampo.ChildFragmentSampo;
+import com.songbao.sampo.activity.two.ChildFragmentTwo;
 import com.songbao.sampo.utils.CommonTools;
 import com.songbao.sampo.utils.ExceptionUtil;
 import com.songbao.sampo.utils.LogUtil;
@@ -269,7 +269,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 			case R.id.main_fragment_tab_tv_2:
 				fragment = manager.findFragmentByTag(current_fragment);
 				if (fragment == null) {
-					fragment = new ChildFragmentSampo();
+					fragment = new ChildFragmentTwo();
 				}
 				return fragment;
 			case R.id.main_fragment_tab_tv_3:
@@ -305,7 +305,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 						// 移除旧的fragment
 						ft.remove(fragment);
 						// 换成新的fragment
-						fragment = new ChildFragmentSampo();
+						fragment = new ChildFragmentTwo();
 						// 添加新fragment时必须用前面获得的tag，这点很重要
 						ft.add(container.getId(), fragment, fragmentTag);
 						ft.attach(fragment);

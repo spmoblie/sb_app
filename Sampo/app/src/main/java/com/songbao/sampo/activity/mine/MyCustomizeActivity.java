@@ -12,7 +12,7 @@ import com.songbao.sampo.AppApplication;
 import com.songbao.sampo.AppConfig;
 import com.songbao.sampo.R;
 import com.songbao.sampo.activity.BaseActivity;
-import com.songbao.sampo.activity.sampo.CustomizeActivity;
+import com.songbao.sampo.activity.two.CustomizeActivity;
 import com.songbao.sampo.adapter.AdapterCallback;
 import com.songbao.sampo.adapter.MyCustomizeAdapter;
 import com.songbao.sampo.entity.BaseEntity;
@@ -393,7 +393,7 @@ public class MyCustomizeActivity extends BaseActivity implements View.OnClickLis
 		map.put("page", page);
 		map.put("size", AppConfig.LOAD_SIZE);
 		map.put("isReservation", "1");
-		loadSVData(AppConfig.URL_HOME_LIST, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_USER_ORDER);
+		loadSVData(AppConfig.URL_HOME_LIST, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_USER_CUSTOMIZE);
 	}
 
 	@Override
@@ -401,7 +401,7 @@ public class MyCustomizeActivity extends BaseActivity implements View.OnClickLis
 		BaseEntity baseEn;
 		try {
 			switch (dataType) {
-				case AppConfig.REQUEST_SV_USER_ORDER:
+				case AppConfig.REQUEST_SV_USER_CUSTOMIZE:
 					baseEn = JsonUtils.getMyCustomizeData(jsonObject);
 					if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
 						int newTotal = baseEn.getDataTotal();

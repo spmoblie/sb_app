@@ -9,6 +9,7 @@ import com.songbao.sampo.entity.MessageEntity;
 import com.songbao.sampo.entity.OptionEntity;
 import com.songbao.sampo.entity.PaymentEntity;
 import com.songbao.sampo.entity.PurchaseEntity;
+import com.songbao.sampo.entity.SortEntity;
 import com.songbao.sampo.entity.ThemeEntity;
 import com.songbao.sampo.entity.UserInfoEntity;
 import com.songbao.sampo.wxapi.WXPayEntryActivity;
@@ -510,6 +511,57 @@ public class JsonUtils {
                     }
 
                     lists.add(childEn);
+                }
+                mainEn.setLists(lists);
+            }
+        }
+        return mainEn;
+    }
+
+    /**
+     * 解析商品分类列表数据
+     */
+    public static BaseEntity getAllSortData(JSONObject jsonObject) throws JSONException {
+        BaseEntity mainEn = getCommonKeyValue(jsonObject);
+
+        if (StringUtil.notNull(jsonObject, "data")) {
+            JSONObject jsonData = jsonObject.getJSONObject("data");
+            if (StringUtil.notNull(jsonData, "activityList")) {
+                JSONArray data = jsonData.getJSONArray("activityList");
+                SortEntity sortEn, childEn;
+                GoodsEntity goodsEn;
+                List<SortEntity> lists = new ArrayList<>();
+                for (int i = 0; i < data.length(); i++) {
+                    JSONObject item = data.getJSONObject(i);
+                    sortEn = new SortEntity();
+                    int id = i+1;
+                    sortEn.setId(id);
+                    sortEn.setName("高低床0000" + id);
+
+                    List<SortEntity> childList = new ArrayList<>();
+                    for (int j = 0; j < 2; j++) {
+                        childEn = new SortEntity();
+                        int ij = id*10 + j;
+                        childEn.setId(ij);
+                        childEn.setParentId(id);
+
+                        List<GoodsEntity> goodsList = new ArrayList<>();
+                        for (int k = 0; k < 2; k++) {
+                            goodsEn = new GoodsEntity();
+                            int ik = ij*10 + k;
+                            goodsEn.setId(ik);
+                            goodsEn.setName("松堡王国现代简约彩条双层床");
+                            goodsEn.setAttribute(ik + " mm");
+                            goodsEn.setPrice(999999.99);
+
+                            goodsList.add(goodsEn);
+                        }
+                        childEn.setGoodsLists(goodsList);
+                        childList.add(childEn);
+                    }
+
+                    sortEn.setChildLists(childList);
+                    lists.add(sortEn);
                 }
                 mainEn.setLists(lists);
             }

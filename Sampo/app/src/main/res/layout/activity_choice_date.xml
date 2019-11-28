@@ -54,7 +54,7 @@
                 openxu:mTextColorWeek="@color/shows_text_color"
                 openxu:mTextSizeDay="@dimen/text_size_16"
                 openxu:mTextSizeMonth="@dimen/text_size_16"
-                openxu:mTextSizePre="@dimen/text_size_10"
+                openxu:mTextSizePre="@dimen/app_text_size_minis"
                 openxu:mTextSizeWeek="@dimen/text_size_16" />
 
             <TextView
