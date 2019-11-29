@@ -55,24 +55,14 @@
 
         <TextView
             android:id="@+id/my_purchase_item_tv_price_curr"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/margin_padding_5"
-            android:text="@string/rmb"
-            android:textColor="@color/price_text_color"
-            android:textSize="@dimen/app_text_size_small"
-            android:textStyle="bold"
+            style="@style/common_text_price_curr"
             app:layout_constraintRight_toLeftOf="@id/my_purchase_item_tv_price"
             app:layout_constraintBottom_toBottomOf="@id/my_purchase_item_tv_price"
             app:layout_constraintBaseline_toBaselineOf="@id/my_purchase_item_tv_price"/>
 
         <TextView
             android:id="@+id/my_purchase_item_tv_price"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/price_text_color"
-            android:textSize="@dimen/app_text_size_title"
-            android:textStyle="bold"
+            style="@style/common_text_price"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/my_purchase_item_lv_goods" />
 

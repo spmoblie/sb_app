@@ -65,21 +65,14 @@
 
                 <TextView
                     android:id="@+id/tv_price_new_1_curr"
-                    style="@style/list_item_text"
-                    android:text="@string/rmb"
-                    android:textColor="@color/price_text_color"
-                    android:textSize="@dimen/app_text_size_small"
-                    android:textStyle="bold"
+                    style="@style/common_text_price_curr"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintBaseline_toBaselineOf="@id/tickets_set_meal_1_tv_price_new"/>
 
                 <TextView
                     android:id="@+id/tickets_set_meal_1_tv_price_new"
-                    style="@style/list_item_text"
-                    android:textColor="@color/price_text_color"
-                    android:textSize="@dimen/text_size_18"
-                    android:textStyle="bold"
+                    style="@style/common_text_price"
                     app:layout_constraintLeft_toRightOf="@id/tv_price_new_1_curr" />
 
             </android.support.constraint.ConstraintLayout>
@@ -140,21 +133,14 @@
 
                 <TextView
                     android:id="@+id/tv_price_new_2_curr"
-                    style="@style/list_item_text"
-                    android:text="@string/rmb"
-                    android:textColor="@color/price_text_color"
-                    android:textSize="@dimen/app_text_size_small"
-                    android:textStyle="bold"
+                    style="@style/common_text_price_curr"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintBaseline_toBaselineOf="@id/tickets_set_meal_2_tv_price_new"/>
 
                 <TextView
                     android:id="@+id/tickets_set_meal_2_tv_price_new"
-                    style="@style/list_item_text"
-                    android:textColor="@color/price_text_color"
-                    android:textSize="@dimen/text_size_18"
-                    android:textStyle="bold"
+                    style="@style/common_text_price"
                     app:layout_constraintLeft_toRightOf="@id/tv_price_new_2_curr" />
 
             </android.support.constraint.ConstraintLayout>
@@ -214,21 +200,14 @@
 
                 <TextView
                     android:id="@+id/tv_price_new_3_curr"
-                    style="@style/list_item_text"
-                    android:text="@string/rmb"
-                    android:textColor="@color/price_text_color"
-                    android:textSize="@dimen/app_text_size_small"
-                    android:textStyle="bold"
+                    style="@style/common_text_price_curr"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintBaseline_toBaselineOf="@id/tickets_set_meal_3_tv_price_new"/>
 
                 <TextView
                     android:id="@+id/tickets_set_meal_3_tv_price_new"
-                    style="@style/list_item_text"
-                    android:textColor="@color/price_text_color"
-                    android:textSize="@dimen/text_size_18"
-                    android:textStyle="bold"
+                    style="@style/common_text_price"
                     app:layout_constraintLeft_toRightOf="@id/tv_price_new_3_curr" />
 
             </android.support.constraint.ConstraintLayout>

@@ -53,6 +53,7 @@
     <string name="delete_think">我再想想</string>
     <string name="leave_confirm">去意已决</string>
     <string name="send_confirm">确认发送</string>
+    <string name="scan">扫一扫</string>
     <string name="next">下一步</string>
     <string name="skip">跳过</string>
     <string name="send">发送</string>
@@ -235,6 +236,11 @@
     <string name="goods_new_line_en">NEW PRODUCT LAUNCH</string>
     <string name="goods_hot_single">热门单品</string>
     <string name="goods_hot_single_en">THE LOG SERIES</string>
+    <string name="goods_top_item_1">综合</string>
+    <string name="goods_top_item_2">销量</string>
+    <string name="goods_top_item_3">价格</string>
+    <string name="goods_top_item_4">信用</string>
+    <string name="goods_top_item_5">筛选</string>
 
     <!-- Cart -->
     <string name="cart_goods_num">x%1$d</string>

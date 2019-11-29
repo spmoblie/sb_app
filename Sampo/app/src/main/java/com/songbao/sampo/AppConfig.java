@@ -170,8 +170,10 @@ public class AppConfig {
 	// "我的"动态数据
 	public static final int REQUEST_SV_USER_DYNAMIC = 0X3010;
 
-	// 获取商品分类列表
-	public static final int REQUEST_SV_SORT_ALL = 0X4001;
+	// 获取分类列表
+	public static final int REQUEST_SV_SORT_LIST = 0X4001;
+	// 获取商品列表
+	public static final int REQUEST_SV_GOODS_LIST = 0X4002;
 	// 获取设计师列表
 	public static final int REQUEST_SV_DESIGN_ALL = 0X4010;
 
@@ -320,6 +322,8 @@ public class AppConfig {
 	public static final String KEY_USER_MONEY = "user_money";
 	// 偏好设置Key-记录用户新消息数量
 	public static final String KEY_USER_MSG_NUM = "user_msg_num";
+	// 偏好设置Key-记录用户购物车数量
+	public static final String KEY_USER_CART_NUM = "user_cart_num";
 	// 偏好设置Key-记录用户登录授权码
 	public static final String KEY_X_APP_TOKEN = "x_app_token";
 	// 偏好设置Key-记录用户登录设备号

@@ -61,8 +61,8 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
     @BindView(R.id.sign_tv_explain)
     TextView tv_explain;
 
-    @BindView(R.id.sign_tv_cost)
-    TextView tv_cost;
+    @BindView(R.id.sign_tv_price)
+    TextView tv_price;
 
     @BindView(R.id.sign_tv_click)
     TextView tv_click;
@@ -211,7 +211,7 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
                         .into(iv_show);
             }
             payAmount = data.getFees();
-            tv_cost.setText(df.format(payAmount));
+            tv_price.setText(df.format(payAmount));
 
             String timeStr = getString(R.string.time) + getString(R.string.sign_up_info_time, data.getStartTime(), data.getEndTime());
             String infoStr = timeStr +

@@ -81,23 +81,15 @@
 
     <TextView
         android:id="@+id/sort_two_item_tv_price_curr_1"
-        style="@style/list_item_text"
-        android:layout_marginRight="@dimen/margin_padding_5"
-        android:text="@string/rmb"
-        android:textColor="@color/price_text_color"
-        android:textSize="@dimen/app_text_size_small"
-        android:textStyle="bold"
+        style="@style/common_text_price_curr"
         app:layout_constraintLeft_toLeftOf="@id/sort_two_item_tv_name_1"
         app:layout_constraintBottom_toBottomOf="@id/sort_two_item_tv_price_1"
         app:layout_constraintBaseline_toBaselineOf="@id/sort_two_item_tv_price_1"/>
 
     <TextView
         android:id="@+id/sort_two_item_tv_price_1"
-        style="@style/list_item_text"
+        style="@style/common_text_price"
         android:layout_width="0dp"
-        android:textColor="@color/price_text_color"
-        android:textSize="@dimen/app_text_size_title"
-        android:textStyle="bold"
         android:layout_marginTop="@dimen/margin_padding_5"
         android:layout_marginLeft="@dimen/app_margin_screen"
         app:layout_constraintWidth_percent="0.41"
@@ -143,23 +135,15 @@
 
     <TextView
         android:id="@+id/sort_two_item_tv_price_curr_2"
-        style="@style/list_item_text"
-        android:layout_marginRight="@dimen/margin_padding_5"
-        android:text="@string/rmb"
-        android:textColor="@color/price_text_color"
-        android:textSize="@dimen/app_text_size_small"
-        android:textStyle="bold"
+        style="@style/common_text_price_curr"
         app:layout_constraintLeft_toLeftOf="@id/sort_two_item_tv_name_2"
         app:layout_constraintBottom_toBottomOf="@id/sort_two_item_tv_price_2"
         app:layout_constraintBaseline_toBaselineOf="@id/sort_two_item_tv_price_2"/>
 
     <TextView
         android:id="@+id/sort_two_item_tv_price_2"
-        style="@style/list_item_text"
+        style="@style/common_text_price"
         android:layout_width="0dp"
-        android:textColor="@color/price_text_color"
-        android:textSize="@dimen/app_text_size_title"
-        android:textStyle="bold"
         android:layout_marginTop="@dimen/margin_padding_5"
         android:layout_marginLeft="@dimen/app_margin_screen"
         app:layout_constraintWidth_percent="0.41"

@@ -8,7 +8,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.songbao.sampo.AppApplication;
@@ -25,6 +26,7 @@ import com.songbao.sampo.utils.CommonTools;
 import com.songbao.sampo.utils.ExceptionUtil;
 import com.songbao.sampo.utils.JsonUtils;
 import com.songbao.sampo.utils.LogUtil;
+import com.songbao.sampo.utils.UserManager;
 import com.songbao.sampo.utils.retrofit.HttpRequests;
 import com.songbao.sampo.widgets.pullrefresh.PullToRefreshRecyclerView;
 import com.songbao.sampo.widgets.recycler.MyRecyclerView;
@@ -41,8 +43,8 @@ public class ChildFragmentTwo extends BaseFragment implements OnClickListener {
 
 	String TAG = ChildFragmentTwo.class.getSimpleName();
 
-	@BindView(R.id.fg_two_rl_search)
-	RelativeLayout rl_search;
+	@BindView(R.id.fg_two_et_search)
+	EditText et_search;
 
 	@BindView(R.id.fg_two_tv_scan)
 	TextView tv_scan;
@@ -52,6 +54,12 @@ public class ChildFragmentTwo extends BaseFragment implements OnClickListener {
 
 	@BindView(R.id.fg_two_rv_right)
 	PullToRefreshRecyclerView rv_right;
+
+	@BindView(R.id.fg_two_iv_cart)
+	ImageView iv_cart;
+
+	@BindView(R.id.fg_two_tv_cart_num)
+	TextView tv_cart_num;
 
 	private Context mContext;
 	private MyRecyclerView mrv_right;
@@ -91,8 +99,9 @@ public class ChildFragmentTwo extends BaseFragment implements OnClickListener {
 	}
 
 	private void initView() {
-		rl_search.setOnClickListener(this);
+		et_search.setOnClickListener(this);
 		tv_scan.setOnClickListener(this);
+		iv_cart.setOnClickListener(this);
 
 		initRecyclerView();
 	}
@@ -160,6 +169,13 @@ public class ChildFragmentTwo extends BaseFragment implements OnClickListener {
 	 */
 	private void updateRightListData() {
 		rv_adapter_2.updateData(al_right);
+		toTop();
+	}
+
+	/**
+	 * 滚动到顶部
+	 */
+	private void toTop() {
 		mrv_right.smoothScrollToPosition(0);
 	}
 
@@ -167,16 +183,18 @@ public class ChildFragmentTwo extends BaseFragment implements OnClickListener {
 	public void onClick(View v) {
 		Intent intent;
 		switch (v.getId()) {
-			case R.id.fg_two_rl_search:
-				/*intent = new Intent(getActivity(), SketchActivity.class);
-				intent.putExtra("title", "定制效果图");
-				intent.putExtra("lodUrl", "https://pano.kujiale.com/xiaoguotu/pano/3FO2YBA0ALE2?fromqrcode=true&tdsourcetag=s_pcqq_aiomsg");
-				startActivity(intent);*/
+			case R.id.fg_two_et_search:
+				intent = new Intent(mContext, GoodsListActivity.class);
+				intent.putExtra("sort", "1");
+				startActivity(intent);
 				break;
 			case R.id.fg_two_tv_scan:
 				intent = new Intent(mContext, ScanActivity.class);
 				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(intent);
+				break;
+			case R.id.fg_two_iv_cart:
+				startActivity(new Intent(mContext, ScanActivity.class));
 				break;
 		}
 	}
@@ -190,6 +208,14 @@ public class ChildFragmentTwo extends BaseFragment implements OnClickListener {
 		if (!isLoadOk) {
 			loadServerData();
 		}
+		int cartNum = UserManager.getInstance().getUserCartNum();
+		if (cartNum > 0) {
+			tv_cart_num.setText(String.valueOf(cartNum));
+			tv_cart_num.setVisibility(View.VISIBLE);
+		} else {
+			tv_cart_num.setVisibility(View.GONE);
+		}
+
 		super.onResume();
 	}
 
@@ -222,7 +248,7 @@ public class ChildFragmentTwo extends BaseFragment implements OnClickListener {
 		map.put("page", "1");
 		map.put("size", AppConfig.LOAD_SIZE);
 		map.put("isReservation", "1");
-		loadSVData(AppConfig.URL_HOME_LIST, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_SORT_ALL);
+		loadSVData(AppConfig.URL_HOME_LIST, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_SORT_LIST);
 	}
 
 	@Override
@@ -230,8 +256,8 @@ public class ChildFragmentTwo extends BaseFragment implements OnClickListener {
 		BaseEntity baseEn;
 		try {
 			switch (dataType) {
-				case AppConfig.REQUEST_SV_SORT_ALL:
-					baseEn = JsonUtils.getAllSortData(jsonObject);
+				case AppConfig.REQUEST_SV_SORT_LIST:
+					baseEn = JsonUtils.getSortListData(jsonObject);
 					if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
 						isLoadOk = true;
 						al_left.clear();

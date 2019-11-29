@@ -30,6 +30,7 @@ public class UserManager {
 	private String mUserPhone = null;
 	private String mUserMoney = null;
 	private int mUserMegNum;
+	private int mUserCartNum;
 
 	private String xAppToken = null;
 	private String deviceToken = null;
@@ -221,6 +222,15 @@ public class UserManager {
 	public void saveUserMsgNum(int num){
 		editor.putInt(AppConfig.KEY_USER_MSG_NUM, num).commit();
 		mUserMegNum = num;
+	}
+
+	public int getUserCartNum(){
+		return sp.getInt(AppConfig.KEY_USER_CART_NUM, 0);
+	}
+
+	public void saveUserCartNum(int num){
+		editor.putInt(AppConfig.KEY_USER_CART_NUM, num).commit();
+		mUserCartNum = num;
 	}
 
 	public String getXAppToken(){

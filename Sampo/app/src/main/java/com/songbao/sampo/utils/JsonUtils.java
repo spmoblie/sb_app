@@ -519,9 +519,9 @@ public class JsonUtils {
     }
 
     /**
-     * 解析商品分类列表数据
+     * 解析分类列表数据
      */
-    public static BaseEntity getAllSortData(JSONObject jsonObject) throws JSONException {
+    public static BaseEntity getSortListData(JSONObject jsonObject) throws JSONException {
         BaseEntity mainEn = getCommonKeyValue(jsonObject);
 
         if (StringUtil.notNull(jsonObject, "data")) {
@@ -562,6 +562,34 @@ public class JsonUtils {
 
                     sortEn.setChildLists(childList);
                     lists.add(sortEn);
+                }
+                mainEn.setLists(lists);
+            }
+        }
+        return mainEn;
+    }
+
+    /**
+     * 解析商品列表数据
+     */
+    public static BaseEntity getGoodsListData(JSONObject jsonObject) throws JSONException {
+        BaseEntity mainEn = getCommonKeyValue(jsonObject);
+
+        if (StringUtil.notNull(jsonObject, "data")) {
+            JSONObject jsonData = jsonObject.getJSONObject("data");
+            if (StringUtil.notNull(jsonData, "activityList")) {
+                JSONArray data = jsonData.getJSONArray("activityList");
+                GoodsEntity childEn;
+                List<GoodsEntity> lists = new ArrayList<>();
+                for (int i = 0; i < data.length(); i++) {
+                    JSONObject item = data.getJSONObject(i);
+                    childEn = new GoodsEntity();
+                    childEn.setId(i+1);
+                    childEn.setName("松堡王国现代简约彩条双层床松堡王国现代简约彩条双层床");
+                    childEn.setAttribute("天蓝色；1350*1900天蓝色；1350*1900");
+                    childEn.setPrice(999999.99);
+
+                    lists.add(childEn);
                 }
                 mainEn.setLists(lists);
             }

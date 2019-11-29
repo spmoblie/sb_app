@@ -3,8 +3,8 @@ package com.songbao.sampo.adapter;
 import android.content.Context;
 import android.support.constraint.ConstraintLayout;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -16,63 +16,64 @@ import com.songbao.sampo.widgets.RoundImageView;
 import java.text.DecimalFormat;
 
 /**
- * 订单商品列表适配器
+ * 商品列表适配器
  */
-public class GoodsListAdapter extends AppBaseAdapter {
+public class GoodsListAdapter extends BaseRecyclerAdapter {
 
-	private DecimalFormat df;
+    private DecimalFormat df;
 
-	public GoodsListAdapter(Context context) {
-		super(context);
-		df = new DecimalFormat("0.00");
-	}
+    public GoodsListAdapter(Context context, int resLayout) {
+        super(context, resLayout);
+        df = new DecimalFormat("0.00");
+    }
 
-	static class ViewHolder {
-		ConstraintLayout item_main;
-		RoundImageView iv_show;
-		TextView tv_name, tv_attr, tv_number, tv_price;
-	}
+    @Override
+    public void bindData(BaseRecyclerHolder holder, final int pos) {
+        // 获取View
+        ConstraintLayout item_main = holder.getView(R.id.goods_list_item_main);
+        RelativeLayout rl_top = holder.getView(R.id.goods_list_item_rl_top);
+        RoundImageView iv_show = holder.getView(R.id.goods_list_item_iv_show);
+        TextView tv_name = holder.getView(R.id.goods_list_item_tv_name);
+        TextView tv_attr = holder.getView(R.id.goods_list_item_tv_attr);
+        TextView tv_price = holder.getView(R.id.goods_list_item_tv_price);
+        ImageView iv_cart = holder.getView(R.id.goods_list_item_iv_cart);
 
-	/**代表了ListView中的一个item对象*/
-	@Override
-	public View getView(final int position, View convertView, ViewGroup parent) {
-		ViewHolder holder;
-		if(convertView == null){
-			convertView = View.inflate(context, R.layout.item_list_goods, null);
-			
-			holder = new ViewHolder();
-			holder.item_main = convertView.findViewById(R.id.list_item_goods_main);
-			holder.iv_show = convertView.findViewById(R.id.list_item_goods_iv_show);
-			holder.tv_name = convertView.findViewById(R.id.list_item_goods_tv_name);
-			holder.tv_attr = convertView.findViewById(R.id.list_item_goods_tv_attr);
-			holder.tv_number = convertView.findViewById(R.id.list_item_goods_tv_number);
-			holder.tv_price = convertView.findViewById(R.id.list_item_goods_tv_price);
-			convertView.setTag(holder);
-		}else{
-			holder = (ViewHolder)convertView.getTag();
-		}
-		final GoodsEntity data = (GoodsEntity) mDataList.get(position);
+        // 绑定View
+        final GoodsEntity data = (GoodsEntity) mDataList.get(pos);
 
-		Glide.with(AppApplication.getAppContext())
-				.load(data.getPicUrl())
-				.apply(AppApplication.getShowOptions())
-				.into(holder.iv_show);
+        if (pos == 0) {
+            rl_top.setVisibility(View.VISIBLE);
+        } else {
+            rl_top.setVisibility(View.GONE);
+        }
 
-		holder.tv_name.setText(data.getName());
-		holder.tv_attr.setText(data.getAttribute());
-		holder.tv_number.setText(context.getString(R.string.cart_goods_num, data.getNumber()));
-		holder.tv_price.setText(context.getString(R.string.pay_rmb, df.format(data.getPrice())));
+        Glide.with(AppApplication.getAppContext())
+                .load(data.getPicUrl())
+                .apply(AppApplication.getShowOptions())
+                .into(iv_show);
 
-		holder.item_main.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				if (apCallback != null) {
-					apCallback.setOnClick(data, position, 1);
-				}
-			}
-		});
-		return convertView;
-	}
+        tv_name.setText(data.getName());
+        tv_attr.setText(data.getAttribute());
+        tv_price.setText(df.format(data.getPrice()));
+
+        iv_cart.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                if (apCallback != null) {
+                    apCallback.setOnClick(data, pos, 1);
+                }
+            }
+        });
+        item_main.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                if (apCallback != null) {
+                    apCallback.setOnClick(data, pos, 0);
+                }
+            }
+        });
+    }
 
 }

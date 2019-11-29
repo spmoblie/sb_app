@@ -17,12 +17,12 @@ import java.text.DecimalFormat;
 public class MyPurchaseAdapter extends BaseRecyclerAdapter {
 
     private DecimalFormat df;
-    private GoodsListAdapter lv_adapter;
+    private GoodsOrderAdapter lv_adapter;
 
     public MyPurchaseAdapter(Context context, int resLayout) {
         super(context, resLayout);
         df = new DecimalFormat("0.00");
-        lv_adapter = new GoodsListAdapter(context);
+        lv_adapter = new GoodsOrderAdapter(context);
         lv_adapter.addCallback(new AdapterCallback() {
             @Override
             public void setOnClick(Object data, int position, int type) {

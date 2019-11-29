@@ -286,6 +286,19 @@
     <style name="common_text_price">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">@dimen/margin_padding_5</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/price_text_color</item>
+        <item name="android:textSize">@dimen/app_text_size_title</item>
+    </style>
+
+    <!-- 通用货币文本样式 -->
+    <style name="common_text_price_curr">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginRight">@dimen/margin_padding_5</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:text">@string/rmb</item>
         <item name="android:textColor">@color/price_text_color</item>
         <item name="android:textSize">@dimen/app_text_size_small</item>
     </style>
@@ -323,15 +336,17 @@
         <item name="android:textSize">@dimen/text_size_14</item>
     </style>
 
-    <!-- Top ViewGroup样式 -->
-    <style name="common_top_bar_view_group">
-        <item name="android:layout_width">wrap_content</item>
+    <!-- Top Item TextView样式 -->
+    <style name="common_top_item_text">
+        <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingTop">@dimen/app_margin_screen</item>
+        <item name="android:paddingBottom">@dimen/app_margin_screen</item>
         <item name="android:gravity">center</item>
         <item name="android:ellipsize">end</item>
         <item name="android:lines">1</item>
-        <item name="android:textColor">@color/selector_group_bar_text</item>
-        <item name="android:textSize">@dimen/text_size_14</item>
+        <item name="android:textColor">@color/shows_text_color</item>
+        <item name="android:textSize">@dimen/app_text_size_label</item>
     </style>
 
     <!-- 通用均分Tab文本样式:灰色 -->
