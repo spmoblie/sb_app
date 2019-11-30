@@ -4,11 +4,16 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.v4.util.ArrayMap;
 import android.support.v7.widget.LinearLayoutManager;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -17,13 +22,16 @@ import com.songbao.sampo.AppApplication;
 import com.songbao.sampo.AppConfig;
 import com.songbao.sampo.R;
 import com.songbao.sampo.activity.BaseActivity;
+import com.songbao.sampo.activity.common.ScanActivity;
 import com.songbao.sampo.adapter.AdapterCallback;
 import com.songbao.sampo.adapter.GoodsListAdapter;
 import com.songbao.sampo.entity.BaseEntity;
 import com.songbao.sampo.entity.GoodsEntity;
+import com.songbao.sampo.utils.CommonTools;
 import com.songbao.sampo.utils.ExceptionUtil;
 import com.songbao.sampo.utils.JsonUtils;
 import com.songbao.sampo.utils.LogUtil;
+import com.songbao.sampo.utils.StringUtil;
 import com.songbao.sampo.utils.retrofit.HttpRequests;
 import com.songbao.sampo.widgets.pullrefresh.PullToRefreshBase;
 import com.songbao.sampo.widgets.pullrefresh.PullToRefreshRecyclerView;
@@ -47,6 +55,9 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 
 	@BindView(R.id.goods_list_et_search)
 	EditText et_search;
+
+	@BindView(R.id.goods_list_iv_search_clear)
+	ImageView iv_clear;
 
 	@BindView(R.id.goods_list_iv_scan)
 	ImageView iv_scan;
@@ -75,6 +86,8 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 	MyRecyclerView mRecyclerView;
 	GoodsListAdapter rvAdapter;
 
+	private CountDownTimer mCdt;
+
 	public static final int TYPE_1 = 1;  //综合
 	public static final int TYPE_2 = 2;  //销量
 	public static final int TYPE_3 = 3;  //价格
@@ -82,7 +95,9 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 
 	private Drawable rank_up, rank_down, rank_normal;
 	private int top_type = TYPE_1; //Top标记
-	private int sort_type = 0; //排序标记(0:默认/1:升序/2:降序)
+	private int sort_type = 0; //排序标记(0:默认/1:升序/2:降序)Id
+	private int sort_id = 0; //商品分类
+	private int source_type = 0; //事件起源类型(0:默认/1:搜索)
 	private boolean isRise2 = false; //销量排序控制符(true:销量升序/false:销量降序)
 	private boolean isRise3 = false; //价格排序控制符(true:价格升序/false:价格降序)
 
@@ -90,6 +105,8 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 	private int load_type = 1; //加载类型(0:下拉刷新/1:翻页加载)
 	private int load_page = 1; //加载页数
 	private boolean isLoadOk = true; //加载控制
+
+	private String searchStr;
 
 	private ArrayList<GoodsEntity> al_show = new ArrayList<>();
 	private ArrayMap<String, Boolean> am_show = new ArrayMap<>();
@@ -99,6 +116,9 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_goods_list);
 
+		sort_id = getIntent().getIntExtra("sort_id", 0);
+		source_type = getIntent().getIntExtra("source_type", 0);
+
 		initView();
 	}
 
@@ -106,6 +126,7 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 		setHeadVisibility(View.GONE);
 
 		iv_left.setOnClickListener(this);
+		iv_clear.setOnClickListener(this);
 		iv_scan.setOnClickListener(this);
 		iv_cart.setOnClickListener(this);
 		tv_top_1.setOnClickListener(this);
@@ -120,9 +141,85 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 		rank_down.setBounds(0, 0, rank_down.getMinimumWidth(), rank_down.getMinimumHeight());
 		rank_normal.setBounds(0, 0, rank_normal.getMinimumWidth(), rank_normal.getMinimumHeight());
 
+		initEditText();
 		initRecyclerView();
 		changeItemStatus();
 		loadMoreData();
+
+		if (source_type == 1) { //搜索事件
+			editTextFocusAndClear(et_search);
+		}
+	}
+
+	private void initEditText() {
+		// 创建定时器
+		mCdt = new CountDownTimer(3000, 1000) {
+			@Override
+			public void onTick(long millisUntilFinished) {
+
+			}
+
+			@Override
+			public void onFinish() {
+				handleKeywordData();
+			}
+		};
+		// 添加键盘监听器
+		et_search.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+			@Override
+			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+				if (actionId == EditorInfo.IME_ACTION_SEARCH || actionId == EditorInfo.IME_ACTION_DONE) {
+					handleKeywordData();
+					return true;
+				}
+				return false;
+			}
+		});
+		// 添加输入监听器
+		et_search.addTextChangedListener(new TextWatcher() {
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+			}
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+				searchStr = et_search.getText().toString();
+				mCdt.cancel();
+				if (StringUtil.isNull(searchStr)) {
+					iv_clear.setVisibility(View.GONE);
+				}else {
+					mCdt.start();
+					iv_clear.setVisibility(View.VISIBLE);
+				}
+			}
+		});
+	}
+
+	/**
+	 * 处理关键字搜索事项
+	 */
+	private void handleKeywordData() {
+		if (mCdt != null) {
+			mCdt.cancel();
+		}
+		hideSoftInput(et_search);
+		if (!StringUtil.isNull(searchStr)) {
+			loadKeywordData();
+		}
+	}
+
+	/**
+	 * 匹配搜索关键字
+	 */
+	private void loadKeywordData() {
+		CommonTools.showToast("关键字搜索商品： " + searchStr);
 	}
 
 	private void initRecyclerView() {
@@ -197,8 +294,13 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 		case R.id.goods_list_iv_left:
 			finish();
 			break;
+		case R.id.goods_list_iv_search_clear:
+			editTextFocusAndClear(et_search);
+			break;
 		case R.id.goods_list_iv_scan:
-			startActivity(new Intent(mContext, DesignerActivity.class));
+			Intent intent = new Intent(mContext, ScanActivity.class);
+			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+			startActivity(intent);
 			break;
 		case R.id.goods_list_iv_cart:
 			break;

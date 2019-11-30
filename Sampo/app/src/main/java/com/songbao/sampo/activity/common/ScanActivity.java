@@ -128,7 +128,7 @@ public class ScanActivity extends BaseActivity implements Callback {
 		}else {
 			startActivity(new Intent(mContext, GoodsActivity.class));
 		}
-		ScanActivity.this.finish();
+		finish();
 	}
 	
 	private void initCamera(SurfaceHolder surfaceHolder) {

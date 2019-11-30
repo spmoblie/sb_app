@@ -1,8 +1,10 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <style name="AppBaseTheme" parent="android:Theme.Light.NoTitleBar" />
-
     <style name="SxbTheme" parent="AppBaseTheme" />
+
+    <style name="AppBaseTheme" parent="android:Theme.Light.NoTitleBar">
+        <item name="android:fitsSystemWindows">true</item><!--沉浸效果-->
+    </style>
 
     <style name="SplashTheme" parent="android:Theme.NoTitleBar.Fullscreen">
         <item name="android:windowBackground">@drawable/icon_splash</item>

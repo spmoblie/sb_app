@@ -58,8 +58,20 @@
             android:background="@drawable/shape_style_solid_02_08"
             android:textColor="@color/app_color_gray_5"
             android:textSize="@dimen/app_text_size_label"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintRight_toLeftOf="@+id/goods_list_item_fill_attr"
             app:layout_constraintLeft_toLeftOf="@+id/goods_list_item_tv_name"
             app:layout_constraintTop_toBottomOf="@+id/goods_list_item_tv_name" />
+
+        <View
+            android:id="@+id/goods_list_item_fill_attr"
+            android:layout_width="@dimen/margin_padding_1"
+            android:layout_height="@dimen/margin_padding_30"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/goods_list_item_tv_attr"
+            app:layout_constraintLeft_toRightOf="@+id/goods_list_item_tv_attr" />
 
         <TextView
             android:id="@+id/goods_list_item_tv_price_curr"

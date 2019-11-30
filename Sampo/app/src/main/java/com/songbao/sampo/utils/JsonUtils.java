@@ -585,9 +585,14 @@ public class JsonUtils {
                     JSONObject item = data.getJSONObject(i);
                     childEn = new GoodsEntity();
                     childEn.setId(i+1);
-                    childEn.setName("松堡王国现代简约彩条双层床松堡王国现代简约彩条双层床");
-                    childEn.setAttribute("天蓝色；1350*1900天蓝色；1350*1900");
+                    childEn.setName("松堡王国现代简约彩条双层床");
+                    childEn.setAttribute("天蓝色；1350*1900");
                     childEn.setPrice(999999.99);
+
+                    if (i == 1) {
+                        childEn.setName("松堡王国现代简约彩条双层床松堡王国现代简约彩条双层床");
+                        childEn.setAttribute("天蓝色；1350*1900天蓝色；1350*1900");
+                    }
 
                     lists.add(childEn);
                 }

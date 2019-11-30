@@ -99,56 +99,68 @@
         <!-- common -->
         <activity
             android:name=".activity.common.clip.ClipImageCircularActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.common.clip.ClipImageSquareActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.common.clip.ClipPhotoGridActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.common.clip.ClipPhotoOneActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.common.MyWebViewActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.common.ScanActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.common.SelectListActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.common.ViewPagerActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
 
         <!-- home -->
         <activity
             android:name=".activity.home.ChoiceDateActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
 
         <activity
             android:name=".activity.home.ReserveDetailActivity"
-            android:launchMode="singleTask"
+            android:launchMode="singleTop"
             android:hardwareAccelerated="false"
             android:screenOrientation="portrait"/>
 
         <activity
             android:name=".activity.home.ReserveListActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
 
         <activity
             android:name=".activity.home.SignUpActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
 
         <activity
             android:name=".activity.home.SignUpDetailActivity"
-            android:launchMode="singleTask"
+            android:launchMode="singleTop"
             android:hardwareAccelerated="false"
             android:screenOrientation="portrait"/>
 
         <activity
             android:name=".activity.home.TicketsActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
 
         <!-- login -->
@@ -176,53 +188,69 @@
         <!-- Two -->
         <activity
             android:name=".activity.two.CustomizeActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.two.DesignerActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.two.GoodsActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.two.GoodsListActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.two.SketchActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
 
         <!-- mine -->
         <activity
             android:name=".activity.mine.EditUserInfoActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.mine.FeedBackActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.mine.MessageActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.mine.MyCustomizeActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.mine.MyPurchaseActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.mine.MyReserveActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.mine.MySignUpActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.mine.MyTicketsActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.mine.PersonalActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.mine.SelectAreaActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.mine.SettingActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
 
         <!-- wxapi -->

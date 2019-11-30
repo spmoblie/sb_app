@@ -152,6 +152,7 @@ public class ChildFragmentTwo extends BaseFragment implements OnClickListener {
 			@Override
 			public void setOnClick(Object data, int position, int type) {
 				if (position < 0 || position >= al_right.size()) return;
+				openGoodsListActivity(0, al_right.get(position).getParentId());
 			}
 		});
 		mrv_right.setAdapter(rv_adapter_2);
@@ -184,9 +185,7 @@ public class ChildFragmentTwo extends BaseFragment implements OnClickListener {
 		Intent intent;
 		switch (v.getId()) {
 			case R.id.fg_two_et_search:
-				intent = new Intent(mContext, GoodsListActivity.class);
-				intent.putExtra("sort", "1");
-				startActivity(intent);
+				openGoodsListActivity(1, 0);
 				break;
 			case R.id.fg_two_tv_scan:
 				intent = new Intent(mContext, ScanActivity.class);
@@ -194,9 +193,20 @@ public class ChildFragmentTwo extends BaseFragment implements OnClickListener {
 				startActivity(intent);
 				break;
 			case R.id.fg_two_iv_cart:
-				startActivity(new Intent(mContext, ScanActivity.class));
 				break;
 		}
+	}
+
+	/**
+	 * 跳转至商品列表页面
+	 * @param type 事件类型
+	 * @param sortId 商品分类Id
+	 */
+	private void openGoodsListActivity(int type, int sortId) {
+		Intent intent = new Intent(mContext, GoodsListActivity.class);
+		intent.putExtra("source_type", type);
+		intent.putExtra("sort_id", sortId);
+		startActivity(intent);
 	}
 
 	@Override
