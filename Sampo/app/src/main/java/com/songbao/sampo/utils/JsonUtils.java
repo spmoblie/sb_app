@@ -4,6 +4,7 @@ import com.songbao.sampo.entity.BaseEntity;
 import com.songbao.sampo.entity.CouponEntity;
 import com.songbao.sampo.entity.CustomizeEntity;
 import com.songbao.sampo.entity.DesignerEntity;
+import com.songbao.sampo.entity.GoodsAttrEntity;
 import com.songbao.sampo.entity.GoodsEntity;
 import com.songbao.sampo.entity.MessageEntity;
 import com.songbao.sampo.entity.OptionEntity;
@@ -597,6 +598,55 @@ public class JsonUtils {
                     lists.add(childEn);
                 }
                 mainEn.setLists(lists);
+            }
+        }
+        return mainEn;
+    }
+
+
+    /**
+     * 解析筛选属性数据
+     */
+    public static GoodsAttrEntity getScreenAttrData(JSONObject jsonObject) throws JSONException {
+        GoodsAttrEntity mainEn = new GoodsAttrEntity();
+
+        if (StringUtil.notNull(jsonObject, "data")) {
+            JSONObject jsonData = jsonObject.getJSONObject("data");
+            if (StringUtil.notNull(jsonData, "activityList")) {
+                JSONArray data = jsonData.getJSONArray("activityList");
+                GoodsAttrEntity childEn, attrEn;
+                ArrayList<GoodsAttrEntity> lists = new ArrayList<>();
+                for (int i = 0; i < 2; i++) {
+                    JSONObject item = data.getJSONObject(i);
+                    childEn = new GoodsAttrEntity();
+                    int id = i+1;
+                    childEn.setAttrId(id);
+                    if (id == 1) {
+                        childEn.setAttrName("尺寸");
+                        childEn.setGone(true);
+                    } else {
+                        childEn.setAttrName("颜色");
+                        childEn.setGone(false);
+                    }
+
+                    ArrayList<GoodsAttrEntity> childLists = new ArrayList<>();
+                    for (int j = 0; j < 9; j++) {
+                        attrEn = new GoodsAttrEntity();
+                        int ij = id*10 + j;
+                        attrEn.setAttrId(ij);
+                        attrEn.setAttrName(childEn.getAttrName() + ij);
+                        childLists.add(attrEn);
+                    }
+                    childEn.setAttrLists(childLists);
+
+                    lists.add(childEn);
+                }
+                //lists.addAll(lists);
+                childEn = new GoodsAttrEntity();
+                childEn.setAttrId(3);
+                childEn.setAttrName("价格");
+                lists.add(childEn);
+                mainEn.setAttrLists(lists);
             }
         }
         return mainEn;

@@ -63,8 +63,8 @@ public abstract class AppBaseAdapter<T> extends BaseAdapter {
 	}
 
 	@Override
-	public long getItemId(int arg0) {
-		return 0;
+	public long getItemId(int position) {
+		return position;
 	}
 
 	@Override

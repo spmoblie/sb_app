@@ -5,7 +5,7 @@
     <string name="app_name">松小堡</string>
 
     <!-- General -->
-    <string name="confirm">确认</string>
+    <string name="confirm">确定</string>
     <string name="cancel">取消</string>
     <string name="i_see">我知道了</string>
     <string name="ignore">忽略</string>
@@ -29,8 +29,9 @@
     <string name="expired">已过期</string>
     <string name="cancelled">已核销</string>
     <string name="login">登录</string>
+    <string name="size">尺寸</string>
     <string name="color">颜色</string>
-    <string name="size">尺码</string>
+    <string name="price">价格</string>
     <string name="clean">清除</string>
     <string name="done">完成</string>
     <string name="desc">""</string>

@@ -157,4 +157,82 @@
         app:layout_constraintRight_toRightOf="@+id/goods_list_iv_cart"
         app:layout_constraintTop_toTopOf="@+id/goods_list_iv_cart" />
 
+    <LinearLayout
+        android:id="@+id/goods_list_screen_main"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        android:background="@color/ui_bg_color_percent_05"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/goods_list_top_main"
+        app:layout_constraintVertical_weight="1">
+
+        <RelativeLayout
+            android:id="@+id/goods_list_screen_hide"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"/>
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/goods_list_screen_show"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="4"
+            android:background="@color/ui_color_app_bg_01"
+            android:visibility="gone">
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/screen_view_rv"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                app:layout_constraintVertical_weight="1"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintBottom_toTopOf="@+id/screen_view_tv_cancel"/>
+
+            <TextView
+                android:id="@+id/screen_view_tv_cancel"
+                style="@style/common_text_bg_frame"
+                android:layout_width="0dp"
+                android:layout_margin="@dimen/margin_padding_20"
+                android:paddingTop="@dimen/margin_padding_10"
+                android:paddingBottom="@dimen/margin_padding_10"
+                android:paddingLeft="@dimen/margin_padding_20"
+                android:paddingRight="@dimen/margin_padding_20"
+                android:background="@drawable/shape_style_empty_02_08"
+                android:gravity="center"
+                android:text="@string/cancel"
+                android:textColor="@color/app_color_gray_5"
+                android:textSize="@dimen/app_text_size_content"
+                app:layout_constraintHorizontal_weight="0.4"
+                app:layout_constraintTop_toBottomOf="@+id/screen_view_rv"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toLeftOf="@+id/screen_view_tv_confirm"/>
+
+            <TextView
+                android:id="@+id/screen_view_tv_confirm"
+                style="@style/common_text_bg_frame"
+                android:layout_width="0dp"
+                android:layout_marginTop="0dp"
+                android:layout_marginRight="@dimen/margin_padding_20"
+                android:paddingTop="@dimen/margin_padding_10"
+                android:paddingBottom="@dimen/margin_padding_10"
+                android:paddingLeft="@dimen/margin_padding_20"
+                android:paddingRight="@dimen/margin_padding_20"
+                android:background="@drawable/shape_style_solid_04_08"
+                android:gravity="center"
+                android:text="@string/confirm"
+                android:textColor="@color/app_color_white"
+                android:textSize="@dimen/app_text_size_content"
+                app:layout_constraintHorizontal_weight="0.5"
+                app:layout_constraintTop_toTopOf="@+id/screen_view_tv_cancel"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toRightOf="@+id/screen_view_tv_cancel"/>
+
+        </android.support.constraint.ConstraintLayout>
+    </LinearLayout>
+
 </android.support.constraint.ConstraintLayout>

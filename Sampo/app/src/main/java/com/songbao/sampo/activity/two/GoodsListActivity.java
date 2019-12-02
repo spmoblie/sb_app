@@ -6,16 +6,22 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.util.ArrayMap;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.songbao.sampo.AppApplication;
@@ -25,7 +31,9 @@ import com.songbao.sampo.activity.BaseActivity;
 import com.songbao.sampo.activity.common.ScanActivity;
 import com.songbao.sampo.adapter.AdapterCallback;
 import com.songbao.sampo.adapter.GoodsListAdapter;
+import com.songbao.sampo.adapter.GoodsScreenAdapter;
 import com.songbao.sampo.entity.BaseEntity;
+import com.songbao.sampo.entity.GoodsAttrEntity;
 import com.songbao.sampo.entity.GoodsEntity;
 import com.songbao.sampo.utils.CommonTools;
 import com.songbao.sampo.utils.ExceptionUtil;
@@ -83,10 +91,24 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 	@BindView(R.id.goods_list_tv_cart_num)
 	TextView tv_cart_num;
 
+	@BindView(R.id.goods_list_screen_main)
+	LinearLayout screen_main;
+
+	@BindView(R.id.goods_list_screen_hide)
+	RelativeLayout screen_hide;
+
+	@BindView(R.id.goods_list_screen_show)
+	ConstraintLayout screen_show;
+
+	@BindView(R.id.screen_view_rv)
+	RecyclerView rv_screen;
+
 	MyRecyclerView mRecyclerView;
 	GoodsListAdapter rvAdapter;
 
 	private CountDownTimer mCdt;
+	private GoodsAttrEntity attrEn;
+	private Animation mainShow, mainHide, viewShow, viewHide;
 
 	public static final int TYPE_1 = 1;  //综合
 	public static final int TYPE_2 = 2;  //销量
@@ -105,6 +127,7 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 	private int load_type = 1; //加载类型(0:下拉刷新/1:翻页加载)
 	private int load_page = 1; //加载页数
 	private boolean isLoadOk = true; //加载控制
+	private boolean isAnimStop = true; //动画控制
 
 	private String searchStr;
 
@@ -133,6 +156,8 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 		tv_top_2.setOnClickListener(this);
 		tv_top_3.setOnClickListener(this);
 		tv_top_5.setOnClickListener(this);
+		screen_hide.setOnClickListener(this);
+		screen_show.setOnClickListener(this);
 
 		rank_up = getResources().getDrawable(R.mipmap.icon_rank_up);
 		rank_down = getResources().getDrawable(R.mipmap.icon_rank_down);
@@ -141,6 +166,7 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 		rank_down.setBounds(0, 0, rank_down.getMinimumWidth(), rank_down.getMinimumHeight());
 		rank_normal.setBounds(0, 0, rank_normal.getMinimumWidth(), rank_normal.getMinimumHeight());
 
+		initAnimation();
 		initEditText();
 		initRecyclerView();
 		changeItemStatus();
@@ -149,6 +175,105 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 		if (source_type == 1) { //搜索事件
 			editTextFocusAndClear(et_search);
 		}
+	}
+
+	private void initAnimation() {
+		mainShow = AnimationUtils.loadAnimation(mContext, R.anim.alpha_show);
+		mainShow.setAnimationListener(new Animation.AnimationListener() {
+			@Override
+			public void onAnimationStart(Animation animation) {
+				screen_main.setVisibility(View.VISIBLE);
+			}
+
+			@Override
+			public void onAnimationEnd(Animation animation) {
+				isAnimStop = true;
+				initScreenAttr();
+				screen_show.startAnimation(viewShow);
+			}
+
+			@Override
+			public void onAnimationRepeat(Animation animation) {
+
+			}
+		});
+		mainHide = AnimationUtils.loadAnimation(mContext, R.anim.alpha_hide);
+		mainHide.setAnimationListener(new Animation.AnimationListener() {
+			@Override
+			public void onAnimationStart(Animation animation) {
+				screen_main.setVisibility(View.GONE);
+			}
+
+			@Override
+			public void onAnimationEnd(Animation animation) {
+				isAnimStop = true;
+			}
+
+			@Override
+			public void onAnimationRepeat(Animation animation) {
+
+			}
+		});
+		viewShow = AnimationUtils.loadAnimation(mContext, R.anim.in_from_right);
+		viewShow.setAnimationListener(new Animation.AnimationListener() {
+			@Override
+			public void onAnimationStart(Animation animation) {
+				screen_show.setVisibility(View.VISIBLE);
+			}
+
+			@Override
+			public void onAnimationEnd(Animation animation) {
+				isAnimStop = true;
+			}
+
+			@Override
+			public void onAnimationRepeat(Animation animation) {
+
+			}
+		});
+		viewHide = AnimationUtils.loadAnimation(mContext, R.anim.out_to_right);
+		viewHide.setAnimationListener(new Animation.AnimationListener() {
+			@Override
+			public void onAnimationStart(Animation animation) {
+				screen_show.setVisibility(View.GONE);
+			}
+
+			@Override
+			public void onAnimationEnd(Animation animation) {
+				isAnimStop = true;
+				screen_main.startAnimation(mainHide);
+			}
+
+			@Override
+			public void onAnimationRepeat(Animation animation) {
+
+			}
+		});
+	}
+
+	/**
+	 * 初始化筛选属性列表
+	 */
+	private void initScreenAttr() {
+		if (attrEn == null) return;
+		// 设置布局管理器
+		LinearLayoutManager layoutManager = new LinearLayoutManager(mContext);
+		layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+		rv_screen.setLayoutManager(layoutManager);
+		// 配置适配器
+		GoodsScreenAdapter.ScreenClickCallback apCallback = new GoodsScreenAdapter.ScreenClickCallback() {
+
+			@Override
+			public void setOnClick(Object entity, int position, int num, double attrPrice,
+								   int id1, int id2, String selectName, String selectImg) {
+			}
+
+		};
+		ArrayList<Integer> resLayout = new ArrayList<>();
+		resLayout.add(R.layout.item_list_screen_1);
+		resLayout.add(R.layout.item_list_screen_2);
+		GoodsScreenAdapter lv_Adapter = new GoodsScreenAdapter(mContext, attrEn, resLayout, apCallback);
+		rv_screen.setAdapter(lv_Adapter);
 	}
 
 	private void initEditText() {
@@ -341,12 +466,15 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 			loadFirstPageData();
 			break;
 		case R.id.goods_list_tv_top_item_5:
-			if (top_type == TYPE_5) return;
 			top_type = TYPE_5;
 			isRise2 = false;
 			isRise3 = false;
 			sort_type = 0;
 			changeItemStatus();
+			showScreenView();
+			break;
+		case R.id.goods_list_screen_hide:
+			hideScreenView();
 			break;
 		}
 	}
@@ -398,6 +526,27 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 		mRecyclerView.smoothScrollToPosition(0);
 	}
 
+	/**
+	 * 显示筛选View
+	 */
+	private void showScreenView() {
+		if (isAnimStop && screen_main.getVisibility() == View.GONE) {
+			isAnimStop = false;
+			screen_main.startAnimation(mainShow);
+		}
+	}
+
+	/**
+	 * 隐藏筛选View
+	 */
+	private void hideScreenView() {
+		if (isAnimStop && screen_show.getVisibility() == View.VISIBLE) {
+			isAnimStop = false;
+			screen_show.startAnimation(viewHide);
+			screen_main.setVisibility(View.GONE);
+		}
+	}
+
 	@Override
 	protected void onResume() {
 		LogUtil.i(LogUtil.LOG_TAG, TAG + ": onResume");
@@ -427,6 +576,7 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 	private void loadFirstPageData() {
 		refresh_rv.doPullRefreshing(true, 0);
 		toTop();
+		hideScreenView();
 	}
 
 	/**
@@ -451,6 +601,9 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 	private void loadServerData() {
 		if (!isLoadOk) return; //加载频率控制
 		isLoadOk = false;
+		if (attrEn == null) {
+			loadScreenAttrData();
+		}
 		String page = String.valueOf(load_page);
 		if (load_type == 0) {
 			page = "1";
@@ -462,6 +615,19 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 		map.put("size", AppConfig.LOAD_SIZE);
 		map.put("isReservation", "1");
 		loadSVData(AppConfig.URL_HOME_LIST, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_GOODS_LIST);
+	}
+
+	/**
+	 * 加载筛选属性数据
+	 */
+	private void loadScreenAttrData() {
+		HashMap<String, String> map = new HashMap<>();
+		map.put("type", String.valueOf(top_type));
+		map.put("sort", String.valueOf(sort_type));
+		map.put("page", "1");
+		map.put("size", AppConfig.LOAD_SIZE);
+		map.put("isReservation", "1");
+		loadSVData(AppConfig.URL_HOME_LIST, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_SCREEN_ATTR);
 	}
 
 	@Override
@@ -491,6 +657,9 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 					} else {
 						handleErrorCode(baseEn);
 					}
+					break;
+				case AppConfig.REQUEST_SV_SCREEN_ATTR:
+					attrEn = JsonUtils.getScreenAttrData(jsonObject);
 					break;
 			}
 		} catch (Exception e) {

@@ -10,7 +10,7 @@ import android.widget.LinearLayout;
 
 
 /**
- * scrollview中内嵌listview自适应高度的简单实现(确定Item个数)
+ * Scrollview中内嵌ListView自适应高度的简单实现(确定Item个数)
  * @author Administrator
  */
 public class ScrollViewListView extends LinearLayout{
