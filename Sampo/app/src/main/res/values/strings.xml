@@ -11,6 +11,7 @@
     <string name="ignore">忽略</string>
     <string name="proceed">继续</string>
     <string name="being_not">暂不</string>
+    <string name="reset">重置</string>r
     <string name="retry">重试</string>
     <string name="back">返回</string>
     <string name="save">保存</string>
@@ -36,6 +37,7 @@
     <string name="done">完成</string>
     <string name="desc">""</string>
     <string name="dot">・</string>
+    <string name="space">―</string>
     <string name="sign_semicolon">：</string>
     <string name="time_divided">:</string>
     <string name="multiplication">×</string>
@@ -242,6 +244,8 @@
     <string name="goods_top_item_3">价格</string>
     <string name="goods_top_item_4">信用</string>
     <string name="goods_top_item_5">筛选</string>
+    <string name="goods_price_min">最低价格</string>
+    <string name="goods_price_max">最高价格</string>
 
     <!-- Cart -->
     <string name="cart_goods_num">x%1$d</string>

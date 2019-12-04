@@ -15,7 +15,7 @@ public class StringUtil {
 	}
 
 	public static boolean priceIsNull(String price) {
-		return isNull(price) || price.equals("0") || price.equals("0.00");
+		return isNull(price) || price.equals("0") || price.equals("0.") || price.equals("0.0") || price.equals("0.00");
 	}
 
 	public static boolean notNull(JSONObject jsonObj, String key) throws JSONException {

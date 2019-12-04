@@ -55,7 +55,7 @@
             android:paddingBottom="@dimen/margin_padding_7"
             android:paddingLeft="@dimen/margin_padding_10"
             android:paddingRight="@dimen/margin_padding_10"
-            android:background="@drawable/shape_style_solid_02_08"
+            android:background="@drawable/selector_item_goods_attr"
             android:textColor="@color/app_color_gray_5"
             android:textSize="@dimen/app_text_size_label"
             app:layout_constrainedWidth="true"

@@ -1,75 +1,30 @@
 package com.songbao.sampo.entity;
 
+import com.songbao.sampo.utils.StringUtil;
+
 import java.util.ArrayList;
 
 public class GoodsAttrEntity extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * 属性id
-	 */
-	private int attrId;
-
-	/**
-	 * 商品id
-	 */
-	private int goodsId;
-
-	/**
-	 * 首张缩略图
-	 */
-	private String firstImgUrl;
-
-	/**
-	 * 商品结算价
-	 */
-	private double computePrice;
-
-	/**
-	 * 商品库存数
-	 */
-	private int skuNum;
-
-	/**
-	 * 属性面板是否隐藏
-	 */
-	private boolean isGone;
-
-	/**
-	 * 商品属性名称
-	 */
-	private String attrName;
-
-	/**
-	 * 商品属性价值
-	 */
-	private double attrPrice;
-
-	/**
-	 * 商品属性图片
-	 */
-	private String attrImg;
-
-	/**
-	 * 属性集合
-	 */
-	private ArrayList<GoodsAttrEntity> attrLists;
-
-	/**
-	 * 商品库存集合Key
-	 */
-	private String sku_key;
-
-	/**
-	 * 商品库存集合Value
-	 */
-	private int sku_value;
-
-	/**
-	 * 商品库存集合
-	 */
-	private ArrayList<GoodsAttrEntity> skuLists;
+	private int attrId; //属性id
+	private int goodsId; //商品id
+	private String firstImgUrl; //首张缩略图
+	private double computePrice; //商品结算价
+	private int skuNum; //商品库存数
+	private boolean isShow; //属性面板是否展开
+	private boolean isSelect; //属性是否选中
+	private String attrIdStr; //筛选属性Id字符串
+	private double minPrice; //筛选最低价格
+	private double maxPrice; //筛选最高价格
+	private String attrName; //属性名称
+	private double attrPrice; //属性价值
+	private String attrImg; //属性图片
+	private ArrayList<GoodsAttrEntity> attrLists; //属性集合
+	private String sku_key; //库存集合Key
+	private int sku_value; //库存集合Value
+	private ArrayList<GoodsAttrEntity> skuLists; //库存集合
 
 
 	@Override
@@ -119,12 +74,47 @@ public class GoodsAttrEntity extends BaseEntity {
 		this.skuNum = skuNum;
 	}
 
-	public boolean isGone() {
-		return isGone;
+	public boolean isShow() {
+		return isShow;
 	}
 
-	public void setGone(boolean gone) {
-		isGone = gone;
+	public void setShow(boolean show) {
+		isShow = show;
+	}
+
+	public boolean isSelect() {
+		return isSelect;
+	}
+
+	public void setSelect(boolean select) {
+		isSelect = select;
+	}
+
+	public String getAttrIdStr() {
+		if (StringUtil.isNull(attrIdStr)) {
+			return "";
+		}
+		return attrIdStr;
+	}
+
+	public void setAttrIdStr(String attrIdStr) {
+		this.attrIdStr = attrIdStr;
+	}
+
+	public double getMinPrice() {
+		return minPrice;
+	}
+
+	public void setMinPrice(double minPrice) {
+		this.minPrice = minPrice;
+	}
+
+	public double getMaxPrice() {
+		return maxPrice;
+	}
+
+	public void setMaxPrice(double maxPrice) {
+		this.maxPrice = maxPrice;
 	}
 
 	public String getAttrName() {

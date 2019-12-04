@@ -20,20 +20,15 @@
 
                 <EditText
                     android:id="@+id/fg_two_et_search"
+                    style="@style/common_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/shape_style_solid_01_08"
-                    android:ellipsize="end"
-                    android:hint="@string/goods_search_et_hint"
-                    android:imeOptions="actionSearch"
                     android:paddingLeft="@dimen/margin_padding_35"
                     android:paddingRight="@dimen/margin_padding_35"
-                    android:singleLine="true"
+                    android:background="@drawable/shape_style_solid_01_08"
+                    android:hint="@string/goods_search_et_hint"
                     android:focusable="false"
-                    android:focusableInTouchMode="false"
-                    android:textColor="@color/input_text_color"
-                    android:textColorHint="@color/input_hint_color"
-                    android:textSize="@dimen/text_size_14" />
+                    android:focusableInTouchMode="false" />
 
                 <ImageView
                     android:layout_width="wrap_content"

@@ -35,18 +35,13 @@
 
             <EditText
                 android:id="@+id/goods_list_et_search"
+                style="@style/common_edit_text"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/shape_style_solid_02_08"
-                android:ellipsize="end"
                 android:hint="@string/goods_search_et_hint"
                 android:imeOptions="actionSearch"
                 android:paddingLeft="@dimen/margin_padding_35"
-                android:paddingRight="@dimen/margin_padding_35"
-                android:singleLine="true"
-                android:textColor="@color/input_text_color"
-                android:textColorHint="@color/input_hint_color"
-                android:textSize="@dimen/app_text_size_label" />
+                android:paddingRight="@dimen/margin_padding_35" />
 
             <ImageView
                 android:layout_width="wrap_content"
@@ -190,10 +185,10 @@
                 android:layout_height="0dp"
                 app:layout_constraintVertical_weight="1"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toTopOf="@+id/screen_view_tv_cancel"/>
+                app:layout_constraintBottom_toTopOf="@+id/screen_view_tv_reset"/>
 
             <TextView
-                android:id="@+id/screen_view_tv_cancel"
+                android:id="@+id/screen_view_tv_reset"
                 style="@style/common_text_bg_frame"
                 android:layout_width="0dp"
                 android:layout_margin="@dimen/margin_padding_20"
@@ -203,7 +198,7 @@
                 android:paddingRight="@dimen/margin_padding_20"
                 android:background="@drawable/shape_style_empty_02_08"
                 android:gravity="center"
-                android:text="@string/cancel"
+                android:text="@string/reset"
                 android:textColor="@color/app_color_gray_5"
                 android:textSize="@dimen/app_text_size_content"
                 app:layout_constraintHorizontal_weight="0.4"
@@ -228,9 +223,9 @@
                 android:textColor="@color/app_color_white"
                 android:textSize="@dimen/app_text_size_content"
                 app:layout_constraintHorizontal_weight="0.5"
-                app:layout_constraintTop_toTopOf="@+id/screen_view_tv_cancel"
+                app:layout_constraintTop_toTopOf="@+id/screen_view_tv_reset"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintLeft_toRightOf="@+id/screen_view_tv_cancel"/>
+                app:layout_constraintLeft_toRightOf="@+id/screen_view_tv_reset"/>
 
         </android.support.constraint.ConstraintLayout>
     </LinearLayout>

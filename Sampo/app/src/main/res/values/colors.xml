@@ -11,7 +11,8 @@
     <color name="app_color_gray_9">#999999</color><!-- 灰色 -->
     <color name="app_color_gray_c">#CCCCCC</color><!-- 浅灰 -->
     <color name="app_color_gray_e">#E5E5E5</color><!-- 淡灰 -->
-    <color name="app_color_gray_f">#F8F8F8</color><!-- 淡灰 -->
+    <color name="app_color_gray_f5">#F5F5F5</color><!-- 淡灰 -->
+    <color name="app_color_gray_f8">#F8F8F8</color><!-- 淡灰 -->
     <color name="app_color_red_0">#FF0000</color><!-- 红色 -->
     <color name="app_color_red_p">#FF6262</color><!-- 红色 -->
     <color name="app_color_yellow">#FFBC25</color><!-- 黄色 -->
@@ -43,7 +44,7 @@
     <!-- App背景主色 -->
     <color name="ui_color_app_bg_01">@color/app_color_white</color>
     <!-- App背景副色 -->
-    <color name="ui_color_app_bg_02">@color/app_color_gray_f</color>
+    <color name="ui_color_app_bg_02">@color/app_color_gray_f8</color>
 
     <!-- App状态文字 -->
     <color name="tv_color_status">@color/app_color_style</color>

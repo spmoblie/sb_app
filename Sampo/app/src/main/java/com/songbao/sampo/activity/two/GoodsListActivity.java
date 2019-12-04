@@ -104,7 +104,8 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 	RecyclerView rv_screen;
 
 	MyRecyclerView mRecyclerView;
-	GoodsListAdapter rvAdapter;
+	GoodsListAdapter rv_Adapter;
+	GoodsScreenAdapter lv_Adapter;
 
 	private CountDownTimer mCdt;
 	private GoodsAttrEntity attrEn;
@@ -130,6 +131,7 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 	private boolean isAnimStop = true; //动画控制
 
 	private String searchStr;
+	private long min_price, max_price;
 
 	private ArrayList<GoodsEntity> al_show = new ArrayList<>();
 	private ArrayMap<String, Boolean> am_show = new ArrayMap<>();
@@ -264,16 +266,71 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 		GoodsScreenAdapter.ScreenClickCallback apCallback = new GoodsScreenAdapter.ScreenClickCallback() {
 
 			@Override
-			public void setOnClick(Object entity, int position, int num, double attrPrice,
-								   int id1, int id2, String selectName, String selectImg) {
+			public void updatePrice(long minPrice, long maxPrice, int typeCode) {
+				min_price = minPrice;
+				max_price = maxPrice;
+				switch (typeCode) {
+					case 1:
+						updateScreenData();
+						break;
+				}
+			}
+
+			@Override
+			public void setOnClick(GoodsAttrEntity data, int position, int index, int typeCode) {
+				if (data == null || position < 0 || position >= attrEn.getAttrLists().size()) return;
+				switch (typeCode) {
+					case 0: //选择属性项
+						boolean isSelect = !data.isSelect();
+						String attrIdStr = "";
+						int size = attrEn.getAttrLists().get(position).getAttrLists().size();
+						if (isSelect && index == size - 1) { //选择"全部"选项
+							ArrayList<GoodsAttrEntity> attrList = attrEn.getAttrLists().get(position).getAttrLists();
+							for (int i = 0; i < size; i++) {
+								if (attrList.get(i).isSelect()) {
+									attrEn.getAttrLists().get(position).getAttrLists().get(i).setSelect(false);
+								}
+							}
+						} else {
+							if (index == size - 1) return; //拦截取消"全部"选项
+							String attrId = "_" + data.getEntityId();
+							//获取已选择Id串
+							attrIdStr = attrEn.getAttrLists().get(position).getAttrIdStr();
+							//修改已选择Id串
+							if (isSelect) {
+								attrIdStr = attrIdStr + attrId;
+							} else {
+								attrIdStr = attrIdStr.replace(attrId, "");
+							}
+							attrEn.getAttrLists().get(position).getAttrLists().get(index).setSelect(isSelect);
+						}
+						attrEn.getAttrLists().get(position).setAttrIdStr(attrIdStr);
+						//处理"全部"选项
+						if (StringUtil.isNull(attrIdStr)) {
+							attrEn.getAttrLists().get(position).getAttrLists().get(size - 1).setSelect(true);
+						} else {
+							attrEn.getAttrLists().get(position).getAttrLists().get(size - 1).setSelect(false);
+						}
+						updateScreenData();
+						break;
+					case 1: //展开属性面板
+						attrEn.getAttrLists().get(position).setShow(!data.isShow());
+						updateScreenData();
+						break;
+				}
 			}
 
 		};
 		ArrayList<Integer> resLayout = new ArrayList<>();
 		resLayout.add(R.layout.item_list_screen_1);
 		resLayout.add(R.layout.item_list_screen_2);
-		GoodsScreenAdapter lv_Adapter = new GoodsScreenAdapter(mContext, attrEn, resLayout, apCallback);
+		lv_Adapter = new GoodsScreenAdapter(mContext, attrEn, resLayout, apCallback);
+		lv_Adapter.updatePrice(min_price, max_price);
 		rv_screen.setAdapter(lv_Adapter);
+	}
+
+	private void updateScreenData() {
+		lv_Adapter.updateData(attrEn);
 	}
 
 	private void initEditText() {
@@ -391,9 +448,9 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 		mRecyclerView.setLayoutManager(layoutManager);
 
 		// 配置适配器
-		rvAdapter = new GoodsListAdapter(mContext, R.layout.item_list_goods_list);
-		rvAdapter.addData(al_show);
-		rvAdapter.addCallback(new AdapterCallback() {
+		rv_Adapter = new GoodsListAdapter(mContext, R.layout.item_list_goods_list);
+		rv_Adapter.addData(al_show);
+		rv_Adapter.addCallback(new AdapterCallback() {
 
 			@Override
 			public void setOnClick(Object data, int position, int type) {
@@ -401,7 +458,7 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 				startActivity(new Intent(mContext, CustomizeActivity.class));
 			}
 		});
-		mRecyclerView.setAdapter(rvAdapter);
+		mRecyclerView.setAdapter(rv_Adapter);
 	}
 
 	private void updateListData() {
@@ -410,7 +467,7 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 		} else {
 			setNullVisibility(View.GONE);
 		}
-		rvAdapter.updateData(al_show);
+		rv_Adapter.updateData(al_show);
 	}
 
 	@Override

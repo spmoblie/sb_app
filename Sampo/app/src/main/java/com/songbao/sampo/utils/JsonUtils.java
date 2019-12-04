@@ -623,10 +623,8 @@ public class JsonUtils {
                     childEn.setAttrId(id);
                     if (id == 1) {
                         childEn.setAttrName("尺寸");
-                        childEn.setGone(true);
                     } else {
                         childEn.setAttrName("颜色");
-                        childEn.setGone(false);
                     }
 
                     ArrayList<GoodsAttrEntity> childLists = new ArrayList<>();
@@ -637,15 +635,19 @@ public class JsonUtils {
                         attrEn.setAttrName(childEn.getAttrName() + ij);
                         childLists.add(attrEn);
                     }
-                    childEn.setAttrLists(childLists);
+                    attrEn = new GoodsAttrEntity();
+                    attrEn.setAttrId(-1);
+                    attrEn.setAttrName("全部-1");
+                    attrEn.setSelect(true);
+                    childLists.add(attrEn);
 
+                    childEn.setAttrLists(childLists);
                     lists.add(childEn);
                 }
-                //lists.addAll(lists);
+                //构建"价格"属性面板
                 childEn = new GoodsAttrEntity();
-                childEn.setAttrId(3);
-                childEn.setAttrName("价格");
                 lists.add(childEn);
+
                 mainEn.setAttrLists(lists);
             }
         }
