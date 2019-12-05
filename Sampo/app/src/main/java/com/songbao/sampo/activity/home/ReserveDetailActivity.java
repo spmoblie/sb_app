@@ -107,8 +107,8 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
     @BindView(R.id.reserve_detail_click_main)
     ConstraintLayout click_main;
 
-    @BindView(R.id.reserve_detail_tv_cost)
-    TextView tv_cost;
+    @BindView(R.id.reserve_detail_tv_price)
+    TextView tv_price;
 
     @BindView(R.id.reserve_detail_tv_click)
     TextView tv_click;
@@ -194,7 +194,7 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
             tv_name.setText(data.getUserName());
             tv_series.setText(data.getSeries());
             payAmount = data.getFees();
-            tv_cost.setText(df.format(payAmount));
+            tv_price.setText(df.format(payAmount));
 
             StringBuffer sb = new StringBuffer();
             String dateSlot = data.getDateSlot();

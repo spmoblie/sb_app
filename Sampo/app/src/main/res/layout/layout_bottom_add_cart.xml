@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/bottom_add_cart_main"
+    style="@style/top_main_layout"
+    android:layout_gravity="bottom"
+    android:visibility="visible">
+
+    <TextView
+        android:id="@+id/bottom_add_cart_tv_home"
+        style="@style/common_tab_text_assist"
+        android:drawableTop="@mipmap/icon_home"
+        android:text="@string/main_tab_text_1"
+        android:textSize="@dimen/app_text_size_minis"
+        android:layout_marginLeft="@dimen/margin_padding_5"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/bottom_add_cart_tv_cart"/>
+
+    <TextView
+        android:id="@+id/bottom_add_cart_tv_cart"
+        style="@style/common_tab_text_assist"
+        android:drawableTop="@mipmap/icon_cart_list"
+        android:text="购物车"
+        android:textSize="@dimen/app_text_size_minis"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/bottom_add_cart_tv_home"
+        app:layout_constraintRight_toLeftOf="@+id/bottom_add_cart_tv_cart_add"/>
+
+    <TextView
+        android:id="@+id/bottom_add_cart_tv_cart_num"
+        style="@style/common_warn_red_text_number"
+        android:layout_marginRight="@dimen/margin_padding_10"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="@id/bottom_add_cart_tv_cart"/>
+
+    <TextView
+        android:id="@+id/bottom_add_cart_tv_cart_add"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="加入购物车"
+        android:textColor="@color/tv_color_status"
+        android:background="@drawable/shape_style_empty_04_08"
+        android:layout_marginTop="@dimen/margin_padding_5"
+        android:layout_marginBottom="@dimen/margin_padding_5"
+        android:layout_marginLeft="@dimen/margin_padding_10"
+        android:layout_marginRight="@dimen/margin_padding_10"
+        app:layout_constraintHorizontal_weight="2"
+        app:layout_constraintLeft_toRightOf="@+id/bottom_add_cart_tv_cart"
+        app:layout_constraintRight_toLeftOf="@+id/bottom_add_cart_tv_customize"/>
+
+    <TextView
+        android:id="@+id/bottom_add_cart_tv_customize"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="我要定制"
+        android:textColor="@color/app_color_white"
+        android:background="@drawable/shape_style_solid_04_08"
+        android:layout_marginTop="@dimen/margin_padding_5"
+        android:layout_marginBottom="@dimen/margin_padding_5"
+        android:layout_marginRight="@dimen/app_margin_screen"
+        app:layout_constraintHorizontal_weight="2"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/bottom_add_cart_tv_cart_add"/>
+
+</android.support.constraint.ConstraintLayout>

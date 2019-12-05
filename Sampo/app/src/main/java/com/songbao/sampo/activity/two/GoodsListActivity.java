@@ -45,6 +45,7 @@ import com.songbao.sampo.widgets.pullrefresh.PullToRefreshBase;
 import com.songbao.sampo.widgets.pullrefresh.PullToRefreshRecyclerView;
 import com.songbao.sampo.widgets.recycler.MyRecyclerView;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -103,6 +104,12 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 	@BindView(R.id.screen_view_rv)
 	RecyclerView rv_screen;
 
+	@BindView(R.id.screen_view_tv_reset)
+	TextView tv_reset;
+
+	@BindView(R.id.screen_view_tv_confirm)
+	TextView tv_confirm;
+
 	MyRecyclerView mRecyclerView;
 	GoodsListAdapter rv_Adapter;
 	GoodsScreenAdapter lv_Adapter;
@@ -128,6 +135,7 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 	private int load_type = 1; //加载类型(0:下拉刷新/1:翻页加载)
 	private int load_page = 1; //加载页数
 	private boolean isLoadOk = true; //加载控制
+	private boolean isScreen = false; //是否筛选
 	private boolean isAnimStop = true; //动画控制
 
 	private String searchStr;
@@ -160,6 +168,8 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 		tv_top_5.setOnClickListener(this);
 		screen_hide.setOnClickListener(this);
 		screen_show.setOnClickListener(this);
+		tv_reset.setOnClickListener(this);
+		tv_confirm.setOnClickListener(this);
 
 		rank_up = getResources().getDrawable(R.mipmap.icon_rank_up);
 		rank_down = getResources().getDrawable(R.mipmap.icon_rank_down);
@@ -324,13 +334,13 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 		ArrayList<Integer> resLayout = new ArrayList<>();
 		resLayout.add(R.layout.item_list_screen_1);
 		resLayout.add(R.layout.item_list_screen_2);
-		lv_Adapter = new GoodsScreenAdapter(mContext, attrEn, resLayout, apCallback);
-		lv_Adapter.updatePrice(min_price, max_price);
+		lv_Adapter = new GoodsScreenAdapter(mContext, resLayout, apCallback);
+		lv_Adapter.updateData(attrEn, min_price, max_price);
 		rv_screen.setAdapter(lv_Adapter);
 	}
 
 	private void updateScreenData() {
-		lv_Adapter.updateData(attrEn);
+		lv_Adapter.updateData(attrEn, min_price, max_price);
 	}
 
 	private void initEditText() {
@@ -455,7 +465,7 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 			@Override
 			public void setOnClick(Object data, int position, int type) {
 				if (position < 0 || position >= al_show.size()) return;
-				startActivity(new Intent(mContext, CustomizeActivity.class));
+				openGoodsActivity(al_show.get(position).getEntityId());
 			}
 		});
 		mRecyclerView.setAdapter(rv_Adapter);
@@ -468,6 +478,12 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 			setNullVisibility(View.GONE);
 		}
 		rv_Adapter.updateData(al_show);
+	}
+
+	private void openGoodsActivity(String goodsId) {
+		Intent intent = new Intent(mContext, GoodsActivity.class);
+		intent.putExtra("goodsId", goodsId);
+		startActivity(intent);
 	}
 
 	@Override
@@ -533,6 +549,12 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 		case R.id.goods_list_screen_hide:
 			hideScreenView();
 			break;
+		case R.id.screen_view_tv_reset:
+			resetScreenData();
+			break;
+		case R.id.screen_view_tv_confirm:
+			confirmScreenData();
+			break;
 		}
 	}
 
@@ -543,7 +565,9 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 		tv_top_1.setTypeface(Typeface.SANS_SERIF, Typeface.NORMAL);
 		tv_top_2.setTypeface(Typeface.SANS_SERIF, Typeface.NORMAL);
 		tv_top_3.setTypeface(Typeface.SANS_SERIF, Typeface.NORMAL);
-		tv_top_5.setTypeface(Typeface.SANS_SERIF, Typeface.NORMAL);
+		if (!isScreen) {
+			tv_top_5.setTypeface(Typeface.SANS_SERIF, Typeface.NORMAL);
+		}
 		switch (top_type) {
 			case TYPE_1:
 				tv_top_1.setTypeface(Typeface.SANS_SERIF, Typeface.BOLD);
@@ -604,6 +628,75 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 		}
 	}
 
+	/**
+	 * 重置筛选Data
+	 */
+	private void resetScreenData() {
+		int size1 = attrEn.getAttrLists().size();
+		int size2;
+		for (int i = 0; i < size1-1; i++) {
+			attrEn.getAttrLists().get(i).setShow(false);
+			attrEn.getAttrLists().get(i).setAttrIdStr("");
+			size2 = attrEn.getAttrLists().get(i).getAttrLists().size();
+			for (int j = 0; j < size2; j++) {
+				if (j == size2 - 1) {
+					attrEn.getAttrLists().get(i).getAttrLists().get(j).setSelect(true);
+				} else {
+					attrEn.getAttrLists().get(i).getAttrLists().get(j).setSelect(false);
+				}
+			}
+		}
+		min_price = 0;
+		max_price = 0;
+		isScreen = false;
+		updateScreenData();
+	}
+
+	/**
+	 * 确定筛选Data
+	 */
+	private void confirmScreenData() {
+		if (min_price > 0 && max_price <= min_price) {
+			CommonTools.showToast("最高价格必须大于最低价格");
+			return;
+		}
+		isScreen = false;
+		StringBuffer sb;
+		JSONObject jsonObj = new JSONObject();
+		try {
+			ArrayList<GoodsAttrEntity> attrList = attrEn.getAttrLists();
+			for (int i = 0; i < attrList.size()-1; i++) {
+                GoodsAttrEntity attr = attrList.get(i);
+				sb = new StringBuffer();
+				String attrIdStr = attr.getAttrIdStr();
+				if (!StringUtil.isNull(attrIdStr)) {
+					String[] ids = attrIdStr.split("_");
+					sb.append("[");
+					for (int j = 0; j < ids.length; j++) {
+						if (!StringUtil.isNull(ids[j])) {
+							sb.append(ids[j]);
+							sb.append(",");
+						}
+					}
+					sb.deleteCharAt(sb.lastIndexOf(","));
+					sb.append("]");
+					isScreen = true;
+					jsonObj.put(attr.getEntityId(), sb.toString());
+				}
+			}
+			if (min_price > 0 || max_price > 0) {
+				isScreen = true;
+				jsonObj.put("price", min_price + "-" + max_price);
+			}
+		} catch (JSONException e) {
+			ExceptionUtil.handle(e);
+		}
+		if (isScreen) {
+			CommonTools.showToast(jsonObj.toString());
+		}
+		hideScreenView();
+	}
+
 	@Override
 	protected void onResume() {
 		LogUtil.i(LogUtil.LOG_TAG, TAG + ": onResume");
@@ -612,7 +705,7 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 
 		super.onResume();
 	}
-	
+
 	@Override
 	protected void onPause() {
 		LogUtil.i(LogUtil.LOG_TAG, TAG + ": onPause");

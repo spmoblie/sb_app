@@ -16,8 +16,6 @@ public class GoodsAttrEntity extends BaseEntity {
 	private boolean isShow; //属性面板是否展开
 	private boolean isSelect; //属性是否选中
 	private String attrIdStr; //筛选属性Id字符串
-	private double minPrice; //筛选最低价格
-	private double maxPrice; //筛选最高价格
 	private String attrName; //属性名称
 	private double attrPrice; //属性价值
 	private String attrImg; //属性图片
@@ -99,22 +97,6 @@ public class GoodsAttrEntity extends BaseEntity {
 
 	public void setAttrIdStr(String attrIdStr) {
 		this.attrIdStr = attrIdStr;
-	}
-
-	public double getMinPrice() {
-		return minPrice;
-	}
-
-	public void setMinPrice(double minPrice) {
-		this.minPrice = minPrice;
-	}
-
-	public double getMaxPrice() {
-		return maxPrice;
-	}
-
-	public void setMaxPrice(double maxPrice) {
-		this.maxPrice = maxPrice;
 	}
 
 	public String getAttrName() {

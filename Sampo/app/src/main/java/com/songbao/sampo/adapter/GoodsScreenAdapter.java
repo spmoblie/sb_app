@@ -37,8 +37,7 @@ public class GoodsScreenAdapter extends BaseRecyclerAdapter {
 	private int mgDps, tvSpec;
 	private long minPrice, maxPrice;
 
-	public GoodsScreenAdapter(Context context, GoodsAttrEntity attrEn,
-							  List<Integer> resLayout, final ScreenClickCallback callback) {
+	public GoodsScreenAdapter(Context context, List<Integer> resLayout, final ScreenClickCallback callback) {
 		super(context, resLayout);
 		this.context = context;
 		this.scCallback = callback;
@@ -47,26 +46,17 @@ public class GoodsScreenAdapter extends BaseRecyclerAdapter {
 		mgWidth =  CommonTools.dpToPx(context, 10);
 		pdWidth = CommonTools.dpToPx(context, 15);
 		pdHeight = CommonTools.dpToPx(context, 7);
-		mgDps = context.getResources().getDimensionPixelSize(R.dimen.app_margin_screen) * 2;
+		mgDps = CommonTools.dpToPx(context, 15);
 		tvSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
-
-		addData(attrEn.getAttrLists());
 	}
 
 	/**
 	 * 刷新数据
 	 */
-	public void updateData(GoodsAttrEntity attrEn) {
-		updateData(attrEn.getAttrLists());
-	}
-
-	/**
-	 * 刷新筛选价格
-	 */
-	public void updatePrice(long minPrice, long maxPrice) {
+	public void updateData(GoodsAttrEntity attrEn, long minPrice, long maxPrice) {
 		this.minPrice = minPrice;
 		this.maxPrice = maxPrice;
-		this.notifyDataSetChanged();
+		updateData(attrEn.getAttrLists());
 	}
 
 	@Override

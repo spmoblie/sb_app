@@ -212,6 +212,22 @@
         <item name="android:textColor">@color/shows_text_color</item>
     </style>
 
+    <!-- 商品页面TextView样式 -->
+    <style name="goods_text">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/app_text_size_small</item>
+        <item name="android:textColor">@color/app_color_gray_9</item>
+    </style>
+
+    <!-- 商品页面Sign样式 -->
+    <style name="goods_attach_sign">
+        <item name="android:layout_width">@dimen/margin_padding_6</item>
+        <item name="android:layout_height">@dimen/margin_padding_6</item>
+        <item name="android:layout_marginRight">@dimen/margin_padding_5</item>
+        <item name="android:background">@drawable/shape_style_app_status</item>
+    </style>
+
     <!-- 详情页面含右箭头TextView样式 -->
     <style name="detail_lay_text_go">
         <item name="android:layout_width">match_parent</item>

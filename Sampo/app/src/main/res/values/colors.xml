@@ -35,7 +35,7 @@
     <!-- 禁操作文字颜色 -->
     <color name="debar_text_color">@color/app_color_gray_c</color>
     <!-- 温馨提示颜色值 -->
-    <color name="warns_text_color">@color/app_color_red_0</color>
+    <color name="warns_text_color">@color/app_color_red_p</color>
     <!-- 商品价格颜色值 -->
     <color name="price_text_color">@color/app_color_red_p</color>
     <!-- 负金额文字颜色 -->

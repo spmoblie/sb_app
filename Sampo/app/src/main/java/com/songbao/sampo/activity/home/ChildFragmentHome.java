@@ -67,7 +67,7 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
     MyRecyclerView mRecyclerView;
     ViewPager fg_home_vp;
     ImageView iv_buy, iv_reserve;
-    LinearLayout ll_head_main, fg_home_indicator;
+    LinearLayout ll_head_main, vp_indicator;
 
     private Context mContext;
     private Runnable mPagerAction;
@@ -210,7 +210,7 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
         iv_buy = ll_head_main.findViewById(R.id.fg_home_head_iv_buy);
         iv_reserve = ll_head_main.findViewById(R.id.fg_home_head_iv_reserve);
         fg_home_vp = ll_head_main.findViewById(R.id.fg_home_head_viewPager);
-        fg_home_indicator = ll_head_main.findViewById(R.id.fg_home_head_indicator);
+        vp_indicator = ll_head_main.findViewById(R.id.fg_home_head_indicator);
 
         iv_buy.setOnClickListener(this);
         iv_reserve.setOnClickListener(this);
@@ -267,7 +267,7 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
                     if (i == 0) {
                         indicators[i].setImageResource(R.mipmap.indicators_now);
                     }
-                    fg_home_indicator.addView(indicators[i]);
+                    vp_indicator.addView(indicators[i]);
                 }
             }
             final boolean loop = viewLists.size() > 3 ? true : false;
@@ -419,8 +419,8 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
             fg_home_vp.removeAllViews();
             fg_home_vp.removeCallbacks(mPagerAction);
         }
-        if (fg_home_indicator != null) {
-            fg_home_indicator.removeAllViews();
+        if (vp_indicator != null) {
+            vp_indicator.removeAllViews();
         }
     }
 
