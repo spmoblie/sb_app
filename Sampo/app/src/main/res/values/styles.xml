@@ -78,11 +78,15 @@
         <item name="android:background">@color/ui_color_app_bg_01</item>
     </style>
 
-    <!-- Top左边返回样式 -->
-    <style name="top_left_back">
+    <!-- Top Icon样式 -->
+    <style name="top_bar_icon">
         <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingTop">@dimen/margin_padding_10</item>
+        <item name="android:paddingBottom">@dimen/margin_padding_10</item>
         <item name="android:paddingLeft">@dimen/app_margin_screen</item>
+        <item name="android:paddingRight">@dimen/app_margin_screen</item>
+        <item name="android:background">@color/ui_bg_color_percent_10</item>
         <item name="android:src">@mipmap/icon_back</item>
     </style>
 
@@ -358,6 +362,13 @@
         <item name="android:visibility">gone</item>
     </style>
 
+    <!-- Star评分控件样式 -->
+    <style name="common_star_bar" parent="@android:style/Widget.RatingBar">
+        <item name="android:progressDrawable">@drawable/layer_star_bar</item>
+        <item name="android:minHeight">@dimen/margin_padding_20</item>
+        <item name="android:maxHeight">@dimen/margin_padding_20</item>
+    </style>
+
     <!-- Top RadioGroup样式 -->
     <style name="common_top_bar_radio_group">
         <item name="android:layout_width">0dp</item>
@@ -367,7 +378,7 @@
         <item name="android:button">@null</item>
         <item name="android:gravity">center</item>
         <item name="android:textColor">@color/selector_group_bar_text</item>
-        <item name="android:textSize">@dimen/text_size_14</item>
+        <item name="android:textSize">@dimen/app_text_size_content</item>
     </style>
 
     <!-- Top Item TextView样式 -->

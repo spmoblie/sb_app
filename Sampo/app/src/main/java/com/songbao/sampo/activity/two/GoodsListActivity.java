@@ -415,10 +415,8 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 	}
 
 	private void initRecyclerView() {
-		refresh_rv.setHeaderLayoutBackground(R.color.ui_color_app_bg_02);
-		refresh_rv.setFooterLayoutBackground(R.color.ui_color_app_bg_02);
-		refresh_rv.setPullRefreshEnabled(true); //下拉刷新
-		refresh_rv.setPullLoadEnabled(true); //上拉加载
+		refresh_rv.setPullRefreshEnabled(false); //下拉刷新
+		refresh_rv.setPullLoadEnabled(false); //上拉加载
 		refresh_rv.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<MyRecyclerView>() {
 			@Override
 			public void onPullDownToRefresh(PullToRefreshBase<MyRecyclerView> refreshView) {
@@ -480,6 +478,9 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 		rv_Adapter.updateData(al_show);
 	}
 
+	/**
+	 * 打开商品详情页
+	 */
 	private void openGoodsActivity(String goodsId) {
 		Intent intent = new Intent(mContext, GoodsActivity.class);
 		intent.putExtra("goodsId", goodsId);

@@ -1,4 +1,4 @@
-package com.songbao.sampo.activity.mine;
+package com.songbao.sampo.activity.two;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -11,13 +11,12 @@ import com.songbao.sampo.AppConfig;
 import com.songbao.sampo.R;
 import com.songbao.sampo.activity.BaseActivity;
 import com.songbao.sampo.adapter.AdapterCallback;
-import com.songbao.sampo.adapter.MessageAdapter;
+import com.songbao.sampo.adapter.CommentRCAdapter;
 import com.songbao.sampo.entity.BaseEntity;
-import com.songbao.sampo.entity.MessageEntity;
+import com.songbao.sampo.entity.CommentEntity;
 import com.songbao.sampo.utils.ExceptionUtil;
 import com.songbao.sampo.utils.JsonUtils;
 import com.songbao.sampo.utils.LogUtil;
-import com.songbao.sampo.utils.UserManager;
 import com.songbao.sampo.utils.retrofit.HttpRequests;
 import com.songbao.sampo.widgets.pullrefresh.PullToRefreshBase;
 import com.songbao.sampo.widgets.pullrefresh.PullToRefreshRecyclerView;
@@ -32,22 +31,21 @@ import java.util.List;
 import butterknife.BindView;
 
 
-public class MessageActivity extends BaseActivity {
+public class CommentActivity extends BaseActivity {
 
-	String TAG = MessageActivity.class.getSimpleName();
+	String TAG = CommentActivity.class.getSimpleName();
 
 	@BindView(R.id.refresh_view_rv)
 	PullToRefreshRecyclerView refresh_rv;
 
-	MessageAdapter rvAdapter;
+	CommentRCAdapter rvAdapter;
 	MyRecyclerView mRecyclerView;
 
 	private int data_total = 0; //数据总量
 	private int load_page = 1; //加载页数
 	private int load_type = 1; //加载类型(0:下拉刷新/1:翻页加载)
-	private int newNum = 0; //新消息数量
 	private boolean isLoadOk = true; //加载控制
-	private ArrayList<MessageEntity> al_show = new ArrayList<>();
+	private ArrayList<CommentEntity> al_show = new ArrayList<>();
 	private ArrayMap<String, Boolean> am_show = new ArrayMap<>();
 
 	@Override
@@ -59,18 +57,14 @@ public class MessageActivity extends BaseActivity {
 	}
 
 	private void initView() {
-		setTitle(getString(R.string.mine_message));
-
-		newNum = UserManager.getInstance().getUserMsgNum();
+		setTitle("精彩评价");
 
 		initRecyclerView();
 		loadMoreData();
 	}
 
 	private void initRecyclerView() {
-		refresh_rv.setBackgroundResource(R.color.ui_color_app_bg_02);
-		refresh_rv.setHeaderLayoutBackground(R.color.ui_color_app_bg_02);
-		refresh_rv.setFooterLayoutBackground(R.color.ui_color_app_bg_02);
+		refresh_rv.setBackgroundResource(R.color.ui_color_app_bg_01);
 		refresh_rv.setPullRefreshEnabled(true); //下拉刷新
 		refresh_rv.setPullLoadEnabled(true); //上拉加载
 		refresh_rv.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<MyRecyclerView>() {
@@ -110,22 +104,17 @@ public class MessageActivity extends BaseActivity {
 		// 设置布局管理器
 		mRecyclerView = refresh_rv.getRefreshableView();
 		mRecyclerView.setLayoutManager(layoutManager);
-		mRecyclerView.setBackgroundResource(R.color.ui_color_app_bg_02);
+		mRecyclerView.setBackgroundResource(R.color.ui_color_app_bg_01);
 
 		// 配置适配器
-		rvAdapter = new MessageAdapter(mContext, R.layout.item_list_message);
-		rvAdapter.addData(al_show, newNum);
+		rvAdapter = new CommentRCAdapter(mContext, R.layout.item_list_comment);
+		rvAdapter.addData(al_show);
 		rvAdapter.addCallback(new AdapterCallback() {
 
 			@Override
 			public void setOnClick(Object data, int position, int type) {
 				if (position < 0 || position >= al_show.size()) return;
-				MessageEntity msgEn = al_show.get(position);
-				if (msgEn != null && !msgEn.isRead()) {
-					postReadMessage(msgEn.getId());
-					al_show.get(position).setRead(true);
-					updateListData();
-				}
+				CommentEntity msgEn = al_show.get(position);
 			}
 		});
 		mRecyclerView.setAdapter(rvAdapter);
@@ -137,7 +126,7 @@ public class MessageActivity extends BaseActivity {
 		} else {
 			setNullVisibility(View.GONE);
 		}
-		rvAdapter.updateData(al_show, newNum);
+		rvAdapter.updateData(al_show);
 	}
 
 	@Override
@@ -177,16 +166,6 @@ public class MessageActivity extends BaseActivity {
 	private void loadMoreData() {
 		load_type = 1;
 		loadServerData();
-		//loadDemoData();
-	}
-
-	/**
-	 * 提交读消息事件
-	 */
-	private void postReadMessage(String id) {
-		HashMap<String, String> map = new HashMap<>();
-		map.put("id", id);
-		loadSVData(AppConfig.URL_USER_MESSAGE_STATUS, map, HttpRequests.HTTP_POST, 0);
 	}
 
 	/**
@@ -211,10 +190,10 @@ public class MessageActivity extends BaseActivity {
 		try {
 			switch (dataType) {
 				case AppConfig.REQUEST_SV_USER_MESSAGE:
-					baseEn = JsonUtils.getMessageData(jsonObject);
+					baseEn = JsonUtils.getCommentListData(jsonObject);
 					if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
 						data_total = baseEn.getDataTotal();
-						List<MessageEntity> lists = filterData(baseEn.getLists(), am_show);
+						List<CommentEntity> lists = filterData(baseEn.getLists(), am_show);
 						if (lists != null && lists.size() > 0) {
 							if (load_type == 0) {
 								//下拉
@@ -255,48 +234,6 @@ public class MessageActivity extends BaseActivity {
 		isLoadOk = true;
 		refresh_rv.onPullUpRefreshComplete();
 		refresh_rv.onPullDownRefreshComplete();
-	}
-
-	/**
-	 * 构建Demo数据
-	 */
-	private void loadDemoData() {
-		al_show.clear();
-
-		MessageEntity chEn_1 = new MessageEntity();
-		MessageEntity chEn_2 = new MessageEntity();
-		MessageEntity chEn_3 = new MessageEntity();
-		MessageEntity chEn_4 = new MessageEntity();
-		MessageEntity chEn_5 = new MessageEntity();
-
-		chEn_1.setAddTime("10月08日 10:08");
-		chEn_1.setTitle("使用成功");
-		chEn_1.setContent("您好！尊敬的松堡迪迪，您已在10月08日 10:06成功参与课程，谢谢您的光临！");
-		chEn_1.setRead(false);
-		//al_show.add(chEn_1);
-		chEn_2.setAddTime("10月06日 13:18");
-		chEn_2.setTitle("预约成功");
-		chEn_2.setContent("您好！尊敬的松堡迪迪，您已在10月06日 13:15成功预约并购买小小木匠课程，请注意预约时间，期待您的光临！");
-		chEn_2.setRead(false);
-		//al_show.add(chEn_2);
-		chEn_3.setAddTime("09月18日 10:08");
-		chEn_3.setTitle("使用成功");
-		chEn_3.setContent("您好！尊敬的松堡迪迪，您已在09月18日 10:06成功参与课程，谢谢您的光临！");
-		chEn_3.setRead(true);
-		al_show.add(chEn_3);
-		chEn_4.setAddTime("09月16日 13:18");
-		chEn_4.setTitle("预约成功");
-		chEn_4.setContent("您好！尊敬的松堡迪迪，您已在09月16日 13:15成功预约并购买小小木匠课程，请注意预约时间，期待您的光临！");
-		chEn_4.setRead(true);
-		al_show.add(chEn_4);
-		chEn_5.setAddTime("09月08日 10:28");
-		chEn_5.setTitle("欢迎您来到松小堡");
-		chEn_5.setContent("恭喜您成为松小堡家庭中心成员，松小堡欢迎您的到来。");
-		chEn_5.setRead(false);
-		al_show.add(chEn_5);
-
-		updateListData();
-		stopAnimation();
 	}
 
 }

@@ -1,15 +1,20 @@
 package com.songbao.sampo.activity.two;
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RadioButton;
 
 import com.bumptech.glide.Glide;
 import com.songbao.sampo.AppApplication;
@@ -17,10 +22,13 @@ import com.songbao.sampo.AppConfig;
 import com.songbao.sampo.R;
 import com.songbao.sampo.activity.BaseActivity;
 import com.songbao.sampo.adapter.AdapterCallback;
+import com.songbao.sampo.adapter.CommentLVAdapter;
 import com.songbao.sampo.adapter.GoodsDetailsAdapter;
+import com.songbao.sampo.entity.CommentEntity;
 import com.songbao.sampo.utils.CommonTools;
 import com.songbao.sampo.utils.ExceptionUtil;
 import com.songbao.sampo.utils.LogUtil;
+import com.songbao.sampo.widgets.ObservableScrollView;
 import com.songbao.sampo.widgets.ScrollViewListView;
 import com.songbao.sampo.widgets.ViewPagerScroller;
 
@@ -33,30 +41,69 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
 
 	String TAG = GoodsActivity.class.getSimpleName();
 
+	@BindView(R.id.top_common_ll_main)
+	ConstraintLayout ll_top_main;
+
+	@BindView(R.id.top_common_left)
+	ImageButton ib_left;
+
+	@BindView(R.id.top_common_right)
+	ImageButton ib_right;
+
+	@BindView(R.id.top_common_rb_1)
+	RadioButton rb_1;
+
+	@BindView(R.id.top_common_rb_2)
+	RadioButton rb_2;
+
+	@BindView(R.id.top_common_rb_3)
+	RadioButton rb_3;
+
+	@BindView(R.id.goods_view_sv)
+	ObservableScrollView goods_sv;
+
 	@BindView(R.id.goods_view_vp)
 	ViewPager goods_vp;
 
 	@BindView(R.id.goods_vp_indicator)
 	LinearLayout vp_indicator;
 
-	@BindView(R.id.goods_view_lv)
-	ScrollViewListView goods_lv;
+	@BindView(R.id.goods_good_comment_main)
+	ConstraintLayout comment_main;
+
+	@BindView(R.id.goods_lv_comment)
+	ScrollViewListView lv_comment;
+
+	@BindView(R.id.goods_lv_detail)
+	ScrollViewListView lv_detail;
 
 	private Runnable mPagerAction;
 	private LinearLayout.LayoutParams indicatorsLP;
-	private GoodsDetailsAdapter lv_Adapter;
+	private CommentLVAdapter lv_comment_Adapter;
+	private GoodsDetailsAdapter lv_detail_Adapter;
 
+	public static final int TYPE_1 = 1;  //商品
+	public static final int TYPE_2 = 2;  //评价
+	public static final int TYPE_3 = 3;  //详情
+	private int top_type = TYPE_2; //Top标记
+
+	private String goodsId;
 	private boolean vprStop = false;
 	private int idsSize, idsPosition, vprPosition;
+	private int scrollTotal = 0;  //滑动的距离总和
+	private int scrollHeight = 500;  //滑动多少高度完全变色
 	private ImageView[] indicators = null;
 	private ArrayList<ImageView> viewLists = new ArrayList<>();
-	private ArrayList<String> al_img = new ArrayList<>();
+	private ArrayList<String> al_image = new ArrayList<>();
 	private ArrayList<String> al_detail = new ArrayList<>();
+	private ArrayList<CommentEntity> al_comment = new ArrayList<>();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_goods);
+
+		goodsId = getIntent().getStringExtra("goodsId");
 
 		initView();
 	}
@@ -64,26 +111,76 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
 	private void initView() {
 		setHeadVisibility(View.GONE);
 
+		comment_main.setOnClickListener(this);
+
 		// 动态调整宽高
 		int ind_margin = CommonTools.dpToPx(mContext, 5);
 		indicatorsLP = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
 		indicatorsLP.setMargins(ind_margin, 0, 0, 0);
 
 		initDemoData();
+		initRadioGroup();
+		initScrollView();
 		initViewPager();
 		initListView();
 	}
 
+	private void initRadioGroup() {
+		rb_1.setText("商品");
+		rb_2.setText("评价");
+		rb_3.setText("详情");
+		rb_1.setOnClickListener(this);
+		rb_2.setOnClickListener(this);
+		rb_3.setOnClickListener(this);
+		setDefaultRadioButton();
+	}
+
+	private void initScrollView() {
+		goods_sv.setScrollViewListener(new ObservableScrollView.ScrollViewListener() {
+			@Override
+			public void onScrollChanged(ObservableScrollView scrollView, int new_x, int new_y, int old_x, int old_y) {
+				scrollTotal = scrollTotal + (new_y - old_y); //滑动距离总合
+				double alpha;
+				if (scrollTotal <= 0){
+					//在顶部时完全透明
+					alpha = 0;
+				}else if (scrollTotal > 0 && scrollTotal <= scrollHeight){
+					//在滑动高度中时，设置透明度百分比（当前高度/总高度）
+					double d = (double) scrollTotal / scrollHeight;
+					alpha = d * 255;
+				}else{
+					//滑出总高度 完全不透明
+					alpha = 255;
+				}
+				changeTopViewBackground(alpha);
+			}
+		});
+	}
+
+	private void changeTopViewBackground(double alpha) {
+		if (alpha <= 0) {
+			ll_top_main.setVisibility(View.GONE);
+		} else {
+			ll_top_main.setVisibility(View.VISIBLE);
+		}
+		ll_top_main.setBackgroundColor(Color.argb((int) alpha, 255,255,255));
+		ib_left.setBackgroundColor(Color.argb(0, 255,255,255));
+		ib_right.setBackgroundColor(Color.argb(0, 255,255,255));
+		rb_1.setBackgroundColor(Color.argb(0, 255,255,255));
+		rb_1.setBackgroundColor(Color.argb(0, 255,255,255));
+		rb_1.setBackgroundColor(Color.argb(0, 255,255,255));
+	}
+
 	private void initViewPager() {
-		if (al_img.size() > 0) {
+		if (al_image.size() > 0) {
 			clearViewPagerData();
-			idsSize = al_img.size();
+			idsSize = al_image.size();
 			indicators = new ImageView[idsSize]; // 定义指示器数组大小
 			if (idsSize == 2 || idsSize == 3) {
-				al_img.addAll(al_img);
+				al_image.addAll(al_image);
 			}
-			for (int i = 0; i < al_img.size(); i++) {
-				final String imgUrl = al_img.get(i);
+			for (int i = 0; i < al_image.size(); i++) {
+				final String imgUrl = al_image.get(i);
 
 				ImageView iv_show = new ImageView(mContext);
 				iv_show.setScaleType(ImageView.ScaleType.CENTER_CROP);
@@ -248,25 +345,73 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
 	}
 
 	private void initListView() {
-		if (lv_Adapter == null) {
-			lv_Adapter = new GoodsDetailsAdapter(mContext);
-			lv_Adapter.addCallback(new AdapterCallback() {
+		//精彩评价
+		if (lv_comment_Adapter == null) {
+			lv_comment_Adapter = new CommentLVAdapter(mContext);
+			lv_comment_Adapter.addCallback(new AdapterCallback() {
+				@Override
+				public void setOnClick(Object data, int position, int type) {
+					openCommentActivity(goodsId);
+				}
+			});
+		}
+		lv_comment_Adapter.updateData(al_comment);
+		lv_comment.setAdapter(lv_comment_Adapter);
+		lv_comment.setOverScrollMode(ListView.OVER_SCROLL_NEVER);
+
+		//商品详情
+		if (lv_detail_Adapter == null) {
+			lv_detail_Adapter = new GoodsDetailsAdapter(mContext);
+			lv_detail_Adapter.addCallback(new AdapterCallback() {
 				@Override
 				public void setOnClick(Object data, int position, int type) {
 
 				}
 			});
 		}
-		lv_Adapter.updateData(al_detail);
-		goods_lv.setAdapter(lv_Adapter);
-		goods_lv.setOverScrollMode(ListView.OVER_SCROLL_NEVER);
+		lv_detail_Adapter.updateData(al_detail);
+		lv_detail.setAdapter(lv_detail_Adapter);
+		lv_detail.setOverScrollMode(ListView.OVER_SCROLL_NEVER);
 	}
 
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-
+			case R.id.goods_good_comment_main:
+				openCommentActivity(goodsId);
+				break;
 		}
+	}
+
+	/**
+	 * 设置默认项
+	 */
+	private void setDefaultRadioButton() {
+		RadioButton defaultBtn;
+		switch (top_type) {
+			case TYPE_1:
+				defaultBtn = rb_1;
+				break;
+			case TYPE_2:
+				defaultBtn = rb_2;
+				break;
+			case TYPE_3:
+				defaultBtn = rb_3;
+				break;
+			default:
+				defaultBtn = rb_1;
+				break;
+		}
+		defaultBtn.setChecked(true);
+	}
+
+	/**
+	 * 打开评价列表页
+	 */
+	private void openCommentActivity(String goodsId) {
+		Intent intent = new Intent(mContext, CommentActivity.class);
+		intent.putExtra("goodsId", goodsId);
+		startActivity(intent);
 	}
 
 	@Override
@@ -296,17 +441,50 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
 	}
 
 	private void initDemoData() {
-		al_img.add(AppConfig.IMAGE_URL + "banner_001.png");
-		al_img.add(AppConfig.IMAGE_URL + "banner_002.png");
-		al_img.add(AppConfig.IMAGE_URL + "banner_003.png");
-		al_img.add(AppConfig.IMAGE_URL + "banner_004.png");
-		al_img.add(AppConfig.IMAGE_URL + "banner_005.png");
+		al_image.add(AppConfig.IMAGE_URL + "banner_001.png");
+		al_image.add(AppConfig.IMAGE_URL + "banner_002.png");
+		al_image.add(AppConfig.IMAGE_URL + "banner_003.png");
+		al_image.add(AppConfig.IMAGE_URL + "banner_004.png");
+		al_image.add(AppConfig.IMAGE_URL + "banner_005.png");
 
 		al_detail.add("");
 		al_detail.add("");
 		al_detail.add("");
 		al_detail.add("");
 		al_detail.add("");
+
+		CommentEntity childEn;
+		for (int i = 0; i < 2; i++) {
+			childEn = new CommentEntity();
+			childEn.setId(""+i+1);
+			childEn.setNick("草莓味的冰淇淋");
+			childEn.setGoodsAttr("天蓝色；1350*1900");
+			childEn.setAddTime("2019/12/25");
+			childEn.setContent("很不错，稳固，用料足，没有味道，安装师傅说质量很好，值得购买，还会回购");
+
+			if (i == 0) {
+				childEn.setStarNum(2);
+				ArrayList<String> imgList = new ArrayList<>();
+				imgList.add(AppConfig.IMAGE_URL + "banner_001.png");
+				imgList.add(AppConfig.IMAGE_URL + "banner_002.png");
+				imgList.add(AppConfig.IMAGE_URL + "banner_003.png");
+				childEn.setImgList(imgList);
+				childEn.setType(1);
+			}else
+			if (i == 1) {
+				childEn.setStarNum(3);
+				ArrayList<String> imgList = new ArrayList<>();
+				imgList.add(AppConfig.IMAGE_URL + "banner_001.png");
+				imgList.add(AppConfig.IMAGE_URL + "banner_002.png");
+				imgList.add(AppConfig.IMAGE_URL + "banner_003.png");
+				imgList.add(AppConfig.IMAGE_URL + "banner_004.png");
+				imgList.add(AppConfig.IMAGE_URL + "banner_005.png");
+				childEn.setImgList(imgList);
+				childEn.setType(1);
+			}
+
+			al_comment.add(childEn);
+		}
 	}
 
 }

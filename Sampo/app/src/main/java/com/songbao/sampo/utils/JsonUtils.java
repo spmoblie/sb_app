@@ -1,6 +1,8 @@
 package com.songbao.sampo.utils;
 
+import com.songbao.sampo.AppConfig;
 import com.songbao.sampo.entity.BaseEntity;
+import com.songbao.sampo.entity.CommentEntity;
 import com.songbao.sampo.entity.CouponEntity;
 import com.songbao.sampo.entity.CustomizeEntity;
 import com.songbao.sampo.entity.DesignerEntity;
@@ -649,6 +651,70 @@ public class JsonUtils {
                 lists.add(childEn);
 
                 mainEn.setAttrLists(lists);
+            }
+        }
+        return mainEn;
+    }
+
+    /**
+     * 解析评价列表数据
+     */
+    public static BaseEntity getCommentListData(JSONObject jsonObject) throws JSONException {
+        BaseEntity mainEn = getCommonKeyValue(jsonObject);
+
+        if (StringUtil.notNull(jsonObject, "data")) {
+            JSONObject jsonData = jsonObject.getJSONObject("data");
+            if (StringUtil.notNull(jsonData, "dataList")) {
+                JSONArray data = jsonData.getJSONArray("dataList");
+                CommentEntity childEn;
+                List<CommentEntity> lists = new ArrayList<>();
+                for (int i = 0; i < 5; i++) {
+                    childEn = new CommentEntity();
+                    childEn.setId(""+i+1);
+                    childEn.setNick("草莓味的冰淇淋");
+                    childEn.setGoodsAttr("天蓝色；1350*1900");
+                    childEn.setAddTime("2019/12/25");
+                    childEn.setContent("很不错，稳固，用料足，没有味道，安装师傅说质量很好，值得购买，还会回购");
+
+                    if (i == 0) {
+                        childEn.setStarNum(0);
+                        ArrayList<String> imgList = new ArrayList<>();
+                        imgList.add(AppConfig.IMAGE_URL + "banner_001.png");
+                        childEn.setImgList(imgList);
+                        childEn.setType(1);
+                    }else
+                    if (i == 1) {
+                        childEn.setStarNum(1);
+                        ArrayList<String> imgList = new ArrayList<>();
+                        imgList.add(AppConfig.IMAGE_URL + "banner_001.png");
+                        imgList.add(AppConfig.IMAGE_URL + "banner_002.png");
+                        childEn.setImgList(imgList);
+                        childEn.setType(1);
+                    }else
+                    if (i == 2) {
+                        childEn.setStarNum(2);
+                        ArrayList<String> imgList = new ArrayList<>();
+                        imgList.add(AppConfig.IMAGE_URL + "banner_001.png");
+                        imgList.add(AppConfig.IMAGE_URL + "banner_002.png");
+                        imgList.add(AppConfig.IMAGE_URL + "banner_003.png");
+                        childEn.setImgList(imgList);
+                        childEn.setType(1);
+                    }else
+                    if (i == 3) {
+                        childEn.setStarNum(3);
+                        ArrayList<String> imgList = new ArrayList<>();
+                        imgList.add(AppConfig.IMAGE_URL + "banner_001.png");
+                        imgList.add(AppConfig.IMAGE_URL + "banner_002.png");
+                        imgList.add(AppConfig.IMAGE_URL + "banner_003.png");
+                        imgList.add(AppConfig.IMAGE_URL + "banner_004.png");
+                        imgList.add(AppConfig.IMAGE_URL + "banner_005.png");
+                        childEn.setImgList(imgList);
+                        childEn.setType(1);
+                    }
+
+                    lists.add(childEn);
+                }
+                mainEn.setLists(lists);
             }
         }
         return mainEn;

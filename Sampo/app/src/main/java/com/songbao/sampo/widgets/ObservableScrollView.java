@@ -29,16 +29,16 @@ public class ObservableScrollView extends ScrollView {
     }  
   
     @Override
-    protected void onScrollChanged(int x, int y, int oldx, int oldy) {  
-        super.onScrollChanged(x, y, oldx, oldy);  
+    protected void onScrollChanged(int new_x, int new_y, int old_x, int old_y) {
+        super.onScrollChanged(new_x, new_y, old_x, old_y);
         if (scrollViewListener != null) {  
-            scrollViewListener.onScrollChanged(this, x, y, oldx, oldy);  
+            scrollViewListener.onScrollChanged(this, new_x, new_y, old_x, old_y);
         }  
     }  
     
     public interface ScrollViewListener {  
     	  
-        void onScrollChanged(ObservableScrollView scrollView, int x, int y, int oldx, int oldy);  
+        void onScrollChanged(ObservableScrollView scrollView, int new_x, int new_y, int old_x, int old_y);
       
     } 
   

@@ -18,7 +18,7 @@
 
             <ImageView
                 android:id="@+id/top_bar_left"
-                style="@style/top_left_back"
+                style="@style/top_bar_icon"
                 android:contentDescription="@string/desc" />
         </RelativeLayout>
 

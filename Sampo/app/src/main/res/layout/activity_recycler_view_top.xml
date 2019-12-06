@@ -5,7 +5,7 @@
     android:background="@color/ui_color_app_bg_02"
     android:orientation="vertical">
 
-    <include layout="@layout/layout_top_bar_radio_group" />
+    <include layout="@layout/layout_top_radio_group" />
 
     <com.songbao.sampo.widgets.pullrefresh.PullToRefreshRecyclerView
         android:id="@+id/refresh_view_rv"

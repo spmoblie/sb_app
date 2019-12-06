@@ -19,12 +19,14 @@
     <string name="my_new">新建</string>
     <string name="add">添加</string>
     <string name="all">全部</string>
+    <string name="see_all">查看全部</string>
     <string name="select_all">全选</string>
     <string name="total">合计：</string>
     <string name="item_price">价格：</string>
     <string name="item_number">数量：</string>
     <string name="item_select_no">请选择：</string>
     <string name="item_select_ok">已选择：</string>
+    <string name="selected">已选</string>
     <string name="recommend">推荐</string>
     <string name="active">生效中</string>
     <string name="expired">已过期</string>
@@ -246,6 +248,16 @@
     <string name="goods_top_item_5">筛选</string>
     <string name="goods_price_min">最低价格</string>
     <string name="goods_price_max">最高价格</string>
+    <string name="goods_attach_1">免费送货入户并安装</string>
+    <string name="goods_attach_2">正品保障，假一赔三</string>
+    <string name="goods_attach_3">七天无理由退换货（拆封后不支持）</string>
+    <string name="goods_attach_4">三年质保</string>
+    <string name="goods_spec_choice">规格选择</string>
+    <string name="goods_spec_choice_en">SPECIFICATIONS CHOICES</string>
+    <string name="goods_good_comment">精彩评价</string>
+    <string name="goods_good_comment_en">GOOD EVALUATION</string>
+    <string name="goods_good_detail">商品详情</string>
+    <string name="goods_good_detail_en">COMMODITY DETAILS</string>
 
     <!-- Cart -->
     <string name="cart_goods_num">x%1$d</string>

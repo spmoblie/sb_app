@@ -15,9 +15,7 @@
 
         <ImageView
             android:id="@+id/goods_list_iv_left"
-            style="@style/top_left_back"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/app_margin_screen"
+            style="@style/top_bar_icon"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@+id/goods_list_rl_search" />
 
