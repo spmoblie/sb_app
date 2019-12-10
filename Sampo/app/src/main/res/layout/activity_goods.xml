@@ -341,15 +341,17 @@
         </LinearLayout>
     </com.songbao.sampo.widgets.ObservableScrollView>
 
-    <ImageButton
+    <ImageView
         android:id="@+id/goods_iv_left"
         style="@style/top_bar_icon"
+        android:contentDescription="@string/desc"
         android:src="@mipmap/icon_back_white"/>
 
-    <ImageButton
+    <ImageView
         android:id="@+id/goods_iv_share"
         style="@style/top_bar_icon"
         android:src="@mipmap/icon_share_white"
+        android:contentDescription="@string/desc"
         android:layout_gravity="right"/>
 
     <include layout="@layout/layout_top_common" />

@@ -1,6 +1,7 @@
 package com.songbao.sampo.activity.mine;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.util.ArrayMap;
@@ -12,7 +13,6 @@ import com.songbao.sampo.AppApplication;
 import com.songbao.sampo.AppConfig;
 import com.songbao.sampo.R;
 import com.songbao.sampo.activity.BaseActivity;
-import com.songbao.sampo.activity.two.CustomizeActivity;
 import com.songbao.sampo.adapter.AdapterCallback;
 import com.songbao.sampo.adapter.MyCustomizeAdapter;
 import com.songbao.sampo.entity.BaseEntity;
@@ -182,6 +182,7 @@ public class MyCustomizeActivity extends BaseActivity implements View.OnClickLis
 	private void setDefaultRadioButton() {
 		RadioButton defaultBtn;
 		switch (top_type) {
+			default:
 			case TYPE_1:
 				defaultBtn = rb_1;
 				break;
@@ -197,11 +198,38 @@ public class MyCustomizeActivity extends BaseActivity implements View.OnClickLis
 			case TYPE_5:
 				defaultBtn = rb_5;
 				break;
+		}
+		changeItemStatus();
+		defaultBtn.setChecked(true);
+	}
+
+	/**
+	 * 自定义Top Item状态切换
+	 */
+	private void changeItemStatus() {
+		rb_1.setTypeface(Typeface.SANS_SERIF, Typeface.NORMAL);
+		rb_2.setTypeface(Typeface.SANS_SERIF, Typeface.NORMAL);
+		rb_3.setTypeface(Typeface.SANS_SERIF, Typeface.NORMAL);
+		rb_4.setTypeface(Typeface.SANS_SERIF, Typeface.NORMAL);
+		rb_5.setTypeface(Typeface.SANS_SERIF, Typeface.NORMAL);
+		switch (top_type) {
 			default:
-				defaultBtn = rb_1;
+			case TYPE_1:
+				rb_1.setTypeface(Typeface.SANS_SERIF, Typeface.BOLD);
+				break;
+			case TYPE_2:
+				rb_2.setTypeface(Typeface.SANS_SERIF, Typeface.BOLD);
+				break;
+			case TYPE_3:
+				rb_3.setTypeface(Typeface.SANS_SERIF, Typeface.BOLD);
+				break;
+			case TYPE_4:
+				rb_4.setTypeface(Typeface.SANS_SERIF, Typeface.BOLD);
+				break;
+			case TYPE_5:
+				rb_5.setTypeface(Typeface.SANS_SERIF, Typeface.BOLD);
 				break;
 		}
-		defaultBtn.setChecked(true);
 	}
 
 	@Override
@@ -220,6 +248,7 @@ public class MyCustomizeActivity extends BaseActivity implements View.OnClickLis
 					total_1 = 0;
 					loadFirstPageData();
 				}
+				changeItemStatus();
 				break;
 			case R.id.top_bar_radio_rb_2:
 				if (top_type == TYPE_2) return;
@@ -230,6 +259,7 @@ public class MyCustomizeActivity extends BaseActivity implements View.OnClickLis
 					total_2 = 0;
 					loadFirstPageData();
 				}
+				changeItemStatus();
 				break;
 			case R.id.top_bar_radio_rb_3:
 				if (top_type == TYPE_3) return;
@@ -240,6 +270,7 @@ public class MyCustomizeActivity extends BaseActivity implements View.OnClickLis
 					total_3 = 0;
 					loadFirstPageData();
 				}
+				changeItemStatus();
 				break;
 			case R.id.top_bar_radio_rb_4:
 				if (top_type == TYPE_4) return;
@@ -250,6 +281,7 @@ public class MyCustomizeActivity extends BaseActivity implements View.OnClickLis
 					total_4 = 0;
 					loadFirstPageData();
 				}
+				changeItemStatus();
 				break;
 			case R.id.top_bar_radio_rb_5:
 				if (top_type == TYPE_5) return;
@@ -260,6 +292,7 @@ public class MyCustomizeActivity extends BaseActivity implements View.OnClickLis
 					total_5 = 0;
 					loadFirstPageData();
 				}
+				changeItemStatus();
 				break;
 		}
 	}

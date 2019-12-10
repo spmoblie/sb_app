@@ -2,6 +2,7 @@ package com.songbao.sampo.activity.two;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
@@ -15,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.songbao.sampo.AppApplication;
@@ -59,6 +61,12 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
 	@BindView(R.id.top_common_rb_3)
 	RadioButton rb_3;
 
+	@BindView(R.id.goods_iv_left)
+	ImageView iv_left;
+
+	@BindView(R.id.goods_iv_share)
+	ImageView iv_share;
+
 	@BindView(R.id.goods_view_sv)
 	ObservableScrollView goods_sv;
 
@@ -77,6 +85,24 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
 	@BindView(R.id.goods_lv_detail)
 	ScrollViewListView lv_detail;
 
+	@BindView(R.id.goods_tv_good_detail)
+	TextView title_detail;
+
+	@BindView(R.id.bottom_add_cart_tv_home)
+	TextView tv_home;
+
+	@BindView(R.id.bottom_add_cart_tv_cart)
+	TextView tv_cart;
+
+	@BindView(R.id.bottom_add_cart_tv_cart_num)
+	TextView tv_cart_num;
+
+	@BindView(R.id.bottom_add_cart_tv_cart_add)
+	TextView tv_cart_add;
+
+	@BindView(R.id.bottom_add_cart_tv_customize)
+	TextView tv_customize;
+
 	private Runnable mPagerAction;
 	private LinearLayout.LayoutParams indicatorsLP;
 	private CommentLVAdapter lv_comment_Adapter;
@@ -85,13 +111,11 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
 	public static final int TYPE_1 = 1;  //商品
 	public static final int TYPE_2 = 2;  //评价
 	public static final int TYPE_3 = 3;  //详情
-	private int top_type = TYPE_2; //Top标记
+	private int top_type = TYPE_1; //Top标记
 
 	private String goodsId;
 	private boolean vprStop = false;
 	private int idsSize, idsPosition, vprPosition;
-	private int scrollTotal = 0;  //滑动的距离总和
-	private int scrollHeight = 500;  //滑动多少高度完全变色
 	private ImageView[] indicators = null;
 	private ArrayList<ImageView> viewLists = new ArrayList<>();
 	private ArrayList<String> al_image = new ArrayList<>();
@@ -111,7 +135,15 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
 	private void initView() {
 		setHeadVisibility(View.GONE);
 
+		ib_left.setOnClickListener(this);
+		iv_left.setOnClickListener(this);
+		ib_right.setOnClickListener(this);
+		iv_share.setOnClickListener(this);
 		comment_main.setOnClickListener(this);
+		tv_home.setOnClickListener(this);
+		tv_cart.setOnClickListener(this);
+		tv_cart_add.setOnClickListener(this);
+		tv_customize.setOnClickListener(this);
 
 		// 动态调整宽高
 		int ind_margin = CommonTools.dpToPx(mContext, 5);
@@ -139,14 +171,13 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
 		goods_sv.setScrollViewListener(new ObservableScrollView.ScrollViewListener() {
 			@Override
 			public void onScrollChanged(ObservableScrollView scrollView, int new_x, int new_y, int old_x, int old_y) {
-				scrollTotal = scrollTotal + (new_y - old_y); //滑动距离总合
 				double alpha;
-				if (scrollTotal <= 0){
+				if (new_y <= 0){
 					//在顶部时完全透明
 					alpha = 0;
-				}else if (scrollTotal > 0 && scrollTotal <= scrollHeight){
+				}else if (new_y > 0 && new_y <= 600){
 					//在滑动高度中时，设置透明度百分比（当前高度/总高度）
-					double d = (double) scrollTotal / scrollHeight;
+					double d = (double) new_y / 600;
 					alpha = d * 255;
 				}else{
 					//滑出总高度 完全不透明
@@ -377,8 +408,41 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
+			case R.id.top_common_left:
+			case R.id.goods_iv_left:
+				finish();
+				break;
+			case R.id.top_common_right:
+			case R.id.goods_iv_share:
+				break;
+			case R.id.top_common_rb_1:
+				if (top_type == TYPE_1) return;
+				top_type = TYPE_1;
+				changeItemStatus();
+				scrollTo(0);
+				break;
+			case R.id.top_common_rb_2:
+				if (top_type == TYPE_2) return;
+				top_type = TYPE_2;
+				changeItemStatus();
+				scrollTo(comment_main.getTop() - 100);
+				break;
+			case R.id.top_common_rb_3:
+				if (top_type == TYPE_3) return;
+				top_type = TYPE_3;
+				changeItemStatus();
+				scrollTo(title_detail.getTop() - 150);
+				break;
 			case R.id.goods_good_comment_main:
 				openCommentActivity(goodsId);
+				break;
+			case R.id.bottom_add_cart_tv_home:
+				break;
+			case R.id.bottom_add_cart_tv_cart:
+				break;
+			case R.id.bottom_add_cart_tv_cart_add:
+				break;
+			case R.id.bottom_add_cart_tv_customize:
 				break;
 		}
 	}
@@ -389,6 +453,7 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
 	private void setDefaultRadioButton() {
 		RadioButton defaultBtn;
 		switch (top_type) {
+			default:
 			case TYPE_1:
 				defaultBtn = rb_1;
 				break;
@@ -398,11 +463,36 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
 			case TYPE_3:
 				defaultBtn = rb_3;
 				break;
+		}
+		changeItemStatus();
+		defaultBtn.setChecked(true);
+	}
+
+	/**
+	 * 自定义Top Item状态切换
+	 */
+	private void changeItemStatus() {
+		rb_1.setTextSize(15);
+		rb_2.setTextSize(15);
+		rb_3.setTextSize(15);
+		rb_1.setTypeface(Typeface.SANS_SERIF, Typeface.NORMAL);
+		rb_2.setTypeface(Typeface.SANS_SERIF, Typeface.NORMAL);
+		rb_3.setTypeface(Typeface.SANS_SERIF, Typeface.NORMAL);
+		switch (top_type) {
 			default:
-				defaultBtn = rb_1;
+			case TYPE_1:
+				rb_1.setTextSize(18);
+				rb_1.setTypeface(Typeface.SANS_SERIF, Typeface.BOLD);
+				break;
+			case TYPE_2:
+				rb_2.setTextSize(18);
+				rb_2.setTypeface(Typeface.SANS_SERIF, Typeface.BOLD);
+				break;
+			case TYPE_3:
+				rb_3.setTextSize(18);
+				rb_3.setTypeface(Typeface.SANS_SERIF, Typeface.BOLD);
 				break;
 		}
-		defaultBtn.setChecked(true);
 	}
 
 	/**
@@ -412,6 +502,13 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
 		Intent intent = new Intent(mContext, CommentActivity.class);
 		intent.putExtra("goodsId", goodsId);
 		startActivity(intent);
+	}
+
+	/**
+	 * 滚动到指定位置
+	 */
+	private void scrollTo(int y) {
+		goods_sv.smoothScrollTo(0, y);
 	}
 
 	@Override

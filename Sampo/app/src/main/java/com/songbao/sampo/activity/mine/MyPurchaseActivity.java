@@ -12,7 +12,6 @@ import com.songbao.sampo.AppApplication;
 import com.songbao.sampo.AppConfig;
 import com.songbao.sampo.R;
 import com.songbao.sampo.activity.BaseActivity;
-import com.songbao.sampo.activity.two.CustomizeActivity;
 import com.songbao.sampo.adapter.AdapterCallback;
 import com.songbao.sampo.adapter.MyPurchaseAdapter;
 import com.songbao.sampo.entity.BaseEntity;

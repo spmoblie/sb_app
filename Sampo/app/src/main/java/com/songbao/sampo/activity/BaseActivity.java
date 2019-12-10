@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
@@ -30,7 +31,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
@@ -95,8 +95,7 @@ public  class BaseActivity extends FragmentActivity {
 	protected Boolean isTimeFinish = true;
 	protected int screenWidth, screenHeight, statusHeight;
 
-	private LinearLayout ll_head;
-	private RelativeLayout rl_left;
+	private ConstraintLayout top_main;
 	private ImageView iv_left, iv_data_null;
 	private TextView tv_title, tv_data_null;
 	private Button bt_right;
@@ -143,18 +142,17 @@ public  class BaseActivity extends FragmentActivity {
 	}
 
 	private void findViewById() {
-		ll_head = findViewById(R.id.top_bar_head_ll_main);
-		rl_left = findViewById(R.id.top_bar_left_main);
-		iv_left = findViewById(R.id.top_bar_left);
-		tv_title = findViewById(R.id.top_bar_title);
-		bt_right = findViewById(R.id.top_bar_right);
+		top_main = findViewById(R.id.top_base_view_main);
+		iv_left = findViewById(R.id.top_base_iv_left);
+		tv_title = findViewById(R.id.top_base_tv_title);
+		bt_right = findViewById(R.id.top_base_bt_right);
 		iv_data_null = findViewById(R.id.base_iv_data_null);
 		tv_data_null = findViewById(R.id.base_tv_data_null);
 		mLayoutBase = findViewById(R.id.base_ll_container);
 	}
 
 	private void initView() {
-		rl_left.setOnClickListener(new OnClickListener() {
+		iv_left.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
@@ -207,7 +205,7 @@ public  class BaseActivity extends FragmentActivity {
 		}
 		// 缓存标题View高度
 		if (AppApplication.title_height <= 0) {
-			AppApplication.title_height = ll_head.getHeight();
+			AppApplication.title_height = top_main.getHeight();
 		}
 		super.onPause();
 	}
@@ -259,19 +257,19 @@ public  class BaseActivity extends FragmentActivity {
 	protected void setHeadVisibility(int visibility) {
 		switch (visibility) {
 			case View.VISIBLE:
-				if (ll_head.getVisibility() == View.GONE) {
-					ll_head.clearAnimation();
-					ll_head.startAnimation(inAnim);
+				if (top_main.getVisibility() == View.GONE) {
+					top_main.clearAnimation();
+					top_main.startAnimation(inAnim);
 				}
 				break;
 			case View.GONE:
-				if (ll_head.getVisibility() == View.VISIBLE) {
-					ll_head.clearAnimation();
-					ll_head.startAnimation(outAnim);
+				if (top_main.getVisibility() == View.VISIBLE) {
+					top_main.clearAnimation();
+					top_main.startAnimation(outAnim);
 				}
 				break;
 		}
-		ll_head.setVisibility(visibility);
+		top_main.setVisibility(visibility);
 	}
 
 	/**
@@ -286,7 +284,7 @@ public  class BaseActivity extends FragmentActivity {
 	 * 设置头部View背景色
 	 */
 	protected void setHeadBackground(int color){
-		ll_head.setBackgroundColor(color);
+		top_main.setBackgroundColor(color);
 	}
 
 	/**

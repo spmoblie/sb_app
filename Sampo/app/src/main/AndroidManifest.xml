@@ -191,10 +191,6 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.two.CustomizeActivity"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"/>
-        <activity
             android:name=".activity.two.DesignerActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
@@ -212,6 +208,10 @@
             android:screenOrientation="portrait"/>
 
         <!-- mine -->
+        <activity
+            android:name=".activity.mine.CustomizeActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.mine.EditUserInfoActivity"
             android:launchMode="singleTop"

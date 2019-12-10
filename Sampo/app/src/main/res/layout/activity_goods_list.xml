@@ -25,7 +25,7 @@
             android:layout_height="@dimen/margin_padding_36"
             android:layout_marginLeft="@dimen/margin_padding_5"
             android:layout_marginRight="@dimen/margin_padding_5"
-            android:layout_marginTop="@dimen/margin_padding_12"
+            android:layout_marginTop="@dimen/margin_padding_8"
             app:layout_constraintHorizontal_weight="0.5"
             app:layout_constraintLeft_toRightOf="@+id/goods_list_iv_left"
             app:layout_constraintRight_toLeftOf="@+id/goods_list_iv_scan"
@@ -63,9 +63,7 @@
 
         <ImageView
             android:id="@+id/goods_list_iv_scan"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="@dimen/app_margin_screen"
+            style="@style/top_bar_icon"
             android:src="@mipmap/icon_scan"
             app:layout_constraintRight_toRightOf="parent" />
 

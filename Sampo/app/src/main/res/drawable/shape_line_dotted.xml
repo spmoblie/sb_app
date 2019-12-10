@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--先画一个虚线方框-->
+    <item>
+        <shape android:shape="rectangle">
+            <size android:width="1dp" />
+            <stroke
+                android:width="0.5dp"
+                android:color="@color/ui_color_status"
+                android:dashGap="3dp"
+                android:dashWidth="3dp" />
+        </shape>
+    </item>
+    <!--再画一个白色色块将虚线方框的部分挡住，只剩下左边一条虚线边-->
+    <item android:left="0.5dp">
+        <shape android:shape="rectangle">
+            <solid android:color="#FFFFFF" />
+        </shape>
+    </item>
+</layer-list>
