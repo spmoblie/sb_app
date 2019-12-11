@@ -10,7 +10,7 @@ import com.bumptech.glide.Glide;
 import com.songbao.sampo.AppApplication;
 import com.songbao.sampo.R;
 import com.songbao.sampo.entity.GoodsEntity;
-import com.songbao.sampo.entity.SortEntity;
+import com.songbao.sampo.entity.GoodsSortEntity;
 import com.songbao.sampo.widgets.RoundImageView;
 
 import java.text.DecimalFormat;
@@ -41,7 +41,7 @@ public class SortTwoAdapter extends BaseRecyclerAdapter {
         TextView tv_price_2 = holder.getView(R.id.sort_two_item_tv_price_2);
 
         // 绑定View
-        final SortEntity data = (SortEntity) mDataList.get(pos);
+        final GoodsSortEntity data = (GoodsSortEntity) mDataList.get(pos);
 
         if (pos == 0) {
             tv_title.setText(context.getString(R.string.goods_new_line));

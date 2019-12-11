@@ -4,15 +4,15 @@ import com.songbao.sampo.AppConfig;
 import com.songbao.sampo.entity.BaseEntity;
 import com.songbao.sampo.entity.CommentEntity;
 import com.songbao.sampo.entity.CouponEntity;
-import com.songbao.sampo.entity.CustomizeEntity;
 import com.songbao.sampo.entity.DesignerEntity;
 import com.songbao.sampo.entity.GoodsAttrEntity;
 import com.songbao.sampo.entity.GoodsEntity;
 import com.songbao.sampo.entity.MessageEntity;
+import com.songbao.sampo.entity.OCustomizeEntity;
 import com.songbao.sampo.entity.OptionEntity;
 import com.songbao.sampo.entity.PaymentEntity;
-import com.songbao.sampo.entity.PurchaseEntity;
-import com.songbao.sampo.entity.SortEntity;
+import com.songbao.sampo.entity.OPurchaseEntity;
+import com.songbao.sampo.entity.GoodsSortEntity;
 import com.songbao.sampo.entity.ThemeEntity;
 import com.songbao.sampo.entity.UserInfoEntity;
 import com.songbao.sampo.wxapi.WXPayEntryActivity;
@@ -386,12 +386,12 @@ public class JsonUtils {
             }
             if (StringUtil.notNull(jsonData, "activityList")) {
                 JSONArray data = jsonData.getJSONArray("activityList");
-                PurchaseEntity childEn;
+                OPurchaseEntity childEn;
                 GoodsEntity goodsEn;
-                List<PurchaseEntity> lists = new ArrayList<>();
+                List<OPurchaseEntity> lists = new ArrayList<>();
                 for (int i = 0; i < data.length(); i++) {
                     JSONObject item = data.getJSONObject(i);
-                    childEn = new PurchaseEntity();
+                    childEn = new OPurchaseEntity();
                     int id = i+1;
                     childEn.setId(id);
                     childEn.setGoodsNum(id);
@@ -433,18 +433,28 @@ public class JsonUtils {
             }
             if (StringUtil.notNull(jsonData, "activityList")) {
                 JSONArray data = jsonData.getJSONArray("activityList");
-                CustomizeEntity childEn;
-                List<CustomizeEntity> lists = new ArrayList<>();
+                OCustomizeEntity childEn;
+                GoodsEntity gdEn;
+                DesignerEntity dgEn;
+                List<OCustomizeEntity> lists = new ArrayList<>();
                 for (int j = 0; j < data.length(); j++) {
                     JSONObject item = data.getJSONObject(j);
-                    childEn = new CustomizeEntity();
+                    childEn = new OCustomizeEntity();
                     int id = j+1;
                     childEn.setId(id);
-                    childEn.setTitle("运动女孩双层床");
-                    childEn.setName("史蒂芬00" + id);
-                    childEn.setPhone("188888800" + id);
-                    childEn.setAddTime("2019-11-18 18:18");
                     childEn.setStatus(id);
+                    childEn.setNodeTime1("2019-11-18 18:18");
+
+                    gdEn = new GoodsEntity();
+                    gdEn.setName("运动女孩双层床");
+                    gdEn.setPicUrl("");
+                    childEn.setGdEn(gdEn);
+
+                    dgEn = new DesignerEntity();
+                    dgEn.setName("史蒂芬00" + id);
+                    dgEn.setPhone("188888800" + id);
+                    childEn.setDgEn(dgEn);
+
                     lists.add(childEn);
                 }
                 mainEn.setLists(lists);
@@ -531,19 +541,19 @@ public class JsonUtils {
             JSONObject jsonData = jsonObject.getJSONObject("data");
             if (StringUtil.notNull(jsonData, "activityList")) {
                 JSONArray data = jsonData.getJSONArray("activityList");
-                SortEntity sortEn, childEn;
+                GoodsSortEntity sortEn, childEn;
                 GoodsEntity goodsEn;
-                List<SortEntity> lists = new ArrayList<>();
+                List<GoodsSortEntity> lists = new ArrayList<>();
                 for (int i = 0; i < data.length(); i++) {
                     JSONObject item = data.getJSONObject(i);
-                    sortEn = new SortEntity();
+                    sortEn = new GoodsSortEntity();
                     int id = i+1;
                     sortEn.setId(id);
                     sortEn.setName("高低床0000" + id);
 
-                    List<SortEntity> childList = new ArrayList<>();
+                    List<GoodsSortEntity> childList = new ArrayList<>();
                     for (int j = 0; j < 2; j++) {
-                        childEn = new SortEntity();
+                        childEn = new GoodsSortEntity();
                         int ij = id*10 + j;
                         childEn.setId(ij);
                         childEn.setParentId(id);

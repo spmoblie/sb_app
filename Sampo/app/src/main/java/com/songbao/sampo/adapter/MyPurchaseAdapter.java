@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import com.songbao.sampo.R;
 import com.songbao.sampo.entity.GoodsEntity;
-import com.songbao.sampo.entity.PurchaseEntity;
+import com.songbao.sampo.entity.OPurchaseEntity;
 import com.songbao.sampo.utils.CommonTools;
 import com.songbao.sampo.widgets.ScrollViewListView;
 
@@ -48,7 +48,7 @@ public class MyPurchaseAdapter extends BaseRecyclerAdapter {
         TextView tv_click_02 = holder.getView(R.id.my_purchase_item_tv_click_02);
 
         // 绑定View
-        final PurchaseEntity data = (PurchaseEntity) mDataList.get(pos);
+        final OPurchaseEntity data = (OPurchaseEntity) mDataList.get(pos);
 
         if (pos == 0) {
             tv_top.setVisibility(View.VISIBLE);

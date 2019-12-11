@@ -135,6 +135,7 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 	private int load_type = 1; //加载类型(0:下拉刷新/1:翻页加载)
 	private int load_page = 1; //加载页数
 	private boolean isLoadOk = true; //加载控制
+	private boolean isShowSR = false; //是否弹出
 	private boolean isScreen = false; //是否筛选
 	private boolean isAnimStop = true; //动画控制
 
@@ -219,6 +220,7 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 			@Override
 			public void onAnimationEnd(Animation animation) {
 				isAnimStop = true;
+				isShowSR = false;
 			}
 
 			@Override
@@ -236,6 +238,7 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 			@Override
 			public void onAnimationEnd(Animation animation) {
 				isAnimStop = true;
+				isShowSR = true;
 			}
 
 			@Override
@@ -540,12 +543,16 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 			loadFirstPageData();
 			break;
 		case R.id.goods_list_tv_top_item_5:
-			top_type = TYPE_5;
-			isRise2 = false;
-			isRise3 = false;
-			sort_type = 0;
-			changeItemStatus();
-			showScreenView();
+			if (isShowSR) {
+				hideScreenView();
+			} else {
+				top_type = TYPE_5;
+				isRise2 = false;
+				isRise3 = false;
+				sort_type = 0;
+				changeItemStatus();
+				showScreenView();
+			}
 			break;
 		case R.id.goods_list_screen_hide:
 			hideScreenView();

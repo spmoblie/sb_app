@@ -1,7 +1,8 @@
 package com.songbao.sampo.entity;
 
-import java.util.List;
-
+/**
+ * 课程预约日期时间段数据结构体
+ */
 public class OptionEntity extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
@@ -12,7 +13,6 @@ public class OptionEntity extends BaseEntity {
 	private boolean isState; //是否可选
 	private boolean isSelect; //是否已选
 	private boolean isReserve; //预约与否
-	private List<OptionEntity> mainLists; //数集
 
 	public OptionEntity() {
 		super();
@@ -76,11 +76,4 @@ public class OptionEntity extends BaseEntity {
 		isReserve = reserve;
 	}
 
-	public List<OptionEntity> getMainLists() {
-		return mainLists;
-	}
-
-	public void setMainLists(List<OptionEntity> mainLists) {
-		this.mainLists = mainLists;
-	}
 }

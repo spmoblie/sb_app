@@ -7,7 +7,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.songbao.sampo.R;
-import com.songbao.sampo.entity.SortEntity;
+import com.songbao.sampo.entity.GoodsSortEntity;
 
 import java.util.List;
 
@@ -22,7 +22,7 @@ public class SortOneAdapter extends BaseRecyclerAdapter {
     /**
      * 刷新数据
      */
-    public void updateData(List<SortEntity> data, int selectPos){
+    public void updateData(List<GoodsSortEntity> data, int selectPos){
         this.selectPos = selectPos;
         this.mDataList.clear();
         this.mDataList.addAll(data);
@@ -38,7 +38,7 @@ public class SortOneAdapter extends BaseRecyclerAdapter {
         TextView tv_name = holder.getView(R.id.sort_one_item_tv_name);
 
         // 绑定View
-        final SortEntity data = (SortEntity) mDataList.get(pos);
+        final GoodsSortEntity data = (GoodsSortEntity) mDataList.get(pos);
 
         if (pos == 0) {
             rl_top.setVisibility(View.VISIBLE);

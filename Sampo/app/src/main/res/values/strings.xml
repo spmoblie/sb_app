@@ -270,9 +270,11 @@
     <string name="order_completed">已完成</string>
     <string name="order_wait_opinion">待评价</string>
     <string name="order_repair_return">退换货</string>
+    <string name="order_cancelled">已取消</string>
     <string name="order_cancel">取消订单</string>
     <string name="order_pay">立即付款</string>
-    <string name="order_progress">查看进度</string>
+    <string name="order_progress">定制进度</string>
+    <string name="order_progress_check">查看进度</string>
     <string name="order_logistics">查看物流</string>
     <string name="order_confirm_receipt">确认收货</string>
     <string name="order_evaluate">我要评价</string>

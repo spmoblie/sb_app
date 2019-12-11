@@ -2,7 +2,10 @@ package com.songbao.sampo.entity;
 
 import java.util.List;
 
-public class PurchaseEntity extends BaseEntity {
+/**
+ * 成品订单数据结构体
+ */
+public class OPurchaseEntity extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
 
@@ -22,9 +25,9 @@ public class PurchaseEntity extends BaseEntity {
 	private int status; //1:待付款，2:生产中，3:待收货，4:待评价，5:已完成，6:退换货
 	private AddressEntity addEn; //收货地址
 	private List<GoodsEntity> goodsLists; //数集
-	private List<PurchaseEntity> mainLists; //数集
+	private List<OPurchaseEntity> mainLists; //数集
 
-	public PurchaseEntity() {
+	public OPurchaseEntity() {
 		super();
 	}
 
@@ -161,11 +164,11 @@ public class PurchaseEntity extends BaseEntity {
 		this.goodsLists = goodsLists;
 	}
 
-	public List<PurchaseEntity> getMainLists() {
+	public List<OPurchaseEntity> getMainLists() {
 		return mainLists;
 	}
 
-	public void setMainLists(List<PurchaseEntity> mainLists) {
+	public void setMainLists(List<OPurchaseEntity> mainLists) {
 		this.mainLists = mainLists;
 	}
 }

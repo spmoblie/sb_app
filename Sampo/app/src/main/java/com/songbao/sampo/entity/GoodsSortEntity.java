@@ -2,44 +2,19 @@ package com.songbao.sampo.entity;
 
 import java.util.List;
 
-public class SortEntity extends BaseEntity {
+/**
+ * 商品分类数据结构体
+ */
+public class GoodsSortEntity extends BaseEntity {
 	
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * 分类id
-	 */
 	private int id;
-
-	/**
-	 * 父级id
-	 */
-	private int parentId;
-
-	/**
-	 * 分类名称
-	 */
-	private String name;
-
-	/**
-	 * 分类图片
-	 */
-	private String picUrl;
-
-	/**
-	 * 商品数集
-	 */
-	private List<GoodsEntity> goodsLists;
-
-	/**
-	 * 子级分类
-	 */
-	private List<SortEntity> childLists;
-
-	/**
-	 * 打包数集
-	 */
-	private List<SortEntity> mainLists;
+	private int parentId; //父级id
+	private String name; //分类名称
+	private String picUrl; //分类图片
+	private List<GoodsEntity> goodsLists; //商品数集
+	private List<GoodsSortEntity> childLists; //子级分类
 
 
 	@Override
@@ -87,19 +62,12 @@ public class SortEntity extends BaseEntity {
 		this.goodsLists = goodsLists;
 	}
 
-	public List<SortEntity> getChildLists() {
+	public List<GoodsSortEntity> getChildLists() {
 		return childLists;
 	}
 
-	public void setChildLists(List<SortEntity> childLists) {
+	public void setChildLists(List<GoodsSortEntity> childLists) {
 		this.childLists = childLists;
 	}
 
-	public List<SortEntity> getMainLists() {
-		return mainLists;
-	}
-
-	public void setMainLists(List<SortEntity> mainLists) {
-		this.mainLists = mainLists;
-	}
 }

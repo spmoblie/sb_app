@@ -9,7 +9,9 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.songbao.sampo.AppApplication;
 import com.songbao.sampo.R;
-import com.songbao.sampo.entity.CustomizeEntity;
+import com.songbao.sampo.entity.DesignerEntity;
+import com.songbao.sampo.entity.GoodsEntity;
+import com.songbao.sampo.entity.OCustomizeEntity;
 import com.songbao.sampo.widgets.RoundImageView;
 
 public class MyCustomizeAdapter extends BaseRecyclerAdapter {
@@ -33,7 +35,7 @@ public class MyCustomizeAdapter extends BaseRecyclerAdapter {
         TextView tv_click_02 = holder.getView(R.id.my_customize_item_tv_click_02);
 
         // 绑定View
-        final CustomizeEntity data = (CustomizeEntity) mDataList.get(pos);
+        final OCustomizeEntity data = (OCustomizeEntity) mDataList.get(pos);
 
         if (pos == 0) {
             tv_top.setVisibility(View.VISIBLE);
@@ -41,15 +43,23 @@ public class MyCustomizeAdapter extends BaseRecyclerAdapter {
             tv_top.setVisibility(View.GONE);
         }
 
-        Glide.with(AppApplication.getAppContext())
-                .load(data.getPicUrl())
-                .apply(AppApplication.getShowOptions())
-                .into(iv_show);
+        tv_time.setText(data.getNodeTime1());
 
-        tv_time.setText(data.getAddTime());
-        tv_title.setText(data.getTitle());
-        tv_name.setText(data.getName());
-        tv_phone.setText(data.getPhone());
+        GoodsEntity gdEn = data.getGdEn();
+        if (gdEn != null) {
+            Glide.with(AppApplication.getAppContext())
+                    .load(gdEn.getPicUrl())
+                    .apply(AppApplication.getShowOptions())
+                    .into(iv_show);
+
+            tv_title.setText(gdEn.getName());
+        }
+
+        DesignerEntity dgEn = data.getDgEn();
+        if (dgEn != null) {
+            tv_name.setText(dgEn.getName());
+            tv_phone.setText(dgEn.getPhone());
+        }
 
         switch (data.getStatus()) {
             case 1: //待付款
@@ -66,7 +76,7 @@ public class MyCustomizeAdapter extends BaseRecyclerAdapter {
                 tv_status.setText(context.getString(R.string.order_producing));
                 tv_status.setBackgroundResource(R.drawable.shape_style_solid_10_04);
                 tv_click_01.setVisibility(View.GONE);
-                tv_click_02.setText(context.getString(R.string.order_progress));
+                tv_click_02.setText(context.getString(R.string.order_progress_check));
                 tv_click_02.setBackgroundResource(R.drawable.shape_style_solid_04_08);
                 break;
             case 3: //待收货

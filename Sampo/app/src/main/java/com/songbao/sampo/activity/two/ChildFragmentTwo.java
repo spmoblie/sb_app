@@ -21,7 +21,7 @@ import com.songbao.sampo.adapter.AdapterCallback;
 import com.songbao.sampo.adapter.SortOneAdapter;
 import com.songbao.sampo.adapter.SortTwoAdapter;
 import com.songbao.sampo.entity.BaseEntity;
-import com.songbao.sampo.entity.SortEntity;
+import com.songbao.sampo.entity.GoodsSortEntity;
 import com.songbao.sampo.utils.CommonTools;
 import com.songbao.sampo.utils.ExceptionUtil;
 import com.songbao.sampo.utils.JsonUtils;
@@ -67,8 +67,8 @@ public class ChildFragmentTwo extends BaseFragment implements OnClickListener {
 	private SortTwoAdapter rv_adapter_2;
 	private boolean isLoadOk = false;
 
-	private ArrayList<SortEntity> al_left = new ArrayList<>();
-	private ArrayList<SortEntity> al_right = new ArrayList<>();
+	private ArrayList<GoodsSortEntity> al_left = new ArrayList<>();
+	private ArrayList<GoodsSortEntity> al_right = new ArrayList<>();
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {

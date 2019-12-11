@@ -1,20 +1,23 @@
 package com.songbao.sampo.entity;
 
+/**
+ * 设计师数据结构体
+ */
 public class DesignerEntity extends BaseEntity {
 	
 	private static final long serialVersionUID = 1L;
 
 	private int id;
 
-	private String imgUrl;
+	private String imgUrl; //设计师图片
 
-	private String name;
+	private String name; //设计师名称
 
-	private String phone;
+	private String phone; //设计师电话
 
-	private String info;
+	private String info; //设计师简介
 
-	private boolean isSelect;
+	private boolean isSelect; //选择状态
 
 	@Override
 	public String getEntityId() {

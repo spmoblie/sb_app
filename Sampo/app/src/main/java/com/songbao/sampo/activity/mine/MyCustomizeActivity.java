@@ -16,7 +16,7 @@ import com.songbao.sampo.activity.BaseActivity;
 import com.songbao.sampo.adapter.AdapterCallback;
 import com.songbao.sampo.adapter.MyCustomizeAdapter;
 import com.songbao.sampo.entity.BaseEntity;
-import com.songbao.sampo.entity.CustomizeEntity;
+import com.songbao.sampo.entity.OCustomizeEntity;
 import com.songbao.sampo.utils.ExceptionUtil;
 import com.songbao.sampo.utils.JsonUtils;
 import com.songbao.sampo.utils.LogUtil;
@@ -77,12 +77,12 @@ public class MyCustomizeActivity extends BaseActivity implements View.OnClickLis
 	private int total_1, total_2, total_3, total_4, total_5;
 	private boolean isLoadOk = true; //加载控制
 
-	private ArrayList<CustomizeEntity> al_show = new ArrayList<>();
-	private ArrayList<CustomizeEntity> al_all_1 = new ArrayList<>();
-	private ArrayList<CustomizeEntity> al_all_2 = new ArrayList<>();
-	private ArrayList<CustomizeEntity> al_all_3 = new ArrayList<>();
-	private ArrayList<CustomizeEntity> al_all_4 = new ArrayList<>();
-	private ArrayList<CustomizeEntity> al_all_5 = new ArrayList<>();
+	private ArrayList<OCustomizeEntity> al_show = new ArrayList<>();
+	private ArrayList<OCustomizeEntity> al_all_1 = new ArrayList<>();
+	private ArrayList<OCustomizeEntity> al_all_2 = new ArrayList<>();
+	private ArrayList<OCustomizeEntity> al_all_3 = new ArrayList<>();
+	private ArrayList<OCustomizeEntity> al_all_4 = new ArrayList<>();
+	private ArrayList<OCustomizeEntity> al_all_5 = new ArrayList<>();
 	private ArrayMap<String, Boolean> am_all_1 = new ArrayMap<>();
 	private ArrayMap<String, Boolean> am_all_2 = new ArrayMap<>();
 	private ArrayMap<String, Boolean> am_all_3 = new ArrayMap<>();
@@ -300,7 +300,7 @@ public class MyCustomizeActivity extends BaseActivity implements View.OnClickLis
 	/**
 	 * 展示已缓存的数据并至顶
 	 */
-	private void addOldListData(List<CustomizeEntity> oldLists, int oldPage, int oldTotal) {
+	private void addOldListData(List<OCustomizeEntity> oldLists, int oldPage, int oldTotal) {
 		refreshAllShow(oldLists, oldTotal);
 		load_page = oldPage;
 		updateListData();
@@ -328,7 +328,7 @@ public class MyCustomizeActivity extends BaseActivity implements View.OnClickLis
 	/**
 	 * 刷新需要展示的数据
 	 */
-	private void refreshAllShow(List<CustomizeEntity> showLists, int total) {
+	private void refreshAllShow(List<OCustomizeEntity> showLists, int total) {
 		al_show.clear();
 		al_show.addAll(showLists);
 		data_total = total;
@@ -438,7 +438,7 @@ public class MyCustomizeActivity extends BaseActivity implements View.OnClickLis
 					baseEn = JsonUtils.getMyCustomizeData(jsonObject);
 					if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
 						int newTotal = baseEn.getDataTotal();
-						List<CustomizeEntity> lists = new ArrayList<>();
+						List<OCustomizeEntity> lists = new ArrayList<>();
 						switch (top_type) {
 							case TYPE_1:
 								lists = filterData(baseEn.getLists(), am_all_1);

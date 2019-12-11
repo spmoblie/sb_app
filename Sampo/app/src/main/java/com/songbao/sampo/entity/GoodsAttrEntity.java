@@ -4,6 +4,9 @@ import com.songbao.sampo.utils.StringUtil;
 
 import java.util.ArrayList;
 
+/**
+ * 商品属性数据结构体
+ */
 public class GoodsAttrEntity extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;

@@ -1,18 +1,21 @@
 package com.songbao.sampo.entity;
 
-import java.util.List;
-
+/**
+ * 商品数据结构体
+ */
 public class GoodsEntity extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
 
 	private int id;
-	private String picUrl;
-	private String name;
-	private String attribute;
-	private int number;
-	private double price;
-	private List<GoodsEntity> mainLists; //数集
+	private String picUrl; //产品图片
+	private String name; //产品名称
+	private String attribute; //产品规格
+	private String color; //产品颜色
+	private String material; //产品用料
+	private String veneer; //产品饰面
+	private int number; //产品数量
+	private double price; //销售价格
 
 	@Override
 	public String getEntityId() {
@@ -51,6 +54,30 @@ public class GoodsEntity extends BaseEntity {
 		this.attribute = attribute;
 	}
 
+	public String getColor() {
+		return color;
+	}
+
+	public void setColor(String color) {
+		this.color = color;
+	}
+
+	public String getMaterial() {
+		return material;
+	}
+
+	public void setMaterial(String material) {
+		this.material = material;
+	}
+
+	public String getVeneer() {
+		return veneer;
+	}
+
+	public void setVeneer(String veneer) {
+		this.veneer = veneer;
+	}
+
 	public int getNumber() {
 		return number;
 	}
@@ -67,11 +94,4 @@ public class GoodsEntity extends BaseEntity {
 		this.price = price;
 	}
 
-	public List<GoodsEntity> getMainLists() {
-		return mainLists;
-	}
-
-	public void setMainLists(List<GoodsEntity> mainLists) {
-		this.mainLists = mainLists;
-	}
 }
