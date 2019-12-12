@@ -258,6 +258,8 @@
     <string name="goods_good_comment_en">GOOD EVALUATION</string>
     <string name="goods_good_detail">商品详情</string>
     <string name="goods_good_detail_en">COMMODITY DETAILS</string>
+    <string name="goods_buy_number">购买数量</string>
+    <string name="goods_sku_null">暂时缺货</string>
 
     <!-- Cart -->
     <string name="cart_goods_num">x%1$d</string>
@@ -267,6 +269,7 @@
     <string name="order_wait_pay">待付款</string>
     <string name="order_producing">生产中</string>
     <string name="order_wait_receive">待收货</string>
+    <string name="order_wait_install">待安装</string>
     <string name="order_completed">已完成</string>
     <string name="order_wait_opinion">待评价</string>
     <string name="order_repair_return">退换货</string>

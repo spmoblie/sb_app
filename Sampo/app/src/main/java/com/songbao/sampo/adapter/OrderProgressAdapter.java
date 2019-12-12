@@ -88,7 +88,7 @@ public class OrderProgressAdapter extends AppBaseAdapter {
 		return convertView;
 	}
 
-	private void initImageView(LinearLayout ll_main, ArrayList<String> imgList) {
+	private void initImageView(LinearLayout ll_main, final ArrayList<String> imgList) {
 		if (ll_main == null || imgList == null || imgList.size() <= 0) return;
 		ll_main.removeAllViews();
 
@@ -108,7 +108,8 @@ public class OrderProgressAdapter extends AppBaseAdapter {
 		goodsImgLP.height = imageSize;
 		goodsImgLP.setMargins(0, 0, 10, 0);
 		for (int i = 0; i < imgCount; i++) {
-			final String imgUrl = imgList.get(i);
+			final int pos = i;
+			String imgUrl = imgList.get(i);
 			RoundImageView iv_img = new RoundImageView(context);
 			iv_img.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
@@ -121,7 +122,7 @@ public class OrderProgressAdapter extends AppBaseAdapter {
 				@Override
 				public void onClick(View v) {
 					if (apCallback != null) {
-						apCallback.setOnClick(null, 0, 0);
+						apCallback.setOnClick(imgList, pos, 1);
 					}
 				}
 			});

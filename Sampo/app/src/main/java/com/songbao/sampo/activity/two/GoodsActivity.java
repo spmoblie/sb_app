@@ -441,8 +441,10 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
 			case R.id.bottom_add_cart_tv_cart:
 				break;
 			case R.id.bottom_add_cart_tv_cart_add:
+				loadGoodsAttrData(1);
 				break;
 			case R.id.bottom_add_cart_tv_customize:
+				startActivity(new Intent(mContext, DesignerActivity.class));
 				break;
 		}
 	}

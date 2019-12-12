@@ -1,5 +1,6 @@
 package com.songbao.sampo.activity.mine;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
@@ -13,6 +14,7 @@ import com.songbao.sampo.AppApplication;
 import com.songbao.sampo.AppConfig;
 import com.songbao.sampo.R;
 import com.songbao.sampo.activity.BaseActivity;
+import com.songbao.sampo.activity.common.ViewPagerActivity;
 import com.songbao.sampo.adapter.AdapterCallback;
 import com.songbao.sampo.adapter.OrderLogisticsAdapter;
 import com.songbao.sampo.adapter.OrderProgressAdapter;
@@ -214,6 +216,8 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
 	private boolean isConfirm; //是否确认效果图
 	private boolean isOpenAll; //是否展开生产进度
 
+	private String phone; //设计师联系电话
+
 	private ArrayList<String> al_img = new ArrayList<>();
 	private ArrayList<OProgressEntity> al_6 = new ArrayList<>();
 	private ArrayList<OProgressEntity> al_6_1 = new ArrayList<>();
@@ -264,19 +268,23 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
 					tv_order_status.setText(getString(R.string.order_wait_receive));
 					tv_order_status.setBackgroundResource(R.drawable.shape_style_solid_04_04);
 					break;
-				case 4: //待评价
+				case 4: //待安装
+					tv_order_status.setText(getString(R.string.order_wait_install));
+					tv_order_status.setBackgroundResource(R.drawable.shape_style_solid_06_04);
+					break;
+				case 5: //待评价
 					tv_order_status.setText(getString(R.string.order_completed));
 					tv_order_status.setBackgroundResource(R.drawable.shape_style_solid_03_04);
 					break;
-				case 5: //已完成
+				case 6: //已完成
 					tv_order_status.setText(getString(R.string.order_completed));
 					tv_order_status.setBackgroundResource(R.drawable.shape_style_solid_03_04);
 					break;
-				case 6: //退换货
+				case 7: //退换货
 					tv_order_status.setText(getString(R.string.order_repair_return));
 					tv_order_status.setBackgroundResource(R.drawable.shape_style_solid_05_04);
 					break;
-				case 7: //已取消
+				case 8: //已取消
 					setRightViewText(getString(R.string.order_delete));
 					tv_order_status.setText(getString(R.string.order_cancelled));
 					tv_order_status.setBackgroundResource(R.drawable.shape_style_solid_03_04);
@@ -295,8 +303,9 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
 			}
 			DesignerEntity dgEn = ocEn.getDgEn();
 			if (dgEn != null) {
+				phone = dgEn.getPhone();
+				tv_1_designer_phone.setText(phone);
 				tv_1_designer_name.setText(dgEn.getName());
-				tv_1_designer_phone.setText(dgEn.getPhone());
 				tv_1_call_designer.setOnClickListener(this);
 			}
 
@@ -341,6 +350,7 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
 
 				tv_3_show.setVisibility(View.VISIBLE);
 				tv_3_show.setText("点击查看" + al_img.size() + "张效果图");
+				tv_3_show.setOnClickListener(this);
 
 				isConfirm = ocEn.isConfirm();
 				if (isConfirm) { //已确认
@@ -486,7 +496,12 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
 			lv_6_Adapter.addCallback(new AdapterCallback() {
 				@Override
 				public void setOnClick(Object data, int position, int type) {
-
+					if (data != null) {
+						if (type == 1) {
+							ArrayList<String> imgList = (ArrayList<String>) data;
+							openViewPagerActivity(imgList, position);
+						}
+					}
 				}
 			});
 		}
@@ -514,12 +529,25 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
 		switch (v.getId()) {
 			case R.id.customize_tv_module_1_call_designer:
 				//联系Ta
+				if (!StringUtil.isNull(phone)) {
+					callPhone(phone);
+				}
+				break;
+			case R.id.customize_tv_module_3_show:
+				//查看效果图
+				openViewPagerActivity(al_img, 0);
 				break;
 			case R.id.customize_tv_module_3_confirm:
 				//确认效果图
+				if (!isConfirm) {
+					initDemoData(4);
+				}
 				break;
 			case R.id.customize_tv_module_4_go_pay:
 				//去支付
+				if (!isPay) {
+					initDemoData(5);
+				}
 				break;
 			case R.id.customize_tv_module_5_select_address:
 				//收货地址
@@ -541,11 +569,19 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
 				break;
 			case R.id.customize_tv_module_7_call_install:
 				//确认收货or联系安装
-				initDemoData(8);
+				if (!isReceipt) {
+					initDemoData(8);
+				} else {
+					if (!StringUtil.isNull(phone)) {
+						callPhone(phone);
+					}
+				}
 				break;
 			case R.id.customize_tv_module_8_install_confirm:
 				//确认安装完成
-				initDemoData(9);
+				if (!isFinish) {
+					initDemoData(9);
+				}
 				break;
 			case R.id.customize_tv_module_2_title:
 				initDemoData(2);
@@ -566,6 +602,18 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
 				initDemoData(7);
 				break;
 		}
+	}
+
+	/**
+	 * 打开图片查看器
+	 * @param urlLists
+	 * @param position
+	 */
+	private void openViewPagerActivity(ArrayList<String> urlLists, int position) {
+		Intent intent = new Intent(mContext, ViewPagerActivity.class);
+		intent.putExtra(ViewPagerActivity.EXTRA_IMAGE_URLS, urlLists);
+		intent.putExtra(ViewPagerActivity.EXTRA_IMAGE_INDEX, position);
+		startActivity(intent);
 	}
 
 	@Override
@@ -602,14 +650,26 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
 
 		ocEn.setId(6);
 		ocEn.setOrderNo("35461211011241");
-		ocEn.setStatus(1);
+		if (code < 5) {
+			ocEn.setStatus(1);
+		} else if (code == 5 || code == 6){
+			ocEn.setStatus(2);
+		} else if (code == 7){
+			ocEn.setStatus(3);
+		} else if (code == 8){
+			ocEn.setStatus(4);
+		} else if (code == 9){
+			ocEn.setStatus(6);
+		}
 		if (code > 3) {
 			ocEn.setCycle(30);
 			ocEn.setPrice(1000);
-			ocEn.setPay(true);
-			ocEn.setPayType("微信支付");
+			if (code > 4) {
+				ocEn.setPay(true);
+				ocEn.setPayType("微信支付");
+			}
+			ocEn.setConfirm(true);
 		}
-		ocEn.setConfirm(false);
 		if (code > 7) {
 			ocEn.setReceipt(true);
 		}
@@ -624,7 +684,9 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
 		if (code > 3) {
 			ocEn.setNodeTime4("2019/11/13  16：25");
 		}
-		ocEn.setNodeTime5("2019/11/25  11：13");
+		if (code > 4) {
+			ocEn.setNodeTime5("2019/11/25  11：13");
+		}
 		ocEn.setNodeTime6("2019/11/13  16：26");
 		ocEn.setNodeTime7("2019/11/25  18：22");
 		ocEn.setNodeTime9("2019/11/30  14：22");
@@ -653,7 +715,7 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
 		adEn.setName("张先生");
 		adEn.setPhone("16999666699");
 		adEn.setAddress("广东省深圳市南山区粤海街道科发路大冲城市花园5栋16B");
-		if (code > 3) {
+		if (code > 4) {
 			ocEn.setAdEn(adEn);
 		}
 
@@ -684,10 +746,10 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
 					opEn.setType(1);
 					ArrayList<String> imgLs = new ArrayList<>();
 					imgLs.add(AppConfig.IMAGE_URL + "banner_001.png");
-					//imgLs.add(AppConfig.IMAGE_URL + "banner_002.png");
-					//imgLs.add(AppConfig.IMAGE_URL + "banner_003.png");
-					//imgLs.add(AppConfig.IMAGE_URL + "banner_004.png");
-					//imgLs.add(AppConfig.IMAGE_URL + "banner_005.png");
+					imgLs.add(AppConfig.IMAGE_URL + "banner_002.png");
+					imgLs.add(AppConfig.IMAGE_URL + "banner_003.png");
+					imgLs.add(AppConfig.IMAGE_URL + "banner_004.png");
+					imgLs.add(AppConfig.IMAGE_URL + "banner_005.png");
 					opEn.setImgList(imgLs);
 					break;
 				case 2:

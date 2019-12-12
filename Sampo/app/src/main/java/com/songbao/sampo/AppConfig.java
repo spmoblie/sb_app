@@ -176,6 +176,8 @@ public class AppConfig {
 	public static final int REQUEST_SV_GOODS_LIST = 0X4002;
 	// 获取筛选属性
 	public static final int REQUEST_SV_SCREEN_ATTR = 0X4003;
+	// 获取商品属性
+	public static final int REQUEST_SV_GOODS_ATTR = 0X4004;
 	// 获取设计师列表
 	public static final int REQUEST_SV_DESIGN_ALL = 0X4010;
 

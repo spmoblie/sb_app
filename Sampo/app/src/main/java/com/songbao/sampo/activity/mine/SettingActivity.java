@@ -104,8 +104,8 @@ public class SettingActivity extends BaseActivity implements OnClickListener {
                 break;
             case R.id.setting_rl_logout:
                 if (isLogin()) {
-                    showConfirmDialog(getString(R.string.setting_logout_confirm), getString(R.string.cancel),
-                            getString(R.string.confirm), true, true, new Handler() {
+                    showConfirmDialog(getString(R.string.setting_logout_confirm), null, null, true, true,
+                            new Handler() {
                                 @Override
                                 public void handleMessage(Message msg) {
                                     switch (msg.what) {

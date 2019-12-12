@@ -3,6 +3,7 @@ package com.songbao.sampo.activity.two;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.support.v4.util.ArrayMap;
 import android.view.View;
 import android.widget.GridView;
@@ -48,6 +49,7 @@ public class DesignerActivity extends BaseActivity implements View.OnClickListen
 	private int load_page = 1; //加载页数
 	private int load_type = 1; //加载类型(0:下拉刷新/1:翻页加载)
 	private boolean isLoadOk = true; //加载控制
+	private String dgName; //选择的设计师姓名
 	private ArrayList<DesignerEntity> al_show = new ArrayList<>();
 	private ArrayMap<String, Boolean> am_show = new ArrayMap<>();
 
@@ -121,6 +123,7 @@ public class DesignerActivity extends BaseActivity implements View.OnClickListen
 					al_show.get(i).setSelect(false);
 					if (i == position) {
 						al_show.get(i).setSelect(true);
+						dgName = al_show.get(i).getName();
 					}
 				}
 				updateListData();
@@ -142,21 +145,40 @@ public class DesignerActivity extends BaseActivity implements View.OnClickListen
 	public void onClick(View v) {
 		switch (v.getId()) {
 			case R.id.designer_tv_click:
-				CommonTools.showToast("预约成功，可在“我的定制”查看进度。");
-				new Handler().postDelayed(new Runnable() {
-					@Override
-					public void run() {
-						// 关闭之前的页面
-						closeCustomizeActivity();
-						// 回退至“我的”
-						shared.edit().putBoolean(AppConfig.KEY_JUMP_PAGE, true).apply();
-						shared.edit().putInt(AppConfig.KEY_MAIN_CURRENT_INDEX, 2).apply();
-						// 跳转至“我的订制”
-						startActivity(new Intent(mContext, CustomizeActivity.class));
-					}
-				}, 500);
+				showConfirmDialog("确认预约" + dgName + "么?", null,null, true, true,
+						new Handler() {
+							@Override
+							public void handleMessage(Message msg) {
+								switch (msg.what) {
+									case AppConfig.DIALOG_CLICK_NO:
+										break;
+									case AppConfig.DIALOG_CLICK_OK:
+										orderSuccess();
+										break;
+								}
+							}
+						});
 				break;
 		}
+	}
+
+	/**
+	 * 预约成功
+	 */
+	private void orderSuccess() {
+		CommonTools.showToast("预约成功，可在“我的定制”查看进度。");
+		new Handler().postDelayed(new Runnable() {
+			@Override
+			public void run() {
+				// 关闭之前的页面
+				closeCustomizeActivity();
+				// 回退至“我的”
+				shared.edit().putBoolean(AppConfig.KEY_JUMP_PAGE, true).apply();
+				shared.edit().putInt(AppConfig.KEY_MAIN_CURRENT_INDEX, 2).apply();
+				// 跳转至“我的订制”
+				startActivity(new Intent(mContext, CustomizeActivity.class));
+			}
+		}, 500);
 	}
 
 	@Override
@@ -302,6 +324,8 @@ public class DesignerActivity extends BaseActivity implements View.OnClickListen
 		chEn_4.setInfo("设计师D，著名华裔设计师，出生于纽约曼哈顿上东区，祖籍江苏徐州是永不会出错、绝不会让女星得到“最差劲服装奖”的品质保证。");
 		chEn_4.setSelect(false);
 		al_show.add(chEn_4);
+
+		dgName = al_show.get(0).getName();
 
 		updateListData();
 		stopAnimation();

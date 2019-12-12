@@ -46,7 +46,7 @@ public class ViewPagerActivity extends BaseActivity {
 	
 	private ArrayList<String> urlLists;
 	private ArrayList<View> viewLists = new ArrayList<View>();
-	private ArrayList<DragImageView> imagLists = new ArrayList<DragImageView>();
+	private ArrayList<DragImageView> imgLists = new ArrayList<DragImageView>();
 	private ArrayMap<String, DragImageView> am_img = new ArrayMap<String, DragImageView>();
 	private ArrayMap<String, ProgressBar> am_bar = new ArrayMap<String, ProgressBar>();
 	private ArrayMap<String, Bitmap> am_btm = new ArrayMap<String, Bitmap>();
@@ -173,7 +173,7 @@ public class ViewPagerActivity extends BaseActivity {
 			frameLayout.addView(imageView);
 			frameLayout.addView(progress);
 			viewLists.add(frameLayout);
-			imagLists.add(imageView);
+			imgLists.add(imageView);
 		}
 		initShowView();
 		viewPager.setAdapter(new PagerAdapter()
@@ -249,11 +249,11 @@ public class ViewPagerActivity extends BaseActivity {
 	}
 
 	private void initShowView() {
-		if (mCurrentItem >= 0 && mCurrentItem < imagLists.size()) {
+		if (mCurrentItem >= 0 && mCurrentItem < imgLists.size()) {
             if (showView != null) {
                 showView.setReset();
             }
-            showView = imagLists.get(mCurrentItem);
+            showView = imgLists.get(mCurrentItem);
         }
 	}
 

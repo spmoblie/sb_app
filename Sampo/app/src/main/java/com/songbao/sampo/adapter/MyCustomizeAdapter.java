@@ -89,7 +89,7 @@ public class MyCustomizeAdapter extends BaseRecyclerAdapter {
                 tv_click_02.setText(context.getString(R.string.order_confirm_receipt));
                 tv_click_02.setBackgroundResource(R.drawable.shape_style_solid_04_08);
                 break;
-            case 4: //待评价
+            case 5: //待评价
                 tv_status.setText(context.getString(R.string.order_completed));
                 tv_status.setBackgroundResource(R.drawable.shape_style_solid_03_04);
                 tv_click_01.setVisibility(View.VISIBLE);
@@ -99,7 +99,7 @@ public class MyCustomizeAdapter extends BaseRecyclerAdapter {
                 tv_click_02.setText(context.getString(R.string.order_evaluate));
                 tv_click_02.setBackgroundResource(R.drawable.shape_style_solid_06_08);
                 break;
-            case 5: //已完成
+            case 6: //已完成
             default:
                 tv_status.setText(context.getString(R.string.order_completed));
                 tv_status.setBackgroundResource(R.drawable.shape_style_solid_03_04);
@@ -110,7 +110,7 @@ public class MyCustomizeAdapter extends BaseRecyclerAdapter {
                 tv_click_02.setText(context.getString(R.string.order_delete));
                 tv_click_02.setBackgroundResource(R.drawable.shape_style_solid_03_08);
                 break;
-            case 6: //退换货
+            case 7: //退换货
                 tv_status.setText(context.getString(R.string.order_repair_return));
                 tv_status.setBackgroundResource(R.drawable.shape_style_solid_05_04);
                 tv_click_01.setVisibility(View.VISIBLE);

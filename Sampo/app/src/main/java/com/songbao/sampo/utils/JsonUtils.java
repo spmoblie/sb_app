@@ -392,7 +392,7 @@ public class JsonUtils {
                 for (int i = 0; i < data.length(); i++) {
                     JSONObject item = data.getJSONObject(i);
                     childEn = new OPurchaseEntity();
-                    int id = i+1;
+                    int id = i + 1;
                     childEn.setId(id);
                     childEn.setGoodsNum(id);
                     childEn.setTotalPrice(5908);
@@ -402,7 +402,7 @@ public class JsonUtils {
                     List<GoodsEntity> goods = new ArrayList<>();
                     for (int j = 0; j < 2; j++) {
                         goodsEn = new GoodsEntity();
-                        int is = id*10 + j;
+                        int is = id * 10 + j;
                         goodsEn.setId(is);
                         goodsEn.setName("松堡王国现代简约彩条双层床");
                         goodsEn.setAttribute("天蓝色；1350*1900");
@@ -440,7 +440,7 @@ public class JsonUtils {
                 for (int j = 0; j < data.length(); j++) {
                     JSONObject item = data.getJSONObject(j);
                     childEn = new OCustomizeEntity();
-                    int id = j+1;
+                    int id = j + 1;
                     childEn.setId(id);
                     childEn.setStatus(id);
                     childEn.setNodeTime1("2019-11-18 18:18");
@@ -547,21 +547,21 @@ public class JsonUtils {
                 for (int i = 0; i < data.length(); i++) {
                     JSONObject item = data.getJSONObject(i);
                     sortEn = new GoodsSortEntity();
-                    int id = i+1;
+                    int id = i + 1;
                     sortEn.setId(id);
                     sortEn.setName("高低床0000" + id);
 
                     List<GoodsSortEntity> childList = new ArrayList<>();
                     for (int j = 0; j < 2; j++) {
                         childEn = new GoodsSortEntity();
-                        int ij = id*10 + j;
+                        int ij = id * 10 + j;
                         childEn.setId(ij);
                         childEn.setParentId(id);
 
                         List<GoodsEntity> goodsList = new ArrayList<>();
                         for (int k = 0; k < 2; k++) {
                             goodsEn = new GoodsEntity();
-                            int ik = ij*10 + k;
+                            int ik = ij * 10 + k;
                             goodsEn.setId(ik);
                             goodsEn.setName("松堡王国现代简约彩条双层床");
                             goodsEn.setAttribute(ik + " mm");
@@ -597,7 +597,7 @@ public class JsonUtils {
                 for (int i = 0; i < data.length(); i++) {
                     JSONObject item = data.getJSONObject(i);
                     childEn = new GoodsEntity();
-                    childEn.setId(i+1);
+                    childEn.setId(i + 1);
                     childEn.setName("松堡王国现代简约彩条双层床");
                     childEn.setAttribute("天蓝色；1350*1900");
                     childEn.setPrice(999999.99);
@@ -631,7 +631,7 @@ public class JsonUtils {
                 for (int i = 0; i < 2; i++) {
                     JSONObject item = data.getJSONObject(i);
                     childEn = new GoodsAttrEntity();
-                    int id = i+1;
+                    int id = i + 1;
                     childEn.setAttrId(id);
                     if (id == 1) {
                         childEn.setAttrName("尺寸");
@@ -642,7 +642,7 @@ public class JsonUtils {
                     ArrayList<GoodsAttrEntity> childLists = new ArrayList<>();
                     for (int j = 0; j < 9; j++) {
                         attrEn = new GoodsAttrEntity();
-                        int ij = id*10 + j;
+                        int ij = id * 10 + j;
                         attrEn.setAttrId(ij);
                         attrEn.setAttrName(childEn.getAttrName() + ij);
                         childLists.add(attrEn);
@@ -680,7 +680,7 @@ public class JsonUtils {
                 List<CommentEntity> lists = new ArrayList<>();
                 for (int i = 0; i < 5; i++) {
                     childEn = new CommentEntity();
-                    childEn.setId(""+i+1);
+                    childEn.setId("" + i + 1);
                     childEn.setNick("草莓味的冰淇淋");
                     childEn.setGoodsAttr("天蓝色；1350*1900");
                     childEn.setAddTime("2019/12/25");
@@ -692,16 +692,14 @@ public class JsonUtils {
                         imgList.add(AppConfig.IMAGE_URL + "banner_001.png");
                         childEn.setImgList(imgList);
                         childEn.setType(1);
-                    }else
-                    if (i == 1) {
+                    } else if (i == 1) {
                         childEn.setStarNum(1);
                         ArrayList<String> imgList = new ArrayList<>();
                         imgList.add(AppConfig.IMAGE_URL + "banner_001.png");
                         imgList.add(AppConfig.IMAGE_URL + "banner_002.png");
                         childEn.setImgList(imgList);
                         childEn.setType(1);
-                    }else
-                    if (i == 2) {
+                    } else if (i == 2) {
                         childEn.setStarNum(2);
                         ArrayList<String> imgList = new ArrayList<>();
                         imgList.add(AppConfig.IMAGE_URL + "banner_001.png");
@@ -709,8 +707,7 @@ public class JsonUtils {
                         imgList.add(AppConfig.IMAGE_URL + "banner_003.png");
                         childEn.setImgList(imgList);
                         childEn.setType(1);
-                    }else
-                    if (i == 3) {
+                    } else if (i == 3) {
                         childEn.setStarNum(3);
                         ArrayList<String> imgList = new ArrayList<>();
                         imgList.add(AppConfig.IMAGE_URL + "banner_001.png");
@@ -728,6 +725,87 @@ public class JsonUtils {
             }
         }
         return mainEn;
+    }
+
+
+    /**
+     * 解析获取商品属性数据
+     */
+    public static BaseEntity getGoodsAttrData(JSONObject jsonObject) throws JSONException {
+        BaseEntity mainEn = getCommonKeyValue(jsonObject);
+
+        if (StringUtil.notNull(jsonObject, "data")) {
+            JSONObject jsonData = jsonObject.getJSONObject("data");
+            GoodsAttrEntity attrEn = new GoodsAttrEntity();
+            attrEn.setGoodsId(1001);
+            attrEn.setFirstImgUrl("");
+            attrEn.setComputePrice(2999.99);
+            // 解析商品attr
+            attrEn.setAttrLists(getGoodsAttrLists(jsonObject, "message"));
+            // 解析商品sku
+            //attrEn.setSkuLists(getGoodsSkuLists(jsonObject, "sku"));
+
+            mainEn.setData(attrEn);
+        }
+
+        return mainEn;
+    }
+
+    /**
+     * 解析获取商品Attr
+     */
+    private static ArrayList<GoodsAttrEntity> getGoodsAttrLists(JSONObject jsonObject, String key) throws JSONException {
+        ArrayList<GoodsAttrEntity> attrLists = new ArrayList<>();
+        if (!StringUtil.notNull(jsonObject, key)) {
+            //JSONArray attr = jsonObject.getJSONArray(key);
+            GoodsAttrEntity listEn;
+            for (int i = 0; i < 2; i++) {
+                //JSONObject as = attr.getJSONObject(i);
+                listEn = new GoodsAttrEntity();
+                listEn.setAttrId(i+1);
+                if (i == 0) {
+                    listEn.setAttrName("颜色");
+                } else {
+                    listEn.setAttrName("尺寸");
+                }
+
+                ArrayList<GoodsAttrEntity> asLists = new ArrayList<>();
+                GoodsAttrEntity asEn;
+                //JSONArray list = as.getJSONArray("values");
+                for (int j = 0; j < 7; j++) {
+                    //JSONObject ls = list.getJSONObject(j);
+                    asEn = new GoodsAttrEntity();
+                    asEn.setAttrId(listEn.getAttrId()*10 + j);
+                    asEn.setSkuNum(99);
+                    asEn.setAttrName(listEn.getAttrName() + j);
+                    asEn.setAttrPrice(99);
+                    asEn.setAttrImg("");
+                    asLists.add(asEn);
+                }
+                listEn.setAttrLists(asLists);
+                attrLists.add(listEn);
+            }
+        }
+        return attrLists;
+    }
+
+    /**
+     * 解析JSON获取商品SKU
+     */
+    private static ArrayList<GoodsAttrEntity> getGoodsSkuLists(JSONObject jsonObject, String key) throws JSONException {
+        ArrayList<GoodsAttrEntity> skuLists = new ArrayList<>();
+        if (StringUtil.notNull(jsonObject, key)) {
+            JSONArray sku = jsonObject.getJSONArray(key);
+            GoodsAttrEntity skuEn;
+            for (int i = 0; i < sku.length(); i++) {
+                JSONObject ks = sku.getJSONObject(i);
+                skuEn = new GoodsAttrEntity();
+                skuEn.setSku_key(ks.getString("goods_attr"));
+                skuEn.setSku_value(StringUtil.getInteger(ks.getString("product_number")));
+                skuLists.add(skuEn);
+            }
+        }
+        return skuLists;
     }
 
 }
