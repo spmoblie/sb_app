@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -19,6 +18,8 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.util.ArrayMap;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.view.Gravity;
@@ -39,6 +40,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
+import com.bumptech.glide.Glide;
 import com.songbao.sampo.AppApplication;
 import com.songbao.sampo.AppConfig;
 import com.songbao.sampo.AppManager;
@@ -56,6 +58,7 @@ import com.songbao.sampo.activity.two.DesignerActivity;
 import com.songbao.sampo.activity.two.GoodsActivity;
 import com.songbao.sampo.activity.two.GoodsListActivity;
 import com.songbao.sampo.activity.two.SketchActivity;
+import com.songbao.sampo.adapter.GoodsAttrAdapter;
 import com.songbao.sampo.dialog.DialogManager;
 import com.songbao.sampo.dialog.LoadDialog;
 import com.songbao.sampo.entity.BaseEntity;
@@ -70,12 +73,14 @@ import com.songbao.sampo.utils.StringUtil;
 import com.songbao.sampo.utils.UserManager;
 import com.songbao.sampo.utils.retrofit.Fault;
 import com.songbao.sampo.utils.retrofit.HttpRequests;
+import com.songbao.sampo.widgets.RoundImageView;
 import com.songbao.sampo.widgets.share.ShareView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -99,9 +104,10 @@ public  class BaseActivity extends FragmentActivity {
 	protected SharedPreferences shared;
 	protected DialogManager myDialog;
 	protected UserManager userManager;
+	protected DecimalFormat df;
 	protected Boolean isInitShare = false;
 	protected Boolean isTimeFinish = true;
-	protected int screenWidth, screenHeight, statusHeight;
+	protected int screenWidth, screenHeight, statusHeight, dialogWidth;
 
 	private ConstraintLayout top_main;
 	private ImageView iv_left, iv_data_null;
@@ -110,22 +116,27 @@ public  class BaseActivity extends FragmentActivity {
 	private ViewFlipper mLayoutBase;
 	private MyCountDownTimer myTimer;
 
-	private int dialogWidth;
 	private ShareView mShareView;
 	private Animation inAnim, outAnim;
 
 	// 商品属性浮层组件
 	private int goodsId = 0;
-	private int skuNum = 1;
+	private int skuNum = 99;
+	private int attrNum = 0;
 	private int buyNumber = 1;
-	private int selectId_1, selectId_2, attrNum;
+	private int selectId_1 = -1;
+	private int selectId_2 = -1;
+	private int selectId_3 = -1;
+	private String selectName_1 = "";
+	private String selectName_2 = "";
+	private String selectName_3 = "";
+	private String attrsNameStr = "";
 	private double mathPrice;
-	private boolean isNext = false;
-	private GoodsAttrEntity attrEn;
-	private ConstraintLayout popupShowMain;
-	private ImageView iv_goods_img, iv_num_minus, iv_num_add;
+	private boolean isConfirm = false;
+	private GoodsAttrEntity attrEn, secEn;
 	private View cartPopupView;
 	private PopupWindow cartPopupWindow;
+	private ConstraintLayout popupShowMain;
 	private Animation popupAnimShow, popupAnimGone;
 
 	@Override
@@ -145,6 +156,7 @@ public  class BaseActivity extends FragmentActivity {
 		screenHeight = AppApplication.screen_height;
 		statusHeight = AppApplication.status_height;
 		dialogWidth = screenWidth * 2/3;
+		df = new DecimalFormat("0.00");
 
 		// 推送服务统计应用启动数据
 		AppApplication.onPushAppStartData();
@@ -1021,19 +1033,34 @@ public  class BaseActivity extends FragmentActivity {
 	/**
 	 * 加载商品属性数据
 	 */
-	protected void loadGoodsAttrData(int id) {
+	protected void loadGoodsAttrData(int id, GoodsAttrEntity gaEn) {
+		secEn = gaEn;
+		if (secEn != null) {
+			buyNumber = secEn.getBuyNum();
+			selectId_1 = secEn.getS_id_1();
+			selectId_2 = secEn.getS_id_2();
+			selectId_3 = secEn.getS_id_3();
+			selectName_1 = secEn.getS_name_1();
+			selectName_2 = secEn.getS_name_2();
+			selectName_3 = secEn.getS_name_3();
+		} else {
+			buyNumber = 1;
+			selectId_1 = 0;
+			selectId_2 = 0;
+			selectId_3 = 0;
+			selectName_1 = "";
+			selectName_2 = "";
+			selectName_3 = "";
+		}
 		if (goodsId == id && attrEn != null) {
 			initAttrPopup();
 		} else {
 			attrEn = null;
 			goodsId = id;
-			skuNum = 1;
-			buyNumber = 1;
-			selectId_1 = 0;
-			selectId_2 = 0;
-			isNext = false;
+			skuNum = 99;
+			isConfirm = false;
 			cartPopupWindow = null;
-			startAnimation();
+
 			HashMap<String, String> map = new HashMap<>();
 			map.put("page", "1");
 			map.put("size", AppConfig.LOAD_SIZE);
@@ -1048,7 +1075,7 @@ public  class BaseActivity extends FragmentActivity {
 		if (attrEn == null) return;
 		goodsId = attrEn.getGoodsId();
 		mathPrice = attrEn.getComputePrice();
-		String attrNameStr = getSelectShowStr(attrEn);
+		attrsNameStr = getSelectShowStr(attrEn);
 		if (cartPopupWindow == null) {
 			cartPopupView = LayoutInflater.from(mContext).inflate(R.layout.popup_view_attr, null);
 			View view_finish = cartPopupView.findViewById(R.id.attr_view_finish);
@@ -1067,84 +1094,69 @@ public  class BaseActivity extends FragmentActivity {
 			});
 			popupAnimShow = AnimationUtils.loadAnimation(mContext, R.anim.in_from_bottom);
 			popupAnimGone = AnimationUtils.loadAnimation(mContext, R.anim.out_to_bottom);
+			popupAnimGone.setAnimationListener(new Animation.AnimationListener() {
+				@Override
+				public void onAnimationStart(Animation animation) {
+
+				}
+
+				@Override
+				public void onAnimationEnd(Animation animation) {
+					cartPopupWindow.dismiss();
+				}
+
+				@Override
+				public void onAnimationRepeat(Animation animation) {
+
+				}
+			});
 			popupShowMain = cartPopupView.findViewById(R.id.attr_view_show_main);
 			popupShowMain.startAnimation(popupAnimShow);
 
-			/*final TextView tv_popup_number = cartPopupView.findViewById(R.id.popup_add_cart_tv_number);
-			tv_popup_number.setText(String.valueOf(buyNumber));
-			final TextView tv_popup_curr = cartPopupView.findViewById(R.id.popup_add_cart_tv_curr);
-			tv_popup_curr.setText("￥");
-			final TextView tv_popup_price = cartPopupView.findViewById(R.id.popup_add_cart_tv_price);
-			tv_popup_price.setText(new DecimalFormat("0.00").format(mathPrice));
-			final TextView tv_popup_prompt = cartPopupView.findViewById(R.id.popup_add_cart_tv_prompt);
-			final TextView tv_popup_select = cartPopupView.findViewById(R.id.popup_add_cart_tv_select);
-			final TextView tv_popup_confirm = cartPopupView.findViewById(R.id.popup_add_cart_tv_confirm);
-			tv_popup_confirm.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					if (isNext) {
-						startAnimation();
-						//request(AppConfig.REQUEST_SV_POST_CART_PRODUCT_CODE);
-					} else {
-						if (skuNum == 0) { //提示缺货
-							CommonTools.showToast(getString(R.string.goods_sku_null), 1000);
-						}
-					}
-				}
-			});
-
-			RelativeLayout rl_num_minus = cartPopupView.findViewById(R.id.popup_add_cart_rl_num_minus);
-			rl_num_minus.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					if (buyNumber > 1) {
-						buyNumber--;
-						if (buyNumber == 1) {
-							iv_num_minus.setSelected(false); //不可-
-						}
-						if (buyNumber < skuNum) {
-							iv_num_add.setSelected(true); //可+
-						}
-					}
-					tv_popup_number.setText(String.valueOf(buyNumber));
-				}
-			});
-			RelativeLayout rl_num_add = cartPopupView.findViewById(R.id.popup_add_cart_rl_num_add);
-			rl_num_add.setOnClickListener(new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					if (skuNum > 1) {
-						if (buyNumber < skuNum) {
-							buyNumber++;
-							iv_num_minus.setSelected(true); //可-
-							iv_num_add.setSelected(true); //可+
-							tv_popup_number.setText(String.valueOf(buyNumber));
-						} else {
-							iv_num_add.setSelected(false); //不可+
-						}
-					} else {
-						if (skuNum == 0) { //提示缺货
-							CommonTools.showToast(getString(R.string.goods_sku_null), 1000);
-						}
-					}
-				}
-			});
-
-			iv_num_add = cartPopupView.findViewById(R.id.popup_add_cart_iv_num_add);
-			iv_num_minus = cartPopupView.findViewById(R.id.popup_add_cart_iv_num_minus);
-			iv_goods_img = cartPopupView.findViewById(R.id.popup_add_cart_iv_img);
+			final RoundImageView iv_goods_img = cartPopupView.findViewById(R.id.attr_view_iv_show);
 			Glide.with(AppApplication.getAppContext())
 					.load("")
 					.apply(AppApplication.getShowOptions())
 					.into(iv_goods_img);
 
+			TextView tv_popup_curr = cartPopupView.findViewById(R.id.attr_view_tv_price_curr);
+			final TextView tv_popup_price = cartPopupView.findViewById(R.id.attr_view_tv_price);
+			final TextView tv_popup_select = cartPopupView.findViewById(R.id.attr_view_tv_selected);
+			tv_popup_curr.setText(getString(R.string.rmb));
+			tv_popup_price.setText(df.format(mathPrice));
+
+			TextView tv_popup_confirm = cartPopupView.findViewById(R.id.attr_view_tv_confirm);
+			tv_popup_confirm.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					if (isConfirm) {
+						startAnimation();
+						//request(AppConfig.REQUEST_SV_POST_CART_PRODUCT_CODE);
+					} else {
+						if (skuNum <= 0) {
+							//提示缺货
+							CommonTools.showToast(getString(R.string.goods_attr_sku_0));
+						}
+					}
+				}
+			});
+
 			if (attrNum > 0) {
-				ScrollViewListView svlv = cartPopupView.findViewById(R.id.popup_add_cart_svlv);
-				GoodsAttrAdapter.AddCartCallback apCallback = new GoodsAttrAdapter.AddCartCallback() {
+				RecyclerView rv_attr = cartPopupView.findViewById(R.id.attr_view_rv);
+				// 设置布局管理器
+				LinearLayoutManager layoutManager = new LinearLayoutManager(mContext);
+				layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+				rv_attr.setLayoutManager(layoutManager);
+				// 配置适配器
+				GoodsAttrAdapter.AttrClickCallback apCallback = new GoodsAttrAdapter.AttrClickCallback() {
 
 					@Override
-					public void setOnClick(Object entity, int position, int num, double attrPrice,
-										   int id1, int id2, String selectName, String selectImg) {
+					public void updateNumber(int number) {
+						buyNumber = number;
+					}
+
+					@Override
+					public void setOnClick(GoodsAttrEntity data, int pos, double attrPrice, int selectId, String selectName, String selectImg) {
 						// 图片替换
 						if (StringUtil.isNull(selectImg)) {
 							selectImg = "first";
@@ -1153,72 +1165,49 @@ public  class BaseActivity extends FragmentActivity {
 								.load(selectImg)
 								.apply(AppApplication.getShowOptions())
 								.into(iv_goods_img);
-						// 刷新选择的属性名称
-						tv_popup_select.setText(selectName);
-						if (num == -1) {
-							tv_popup_prompt.setText(getString(R.string.item_select_no));
-							tv_popup_select.setTextColor(getResources().getColor(R.color.shows_text_color));
-						}else {
-							tv_popup_prompt.setText(getString(R.string.item_select_ok));
-							tv_popup_select.setTextColor(getResources().getColor(R.color.tv_color_status));
-						}
-						// 刷新商品价格及数量
-						selectId_1 = id1;
-						selectId_2 = id2;
+						// 刷新价格
 						mathPrice = attrEn.getComputePrice() + attrPrice;
-						tv_popup_curr.setText("￥");
-						tv_popup_price.setText(new DecimalFormat("0.00").format(mathPrice));
-						skuNum = 1; //默认库存数量
-						buyNumber = 1; //默认购买数量
-						iv_num_add.setSelected(false); //不可+
-						iv_num_minus.setSelected(false); //不可-
-						if (num >= 0) {
-							isNext = true;
-							skuNum = num;
-						}else {
-							isNext = false;
+						tv_popup_price.setText(df.format(mathPrice));
+						// 刷新属性
+						switch (pos) {
+							case 0:
+								selectId_1 = selectId;
+								selectName_1 = selectName;
+								break;
+							case 1:
+								selectId_2 = selectId;
+								selectName_2 = selectName;
+								break;
+							case 2:
+								selectId_3 = selectId;
+								selectName_3 = selectName;
+								break;
 						}
-						if (skuNum > 1) {
-							iv_num_add.setSelected(true); //可+
-						}else if (skuNum == 0) {
-							buyNumber = 0;
-							isNext = false;
-						}
-						tv_popup_number.setText(String.valueOf(buyNumber));
-						if (isNext) {
-							tv_popup_confirm.setBackground(getResources().getDrawable(R.drawable.shape_style_solid_04_08));
-						}else {
-							tv_popup_confirm.setBackgroundColor(getResources().getColor(R.color.input_text_color));
-						}
+						attrsNameStr = getSelectShowStr(attrEn);
+						tv_popup_select.setText(attrsNameStr);
 					}
 
 				};
-				GoodsAttrAdapter svlvAdapter = new GoodsAttrAdapter(mContext, attrEn, apCallback);
-				svlv.setAdapter(svlvAdapter);
-				svlv.setOverScrollMode(ListView.OVER_SCROLL_NEVER);
+				ArrayList<Integer> resLayout = new ArrayList<>();
+				resLayout.add(R.layout.item_list_attr_item_1);
+				resLayout.add(R.layout.item_list_attr_item_2);
+				GoodsAttrAdapter rv_Adapter = new GoodsAttrAdapter(mContext, resLayout, apCallback);
+				rv_Adapter.updateData(attrEn, secEn);
+				rv_attr.setAdapter(rv_Adapter);
 			}else {
-				attrNameStr = getString(R.string.goods_buy_number);
-				isNext = true;
+				isConfirm = true;
+				attrsNameStr = "";
 				skuNum = attrEn.getSkuNum();
-				if (skuNum > 1) {
-					iv_num_add.setSelected(true); //可+
-				}else if (skuNum == 0) {
+				if (skuNum <= 0) {
 					buyNumber = 0;
-					isNext = false;
-				}
-				tv_popup_number.setText(String.valueOf(buyNumber));
-				if (isNext) {
-					tv_popup_confirm.setBackground(getResources().getDrawable(R.drawable.shape_style_solid_04_08));
-				}else {
-					tv_popup_confirm.setBackgroundColor(getResources().getColor(R.color.input_text_color));
+					isConfirm = false;
 				}
 			}
-			tv_popup_select.setText(attrNameStr);*/
+			tv_popup_select.setText(attrsNameStr);
 
 			cartPopupWindow = new PopupWindow(cartPopupView, RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
-			cartPopupWindow.setFocusable(true);
 			cartPopupWindow.update();
-			cartPopupWindow.setBackgroundDrawable(new BitmapDrawable());
+			cartPopupWindow.setFocusable(true);
 			cartPopupWindow.setOutsideTouchable(true);
 			cartPopupWindow.showAtLocation(cartPopupView, Gravity.BOTTOM, 0, 0);
 		}else {
@@ -1229,34 +1218,60 @@ public  class BaseActivity extends FragmentActivity {
 
 	private String getSelectShowStr(GoodsAttrEntity en){
 		if (en != null && en.getAttrLists() != null) {
-			StringBuilder sb = new StringBuilder();
 			attrNum = en.getAttrLists().size();
 			GoodsAttrEntity item;
-			for (int i = 0; i < attrNum; i++) {
-				item = en.getAttrLists().get(i);
-				sb.append(item.getAttrName());
-				sb.append("、");
+			StringBuilder sb = new StringBuilder();
+			sb.append(getString(R.string.select));
+			sb.append(" ");
+			for (int i = 0; i < attrNum-1; i++) {
+				switch (i) {
+					case 0:
+						if (StringUtil.isNull(selectName_1)) {
+							item = en.getAttrLists().get(i);
+							sb.append(item.getAttrName());
+							sb.append(",");
+						}
+						break;
+					case 1:
+						if (StringUtil.isNull(selectName_2)) {
+							item = en.getAttrLists().get(i);
+							sb.append(item.getAttrName());
+							sb.append(",");
+						}
+						break;
+					case 2:
+						if (StringUtil.isNull(selectName_3)) {
+							item = en.getAttrLists().get(i);
+							sb.append(item.getAttrName());
+							sb.append(",");
+						}
+						break;
+				}
 			}
-			if (sb.length() > 0) {
-				sb.deleteCharAt(sb.length()-1);
+			if (sb.toString().contains(",")) {
+				sb.deleteCharAt(sb.length() - 1);
+				return sb.toString();
+			} else {
+				return getString(R.string.goods_attr_selected, selectName_1, selectName_2, selectName_3);
 			}
-			return sb.toString();
 		}
 		return "";
+	}
+
+	/**
+	 * 更新已选的商品属性字符串
+	 */
+	protected void updateSelectAttrStr(String attrsNameStr) {
+
 	}
 
 	/**
 	 * 关闭商品属性浮层
 	 */
 	private void dismissAttrPopup() {
-		popupShowMain.startAnimation(popupAnimGone);
-		new Handler().postDelayed(new Runnable() {
-
-			@Override
-			public void run() {
-				cartPopupWindow.dismiss();
-			}
-		}, 500);
+		if (popupShowMain != null) {
+			popupShowMain.startAnimation(popupAnimGone);
+		}
 	}
 
 }

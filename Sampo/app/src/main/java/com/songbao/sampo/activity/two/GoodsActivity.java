@@ -27,6 +27,8 @@ import com.songbao.sampo.adapter.AdapterCallback;
 import com.songbao.sampo.adapter.CommentLVAdapter;
 import com.songbao.sampo.adapter.GoodsDetailsAdapter;
 import com.songbao.sampo.entity.CommentEntity;
+import com.songbao.sampo.entity.GoodsAttrEntity;
+import com.songbao.sampo.entity.GoodsEntity;
 import com.songbao.sampo.utils.CommonTools;
 import com.songbao.sampo.utils.ExceptionUtil;
 import com.songbao.sampo.utils.LogUtil;
@@ -76,6 +78,12 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
 	@BindView(R.id.goods_vp_indicator)
 	LinearLayout vp_indicator;
 
+	@BindView(R.id.goods_spec_choice_main)
+	ConstraintLayout spec_main;
+
+	@BindView(R.id.goods_tv_selected_show)
+	TextView tv_spec;
+
 	@BindView(R.id.goods_good_comment_main)
 	ConstraintLayout comment_main;
 
@@ -113,6 +121,7 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
 	public static final int TYPE_3 = 3;  //详情
 	private int top_type = TYPE_1; //Top标记
 
+	private GoodsEntity goodsEn;
 	private String goodsId;
 	private boolean vprStop = false;
 	private int idsSize, idsPosition, vprPosition;
@@ -139,6 +148,7 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
 		iv_left.setOnClickListener(this);
 		ib_right.setOnClickListener(this);
 		iv_share.setOnClickListener(this);
+		spec_main.setOnClickListener(this);
 		comment_main.setOnClickListener(this);
 		tv_home.setOnClickListener(this);
 		tv_cart.setOnClickListener(this);
@@ -440,8 +450,9 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
 				break;
 			case R.id.bottom_add_cart_tv_cart:
 				break;
+			case R.id.goods_spec_choice_main:
 			case R.id.bottom_add_cart_tv_cart_add:
-				loadGoodsAttrData(1);
+				loadGoodsAttrData(goodsEn.getId(), goodsEn.getAttrEn());
 				break;
 			case R.id.bottom_add_cart_tv_customize:
 				startActivity(new Intent(mContext, DesignerActivity.class));
@@ -540,6 +551,19 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
 	}
 
 	private void initDemoData() {
+		goodsEn = new GoodsEntity();
+		goodsEn.setId(1);
+
+		GoodsAttrEntity attrEn = new GoodsAttrEntity();
+		attrEn.setBuyNum(3);
+		attrEn.setS_id_1(10);
+		attrEn.setS_id_2(21);
+		//attrEn.setS_id_3(32);
+		attrEn.setS_name_1("颜色0");
+		attrEn.setS_name_2("尺寸1");
+		//attrEn.setS_name_3("其它2");
+		goodsEn.setAttrEn(attrEn);
+
 		al_image.add(AppConfig.IMAGE_URL + "banner_001.png");
 		al_image.add(AppConfig.IMAGE_URL + "banner_002.png");
 		al_image.add(AppConfig.IMAGE_URL + "banner_003.png");

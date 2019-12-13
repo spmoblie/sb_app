@@ -737,7 +737,7 @@ public class JsonUtils {
         if (StringUtil.notNull(jsonObject, "data")) {
             JSONObject jsonData = jsonObject.getJSONObject("data");
             GoodsAttrEntity attrEn = new GoodsAttrEntity();
-            attrEn.setGoodsId(1001);
+            attrEn.setGoodsId(1);
             attrEn.setFirstImgUrl("");
             attrEn.setComputePrice(2999.99);
             // 解析商品attr
@@ -759,30 +759,34 @@ public class JsonUtils {
         if (!StringUtil.notNull(jsonObject, key)) {
             //JSONArray attr = jsonObject.getJSONArray(key);
             GoodsAttrEntity listEn;
-            for (int i = 0; i < 2; i++) {
+            for (int i = 0; i < 4; i++) {
                 //JSONObject as = attr.getJSONObject(i);
                 listEn = new GoodsAttrEntity();
                 listEn.setAttrId(i+1);
-                if (i == 0) {
-                    listEn.setAttrName("颜色");
-                } else {
-                    listEn.setAttrName("尺寸");
-                }
+                if (i < 3) {
+                    if (i == 0) {
+                        listEn.setAttrName("颜色");
+                    } else if (i == 1) {
+                        listEn.setAttrName("尺寸");
+                    } else if (i == 2) {
+                        listEn.setAttrName("其它");
+                    }
 
-                ArrayList<GoodsAttrEntity> asLists = new ArrayList<>();
-                GoodsAttrEntity asEn;
-                //JSONArray list = as.getJSONArray("values");
-                for (int j = 0; j < 7; j++) {
-                    //JSONObject ls = list.getJSONObject(j);
-                    asEn = new GoodsAttrEntity();
-                    asEn.setAttrId(listEn.getAttrId()*10 + j);
-                    asEn.setSkuNum(99);
-                    asEn.setAttrName(listEn.getAttrName() + j);
-                    asEn.setAttrPrice(99);
-                    asEn.setAttrImg("");
-                    asLists.add(asEn);
+                    ArrayList<GoodsAttrEntity> asLists = new ArrayList<>();
+                    GoodsAttrEntity asEn;
+                    //JSONArray list = as.getJSONArray("values");
+                    for (int j = 0; j < 7; j++) {
+                        //JSONObject ls = list.getJSONObject(j);
+                        asEn = new GoodsAttrEntity();
+                        asEn.setAttrId(listEn.getAttrId()*10 + j);
+                        asEn.setSkuNum(99);
+                        asEn.setAttrName(listEn.getAttrName() + j);
+                        asEn.setAttrPrice(909);
+                        asEn.setAttrImg("");
+                        asLists.add(asEn);
+                    }
+                    listEn.setAttrLists(asLists);
                 }
-                listEn.setAttrLists(asLists);
                 attrLists.add(listEn);
             }
         }

@@ -2,10 +2,11 @@ package com.songbao.sampo.adapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Typeface;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.RelativeLayout.LayoutParams;
 import android.widget.TextView;
@@ -13,7 +14,7 @@ import android.widget.TextView;
 import com.songbao.sampo.AppApplication;
 import com.songbao.sampo.R;
 import com.songbao.sampo.entity.GoodsAttrEntity;
-import com.songbao.sampo.utils.StringUtil;
+import com.songbao.sampo.utils.CommonTools;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -21,98 +22,121 @@ import java.util.List;
 
 
 /**
- * 商品属性ListView适配器
+ * 商品属性面板RecyclerView适配器
  */
-@SuppressLint({ "NewApi", "UseSparseArrays" })
-public class GoodsAttrAdapter extends AppBaseAdapter {
+@SuppressLint({ "UseSparseArrays" })
+public class GoodsAttrAdapter extends BaseRecyclerAdapter {
 
-	private final int viewWidth = AppApplication.screen_width * 4 / 5;
+	private final int viewWidth = AppApplication.screen_width;
 
-	private Context context;
-	private List<GoodsAttrEntity> dataList;
+	private AttrClickCallback callback;
+	private int skuNum = 99;
+	private int buyNumber = 1;
+	private int txtSize, pdTop, pdRight, mgTop, mgRight, mgDps, tvSpec;
+	private int select_id_1, select_id_2, select_id_3;
+	private View[] views_1, views_2, views_3;
+	private String select_name_1, select_name_2, select_name_3;
 	private HashMap<String, Integer> skuHashMap = new HashMap<>();
 	private HashMap<Integer, GoodsAttrEntity> attrHashMap = new HashMap<>();
-	private AddCartCallback callback;
-	private int txtSize, pdWidth, pdHeight, mgWidth;
-	private int mgDps, tvSpec;
-	private int select_id_1, select_id_2;
-	private String attr_name_1, attr_name_2, select_name_1, select_name_2;
-	private View[] views_1, views_2;
 
-	public GoodsAttrAdapter(Context context, GoodsAttrEntity attrEn, AddCartCallback callback) {
-		super(context);
-		this.context = context;
+	public GoodsAttrAdapter(Context context, List<Integer> resLayout, AttrClickCallback callback) {
+		super(context, resLayout);
 		this.callback = callback;
 
-		txtSize = 12;
-		mgWidth = 15;
-		pdWidth = 15;
-		pdHeight = 10;
-		mgDps = context.getResources().getDimensionPixelSize(R.dimen.app_margin_screen) * 2;
+		txtSize = 13;
+		mgTop =  CommonTools.dpToPx(context, 15);
+		mgRight =  CommonTools.dpToPx(context, 20);
+		pdTop = CommonTools.dpToPx(context, 7);
+		pdRight = CommonTools.dpToPx(context, 10);
+		mgDps = CommonTools.dpToPx(context, 0);
 		tvSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+	}
 
-		getAttrData(attrEn);
-		if (dataList == null) {
-			dataList = new ArrayList<>();
+	/**
+	 * 刷新数据
+	 */
+	public void updateData(GoodsAttrEntity attrEn, GoodsAttrEntity secEn) {
+		if (secEn != null) {
+			buyNumber = secEn.getBuyNum();
+			select_id_1 = secEn.getS_id_1();
+			select_id_2 = secEn.getS_id_2();
+			select_id_3 = secEn.getS_id_3();
 		}
+		updateData(attrEn.getAttrLists());
 	}
 
-	static class ViewHolder{
-
-		RelativeLayout rl_main;
-
-	}
-
-	/**代表了ListView中的一个item对象*/
 	@Override
-	public View getView(final int position, View convertView, ViewGroup parent) {
-		ViewHolder holder;
-		if(convertView == null){
-			convertView = View.inflate(context, R.layout.item_list_screen_1, null);
-
-			holder = new ViewHolder();
-			holder.rl_main = convertView.findViewById(R.id.screen_item_rl_attr_main);
-
-			convertView.setTag(holder);
-		}else{
-			holder=(ViewHolder)convertView.getTag();
+	public int getItemViewType(int position) {
+		if (position == getItemCount() - 1) {
+			return 1;
+		} else {
+			return 0;
 		}
+	}
 
-		final GoodsAttrEntity data = dataList.get(position);
+	@Override
+	public void bindData(BaseRecyclerHolder holder, final int pos) {
+		final GoodsAttrEntity data = (GoodsAttrEntity) mDataList.get(pos);
+		if (pos == getItemCount() - 1) { //价格
+			// 获取View
+			ImageView iv_num_minus = holder.getView(R.id.attr_item_2_iv_num_minus);
+			ImageView iv_num_add = holder.getView(R.id.attr_item_2_iv_num_add);
+			final TextView tv_number = holder.getView(R.id.attr_item_2_tv_number);
+			tv_number.setText(String.valueOf(buyNumber));
 
-		if (data != null) {
-			holder.rl_main.removeAllViews();
-			addAttributeView(holder.rl_main, data, position);
+			iv_num_minus.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					if (skuNum > 0) {
+						buyNumber--;
+						if (buyNumber < 1) {
+							buyNumber = 1;
+						}
+					} else {
+						buyNumber = 0;
+					}
+					if (callback != null) {
+						callback.updateNumber(buyNumber);
+					}
+					tv_number.setText(String.valueOf(buyNumber));
+				}
+			});
+			iv_num_add.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					if (skuNum > 0) {
+						buyNumber++;
+						if (buyNumber > skuNum) {
+							buyNumber = skuNum;
+						}
+					} else {
+						buyNumber = 0;
+					}
+					if (callback != null) {
+						callback.updateNumber(buyNumber);
+					}
+					tv_number.setText(String.valueOf(buyNumber));
+				}
+			});
+		} else {
+			// 获取View
+			TextView tv_name = holder.getView(R.id.attr_item_1_tv_attr_name);
+			RelativeLayout rl_main = holder.getView(R.id.attr_item_1_rl_attr_main);
+
+			if (data != null) {
+				tv_name.setId(data.getAttrId());
+				tv_name.setText(data.getAttrName());
+
+				rl_main.removeAllViews();
+				addAttributeView(rl_main, data, pos);
+			}
 		}
-
-		return convertView;
 	}
 
 	/**
 	 * 动态添加View
 	 */
 	private void addAttributeView(RelativeLayout rl_main, final GoodsAttrEntity data, final int position) {
-		// 添加属性类别名称
-		int attrId = data.getAttrId();
-		TextView tv_name = new TextView(context);
-		tv_name.setText(data.getAttrName() + ":");
-		tv_name.setTextColor(context.getResources().getColor(R.color.shows_text_color));
-		tv_name.setTextSize(txtSize);
-		tv_name.setId(attrId);
-		rl_main.addView(tv_name);
-
-//		// 添加选择的属性名称
-//		int showId = attrId + 10000;
-//		final TextView tv_name_show = new TextView(context);
-//		tv_name_show.setText("");
-//		tv_name_show.setTextColor(context.getResources().getColor(R.color.text_color_lialic));
-//		tv_name_show.setTextSize(txtSize);
-//		tv_name_show.setId(showId);
-//		LayoutParams params1 = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-//		params1.addRule(RelativeLayout.RIGHT_OF, attrId);
-//		params1.setMargins(5, 0, 0, 0);
-//		rl_main.addView(tv_name_show, params1);
-
 		ArrayList<GoodsAttrEntity> nameLists = data.getAttrLists();
 		if (nameLists == null || nameLists.size() == 0) {
 			return;
@@ -121,22 +145,24 @@ public class GoodsAttrAdapter extends AppBaseAdapter {
 		int widthTotal = mgDps;
 		int tvWidth;
 		int viewId;
-		int fristId = 0;
+		int firstId = 0;
 		int beforeId = 0;
 		String str;
 
+		int size = nameLists.size();
 		switch (position) {
 			case 0:
-				attr_name_1 = data.getAttrName();
-				views_1 = new View[nameLists.size()];
+				views_1 = new View[size];
 				break;
 			case 1:
-				attr_name_2 = data.getAttrName();
-				views_2 = new View[nameLists.size()];
+				views_2 = new View[size];
+				break;
+			case 2:
+				views_3 = new View[size];
 				break;
 		}
 
-		for (int i = 0; i < nameLists.size(); i++) {
+		for (int i = 0; i < size; i++) {
 			str = nameLists.get(i).getAttrName();
 			viewId = nameLists.get(i).getAttrId();
 			if (i > 0) {
@@ -146,99 +172,51 @@ public class GoodsAttrAdapter extends AppBaseAdapter {
 			// 判定库存数
 			int skuNum = nameLists.get(i).getSkuNum();
 			if (skuNum > 0) {
-				tv.setTextColor(context.getResources().getColor(R.color.ui_color_status));
-				tv.setBackground(context.getResources().getDrawable(R.drawable.shape_style_empty_04_08));
+				if (viewId == select_id_1 || viewId == select_id_2 || viewId == select_id_3) {
+					tv.setTextColor(context.getResources().getColor(R.color.app_color_white));
+					tv.setBackground(context.getResources().getDrawable(R.drawable.shape_style_solid_04_08));
+				} else {
+					tv.setTextColor(context.getResources().getColor(R.color.app_color_gray_5));
+					tv.setBackground(context.getResources().getDrawable(R.drawable.shape_style_solid_02_08));
+				}
 			}else {
-				tv.setTextColor(context.getResources().getColor(R.color.input_text_color));
+				tv.setTextColor(context.getResources().getColor(R.color.debar_text_color));
 				tv.setBackground(context.getResources().getDrawable(R.drawable.shape_style_empty_02_08));
 			}
 			// 记录库存数
 			skuHashMap.put(String.valueOf(viewId), skuNum);
 			attrHashMap.put(viewId, nameLists.get(i));
-			tv.setPadding(pdWidth, pdHeight, pdWidth, pdHeight);
+			tv.setPadding(pdRight, pdTop, pdRight, pdTop);
 			tv.setGravity(Gravity.CENTER);
 			tv.setText(str);
 			tv.setTextSize(txtSize);
+			tv.setTypeface(Typeface.SANS_SERIF, Typeface.BOLD);
 			tv.setId(viewId);
 			tv.setOnClickListener(new OnClickListener() {
 
 				@Override
 				public void onClick(View v) {
-					TextView tv = (TextView) v;
-					switch (getCount()) {
-						case 1: //一种属性
-							if (getSkuNum(String.valueOf(v.getId())) <= 0) { //不可选
-								return;
-							}
+					if (getSkuNum(String.valueOf(v.getId())) <= 0) return;
+					switch (position) {
+						case 0:
 							defaultViewStatus(views_1);
-							updateSelectStatus(v, tv, position, select_id_1);
-							if (select_id_1 > 0) {
-								callback.setOnClick(data, position, getSkuNum(String.valueOf(select_id_1)), getAttrPrice(select_id_1),
-										select_id_1, 0, getSelectShowStr(select_name_1, ""), getAttrImage(select_id_1));
-							}else {
-								callback.setOnClick(data, position, -1, 0, select_id_1, 0, attr_name_1, "");
+							changeSelectStatus(v, position, select_id_1);
+							if (callback != null) {
+								callback.setOnClick(data, position, getAttrPrice(select_id_1), select_id_1, select_name_1, getAttrImage(select_id_1));
 							}
 							break;
-						case 2: //两种属性
-							switch (position) {
-								case 0: //第一种
-									if (getSkuNum(String.valueOf(v.getId())) <= 0) { //不可选
-										return;
-									}
-									// 首先更新第二种属性状态
-									if (select_id_1 == v.getId()) { //取消
-										select_id_2 = 0;
-										select_name_2 = "";
-										defaultViewStatus(views_2);
-									}else {
-										if (views_1.length > 1) { //两选项以上
-											select_id_2 = 0;
-											select_name_2 = "";
-											updateViewStatus(v.getId());
-										}
-									}
-									// 其次更新第一种属性状态
-									defaultViewStatus(views_1);
-									updateSelectStatus(v, tv, position, select_id_1);
-									break;
-								case 1: //第二种
-									if (select_id_1 <= 0) { //第一未选
-										if (getSkuNum(String.valueOf(v.getId())) <= 0) { //不可选
-											return;
-										}
-										defaultViewStatus(views_2);
-									}else { //第一已选
-										if (getSkuNum(select_id_1 + "|" + String.valueOf(v.getId())) <= 0) { //不可选
-											return;
-										}
-										updateViewStatus(select_id_1);
-									}
-									updateSelectStatus(v, tv, position, select_id_2);
-									break;
+						case 1:
+							defaultViewStatus(views_2);
+							changeSelectStatus(v, position, select_id_2);
+							if (callback != null) {
+								callback.setOnClick(data, position, getAttrPrice(select_id_2), select_id_2, select_name_2, getAttrImage(select_id_2));
 							}
-							int attrPrice = 0;
-							if (select_id_1 > 0) {
-								attrPrice += getAttrPrice(select_id_1);
-							}
-							if (select_id_2 > 0) {
-								attrPrice += getAttrPrice(select_id_2);
-							}
-							if (select_id_1 > 0 && select_id_2 > 0) {
-								callback.setOnClick(data, position, getSkuNum(select_id_1 + "|" + select_id_2), attrPrice,
-										select_id_1, select_id_2, getSelectShowStr(select_name_1, select_name_2), getAttrImage(select_id_1));
-							}else {
-								String select_name = "";
-								if (select_id_1 <= 0) {
-									select_name = attr_name_1;
-								}
-								if (select_id_2 <= 0) {
-									if (StringUtil.isNull(select_name)) {
-										select_name = attr_name_2;
-									}else {
-										select_name = select_name + "、" + attr_name_2;
-									}
-								}
-								callback.setOnClick(data, position, -1, attrPrice, select_id_1, select_id_2, select_name, getAttrImage(select_id_1));
+							break;
+						case 2:
+							defaultViewStatus(views_3);
+							changeSelectStatus(v, position, select_id_3);
+							if (callback != null) {
+								callback.setOnClick(data, position, getAttrPrice(select_id_3), select_id_3, select_name_3, getAttrImage(select_id_3));
 							}
 							break;
 					}
@@ -252,140 +230,93 @@ public class GoodsAttrAdapter extends AppBaseAdapter {
 				case 1:
 					views_2[i] = tv;
 					break;
+				case 2:
+					views_3[i] = tv;
+					break;
 			}
 
 			// 计算TextView的宽度
 			tv.measure(tvSpec, tvSpec);
-			tvWidth = tv.getMeasuredWidth() + 2 + mgWidth; //view宽+边框+右外边距
+			tvWidth = tv.getMeasuredWidth() + 2 + mgRight; //view宽+边框+右外边距
 			widthTotal += tvWidth;
 
 			LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
 			if (i == 0) {
 				params.addRule(RelativeLayout.BELOW, data.getAttrId()); //在此id控件的下边
-				fristId = viewId;
+				firstId = viewId;
 			}else {
 				if (widthTotal < viewWidth) {
 					params.addRule(RelativeLayout.RIGHT_OF, beforeId); //在控件的右边
 					params.addRule(RelativeLayout.ALIGN_BOTTOM, beforeId); //与控件底部对齐
 				}else {
-					params.addRule(RelativeLayout.BELOW, fristId); //在控件的下边
-					fristId = viewId;
+					params.addRule(RelativeLayout.BELOW, firstId); //在控件的下边
+					firstId = viewId;
 					widthTotal = mgDps + tvWidth;
 				}
 			}
-			params.setMargins(0, mgWidth, mgWidth, 0);
+			params.setMargins(0, mgTop, mgRight, 0);
 			rl_main.addView(tv,params);
 		}
 	}
 
-	private void updateSelectStatus(View v, TextView tv, int position, int selectId) {
-		TextView tv_item = (TextView)v;
-		switch (position) {
-			case 0:
-				if (selectId != v.getId()) {
-					tv_item.setTextColor(context.getResources().getColor(R.color.app_color_white));
-					v.setSelected(true);
-					selectId = v.getId();
-					select_name_1 = tv.getText().toString();
-				}else {
-					selectId = 0;
-					select_name_1 = "";
-				}
-				select_id_1 = selectId;
-				//tv_show.setText(select_name_1);
-				break;
-			case 1:
-				if (selectId != v.getId()) {
-					tv_item.setTextColor(context.getResources().getColor(R.color.app_color_white));
-					v.setSelected(true);
-					selectId = v.getId();
-					select_name_2 = tv.getText().toString();
-				}else {
-					selectId = 0;
-					select_name_2 = "";
-				}
-				select_id_2 = selectId;
-				//tv_show.setText(select_name_2);
-				break;
-		}
-	}
-
+	/**
+	 * 恢复默认状态
+	 */
 	private void defaultViewStatus(View[] views) {
-		int num = 0;
+		int num;
 		for (int i = 0; i < views.length; i++) {
 			TextView tv_item = (TextView)views[i];
 			num = getSkuNum(String.valueOf(views[i].getId()));
 			if (num > 0) {
-				tv_item.setTextColor(context.getResources().getColor(R.color.ui_color_status));
-				views[i].setBackground(context.getResources().getDrawable(R.drawable.shape_style_empty_04_08));
+				tv_item.setTextColor(context.getResources().getColor(R.color.app_color_gray_5));
+				views[i].setBackground(context.getResources().getDrawable(R.drawable.shape_style_solid_02_08));
 				views[i].setSelected(false);
 			}else {
 				tv_item.setTextColor(context.getResources().getColor(R.color.debar_text_color));
 				views[i].setBackground(context.getResources().getDrawable(R.drawable.shape_style_empty_02_08));
 			}
-			views[i].setPadding(pdWidth, pdHeight, pdWidth, pdHeight);
+			views[i].setPadding(pdRight, pdTop, pdRight, pdTop);
 		}
 	}
 
-	private void updateViewStatus(int selectId) {
-		int num = 0;
-		for (int i = 0; i < views_2.length; i++) {
-			TextView tv_item = (TextView) views_2[i];
-			num = getSkuNum(String.valueOf(selectId) + "|" + String.valueOf(views_2[i].getId()));
-			if (num > 0) {
-				tv_item.setTextColor(context.getResources().getColor(R.color.ui_color_status));
-				views_2[i].setBackground(context.getResources().getDrawable(R.drawable.shape_style_empty_04_08));
-				views_2[i].setSelected(false);
-			}else {
-				tv_item.setTextColor(context.getResources().getColor(R.color.debar_text_color));
-				views_2[i].setBackground(context.getResources().getDrawable(R.drawable.shape_style_empty_02_08));
-			}
-			views_2[i].setPadding(pdWidth, pdHeight, pdWidth, pdHeight);
+	/**
+	 * 切换选中属性项的状态
+	 */
+	private void changeSelectStatus(View v, int position, int selectId) {
+		TextView tv_item = (TextView) v;
+		String selectName;
+
+		if (selectId != v.getId()) {
+			tv_item.setTextColor(context.getResources().getColor(R.color.app_color_white));
+			tv_item.setBackground(context.getResources().getDrawable(R.drawable.shape_style_solid_04_08));
+			selectId = v.getId();
+			selectName = tv_item.getText().toString();
+		}else {
+			selectId = 0;
+			selectName = "";
+		}
+
+		switch (position) {
+			case 0:
+				select_id_1 = selectId;
+				select_name_1 = selectName;
+				break;
+			case 1:
+				select_id_2 = selectId;
+				select_name_2 = selectName;
+				break;
+			case 2:
+				select_id_3 = selectId;
+				select_name_3 = selectName;
+				break;
 		}
 	}
 
-	private int getSkuNum(String keyStr) {
-		if (skuHashMap.containsKey(keyStr)) {
-			return skuHashMap.get(keyStr);
-		}
-		return 0;
-	}
-
-	private double getAttrPrice(int key) {
-		if (attrHashMap.containsKey(key)) {
-			return attrHashMap.get(key).getAttrPrice();
-		}
-		return 0;
-	}
-
-	private String getAttrImage(int key) {
-		if (attrHashMap.containsKey(key)) {
-			return attrHashMap.get(key).getAttrImg();
-		}
-		return "";
-	}
-
-	private String getSelectShowStr(String show1, String show2){
-		StringBuilder sb = new StringBuilder();
-		if (!StringUtil.isNull(show1)) {
-			sb.append("“");
-			sb.append(show1);
-			sb.append("”");
-		}
-		if (!StringUtil.isNull(show2)) {
-			if (!StringUtil.isNull(show1)) {
-				sb.append(" ");
-			}
-			sb.append("“");
-			sb.append(show2);
-			sb.append("”");
-		}
-		return sb.toString();
-	}
-
-	private void getAttrData(GoodsAttrEntity attrEn) {
+	/**
+	 * 初始化属性组合Sku
+	 */
+	private void initAttrMakeSku(GoodsAttrEntity attrEn) {
 		if (attrEn != null) {
-			dataList = attrEn.getAttrLists();
 			if (attrEn.getSkuLists() != null) {
 				skuHashMap.clear();
 				GoodsAttrEntity sku;
@@ -399,10 +330,41 @@ public class GoodsAttrAdapter extends AppBaseAdapter {
 		}
 	}
 
-	public interface AddCartCallback {
+	/**
+	 * 属性Sku
+	 */
+	private int getSkuNum(String keyStr) {
+		if (skuHashMap.containsKey(keyStr)) {
+			return skuHashMap.get(keyStr);
+		}
+		return 99;
+	}
 
-		void setOnClick(Object entity, int position, int num, double attrPrice,
-                        int id1, int id2, String selectName, String selectImg);
+	/**
+	 * 属性价格
+	 */
+	private double getAttrPrice(int key) {
+		if (attrHashMap.containsKey(key)) {
+			return attrHashMap.get(key).getAttrPrice();
+		}
+		return 0;
+	}
+
+	/**
+	 * 属性图片
+	 */
+	private String getAttrImage(int key) {
+		if (attrHashMap.containsKey(key)) {
+			return attrHashMap.get(key).getAttrImg();
+		}
+		return "";
+	}
+
+	public interface AttrClickCallback {
+
+		void updateNumber(int number);
+
+		void setOnClick(GoodsAttrEntity data, int pos, double attrPrice, int selectId, String selectName, String selectImg);
 
 	}
 

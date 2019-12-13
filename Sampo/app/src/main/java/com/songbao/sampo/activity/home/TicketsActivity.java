@@ -93,7 +93,6 @@ public class TicketsActivity extends BaseActivity implements View.OnClickListene
 
 
     private CouponEntity data, coupon_1, coupon_2, coupon_3, select_coupon;
-    private DecimalFormat df;
     private int set_meal_type = 0;
 
     @Override
@@ -109,8 +108,6 @@ public class TicketsActivity extends BaseActivity implements View.OnClickListene
 
     private void initView() {
         setTitle(getString(R.string.main_head_tickets));
-
-        df = new DecimalFormat("0");
 
         set_meal_main_1.setOnClickListener(this);
         set_meal_main_2.setOnClickListener(this);

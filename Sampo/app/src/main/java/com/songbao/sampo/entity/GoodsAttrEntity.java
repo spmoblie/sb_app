@@ -15,9 +15,16 @@ public class GoodsAttrEntity extends BaseEntity {
 	private int goodsId; //商品id
 	private String firstImgUrl; //首张缩略图
 	private double computePrice; //商品结算价
-	private int skuNum; //商品库存数
 	private boolean isShow; //属性面板是否展开
 	private boolean isSelect; //属性是否选中
+	private int skuNum; //商品库存数
+	private int buyNum; //已选商品数
+	private int s_id_1; //已选属性id_1
+	private int s_id_2; //已选属性id_2
+	private int s_id_3; //已选属性id_3
+	private String s_name_1; //已选属性名称_1
+	private String s_name_2; //已选属性名称_2
+	private String s_name_3; //已选属性名称_3
 	private String attrIdStr; //筛选属性Id字符串
 	private String attrName; //属性名称
 	private double attrPrice; //属性价值
@@ -73,6 +80,74 @@ public class GoodsAttrEntity extends BaseEntity {
 
 	public void setSkuNum(int skuNum) {
 		this.skuNum = skuNum;
+	}
+
+	public int getBuyNum() {
+		if (buyNum < 1) {
+			buyNum = 1;
+		}
+		return buyNum;
+	}
+
+	public void setBuyNum(int buyNum) {
+		this.buyNum = buyNum;
+	}
+
+	public int getS_id_1() {
+		return s_id_1;
+	}
+
+	public void setS_id_1(int s_id_1) {
+		this.s_id_1 = s_id_1;
+	}
+
+	public int getS_id_2() {
+		return s_id_2;
+	}
+
+	public void setS_id_2(int s_id_2) {
+		this.s_id_2 = s_id_2;
+	}
+
+	public int getS_id_3() {
+		return s_id_3;
+	}
+
+	public void setS_id_3(int s_id_3) {
+		this.s_id_3 = s_id_3;
+	}
+
+	public String getS_name_1() {
+		if (StringUtil.isNull(s_name_1)) {
+			return "";
+		}
+		return s_name_1;
+	}
+
+	public void setS_name_1(String s_name_1) {
+		this.s_name_1 = s_name_1;
+	}
+
+	public String getS_name_2() {
+		if (StringUtil.isNull(s_name_2)) {
+			return "";
+		}
+		return s_name_2;
+	}
+
+	public void setS_name_2(String s_name_2) {
+		this.s_name_2 = s_name_2;
+	}
+
+	public String getS_name_3() {
+		if (StringUtil.isNull(s_name_3)) {
+			return "";
+		}
+		return s_name_3;
+	}
+
+	public void setS_name_3(String s_name_3) {
+		this.s_name_3 = s_name_3;
 	}
 
 	public boolean isShow() {

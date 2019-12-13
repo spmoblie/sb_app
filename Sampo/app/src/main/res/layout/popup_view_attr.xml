@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:animateLayoutChanges="true"
     android:orientation="vertical"
-    android:background="@color/ui_bg_color_percent_10">
+    android:background="@color/ui_bg_color_percent_08">
 
     <View
         android:id="@+id/attr_view_finish"
@@ -40,8 +40,8 @@
 
         <com.songbao.sampo.widgets.RoundImageView
             android:id="@+id/attr_view_iv_show"
-            android:layout_width="@dimen/margin_padding_90"
-            android:layout_height="@dimen/margin_padding_90"
+            android:layout_width="@dimen/margin_padding_110"
+            android:layout_height="@dimen/margin_padding_110"
             android:scaleType="centerCrop"
             android:src="@drawable/icon_default_show"
             app:layout_constraintLeft_toLeftOf="parent"
@@ -59,7 +59,6 @@
             android:id="@+id/attr_view_tv_price"
             style="@style/common_text_price"
             android:layout_marginLeft="@dimen/margin_padding_10"
-            android:text="2999"
             app:layout_constraintBaseline_toBaselineOf="@+id/attr_view_tv_price_curr"
             app:layout_constraintBottom_toBottomOf="@+id/attr_view_tv_price_curr"
             app:layout_constraintLeft_toRightOf="@+id/attr_view_tv_price_curr" />
@@ -68,7 +67,6 @@
             android:id="@+id/attr_view_tv_selected"
             style="@style/goods_text"
             android:layout_marginLeft="@dimen/app_margin_screen"
-            android:text="已选"
             app:layout_constraintBottom_toBottomOf="@+id/attr_view_iv_show"
             app:layout_constraintLeft_toRightOf="@+id/attr_view_iv_show" />
 
@@ -76,9 +74,10 @@
             android:id="@+id/attr_view_rv"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_marginBottom="@dimen/margin_padding_30"
-            app:layout_constraintBottom_toTopOf="@+id/attr_view_tv_confirm"
+            android:layout_marginTop="@dimen/app_margin_screen"
+            android:layout_marginBottom="@dimen/margin_padding_25"
             app:layout_constraintTop_toBottomOf="@+id/attr_view_iv_show"
+            app:layout_constraintBottom_toTopOf="@+id/attr_view_tv_confirm"
             app:layout_constraintVertical_weight="1" />
 
         <TextView
@@ -91,6 +90,7 @@
             android:paddingBottom="@dimen/margin_padding_12"
             android:paddingTop="@dimen/margin_padding_12"
             android:text="@string/confirm"
+            android:textStyle="bold"
             android:textColor="@color/app_color_white"
             android:textSize="@dimen/app_text_size_content"
             app:layout_constraintBottom_toBottomOf="parent" />

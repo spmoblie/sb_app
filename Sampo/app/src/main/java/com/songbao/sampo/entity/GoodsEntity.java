@@ -16,6 +16,7 @@ public class GoodsEntity extends BaseEntity {
 	private String veneer; //产品饰面
 	private int number; //产品数量
 	private double price; //销售价格
+	private GoodsAttrEntity attrEn; //已选属性值
 
 	@Override
 	public String getEntityId() {
@@ -94,4 +95,11 @@ public class GoodsEntity extends BaseEntity {
 		this.price = price;
 	}
 
+	public GoodsAttrEntity getAttrEn() {
+		return attrEn;
+	}
+
+	public void setAttrEn(GoodsAttrEntity attrEn) {
+		this.attrEn = attrEn;
+	}
 }

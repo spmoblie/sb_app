@@ -250,16 +250,16 @@
         <item name="android:background">@color/ui_bg_color_percent_10</item>
         <item name="android:textColorHint">@color/input_hint_color</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textSize">@dimen/app_text_size_content</item>
         <item name="android:textColor">@color/input_text_color</item>
+        <item name="android:textSize">@dimen/app_text_size_content</item>
     </style>
 
     <!-- 商品页面TextView样式 -->
     <style name="goods_text">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">@dimen/app_text_size_small</item>
         <item name="android:textColor">@color/app_color_gray_9</item>
+        <item name="android:textSize">@dimen/app_text_size_small</item>
     </style>
 
     <!-- 商品页面Sign样式 -->

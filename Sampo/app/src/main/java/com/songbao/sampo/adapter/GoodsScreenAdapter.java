@@ -24,7 +24,7 @@ import java.util.List;
 
 
 /**
- * 商品筛选ListView适配器
+ * 商品筛选RecyclerView适配器
  */
 public class GoodsScreenAdapter extends BaseRecyclerAdapter {
 
@@ -33,19 +33,19 @@ public class GoodsScreenAdapter extends BaseRecyclerAdapter {
 	private Context context;
 	private HashMap<Integer, GoodsAttrEntity> attrHashMap = new HashMap<>();
 	private ScreenClickCallback scCallback;
-	private int txtSize, pdWidth, pdHeight, mgWidth;
-	private int mgDps, tvSpec;
+	private int txtSize, pdTop, pdRight, mgTop, mgRight, mgDps, tvSpec;
 	private long minPrice, maxPrice;
 
-	public GoodsScreenAdapter(Context context, List<Integer> resLayout, final ScreenClickCallback callback) {
+	public GoodsScreenAdapter(Context context, List<Integer> resLayout, ScreenClickCallback callback) {
 		super(context, resLayout);
 		this.context = context;
 		this.scCallback = callback;
 
 		txtSize = 12;
-		mgWidth =  CommonTools.dpToPx(context, 10);
-		pdWidth = CommonTools.dpToPx(context, 15);
-		pdHeight = CommonTools.dpToPx(context, 7);
+		mgTop =  CommonTools.dpToPx(context, 10);
+		mgRight =  CommonTools.dpToPx(context, 10);
+		pdTop = CommonTools.dpToPx(context, 7);
+		pdRight = CommonTools.dpToPx(context, 15);
 		mgDps = CommonTools.dpToPx(context, 15);
 		tvSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
 	}
@@ -71,7 +71,7 @@ public class GoodsScreenAdapter extends BaseRecyclerAdapter {
 	@Override
 	public void bindData(BaseRecyclerHolder holder, final int pos) {
 		final GoodsAttrEntity data = (GoodsAttrEntity) mDataList.get(pos);
-		if (pos == getItemCount() - 1) { //价格属性面板
+		if (pos == getItemCount() - 1) { //价格
 			// 获取View
 			EditText et_price_min = holder.getView(R.id.screen_item_2_tv_attr_min);
 			EditText et_price_max = holder.getView(R.id.screen_item_2_tv_attr_max);
@@ -224,7 +224,7 @@ public class GoodsScreenAdapter extends BaseRecyclerAdapter {
 			}
 			TextView tv = new TextView(context);
 			attrHashMap.put(viewId, attrEn);
-			tv.setPadding(pdWidth, pdHeight, pdWidth, pdHeight);
+			tv.setPadding(pdRight, pdTop, pdRight, pdTop);
 			tv.setGravity(Gravity.CENTER);
 			tv.setId(viewId);
 			tv.setText(str);
@@ -249,7 +249,7 @@ public class GoodsScreenAdapter extends BaseRecyclerAdapter {
 
 			// 计算TextView的宽度
 			tv.measure(tvSpec, tvSpec);
-			tvWidth = tv.getMeasuredWidth() + 2 + mgWidth; //view宽+边框+右外边距
+			tvWidth = tv.getMeasuredWidth() + 2 + mgRight; //view宽+边框+右外边距
 			widthTotal += tvWidth;
 
 			LayoutParams params = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
@@ -266,7 +266,7 @@ public class GoodsScreenAdapter extends BaseRecyclerAdapter {
 					widthTotal = mgDps + tvWidth;
 				}
 			}
-			params.setMargins(0, mgWidth, mgWidth, 0);
+			params.setMargins(0, mgTop, mgRight, 0);
 			rl_main.addView(tv,params);
 		}
 	}

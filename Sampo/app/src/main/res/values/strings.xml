@@ -20,6 +20,7 @@
     <string name="add">添加</string>
     <string name="all">全部</string>
     <string name="see_all">查看全部</string>
+    <string name="select">选择</string>
     <string name="select_all">全选</string>
     <string name="total">合计：</string>
     <string name="item_price">价格：</string>
@@ -35,6 +36,7 @@
     <string name="size">尺寸</string>
     <string name="color">颜色</string>
     <string name="price">价格</string>
+    <string name="number">数量</string>
     <string name="clean">清除</string>
     <string name="done">完成</string>
     <string name="desc">""</string>
@@ -258,8 +260,8 @@
     <string name="goods_good_comment_en">GOOD EVALUATION</string>
     <string name="goods_good_detail">商品详情</string>
     <string name="goods_good_detail_en">COMMODITY DETAILS</string>
-    <string name="goods_buy_number">购买数量</string>
-    <string name="goods_sku_null">暂时缺货</string>
+    <string name="goods_attr_sku_0">暂时缺货</string>
+    <string name="goods_attr_selected">已选：%1$s, %2$s, %3$s</string>
 
     <!-- Cart -->
     <string name="cart_goods_num">x%1$d</string>

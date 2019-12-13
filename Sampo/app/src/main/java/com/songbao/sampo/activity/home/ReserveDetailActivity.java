@@ -122,7 +122,6 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
     private LinearLayout.LayoutParams showImgLP;
 
     private MyBroadcastReceiver myReceiver;
-    private DecimalFormat df;
     private ThemeEntity data;
     private Bitmap qrImage;
     private int dataPos = 0; //列表定位器
@@ -151,7 +150,6 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
                 reserveId = data.getEntityId();
             }
         }
-        df = new DecimalFormat("0.00");
 
         // 注册广播
         myReceiver = new MyBroadcastReceiver();

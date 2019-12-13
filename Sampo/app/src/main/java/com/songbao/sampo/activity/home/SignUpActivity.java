@@ -31,7 +31,6 @@ import com.songbao.sampo.wxapi.WXPayEntryActivity;
 
 import org.json.JSONObject;
 
-import java.text.DecimalFormat;
 import java.util.HashMap;
 
 import butterknife.BindView;
@@ -69,7 +68,6 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
 
     LinearLayout.LayoutParams showImgLP;
 
-    private DecimalFormat df;
     private ThemeEntity data;
     private int status; //1:报名中, 2:已截止
     private int genderCode = 1; //1:男, 2:女
@@ -91,7 +89,6 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
             themeId = data.getThemeId();
             status = data.getStatus();
         }
-        df = new DecimalFormat("0.00");
 
         initView();
 
