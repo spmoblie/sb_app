@@ -701,8 +701,10 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 		}
 		if (isScreen) {
 			CommonTools.showToast(jsonObj.toString());
+			loadFirstPageData();
+		} else {
+			hideScreenView();
 		}
-		hideScreenView();
 	}
 
 	@Override

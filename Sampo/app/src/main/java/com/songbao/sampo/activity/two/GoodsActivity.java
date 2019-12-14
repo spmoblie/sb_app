@@ -215,13 +215,16 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
 	private void initViewPager() {
 		if (al_image.size() > 0) {
 			clearViewPagerData();
-			idsSize = al_image.size();
+			ArrayList<String> al_show = new ArrayList<>();
+			al_show.addAll(al_image);
+			idsSize = al_show.size();
 			indicators = new ImageView[idsSize]; // 定义指示器数组大小
 			if (idsSize == 2 || idsSize == 3) {
-				al_image.addAll(al_image);
+				al_show.addAll(al_image);
 			}
-			for (int i = 0; i < al_image.size(); i++) {
-				final String imgUrl = al_image.get(i);
+			for (int i = 0; i < al_show.size(); i++) {
+				final int position = i;
+				final String imgUrl = al_show.get(i);
 
 				ImageView iv_show = new ImageView(mContext);
 				iv_show.setScaleType(ImageView.ScaleType.CENTER_CROP);
@@ -235,7 +238,7 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
 
 					@Override
 					public void onClick(View v) {
-
+						openViewPagerActivity(al_image, position);
 					}
 				});
 				viewLists.add(iv_show);
@@ -416,6 +419,16 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
 	}
 
 	@Override
+	protected void updateSelectAttrStr(String attrsNameStr, int buyNumber) {
+		if (attrsNameStr.contains("已选：")) {
+			attrsNameStr = attrsNameStr.replace("已选：", "");
+			tv_spec.setText(attrsNameStr + ", " + buyNumber + "件");
+		} else {
+			tv_spec.setText(attrsNameStr);
+		}
+	}
+
+	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
 			case R.id.top_common_left:
@@ -555,26 +568,23 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
 		goodsEn.setId(1);
 
 		GoodsAttrEntity attrEn = new GoodsAttrEntity();
-		attrEn.setBuyNum(3);
+		attrEn.setBuyNum(1);
 		attrEn.setS_id_1(10);
-		attrEn.setS_id_2(21);
-		//attrEn.setS_id_3(32);
-		attrEn.setS_name_1("颜色0");
-		attrEn.setS_name_2("尺寸1");
-		//attrEn.setS_name_3("其它2");
+		attrEn.setS_id_2(20);
+		attrEn.setS_name_1("天蓝色");
+		attrEn.setS_name_2("1200*1900");
 		goodsEn.setAttrEn(attrEn);
 
-		al_image.add(AppConfig.IMAGE_URL + "banner_001.png");
-		al_image.add(AppConfig.IMAGE_URL + "banner_002.png");
-		al_image.add(AppConfig.IMAGE_URL + "banner_003.png");
-		al_image.add(AppConfig.IMAGE_URL + "banner_004.png");
-		al_image.add(AppConfig.IMAGE_URL + "banner_005.png");
+		al_image.add(AppConfig.IMAGE_URL + "design_001.png");
+		al_image.add(AppConfig.IMAGE_URL + "design_004.png");
+		al_image.add(AppConfig.IMAGE_URL + "design_006.png");
 
-		al_detail.add("");
-		al_detail.add("");
-		al_detail.add("");
-		al_detail.add("");
-		al_detail.add("");
+		al_detail.add(AppConfig.IMAGE_URL + "design_001.png");
+		al_detail.add(AppConfig.IMAGE_URL + "design_004.png");
+		al_detail.add(AppConfig.IMAGE_URL + "design_001.png");
+		al_detail.add(AppConfig.IMAGE_URL + "design_004.png");
+		al_detail.add(AppConfig.IMAGE_URL + "design_001.png");
+		al_detail.add(AppConfig.IMAGE_URL + "design_004.png");
 
 		CommentEntity childEn;
 		for (int i = 0; i < 2; i++) {
@@ -588,20 +598,20 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
 			if (i == 0) {
 				childEn.setStarNum(2);
 				ArrayList<String> imgList = new ArrayList<>();
-				imgList.add(AppConfig.IMAGE_URL + "banner_001.png");
-				imgList.add(AppConfig.IMAGE_URL + "banner_002.png");
-				imgList.add(AppConfig.IMAGE_URL + "banner_003.png");
+				imgList.add(AppConfig.IMAGE_URL + "design_001.png");
+				imgList.add(AppConfig.IMAGE_URL + "design_004.png");
+				imgList.add(AppConfig.IMAGE_URL + "design_006.png");
 				childEn.setImgList(imgList);
 				childEn.setType(1);
 			}else
 			if (i == 1) {
 				childEn.setStarNum(3);
 				ArrayList<String> imgList = new ArrayList<>();
-				imgList.add(AppConfig.IMAGE_URL + "banner_001.png");
-				imgList.add(AppConfig.IMAGE_URL + "banner_002.png");
-				imgList.add(AppConfig.IMAGE_URL + "banner_003.png");
-				imgList.add(AppConfig.IMAGE_URL + "banner_004.png");
-				imgList.add(AppConfig.IMAGE_URL + "banner_005.png");
+				imgList.add(AppConfig.IMAGE_URL + "design_001.png");
+				imgList.add(AppConfig.IMAGE_URL + "design_004.png");
+				imgList.add(AppConfig.IMAGE_URL + "design_006.png");
+				imgList.add(AppConfig.IMAGE_URL + "design_001.png");
+				imgList.add(AppConfig.IMAGE_URL + "design_004.png");
 				childEn.setImgList(imgList);
 				childEn.setType(1);
 			}

@@ -17,7 +17,7 @@ public class AppConfig {
 	// https协议
 	public final static String APP_HTTPS = "https://";
 	// Base类型
-	public final static String BASE_TYPE = "base_2"; //base_1:发布Url、base_2:测试Url
+	public final static String BASE_TYPE = "base_1"; //base_1:发布Url、base_2:测试Url
 	// Base域名
 	public final static String BASE_URL_1 = APP_HTTPS + "xiaobao.sbwg.cn/";
 	// Base域名

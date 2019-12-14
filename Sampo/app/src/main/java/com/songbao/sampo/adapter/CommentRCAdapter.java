@@ -99,6 +99,13 @@ public class CommentRCAdapter extends BaseRecyclerAdapter {
             final String imgUrl = imgList.get(i);
             RoundImageView iv_img = new RoundImageView(context);
             iv_img.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            iv_img.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (apCallback != null) {
+                    }
+                }
+            });
 
             if (i == imgCount - 1) {
                 goodsImgLP.setMargins(0, 0, 0, 0);

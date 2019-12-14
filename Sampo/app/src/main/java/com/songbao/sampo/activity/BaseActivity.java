@@ -45,6 +45,7 @@ import com.songbao.sampo.AppApplication;
 import com.songbao.sampo.AppConfig;
 import com.songbao.sampo.AppManager;
 import com.songbao.sampo.R;
+import com.songbao.sampo.activity.common.ViewPagerActivity;
 import com.songbao.sampo.activity.common.clip.ClipImageCircularActivity;
 import com.songbao.sampo.activity.common.clip.ClipImageSquareActivity;
 import com.songbao.sampo.activity.common.clip.ClipPhotoGridActivity;
@@ -132,7 +133,7 @@ public  class BaseActivity extends FragmentActivity {
 	private String selectName_3 = "";
 	private String attrsNameStr = "";
 	private double mathPrice;
-	private boolean isConfirm = false;
+	private boolean isSelected = false;
 	private GoodsAttrEntity attrEn, secEn;
 	private View cartPopupView;
 	private PopupWindow cartPopupWindow;
@@ -453,6 +454,18 @@ public  class BaseActivity extends FragmentActivity {
 		shared.edit().putBoolean(AppConfig.KEY_JUMP_PAGE, false).apply();
 		Intent intent = new Intent(mContext, LoginActivity.class);
 		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		startActivity(intent);
+	}
+
+	/**
+	 * 打开图片查看器
+	 * @param urlLists
+	 * @param position
+	 */
+	protected void openViewPagerActivity(ArrayList<String> urlLists, int position) {
+		Intent intent = new Intent(mContext, ViewPagerActivity.class);
+		intent.putExtra(ViewPagerActivity.EXTRA_IMAGE_URLS, urlLists);
+		intent.putExtra(ViewPagerActivity.EXTRA_IMAGE_INDEX, position);
 		startActivity(intent);
 	}
 
@@ -1058,7 +1071,7 @@ public  class BaseActivity extends FragmentActivity {
 			attrEn = null;
 			goodsId = id;
 			skuNum = 99;
-			isConfirm = false;
+			isSelected = false;
 			cartPopupWindow = null;
 
 			HashMap<String, String> map = new HashMap<>();
@@ -1115,7 +1128,7 @@ public  class BaseActivity extends FragmentActivity {
 
 			final RoundImageView iv_goods_img = cartPopupView.findViewById(R.id.attr_view_iv_show);
 			Glide.with(AppApplication.getAppContext())
-					.load("")
+					.load(attrEn.getFirstImgUrl())
 					.apply(AppApplication.getShowOptions())
 					.into(iv_goods_img);
 
@@ -1129,11 +1142,11 @@ public  class BaseActivity extends FragmentActivity {
 			tv_popup_confirm.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					if (isConfirm) {
-						startAnimation();
-						//request(AppConfig.REQUEST_SV_POST_CART_PRODUCT_CODE);
-					} else {
-						if (skuNum <= 0) {
+					if (isSelected) {
+						if (buyNumber > 0) {
+							dismissAttrPopup();
+							CommonTools.showToast("加入购物车成功");
+						} else {
 							//提示缺货
 							CommonTools.showToast(getString(R.string.goods_attr_sku_0));
 						}
@@ -1153,13 +1166,14 @@ public  class BaseActivity extends FragmentActivity {
 					@Override
 					public void updateNumber(int number) {
 						buyNumber = number;
+						updateSelectAttrStr(attrsNameStr, buyNumber);
 					}
 
 					@Override
 					public void setOnClick(GoodsAttrEntity data, int pos, double attrPrice, int selectId, String selectName, String selectImg) {
 						// 图片替换
 						if (StringUtil.isNull(selectImg)) {
-							selectImg = "first";
+							selectImg = attrEn.getFirstImgUrl();
 						}
 						Glide.with(AppApplication.getAppContext())
 								.load(selectImg)
@@ -1185,6 +1199,7 @@ public  class BaseActivity extends FragmentActivity {
 						}
 						attrsNameStr = getSelectShowStr(attrEn);
 						tv_popup_select.setText(attrsNameStr);
+						updateSelectAttrStr(attrsNameStr, buyNumber);
 					}
 
 				};
@@ -1195,12 +1210,12 @@ public  class BaseActivity extends FragmentActivity {
 				rv_Adapter.updateData(attrEn, secEn);
 				rv_attr.setAdapter(rv_Adapter);
 			}else {
-				isConfirm = true;
+				isSelected = true;
 				attrsNameStr = "";
 				skuNum = attrEn.getSkuNum();
 				if (skuNum <= 0) {
 					buyNumber = 0;
-					isConfirm = false;
+					isSelected = false;
 				}
 			}
 			tv_popup_select.setText(attrsNameStr);
@@ -1217,6 +1232,7 @@ public  class BaseActivity extends FragmentActivity {
 	}
 
 	private String getSelectShowStr(GoodsAttrEntity en){
+		isSelected = false;
 		if (en != null && en.getAttrLists() != null) {
 			attrNum = en.getAttrLists().size();
 			GoodsAttrEntity item;
@@ -1252,6 +1268,7 @@ public  class BaseActivity extends FragmentActivity {
 				sb.deleteCharAt(sb.length() - 1);
 				return sb.toString();
 			} else {
+				isSelected = true;
 				return getString(R.string.goods_attr_selected, selectName_1, selectName_2, selectName_3);
 			}
 		}
@@ -1261,7 +1278,7 @@ public  class BaseActivity extends FragmentActivity {
 	/**
 	 * 更新已选的商品属性字符串
 	 */
-	protected void updateSelectAttrStr(String attrsNameStr) {
+	protected void updateSelectAttrStr(String attrsNameStr, int buyNumber) {
 
 	}
 

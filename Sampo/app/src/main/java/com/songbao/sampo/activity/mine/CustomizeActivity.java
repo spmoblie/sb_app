@@ -1,6 +1,5 @@
 package com.songbao.sampo.activity.mine;
 
-import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
@@ -14,7 +13,6 @@ import com.songbao.sampo.AppApplication;
 import com.songbao.sampo.AppConfig;
 import com.songbao.sampo.R;
 import com.songbao.sampo.activity.BaseActivity;
-import com.songbao.sampo.activity.common.ViewPagerActivity;
 import com.songbao.sampo.adapter.AdapterCallback;
 import com.songbao.sampo.adapter.OrderLogisticsAdapter;
 import com.songbao.sampo.adapter.OrderProgressAdapter;
@@ -604,18 +602,6 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
 		}
 	}
 
-	/**
-	 * 打开图片查看器
-	 * @param urlLists
-	 * @param position
-	 */
-	private void openViewPagerActivity(ArrayList<String> urlLists, int position) {
-		Intent intent = new Intent(mContext, ViewPagerActivity.class);
-		intent.putExtra(ViewPagerActivity.EXTRA_IMAGE_URLS, urlLists);
-		intent.putExtra(ViewPagerActivity.EXTRA_IMAGE_INDEX, position);
-		startActivity(intent);
-	}
-
 	@Override
 	protected void OnListenerRight() {
 
@@ -676,29 +662,29 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
 		if (code == 9) {
 			ocEn.setFinish(true);
 		}
-		ocEn.setNodeTime1("2019/11/11  19：25");
+		ocEn.setNodeTime1("2019-12-14 10:18");
 		if (code > 1) {
-			ocEn.setNodeTime2("2019/11/12  12：11");
+			ocEn.setNodeTime2("2019-12-14 10:18");
 		}
-		ocEn.setNodeTime3("2019/11/13  08：55");
+		ocEn.setNodeTime3("2019-12-14 10:18");
 		if (code > 3) {
-			ocEn.setNodeTime4("2019/11/13  16：25");
+			ocEn.setNodeTime4("2019-12-14 10:18");
 		}
 		if (code > 4) {
-			ocEn.setNodeTime5("2019/11/25  11：13");
+			ocEn.setNodeTime5("2019-12-14 10:18");
 		}
-		ocEn.setNodeTime6("2019/11/13  16：26");
-		ocEn.setNodeTime7("2019/11/25  18：22");
-		ocEn.setNodeTime9("2019/11/30  14：22");
-		ocEn.setNodeTime8("2019/11/28  12：05");
+		ocEn.setNodeTime6("2019-12-14 10:18");
+		ocEn.setNodeTime7("2019-12-14 10:18");
+		ocEn.setNodeTime9("2019-12-14 10:18");
+		ocEn.setNodeTime8("2019-12-14 10:18");
 
 		//商品信息
 		GoodsEntity gdEn = new GoodsEntity();
-		gdEn.setName("松堡王国运动女孩双层床");
-		gdEn.setPicUrl("");
+		gdEn.setName("松堡王国运动男孩双层床");
+		gdEn.setPicUrl(AppConfig.IMAGE_URL + "design_001.png");
 		if (code > 1) {
 			gdEn.setAttribute("2030*1372*1870mm");
-			gdEn.setColor("水洗白+芭比粉");
+			gdEn.setColor("深蓝色");
 			gdEn.setMaterial("北欧松木");
 			gdEn.setVeneer("环保水性漆涂层");
 		}
@@ -706,13 +692,13 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
 
 		//设计师
 		DesignerEntity dgEn = new DesignerEntity();
-		dgEn.setName("史蒂芬");
-		dgEn.setPhone("18888880088");
+		dgEn.setName("设计师C");
+		dgEn.setPhone("13686436466");
 		ocEn.setDgEn(dgEn);
 
 		//收货地址
 		AddressEntity adEn = new AddressEntity();
-		adEn.setName("张先生");
+		adEn.setName("李女士");
 		adEn.setPhone("16999666699");
 		adEn.setAddress("广东省深圳市南山区粤海街道科发路大冲城市花园5栋16B");
 		if (code > 4) {
@@ -721,11 +707,9 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
 
 		//效果图集
 		ArrayList<String> imgList = new ArrayList<>();
-		imgList.add(AppConfig.IMAGE_URL + "banner_001.png");
-		imgList.add(AppConfig.IMAGE_URL + "banner_002.png");
-		imgList.add(AppConfig.IMAGE_URL + "banner_003.png");
-		imgList.add(AppConfig.IMAGE_URL + "banner_004.png");
-		imgList.add(AppConfig.IMAGE_URL + "banner_005.png");
+		imgList.add(AppConfig.IMAGE_URL + "design_001.png");
+		imgList.add(AppConfig.IMAGE_URL + "design_004.png");
+		imgList.add(AppConfig.IMAGE_URL + "design_006.png");
 		if (code > 2) {
 			ocEn.setImgList(imgList);
 		}
@@ -745,11 +729,9 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
 				case 1:
 					opEn.setType(1);
 					ArrayList<String> imgLs = new ArrayList<>();
-					imgLs.add(AppConfig.IMAGE_URL + "banner_001.png");
-					imgLs.add(AppConfig.IMAGE_URL + "banner_002.png");
-					imgLs.add(AppConfig.IMAGE_URL + "banner_003.png");
-					imgLs.add(AppConfig.IMAGE_URL + "banner_004.png");
-					imgLs.add(AppConfig.IMAGE_URL + "banner_005.png");
+					imgLs.add(AppConfig.IMAGE_URL + "design_001.png");
+					imgLs.add(AppConfig.IMAGE_URL + "design_004.png");
+					imgLs.add(AppConfig.IMAGE_URL + "design_006.png");
 					opEn.setImgList(imgLs);
 					break;
 				case 2:

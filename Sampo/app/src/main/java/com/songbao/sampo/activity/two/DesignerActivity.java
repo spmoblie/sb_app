@@ -115,10 +115,6 @@ public class DesignerActivity extends BaseActivity implements View.OnClickListen
 		gvAdapter.addCallback(new AdapterCallback() {
 			@Override
 			public void setOnClick(Object data, int position, int type) {
-				/*Intent intent = new Intent(mContext, ViewPagerActivity.class);
-				intent.putExtra(ViewPagerActivity.EXTRA_IMAGE_URLS, urlLists);
-				intent.putExtra(ViewPagerActivity.EXTRA_IMAGE_INDEX, position);
-				startActivity(intent);*/
 				for (int i = 0; i < al_show.size(); i++) {
 					al_show.get(i).setSelect(false);
 					if (i == position) {

@@ -443,16 +443,16 @@ public class JsonUtils {
                     int id = j + 1;
                     childEn.setId(id);
                     childEn.setStatus(id);
-                    childEn.setNodeTime1("2019-11-18 18:18");
+                    childEn.setNodeTime1("2019-12-14 10:18");
 
                     gdEn = new GoodsEntity();
-                    gdEn.setName("运动女孩双层床");
-                    gdEn.setPicUrl("");
+                    gdEn.setName("松堡王国运动男孩双层床");
+                    gdEn.setPicUrl(AppConfig.IMAGE_URL + "design_001.png");
                     childEn.setGdEn(gdEn);
 
                     dgEn = new DesignerEntity();
-                    dgEn.setName("史蒂芬00" + id);
-                    dgEn.setPhone("188888800" + id);
+                    dgEn.setName("设计师C");
+                    dgEn.setPhone("13686436466");
                     childEn.setDgEn(dgEn);
 
                     lists.add(childEn);
@@ -563,6 +563,7 @@ public class JsonUtils {
                             goodsEn = new GoodsEntity();
                             int ik = ij * 10 + k;
                             goodsEn.setId(ik);
+                            goodsEn.setPicUrl(AppConfig.IMAGE_URL + "design_001.png");
                             goodsEn.setName("松堡王国现代简约彩条双层床");
                             goodsEn.setAttribute(ik + " mm");
                             goodsEn.setPrice(999999.99);
@@ -598,6 +599,7 @@ public class JsonUtils {
                     JSONObject item = data.getJSONObject(i);
                     childEn = new GoodsEntity();
                     childEn.setId(i + 1);
+                    childEn.setPicUrl(AppConfig.IMAGE_URL + "design_001.png");
                     childEn.setName("松堡王国现代简约彩条双层床");
                     childEn.setAttribute("天蓝色；1350*1900");
                     childEn.setPrice(999999.99);
@@ -689,32 +691,32 @@ public class JsonUtils {
                     if (i == 0) {
                         childEn.setStarNum(0);
                         ArrayList<String> imgList = new ArrayList<>();
-                        imgList.add(AppConfig.IMAGE_URL + "banner_001.png");
+                        imgList.add(AppConfig.IMAGE_URL + "design_001.png");
                         childEn.setImgList(imgList);
                         childEn.setType(1);
                     } else if (i == 1) {
                         childEn.setStarNum(1);
                         ArrayList<String> imgList = new ArrayList<>();
-                        imgList.add(AppConfig.IMAGE_URL + "banner_001.png");
-                        imgList.add(AppConfig.IMAGE_URL + "banner_002.png");
+                        imgList.add(AppConfig.IMAGE_URL + "design_001.png");
+                        imgList.add(AppConfig.IMAGE_URL + "design_004.png");
                         childEn.setImgList(imgList);
                         childEn.setType(1);
                     } else if (i == 2) {
                         childEn.setStarNum(2);
                         ArrayList<String> imgList = new ArrayList<>();
-                        imgList.add(AppConfig.IMAGE_URL + "banner_001.png");
-                        imgList.add(AppConfig.IMAGE_URL + "banner_002.png");
-                        imgList.add(AppConfig.IMAGE_URL + "banner_003.png");
+                        imgList.add(AppConfig.IMAGE_URL + "design_001.png");
+                        imgList.add(AppConfig.IMAGE_URL + "design_004.png");
+                        imgList.add(AppConfig.IMAGE_URL + "design_006.png");
                         childEn.setImgList(imgList);
                         childEn.setType(1);
                     } else if (i == 3) {
                         childEn.setStarNum(3);
                         ArrayList<String> imgList = new ArrayList<>();
-                        imgList.add(AppConfig.IMAGE_URL + "banner_001.png");
-                        imgList.add(AppConfig.IMAGE_URL + "banner_002.png");
-                        imgList.add(AppConfig.IMAGE_URL + "banner_003.png");
-                        imgList.add(AppConfig.IMAGE_URL + "banner_004.png");
-                        imgList.add(AppConfig.IMAGE_URL + "banner_005.png");
+                        imgList.add(AppConfig.IMAGE_URL + "design_001.png");
+                        imgList.add(AppConfig.IMAGE_URL + "design_004.png");
+                        imgList.add(AppConfig.IMAGE_URL + "design_006.png");
+                        imgList.add(AppConfig.IMAGE_URL + "design_001.png");
+                        imgList.add(AppConfig.IMAGE_URL + "design_006.png");
                         childEn.setImgList(imgList);
                         childEn.setType(1);
                     }
@@ -738,7 +740,7 @@ public class JsonUtils {
             JSONObject jsonData = jsonObject.getJSONObject("data");
             GoodsAttrEntity attrEn = new GoodsAttrEntity();
             attrEn.setGoodsId(1);
-            attrEn.setFirstImgUrl("");
+            attrEn.setFirstImgUrl(AppConfig.IMAGE_URL + "design_001.png");
             attrEn.setComputePrice(2999.99);
             // 解析商品attr
             attrEn.setAttrLists(getGoodsAttrLists(jsonObject, "message"));
@@ -759,33 +761,58 @@ public class JsonUtils {
         if (!StringUtil.notNull(jsonObject, key)) {
             //JSONArray attr = jsonObject.getJSONArray(key);
             GoodsAttrEntity listEn;
-            for (int i = 0; i < 4; i++) {
+            for (int i = 0; i < 3; i++) {
                 //JSONObject as = attr.getJSONObject(i);
                 listEn = new GoodsAttrEntity();
                 listEn.setAttrId(i+1);
-                if (i < 3) {
+                if (i < 2) {
                     if (i == 0) {
                         listEn.setAttrName("颜色");
+                        ArrayList<GoodsAttrEntity> asLists = new ArrayList<>();
+                        GoodsAttrEntity asEn;
+                        //JSONArray list = as.getJSONArray("values");
+                        for (int j = 0; j < 3; j++) {
+                            //JSONObject ls = list.getJSONObject(j);
+                            asEn = new GoodsAttrEntity();
+                            asEn.setAttrId(listEn.getAttrId()*10 + j);
+                            asEn.setSkuNum(99);
+                            if (j == 0) {
+                                asEn.setAttrImg(AppConfig.IMAGE_URL + "design_001.png");
+                                asEn.setAttrName("天蓝色");
+                            } else if (j == 1) {
+                                asEn.setAttrImg(AppConfig.IMAGE_URL + "design_004.png");
+                                asEn.setAttrName("原木色");
+                            } else {
+                                asEn.setAttrImg(AppConfig.IMAGE_URL + "design_006.png");
+                                asEn.setAttrName("水洗白");
+                            }
+                            asEn.setAttrPrice(909);
+                            asEn.setAttrImg("");
+                            asLists.add(asEn);
+                        }
+                        listEn.setAttrLists(asLists);
                     } else if (i == 1) {
                         listEn.setAttrName("尺寸");
-                    } else if (i == 2) {
-                        listEn.setAttrName("其它");
+                        ArrayList<GoodsAttrEntity> asLists = new ArrayList<>();
+                        GoodsAttrEntity asEn;
+                        //JSONArray list = as.getJSONArray("values");
+                        for (int j = 0; j < 2; j++) {
+                            //JSONObject ls = list.getJSONObject(j);
+                            asEn = new GoodsAttrEntity();
+                            asEn.setAttrId(listEn.getAttrId()*10 + j);
+                            asEn.setSkuNum(99);
+                            if (j == 0) {
+                                asEn.setAttrName("1200*1900");
+                            } else if (j == 1) {
+                                asEn.setAttrName("1350*1900");
+                            }
+                            asEn.setAttrPrice(909);
+                            asEn.setAttrImg("");
+                            asLists.add(asEn);
+                        }
+                        listEn.setAttrLists(asLists);
                     }
 
-                    ArrayList<GoodsAttrEntity> asLists = new ArrayList<>();
-                    GoodsAttrEntity asEn;
-                    //JSONArray list = as.getJSONArray("values");
-                    for (int j = 0; j < 7; j++) {
-                        //JSONObject ls = list.getJSONObject(j);
-                        asEn = new GoodsAttrEntity();
-                        asEn.setAttrId(listEn.getAttrId()*10 + j);
-                        asEn.setSkuNum(99);
-                        asEn.setAttrName(listEn.getAttrName() + j);
-                        asEn.setAttrPrice(909);
-                        asEn.setAttrImg("");
-                        asLists.add(asEn);
-                    }
-                    listEn.setAttrLists(asLists);
                 }
                 attrLists.add(listEn);
             }
