@@ -193,6 +193,7 @@ public class ChildFragmentTwo extends BaseFragment implements OnClickListener {
 				startActivity(intent);
 				break;
 			case R.id.fg_two_iv_cart:
+				startActivity(new Intent(mContext, CartActivity.class));
 				break;
 		}
 	}

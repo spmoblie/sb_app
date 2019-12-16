@@ -59,7 +59,7 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:text="我要定制"
+        android:text="@string/goods_go_customize"
         android:textColor="@color/app_color_white"
         android:background="@drawable/shape_style_solid_04_08"
         android:layout_marginTop="@dimen/margin_padding_5"

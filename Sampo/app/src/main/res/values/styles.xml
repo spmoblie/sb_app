@@ -270,6 +270,28 @@
         <item name="android:background">@drawable/shape_style_app_status</item>
     </style>
 
+    <!-- 购物车商品名称文本样式 -->
+    <style name="cart_product_text_content">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:lines">1</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:textSize">@dimen/app_text_size_small</item>
+        <item name="android:textColor">@color/shows_text_color</item>
+    </style>
+
+    <!-- 购物车商品属性文本样式:灰色 -->
+    <style name="cart_product_text_assist">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:lines">1</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:textSize">@dimen/app_text_size_small</item>
+        <item name="android:textColor">@color/shows_text_color</item>
+    </style>
+
     <!-- 订单页面TextView样式 -->
     <style name="order_text">
         <item name="android:layout_width">wrap_content</item>

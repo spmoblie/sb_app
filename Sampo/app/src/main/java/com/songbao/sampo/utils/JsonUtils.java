@@ -2,17 +2,18 @@ package com.songbao.sampo.utils;
 
 import com.songbao.sampo.AppConfig;
 import com.songbao.sampo.entity.BaseEntity;
+import com.songbao.sampo.entity.CartEntity;
 import com.songbao.sampo.entity.CommentEntity;
 import com.songbao.sampo.entity.CouponEntity;
 import com.songbao.sampo.entity.DesignerEntity;
 import com.songbao.sampo.entity.GoodsAttrEntity;
 import com.songbao.sampo.entity.GoodsEntity;
+import com.songbao.sampo.entity.GoodsSortEntity;
 import com.songbao.sampo.entity.MessageEntity;
 import com.songbao.sampo.entity.OCustomizeEntity;
+import com.songbao.sampo.entity.OPurchaseEntity;
 import com.songbao.sampo.entity.OptionEntity;
 import com.songbao.sampo.entity.PaymentEntity;
-import com.songbao.sampo.entity.OPurchaseEntity;
-import com.songbao.sampo.entity.GoodsSortEntity;
 import com.songbao.sampo.entity.ThemeEntity;
 import com.songbao.sampo.entity.UserInfoEntity;
 import com.songbao.sampo.wxapi.WXPayEntryActivity;
@@ -837,6 +838,47 @@ public class JsonUtils {
             }
         }
         return skuLists;
+    }
+
+    /**
+     * 解析购物车列表数据
+     */
+    public static BaseEntity getCartlistData(JSONObject jsonObject) throws JSONException {
+        BaseEntity mainEn = getCommonKeyValue(jsonObject);
+
+        if (StringUtil.notNull(jsonObject, "data")) {
+            JSONObject jsonData = jsonObject.getJSONObject("data");
+            if (StringUtil.notNull(jsonData, "dataList")) {
+                JSONArray data = jsonData.getJSONArray("dataList");
+                CartEntity childEn;
+                GoodsEntity goodsEn;
+                List<CartEntity> lists = new ArrayList<>();
+                for (int i = 0; i < 3; i++) {
+                    JSONObject item = data.getJSONObject(i);
+                    childEn = new CartEntity();
+                    goodsEn = new GoodsEntity();
+                    childEn.setId(i + 1);
+                    goodsEn.setId(i + 1);
+                    goodsEn.setPicUrl(AppConfig.IMAGE_URL + "design_001.png");
+                    goodsEn.setName("松堡王国现代简约彩条双层床");
+                    goodsEn.setAttribute("天蓝色；1350*1900");
+                    goodsEn.setPrice(999.99);
+                    goodsEn.setNumber(1);
+
+                    if (i == 1) {
+                        goodsEn.setName("松堡王国现代简约彩条双层床松堡王国现代简约彩条双层床");
+                        goodsEn.setAttribute("天蓝色；1350*1900天蓝色；1350*1900");
+                        goodsEn.setPrice(9999);
+                        goodsEn.setNumber(20);
+                    }
+
+                    childEn.setGoodsEn(goodsEn);
+                    lists.add(childEn);
+                }
+                mainEn.setLists(lists);
+            }
+        }
+        return mainEn;
     }
 
 }

@@ -262,8 +262,10 @@
     <string name="goods_good_detail_en">COMMODITY DETAILS</string>
     <string name="goods_attr_sku_0">暂时缺货</string>
     <string name="goods_attr_selected">已选：%1$s, %2$s, %3$s</string>
+    <string name="goods_go_customize">我要定制</string>
 
     <!-- Cart -->
+    <string name="cart_shopping">购物车</string>
     <string name="cart_goods_num">x%1$d</string>
 
     <!-- Order -->
