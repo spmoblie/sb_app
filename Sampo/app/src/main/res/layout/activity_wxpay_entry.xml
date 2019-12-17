@@ -21,13 +21,11 @@
             style="@style/common_text_price"
             android:layout_centerInParent="true"
             android:layout_marginTop="@dimen/app_margin_screen"
-            android:textSize="@dimen/text_size_30"
-            android:textStyle="bold" />
+            android:textSize="@dimen/text_size_30" />
     </RelativeLayout>
 
-    <ImageView
-        style="@style/set_line_horizontal_bg"
-        android:contentDescription="@string/desc" />
+    <View
+        style="@style/set_line_horizontal_bg" />
 
     <ScrollView
         android:layout_width="match_parent"
@@ -56,7 +54,7 @@
                 style="@style/common_item_vertical"
                 android:paddingTop="0dp">
 
-                <ImageView style="@style/set_line_horizontal_bg" />
+                <View style="@style/set_line_horizontal_bg" />
 
                 <ImageView
                     android:id="@+id/payment_iv_pay_wx"
@@ -101,7 +99,7 @@
                 android:paddingTop="0dp"
                 android:visibility="gone">
 
-                <ImageView style="@style/set_line_horizontal_bg" />
+                <View style="@style/set_line_horizontal_bg" />
 
                 <ImageView
                     android:id="@+id/payment_iv_pay_zfb"
@@ -146,7 +144,7 @@
                 android:paddingTop="0dp"
                 android:visibility="gone">
 
-                <ImageView style="@style/set_line_horizontal_bg" />
+                <View style="@style/set_line_horizontal_bg" />
 
                 <ImageView
                     android:id="@+id/payment_iv_pay_union"
@@ -185,16 +183,14 @@
                     android:src="@drawable/selector_checkbox_large" />
             </RelativeLayout>
 
-            <ImageView
-                style="@style/set_line_horizontal_bg"
-                android:contentDescription="@string/desc" />
+            <View
+                style="@style/set_line_horizontal_bg" />
 
         </LinearLayout>
     </ScrollView>
 
-    <ImageView
-        style="@style/set_line_horizontal_bg"
-        android:contentDescription="@string/desc" />
+    <View
+        style="@style/set_line_horizontal_bg" />
 
     <Button
         android:id="@+id/payment_bt_pay_confirm"

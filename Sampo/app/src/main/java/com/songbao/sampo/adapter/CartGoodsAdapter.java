@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide;
 import com.songbao.sampo.AppApplication;
 import com.songbao.sampo.R;
 import com.songbao.sampo.entity.CartEntity;
+import com.songbao.sampo.entity.GoodsAttrEntity;
 import com.songbao.sampo.entity.GoodsEntity;
 import com.songbao.sampo.utils.CommonTools;
 import com.songbao.sampo.widgets.MyHorizontalScrollView;
@@ -49,7 +50,6 @@ public class CartGoodsAdapter extends BaseRecyclerAdapter {
     @Override
     public void bindData(BaseRecyclerHolder holder, final int pos) {
         // 获取View
-        LinearLayout item_view_main = holder.getView(R.id.cart_item_view_main);
         View item_top_line = holder.getView(R.id.cart_item_top_line);
         MyHorizontalScrollView item_sv_main = holder.getView(R.id.cart_item_hsv_main);
         ConstraintLayout item_left_main = holder.getView(R.id.cart_item_left_main);
@@ -66,7 +66,7 @@ public class CartGoodsAdapter extends BaseRecyclerAdapter {
 
         // 绑定View
         final CartEntity data = (CartEntity) mDataList.get(pos);
-        final GoodsEntity goodsEn = data.getGoodsEn();
+        GoodsEntity goodsEn = data.getGoodsEn();
 
         if (pos == 0) {
             item_top_line.setVisibility(View.VISIBLE);
@@ -100,11 +100,56 @@ public class CartGoodsAdapter extends BaseRecyclerAdapter {
                     .load(goodsEn.getPicUrl())
                     .apply(AppApplication.getShowOptions())
                     .into(iv_show);
+            iv_show.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (apCallback != null) {
+                        apCallback.setOnClick(data, pos, 1);
+                    }
+                }
+            });
 
-            tv_name.setText(goodsEn.getName());
-            tv_attr.setText(goodsEn.getAttribute());
             tv_price.setText(df.format(goodsEn.getPrice()));
-            tv_number.setText(String.valueOf(goodsEn.getNumber()));
+            tv_name.setText(goodsEn.getName());
+            tv_name.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (apCallback != null) {
+                        apCallback.setOnClick(data, pos, 1);
+                    }
+                }
+            });
+
+            GoodsAttrEntity attrEn = goodsEn.getAttrEn();
+            if (attrEn != null) {
+                tv_number.setText(String.valueOf(attrEn.getBuyNum()));
+                tv_attr.setText(attrEn.getAttrNameStr());
+                tv_attr.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (apCallback != null) {
+                            apCallback.setOnClick(data, pos, 2);
+                        }
+                    }
+                });
+            }
+
+            iv_minus.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (apCallback != null) {
+                        apCallback.setOnClick(data, pos, 3);
+                    }
+                }
+            });
+            iv_add.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (apCallback != null) {
+                        apCallback.setOnClick(data, pos, 4);
+                    }
+                }
+            });
         }
 
         iv_select.setSelected(data.isSelect());

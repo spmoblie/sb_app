@@ -481,15 +481,6 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 		rv_Adapter.updateData(al_show);
 	}
 
-	/**
-	 * 打开商品详情页
-	 */
-	private void openGoodsActivity(String goodsId) {
-		Intent intent = new Intent(mContext, GoodsActivity.class);
-		intent.putExtra("goodsId", goodsId);
-		startActivity(intent);
-	}
-
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {

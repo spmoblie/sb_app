@@ -405,6 +405,7 @@ public class JsonUtils {
                         goodsEn = new GoodsEntity();
                         int is = id * 10 + j;
                         goodsEn.setId(is);
+                        goodsEn.setPicUrl(AppConfig.IMAGE_URL + "design_001.png");
                         goodsEn.setName("松堡王国现代简约彩条双层床");
                         goodsEn.setAttribute("天蓝色；1350*1900");
                         goodsEn.setNumber(is);
@@ -762,11 +763,11 @@ public class JsonUtils {
         if (!StringUtil.notNull(jsonObject, key)) {
             //JSONArray attr = jsonObject.getJSONArray(key);
             GoodsAttrEntity listEn;
-            for (int i = 0; i < 3; i++) {
+            for (int i = 0; i < 6; i++) {
                 //JSONObject as = attr.getJSONObject(i);
-                listEn = new GoodsAttrEntity();
-                listEn.setAttrId(i+1);
                 if (i < 2) {
+                    listEn = new GoodsAttrEntity();
+                    listEn.setAttrId(i+1);
                     if (i == 0) {
                         listEn.setAttrName("颜色");
                         ArrayList<GoodsAttrEntity> asLists = new ArrayList<>();
@@ -813,10 +814,11 @@ public class JsonUtils {
                         }
                         listEn.setAttrLists(asLists);
                     }
-
+                    attrLists.add(listEn);
                 }
-                attrLists.add(listEn);
             }
+            listEn = new GoodsAttrEntity();
+            attrLists.add(listEn);
         }
         return attrLists;
     }
@@ -843,7 +845,7 @@ public class JsonUtils {
     /**
      * 解析购物车列表数据
      */
-    public static BaseEntity getCartlistData(JSONObject jsonObject) throws JSONException {
+    public static BaseEntity getCartListData(JSONObject jsonObject) throws JSONException {
         BaseEntity mainEn = getCommonKeyValue(jsonObject);
 
         if (StringUtil.notNull(jsonObject, "data")) {
@@ -852,6 +854,7 @@ public class JsonUtils {
                 JSONArray data = jsonData.getJSONArray("dataList");
                 CartEntity childEn;
                 GoodsEntity goodsEn;
+                GoodsAttrEntity attrEn;
                 List<CartEntity> lists = new ArrayList<>();
                 for (int i = 0; i < 3; i++) {
                     JSONObject item = data.getJSONObject(i);
@@ -861,15 +864,29 @@ public class JsonUtils {
                     goodsEn.setId(i + 1);
                     goodsEn.setPicUrl(AppConfig.IMAGE_URL + "design_001.png");
                     goodsEn.setName("松堡王国现代简约彩条双层床");
-                    goodsEn.setAttribute("天蓝色；1350*1900");
                     goodsEn.setPrice(999.99);
-                    goodsEn.setNumber(1);
+
+                    attrEn = new GoodsAttrEntity();
+                    attrEn.setBuyNum(1);
+                    attrEn.setS_id_1(10);
+                    attrEn.setS_id_2(20);
+                    attrEn.setS_name_1("天蓝色");
+                    attrEn.setS_name_2("1200*1900");
+                    attrEn.setAttrNameStr("天蓝色; 1200*1900");
+                    goodsEn.setAttrEn(attrEn);
 
                     if (i == 1) {
-                        goodsEn.setName("松堡王国现代简约彩条双层床松堡王国现代简约彩条双层床");
-                        goodsEn.setAttribute("天蓝色；1350*1900天蓝色；1350*1900");
+                        goodsEn.setName("松堡王国现代简约彩条双层床");
                         goodsEn.setPrice(9999);
-                        goodsEn.setNumber(20);
+
+                        attrEn = new GoodsAttrEntity();
+                        attrEn.setBuyNum(20);
+                        attrEn.setS_id_1(11);
+                        attrEn.setS_id_2(21);
+                        attrEn.setS_name_1("原木色");
+                        attrEn.setS_name_2("1350*1900");
+                        attrEn.setAttrNameStr("原木色; 135*1900");
+                        goodsEn.setAttrEn(attrEn);
                     }
 
                     childEn.setGoodsEn(goodsEn);

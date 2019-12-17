@@ -29,11 +29,10 @@
         app:layout_constraintRight_toRightOf="@id/register_et_phone"
         android:visibility="gone" />
 
-    <ImageView
+    <View
         style="@style/set_line_horizontal_bg"
         android:layout_width="0dp"
         android:layout_marginTop="@dimen/margin_padding_5"
-        android:contentDescription="@string/desc"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/register_et_phone"
@@ -74,11 +73,10 @@
         app:layout_constraintRight_toRightOf="@id/register_et_phone"
         app:layout_constraintWidth_percent="0.3"/>
 
-    <ImageView
+    <View
         style="@style/set_line_horizontal_bg"
         android:layout_width="0dp"
         android:layout_marginTop="@dimen/margin_padding_5"
-        android:contentDescription="@string/desc"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/register_et_code"
@@ -106,11 +104,10 @@
         app:layout_constraintTop_toBottomOf="@id/register_et_code"
         app:layout_constraintRight_toRightOf="@id/register_et_phone"/>
 
-    <ImageView
+    <View
         style="@style/set_line_horizontal_bg"
         android:layout_width="0dp"
         android:layout_marginTop="@dimen/margin_padding_5"
-        android:contentDescription="@string/desc"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@id/register_et_password"

@@ -38,8 +38,7 @@
         </RadioButton>
     </RadioGroup>
 
-    <ImageView
-        style="@style/set_line_horizontal_bg"
-        android:contentDescription="@string/desc" />
+    <View
+        style="@style/set_line_horizontal_bg" />
 
 </LinearLayout>

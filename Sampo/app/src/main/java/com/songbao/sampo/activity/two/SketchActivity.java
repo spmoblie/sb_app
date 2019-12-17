@@ -1,7 +1,6 @@
 package com.songbao.sampo.activity.two;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.KeyEvent;
@@ -54,7 +53,7 @@ public class SketchActivity extends BaseActivity {
 		tv_click.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				startActivity(new Intent(mContext, DesignerActivity.class));
+				openDesignerActivity("goodsId");
 			}
 		});
 

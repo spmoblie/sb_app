@@ -1,6 +1,5 @@
 package com.songbao.sampo.activity.common;
 
-import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
 import android.media.AudioManager;
@@ -20,7 +19,6 @@ import com.google.zxing.Result;
 import com.songbao.sampo.AppApplication;
 import com.songbao.sampo.R;
 import com.songbao.sampo.activity.BaseActivity;
-import com.songbao.sampo.activity.two.GoodsActivity;
 import com.songbao.sampo.utils.CommonTools;
 import com.songbao.sampo.utils.LogUtil;
 import com.songbao.sampo.utils.StringUtil;
@@ -126,7 +124,7 @@ public class ScanActivity extends BaseActivity implements Callback {
 		if (StringUtil.isNull(resultString)) {
 			CommonTools.showToast("Scan failed!", 1000);
 		}else {
-			startActivity(new Intent(mContext, GoodsActivity.class));
+			openGoodsActivity(resultString);
 		}
 		finish();
 	}

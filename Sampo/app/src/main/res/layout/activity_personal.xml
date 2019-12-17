@@ -52,10 +52,9 @@
                 android:id="@+id/personal_tv_nick_content"
                 style="@style/setting_lay_text_content" />
 
-            <ImageView
+            <View
                 style="@style/set_line_horizontal_bg"
-                android:layout_alignParentBottom="true"
-                android:contentDescription="@string/desc" />
+                android:layout_alignParentBottom="true" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -71,10 +70,9 @@
                 android:id="@+id/personal_tv_gender_content"
                 style="@style/setting_lay_text_content" />
 
-            <ImageView
+            <View
                 style="@style/set_line_horizontal_bg"
-                android:layout_alignParentBottom="true"
-                android:contentDescription="@string/desc" />
+                android:layout_alignParentBottom="true" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -90,10 +88,9 @@
                 android:id="@+id/personal_tv_birthday_content"
                 style="@style/setting_lay_text_content" />
 
-            <ImageView
+            <View
                 style="@style/set_line_horizontal_bg"
-                android:layout_alignParentBottom="true"
-                android:contentDescription="@string/desc" />
+                android:layout_alignParentBottom="true" />
         </RelativeLayout>
 
         <RelativeLayout
@@ -109,10 +106,9 @@
                 android:id="@+id/personal_tv_area_content"
                 style="@style/setting_lay_text_content" />
 
-            <ImageView
+            <View
                 style="@style/set_line_horizontal_bg"
-                android:layout_alignParentBottom="true"
-                android:contentDescription="@string/desc" />
+                android:layout_alignParentBottom="true" />
         </RelativeLayout>
 
         <RelativeLayout

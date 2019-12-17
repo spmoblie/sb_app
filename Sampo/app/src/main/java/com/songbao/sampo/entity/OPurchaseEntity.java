@@ -17,15 +17,14 @@ public class OPurchaseEntity extends BaseEntity {
 	private String payTime; //支付时间
 	private String payNo; //支付交易号
 	private String payType; //支付类型
-	private String goodsPrice; //商品价格
-	private String farePrice; //物流运费
-	private String discountPrice; //活动优惠
+	private double goodsPrice; //商品价格
+	private double freightPrice; //物流运费
+	private double discountPrice; //活动优惠
 	private double totalPrice; //订单总计
 	private int goodsNum; //商品总数
 	private int status; //1:待付款，2:生产中，3:待收货，4:待评价，5:已完成，6:退换货
 	private AddressEntity addEn; //收货地址
 	private List<GoodsEntity> goodsLists; //数集
-	private List<OPurchaseEntity> mainLists; //数集
 
 	public OPurchaseEntity() {
 		super();
@@ -100,27 +99,27 @@ public class OPurchaseEntity extends BaseEntity {
 		this.payType = payType;
 	}
 
-	public String getGoodsPrice() {
+	public double getGoodsPrice() {
 		return goodsPrice;
 	}
 
-	public void setGoodsPrice(String goodsPrice) {
+	public void setGoodsPrice(double goodsPrice) {
 		this.goodsPrice = goodsPrice;
 	}
 
-	public String getFarePrice() {
-		return farePrice;
+	public double getFreightPrice() {
+		return freightPrice;
 	}
 
-	public void setFarePrice(String farePrice) {
-		this.farePrice = farePrice;
+	public void setFreightPrice(double freightPrice) {
+		this.freightPrice = freightPrice;
 	}
 
-	public String getDiscountPrice() {
+	public double getDiscountPrice() {
 		return discountPrice;
 	}
 
-	public void setDiscountPrice(String discountPrice) {
+	public void setDiscountPrice(double discountPrice) {
 		this.discountPrice = discountPrice;
 	}
 
@@ -164,11 +163,4 @@ public class OPurchaseEntity extends BaseEntity {
 		this.goodsLists = goodsLists;
 	}
 
-	public List<OPurchaseEntity> getMainLists() {
-		return mainLists;
-	}
-
-	public void setMainLists(List<OPurchaseEntity> mainLists) {
-		this.mainLists = mainLists;
-	}
 }

@@ -3,6 +3,7 @@ package com.songbao.sampo.activity.two;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.constraint.Group;
 import android.support.v4.util.ArrayMap;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
@@ -17,7 +18,9 @@ import com.songbao.sampo.adapter.AdapterCallback;
 import com.songbao.sampo.adapter.CartGoodsAdapter;
 import com.songbao.sampo.entity.BaseEntity;
 import com.songbao.sampo.entity.CartEntity;
+import com.songbao.sampo.entity.GoodsAttrEntity;
 import com.songbao.sampo.entity.GoodsEntity;
+import com.songbao.sampo.utils.CommonTools;
 import com.songbao.sampo.utils.ExceptionUtil;
 import com.songbao.sampo.utils.JsonUtils;
 import com.songbao.sampo.utils.LogUtil;
@@ -51,6 +54,12 @@ public class CartActivity extends BaseActivity implements View.OnClickListener{
 	@BindView(R.id.cart_view_tv_price)
 	TextView tv_price;
 
+	@BindView(R.id.cart_view_tv_price_group)
+	Group tv_price_group;
+
+	@BindView(R.id.cart_view_tv_confirm)
+	TextView tv_confirm;
+
 	CartGoodsAdapter rvAdapter;
 
 	private int mPosition = 0;
@@ -59,8 +68,10 @@ public class CartActivity extends BaseActivity implements View.OnClickListener{
 	private int load_type = 1; //加载类型(0:下拉刷新/1:翻页加载)
 	private boolean isLoadOk = true; //加载控制
 
+	private int totalNum;
 	private double totalPrice;
 	private boolean isSelectAll;
+	private boolean isManage;
 	private ArrayList<CartEntity> al_show = new ArrayList<>();
 	private ArrayMap<String, Boolean> am_show = new ArrayMap<>();
 
@@ -74,11 +85,12 @@ public class CartActivity extends BaseActivity implements View.OnClickListener{
 
 	private void initView() {
 		setTitle(getString(R.string.cart_shopping));
-		setRightViewText("管理");
 
 		iv_select_all.setOnClickListener(this);
 		tv_select_all.setOnClickListener(this);
+		tv_confirm.setOnClickListener(this);
 
+		updateNumber();
 		initRecyclerView();
 		loadMoreData();
 	}
@@ -127,7 +139,7 @@ public class CartActivity extends BaseActivity implements View.OnClickListener{
 		mRecyclerView.setLayoutManager(layoutManager);
 
 		// 配置适配器
-		rvAdapter = new CartGoodsAdapter(mContext, R.layout.item_list_cart_goods);
+		rvAdapter = new CartGoodsAdapter(mContext, R.layout.item_list_goods_cart);
 		rvAdapter.updateData(al_show);
 		rvAdapter.addCallback(new AdapterCallback() {
 
@@ -136,21 +148,45 @@ public class CartActivity extends BaseActivity implements View.OnClickListener{
 				if (position < 0 || position >= al_show.size()) return;
 				mPosition = position;
 				CartEntity cartEn = al_show.get(position);
-				if (cartEn != null) {
+				GoodsEntity goodsEn = cartEn.getGoodsEn();
+				if (goodsEn != null) {
+					GoodsAttrEntity attrEn = goodsEn.getAttrEn();
+					int buyNumber = 1;
+					if (attrEn != null) {
+						buyNumber = attrEn.getBuyNum();
+					}
 					switch (type) {
 						case 0: //选择
 							boolean isSelect = !cartEn.isSelect();
 							al_show.get(position).setSelect(isSelect);
 							updateListData();
-							checkAllDataStatus();
+							break;
+						case 1: //商品
+							openGoodsActivity(goodsEn.getEntityId());
+							break;
+						case 2: //属性
+							loadGoodsAttrData(goodsEn.getEntityId(), attrEn);
+							break;
+						case 3: //减少
+							if (buyNumber > 1) {
+								buyNumber--;
+								al_show.get(position).getGoodsEn().getAttrEn().setBuyNum(buyNumber);
+								updateListData();
+							} else {
+								CommonTools.showToast("不能再减少了哟~");
+							}
+							break;
+						case 4: //增加
+							buyNumber++;
+							al_show.get(position).getGoodsEn().getAttrEn().setBuyNum(buyNumber);
+							updateListData();
 							break;
 						case 5: //定制
-							startActivity(new Intent(mContext, DesignerActivity.class));
+							openDesignerActivity(goodsEn.getEntityId());
 							break;
 						case 6: //删除
 							al_show.remove(cartEn);
 							updateListData();
-							checkAllDataStatus();
 							break;
 						case 7: //滚动
 							rvAdapter.reset(mPosition);
@@ -169,6 +205,7 @@ public class CartActivity extends BaseActivity implements View.OnClickListener{
 			setNullVisibility(View.GONE);
 		}
 		rvAdapter.updateData(al_show);
+		checkAllDataStatus();
 	}
 
 	/**
@@ -177,19 +214,38 @@ public class CartActivity extends BaseActivity implements View.OnClickListener{
 	private void checkAllDataStatus() {
 		CartEntity cartEn;
 		GoodsEntity goodsEn;
+		GoodsAttrEntity attrEn;
+		totalNum = 0;
 		totalPrice = 0;
 		isSelectAll = true;
 		for (int i = 0; i < al_show.size(); i++) {
 			cartEn = al_show.get(i);
 			if (cartEn.isSelect()) {
 				goodsEn = cartEn.getGoodsEn();
-				totalPrice += goodsEn.getPrice()*goodsEn.getNumber();
+				if (goodsEn != null) {
+					attrEn = goodsEn.getAttrEn();
+					if (attrEn != null) {
+						totalNum += attrEn.getBuyNum();
+						totalPrice += goodsEn.getPrice()*attrEn.getBuyNum();
+					}
+				}
 			} else {
 				isSelectAll = false;
 			}
 		}
 		iv_select_all.setSelected(isSelectAll);
 		updatePriceTotal();
+		updateNumber();
+	}
+
+	/**
+	 * 更新购物车“全选”的状态
+	 */
+	private void updateSelectAllStatus() {
+		for (int i = 0; i < al_show.size(); i++) {
+			al_show.get(i).setSelect(isSelectAll);
+		}
+		updateListData();
 	}
 
 	/**
@@ -199,17 +255,52 @@ public class CartActivity extends BaseActivity implements View.OnClickListener{
 		tv_price.setText(df.format(totalPrice));
 	}
 
+	/**
+	 * 更新购物车已选商品数量
+	 */
+	private void updateNumber() {
+		if (isManage) {
+			setRightViewText(getString(R.string.done));
+			tv_price_group.setVisibility(View.GONE);
+			tv_confirm.setText(getString(R.string.cart_delete_num, totalNum));
+			tv_confirm.setBackgroundResource(R.drawable.shape_style_solid_05_08);
+		} else {
+			setRightViewText(getString(R.string.cart_manage));
+			tv_price_group.setVisibility(View.VISIBLE);
+			tv_confirm.setText(getString(R.string.cart_confirm_num, totalNum));
+			tv_confirm.setBackgroundResource(R.drawable.shape_style_solid_04_08);
+		}
+	}
+
+	@Override
+	protected void updateSelectAttrStr(GoodsAttrEntity attrEn) {
+		if (attrEn != null) {
+			al_show.get(mPosition).getGoodsEn().setAttrEn(attrEn);
+			updateListData();
+		}
+	}
+
+	@Override
+	protected void OnListenerRight() {
+		isManage = !isManage;
+		isSelectAll = false;
+		updateSelectAllStatus();
+	}
+
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
 			case R.id.cart_view_iv_select_all:
 			case R.id.cart_view_tv_select_all:
 				isSelectAll = !isSelectAll;
-				for (int i = 0; i < al_show.size(); i++) {
-					al_show.get(i).setSelect(isSelectAll);
+				updateSelectAllStatus();
+				break;
+			case R.id.cart_view_tv_confirm:
+				if (isManage) { //删除
+
+				} else { //结算
+					startActivity(new Intent(mContext, PostOrderActivity.class));
 				}
-				updateListData();
-				checkAllDataStatus();
 				break;
 		}
 	}
@@ -271,11 +362,12 @@ public class CartActivity extends BaseActivity implements View.OnClickListener{
 
 	@Override
 	protected void callbackData(JSONObject jsonObject, int dataType) {
+		super.callbackData(jsonObject, dataType);
 		BaseEntity baseEn;
 		try {
 			switch (dataType) {
 				case AppConfig.REQUEST_SV_USER_RESERVATION:
-					baseEn = JsonUtils.getCartlistData(jsonObject);
+					baseEn = JsonUtils.getCartListData(jsonObject);
 					if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
 						data_total = baseEn.getDataTotal();
 						List<CartEntity> lists = filterData(baseEn.getLists(), am_show);

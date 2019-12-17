@@ -1,8 +1,5 @@
 package com.songbao.sampo.entity;
 
-import java.util.List;
-
-
 public class AddressEntity extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
@@ -22,16 +19,10 @@ public class AddressEntity extends BaseEntity {
 	private String district; //区
 	private String editAdd; //编辑地址
 	private String address; //详细地址
-	private List<AddressEntity> mainLists; //地址列表
 
 	
 	public AddressEntity() {
 		super();
-	}
-
-
-	public AddressEntity(int errCode, String errInfo) {
-		super(errCode, errInfo);
 	}
 
 	@Override
@@ -188,14 +179,4 @@ public class AddressEntity extends BaseEntity {
 		this.address = address;
 	}
 
-
-	public List<AddressEntity> getMainLists() {
-		return mainLists;
-	}
-
-
-	public void setMainLists(List<AddressEntity> mainLists) {
-		this.mainLists = mainLists;
-	}
-	
 }

@@ -23,9 +23,8 @@
         android:contentDescription="@string/desc"
         app:layout_constraintRight_toRightOf="parent"/>
 
-    <ImageView
+    <View
         style="@style/set_line_horizontal_bg"
-        android:contentDescription="@string/desc"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
 </android.support.constraint.ConstraintLayout>

@@ -207,6 +207,10 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
         <activity
+            android:name=".activity.two.PostOrderActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"/>
+        <activity
             android:name=".activity.two.SketchActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"/>

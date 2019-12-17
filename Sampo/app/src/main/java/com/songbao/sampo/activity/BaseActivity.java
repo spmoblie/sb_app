@@ -121,7 +121,6 @@ public  class BaseActivity extends FragmentActivity {
 	private Animation inAnim, outAnim;
 
 	// 商品属性浮层组件
-	private int goodsId = 0;
 	private int skuNum = 99;
 	private int attrNum = 0;
 	private int buyNumber = 1;
@@ -132,7 +131,9 @@ public  class BaseActivity extends FragmentActivity {
 	private String selectName_2 = "";
 	private String selectName_3 = "";
 	private String attrsNameStr = "";
+	private String goodsId = "";
 	private double mathPrice;
+	private boolean isShow = false;
 	private boolean isSelected = false;
 	private GoodsAttrEntity attrEn, secEn;
 	private View cartPopupView;
@@ -454,6 +455,24 @@ public  class BaseActivity extends FragmentActivity {
 		shared.edit().putBoolean(AppConfig.KEY_JUMP_PAGE, false).apply();
 		Intent intent = new Intent(mContext, LoginActivity.class);
 		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		startActivity(intent);
+	}
+
+	/**
+	 * 打开商品详情页
+	 */
+	protected void openGoodsActivity(String goodsId) {
+		Intent intent = new Intent(mContext, GoodsActivity.class);
+		intent.putExtra("goodsId", goodsId);
+		startActivity(intent);
+	}
+
+	/**
+	 * 打开设计师列表页
+	 */
+	protected void openDesignerActivity(String goodsId) {
+		Intent intent = new Intent(mContext, DesignerActivity.class);
+		intent.putExtra("goodsId", goodsId);
 		startActivity(intent);
 	}
 
@@ -1046,7 +1065,7 @@ public  class BaseActivity extends FragmentActivity {
 	/**
 	 * 加载商品属性数据
 	 */
-	protected void loadGoodsAttrData(int id, GoodsAttrEntity gaEn) {
+	protected void loadGoodsAttrData(String id, GoodsAttrEntity gaEn) {
 		secEn = gaEn;
 		if (secEn != null) {
 			buyNumber = secEn.getBuyNum();
@@ -1064,8 +1083,9 @@ public  class BaseActivity extends FragmentActivity {
 			selectName_1 = "";
 			selectName_2 = "";
 			selectName_3 = "";
+			secEn = new GoodsAttrEntity();
 		}
-		if (goodsId == id && attrEn != null) {
+		if (goodsId.equals(id) && attrEn != null) {
 			initAttrPopup();
 		} else {
 			attrEn = null;
@@ -1088,7 +1108,7 @@ public  class BaseActivity extends FragmentActivity {
 		if (attrEn == null) return;
 		goodsId = attrEn.getGoodsId();
 		mathPrice = attrEn.getComputePrice();
-		attrsNameStr = getSelectShowStr(attrEn);
+		initSelectShowStr(attrEn);
 		if (cartPopupWindow == null) {
 			cartPopupView = LayoutInflater.from(mContext).inflate(R.layout.popup_view_attr, null);
 			View view_finish = cartPopupView.findViewById(R.id.attr_view_finish);
@@ -1106,6 +1126,22 @@ public  class BaseActivity extends FragmentActivity {
 				}
 			});
 			popupAnimShow = AnimationUtils.loadAnimation(mContext, R.anim.in_from_bottom);
+			popupAnimShow.setAnimationListener(new Animation.AnimationListener() {
+				@Override
+				public void onAnimationStart(Animation animation) {
+
+				}
+
+				@Override
+				public void onAnimationEnd(Animation animation) {
+					isShow = true;
+				}
+
+				@Override
+				public void onAnimationRepeat(Animation animation) {
+
+				}
+			});
 			popupAnimGone = AnimationUtils.loadAnimation(mContext, R.anim.out_to_bottom);
 			popupAnimGone.setAnimationListener(new Animation.AnimationListener() {
 				@Override
@@ -1142,10 +1178,21 @@ public  class BaseActivity extends FragmentActivity {
 			tv_popup_confirm.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					if (isSelected) {
+					initSelectShowStr(attrEn);
+					if (isSelected && isShow) {
 						if (buyNumber > 0) {
+ 							isShow = false;
+ 							secEn.setAttrNum(attrNum-1);
+ 							secEn.setBuyNum(buyNumber);
+ 							secEn.setAttrNameStr(attrsNameStr);
+ 							secEn.setS_id_1(selectId_1);
+ 							secEn.setS_id_2(selectId_2);
+ 							secEn.setS_id_3(selectId_3);
+ 							secEn.setS_name_1(selectName_1);
+ 							secEn.setS_name_2(selectName_2);
+ 							secEn.setS_name_3(selectName_3);
 							dismissAttrPopup();
-							CommonTools.showToast("加入购物车成功");
+							updateSelectAttrStr(secEn);
 						} else {
 							//提示缺货
 							CommonTools.showToast(getString(R.string.goods_attr_sku_0));
@@ -1166,7 +1213,6 @@ public  class BaseActivity extends FragmentActivity {
 					@Override
 					public void updateNumber(int number) {
 						buyNumber = number;
-						updateSelectAttrStr(attrsNameStr, buyNumber);
 					}
 
 					@Override
@@ -1197,9 +1243,8 @@ public  class BaseActivity extends FragmentActivity {
 								selectName_3 = selectName;
 								break;
 						}
-						attrsNameStr = getSelectShowStr(attrEn);
-						tv_popup_select.setText(attrsNameStr);
-						updateSelectAttrStr(attrsNameStr, buyNumber);
+						initSelectShowStr(attrEn);
+						tv_popup_select.setText(getString(R.string.goods_attr_selected_1, attrsNameStr));
 					}
 
 				};
@@ -1218,7 +1263,7 @@ public  class BaseActivity extends FragmentActivity {
 					isSelected = false;
 				}
 			}
-			tv_popup_select.setText(attrsNameStr);
+			tv_popup_select.setText(getString(R.string.goods_attr_selected_1, attrsNameStr));
 
 			cartPopupWindow = new PopupWindow(cartPopupView, RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
 			cartPopupWindow.update();
@@ -1231,7 +1276,7 @@ public  class BaseActivity extends FragmentActivity {
 		}
 	}
 
-	private String getSelectShowStr(GoodsAttrEntity en){
+	private void initSelectShowStr(GoodsAttrEntity en){
 		isSelected = false;
 		if (en != null && en.getAttrLists() != null) {
 			attrNum = en.getAttrLists().size();
@@ -1239,7 +1284,7 @@ public  class BaseActivity extends FragmentActivity {
 			StringBuilder sb = new StringBuilder();
 			sb.append(getString(R.string.select));
 			sb.append(" ");
-			for (int i = 0; i < attrNum-1; i++) {
+			for (int i = 0; i < attrNum - 1; i++) {
 				switch (i) {
 					case 0:
 						if (StringUtil.isNull(selectName_1)) {
@@ -1266,19 +1311,28 @@ public  class BaseActivity extends FragmentActivity {
 			}
 			if (sb.toString().contains(",")) {
 				sb.deleteCharAt(sb.length() - 1);
-				return sb.toString();
+				attrsNameStr = sb.toString();
 			} else {
 				isSelected = true;
-				return getString(R.string.goods_attr_selected, selectName_1, selectName_2, selectName_3);
+				switch (attrNum - 1) {
+					case 1:
+						attrsNameStr = selectName_1;
+						break;
+					case 2:
+						attrsNameStr = getString(R.string.goods_attr_selected_2, selectName_1, selectName_2);
+						break;
+					case 3:
+						attrsNameStr = getString(R.string.goods_attr_selected_3, selectName_1, selectName_2, selectName_3);
+						break;
+				}
 			}
 		}
-		return "";
 	}
 
 	/**
-	 * 更新已选的商品属性字符串
+	 * 更新已选的商品属性
 	 */
-	protected void updateSelectAttrStr(String attrsNameStr, int buyNumber) {
+	protected void updateSelectAttrStr(GoodsAttrEntity attrEn) {
 
 	}
 

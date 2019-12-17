@@ -17,6 +17,7 @@ public class GoodsAttrEntity extends BaseEntity {
 	private double computePrice; //商品结算价
 	private boolean isShow; //属性面板是否展开
 	private boolean isSelect; //属性是否选中
+	private int attrNum; //属性项目数
 	private int skuNum; //商品库存数
 	private int buyNum; //已选商品数
 	private int s_id_1; //已选属性id_1
@@ -26,9 +27,10 @@ public class GoodsAttrEntity extends BaseEntity {
 	private String s_name_2; //已选属性名称_2
 	private String s_name_3; //已选属性名称_3
 	private String attrIdStr; //筛选属性Id字符串
-	private String attrName; //属性名称
-	private double attrPrice; //属性价值
 	private String attrImg; //属性图片
+	private String attrName; //属性名称
+	private String attrNameStr; //已选属性名称
+	private double attrPrice; //属性价值
 	private ArrayList<GoodsAttrEntity> attrLists; //属性集合
 	private String sku_key; //库存集合Key
 	private int sku_value; //库存集合Value
@@ -49,8 +51,8 @@ public class GoodsAttrEntity extends BaseEntity {
 		this.attrId = attrId;
 	}
 
-	public int getGoodsId() {
-		return goodsId;
+	public String getGoodsId() {
+		return String.valueOf(goodsId);
 	}
 
 	public void setGoodsId(int goodsId) {
@@ -73,10 +75,33 @@ public class GoodsAttrEntity extends BaseEntity {
 		this.computePrice = computePrice;
 	}
 
+	public boolean isShow() {
+		return isShow;
+	}
+
+	public void setShow(boolean show) {
+		isShow = show;
+	}
+
+	public boolean isSelect() {
+		return isSelect;
+	}
+
+	public void setSelect(boolean select) {
+		isSelect = select;
+	}
+
+	public int getAttrNum() {
+		return attrNum;
+	}
+
+	public void setAttrNum(int attrNum) {
+		this.attrNum = attrNum;
+	}
+
 	public int getSkuNum() {
 		return skuNum;
 	}
-
 
 	public void setSkuNum(int skuNum) {
 		this.skuNum = skuNum;
@@ -150,20 +175,12 @@ public class GoodsAttrEntity extends BaseEntity {
 		this.s_name_3 = s_name_3;
 	}
 
-	public boolean isShow() {
-		return isShow;
+	public String getAttrNameStr() {
+		return attrNameStr;
 	}
 
-	public void setShow(boolean show) {
-		isShow = show;
-	}
-
-	public boolean isSelect() {
-		return isSelect;
-	}
-
-	public void setSelect(boolean select) {
-		isSelect = select;
+	public void setAttrNameStr(String attrNameStr) {
+		this.attrNameStr = attrNameStr;
 	}
 
 	public String getAttrIdStr() {

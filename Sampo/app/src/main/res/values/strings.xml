@@ -37,6 +37,7 @@
     <string name="color">颜色</string>
     <string name="price">价格</string>
     <string name="number">数量</string>
+    <string name="others">其它</string>
     <string name="clean">清除</string>
     <string name="done">完成</string>
     <string name="desc">""</string>
@@ -261,12 +262,20 @@
     <string name="goods_good_detail">商品详情</string>
     <string name="goods_good_detail_en">COMMODITY DETAILS</string>
     <string name="goods_attr_sku_0">暂时缺货</string>
-    <string name="goods_attr_selected">已选：%1$s, %2$s, %3$s</string>
+    <string name="goods_attr_num_1">%1$d件</string>
+    <string name="goods_attr_num_2">%1$s,\t\t%2$d件</string>
+    <string name="goods_attr_selected_1">已选：%1$s</string>
+    <string name="goods_attr_selected_2">%1$s; %2$s</string>
+    <string name="goods_attr_selected_3">%1$s; %2$s; %3$s</string>
     <string name="goods_go_customize">我要定制</string>
 
     <!-- Cart -->
     <string name="cart_shopping">购物车</string>
     <string name="cart_goods_num">x%1$d</string>
+    <string name="cart_manage">管理</string>
+    <string name="cart_delete_num">删除所选(%1$d)</string>
+    <string name="cart_confirm_num">结算(%1$d)</string>
+    <string name="cart_post_order">提交订单</string>
 
     <!-- Order -->
     <string name="order_all">全部</string>
@@ -280,6 +289,12 @@
     <string name="order_cancelled">已取消</string>
     <string name="order_cancel">取消订单</string>
     <string name="order_pay">立即付款</string>
+    <string name="order_price_goods">商品金额</string>
+    <string name="order_price_freight">物流运费</string>
+    <string name="order_price_discount">活动优惠</string>
+    <string name="order_rmb">￥ %1$s</string>
+    <string name="order_rmb_add">+￥ %1$s</string>
+    <string name="order_rmb_minus">-￥ %1$s</string>
     <string name="order_progress">定制进度</string>
     <string name="order_progress_check">查看进度</string>
     <string name="order_logistics">查看物流</string>
@@ -418,7 +433,10 @@
     <string name="address_store_pickup">上门自取</string>
     <string name="address_store_pickup_phone">请输入本人联系电话</string>
     <string name="address_free_postage">免邮费</string>
-    <string name="address_default">设为默认地址</string>
+    <string name="address_add">新增收货地址</string>
+    <string name="address_default">默认</string>
+    <string name="address_default_set">设为默认地址</string>
+    <string name="address_name_phone">%1$s\t\t%2$s</string>
     <string name="address_consignee">收货人</string>
     <string name="address_phone_number">手机</string>
     <string name="address_email_address">邮箱</string>
@@ -439,7 +457,6 @@
     <string name="address_error_address_empty">请输入详细的地址信息</string>
     <string name="address_error_load_area">加载区域信息出现错误！请关闭页面后重试！</string>
     <string name="address_error_no_select">请填写收货地址</string>
-    <string name="address_error_data_null">还没有收货地址，去新增收货地址吧。</string>
 
     <!-- Filter -->
     <string name="filter">筛选</string>

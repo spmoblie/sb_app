@@ -28,10 +28,9 @@
                     android:id="@+id/setting_tv_about_us_content"
                     style="@style/setting_lay_text_content" />
 
-                <ImageView
+                <View
                     style="@style/set_line_horizontal_bg"
-                    android:layout_alignParentBottom="true"
-                    android:contentDescription="@string/desc" />
+                    android:layout_alignParentBottom="true" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -47,10 +46,9 @@
                     android:id="@+id/setting_tv_feedback_content"
                     style="@style/setting_lay_text_content" />
 
-                <ImageView
+                <View
                     style="@style/set_line_horizontal_bg"
-                    android:layout_alignParentBottom="true"
-                    android:contentDescription="@string/desc" />
+                    android:layout_alignParentBottom="true" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -74,10 +72,9 @@
                     android:contentDescription="@string/desc"
                     android:src="@drawable/selector_icon_push" />
 
-                <ImageView
+                <View
                     style="@style/set_line_horizontal_bg"
-                    android:layout_alignParentBottom="true"
-                    android:contentDescription="@string/desc" />
+                    android:layout_alignParentBottom="true" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -93,10 +90,9 @@
                     android:id="@+id/setting_tv_version_content"
                     style="@style/setting_lay_text_content" />
 
-                <ImageView
+                <View
                     style="@style/set_line_horizontal_bg"
-                    android:layout_alignParentBottom="true"
-                    android:contentDescription="@string/desc" />
+                    android:layout_alignParentBottom="true" />
             </RelativeLayout>
         </LinearLayout>
     </ScrollView>
@@ -112,9 +108,8 @@
             android:layout_centerInParent="true"
             android:text="@string/setting_logout" />
 
-        <ImageView
-            style="@style/set_line_horizontal_bg"
-            android:contentDescription="@string/desc" />
+        <View
+            style="@style/set_line_horizontal_bg" />
     </RelativeLayout>
 
 </RelativeLayout>

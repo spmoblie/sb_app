@@ -64,7 +64,6 @@
                     android:layout_marginRight="@dimen/app_margin_screen"
                     android:ellipsize="end"
                     android:maxLines="1"
-                    android:text="松堡王国现代简约彩条双层床松堡王国现代简约彩条双层床"
                     android:textColor="@color/shows_text_color"
                     android:textSize="@dimen/app_text_size_content"
                     android:textStyle="bold"
@@ -84,7 +83,6 @@
                     android:paddingLeft="@dimen/margin_padding_10"
                     android:paddingRight="@dimen/margin_padding_10"
                     android:paddingTop="@dimen/margin_padding_7"
-                    android:text="天蓝色；1350*1900天蓝色；1350*1900"
                     android:textColor="@color/app_color_gray_5"
                     android:textSize="@dimen/app_text_size_label"
                     app:layout_constrainedWidth="true"
@@ -114,7 +112,6 @@
                 <TextView
                     android:id="@+id/cart_item_tv_price"
                     style="@style/common_text_price"
-                    android:text="2999"
                     android:layout_marginBottom="@dimen/margin_padding_20"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintRight_toLeftOf="@+id/cart_item_iv_num_minus" />

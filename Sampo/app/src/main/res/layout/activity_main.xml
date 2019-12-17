@@ -14,9 +14,8 @@
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintBottom_toTopOf="@id/main_fragment_tab_tv_1"/>
 
-    <ImageView
+    <View
         style="@style/set_line_horizontal_bg"
-        android:contentDescription="@string/desc"
         app:layout_constraintBottom_toTopOf="@id/main_fragment_tab_tv_1"/>
 
     <TextView
