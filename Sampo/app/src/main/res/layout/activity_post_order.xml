@@ -94,7 +94,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:visibility="visible"
-                    app:constraint_referenced_ids="post_order_tv_address_district,post_order_tv_address_status,post_order_tv_address_detail,post_order_tv_address_name" />
+                    app:constraint_referenced_ids="post_order_tv_address_district,post_order_tv_address_detail,post_order_tv_address_name" />
 
                 <ImageView
                     android:id="@+id/post_order_tv_address_go"

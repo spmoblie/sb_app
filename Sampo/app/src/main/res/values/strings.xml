@@ -430,33 +430,28 @@
     <string name="pay_result_error">获取支付结果异常，\n联系客服确认结果。</string>
 
     <!-- Address -->
-    <string name="address_store_pickup">上门自取</string>
-    <string name="address_store_pickup_phone">请输入本人联系电话</string>
-    <string name="address_free_postage">免邮费</string>
+    <string name="address_title">收货地址</string>
     <string name="address_add">新增收货地址</string>
     <string name="address_default">默认</string>
-    <string name="address_default_set">设为默认地址</string>
+    <string name="address_default_set">设为默认</string>
+    <string name="address_default_setting">设置为默认收货地址</string>
     <string name="address_name_phone">%1$s\t\t%2$s</string>
     <string name="address_consignee">收货人</string>
-    <string name="address_phone_number">手机</string>
-    <string name="address_email_address">邮箱</string>
-    <string name="address_china">中国</string>
-    <string name="address_area">地区信息</string>
+    <string name="address_consignee_hint">填写收货人姓名</string>
+    <string name="address_phone_number">手机号码</string>
+    <string name="address_phone_number_hint">填写收货人手机</string>
+    <string name="address_area">所在地区</string>
+    <string name="address_area_hint">选择所在地区</string>
+    <string name="address_detail">详细地址</string>
+    <string name="address_detail_hint">填写详细地址</string>
+    <string name="address_save_used">保存并使用</string>
     <string name="address_province">省</string>
     <string name="address_city">市</string>
     <string name="address_district">区</string>
-    <string name="address_choose_country">选择区域</string>
-    <string name="address_choose_province">选择省</string>
-    <string name="address_choose_city">选择市</string>
-    <string name="address_choose_district">选择区、县</string>
-    <string name="address_detailed_address">街道门牌号等信息</string>
-    <string name="address_input_full_address">请输入完整的详细地址</string>
     <string name="address_error_name_empty">请输入收货人姓名</string>
-    <string name="address_error_phone_empty">请输入手机号码</string>
-    <string name="address_error_area_empty">请选择地区信息</string>
+    <string name="address_error_phone_empty">请输入收货人手机号码</string>
+    <string name="address_error_area_empty">请选择所在地区信息</string>
     <string name="address_error_address_empty">请输入详细的地址信息</string>
-    <string name="address_error_load_area">加载区域信息出现错误！请关闭页面后重试！</string>
-    <string name="address_error_no_select">请填写收货地址</string>
 
     <!-- Filter -->
     <string name="filter">筛选</string>

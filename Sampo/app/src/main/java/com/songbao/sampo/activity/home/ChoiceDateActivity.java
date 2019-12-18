@@ -69,7 +69,7 @@ public class ChoiceDateActivity extends BaseActivity implements View.OnClickList
 
         assignDay = getIntent().getStringExtra("assignDay");
         assignTime = getIntent().getStringExtra("assignTime");
-        data = (ThemeEntity) getIntent().getExtras().getSerializable(AppConfig.PAGE_DATA);
+        data = (ThemeEntity) getIntent().getSerializableExtra(AppConfig.PAGE_DATA);
         if (data != null) {
             themeId = data.getThemeId();
         }
@@ -318,7 +318,7 @@ public class ChoiceDateActivity extends BaseActivity implements View.OnClickList
             selectEn.setDate(selectDay);
 
             Intent returnIntent = new Intent();
-            returnIntent.putExtra(AppConfig.ACTIVITY_KEY_CHOICE_DATE, selectEn);
+            returnIntent.putExtra(AppConfig.PAGE_DATA, selectEn);
             setResult(RESULT_OK, returnIntent);
         }
         super.finish();

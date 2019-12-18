@@ -328,6 +328,8 @@ public class AppConfig {
 	public static final String KEY_USER_MSG_NUM = "user_msg_num";
 	// 偏好设置Key-记录用户购物车数量
 	public static final String KEY_USER_CART_NUM = "user_cart_num";
+	// 偏好设置Key-记录用户默认地址Id
+	public static final String KEY_USER_DEFAULT_ADDRESS_ID = "user_default_address_id";
 	// 偏好设置Key-记录用户登录授权码
 	public static final String KEY_X_APP_TOKEN = "x_app_token";
 	// 偏好设置Key-记录用户登录设备号
@@ -375,7 +377,6 @@ public class AppConfig {
 	public static final String ACTIVITY_KEY_PHOTO_PATH = "photo_path";
 	public static final String ACTIVITY_KEY_USER_INFO = "user_info";
 	public static final String ACTIVITY_KEY_SELECT_LIST = "select_list";
-	public static final String ACTIVITY_KEY_CHOICE_DATE = "choice_date";
 	public static final String ACTIVITY_KEY_RESERVE_POS = "reserve_pos";
 
 	public static final int ACTIVITY_CODE_VIA_CAMERA = 0X9001;
@@ -386,6 +387,8 @@ public class AppConfig {
 	public static final int ACTIVITY_CODE_USER_INTRO = 0X9006;
 	public static final int ACTIVITY_CODE_CHOICE_DATE = 0X9007;
 	public static final int ACTIVITY_CODE_RESERVE_POS = 0X9008;
+	public static final int ACTIVITY_CODE_SELECT_ADDS = 0X9009;
+	public static final int ACTIVITY_CODE_EDIT_ADDRESS = 0X9010;
 
 	/**
 	 ******************************************* Activity协议结束 ******************************************

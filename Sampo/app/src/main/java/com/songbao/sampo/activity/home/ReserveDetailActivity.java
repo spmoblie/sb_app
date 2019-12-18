@@ -40,7 +40,6 @@ import com.songbao.sampo.wxapi.WXPayEntryActivity;
 
 import org.json.JSONObject;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -142,7 +141,7 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
 
         dataPos = getIntent().getIntExtra("dataPos", 0);
         pageType = getIntent().getIntExtra(AppConfig.PAGE_TYPE, 0);
-        data = (ThemeEntity) getIntent().getExtras().getSerializable(AppConfig.PAGE_DATA);
+        data = (ThemeEntity) getIntent().getSerializableExtra(AppConfig.PAGE_DATA);
         if (data != null) {
             themeId = data.getThemeId();
             titleStr = data.getTitle();
@@ -533,7 +532,7 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
             if (requestCode == AppConfig.ACTIVITY_CODE_CHOICE_DATE) {
-                OptionEntity optionEn = (OptionEntity) data.getSerializableExtra(AppConfig.ACTIVITY_KEY_CHOICE_DATE);
+                OptionEntity optionEn = (OptionEntity) data.getSerializableExtra(AppConfig.PAGE_DATA);
                 if (optionEn != null) {
                     dateStr = optionEn.getDate();
                     timeStr = optionEn.getTime();

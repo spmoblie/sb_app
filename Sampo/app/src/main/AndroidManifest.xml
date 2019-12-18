@@ -217,6 +217,14 @@
 
         <!-- mine -->
         <activity
+            android:name=".activity.mine.AddressActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.mine.AddressEditActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"/>
+        <activity
             android:name=".activity.mine.CustomizeActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"/>

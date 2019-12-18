@@ -31,6 +31,7 @@ public class UserManager {
 	private String mUserMoney = null;
 	private int mUserMegNum;
 	private int mUserCartNum;
+	private int mDefaultAddressId;
 
 	private String xAppToken = null;
 	private String deviceToken = null;
@@ -231,6 +232,15 @@ public class UserManager {
 	public void saveUserCartNum(int num){
 		editor.putInt(AppConfig.KEY_USER_CART_NUM, num).commit();
 		mUserCartNum = num;
+	}
+
+	public int getDefaultAddressId(){
+		return sp.getInt(AppConfig.KEY_USER_DEFAULT_ADDRESS_ID, 0);
+	}
+
+	public void saveDefaultAddressId(int addressId){
+		editor.putInt(AppConfig.KEY_USER_DEFAULT_ADDRESS_ID, addressId).commit();
+		mDefaultAddressId= addressId;
 	}
 
 	public String getXAppToken(){

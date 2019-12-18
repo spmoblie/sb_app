@@ -209,6 +209,33 @@ public class CartActivity extends BaseActivity implements View.OnClickListener{
 	}
 
 	/**
+	 * 删除选择的商品
+	 */
+	private void deleteSelectItem() {
+		ArrayList<CartEntity> newList = new ArrayList<>();
+		CartEntity cartEn;
+		for (int i = 0; i < al_show.size(); i++) {
+			cartEn = al_show.get(i);
+			if (!cartEn.isSelect()) {
+				newList.add(cartEn);
+			}
+		}
+		al_show.clear();
+		al_show.addAll(newList);
+		updateListData();
+	}
+
+	/**
+	 * 更新“全选”的状态
+	 */
+	private void updateSelectAllStatus() {
+		for (int i = 0; i < al_show.size(); i++) {
+			al_show.get(i).setSelect(isSelectAll);
+		}
+		updateListData();
+	}
+
+	/**
 	 * 遍历检查所有数据状态
 	 */
 	private void checkAllDataStatus() {
@@ -239,24 +266,14 @@ public class CartActivity extends BaseActivity implements View.OnClickListener{
 	}
 
 	/**
-	 * 更新购物车“全选”的状态
-	 */
-	private void updateSelectAllStatus() {
-		for (int i = 0; i < al_show.size(); i++) {
-			al_show.get(i).setSelect(isSelectAll);
-		}
-		updateListData();
-	}
-
-	/**
-	 * 更新购物车商品总价格
+	 * 更新商品总价格
 	 */
 	private void updatePriceTotal() {
 		tv_price.setText(df.format(totalPrice));
 	}
 
 	/**
-	 * 更新购物车已选商品数量
+	 * 更新已选商品数量
 	 */
 	private void updateNumber() {
 		if (isManage) {
@@ -297,9 +314,13 @@ public class CartActivity extends BaseActivity implements View.OnClickListener{
 				break;
 			case R.id.cart_view_tv_confirm:
 				if (isManage) { //删除
-
+					deleteSelectItem();
 				} else { //结算
-					startActivity(new Intent(mContext, PostOrderActivity.class));
+					if (totalNum > 0) {
+						startActivity(new Intent(mContext, PostOrderActivity.class));
+					} else {
+						CommonTools.showToast("请选择结算的商品");
+					}
 				}
 				break;
 		}

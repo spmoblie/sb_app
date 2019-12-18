@@ -11,7 +11,7 @@
     <View
         android:id="@+id/cart_item_top_line"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/app_margin_screen"/>
+        android:layout_height="@dimen/margin_padding_20"/>
 
     <com.songbao.sampo.widgets.MyHorizontalScrollView
         android:id="@+id/cart_item_hsv_main"

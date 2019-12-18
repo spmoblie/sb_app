@@ -116,6 +116,7 @@
     <dimen name="app_margin_screen">@dimen/margin_padding_15</dimen>
     <dimen name="app_margin_dialog">@dimen/margin_padding_25</dimen>
     <dimen name="app_height_events">@dimen/margin_padding_50</dimen>
+    <dimen name="app_height_button">@dimen/margin_padding_45</dimen>
 
     <!-- loading -->
     <dimen name="loading_small_size">@dimen/margin_padding_16</dimen>

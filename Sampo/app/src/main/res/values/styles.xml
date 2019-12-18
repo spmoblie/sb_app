@@ -326,6 +326,18 @@
         <item name="android:textSize">@dimen/app_text_size_content</item>
     </style>
 
+    <!-- 地址管理EditText样式 -->
+    <style name="address_edit">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:padding">@dimen/app_margin_screen</item>
+        <item name="android:background">@color/app_color_white</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/shows_text_color</item>
+        <item name="android:textSize">@dimen/app_text_size_content</item>
+        <item name="android:textColorHint">@color/input_hint_color</item>
+    </style>
+
     <!-- 通用列表Item ImageView头像样式 -->
     <style name="list_item_head">
         <item name="android:layout_width">@dimen/margin_padding_40</item>

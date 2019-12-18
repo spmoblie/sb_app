@@ -4,8 +4,7 @@ public class AddressEntity extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
 	
-	private int addressId; //收货地址Id
-	private int defaultId; //默认地址Id
+	private int id;
 	private String name; //联系人
 	private String phone; //手机
 	private String email; //邮箱
@@ -19,6 +18,7 @@ public class AddressEntity extends BaseEntity {
 	private String district; //区
 	private String editAdd; //编辑地址
 	private String address; //详细地址
+	private boolean isSelect; //是否选择
 
 	
 	public AddressEntity() {
@@ -27,28 +27,16 @@ public class AddressEntity extends BaseEntity {
 
 	@Override
 	public String getEntityId() {
-		return String.valueOf(addressId);
+		return String.valueOf(id);
 	}
 
-	public int getAddressId() {
-		return addressId;
+	public int getId() {
+		return id;
 	}
 
-
-	public void setAddressId(int addressId) {
-		this.addressId = addressId;
+	public void setId(int id) {
+		this.id = id;
 	}
-
-
-	public int getDefaultId() {
-		return defaultId;
-	}
-
-
-	public void setDefaultId(int defaultId) {
-		this.defaultId = defaultId;
-	}
-
 
 	public String getName() {
 		return name;
@@ -179,4 +167,11 @@ public class AddressEntity extends BaseEntity {
 		this.address = address;
 	}
 
+	public boolean isSelect() {
+		return isSelect;
+	}
+
+	public void setSelect(boolean select) {
+		isSelect = select;
+	}
 }

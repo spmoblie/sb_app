@@ -13,12 +13,14 @@ import com.songbao.sampo.AppApplication;
 import com.songbao.sampo.AppConfig;
 import com.songbao.sampo.R;
 import com.songbao.sampo.activity.BaseActivity;
+import com.songbao.sampo.activity.mine.AddressActivity;
 import com.songbao.sampo.adapter.AdapterCallback;
 import com.songbao.sampo.adapter.GoodsOrder2Adapter;
 import com.songbao.sampo.entity.AddressEntity;
 import com.songbao.sampo.entity.BaseEntity;
 import com.songbao.sampo.entity.GoodsEntity;
 import com.songbao.sampo.entity.OPurchaseEntity;
+import com.songbao.sampo.utils.CommonTools;
 import com.songbao.sampo.utils.ExceptionUtil;
 import com.songbao.sampo.utils.JsonUtils;
 import com.songbao.sampo.utils.LogUtil;
@@ -52,6 +54,9 @@ public class PostOrderActivity extends BaseActivity implements View.OnClickListe
     @BindView(R.id.post_order_tv_address_name)
     TextView tv_address_name;
 
+    @BindView(R.id.post_order_tv_address_status)
+    TextView tv_address_status;
+
     @BindView(R.id.post_order_tv_address_group)
     Group tv_address_group;
 
@@ -76,6 +81,7 @@ public class PostOrderActivity extends BaseActivity implements View.OnClickListe
     GoodsOrder2Adapter lv_Adapter;
 
     private OPurchaseEntity opEn;
+    private int addressId = 0;
     private ArrayList<GoodsEntity> al_goods = new ArrayList<>();
 
     @Override
@@ -103,13 +109,21 @@ public class PostOrderActivity extends BaseActivity implements View.OnClickListe
                 tv_address_detail.setText(addEn.getAddress());
                 tv_address_name.setText(getString(R.string.address_name_phone, addEn.getName(), addEn.getPhone()));
 
+                addressId = addEn.getId();
+                if (userManager.getDefaultAddressId() == addressId) {
+                    tv_address_status.setVisibility(View.VISIBLE);
+                } else {
+                    tv_address_status.setVisibility(View.GONE);
+                }
                 tv_address_add.setVisibility(View.GONE);
                 tv_address_group.setVisibility(View.VISIBLE);
             } else {
                 tv_address_add.setVisibility(View.VISIBLE);
                 tv_address_group.setVisibility(View.GONE);
+                tv_address_status.setVisibility(View.GONE);
             }
 
+            al_goods.clear();
             al_goods.addAll(opEn.getGoodsLists());
             initListView();
 
@@ -140,8 +154,15 @@ public class PostOrderActivity extends BaseActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.post_order_address_main:
+                Intent intent = new Intent(mContext, AddressActivity.class);
+                intent.putExtra("isFinish", true);
+                intent.putExtra("selectId", addressId);
+                startActivityForResult(intent, AppConfig.ACTIVITY_CODE_SELECT_ADDS);
                 break;
             case R.id.post_order_tv_confirm:
+                if (addressId <= 0) {
+                    CommonTools.showToast("您还没有填写收货地址");
+                }
                 break;
         }
     }
@@ -226,8 +247,10 @@ public class PostOrderActivity extends BaseActivity implements View.OnClickListe
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
-            if (requestCode == AppConfig.ACTIVITY_CODE_PAY_DATA) {
-
+            if (requestCode == AppConfig.ACTIVITY_CODE_SELECT_ADDS) {
+                AddressEntity selectEn = (AddressEntity) data.getSerializableExtra(AppConfig.PAGE_DATA);
+                opEn.setAddEn(selectEn);
+                initShowData();
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
@@ -238,6 +261,7 @@ public class PostOrderActivity extends BaseActivity implements View.OnClickListe
 
         // 地址
         AddressEntity addEn = new AddressEntity();
+        addEn.setId(2);
         addEn.setDistrict("广东省深圳市南山区");
         addEn.setAddress("粤海街道科发路大冲城市花园5栋16B");
         addEn.setName("张先生");

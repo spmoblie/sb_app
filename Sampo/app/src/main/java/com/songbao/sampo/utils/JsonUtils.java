@@ -1,6 +1,7 @@
 package com.songbao.sampo.utils;
 
 import com.songbao.sampo.AppConfig;
+import com.songbao.sampo.entity.AddressEntity;
 import com.songbao.sampo.entity.BaseEntity;
 import com.songbao.sampo.entity.CartEntity;
 import com.songbao.sampo.entity.CommentEntity;
@@ -857,7 +858,7 @@ public class JsonUtils {
                 GoodsAttrEntity attrEn;
                 List<CartEntity> lists = new ArrayList<>();
                 for (int i = 0; i < 3; i++) {
-                    JSONObject item = data.getJSONObject(i);
+                    //JSONObject item = data.getJSONObject(i);
                     childEn = new CartEntity();
                     goodsEn = new GoodsEntity();
                     childEn.setId(i + 1);
@@ -890,6 +891,33 @@ public class JsonUtils {
                     }
 
                     childEn.setGoodsEn(goodsEn);
+                    lists.add(childEn);
+                }
+                mainEn.setLists(lists);
+            }
+        }
+        return mainEn;
+    }
+
+    /**
+     * 解析购物车列表数据
+     */
+    public static BaseEntity getAddressListData(JSONObject jsonObject) throws JSONException {
+        BaseEntity mainEn = getCommonKeyValue(jsonObject);
+
+        if (StringUtil.notNull(jsonObject, "data")) {
+            JSONObject jsonData = jsonObject.getJSONObject("data");
+            if (StringUtil.notNull(jsonData, "dataList")) {
+                JSONArray data = jsonData.getJSONArray("dataList");
+                AddressEntity childEn;
+                List<AddressEntity> lists = new ArrayList<>();
+                for (int i = 0; i < 3; i++) {
+                    childEn = new AddressEntity();
+                    childEn.setId(i + 1);
+                    childEn.setName("张先生");
+                    childEn.setPhone("1888888888" + i);
+                    childEn.setDistrict("广东省深圳市南山区");
+                    childEn.setAddress("粤海街道科发路大冲城市花园5栋16B");
                     lists.add(childEn);
                 }
                 mainEn.setLists(lists);
