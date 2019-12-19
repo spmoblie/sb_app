@@ -238,9 +238,9 @@
                     android:textSize="@dimen/app_text_size_small"
                     android:textStyle="bold"
                     android:visibility="gone"
-                    app:layout_constraintLeft_toLeftOf="@id/reserve_detail_iv_code"
-                    app:layout_constraintRight_toRightOf="@id/reserve_detail_iv_code"
-                    app:layout_constraintTop_toBottomOf="@id/reserve_detail_iv_code"/>
+                    app:layout_constraintLeft_toLeftOf="@+id/reserve_detail_iv_code"
+                    app:layout_constraintRight_toRightOf="@+id/reserve_detail_iv_code"
+                    app:layout_constraintTop_toBottomOf="@+id/reserve_detail_iv_code"/>
             </android.support.constraint.ConstraintLayout>
 
             <ImageView
@@ -305,12 +305,12 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBaseline_toBaselineOf="@id/reserve_detail_tv_price"/>
+            app:layout_constraintBaseline_toBaselineOf="@+id/reserve_detail_tv_price"/>
 
         <TextView
             android:id="@+id/reserve_detail_tv_price"
             style="@style/common_text_price"
-            app:layout_constraintLeft_toRightOf="@id/reserve_detail_tv_price_curr"
+            app:layout_constraintLeft_toRightOf="@+id/reserve_detail_tv_price_curr"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 

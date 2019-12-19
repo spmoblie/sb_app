@@ -54,7 +54,7 @@
                     android:textColor="@color/app_color_gray_5"
                     android:textSize="@dimen/app_text_size_small"
                     android:layout_marginLeft="@dimen/margin_padding_10"
-                    app:layout_constraintLeft_toRightOf="@id/address_item_tv_name"/>
+                    app:layout_constraintLeft_toRightOf="@+id/address_item_tv_name"/>
 
                 <TextView
                     android:id="@+id/address_item_tv_address"

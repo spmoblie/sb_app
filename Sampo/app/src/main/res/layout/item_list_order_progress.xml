@@ -35,8 +35,7 @@
             android:id="@+id/order_progress_hsv_ll_main"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:orientation="horizontal" >
-        </LinearLayout>
+            android:orientation="horizontal" />
     </HorizontalScrollView>
 
 </android.support.constraint.ConstraintLayout>

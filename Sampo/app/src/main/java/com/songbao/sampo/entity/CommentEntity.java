@@ -7,14 +7,18 @@ public class CommentEntity extends BaseEntity {
 	private static final long serialVersionUID = 1L;
 
 	private String id;
-	private String nick;
-	private String headUrl;
-	private String addTime;
-	private String content;
-	private String goodsAttr;
+	private String nick; //用户昵称
+	private String headUrl; //用户头像
+	private String addTime; //创建时间
+	private String content; //评论内容
+	private String addContent; //追加评论内容
+	private String goodsAttr; //商品属性
+	private int addDay; //多少天后追加评论
 	private int type; //0:无图/1:有图
-	private float starNum;
-	private ArrayList<String> imgList;
+	private float starNum; //评论星级
+	private boolean isAdd; //是否可追加评论
+	private GoodsEntity goodsEn; //关联商品
+	private ArrayList<String> imgList; //评论图片
 
 	public CommentEntity() {
 		
@@ -65,12 +69,28 @@ public class CommentEntity extends BaseEntity {
 		this.content = content;
 	}
 
+	public String getAddContent() {
+		return addContent;
+	}
+
+	public void setAddContent(String addContent) {
+		this.addContent = addContent;
+	}
+
 	public String getGoodsAttr() {
 		return goodsAttr;
 	}
 
 	public void setGoodsAttr(String goodsAttr) {
 		this.goodsAttr = goodsAttr;
+	}
+
+	public int getAddDay() {
+		return addDay;
+	}
+
+	public void setAddDay(int addDay) {
+		this.addDay = addDay;
 	}
 
 	public int getType() {
@@ -90,6 +110,22 @@ public class CommentEntity extends BaseEntity {
 
 	public void setStarNum(float starNum) {
 		this.starNum = starNum;
+	}
+
+	public boolean isAdd() {
+		return isAdd;
+	}
+
+	public void setAdd(boolean add) {
+		isAdd = add;
+	}
+
+	public GoodsEntity getGoodsEn() {
+		return goodsEn;
+	}
+
+	public void setGoodsEn(GoodsEntity goodsEn) {
+		this.goodsEn = goodsEn;
 	}
 
 	public ArrayList<String> getImgList() {

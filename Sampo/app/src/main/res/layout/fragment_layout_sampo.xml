@@ -14,8 +14,8 @@
             android:layout_marginRight="@dimen/margin_padding_20"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toLeftOf="@id/fg_two_tv_scan"
-            app:layout_constraintBottom_toTopOf="@id/fg_two_rv_left"
+            app:layout_constraintRight_toLeftOf="@+id/fg_two_tv_scan"
+            app:layout_constraintBottom_toTopOf="@+id/fg_two_rv_left"
             app:layout_constraintWidth_percent="1">
 
                 <EditText
@@ -73,8 +73,8 @@
             app:layout_constraintHorizontal_weight="0.25"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/fg_two_rl_search"
-            app:layout_constraintRight_toLeftOf="@id/fg_two_rv_right"/>
+            app:layout_constraintTop_toBottomOf="@+id/fg_two_rl_search"
+            app:layout_constraintRight_toLeftOf="@+id/fg_two_rv_right"/>
 
         <com.songbao.sampo.widgets.pullrefresh.PullToRefreshRecyclerView
             android:id="@+id/fg_two_rv_right"
@@ -88,8 +88,8 @@
             app:layout_constraintHorizontal_weight="0.7"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/fg_two_rl_search"
-            app:layout_constraintLeft_toRightOf="@id/fg_two_rv_left"/>
+            app:layout_constraintTop_toBottomOf="@+id/fg_two_rl_search"
+            app:layout_constraintLeft_toRightOf="@+id/fg_two_rv_left"/>
 
         <ImageView
             android:id="@+id/fg_two_iv_cart"
@@ -105,7 +105,7 @@
             style="@style/common_warn_red_text_number"
             android:layout_marginRight="@dimen/margin_padding_23"
             android:layout_marginTop="@dimen/margin_padding_23"
-            app:layout_constraintRight_toRightOf="@id/fg_two_iv_cart"
-            app:layout_constraintTop_toTopOf="@id/fg_two_iv_cart"/>
+            app:layout_constraintRight_toRightOf="@+id/fg_two_iv_cart"
+            app:layout_constraintTop_toTopOf="@+id/fg_two_iv_cart"/>
 
 </android.support.constraint.ConstraintLayout>

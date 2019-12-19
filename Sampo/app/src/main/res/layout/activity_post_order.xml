@@ -64,7 +64,7 @@
                     android:textSize="@dimen/app_text_size_small"
                     android:layout_marginTop="@dimen/margin_padding_13"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintLeft_toRightOf="@id/post_order_tv_address_district"/>
+                    app:layout_constraintLeft_toRightOf="@+id/post_order_tv_address_district"/>
 
                 <TextView
                     android:id="@+id/post_order_tv_address_detail"

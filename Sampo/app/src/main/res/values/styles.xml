@@ -160,7 +160,7 @@
     <!-- 注册页面EditText样式 -->
     <style name="register_edit">
         <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">@dimen/login_et_height_default</item>
+        <item name="android:layout_height">@dimen/login_height_edit</item>
         <item name="android:layout_marginTop">@dimen/margin_padding_30</item>
         <item name="android:paddingRight">@dimen/margin_padding_30</item>
         <item name="android:lines">1</item>
@@ -262,34 +262,35 @@
         <item name="android:textSize">@dimen/app_text_size_small</item>
     </style>
 
-    <!-- 商品页面Sign样式 -->
+    <!-- 商品名称展示TextView样式 -->
+    <style name="goods_name_text">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">@dimen/margin_padding_10</item>
+        <item name="android:lines">1</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textColor">@color/shows_text_color</item>
+        <item name="android:textSize">@dimen/app_text_size_label</item>
+    </style>
+
+    <!-- 商品属性展示TextView样式 -->
+    <style name="goods_attr_text">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">@dimen/margin_padding_10</item>
+        <item name="android:lines">1</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:textColor">@color/app_color_gray_9</item>
+        <item name="android:textSize">@dimen/app_text_size_small</item>
+    </style>
+
+    <!-- 商品标签Sign样式 -->
     <style name="goods_attach_sign">
         <item name="android:layout_width">@dimen/margin_padding_6</item>
         <item name="android:layout_height">@dimen/margin_padding_6</item>
         <item name="android:layout_marginRight">@dimen/margin_padding_5</item>
         <item name="android:background">@drawable/shape_style_app_status</item>
-    </style>
-
-    <!-- 购物车商品名称文本样式 -->
-    <style name="cart_product_text_content">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_centerVertical">true</item>
-        <item name="android:lines">1</item>
-        <item name="android:ellipsize">end</item>
-        <item name="android:textSize">@dimen/app_text_size_small</item>
-        <item name="android:textColor">@color/shows_text_color</item>
-    </style>
-
-    <!-- 购物车商品属性文本样式:灰色 -->
-    <style name="cart_product_text_assist">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_centerVertical">true</item>
-        <item name="android:lines">1</item>
-        <item name="android:ellipsize">end</item>
-        <item name="android:textSize">@dimen/app_text_size_small</item>
-        <item name="android:textColor">@color/shows_text_color</item>
     </style>
 
     <!-- 订单页面TextView样式 -->
@@ -387,6 +388,14 @@
         <item name="android:textSize">@dimen/app_text_size_label</item>
     </style>
 
+    <!-- 通用小标签TextView样式 -->
+    <style name="common_small_text">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/app_color_gray_9</item>
+        <item name="android:textSize">@dimen/app_text_size_small</item>
+    </style>
+
     <!-- 通用价格文本样式 -->
     <style name="common_text_price">
         <item name="android:layout_width">wrap_content</item>
@@ -432,8 +441,8 @@
     <!-- Star评分控件样式 -->
     <style name="common_star_bar" parent="@android:style/Widget.RatingBar">
         <item name="android:progressDrawable">@drawable/layer_star_bar</item>
-        <item name="android:minHeight">@dimen/margin_padding_20</item>
-        <item name="android:maxHeight">@dimen/margin_padding_20</item>
+        <item name="android:minHeight">@dimen/margin_padding_25</item>
+        <item name="android:maxHeight">@dimen/margin_padding_25</item>
     </style>
 
     <!-- Top RadioGroup样式 -->

@@ -42,7 +42,7 @@
             android:textColor="@color/tv_color_status"
             android:textSize="@dimen/app_text_size_small"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintRight_toLeftOf="@id/list_item_choice_iv_select"
+            app:layout_constraintRight_toLeftOf="@+id/list_item_choice_iv_select"
             app:layout_constraintTop_toTopOf="parent" />
 
     </android.support.constraint.ConstraintLayout>

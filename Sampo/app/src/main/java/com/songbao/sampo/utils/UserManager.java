@@ -216,6 +216,14 @@ public class UserManager {
 		mUserMoney = userMoney;
 	}
 
+	public String getPostPhotoUrl(){
+		return sp.getString(AppConfig.KEY_POST_PHOTO_URL, "");
+	}
+
+	public void savePostPhotoUrl(String photoUrl){
+		editor.putString(AppConfig.KEY_POST_PHOTO_URL, photoUrl).commit();
+	}
+
 	public int getUserMsgNum(){
 		return sp.getInt(AppConfig.KEY_USER_MSG_NUM, 0);
 	}

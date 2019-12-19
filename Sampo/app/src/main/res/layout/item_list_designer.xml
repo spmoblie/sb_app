@@ -21,8 +21,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/selector_checkbox_large"
-        app:layout_constraintTop_toTopOf="@id/list_item_designer_iv_head"
-        app:layout_constraintBottom_toBottomOf="@id/list_item_designer_iv_head"
+        app:layout_constraintTop_toTopOf="@+id/list_item_designer_iv_head"
+        app:layout_constraintBottom_toBottomOf="@+id/list_item_designer_iv_head"
         app:layout_constraintRight_toRightOf="parent"/>
 
     <TextView
@@ -36,7 +36,7 @@
         android:textColor="@color/shows_text_color"
         android:textSize="@dimen/app_text_size_content"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/list_item_designer_iv_head"/>
+        app:layout_constraintTop_toBottomOf="@+id/list_item_designer_iv_head"/>
 
     <TextView
         android:id="@+id/list_item_designer_tv_phone"
@@ -48,7 +48,7 @@
         android:textColor="@color/app_color_gray_5"
         android:textSize="@dimen/app_text_size_small"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/list_item_designer_tv_name"/>
+        app:layout_constraintTop_toBottomOf="@+id/list_item_designer_tv_name"/>
 
     <TextView
         android:id="@+id/list_item_designer_tv_info"
@@ -58,6 +58,6 @@
         android:textColor="@color/app_color_gray_5"
         android:textSize="@dimen/app_text_size_small"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/list_item_designer_tv_phone"/>
+        app:layout_constraintTop_toBottomOf="@+id/list_item_designer_tv_phone"/>
 
 </android.support.constraint.ConstraintLayout>

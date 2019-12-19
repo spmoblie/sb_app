@@ -31,6 +31,7 @@ public class ClipPhotoGridActivity extends BaseActivity {
 
 	String TAG = ClipPhotoGridActivity.class.getSimpleName();
 
+	private boolean isClip;
 	private GridView gv_album;
 	private List<ClipPhotoEntity> albumList = new ArrayList<>();
 
@@ -48,6 +49,8 @@ public class ClipPhotoGridActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_clip_photo_list);
+
+		isClip = getIntent().getBooleanExtra("isClip", false);
 
 		findViewById();
 		initView();
@@ -83,6 +86,7 @@ public class ClipPhotoGridActivity extends BaseActivity {
 	 */
 	private void startPhotoOneActivity(int position) {
 		Intent intent = new Intent(this, ClipPhotoOneActivity.class);
+		intent.putExtra("isClip", isClip);
 		intent.putExtra("album", albumList.get(position));
 		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		startActivity(intent);

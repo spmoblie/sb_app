@@ -1,4 +1,4 @@
-package com.songbao.sampo.activity.two;
+package com.songbao.sampo.activity.mine;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -11,7 +11,7 @@ import com.songbao.sampo.AppConfig;
 import com.songbao.sampo.R;
 import com.songbao.sampo.activity.BaseActivity;
 import com.songbao.sampo.adapter.AdapterCallback;
-import com.songbao.sampo.adapter.CommentRCAdapter;
+import com.songbao.sampo.adapter.CommentORCAdapter;
 import com.songbao.sampo.entity.BaseEntity;
 import com.songbao.sampo.entity.CommentEntity;
 import com.songbao.sampo.utils.ExceptionUtil;
@@ -31,14 +31,14 @@ import java.util.List;
 import butterknife.BindView;
 
 
-public class CommentActivity extends BaseActivity {
+public class CommentOrderActivity extends BaseActivity {
 
-	String TAG = CommentActivity.class.getSimpleName();
+	String TAG = CommentOrderActivity.class.getSimpleName();
 
 	@BindView(R.id.refresh_view_rv)
 	PullToRefreshRecyclerView refresh_rv;
 
-	CommentRCAdapter rvAdapter;
+	CommentORCAdapter rvAdapter;
 	MyRecyclerView mRecyclerView;
 
 	private int data_total = 0; //数据总量
@@ -57,14 +57,16 @@ public class CommentActivity extends BaseActivity {
 	}
 
 	private void initView() {
-		setTitle("精彩评价");
+		setTitle("我的评价");
 
 		initRecyclerView();
 		loadMoreData();
 	}
 
 	private void initRecyclerView() {
-		refresh_rv.setBackgroundResource(R.color.ui_color_app_bg_01);
+		refresh_rv.setBackgroundResource(R.color.ui_color_app_bg_02);
+		refresh_rv.setHeaderLayoutBackground(R.color.ui_color_app_bg_02);
+		refresh_rv.setFooterLayoutBackground(R.color.ui_color_app_bg_02);
 		refresh_rv.setPullRefreshEnabled(true); //下拉刷新
 		refresh_rv.setPullLoadEnabled(true); //上拉加载
 		refresh_rv.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<MyRecyclerView>() {
@@ -107,14 +109,14 @@ public class CommentActivity extends BaseActivity {
 		mRecyclerView.setBackgroundResource(R.color.ui_color_app_bg_01);
 
 		// 配置适配器
-		rvAdapter = new CommentRCAdapter(mContext, R.layout.item_list_comment);
+		rvAdapter = new CommentORCAdapter(mContext, R.layout.item_list_comment_order);
 		rvAdapter.addData(al_show);
 		rvAdapter.addCallback(new AdapterCallback() {
 
 			@Override
 			public void setOnClick(Object data, int position, int type) {
 				if (position < 0 || position >= al_show.size()) return;
-				CommentEntity msgEn = al_show.get(position);
+				openCommentAddActivity(al_show.get(position));
 			}
 		});
 		mRecyclerView.setAdapter(rvAdapter);
@@ -190,7 +192,7 @@ public class CommentActivity extends BaseActivity {
 		try {
 			switch (dataType) {
 				case AppConfig.REQUEST_SV_USER_MESSAGE:
-					baseEn = JsonUtils.getCommentListData(jsonObject);
+					baseEn = JsonUtils.getCommentOrderListData(jsonObject);
 					if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
 						data_total = baseEn.getDataTotal();
 						List<CommentEntity> lists = filterData(baseEn.getLists(), am_show);

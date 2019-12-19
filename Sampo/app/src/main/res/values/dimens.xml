@@ -118,20 +118,23 @@
     <dimen name="app_height_events">@dimen/margin_padding_50</dimen>
     <dimen name="app_height_button">@dimen/margin_padding_45</dimen>
 
+    <!-- login -->
+    <dimen name="login_height_edit">@dimen/margin_padding_40</dimen>
+
     <!-- loading -->
     <dimen name="loading_small_size">@dimen/margin_padding_16</dimen>
     <dimen name="loading_large_size">@dimen/margin_padding_48</dimen>
     <dimen name="loading_height_bar">@dimen/margin_padding_70</dimen>
 
+    <!-- image -->
+    <dimen name="image_size_head">@dimen/margin_padding_60</dimen>
+    <dimen name="image_size_photo">@dimen/margin_padding_60</dimen>
+    <dimen name="image_size_goods">@dimen/margin_padding_85</dimen>
+    <dimen name="image_size_other">@dimen/margin_padding_120</dimen>
+
     <!-- photo -->
     <dimen name="photo_grid_tick_size">@dimen/margin_padding_24</dimen>
     <dimen name="photo_grid_item_padding">@dimen/margin_padding_15</dimen>
     <dimen name="photo_grid_item_spacing">@dimen/margin_padding_5</dimen>
-
-    <!-- head -->
-    <dimen name="head_size_default">@dimen/margin_padding_60</dimen>
-
-    <!-- login -->
-    <dimen name="login_et_height_default">@dimen/margin_padding_40</dimen>
 
 </resources>

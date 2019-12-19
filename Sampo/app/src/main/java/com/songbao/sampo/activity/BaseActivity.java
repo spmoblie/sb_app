@@ -55,6 +55,8 @@ import com.songbao.sampo.activity.login.LoginPhoneActivity;
 import com.songbao.sampo.activity.login.RegisterActivity;
 import com.songbao.sampo.activity.login.RegisterOauthActivity;
 import com.songbao.sampo.activity.login.ResetPasswordActivity;
+import com.songbao.sampo.activity.mine.CommentAddActivity;
+import com.songbao.sampo.activity.mine.CommentPostActivity;
 import com.songbao.sampo.activity.two.DesignerActivity;
 import com.songbao.sampo.activity.two.GoodsActivity;
 import com.songbao.sampo.activity.two.GoodsListActivity;
@@ -63,6 +65,7 @@ import com.songbao.sampo.adapter.GoodsAttrAdapter;
 import com.songbao.sampo.dialog.DialogManager;
 import com.songbao.sampo.dialog.LoadDialog;
 import com.songbao.sampo.entity.BaseEntity;
+import com.songbao.sampo.entity.CommentEntity;
 import com.songbao.sampo.entity.GoodsAttrEntity;
 import com.songbao.sampo.entity.ShareEntity;
 import com.songbao.sampo.utils.CommonTools;
@@ -474,6 +477,28 @@ public  class BaseActivity extends FragmentActivity {
 		Intent intent = new Intent(mContext, DesignerActivity.class);
 		intent.putExtra("goodsId", goodsId);
 		startActivity(intent);
+	}
+
+	/**
+	 * 打开我要评论页
+	 */
+	protected void openCommentPostActivity(CommentEntity commentEn) {
+		if (commentEn != null) {
+			Intent intent = new Intent(mContext, CommentPostActivity.class);
+			intent.putExtra(AppConfig.PAGE_DATA, commentEn);
+			startActivity(intent);
+		}
+	}
+
+	/**
+	 * 打开追加评论页
+	 */
+	protected void openCommentAddActivity(CommentEntity commentEn) {
+		if (commentEn != null) {
+			Intent intent = new Intent(mContext, CommentAddActivity.class);
+			intent.putExtra(AppConfig.PAGE_DATA, commentEn);
+			startActivity(intent);
+		}
 	}
 
 	/**

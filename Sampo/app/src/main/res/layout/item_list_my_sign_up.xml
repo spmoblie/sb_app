@@ -20,12 +20,12 @@
         android:layout_marginTop="@dimen/margin_padding_18"
         android:background="@drawable/shape_style_solid_01_16"
         android:padding="@dimen/app_margin_screen"
-        app:layout_constraintTop_toBottomOf="@id/my_sign_up_item_time">
+        app:layout_constraintTop_toBottomOf="@+id/my_sign_up_item_time">
 
         <com.songbao.sampo.widgets.RoundImageView
             android:id="@+id/my_sign_up_item_iv_show"
-            android:layout_width="@dimen/margin_padding_110"
-            android:layout_height="@dimen/margin_padding_110"
+            android:layout_width="@dimen/image_size_other"
+            android:layout_height="@dimen/image_size_other"
             android:scaleType="centerCrop"
             android:src="@drawable/icon_default_show"
             app:type="round" />
@@ -51,24 +51,24 @@
             android:textStyle="bold"
             android:textColor="@color/shows_text_color"
             android:textSize="@dimen/app_text_size_content"
-            android:layout_alignTop="@id/my_sign_up_item_iv_show"
-            android:layout_toRightOf="@id/my_sign_up_item_iv_show"/>
+            android:layout_alignTop="@+id/my_sign_up_item_iv_show"
+            android:layout_toRightOf="@+id/my_sign_up_item_iv_show"/>
 
         <TextView
             android:id="@+id/my_sign_up_item_tv_time"
             style="@style/list_item_text"
             android:textColor="@color/app_color_gray_5"
             android:layout_marginTop="@dimen/margin_padding_10"
-            android:layout_below="@id/my_sign_up_item_tv_title"
-            android:layout_alignLeft="@id/my_sign_up_item_tv_title"/>
+            android:layout_below="@+id/my_sign_up_item_tv_title"
+            android:layout_alignLeft="@+id/my_sign_up_item_tv_title"/>
 
         <TextView
             android:id="@+id/my_sign_up_item_tv_address"
             style="@style/list_item_text"
             android:maxLines="2"
             android:textColor="@color/app_color_gray_5"
-            android:layout_alignLeft="@id/my_sign_up_item_tv_time"
-            android:layout_alignBottom="@id/my_sign_up_item_iv_show"/>
+            android:layout_alignLeft="@+id/my_sign_up_item_tv_time"
+            android:layout_alignBottom="@+id/my_sign_up_item_iv_show"/>
 
     </RelativeLayout>
 

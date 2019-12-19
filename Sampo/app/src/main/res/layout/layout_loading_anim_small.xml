@@ -15,7 +15,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/loading_anim_small_tv_show"/>
+        app:layout_constraintRight_toLeftOf="@+id/loading_anim_small_tv_show"/>
 
     <TextView
         android:id="@+id/loading_anim_small_tv_show"
@@ -27,6 +27,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toRightOf="@id/loading_anim_small_progress"/>
+        app:layout_constraintLeft_toRightOf="@+id/loading_anim_small_progress"/>
 
 </android.support.constraint.ConstraintLayout>

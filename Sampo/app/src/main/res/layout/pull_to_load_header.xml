@@ -27,7 +27,7 @@
             android:id="@+id/pull_to_load_header_tv_last_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/pull_to_load_header_tv_hint"
+            android:layout_below="@+id/pull_to_load_header_tv_hint"
             android:layout_marginTop="@dimen/margin_padding_6"
             android:text="@string/loading_update_time"
             android:textColor="@color/shows_text_color"
@@ -38,10 +38,10 @@
             android:id="@+id/pull_to_load_header_tv_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/pull_to_load_header_tv_hint"
+            android:layout_below="@+id/pull_to_load_header_tv_hint"
             android:layout_marginLeft="@dimen/margin_padding_2"
             android:layout_marginTop="@dimen/margin_padding_6"
-            android:layout_toRightOf="@id/pull_to_load_header_tv_last_time"
+            android:layout_toRightOf="@+id/pull_to_load_header_tv_last_time"
             android:minWidth="@dimen/loading_height_bar"
             android:textColor="@color/shows_text_color"
             android:textSize="@dimen/text_size_12"
@@ -53,7 +53,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_padding_2"
         android:layout_marginRight="@dimen/margin_padding_5"
-        android:layout_toLeftOf="@id/pull_to_load_header_show">
+        android:layout_toLeftOf="@+id/pull_to_load_header_show">
 
         <ImageView
             android:id="@+id/pull_to_load_header_arrow"

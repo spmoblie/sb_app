@@ -15,6 +15,7 @@ public class GoodsEntity extends BaseEntity {
 	private String material; //产品用料
 	private String veneer; //产品饰面
 	private int number; //产品数量
+	private int status; //0：无事件  1：评价+售后  2：追评+售后  3：售后  4：评价  5：追评
 	private double price; //销售价格
 	private GoodsAttrEntity attrEn; //已选属性值
 
@@ -85,6 +86,14 @@ public class GoodsEntity extends BaseEntity {
 
 	public void setNumber(int number) {
 		this.number = number;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
 	}
 
 	public double getPrice() {

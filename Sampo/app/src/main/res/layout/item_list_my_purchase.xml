@@ -35,13 +35,13 @@
             android:background="@drawable/shape_style_solid_06_04"
             android:textColor="@color/app_color_white"
             android:textSize="@dimen/app_text_size_small"
-            app:layout_constraintLeft_toRightOf="@id/my_purchase_item_tv_time"/>
+            app:layout_constraintLeft_toRightOf="@+id/my_purchase_item_tv_time"/>
 
         <com.songbao.sampo.widgets.ScrollViewListView
             android:id="@+id/my_purchase_item_lv_goods"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/my_purchase_item_tv_status"/>
+            app:layout_constraintTop_toBottomOf="@+id/my_purchase_item_tv_status"/>
 
         <TextView
             android:id="@+id/my_purchase_item_tv_number"
@@ -49,22 +49,22 @@
             android:layout_marginRight="@dimen/margin_padding_5"
             android:textColor="@color/app_color_gray_9"
             android:textSize="@dimen/app_text_size_small"
-            app:layout_constraintRight_toLeftOf="@id/my_purchase_item_tv_price_curr"
-            app:layout_constraintBottom_toBottomOf="@id/my_purchase_item_tv_price"
-            app:layout_constraintBaseline_toBaselineOf="@id/my_purchase_item_tv_price"/>
+            app:layout_constraintRight_toLeftOf="@+id/my_purchase_item_tv_price_curr"
+            app:layout_constraintBottom_toBottomOf="@+id/my_purchase_item_tv_price"
+            app:layout_constraintBaseline_toBaselineOf="@+id/my_purchase_item_tv_price"/>
 
         <TextView
             android:id="@+id/my_purchase_item_tv_price_curr"
             style="@style/common_text_price_curr"
-            app:layout_constraintRight_toLeftOf="@id/my_purchase_item_tv_price"
-            app:layout_constraintBottom_toBottomOf="@id/my_purchase_item_tv_price"
-            app:layout_constraintBaseline_toBaselineOf="@id/my_purchase_item_tv_price"/>
+            app:layout_constraintRight_toLeftOf="@+id/my_purchase_item_tv_price"
+            app:layout_constraintBottom_toBottomOf="@+id/my_purchase_item_tv_price"
+            app:layout_constraintBaseline_toBaselineOf="@+id/my_purchase_item_tv_price"/>
 
         <TextView
             android:id="@+id/my_purchase_item_tv_price"
             style="@style/common_text_price"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/my_purchase_item_lv_goods" />
+            app:layout_constraintTop_toBottomOf="@+id/my_purchase_item_lv_goods" />
 
         <TextView
             android:id="@+id/my_purchase_item_tv_click_01"
@@ -76,8 +76,8 @@
             android:paddingLeft="@dimen/margin_padding_18"
             android:paddingRight="@dimen/margin_padding_18"
             android:background="@drawable/shape_style_empty_04_08"
-            app:layout_constraintRight_toLeftOf="@id/my_purchase_item_tv_click_02"
-            app:layout_constraintTop_toBottomOf="@id/my_purchase_item_tv_number"/>
+            app:layout_constraintRight_toLeftOf="@+id/my_purchase_item_tv_click_02"
+            app:layout_constraintTop_toBottomOf="@+id/my_purchase_item_tv_number"/>
 
         <TextView
             android:id="@+id/my_purchase_item_tv_click_02"
@@ -90,7 +90,7 @@
             android:background="@drawable/shape_style_solid_04_08"
             android:textColor="@color/app_color_white"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/my_purchase_item_tv_number"/>
+            app:layout_constraintTop_toBottomOf="@+id/my_purchase_item_tv_number"/>
 
     </android.support.constraint.ConstraintLayout>
 

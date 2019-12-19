@@ -53,20 +53,20 @@
                     style="@style/sign_up_edit"
                     android:layout_marginLeft="@dimen/margin_padding_20"
                     android:hint="@string/must_fill"
-                    app:layout_constraintLeft_toRightOf="@id/sign_tv_name"
-                    app:layout_constraintTop_toTopOf="@id/sign_tv_name"
+                    app:layout_constraintLeft_toRightOf="@+id/sign_tv_name"
+                    app:layout_constraintTop_toTopOf="@+id/sign_tv_name"
                     app:layout_constraintWidth_percent="0.8" />
 
                 <View
                     style="@style/set_line_horizontal_bg"
-                    app:layout_constraintTop_toBottomOf="@id/sign_tv_name" />
+                    app:layout_constraintTop_toBottomOf="@+id/sign_tv_name" />
 
                 <TextView
                     android:id="@+id/sign_tv_gender"
                     style="@style/sign_up_text"
                     android:layout_marginTop="@dimen/margin_padding_1"
                     android:text="@string/sign_up_gender"
-                    app:layout_constraintTop_toBottomOf="@id/sign_tv_name" />
+                    app:layout_constraintTop_toBottomOf="@+id/sign_tv_name" />
 
                 <TextView
                     android:id="@+id/sign_tv_gender_man"
@@ -77,8 +77,8 @@
                     android:paddingTop="@dimen/margin_padding_10"
                     android:text="@string/mine_gender_male"
                     android:textStyle="bold"
-                    app:layout_constraintLeft_toRightOf="@id/sign_tv_gender"
-                    app:layout_constraintTop_toTopOf="@id/sign_tv_gender" />
+                    app:layout_constraintLeft_toRightOf="@+id/sign_tv_gender"
+                    app:layout_constraintTop_toTopOf="@+id/sign_tv_gender" />
 
                 <TextView
                     android:id="@+id/sign_tv_gender_woman"
@@ -89,36 +89,36 @@
                     android:paddingTop="@dimen/margin_padding_10"
                     android:text="@string/mine_gender_female"
                     android:textStyle="bold"
-                    app:layout_constraintLeft_toRightOf="@id/sign_tv_gender_man"
-                    app:layout_constraintTop_toTopOf="@id/sign_tv_gender" />
+                    app:layout_constraintLeft_toRightOf="@+id/sign_tv_gender_man"
+                    app:layout_constraintTop_toTopOf="@+id/sign_tv_gender" />
 
                 <TextView
                     android:id="@+id/sign_tv_age"
                     style="@style/sign_up_text"
                     android:text="@string/sign_up_age"
-                    app:layout_constraintTop_toBottomOf="@id/sign_tv_gender" />
+                    app:layout_constraintTop_toBottomOf="@+id/sign_tv_gender" />
 
                 <EditText
                     android:id="@+id/sign_et_age"
                     style="@style/sign_up_edit"
                     android:layout_marginLeft="@dimen/margin_padding_20"
                     android:hint="@string/must_fill"
-                    app:layout_constraintLeft_toRightOf="@id/sign_tv_age"
-                    app:layout_constraintTop_toTopOf="@id/sign_tv_age"
+                    app:layout_constraintLeft_toRightOf="@+id/sign_tv_age"
+                    app:layout_constraintTop_toTopOf="@+id/sign_tv_age"
                     app:layout_constraintWidth_percent="0.8" />
 
                 <ImageView
                     style="@style/common_go_right"
                     android:layout_marginRight="@dimen/app_margin_screen"
                     android:layout_marginTop="@dimen/app_margin_screen"
-                    app:layout_constraintRight_toRightOf="@id/sign_et_age"
-                    app:layout_constraintTop_toTopOf="@id/sign_et_age" />
+                    app:layout_constraintRight_toRightOf="@+id/sign_et_age"
+                    app:layout_constraintTop_toTopOf="@+id/sign_et_age" />
 
                 <TextView
                     android:id="@+id/sign_tv_phone"
                     style="@style/sign_up_text"
                     android:text="@string/sign_up_phone"
-                    app:layout_constraintTop_toBottomOf="@id/sign_tv_age" />
+                    app:layout_constraintTop_toBottomOf="@+id/sign_tv_age" />
 
                 <EditText
                     android:id="@+id/sign_et_phone"
@@ -127,13 +127,13 @@
                     android:hint="@string/must_fill"
                     android:inputType="phone"
                     android:maxLength="13"
-                    app:layout_constraintLeft_toRightOf="@id/sign_tv_phone"
-                    app:layout_constraintTop_toTopOf="@id/sign_tv_phone"
+                    app:layout_constraintLeft_toRightOf="@+id/sign_tv_phone"
+                    app:layout_constraintTop_toTopOf="@+id/sign_tv_phone"
                     app:layout_constraintWidth_percent="0.8" />
 
                 <View
                     style="@style/set_line_horizontal_bg"
-                    app:layout_constraintTop_toBottomOf="@id/sign_tv_phone" />
+                    app:layout_constraintTop_toBottomOf="@+id/sign_tv_phone" />
             </android.support.constraint.ConstraintLayout>
 
             <ImageView
@@ -182,13 +182,13 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBaseline_toBaselineOf="@id/sign_tv_price"/>
+            app:layout_constraintBaseline_toBaselineOf="@+id/sign_tv_price"/>
 
         <TextView
             android:id="@+id/sign_tv_price"
             style="@style/common_text_price"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toRightOf="@id/sign_tv_price_curr"
+            app:layout_constraintLeft_toRightOf="@+id/sign_tv_price_curr"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView

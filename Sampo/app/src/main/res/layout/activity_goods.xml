@@ -100,7 +100,7 @@
                     style="@style/goods_attach_sign"
                     app:layout_constraintBottom_toBottomOf="@+id/goods_tv_goods_attach_2"
                     app:layout_constraintRight_toLeftOf="@+id/goods_tv_goods_attach_2"
-                    app:layout_constraintTop_toTopOf="@id/goods_tv_goods_attach_2" />
+                    app:layout_constraintTop_toTopOf="@+id/goods_tv_goods_attach_2" />
 
                 <TextView
                     android:id="@+id/goods_tv_goods_attach_3"
@@ -115,7 +115,7 @@
                     style="@style/goods_attach_sign"
                     app:layout_constraintBottom_toBottomOf="@+id/goods_tv_goods_attach_3"
                     app:layout_constraintRight_toLeftOf="@+id/goods_tv_goods_attach_3"
-                    app:layout_constraintTop_toTopOf="@id/goods_tv_goods_attach_3" />
+                    app:layout_constraintTop_toTopOf="@+id/goods_tv_goods_attach_3" />
 
                 <TextView
                     android:id="@+id/goods_tv_goods_attach_4"
@@ -130,7 +130,7 @@
                     style="@style/goods_attach_sign"
                     app:layout_constraintBottom_toBottomOf="@+id/goods_tv_goods_attach_4"
                     app:layout_constraintRight_toLeftOf="@+id/goods_tv_goods_attach_4"
-                    app:layout_constraintTop_toTopOf="@id/goods_tv_goods_attach_4" />
+                    app:layout_constraintTop_toTopOf="@+id/goods_tv_goods_attach_4" />
 
                 <RelativeLayout
                     android:id="@+id/goods_view_line_1"
@@ -174,7 +174,7 @@
                         android:background="@drawable/shape_style_app_status"
                         app:layout_constraintBottom_toBottomOf="@+id/goods_tv_spec_choice"
                         app:layout_constraintRight_toLeftOf="@+id/goods_tv_spec_choice"
-                        app:layout_constraintTop_toTopOf="@id/goods_tv_spec_choice" />
+                        app:layout_constraintTop_toTopOf="@+id/goods_tv_spec_choice" />
 
                     <TextView
                         android:id="@+id/goods_tv_selected"
@@ -248,7 +248,7 @@
                         android:background="@drawable/shape_style_app_status"
                         app:layout_constraintBottom_toBottomOf="@+id/goods_tv_good_comment"
                         app:layout_constraintRight_toLeftOf="@+id/goods_tv_good_comment"
-                        app:layout_constraintTop_toTopOf="@id/goods_tv_good_comment" />
+                        app:layout_constraintTop_toTopOf="@+id/goods_tv_good_comment" />
 
                     <TextView
                         android:id="@+id/goods_tv_good_comment_num"
@@ -329,7 +329,7 @@
                     android:background="@drawable/shape_style_app_status"
                     app:layout_constraintBottom_toBottomOf="@+id/goods_tv_good_detail"
                     app:layout_constraintRight_toLeftOf="@+id/goods_tv_good_detail"
-                    app:layout_constraintTop_toTopOf="@id/goods_tv_good_detail" />
+                    app:layout_constraintTop_toTopOf="@+id/goods_tv_good_detail" />
 
                 <com.songbao.sampo.widgets.ScrollViewListView
                     android:id="@+id/goods_lv_detail"

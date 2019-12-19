@@ -293,7 +293,7 @@ public class JsonUtils {
     }
 
     /**
-     * 解析上传头像结果
+     * 解析上传图片结果
      */
     public static BaseEntity getUploadResult(JSONObject jsonObject) throws JSONException {
         BaseEntity mainEn = getCommonKeyValue(jsonObject);
@@ -412,6 +412,7 @@ public class JsonUtils {
                         goodsEn.setNumber(is);
                         goodsEn.setPrice(2999);
                         goods.add(goodsEn);
+                        goodsEn.setStatus(3);
                     }
                     childEn.setGoodsLists(goods);
 
@@ -672,68 +673,6 @@ public class JsonUtils {
     }
 
     /**
-     * 解析评价列表数据
-     */
-    public static BaseEntity getCommentListData(JSONObject jsonObject) throws JSONException {
-        BaseEntity mainEn = getCommonKeyValue(jsonObject);
-
-        if (StringUtil.notNull(jsonObject, "data")) {
-            JSONObject jsonData = jsonObject.getJSONObject("data");
-            if (StringUtil.notNull(jsonData, "dataList")) {
-                JSONArray data = jsonData.getJSONArray("dataList");
-                CommentEntity childEn;
-                List<CommentEntity> lists = new ArrayList<>();
-                for (int i = 0; i < 5; i++) {
-                    childEn = new CommentEntity();
-                    childEn.setId("" + i + 1);
-                    childEn.setNick("草莓味的冰淇淋");
-                    childEn.setGoodsAttr("天蓝色；1350*1900");
-                    childEn.setAddTime("2019/12/25");
-                    childEn.setContent("很不错，稳固，用料足，没有味道，安装师傅说质量很好，值得购买，还会回购");
-
-                    if (i == 0) {
-                        childEn.setStarNum(0);
-                        ArrayList<String> imgList = new ArrayList<>();
-                        imgList.add(AppConfig.IMAGE_URL + "design_001.png");
-                        childEn.setImgList(imgList);
-                        childEn.setType(1);
-                    } else if (i == 1) {
-                        childEn.setStarNum(1);
-                        ArrayList<String> imgList = new ArrayList<>();
-                        imgList.add(AppConfig.IMAGE_URL + "design_001.png");
-                        imgList.add(AppConfig.IMAGE_URL + "design_004.png");
-                        childEn.setImgList(imgList);
-                        childEn.setType(1);
-                    } else if (i == 2) {
-                        childEn.setStarNum(2);
-                        ArrayList<String> imgList = new ArrayList<>();
-                        imgList.add(AppConfig.IMAGE_URL + "design_001.png");
-                        imgList.add(AppConfig.IMAGE_URL + "design_004.png");
-                        imgList.add(AppConfig.IMAGE_URL + "design_006.png");
-                        childEn.setImgList(imgList);
-                        childEn.setType(1);
-                    } else if (i == 3) {
-                        childEn.setStarNum(3);
-                        ArrayList<String> imgList = new ArrayList<>();
-                        imgList.add(AppConfig.IMAGE_URL + "design_001.png");
-                        imgList.add(AppConfig.IMAGE_URL + "design_004.png");
-                        imgList.add(AppConfig.IMAGE_URL + "design_006.png");
-                        imgList.add(AppConfig.IMAGE_URL + "design_001.png");
-                        imgList.add(AppConfig.IMAGE_URL + "design_006.png");
-                        childEn.setImgList(imgList);
-                        childEn.setType(1);
-                    }
-
-                    lists.add(childEn);
-                }
-                mainEn.setLists(lists);
-            }
-        }
-        return mainEn;
-    }
-
-
-    /**
      * 解析获取商品属性数据
      */
     public static BaseEntity getGoodsAttrData(JSONObject jsonObject) throws JSONException {
@@ -918,6 +857,132 @@ public class JsonUtils {
                     childEn.setPhone("1888888888" + i);
                     childEn.setDistrict("广东省深圳市南山区");
                     childEn.setAddress("粤海街道科发路大冲城市花园5栋16B");
+                    lists.add(childEn);
+                }
+                mainEn.setLists(lists);
+            }
+        }
+        return mainEn;
+    }
+
+    /**
+     * 解析评价列表数据
+     */
+    public static BaseEntity getCommentGoodsListData(JSONObject jsonObject) throws JSONException {
+        BaseEntity mainEn = getCommonKeyValue(jsonObject);
+
+        if (StringUtil.notNull(jsonObject, "data")) {
+            JSONObject jsonData = jsonObject.getJSONObject("data");
+            if (StringUtil.notNull(jsonData, "dataList")) {
+                JSONArray data = jsonData.getJSONArray("dataList");
+                CommentEntity childEn;
+                List<CommentEntity> lists = new ArrayList<>();
+                for (int i = 0; i < 5; i++) {
+                    childEn = new CommentEntity();
+                    childEn.setId("" + i + 1);
+                    childEn.setNick("草莓味的冰淇淋");
+                    childEn.setGoodsAttr("天蓝色；1350*1900");
+                    childEn.setAddTime("2019/12/25");
+                    childEn.setContent("很不错，稳固，用料足，没有味道，安装师傅说质量很好，值得购买，还会回购");
+
+                    if (i == 0) {
+                        childEn.setStarNum(0);
+                        ArrayList<String> imgList = new ArrayList<>();
+                        imgList.add(AppConfig.IMAGE_URL + "design_001.png");
+                        childEn.setImgList(imgList);
+                        childEn.setType(1);
+
+                        childEn.setAddDay(26);
+                        childEn.setAddContent("床垫搭配效果很不错，非常满意，床垫搭配效果很不错，非常满意。");
+                    } else if (i == 1) {
+                        childEn.setStarNum(1);
+                        ArrayList<String> imgList = new ArrayList<>();
+                        imgList.add(AppConfig.IMAGE_URL + "design_001.png");
+                        imgList.add(AppConfig.IMAGE_URL + "design_004.png");
+                        childEn.setImgList(imgList);
+                        childEn.setType(1);
+                    } else if (i == 2) {
+                        childEn.setStarNum(2);
+                        ArrayList<String> imgList = new ArrayList<>();
+                        imgList.add(AppConfig.IMAGE_URL + "design_001.png");
+                        imgList.add(AppConfig.IMAGE_URL + "design_004.png");
+                        imgList.add(AppConfig.IMAGE_URL + "design_006.png");
+                        childEn.setImgList(imgList);
+                        childEn.setType(1);
+                    } else if (i == 3) {
+                        childEn.setStarNum(3);
+                        ArrayList<String> imgList = new ArrayList<>();
+                        imgList.add(AppConfig.IMAGE_URL + "design_001.png");
+                        imgList.add(AppConfig.IMAGE_URL + "design_004.png");
+                        imgList.add(AppConfig.IMAGE_URL + "design_006.png");
+                        imgList.add(AppConfig.IMAGE_URL + "design_001.png");
+                        imgList.add(AppConfig.IMAGE_URL + "design_006.png");
+                        childEn.setImgList(imgList);
+                        childEn.setType(1);
+                    }
+
+                    lists.add(childEn);
+                }
+                mainEn.setLists(lists);
+            }
+        }
+        return mainEn;
+    }
+
+    /**
+     * 解析评价列表数据
+     */
+    public static BaseEntity getCommentOrderListData(JSONObject jsonObject) throws JSONException {
+        BaseEntity mainEn = getCommonKeyValue(jsonObject);
+
+        if (StringUtil.notNull(jsonObject, "data")) {
+            JSONObject jsonData = jsonObject.getJSONObject("data");
+            if (StringUtil.notNull(jsonData, "dataList")) {
+                CommentEntity childEn;
+                GoodsEntity goodsEn;
+                List<CommentEntity> lists = new ArrayList<>();
+                for (int i = 0; i < 5; i++) {
+                    childEn = new CommentEntity();
+                    childEn.setId("" + i + 1);
+
+                    goodsEn = new GoodsEntity();
+                    goodsEn.setId(10*i);
+                    goodsEn.setPicUrl(AppConfig.IMAGE_URL + "design_001.png");
+                    goodsEn.setName("松堡王国现代简约彩条双层床");
+                    goodsEn.setAttribute("天蓝色；1350*1900");
+                    childEn.setGoodsEn(goodsEn);
+
+                    childEn.setStarNum(5);
+                    childEn.setAddTime("2019/12/25 15:27");
+                    childEn.setContent("全实木的床很结实，款式很简约，整体很满意，安装师傅也很负责，半个小时安装好，床垫搭配效果很不错，非常满意。");
+
+                    if (i == 0) {
+                        childEn.setStarNum(0);
+                        ArrayList<String> imgList = new ArrayList<>();
+                        imgList.add(AppConfig.IMAGE_URL + "design_001.png");
+                        childEn.setImgList(imgList);
+                        childEn.setType(1);
+
+                        childEn.setAddDay(26);
+                        childEn.setAddContent("床垫搭配效果很不错，非常满意，床垫搭配效果很不错，非常满意。");
+                    } else if (i == 1) {
+                        childEn.setAdd(true);
+                        childEn.setStarNum(1);
+                        ArrayList<String> imgList = new ArrayList<>();
+                        imgList.add(AppConfig.IMAGE_URL + "design_001.png");
+                        imgList.add(AppConfig.IMAGE_URL + "design_004.png");
+                        childEn.setImgList(imgList);
+                        childEn.setType(1);
+                    } else if (i == 2) {
+                        childEn.setStarNum(2);
+                        ArrayList<String> imgList = new ArrayList<>();
+                        imgList.add(AppConfig.IMAGE_URL + "design_001.png");
+                        imgList.add(AppConfig.IMAGE_URL + "design_004.png");
+                        imgList.add(AppConfig.IMAGE_URL + "design_006.png");
+                        childEn.setImgList(imgList);
+                        childEn.setType(1);
+                    }
+
                     lists.add(childEn);
                 }
                 mainEn.setLists(lists);

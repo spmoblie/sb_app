@@ -64,7 +64,7 @@
             android:textSize="@dimen/text_size_13"
             android:textColor="@color/app_color_gray_9"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/fg_home_head_tv_title"/>
+            app:layout_constraintTop_toBottomOf="@+id/fg_home_head_tv_title"/>
 
         <ImageView
             android:layout_width="wrap_content"
@@ -72,8 +72,8 @@
             android:src="@mipmap/icon_new"
             android:layout_marginTop="@dimen/margin_padding_6"
             android:layout_marginLeft="@dimen/margin_padding_5"
-            app:layout_constraintTop_toTopOf="@id/fg_home_head_tv_title"
-            app:layout_constraintLeft_toRightOf="@id/fg_home_head_tv_title"/>
+            app:layout_constraintTop_toTopOf="@+id/fg_home_head_tv_title"
+            app:layout_constraintLeft_toRightOf="@+id/fg_home_head_tv_title"/>
 
     </android.support.constraint.ConstraintLayout>
 

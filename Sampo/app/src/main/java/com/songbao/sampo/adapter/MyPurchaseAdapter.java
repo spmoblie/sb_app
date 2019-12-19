@@ -7,9 +7,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.songbao.sampo.R;
-import com.songbao.sampo.entity.GoodsEntity;
 import com.songbao.sampo.entity.OPurchaseEntity;
-import com.songbao.sampo.utils.CommonTools;
 import com.songbao.sampo.widgets.ScrollViewListView;
 
 import java.text.DecimalFormat;
@@ -22,16 +20,7 @@ public class MyPurchaseAdapter extends BaseRecyclerAdapter {
     public MyPurchaseAdapter(Context context, int resLayout) {
         super(context, resLayout);
         df = new DecimalFormat("0.00");
-        lv_adapter = new GoodsOrderAdapter(context);
-        lv_adapter.addCallback(new AdapterCallback() {
-            @Override
-            public void setOnClick(Object data, int position, int type) {
-                GoodsEntity goodsEn = (GoodsEntity) data;
-                if (goodsEn != null) {
-                    CommonTools.showToast("点击了商品 " + goodsEn.getId());
-                }
-            }
-        });
+        lv_adapter = new GoodsOrderAdapter(context, false);
     }
 
     @Override
@@ -98,7 +87,7 @@ public class MyPurchaseAdapter extends BaseRecyclerAdapter {
                 tv_click_01.setText(context.getString(R.string.order_after_sale));
                 tv_click_01.setTextColor(context.getResources().getColor(R.color.app_color_gray_5));
                 tv_click_01.setBackgroundResource(R.drawable.shape_style_empty_02_08);
-                tv_click_02.setText(context.getString(R.string.order_evaluate));
+                tv_click_02.setText(context.getString(R.string.order_comment));
                 tv_click_02.setBackgroundResource(R.drawable.shape_style_solid_06_08);
                 break;
             case 5: //已完成

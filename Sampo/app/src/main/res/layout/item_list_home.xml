@@ -23,14 +23,14 @@
         android:textSize="@dimen/app_text_size_content"
         android:textStyle="bold"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/fg_home_item_iv" />
+        app:layout_constraintTop_toBottomOf="@+id/fg_home_item_iv" />
 
     <TextView
         android:id="@+id/fg_home_item_tv_name"
         style="@style/common_text_bg_frame"
         android:maxEms="9"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/fg_home_item_tv_title" />
+        app:layout_constraintTop_toBottomOf="@+id/fg_home_item_tv_title" />
 
     <TextView
         android:id="@+id/fg_home_item_tv_series"
@@ -39,8 +39,8 @@
         android:background="@drawable/shape_style_empty_09_08"
         android:maxEms="9"
         android:textColor="@color/app_color_blue"
-        app:layout_constraintLeft_toRightOf="@id/fg_home_item_tv_name"
-        app:layout_constraintTop_toBottomOf="@id/fg_home_item_tv_title" />
+        app:layout_constraintLeft_toRightOf="@+id/fg_home_item_tv_name"
+        app:layout_constraintTop_toBottomOf="@+id/fg_home_item_tv_title" />
 
     <TextView
         android:id="@+id/fg_home_item_tv_time"
@@ -61,5 +61,5 @@
         android:textColor="@color/app_color_white"
         android:textStyle="bold"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/fg_home_item_tv_name" />
+        app:layout_constraintTop_toBottomOf="@+id/fg_home_item_tv_name" />
 </android.support.constraint.ConstraintLayout>

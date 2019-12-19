@@ -23,8 +23,9 @@ import com.songbao.sampo.AppApplication;
 import com.songbao.sampo.AppConfig;
 import com.songbao.sampo.R;
 import com.songbao.sampo.activity.BaseActivity;
+import com.songbao.sampo.activity.mine.CommentGoodsActivity;
 import com.songbao.sampo.adapter.AdapterCallback;
-import com.songbao.sampo.adapter.CommentLVAdapter;
+import com.songbao.sampo.adapter.CommentGLVAdapter;
 import com.songbao.sampo.adapter.GoodsDetailsAdapter;
 import com.songbao.sampo.entity.CommentEntity;
 import com.songbao.sampo.entity.GoodsAttrEntity;
@@ -114,7 +115,7 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
 
     private Runnable mPagerAction;
     private LinearLayout.LayoutParams indicatorsLP;
-    private CommentLVAdapter lv_comment_Adapter;
+    private CommentGLVAdapter lv_comment_Adapter;
     private GoodsDetailsAdapter lv_detail_Adapter;
 
     public static final int TYPE_1 = 1;  //商品
@@ -392,7 +393,7 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
     private void initListView() {
         //精彩评价
         if (lv_comment_Adapter == null) {
-            lv_comment_Adapter = new CommentLVAdapter(mContext);
+            lv_comment_Adapter = new CommentGLVAdapter(mContext);
             lv_comment_Adapter.addCallback(new AdapterCallback() {
                 @Override
                 public void setOnClick(Object data, int position, int type) {
@@ -530,7 +531,7 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
      * 打开评价列表页
      */
     private void openCommentActivity(String goodsId) {
-        Intent intent = new Intent(mContext, CommentActivity.class);
+        Intent intent = new Intent(mContext, CommentGoodsActivity.class);
         intent.putExtra("goodsId", goodsId);
         startActivity(intent);
     }
@@ -609,6 +610,9 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
                 imgList.add(AppConfig.IMAGE_URL + "design_006.png");
                 childEn.setImgList(imgList);
                 childEn.setType(1);
+
+                childEn.setAddDay(26);
+                childEn.setAddContent("床垫搭配效果很不错，非常满意，床垫搭配效果很不错，非常满意。");
             } else if (i == 1) {
                 childEn.setStarNum(3);
                 ArrayList<String> imgList = new ArrayList<>();

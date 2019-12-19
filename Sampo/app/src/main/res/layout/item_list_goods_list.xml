@@ -25,8 +25,8 @@
 
         <com.songbao.sampo.widgets.RoundImageView
             android:id="@+id/goods_list_item_iv_show"
-            android:layout_width="@dimen/margin_padding_120"
-            android:layout_height="@dimen/margin_padding_120"
+            android:layout_width="@dimen/image_size_other"
+            android:layout_height="@dimen/image_size_other"
             android:scaleType="centerCrop"
             android:src="@drawable/icon_default_show"
             app:type="round" />

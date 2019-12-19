@@ -68,7 +68,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/margin_padding_10"
                     android:layout_marginTop="@dimen/app_margin_screen"
-                    android:layout_toRightOf="@id/payment_iv_pay_wx"
+                    android:layout_toRightOf="@+id/payment_iv_pay_wx"
                     android:text="@string/pay_wx"
                     android:textColor="@color/shows_text_color"
                     android:textSize="@dimen/app_text_size_content" />
@@ -76,9 +76,9 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignBottom="@id/payment_iv_pay_wx"
+                    android:layout_alignBottom="@+id/payment_iv_pay_wx"
                     android:layout_marginLeft="@dimen/margin_padding_10"
-                    android:layout_toRightOf="@id/payment_iv_pay_wx"
+                    android:layout_toRightOf="@+id/payment_iv_pay_wx"
                     android:text="@string/pay_wx_hint"
                     android:textColor="@color/shows_text_color"
                     android:textSize="@dimen/app_text_size_small" />
@@ -113,7 +113,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/margin_padding_10"
                     android:layout_marginTop="@dimen/app_margin_screen"
-                    android:layout_toRightOf="@id/payment_iv_pay_zfb"
+                    android:layout_toRightOf="@+id/payment_iv_pay_zfb"
                     android:text="@string/pay_zfb"
                     android:textColor="@color/shows_text_color"
                     android:textSize="@dimen/app_text_size_content" />
@@ -121,9 +121,9 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignBottom="@id/payment_iv_pay_zfb"
+                    android:layout_alignBottom="@+id/payment_iv_pay_zfb"
                     android:layout_marginLeft="@dimen/margin_padding_10"
-                    android:layout_toRightOf="@id/payment_iv_pay_zfb"
+                    android:layout_toRightOf="@+id/payment_iv_pay_zfb"
                     android:text="@string/pay_zfb_hint"
                     android:textColor="@color/shows_text_color"
                     android:textSize="@dimen/app_text_size_small" />
@@ -158,7 +158,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/margin_padding_10"
                     android:layout_marginTop="@dimen/app_margin_screen"
-                    android:layout_toRightOf="@id/payment_iv_pay_union"
+                    android:layout_toRightOf="@+id/payment_iv_pay_union"
                     android:text="@string/pay_union"
                     android:textColor="@color/shows_text_color"
                     android:textSize="@dimen/app_text_size_content" />
@@ -166,9 +166,9 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignBottom="@id/payment_iv_pay_union"
+                    android:layout_alignBottom="@+id/payment_iv_pay_union"
                     android:layout_marginLeft="@dimen/margin_padding_10"
-                    android:layout_toRightOf="@id/payment_iv_pay_union"
+                    android:layout_toRightOf="@+id/payment_iv_pay_union"
                     android:text="@string/pay_union_hint"
                     android:textColor="@color/shows_text_color"
                     android:textSize="@dimen/app_text_size_small" />

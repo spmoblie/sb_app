@@ -181,6 +181,9 @@ public class AppConfig {
 	// 获取设计师列表
 	public static final int REQUEST_SV_DESIGN_ALL = 0X4010;
 
+	// 上传评论照片
+	public static final int REQUEST_SV_UPLOAD_COMMENT_PHOTO = 0X5001;
+
 	/**
 	 ******************************************* RequestCode协议结束 ******************************************
 	 */
@@ -324,6 +327,8 @@ public class AppConfig {
 	public static final String KEY_USER_PHONE = "user_phone";
 	// 偏好设置Key-记录用户账户余额
 	public static final String KEY_USER_MONEY = "user_money";
+	// 偏好设置Key-记录用户上传相片地址
+	public static final String KEY_POST_PHOTO_URL = "post_photo_url";
 	// 偏好设置Key-记录用户新消息数量
 	public static final String KEY_USER_MSG_NUM = "user_msg_num";
 	// 偏好设置Key-记录用户购物车数量

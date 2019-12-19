@@ -96,7 +96,7 @@ public class MyCustomizeAdapter extends BaseRecyclerAdapter {
                 tv_click_01.setText(context.getString(R.string.order_after_sale));
                 tv_click_01.setTextColor(context.getResources().getColor(R.color.app_color_gray_5));
                 tv_click_01.setBackgroundResource(R.drawable.shape_style_empty_02_08);
-                tv_click_02.setText(context.getString(R.string.order_evaluate));
+                tv_click_02.setText(context.getString(R.string.order_comment));
                 tv_click_02.setBackgroundResource(R.drawable.shape_style_solid_06_08);
                 break;
             case 6: //已完成

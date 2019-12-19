@@ -25,8 +25,8 @@
 
             <com.songbao.sampo.widgets.RoundImageView
                 android:id="@+id/personal_iv_head"
-                android:layout_width="@dimen/head_size_default"
-                android:layout_height="@dimen/head_size_default"
+                android:layout_width="@dimen/image_size_head"
+                android:layout_height="@dimen/image_size_head"
                 android:layout_centerVertical="true"
                 android:layout_toLeftOf="@+id/personal_tv_head_content"
                 android:contentDescription="@string/desc"

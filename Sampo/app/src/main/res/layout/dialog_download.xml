@@ -18,7 +18,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/dialog_content"/>
+        app:layout_constraintRight_toLeftOf="@+id/dialog_content"/>
 
     <TextView
         android:id="@+id/dialog_content"
@@ -30,6 +30,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toRightOf="@id/dialog_progress"/>
+        app:layout_constraintLeft_toRightOf="@+id/dialog_progress"/>
 
 </android.support.constraint.ConstraintLayout>

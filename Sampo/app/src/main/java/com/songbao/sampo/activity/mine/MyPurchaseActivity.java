@@ -1,6 +1,7 @@
 package com.songbao.sampo.activity.mine;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.util.ArrayMap;
@@ -169,10 +170,21 @@ public class MyPurchaseActivity extends BaseActivity implements View.OnClickList
 			@Override
 			public void setOnClick(Object data, int position, int type) {
 				if (position < 0 || position >= al_show.size()) return;
-				startActivity(new Intent(mContext, CustomizeActivity.class));
+				openPurchaseActivity(al_show.get(position));
 			}
 		});
 		mRecyclerView.setAdapter(rvAdapter);
+	}
+
+	/**
+	 * 打开购买订单详情页
+	 */
+	private void openPurchaseActivity(OPurchaseEntity opEn) {
+		if (opEn != null) {
+			Intent intent = new Intent(mContext, PurchaseActivity.class);
+			intent.putExtra(AppConfig.PAGE_DATA, opEn);
+			startActivity(intent);
+		}
 	}
 
 	/**
@@ -201,6 +213,7 @@ public class MyPurchaseActivity extends BaseActivity implements View.OnClickList
 				break;
 		}
 		defaultBtn.setChecked(true);
+		changeItemStatus();
 	}
 
 	@Override
@@ -219,6 +232,7 @@ public class MyPurchaseActivity extends BaseActivity implements View.OnClickList
 					total_1 = 0;
 					loadFirstPageData();
 				}
+				changeItemStatus();
 				break;
 			case R.id.top_bar_radio_rb_2:
 				if (top_type == TYPE_2) return;
@@ -229,6 +243,7 @@ public class MyPurchaseActivity extends BaseActivity implements View.OnClickList
 					total_2 = 0;
 					loadFirstPageData();
 				}
+				changeItemStatus();
 				break;
 			case R.id.top_bar_radio_rb_3:
 				if (top_type == TYPE_3) return;
@@ -239,6 +254,7 @@ public class MyPurchaseActivity extends BaseActivity implements View.OnClickList
 					total_3 = 0;
 					loadFirstPageData();
 				}
+				changeItemStatus();
 				break;
 			case R.id.top_bar_radio_rb_4:
 				if (top_type == TYPE_4) return;
@@ -249,6 +265,7 @@ public class MyPurchaseActivity extends BaseActivity implements View.OnClickList
 					total_4 = 0;
 					loadFirstPageData();
 				}
+				changeItemStatus();
 				break;
 			case R.id.top_bar_radio_rb_5:
 				if (top_type == TYPE_5) return;
@@ -259,6 +276,7 @@ public class MyPurchaseActivity extends BaseActivity implements View.OnClickList
 					total_5 = 0;
 					loadFirstPageData();
 				}
+				changeItemStatus();
 				break;
 		}
 	}
@@ -312,6 +330,34 @@ public class MyPurchaseActivity extends BaseActivity implements View.OnClickList
 	 */
 	private void setLoadMoreState() {
 		refresh_rv.setHasMoreData(true);
+	}
+
+	/**
+	 * 自定义Top Item状态切换
+	 */
+	private void changeItemStatus() {
+		rb_1.setTypeface(Typeface.SANS_SERIF, Typeface.NORMAL);
+		rb_2.setTypeface(Typeface.SANS_SERIF, Typeface.NORMAL);
+		rb_3.setTypeface(Typeface.SANS_SERIF, Typeface.NORMAL);
+		rb_4.setTypeface(Typeface.SANS_SERIF, Typeface.NORMAL);
+		rb_4.setTypeface(Typeface.SANS_SERIF, Typeface.NORMAL);
+		switch (top_type) {
+			case TYPE_1:
+				rb_1.setTypeface(Typeface.SANS_SERIF, Typeface.BOLD);
+				break;
+			case TYPE_2:
+				rb_2.setTypeface(Typeface.SANS_SERIF, Typeface.BOLD);
+				break;
+			case TYPE_3:
+				rb_3.setTypeface(Typeface.SANS_SERIF, Typeface.BOLD);
+				break;
+			case TYPE_4:
+				rb_4.setTypeface(Typeface.SANS_SERIF, Typeface.BOLD);
+				break;
+			case TYPE_5:
+				rb_5.setTypeface(Typeface.SANS_SERIF, Typeface.BOLD);
+				break;
+		}
 	}
 
 	@Override

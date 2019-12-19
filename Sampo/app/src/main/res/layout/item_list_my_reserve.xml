@@ -20,12 +20,12 @@
         android:layout_marginTop="@dimen/margin_padding_18"
         android:background="@drawable/shape_style_solid_01_16"
         android:padding="@dimen/app_margin_screen"
-        app:layout_constraintTop_toBottomOf="@id/my_reserve_item_time">
+        app:layout_constraintTop_toBottomOf="@+id/my_reserve_item_time">
 
         <com.songbao.sampo.widgets.RoundImageView
             android:id="@+id/my_reserve_item_iv_show"
-            android:layout_width="@dimen/margin_padding_110"
-            android:layout_height="@dimen/margin_padding_110"
+            android:layout_width="@dimen/image_size_other"
+            android:layout_height="@dimen/image_size_other"
             android:scaleType="centerCrop"
             android:src="@drawable/icon_default_show"
             app:type="round" />
@@ -59,7 +59,7 @@
             android:id="@+id/my_reserve_item_tv_date"
             style="@style/list_item_text"
             android:layout_alignLeft="@+id/my_reserve_item_tv_title"
-            android:layout_below="@id/my_reserve_item_tv_title"
+            android:layout_below="@+id/my_reserve_item_tv_title"
             android:layout_marginTop="@dimen/margin_padding_10"
             android:textColor="@color/app_color_gray_5" />
 
@@ -67,7 +67,7 @@
             android:id="@+id/my_reserve_item_tv_time"
             style="@style/list_item_text"
             android:layout_alignLeft="@+id/my_reserve_item_tv_date"
-            android:layout_below="@id/my_reserve_item_tv_date"
+            android:layout_below="@+id/my_reserve_item_tv_date"
             android:layout_marginTop="@dimen/margin_padding_10"
             android:textColor="@color/app_color_gray_5" />
 

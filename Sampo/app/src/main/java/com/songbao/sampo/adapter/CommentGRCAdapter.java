@@ -16,16 +16,17 @@ import com.songbao.sampo.AppApplication;
 import com.songbao.sampo.R;
 import com.songbao.sampo.entity.CommentEntity;
 import com.songbao.sampo.utils.CommonTools;
+import com.songbao.sampo.utils.StringUtil;
 import com.songbao.sampo.widgets.RoundImageView;
 
 import java.util.ArrayList;
 
-public class CommentRCAdapter extends BaseRecyclerAdapter {
+public class CommentGRCAdapter extends BaseRecyclerAdapter {
 
     private int imageTotalWidth;
     private RelativeLayout.LayoutParams goodsImgLP;
 
-    public CommentRCAdapter(Context context, int resLayout) {
+    public CommentGRCAdapter(Context context, int resLayout) {
         super(context, resLayout);
 
         imageTotalWidth = AppApplication.screen_width - CommonTools.dpToPx(context, 65);
@@ -35,15 +36,17 @@ public class CommentRCAdapter extends BaseRecyclerAdapter {
     @Override
     public void bindData(BaseRecyclerHolder holder, final int pos) {
         // 获取View
-        ConstraintLayout item_main = holder.getView(R.id.comment_item_main);
-        RoundImageView iv_head = holder.getView(R.id.comment_iv_head);
-        TextView tv_nick = holder.getView(R.id.comment_tv_nick);
-        TextView tv_time = holder.getView(R.id.comment_tv_time);
-        TextView tv_attr = holder.getView(R.id.comment_tv_attr);
-        final RatingBar rb_star = holder.getView(R.id.comment_rb_star);
-        TextView tv_content = holder.getView(R.id.comment_tv_content);
-        HorizontalScrollView sv_main = holder.getView(R.id.comment_view_hsv);
-        LinearLayout ll_main = holder.getView(R.id.comment_hsv_ll_main);
+        ConstraintLayout item_main = holder.getView(R.id.comment_goods_item_main);
+        RoundImageView iv_head = holder.getView(R.id.comment_goods_item_iv_head);
+        TextView tv_nick = holder.getView(R.id.comment_goods_item_tv_nick);
+        TextView tv_time = holder.getView(R.id.comment_goods_item_tv_time);
+        TextView tv_attr = holder.getView(R.id.comment_goods_item_tv_attr);
+        RatingBar rb_star = holder.getView(R.id.comment_goods_item_rb_star);
+        TextView tv_content = holder.getView(R.id.comment_goods_item_tv_content);
+        HorizontalScrollView sv_main = holder.getView(R.id.comment_goods_item_view_hsv);
+        LinearLayout ll_main = holder.getView(R.id.comment_goods_item_hsv_ll_main);
+        TextView tv_add_day = holder.getView(R.id.comment_goods_item_tv_content_add_day);
+        TextView tv_add_content = holder.getView(R.id.comment_goods_item_tv_add_content);
 
         // 绑定View
         final CommentEntity data = (CommentEntity) mDataList.get(pos);
@@ -60,12 +63,23 @@ public class CommentRCAdapter extends BaseRecyclerAdapter {
 
         rb_star.setRating(data.getStarNum());
 
+        // 评论图片
         if (data.getType() == 1) {
             sv_main.setVisibility(View.VISIBLE);
             initImageView(ll_main, data.getImgList());
         } else {
             ll_main.removeAllViews();
             sv_main.setVisibility(View.GONE);
+        }
+
+        // 追加评价
+        tv_add_day.setVisibility(View.GONE);
+        tv_add_content.setVisibility(View.GONE);
+        if (data.getAddDay() > 0 && !StringUtil.isNull(data.getAddContent())) {
+            tv_add_day.setVisibility(View.VISIBLE);
+            tv_add_content.setVisibility(View.VISIBLE);
+            tv_add_day.setText(context.getString(R.string.order_comment_day, data.getAddDay()));
+            tv_add_content.setText(data.getAddContent());
         }
 
         item_main.setOnClickListener(new View.OnClickListener() {
