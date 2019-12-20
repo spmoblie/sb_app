@@ -65,9 +65,10 @@ public class ChildFragmentTwo extends BaseFragment implements OnClickListener {
 	private MyRecyclerView mrv_right;
 	private SortOneAdapter rv_adapter_1;
 	private SortTwoAdapter rv_adapter_2;
+	private String postSortCode = "";
+	private int postSortId = 0;
 	private boolean isLoadOk = true;
 	private boolean isSortOk = false;
-	private String postSortCode = "";
 
 	private ArrayList<GoodsSortEntity> al_left = new ArrayList<>();
 	private ArrayList<GoodsSortEntity> al_right = new ArrayList<>();
@@ -128,6 +129,7 @@ public class ChildFragmentTwo extends BaseFragment implements OnClickListener {
 			public void setOnClick(Object data, int position, int type) {
 				if (!isLoadOk) return;
 				if (position < 0 || position >= al_left.size()) return;
+				postSortId = al_left.get(position).getId();
 				postSortCode = al_left.get(position).getSortCode();
 				loadSortGoods();
 				updateLeftListData(position);
@@ -154,7 +156,18 @@ public class ChildFragmentTwo extends BaseFragment implements OnClickListener {
 			@Override
 			public void setOnClick(Object data, int position, int type) {
 				if (position < 0 || position >= al_right.size()) return;
-				openGoodsListActivity(0, al_right.get(position).getParentId());
+				int isHot = 0;
+				int isNews = 0;
+				int isRecommend = 0;
+				if (position == 0) { //新品
+					isNews = 1;
+				} else {
+					isHot = 1;
+				}
+				if (al_right.get(position).getParentId() <= 0) {
+					isRecommend = 1;
+				}
+				openGoodsListActivity(isHot, isNews, isRecommend, al_right.get(position).getSortCode());
 			}
 		});
 		mrv_right.setAdapter(rv_adapter_2);
@@ -187,7 +200,7 @@ public class ChildFragmentTwo extends BaseFragment implements OnClickListener {
 		Intent intent;
 		switch (v.getId()) {
 			case R.id.fg_two_et_search:
-				openGoodsListActivity(1, 0);
+				openGoodsListActivity(0, 0, 0, null);
 				break;
 			case R.id.fg_two_tv_scan:
 				intent = new Intent(mContext, ScanActivity.class);
@@ -202,13 +215,13 @@ public class ChildFragmentTwo extends BaseFragment implements OnClickListener {
 
 	/**
 	 * 跳转至商品列表页面
-	 * @param type 事件类型
-	 * @param sortId 商品分类Id
 	 */
-	private void openGoodsListActivity(int type, int sortId) {
+	private void openGoodsListActivity(int isHot, int isNews, int isRecommend, String sortCode) {
 		Intent intent = new Intent(mContext, GoodsListActivity.class);
-		intent.putExtra("source_type", type);
-		intent.putExtra("sort_id", sortId);
+		intent.putExtra("sortCode", sortCode);
+		intent.putExtra("isHot", isHot);
+		intent.putExtra("isNews", isNews);
+		intent.putExtra("isRecommend", isRecommend);
 		startActivity(intent);
 	}
 
@@ -283,13 +296,18 @@ public class ChildFragmentTwo extends BaseFragment implements OnClickListener {
 						isSortOk = true;
 						al_left.clear();
 						al_left.addAll(baseEn.getLists());
+						if (al_left.size() > 0) {
+							postSortId = al_left.get(0).getId();
+							postSortCode = al_left.get(0).getSortCode();
+							loadSortGoods();
+						}
 						updateLeftListData(0);
 					} else {
 						handleErrorCode(baseEn);
 					}
 					break;
 				case AppConfig.REQUEST_SV_SORT_GOODS:
-					baseEn = JsonUtils.getSortGoodsData(jsonObject, postSortCode);
+					baseEn = JsonUtils.getSortGoodsData(jsonObject, postSortId, postSortCode);
 					if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
 						al_right.clear();
 						al_right.addAll(baseEn.getLists());

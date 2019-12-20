@@ -92,6 +92,10 @@ public class AppConfig {
 	public final static String URL_SORT_LIST = "app/shopping/getCatInfo";
 	// 分类商品
 	public final static String URL_SORT_GOODS = "app/shopping/getCatInfoGoods";
+	// 筛选属性
+	public final static String URL_SCREEN_ATTR = "app/shopping/getAttrValues";
+	// 商品列表
+	public final static String URL_GOODS_LIST = "app/shopping/searchGoodsInfo";
 	// 设计师列表
 	public final static String URL_DESIGN_ALL = "app/design/all";
 

@@ -126,10 +126,11 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 	private Drawable rank_up, rank_down, rank_normal;
 	private int top_type = TYPE_1; //Top标记
 	private int sort_type = 0; //排序标记(0:默认/1:升序/2:降序)Id
-	private int sort_id = 0; //商品分类
-	private int source_type = 0; //事件起源类型(0:默认/1:搜索)
 	private boolean isRise2 = false; //销量排序控制符(true:销量升序/false:销量降序)
 	private boolean isRise3 = false; //价格排序控制符(true:价格升序/false:价格降序)
+	private int isHot = 0; //"1"表示热门
+	private int isNews = 0; //"1"表示新品
+	private int isRecommend = 0; //"1"表示推荐
 
 	private int data_total = -1; //数据总量
 	private int load_type = 1; //加载类型(0:下拉刷新/1:翻页加载)
@@ -140,6 +141,7 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 	private boolean isAnimStop = true; //动画控制
 
 	private String searchStr;
+	private String sortCode = ""; //商品分类编码
 	private long min_price, max_price;
 
 	private ArrayList<GoodsEntity> al_show = new ArrayList<>();
@@ -150,8 +152,10 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_goods_list);
 
-		sort_id = getIntent().getIntExtra("sort_id", 0);
-		source_type = getIntent().getIntExtra("source_type", 0);
+		sortCode = getIntent().getStringExtra("sortCode");
+		isHot = getIntent().getIntExtra("isHot", 0);
+		isNews = getIntent().getIntExtra("isNews", 0);
+		isRecommend = getIntent().getIntExtra("isRecommend", 0);
 
 		initView();
 	}
@@ -166,7 +170,6 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 		tv_top_1.setOnClickListener(this);
 		tv_top_2.setOnClickListener(this);
 		tv_top_3.setOnClickListener(this);
-		tv_top_5.setOnClickListener(this);
 		screen_hide.setOnClickListener(this);
 		screen_show.setOnClickListener(this);
 		tv_reset.setOnClickListener(this);
@@ -185,7 +188,9 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 		changeItemStatus();
 		loadMoreData();
 
-		if (source_type == 1) { //搜索事件
+		if (StringUtil.isNull(sortCode)) {
+			tv_top_5.setOnClickListener(this);
+			tv_top_5.setVisibility(View.VISIBLE);
 			editTextFocusAndClear(et_search);
 		}
 	}
@@ -752,7 +757,7 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 	private void loadServerData() {
 		if (!isLoadOk) return; //加载频率控制
 		isLoadOk = false;
-		if (attrEn == null) {
+		if (StringUtil.isNull(sortCode) && attrEn == null) {
 			loadScreenAttrData();
 		}
 		String page = String.valueOf(load_page);
@@ -760,12 +765,15 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 			page = "1";
 		}
 		HashMap<String, String> map = new HashMap<>();
-		map.put("type", String.valueOf(top_type));
-		map.put("sort", String.valueOf(sort_type));
 		map.put("page", page);
 		map.put("size", AppConfig.LOAD_SIZE);
-		map.put("isReservation", "1");
-		loadSVData(AppConfig.URL_HOME_LIST, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_GOODS_LIST);
+		map.put("isHot", String.valueOf(isHot));
+		map.put("isNews", String.valueOf(isNews));
+		map.put("isRecommend", String.valueOf(isRecommend));
+		if (!StringUtil.isNull(sortCode)) {
+			map.put("refCatCode", sortCode);
+		}
+		loadSVData(AppConfig.URL_GOODS_LIST, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_GOODS_LIST);
 	}
 
 	/**
@@ -773,12 +781,7 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 	 */
 	private void loadScreenAttrData() {
 		HashMap<String, String> map = new HashMap<>();
-		map.put("type", String.valueOf(top_type));
-		map.put("sort", String.valueOf(sort_type));
-		map.put("page", "1");
-		map.put("size", AppConfig.LOAD_SIZE);
-		map.put("isReservation", "1");
-		loadSVData(AppConfig.URL_HOME_LIST, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_SCREEN_ATTR);
+		loadSVData(AppConfig.URL_SCREEN_ATTR, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_SCREEN_ATTR);
 	}
 
 	@Override

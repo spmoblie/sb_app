@@ -115,6 +115,7 @@
             android:drawableRight="@mipmap/icon_screen_normal"
             android:drawablePadding="@dimen/margin_padding_5"
             android:text="@string/goods_top_item_5"
+            android:visibility="invisible"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintLeft_toRightOf="@+id/goods_list_tv_top_item_4"
             app:layout_constraintTop_toBottomOf="@+id/goods_list_iv_left"/>

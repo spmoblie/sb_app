@@ -15,9 +15,7 @@
 
         <EditText
             android:id="@+id/feed_back_et_content"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/shape_style_app_input"
+            style="@style/common_edit_text"
             android:padding="@dimen/margin_padding_10"
             android:gravity="top"
             android:hint="@string/setting_input_hint_feedback"

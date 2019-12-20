@@ -338,8 +338,7 @@ public class AddressEditActivity extends BaseActivity implements OnClickListener
                 List<CityModel> cityList = provinceList.get(0).getCityList();
                 if (cityList != null && !cityList.isEmpty()) {
                     mCityName = cityList.get(0).getName();
-                    List<DistrictModel> districtList = cityList.get(0)
-                            .getDistrictList();
+                    List<DistrictModel> districtList = cityList.get(0).getDistrictList();
                     mDistrictName = districtList.get(0).getName();
                 }
             }

@@ -26,8 +26,7 @@
 
     <TextView
         android:id="@+id/goods_order_item_tv_attr"
-        style="@style/list_item_text"
-        android:layout_marginTop="@dimen/margin_padding_10"
+        style="@style/goods_attr_text"
         android:textColor="@color/app_color_gray_5"
         android:textSize="@dimen/app_text_size_small"
         app:layout_constraintLeft_toLeftOf="@+id/goods_order_item_tv_name"

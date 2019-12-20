@@ -587,7 +587,7 @@ public class JsonUtils {
     /**
      * 解析分类商品数据
      */
-    public static BaseEntity getSortGoodsData(JSONObject jsonObject, String sortCode) throws JSONException {
+    public static BaseEntity getSortGoodsData(JSONObject jsonObject, int sortId, String sortCode) throws JSONException {
         BaseEntity mainEn = getCommonKeyValue(jsonObject);
 
         if (StringUtil.notNull(jsonObject, "data")) {
@@ -598,6 +598,7 @@ public class JsonUtils {
             if (StringUtil.notNull(data, "news")) {
                 JSONArray news = data.getJSONArray("news");
                 childEn = new GoodsSortEntity();
+                childEn.setParentId(sortId);
                 childEn.setSortCode(sortCode);
 
                 ArrayList<GoodsEntity> newsList = new ArrayList<>();
@@ -648,23 +649,19 @@ public class JsonUtils {
 
         if (StringUtil.notNull(jsonObject, "data")) {
             JSONObject jsonData = jsonObject.getJSONObject("data");
-            if (StringUtil.notNull(jsonData, "activityList")) {
-                JSONArray data = jsonData.getJSONArray("activityList");
+            if (StringUtil.notNull(jsonData, "data")) {
+                JSONArray data = jsonData.getJSONArray("data");
                 GoodsEntity childEn;
                 List<GoodsEntity> lists = new ArrayList<>();
                 for (int i = 0; i < data.length(); i++) {
                     JSONObject item = data.getJSONObject(i);
                     childEn = new GoodsEntity();
                     childEn.setId(i + 1);
-                    childEn.setPicUrl(AppConfig.IMAGE_URL + "design_001.png");
-                    childEn.setName("松堡王国现代简约彩条双层床");
-                    childEn.setAttribute("天蓝色；1350*1900");
-                    childEn.setPrice(999999.99);
-
-                    if (i == 1) {
-                        childEn.setName("松堡王国现代简约彩条双层床松堡王国现代简约彩条双层床");
-                        childEn.setAttribute("天蓝色；1350*1900天蓝色；1350*1900");
-                    }
+                    childEn.setGoodsCode(item.getString("skuCode"));
+                    childEn.setPicUrl(item.getString("skuPic"));
+                    childEn.setName(item.getString("goodsName"));
+                    childEn.setAttribute(item.getString("skuComboName"));
+                    childEn.setPrice(item.getDouble("price"));
 
                     lists.add(childEn);
                 }
@@ -683,32 +680,27 @@ public class JsonUtils {
 
         if (StringUtil.notNull(jsonObject, "data")) {
             JSONObject jsonData = jsonObject.getJSONObject("data");
-            if (StringUtil.notNull(jsonData, "activityList")) {
-                JSONArray data = jsonData.getJSONArray("activityList");
+            if (StringUtil.notNull(jsonData, "data")) {
+                JSONArray data = jsonData.getJSONArray("data");
                 GoodsAttrEntity childEn, attrEn;
                 ArrayList<GoodsAttrEntity> lists = new ArrayList<>();
-                for (int i = 0; i < 2; i++) {
+                for (int i = 0; i < data.length(); i++) {
                     JSONObject item = data.getJSONObject(i);
                     childEn = new GoodsAttrEntity();
-                    int id = i + 1;
-                    childEn.setAttrId(id);
-                    if (id == 1) {
-                        childEn.setAttrName("尺寸");
-                    } else {
-                        childEn.setAttrName("颜色");
-                    }
+                    childEn.setAttrName(item.getString("name"));
 
+                    JSONArray items = item.getJSONArray("children");
                     ArrayList<GoodsAttrEntity> childLists = new ArrayList<>();
-                    for (int j = 0; j < 9; j++) {
+                    for (int j = 0; j < items.length(); j++) {
+                        JSONObject attrs = items.getJSONObject(j);
                         attrEn = new GoodsAttrEntity();
-                        int ij = id * 10 + j;
-                        attrEn.setAttrId(ij);
-                        attrEn.setAttrName(childEn.getAttrName() + ij);
+                        attrEn.setAttrId(attrs.getInt("id"));
+                        attrEn.setAttrName(attrs.getString("attrValues"));
                         childLists.add(attrEn);
                     }
                     attrEn = new GoodsAttrEntity();
                     attrEn.setAttrId(-1);
-                    attrEn.setAttrName("全部-1");
+                    attrEn.setAttrName("全部");
                     attrEn.setSelect(true);
                     childLists.add(attrEn);
 

@@ -8,6 +8,7 @@ public class GoodsEntity extends BaseEntity {
 	private static final long serialVersionUID = 1L;
 
 	private int id;
+	private String goodsCode; //产品编码
 	private String picUrl; //产品图片
 	private String name; //产品名称
 	private String attribute; //产品规格
@@ -30,6 +31,14 @@ public class GoodsEntity extends BaseEntity {
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public String getGoodsCode() {
+		return goodsCode;
+	}
+
+	public void setGoodsCode(String goodsCode) {
+		this.goodsCode = goodsCode;
 	}
 
 	public String getPicUrl() {

@@ -51,8 +51,8 @@
                 <EditText
                     android:id="@+id/sign_et_name"
                     style="@style/sign_up_edit"
-                    android:layout_marginLeft="@dimen/margin_padding_20"
                     android:hint="@string/must_fill"
+                    android:layout_marginLeft="@dimen/margin_padding_20"
                     app:layout_constraintLeft_toRightOf="@+id/sign_tv_name"
                     app:layout_constraintTop_toTopOf="@+id/sign_tv_name"
                     app:layout_constraintWidth_percent="0.8" />
