@@ -95,14 +95,14 @@ public class PostSaleActivity extends BaseActivity implements OnClickListener {
 	private void initView() {
 		setTitle(R.string.order_post_sale);
 
-		iv_photo_01.setOnClickListener(this);
+		/*iv_photo_01.setOnClickListener(this);
 		iv_photo_02.setOnClickListener(this);
 		iv_photo_03.setOnClickListener(this);
 		iv_photo_01_delete.setOnClickListener(this);
 		iv_photo_02_delete.setOnClickListener(this);
 		iv_photo_03_delete.setOnClickListener(this);
 		tv_add_photo.setOnClickListener(this);
-		tv_post.setOnClickListener(this);
+		tv_post.setOnClickListener(this);*/
 
 		if (data != null) {
 			GoodsEntity goodsEn = data.getGoodsEn();
