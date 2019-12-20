@@ -65,7 +65,9 @@ public class ChildFragmentTwo extends BaseFragment implements OnClickListener {
 	private MyRecyclerView mrv_right;
 	private SortOneAdapter rv_adapter_1;
 	private SortTwoAdapter rv_adapter_2;
-	private boolean isLoadOk = false;
+	private boolean isLoadOk = true;
+	private boolean isSortOk = false;
+	private String postSortCode = "";
 
 	private ArrayList<GoodsSortEntity> al_left = new ArrayList<>();
 	private ArrayList<GoodsSortEntity> al_right = new ArrayList<>();
@@ -124,11 +126,11 @@ public class ChildFragmentTwo extends BaseFragment implements OnClickListener {
 
 			@Override
 			public void setOnClick(Object data, int position, int type) {
+				if (!isLoadOk) return;
 				if (position < 0 || position >= al_left.size()) return;
+				postSortCode = al_left.get(position).getSortCode();
+				loadSortGoods();
 				updateLeftListData(position);
-				al_right.clear();
-				al_right.addAll(al_left.get(position).getChildLists());
-				updateRightListData();
 			}
 		});
 		mrv_left.setAdapter(rv_adapter_1);
@@ -216,8 +218,8 @@ public class ChildFragmentTwo extends BaseFragment implements OnClickListener {
 		// 页面开始
 		AppApplication.onPageStart(TAG);
 
-		if (!isLoadOk) {
-			loadServerData();
+		if (!isSortOk) {
+			loadSortData();
 		}
 		int cartNum = UserManager.getInstance().getUserCartNum();
 		if (cartNum > 0) {
@@ -252,14 +254,22 @@ public class ChildFragmentTwo extends BaseFragment implements OnClickListener {
 	}
 
 	/**
-	 * 加载数据
+	 * 加载分类数据
 	 */
-	private void loadServerData() {
+	private void loadSortData() {
 		HashMap<String, String> map = new HashMap<>();
-		map.put("page", "1");
-		map.put("size", AppConfig.LOAD_SIZE);
-		map.put("isReservation", "1");
-		loadSVData(AppConfig.URL_HOME_LIST, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_SORT_LIST);
+		loadSVData(AppConfig.URL_SORT_LIST, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_SORT_LIST);
+	}
+
+	/**
+	 * 加载分类商品
+	 */
+	private void loadSortGoods() {
+		if (!isLoadOk) return;
+		isLoadOk = false;
+		HashMap<String, String> map = new HashMap<>();
+		map.put("refCatCode", postSortCode);
+		loadSVData(AppConfig.URL_SORT_GOODS, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_SORT_GOODS);
 	}
 
 	@Override
@@ -270,15 +280,19 @@ public class ChildFragmentTwo extends BaseFragment implements OnClickListener {
 				case AppConfig.REQUEST_SV_SORT_LIST:
 					baseEn = JsonUtils.getSortListData(jsonObject);
 					if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
-						isLoadOk = true;
+						isSortOk = true;
 						al_left.clear();
 						al_left.addAll(baseEn.getLists());
-						al_left.addAll(baseEn.getLists());
-						if (al_left.size() > 0) {
-							al_right.clear();
-							al_right.addAll(al_left.get(0).getChildLists());
-						}
 						updateLeftListData(0);
+					} else {
+						handleErrorCode(baseEn);
+					}
+					break;
+				case AppConfig.REQUEST_SV_SORT_GOODS:
+					baseEn = JsonUtils.getSortGoodsData(jsonObject, postSortCode);
+					if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+						al_right.clear();
+						al_right.addAll(baseEn.getLists());
 						updateRightListData();
 					} else {
 						handleErrorCode(baseEn);
@@ -300,6 +314,12 @@ public class ChildFragmentTwo extends BaseFragment implements OnClickListener {
 	@Override
 	protected void handleErrorCode(BaseEntity baseEn) {
 		CommonTools.showToast(getString(R.string.toast_server_busy));
+	}
+
+	@Override
+	protected void stopAnimation() {
+		super.stopAnimation();
+		isLoadOk = true;
 	}
 }
 

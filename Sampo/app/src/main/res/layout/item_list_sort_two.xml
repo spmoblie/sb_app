@@ -96,6 +96,13 @@
         app:layout_constraintLeft_toLeftOf="@+id/sort_two_item_tv_attr_1"
         app:layout_constraintTop_toBottomOf="@+id/sort_two_item_tv_attr_1" />
 
+    <android.support.constraint.Group
+        android:id="@+id/sort_two_item_group_goods_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        app:constraint_referenced_ids="sort_two_item_iv_show_1, sort_two_item_tv_name_1, sort_two_item_tv_attr_1, sort_two_item_tv_price_curr_1, sort_two_item_tv_price_1"/>
+
     <com.songbao.sampo.widgets.RoundImageView
         android:id="@+id/sort_two_item_iv_show_2"
         android:layout_width="0dp"
@@ -149,5 +156,12 @@
         app:layout_constraintWidth_percent="0.41"
         app:layout_constraintLeft_toLeftOf="@+id/sort_two_item_tv_attr_2"
         app:layout_constraintTop_toBottomOf="@+id/sort_two_item_tv_attr_2" />
+
+    <android.support.constraint.Group
+        android:id="@+id/sort_two_item_group_goods_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        app:constraint_referenced_ids="sort_two_item_iv_show_2, sort_two_item_tv_name_2, sort_two_item_tv_attr_2, sort_two_item_tv_price_curr_2, sort_two_item_tv_price_2"/>
 
 </android.support.constraint.ConstraintLayout>

@@ -31,7 +31,7 @@ public class GoodsOrderAdapter extends AppBaseAdapter {
 	static class ViewHolder {
 		ConstraintLayout item_main;
 		RoundImageView iv_show;
-		TextView tv_name, tv_attr, tv_number, tv_price, tv_after_sale, tv_comment;
+		TextView tv_name, tv_attr, tv_number, tv_price, tv_post_sale, tv_comment;
 		View view_fill;
 	}
 
@@ -50,7 +50,7 @@ public class GoodsOrderAdapter extends AppBaseAdapter {
 			holder.tv_number = convertView.findViewById(R.id.goods_order_item_tv_number);
 			holder.tv_price = convertView.findViewById(R.id.goods_order_item_tv_price);
 			holder.view_fill = convertView.findViewById(R.id.goods_order_item_fill_tv_click);
-			holder.tv_after_sale = convertView.findViewById(R.id.goods_order_item_tv_after_sale);
+			holder.tv_post_sale = convertView.findViewById(R.id.goods_order_item_tv_post_sale);
 			holder.tv_comment = convertView.findViewById(R.id.goods_order_item_tv_comment);
 			convertView.setTag(holder);
 		}else{
@@ -74,15 +74,15 @@ public class GoodsOrderAdapter extends AppBaseAdapter {
 			switch (data.getStatus()) {
 				case 1: //评价+售后
 					holder.tv_comment.setVisibility(View.VISIBLE);
-					holder.tv_after_sale.setVisibility(View.VISIBLE);
+					holder.tv_post_sale.setVisibility(View.VISIBLE);
 					break;
 				case 2: //追评+售后
 					holder.tv_comment.setText(context.getString(R.string.order_comment_add));
 					holder.tv_comment.setVisibility(View.VISIBLE);
-					holder.tv_after_sale.setVisibility(View.VISIBLE);
+					holder.tv_post_sale.setVisibility(View.VISIBLE);
 					break;
 				case 3: //售后
-					holder.tv_after_sale.setVisibility(View.VISIBLE);
+					holder.tv_post_sale.setVisibility(View.VISIBLE);
 					break;
 				case 4: //评价
 					holder.tv_comment.setVisibility(View.VISIBLE);
@@ -94,10 +94,10 @@ public class GoodsOrderAdapter extends AppBaseAdapter {
 				default:
 					holder.view_fill.setVisibility(View.GONE);
 					holder.tv_comment.setVisibility(View.GONE);
-					holder.tv_after_sale.setVisibility(View.GONE);
+					holder.tv_post_sale.setVisibility(View.GONE);
 					break;
 			}
-			holder.tv_after_sale.setOnClickListener(new View.OnClickListener() {
+			holder.tv_post_sale.setOnClickListener(new View.OnClickListener() {
 
 				@Override
 				public void onClick(View v) {

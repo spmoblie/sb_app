@@ -2,6 +2,7 @@ package com.songbao.sampo.adapter;
 
 import android.content.Context;
 import android.support.constraint.ConstraintLayout;
+import android.support.constraint.Group;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -35,10 +36,12 @@ public class SortTwoAdapter extends BaseRecyclerAdapter {
         TextView tv_name_1 = holder.getView(R.id.sort_two_item_tv_name_1);
         TextView tv_attr_1 = holder.getView(R.id.sort_two_item_tv_attr_1);
         TextView tv_price_1 = holder.getView(R.id.sort_two_item_tv_price_1);
+        Group group_goods_1 = holder.getView(R.id.sort_two_item_group_goods_1);
         RoundImageView iv_show_2 = holder.getView(R.id.sort_two_item_iv_show_2);
         TextView tv_name_2 = holder.getView(R.id.sort_two_item_tv_name_2);
         TextView tv_attr_2 = holder.getView(R.id.sort_two_item_tv_attr_2);
         TextView tv_price_2 = holder.getView(R.id.sort_two_item_tv_price_2);
+        Group group_goods_2 = holder.getView(R.id.sort_two_item_group_goods_2);
 
         // 绑定View
         final GoodsSortEntity data = (GoodsSortEntity) mDataList.get(pos);
@@ -53,26 +56,33 @@ public class SortTwoAdapter extends BaseRecyclerAdapter {
             iv_new.setVisibility(View.GONE);
         }
 
-        if (data.getGoodsLists().size() > 1) {
-            final GoodsEntity goods_1 = data.getGoodsLists().get(0);
-            Glide.with(AppApplication.getAppContext())
-                    .load(goods_1.getPicUrl())
-                    .apply(AppApplication.getShowOptions())
-                    .into(iv_show_1);
-
-            tv_name_1.setText(goods_1.getName());
-            tv_attr_1.setText(goods_1.getAttribute());
-            tv_price_1.setText(df.format(goods_1.getPrice()));
-
-            final GoodsEntity goods_2 = data.getGoodsLists().get(1);
-            Glide.with(AppApplication.getAppContext())
-                    .load(goods_2.getPicUrl())
-                    .apply(AppApplication.getShowOptions())
-                    .into(iv_show_2);
-
-            tv_name_2.setText(goods_2.getName());
-            tv_attr_2.setText(goods_2.getAttribute());
-            tv_price_2.setText(df.format(goods_2.getPrice()));
+        group_goods_1.setVisibility(View.GONE);
+        group_goods_2.setVisibility(View.GONE);
+        for (int i = 0; i < data.getGoodsLists().size(); i++) {
+            GoodsEntity goodsEn = data.getGoodsLists().get(i);
+            switch (i) {
+                case 0:
+                    group_goods_1.setVisibility(View.VISIBLE);
+                    group_goods_2.setVisibility(View.INVISIBLE);
+                    Glide.with(AppApplication.getAppContext())
+                            .load(goodsEn.getPicUrl())
+                            .apply(AppApplication.getShowOptions())
+                            .into(iv_show_1);
+                    tv_name_1.setText(goodsEn.getName());
+                    tv_attr_1.setText(goodsEn.getAttribute());
+                    tv_price_1.setText(df.format(goodsEn.getPrice()));
+                    break;
+                case 1:
+                    group_goods_2.setVisibility(View.VISIBLE);
+                    Glide.with(AppApplication.getAppContext())
+                            .load(goodsEn.getPicUrl())
+                            .apply(AppApplication.getShowOptions())
+                            .into(iv_show_2);
+                    tv_name_2.setText(goodsEn.getName());
+                    tv_attr_2.setText(goodsEn.getAttribute());
+                    tv_price_2.setText(df.format(goodsEn.getPrice()));
+                    break;
+            }
         }
 
         item_main.setOnClickListener(new View.OnClickListener() {

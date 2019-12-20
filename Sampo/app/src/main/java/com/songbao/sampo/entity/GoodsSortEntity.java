@@ -12,7 +12,7 @@ public class GoodsSortEntity extends BaseEntity {
 	private int id;
 	private int parentId; //父级id
 	private String name; //分类名称
-	private String picUrl; //分类图片
+	private String sortCode; //分类编码
 	private List<GoodsEntity> goodsLists; //商品数集
 	private List<GoodsSortEntity> childLists; //子级分类
 
@@ -38,12 +38,12 @@ public class GoodsSortEntity extends BaseEntity {
 		this.parentId = parentId;
 	}
 
-	public String getPicUrl() {
-		return picUrl;
+	public String getSortCode() {
+		return sortCode;
 	}
 
-	public void setPicUrl(String picUrl) {
-		this.picUrl = picUrl;
+	public void setSortCode(String sortCode) {
+		this.sortCode = sortCode;
 	}
 
 	public String getName() {

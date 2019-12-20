@@ -84,7 +84,7 @@ public class MyPurchaseAdapter extends BaseRecyclerAdapter {
                 tv_status.setText(context.getString(R.string.order_completed));
                 tv_status.setBackgroundResource(R.drawable.shape_style_solid_03_04);
                 tv_click_01.setVisibility(View.VISIBLE);
-                tv_click_01.setText(context.getString(R.string.order_after_sale));
+                tv_click_01.setText(context.getString(R.string.order_post_sale));
                 tv_click_01.setTextColor(context.getResources().getColor(R.color.app_color_gray_5));
                 tv_click_01.setBackgroundResource(R.drawable.shape_style_empty_02_08);
                 tv_click_02.setText(context.getString(R.string.order_comment));
@@ -95,7 +95,7 @@ public class MyPurchaseAdapter extends BaseRecyclerAdapter {
                 tv_status.setText(context.getString(R.string.order_completed));
                 tv_status.setBackgroundResource(R.drawable.shape_style_solid_03_04);
                 tv_click_01.setVisibility(View.VISIBLE);
-                tv_click_01.setText(context.getString(R.string.order_after_sale));
+                tv_click_01.setText(context.getString(R.string.order_post_sale));
                 tv_click_01.setTextColor(context.getResources().getColor(R.color.app_color_gray_5));
                 tv_click_01.setBackgroundResource(R.drawable.shape_style_empty_02_08);
                 tv_click_02.setText(context.getString(R.string.order_delete));

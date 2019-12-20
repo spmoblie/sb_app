@@ -172,7 +172,7 @@ public class PurchaseActivity extends BaseActivity implements View.OnClickListen
                     tv_status.setText(getString(R.string.order_completed));
                     tv_status.setBackgroundResource(R.drawable.shape_style_solid_03_04);
                     tv_click_01.setVisibility(View.VISIBLE);
-                    tv_click_01.setText(getString(R.string.order_after_sale));
+                    tv_click_01.setText(getString(R.string.order_post_sale));
                     tv_click_01.setTextColor(getResources().getColor(R.color.app_color_gray_5));
                     tv_click_01.setBackgroundResource(R.drawable.shape_style_empty_02_08);
                     tv_click_02.setVisibility(View.VISIBLE);
@@ -186,7 +186,7 @@ public class PurchaseActivity extends BaseActivity implements View.OnClickListen
                     tv_status.setText(getString(R.string.order_completed));
                     tv_status.setBackgroundResource(R.drawable.shape_style_solid_03_04);
                     tv_click_01.setVisibility(View.VISIBLE);
-                    tv_click_01.setText(getString(R.string.order_after_sale));
+                    tv_click_01.setText(getString(R.string.order_post_sale));
                     tv_click_01.setTextColor(getResources().getColor(R.color.app_color_gray_5));
                     tv_click_01.setBackgroundResource(R.drawable.shape_style_empty_02_08);
                     tv_click_02.setVisibility(View.VISIBLE);

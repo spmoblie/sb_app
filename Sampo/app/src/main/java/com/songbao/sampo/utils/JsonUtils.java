@@ -542,47 +542,100 @@ public class JsonUtils {
         BaseEntity mainEn = getCommonKeyValue(jsonObject);
 
         if (StringUtil.notNull(jsonObject, "data")) {
-            JSONObject jsonData = jsonObject.getJSONObject("data");
-            if (StringUtil.notNull(jsonData, "activityList")) {
-                JSONArray data = jsonData.getJSONArray("activityList");
-                GoodsSortEntity sortEn, childEn;
-                GoodsEntity goodsEn;
-                List<GoodsSortEntity> lists = new ArrayList<>();
-                for (int i = 0; i < data.length(); i++) {
-                    JSONObject item = data.getJSONObject(i);
-                    sortEn = new GoodsSortEntity();
-                    int id = i + 1;
-                    sortEn.setId(id);
-                    sortEn.setName("高低床0000" + id);
+            JSONArray data = jsonObject.getJSONArray("data");
+            GoodsSortEntity childEn;
+            List<GoodsSortEntity> lists = new ArrayList<>();
+            for (int i = 0; i < data.length(); i++) {
+                JSONObject item = data.getJSONObject(i);
+                childEn = new GoodsSortEntity();
+                childEn.setId(item.getInt("value"));
+                childEn.setName(item.getString("label"));
+                childEn.setSortCode(item.getString("catCode"));
+                lists.add(childEn);
 
-                    List<GoodsSortEntity> childList = new ArrayList<>();
-                    for (int j = 0; j < 2; j++) {
-                        childEn = new GoodsSortEntity();
-                        int ij = id * 10 + j;
-                        childEn.setId(ij);
-                        childEn.setParentId(id);
+                /*List<GoodsSortEntity> childList = new ArrayList<>();
+                for (int j = 0; j < 2; j++) {
+                    childEn = new GoodsSortEntity();
+                    int ij = id * 10 + j;
+                    childEn.setId(ij);
+                    childEn.setParentId(id);
 
-                        List<GoodsEntity> goodsList = new ArrayList<>();
-                        for (int k = 0; k < 2; k++) {
-                            goodsEn = new GoodsEntity();
-                            int ik = ij * 10 + k;
-                            goodsEn.setId(ik);
-                            goodsEn.setPicUrl(AppConfig.IMAGE_URL + "design_001.png");
-                            goodsEn.setName("松堡王国现代简约彩条双层床");
-                            goodsEn.setAttribute(ik + " mm");
-                            goodsEn.setPrice(999999.99);
+                    List<GoodsEntity> goodsList = new ArrayList<>();
+                    for (int k = 0; k < 2; k++) {
+                        goodsEn = new GoodsEntity();
+                        int ik = ij * 10 + k;
+                        goodsEn.setId(ik);
+                        goodsEn.setPicUrl(AppConfig.IMAGE_URL + "design_001.png");
+                        goodsEn.setName("松堡王国现代简约彩条双层床");
+                        goodsEn.setAttribute(ik + " mm");
+                        goodsEn.setPrice(999999.99);
 
-                            goodsList.add(goodsEn);
-                        }
-                        childEn.setGoodsLists(goodsList);
-                        childList.add(childEn);
+                        goodsList.add(goodsEn);
                     }
-
-                    sortEn.setChildLists(childList);
-                    lists.add(sortEn);
+                    childEn.setGoodsLists(goodsList);
+                    childList.add(childEn);
                 }
-                mainEn.setLists(lists);
+
+                sortEn.setChildLists(childList);
+                lists.add(childEn);*/
             }
+            mainEn.setLists(lists);
+        }
+        return mainEn;
+    }
+
+    /**
+     * 解析分类商品数据
+     */
+    public static BaseEntity getSortGoodsData(JSONObject jsonObject, String sortCode) throws JSONException {
+        BaseEntity mainEn = getCommonKeyValue(jsonObject);
+
+        if (StringUtil.notNull(jsonObject, "data")) {
+            JSONObject data = jsonObject.getJSONObject("data");
+            GoodsSortEntity childEn;
+            GoodsEntity goodsEn;
+            List<GoodsSortEntity> lists = new ArrayList<>();
+            if (StringUtil.notNull(data, "news")) {
+                JSONArray news = data.getJSONArray("news");
+                childEn = new GoodsSortEntity();
+                childEn.setSortCode(sortCode);
+
+                ArrayList<GoodsEntity> newsList = new ArrayList<>();
+                for (int i = 0; i < news.length(); i++) {
+                    JSONObject newsItem = news.getJSONObject(i);
+                    goodsEn = new GoodsEntity();
+                    goodsEn.setId(newsItem.getInt("id"));
+                    goodsEn.setPicUrl(newsItem.getString("skuPic"));
+                    goodsEn.setName(newsItem.getString("goodsName"));
+                    goodsEn.setAttribute(newsItem.getString("skuComboName"));
+                    goodsEn.setPrice(newsItem.getDouble("price"));
+
+                    newsList.add(goodsEn);
+                }
+                childEn.setGoodsLists(newsList);
+                lists.add(childEn);
+            }
+            if (StringUtil.notNull(data, "hot")) {
+                JSONArray hot = data.getJSONArray("hot");
+                childEn = new GoodsSortEntity();
+                childEn.setSortCode(sortCode);
+
+                ArrayList<GoodsEntity> hotList = new ArrayList<>();
+                for (int i = 0; i < hot.length(); i++) {
+                    JSONObject hotItem = hot.getJSONObject(i);
+                    goodsEn = new GoodsEntity();
+                    goodsEn.setId(hotItem.getInt("id"));
+                    goodsEn.setPicUrl(hotItem.getString("skuPic"));
+                    goodsEn.setName(hotItem.getString("goodsName"));
+                    goodsEn.setAttribute(hotItem.getString("skuComboName"));
+                    goodsEn.setPrice(hotItem.getDouble("price"));
+
+                    hotList.add(goodsEn);
+                }
+                childEn.setGoodsLists(hotList);
+                lists.add(childEn);
+            }
+            mainEn.setLists(lists);
         }
         return mainEn;
     }

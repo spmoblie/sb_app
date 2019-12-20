@@ -17,11 +17,11 @@ public class AppConfig {
 	// https协议
 	public final static String APP_HTTPS = "https://";
 	// Base类型
-	public final static String BASE_TYPE = "base_1"; //base_1:发布Url、base_2:测试Url
+	public final static String BASE_TYPE = "base_2"; //base_1:发布Url、base_2:测试Url
 	// Base域名
 	public final static String BASE_URL_1 = APP_HTTPS + "xiaobao.sbwg.cn/";
 	// Base域名
-	public final static String BASE_URL_2 = APP_HTTP + "192.168.1.105/";
+	public final static String BASE_URL_2 = APP_HTTP + "192.168.1.110:8080/";
 	// 图片域名
 	public final static String IMAGE_URL = "file:///android_asset/";
 	// 推广域名
@@ -88,6 +88,10 @@ public class AppConfig {
 	// "我的"动态数据
 	public final static String URL_USER_DYNAMIC = "app/user/dynamic";
 
+	// 分类列表
+	public final static String URL_SORT_LIST = "app/shopping/getCatInfo";
+	// 分类商品
+	public final static String URL_SORT_GOODS = "app/shopping/getCatInfoGoods";
 	// 设计师列表
 	public final static String URL_DESIGN_ALL = "app/design/all";
 
@@ -172,12 +176,14 @@ public class AppConfig {
 
 	// 获取分类列表
 	public static final int REQUEST_SV_SORT_LIST = 0X4001;
+	// 获取分类商品
+	public static final int REQUEST_SV_SORT_GOODS = 0X4002;
 	// 获取商品列表
-	public static final int REQUEST_SV_GOODS_LIST = 0X4002;
+	public static final int REQUEST_SV_GOODS_LIST = 0X4003;
 	// 获取筛选属性
-	public static final int REQUEST_SV_SCREEN_ATTR = 0X4003;
+	public static final int REQUEST_SV_SCREEN_ATTR = 0X4004;
 	// 获取商品属性
-	public static final int REQUEST_SV_GOODS_ATTR = 0X4004;
+	public static final int REQUEST_SV_GOODS_ATTR = 0X4005;
 	// 获取设计师列表
 	public static final int REQUEST_SV_DESIGN_ALL = 0X4010;
 

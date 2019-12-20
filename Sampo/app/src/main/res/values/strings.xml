@@ -317,7 +317,7 @@
     <string name="order_comment_star">整体评价</string>
     <string name="order_photo_add">添加照片</string>
     <string name="order_delete">删除订单</string>
-    <string name="order_after_sale">申请售后</string>
+    <string name="order_post_sale">申请售后</string>
     <string name="order_refund_details">退款详情</string>
     <string name="order_revoke_refund">撤销退款</string>
     <string name="order_goods_num">共%1$d件商品\t实付款</string>
