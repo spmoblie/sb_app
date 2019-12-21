@@ -45,7 +45,6 @@ import com.songbao.sampo.widgets.pullrefresh.PullToRefreshBase;
 import com.songbao.sampo.widgets.pullrefresh.PullToRefreshRecyclerView;
 import com.songbao.sampo.widgets.recycler.MyRecyclerView;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -125,7 +124,7 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 
 	private Drawable rank_up, rank_down, rank_normal;
 	private int top_type = TYPE_1; //Top标记
-	private int sort_type = 0; //排序标记(0:默认/1:升序/2:降序)Id
+	private int sort_type = 0; //排序标记(0:无序/1:升序/2:降序)
 	private boolean isRise2 = false; //销量排序控制符(true:销量升序/false:销量降序)
 	private boolean isRise3 = false; //价格排序控制符(true:价格升序/false:价格降序)
 	private int isHot = 0; //"1"表示热门
@@ -140,8 +139,9 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 	private boolean isScreen = false; //是否筛选
 	private boolean isAnimStop = true; //动画控制
 
-	private String searchStr;
 	private String sortCode = ""; //商品分类编码
+	private String searchStr = "";  //搜索关键字
+	private String screenStr = ""; //筛选拼接字串
 	private long min_price, max_price;
 
 	private ArrayList<GoodsEntity> al_show = new ArrayList<>();
@@ -301,6 +301,7 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 					case 0: //选择属性项
 						boolean isSelect = !data.isSelect();
 						String attrIdStr = "";
+						String attrNameStr = "";
 						int size = attrEn.getAttrLists().get(position).getAttrLists().size();
 						if (isSelect && index == size - 1) { //选择"全部"选项
 							ArrayList<GoodsAttrEntity> attrList = attrEn.getAttrLists().get(position).getAttrLists();
@@ -312,17 +313,22 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 						} else {
 							if (index == size - 1) return; //拦截取消"全部"选项
 							String attrId = "_" + data.getEntityId();
+							String attrName = "_" + data.getAttrName();
 							//获取已选择Id串
 							attrIdStr = attrEn.getAttrLists().get(position).getAttrIdStr();
+							attrNameStr = attrEn.getAttrLists().get(position).getAttrNameStr();
 							//修改已选择Id串
 							if (isSelect) {
 								attrIdStr = attrIdStr + attrId;
+								attrNameStr = attrNameStr + attrName;
 							} else {
 								attrIdStr = attrIdStr.replace(attrId, "");
+								attrNameStr = attrNameStr.replace(attrName, "");
 							}
 							attrEn.getAttrLists().get(position).getAttrLists().get(index).setSelect(isSelect);
 						}
 						attrEn.getAttrLists().get(position).setAttrIdStr(attrIdStr);
+						attrEn.getAttrLists().get(position).setAttrNameStr(attrNameStr);
 						//处理"全部"选项
 						if (StringUtil.isNull(attrIdStr)) {
 							attrEn.getAttrLists().get(position).getAttrLists().get(size - 1).setSelect(true);
@@ -419,10 +425,12 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 	 * 匹配搜索关键字
 	 */
 	private void loadKeywordData() {
-		CommonTools.showToast("关键字搜索商品： " + searchStr);
+		loadFirstPageData();
 	}
 
 	private void initRecyclerView() {
+		refresh_rv.setHeaderLayoutBackground(R.color.ui_color_app_bg_02);
+		refresh_rv.setFooterLayoutBackground(R.color.ui_color_app_bg_02);
 		refresh_rv.setPullRefreshEnabled(false); //下拉刷新
 		refresh_rv.setPullLoadEnabled(false); //上拉加载
 		refresh_rv.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<MyRecyclerView>() {
@@ -478,11 +486,11 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 	}
 
 	private void updateListData() {
-		if (al_show.size() <= 0) {
+		/*if (al_show.size() <= 0) {
 			setNullVisibility(View.VISIBLE);
 		} else {
 			setNullVisibility(View.GONE);
-		}
+		}*/
 		rv_Adapter.updateData(al_show);
 	}
 
@@ -630,6 +638,10 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 			screen_show.startAnimation(viewHide);
 			screen_main.setVisibility(View.GONE);
 		}
+		hideSoftInput(et_search);
+		if (isScreen) {
+			tv_top_1.performClick();
+		}
 	}
 
 	/**
@@ -641,6 +653,7 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 		for (int i = 0; i < size1-1; i++) {
 			attrEn.getAttrLists().get(i).setShow(false);
 			attrEn.getAttrLists().get(i).setAttrIdStr("");
+			attrEn.getAttrLists().get(i).setAttrNameStr("");
 			size2 = attrEn.getAttrLists().get(i).getAttrLists().size();
 			for (int j = 0; j < size2; j++) {
 				if (j == size2 - 1) {
@@ -652,8 +665,10 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 		}
 		min_price = 0;
 		max_price = 0;
+		screenStr = "";
 		isScreen = false;
 		updateScreenData();
+		tv_top_1.performClick();
 	}
 
 	/**
@@ -664,43 +679,33 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 			CommonTools.showToast("最高价格必须大于最低价格");
 			return;
 		}
+		screenStr = "";
 		isScreen = false;
-		StringBuffer sb;
-		JSONObject jsonObj = new JSONObject();
-		try {
-			ArrayList<GoodsAttrEntity> attrList = attrEn.getAttrLists();
-			for (int i = 0; i < attrList.size()-1; i++) {
-                GoodsAttrEntity attr = attrList.get(i);
-				sb = new StringBuffer();
-				String attrIdStr = attr.getAttrIdStr();
-				if (!StringUtil.isNull(attrIdStr)) {
-					String[] ids = attrIdStr.split("_");
-					sb.append("[");
-					for (int j = 0; j < ids.length; j++) {
-						if (!StringUtil.isNull(ids[j])) {
-							sb.append(ids[j]);
-							sb.append(",");
-						}
+		ArrayList<GoodsAttrEntity> attrList = attrEn.getAttrLists();
+		StringBuffer sb = new StringBuffer();
+		for (int i = 0; i < attrList.size()-1; i++) {
+			GoodsAttrEntity attr = attrList.get(i);
+			String attrNameStr = attr.getAttrNameStr();
+			if (!StringUtil.isNull(attrNameStr)) {
+				String[] names = attrNameStr.split("_");
+				for (int j = 0; j < names.length; j++) {
+					if (!StringUtil.isNull(names[j])) {
+						sb.append(names[j]);
+						sb.append("|");
 					}
-					sb.deleteCharAt(sb.lastIndexOf(","));
-					sb.append("]");
-					isScreen = true;
-					jsonObj.put(attr.getEntityId(), sb.toString());
 				}
-			}
-			if (min_price > 0 || max_price > 0) {
 				isScreen = true;
-				jsonObj.put("price", min_price + "-" + max_price);
 			}
-		} catch (JSONException e) {
-			ExceptionUtil.handle(e);
 		}
-		if (isScreen) {
-			CommonTools.showToast(jsonObj.toString());
-			loadFirstPageData();
-		} else {
-			hideScreenView();
+		screenStr = sb.toString();
+		if (screenStr.contains("|")) {
+			sb.deleteCharAt(sb.lastIndexOf("|"));
+			screenStr = sb.toString();
 		}
+		if (min_price > 0 || max_price > 0) {
+			isScreen = true;
+		}
+		hideScreenView();
 	}
 
 	@Override
@@ -730,9 +735,15 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 	 * 加载第一页数据
 	 */
 	private void loadFirstPageData() {
-		refresh_rv.doPullRefreshing(true, 0);
 		toTop();
-		hideScreenView();
+		clearData();
+		refresh_rv.doPullRefreshing(true, 0);
+	}
+
+	private void clearData() {
+		al_show.clear();
+		am_show.clear();
+		updateListData();
 	}
 
 	/**
@@ -772,6 +783,20 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 		map.put("isRecommend", String.valueOf(isRecommend));
 		if (!StringUtil.isNull(sortCode)) {
 			map.put("refCatCode", sortCode);
+		}
+		map.put("orderByKey", String.valueOf(top_type));
+		if (sort_type > 0) {
+			map.put("sortByNum", String.valueOf(sort_type));
+		}
+		if (!StringUtil.isNull(searchStr)) {
+			map.put("txt", searchStr);
+		}
+		if (!StringUtil.isNull(screenStr)) {
+			map.put("selecteds", screenStr);
+		}
+		if (min_price > 0 || max_price > 0) {
+			map.put("startPrice", String.valueOf(min_price));
+			map.put("endPrice", String.valueOf(max_price));
 		}
 		loadSVData(AppConfig.URL_GOODS_LIST, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_GOODS_LIST);
 	}

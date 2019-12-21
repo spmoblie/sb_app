@@ -277,6 +277,10 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
         <activity
+            android:name=".activity.mine.PostSaleActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"/>
+        <activity
             android:name=".activity.mine.PurchaseActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"/>

@@ -2,6 +2,7 @@ package com.songbao.sampo.adapter;
 
 import android.content.Context;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -42,11 +43,11 @@ public class GoodsScreenAdapter extends BaseRecyclerAdapter {
 		this.scCallback = callback;
 
 		txtSize = 12;
-		mgTop =  CommonTools.dpToPx(context, 10);
-		mgRight =  CommonTools.dpToPx(context, 10);
-		pdTop = CommonTools.dpToPx(context, 7);
-		pdRight = CommonTools.dpToPx(context, 15);
-		mgDps = CommonTools.dpToPx(context, 15);
+		mgTop =  CommonTools.dpToPx(context, 10); //外边距:上下
+		mgRight =  CommonTools.dpToPx(context, 10); //外边距:左右
+		pdTop = CommonTools.dpToPx(context, 7); //内边距:上下
+		pdRight = CommonTools.dpToPx(context, 10); //内边距:左右
+		mgDps = CommonTools.dpToPx(context, 40); //父布局左右边距之和
 		tvSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
 	}
 
@@ -229,6 +230,8 @@ public class GoodsScreenAdapter extends BaseRecyclerAdapter {
 			tv.setId(viewId);
 			tv.setText(str);
 			tv.setTextSize(txtSize);
+			tv.setLines(1);
+			tv.setEllipsize(TextUtils.TruncateAt.END);
 			tv.setBackgroundResource(R.drawable.selector_item_goods_attr);
 			tv.setSelected(attrEn.isSelect());
 			if (tv.isSelected()) {

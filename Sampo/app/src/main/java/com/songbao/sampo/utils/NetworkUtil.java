@@ -35,8 +35,7 @@ public class NetworkUtil {
 					public void onClick(DialogInterface dialog, int which) {
 						try {
 							//打开系统的网络设置界面
-							Intent intent = new Intent(android.provider.Settings.ACTION_SETTINGS);
-							context.startActivity(intent);
+							context.startActivity(new Intent(android.provider.Settings.ACTION_SETTINGS));
 						} catch (Exception e) {
 							ExceptionUtil.handle(e);
 						}

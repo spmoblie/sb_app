@@ -524,7 +524,7 @@ public  class BaseActivity extends FragmentActivity {
 	 * 通过类名启动Activity，并且含有Bundle数据
 	 */
 	protected void openActivity(Class<?> pClass, Bundle pBundle) {
-		Intent intent = new Intent(this, pClass);
+		Intent intent = new Intent(mContext, pClass);
 		if (pBundle != null) {
 			intent.putExtras(pBundle);
 		}

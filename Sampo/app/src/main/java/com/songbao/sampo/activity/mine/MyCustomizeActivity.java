@@ -170,7 +170,9 @@ public class MyCustomizeActivity extends BaseActivity implements View.OnClickLis
 			@Override
 			public void setOnClick(Object data, int position, int type) {
 				if (position < 0 || position >= al_show.size()) return;
-				startActivity(new Intent(mContext, CustomizeActivity.class));
+				Intent intent = new Intent(mContext, CustomizeActivity.class);
+				intent.putExtra(AppConfig.PAGE_DATA, al_show.get(position));
+				startActivity(intent);
 			}
 		});
 		mRecyclerView.setAdapter(rvAdapter);

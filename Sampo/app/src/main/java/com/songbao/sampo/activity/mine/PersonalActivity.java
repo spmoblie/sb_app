@@ -280,7 +280,7 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
      * 跳转至相片编辑器
      */
     private void startClipImageActivity(String path) {
-        Intent intent = new Intent(this, ClipImageCircularActivity.class);
+        Intent intent = new Intent(AppApplication.getAppContext(), ClipImageCircularActivity.class);
         intent.putExtra(AppConfig.ACTIVITY_KEY_PHOTO_PATH, path);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);

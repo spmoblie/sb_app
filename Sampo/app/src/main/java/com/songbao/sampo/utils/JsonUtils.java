@@ -9,6 +9,7 @@ import com.songbao.sampo.entity.CouponEntity;
 import com.songbao.sampo.entity.DesignerEntity;
 import com.songbao.sampo.entity.GoodsAttrEntity;
 import com.songbao.sampo.entity.GoodsEntity;
+import com.songbao.sampo.entity.GoodsSaleEntity;
 import com.songbao.sampo.entity.GoodsSortEntity;
 import com.songbao.sampo.entity.MessageEntity;
 import com.songbao.sampo.entity.OCustomizeEntity;
@@ -390,6 +391,7 @@ public class JsonUtils {
                 JSONArray data = jsonData.getJSONArray("activityList");
                 OPurchaseEntity childEn;
                 GoodsEntity goodsEn;
+                GoodsSaleEntity saleEn;
                 List<OPurchaseEntity> lists = new ArrayList<>();
                 for (int i = 0; i < data.length(); i++) {
                     JSONObject item = data.getJSONObject(i);

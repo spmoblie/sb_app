@@ -16,9 +16,10 @@ public class GoodsEntity extends BaseEntity {
 	private String material; //产品用料
 	private String veneer; //产品饰面
 	private int number; //产品数量
-	private int status; //0：无事件  1：评价+售后  2：追评+售后  3：售后  4：评价  5：追评
+	private int status; //0:无事件/1:评价+售后/2:追评+售后/3:售后/4:评价/5:追评
 	private double price; //销售价格
 	private GoodsAttrEntity attrEn; //已选属性值
+	private GoodsSaleEntity saleEn; //商品售后信息
 
 	@Override
 	public String getEntityId() {
@@ -119,5 +120,13 @@ public class GoodsEntity extends BaseEntity {
 
 	public void setAttrEn(GoodsAttrEntity attrEn) {
 		this.attrEn = attrEn;
+	}
+
+	public GoodsSaleEntity getSaleEn() {
+		return saleEn;
+	}
+
+	public void setSaleEn(GoodsSaleEntity saleEn) {
+		this.saleEn = saleEn;
 	}
 }

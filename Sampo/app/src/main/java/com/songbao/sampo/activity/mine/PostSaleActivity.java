@@ -1,11 +1,12 @@
 package com.songbao.sampo.activity.mine;
 
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
+import android.support.constraint.Group;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,7 +17,6 @@ import com.songbao.sampo.R;
 import com.songbao.sampo.activity.BaseActivity;
 import com.songbao.sampo.activity.common.clip.ClipPhotoGridActivity;
 import com.songbao.sampo.entity.BaseEntity;
-import com.songbao.sampo.entity.CommentEntity;
 import com.songbao.sampo.entity.GoodsEntity;
 import com.songbao.sampo.utils.CommonTools;
 import com.songbao.sampo.utils.ExceptionUtil;
@@ -36,58 +36,81 @@ import butterknife.BindView;
 public class PostSaleActivity extends BaseActivity implements OnClickListener {
 
 	String TAG = PostSaleActivity.class.getSimpleName();
+	
+	@BindView(R.id.post_sale_goods_main)
+	ConstraintLayout goods_main;
 
-	@BindView(R.id.comment_post_iv_goods)
+	@BindView(R.id.post_sale_iv_goods)
 	RoundImageView iv_goods;
 
-	@BindView(R.id.comment_post_tv_name)
+	@BindView(R.id.post_sale_tv_name)
 	TextView tv_name;
 
-	@BindView(R.id.comment_post_tv_attr)
+	@BindView(R.id.post_sale_tv_attr)
 	TextView tv_attr;
+	
+	@BindView(R.id.post_sale_tv_number)
+	TextView tv_number;
+	
+	@BindView(R.id.post_sale_tv_price)
+	TextView tv_price;
+	
+	@BindView(R.id.post_sale_tv_change)
+	TextView tv_change;
+	
+	@BindView(R.id.post_sale_tv_return)
+	TextView tv_return;
+	
+	@BindView(R.id.post_sale_et_reason)
+	EditText et_reason;
 
-	@BindView(R.id.comment_post_rb_star)
-	RatingBar rb_star;
+	@BindView(R.id.post_sale_tv_refund_price)
+	TextView tv_refund_price;
+	
+	@BindView(R.id.post_sale_et_express_no)
+	EditText et_express_no;
 
-	@BindView(R.id.comment_post_et_comment)
-	EditText et_comment;
+	@BindView(R.id.post_sale_group_express_no)
+	Group group_express_no;
 
-	@BindView(R.id.comment_post_iv_photo_01)
+	@BindView(R.id.post_sale_iv_photo_01)
 	RoundImageView iv_photo_01;
 
-	@BindView(R.id.comment_post_iv_photo_02)
+	@BindView(R.id.post_sale_iv_photo_02)
 	RoundImageView iv_photo_02;
 
-	@BindView(R.id.comment_post_iv_photo_03)
+	@BindView(R.id.post_sale_iv_photo_03)
 	RoundImageView iv_photo_03;
 
-	@BindView(R.id.comment_post_iv_photo_01_delete)
+	@BindView(R.id.post_sale_iv_photo_01_delete)
 	ImageView iv_photo_01_delete;
 
-	@BindView(R.id.comment_post_iv_photo_02_delete)
+	@BindView(R.id.post_sale_iv_photo_02_delete)
 	ImageView iv_photo_02_delete;
 
-	@BindView(R.id.comment_post_iv_photo_03_delete)
+	@BindView(R.id.post_sale_iv_photo_03_delete)
 	ImageView iv_photo_03_delete;
 
-	@BindView(R.id.comment_post_tv_add_photo)
+	@BindView(R.id.post_sale_tv_add_photo)
 	TextView tv_add_photo;
 
-	@BindView(R.id.comment_post_tv_post)
-	TextView tv_post;
+	@BindView(R.id.post_sale_tv_submit)
+	TextView tv_submit;
 
-	private CommentEntity data;
-	private float starNum;
-	private String contentStr;
+	private GoodsEntity data;
+	private int status = 0; //6:售后(审核中)/7:售后(审核通过)/8:售后(审核拒绝)
+	private int changeType = 1; //1:换货/2：退货
+	private double totalPrice = 0;
+	private String contentStr = "";
 	private ArrayList<String> al_photo_url = new ArrayList<>();
 	private ArrayList<String> al_image_url = new ArrayList<>();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_comment_post);
+		setContentView(R.layout.activity_post_sale);
 
-		data = (CommentEntity) getIntent().getSerializableExtra(AppConfig.PAGE_DATA);
+		data = (GoodsEntity) getIntent().getSerializableExtra(AppConfig.PAGE_DATA);
 
 		initView();
 	}
@@ -95,36 +118,48 @@ public class PostSaleActivity extends BaseActivity implements OnClickListener {
 	private void initView() {
 		setTitle(R.string.order_post_sale);
 
-		/*iv_photo_01.setOnClickListener(this);
+		tv_change.setOnClickListener(this);
+		tv_return.setOnClickListener(this);
+		iv_photo_01.setOnClickListener(this);
 		iv_photo_02.setOnClickListener(this);
 		iv_photo_03.setOnClickListener(this);
 		iv_photo_01_delete.setOnClickListener(this);
 		iv_photo_02_delete.setOnClickListener(this);
 		iv_photo_03_delete.setOnClickListener(this);
 		tv_add_photo.setOnClickListener(this);
-		tv_post.setOnClickListener(this);*/
+		tv_submit.setOnClickListener(this);
 
 		if (data != null) {
-			GoodsEntity goodsEn = data.getGoodsEn();
-			if (goodsEn != null) {
-				Glide.with(AppApplication.getAppContext())
-						.load(goodsEn.getPicUrl())
-						.apply(AppApplication.getShowOptions())
-						.into(iv_goods);
+			Glide.with(AppApplication.getAppContext())
+					.load(data.getPicUrl())
+					.apply(AppApplication.getShowOptions())
+					.into(iv_goods);
 
-				tv_name.setText(goodsEn.getName());
-				tv_attr.setText(goodsEn.getAttribute());
-			}
+			tv_name.setText(data.getName());
+			tv_attr.setText(data.getAttribute());
+
+			int number = data.getNumber();
+			double price = data.getPrice();
+			totalPrice = price*number;
+			tv_number.setText(getString(R.string.cart_goods_num, number));
+			tv_price.setText(getString(R.string.pay_rmb, df.format(price)));
 		}
 
-		rb_star.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-			@Override
-			public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-				if (rating < 1) {
-					rb_star.setRating(1);
-				}
-			}
-		});
+		loadSaleData();
+
+		changeViewStatus();
+		switch (status) {
+			case 6: //审核中
+				tv_submit.setText("审核中");
+				tv_submit.setBackgroundResource(R.drawable.shape_style_solid_03_08);
+				break;
+			case 7: //审核通过
+				break;
+			case 8: //审核拒绝
+				break;
+			default:
+				break;
+		}
 	}
 
 	private void initPhotoView() {
@@ -167,46 +202,72 @@ public class PostSaleActivity extends BaseActivity implements OnClickListener {
 	}
 
 	private boolean checkData() {
-		starNum = rb_star.getRating();
-		contentStr = et_comment.getText().toString();
+		contentStr = et_reason.getText().toString();
 		// 校验非空
 		if (StringUtil.isNull(contentStr)) {
-			CommonTools.showToast(getString(R.string.order_comment_null), Toast.LENGTH_SHORT);
+			CommonTools.showToast(getString(R.string.order_post_sale_hint), Toast.LENGTH_SHORT);
 			return false;
 		}
 		return true;
 	}
 
+	/**
+	 * 退、换货状态切换
+	 */
+	private void changeViewStatus() {
+		tv_change.setBackgroundResource(R.color.ui_bg_color_percent_10);
+		tv_return.setBackgroundResource(R.color.ui_bg_color_percent_10);
+		tv_change.setTextColor(getResources().getColor(R.color.app_color_gray_5));
+		tv_return.setTextColor(getResources().getColor(R.color.app_color_gray_5));
+		if (changeType == 1) {
+			tv_change.setBackgroundResource(R.drawable.shape_style_solid_04_08);
+			tv_change.setTextColor(getResources().getColor(R.color.app_color_white));
+			tv_refund_price.setText(getString(R.string.order_refund_price, df.format(0)));
+		} else {
+			tv_return.setBackgroundResource(R.drawable.shape_style_solid_04_08);
+			tv_return.setTextColor(getResources().getColor(R.color.app_color_white));
+			tv_refund_price.setText(getString(R.string.order_refund_price, df.format(totalPrice)));
+		}
+	}
+
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.comment_post_iv_photo_01:
-		case R.id.comment_post_iv_photo_01_delete:
+		case R.id.post_sale_tv_change:
+			changeType = 1;
+			changeViewStatus();
+			break;
+		case R.id.post_sale_tv_return:
+			changeType = 2;
+			changeViewStatus();
+			break;
+		case R.id.post_sale_iv_photo_01:
+		case R.id.post_sale_iv_photo_01_delete:
 			if (al_photo_url.size() > 0) {
 				al_photo_url.remove(0);
 				initPhotoView();
 			}
 			break;
-		case R.id.comment_post_iv_photo_02:
-		case R.id.comment_post_iv_photo_02_delete:
+		case R.id.post_sale_iv_photo_02:
+		case R.id.post_sale_iv_photo_02_delete:
 			if (al_photo_url.size() > 1) {
 				al_photo_url.remove(1);
 				initPhotoView();
 			}
 			break;
-		case R.id.comment_post_iv_photo_03:
-		case R.id.comment_post_iv_photo_03_delete:
+		case R.id.post_sale_iv_photo_03:
+		case R.id.post_sale_iv_photo_03_delete:
 			if (al_photo_url.size() > 2) {
 				al_photo_url.remove(2);
 				initPhotoView();
 			}
 			break;
-		case R.id.comment_post_tv_add_photo:
+		case R.id.post_sale_tv_add_photo:
 			openActivity(ClipPhotoGridActivity.class);
 			break;
-		case R.id.comment_post_tv_post:
+		case R.id.post_sale_tv_submit:
 			if (checkData()) {
-				checkPhotoUrl();
+				//checkPhotoUrl();
 			}
 			break;
 		}
@@ -268,6 +329,11 @@ public class PostSaleActivity extends BaseActivity implements OnClickListener {
 		if (al_image_url.size() > 0) {
 
 		}
+	}
+
+	private void loadSaleData() {
+		startAnimation();
+
 	}
 
 	@Override

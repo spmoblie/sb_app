@@ -232,21 +232,24 @@ public class PurchaseActivity extends BaseActivity implements View.OnClickListen
                 @Override
                 public void setOnClick(Object data, int position, int type) {
                     if (position < 0 || position >= al_goods.size()) return;
-                    CommentEntity commentEn;
                     switch (type) {
                         case 0: //查看商品
+                            openGoodsActivity(al_goods.get(position).getEntityId());
                             break;
                         case 1: //申请售后
+                            Intent intent = new Intent(mContext, PostSaleActivity.class);
+                            intent.putExtra(AppConfig.PAGE_DATA, al_goods.get(position));
+                            startActivity(intent);
                             break;
                         case 2: //我要评价
-                            commentEn = new CommentEntity();
-                            commentEn.setGoodsEn(al_goods.get(position));
-                            openCommentPostActivity(commentEn);
+                            CommentEntity cEn1 = new CommentEntity();
+                            cEn1.setGoodsEn(al_goods.get(position));
+                            openCommentPostActivity(cEn1);
                             break;
                         case 3: //追加评价
-                            commentEn = new CommentEntity();
-                            commentEn.setGoodsEn(al_goods.get(position));
-                            openCommentAddActivity(commentEn);
+                            CommentEntity cEn2 = new CommentEntity();
+                            cEn2.setGoodsEn(al_goods.get(position));
+                            openCommentAddActivity(cEn2);
                             break;
                     }
                 }
@@ -264,7 +267,7 @@ public class PurchaseActivity extends BaseActivity implements View.OnClickListen
             case R.id.purchase_tv_order_number_copy:
                 break;
             case R.id.purchase_tv_click_01:
-                startActivity(new Intent(mContext, CommentOrderActivity.class));
+
                 break;
             case R.id.purchase_tv_click_02:
 

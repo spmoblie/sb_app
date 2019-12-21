@@ -320,7 +320,7 @@ public class AddressActivity extends BaseActivity implements View.OnClickListene
                 if (isManage) { //删除
                     deleteSelectItem();
                 } else { //新增
-                    startActivity(new Intent(mContext, AddressEditActivity.class));
+                    openActivity(AddressEditActivity.class);
                 }
                 break;
         }

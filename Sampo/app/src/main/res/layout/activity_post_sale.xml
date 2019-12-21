@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/comment_post_main"
+    android:id="@+id/post_sale_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/ui_color_app_bg_02"
@@ -23,7 +23,7 @@
             android:orientation="vertical">
 
             <android.support.constraint.ConstraintLayout
-                android:id="@+id/comment_post_show_main"
+                android:id="@+id/post_sale_goods_main"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_padding_20"
@@ -31,7 +31,7 @@
                 android:padding="@dimen/app_margin_screen">
 
                 <com.songbao.sampo.widgets.RoundImageView
-                    android:id="@+id/comment_post_iv_goods"
+                    android:id="@+id/post_sale_iv_goods"
                     android:layout_width="@dimen/image_size_goods"
                     android:layout_height="@dimen/image_size_goods"
                     android:scaleType="centerCrop"
@@ -39,41 +39,141 @@
                     app:type="round" />
 
                 <TextView
-                    android:id="@+id/comment_post_tv_name"
+                    android:id="@+id/post_sale_tv_name"
                     style="@style/goods_name_text"
                     app:layout_constraintHorizontal_weight="1"
-                    app:layout_constraintLeft_toRightOf="@+id/comment_post_iv_goods"
+                    app:layout_constraintLeft_toRightOf="@+id/post_sale_iv_goods"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/comment_post_iv_goods" />
+                    app:layout_constraintTop_toTopOf="@+id/post_sale_iv_goods" />
 
                 <TextView
-                    android:id="@+id/comment_post_tv_attr"
+                    android:id="@+id/post_sale_tv_attr"
                     style="@style/goods_attr_text"
-                    app:layout_constraintLeft_toLeftOf="@+id/comment_post_tv_name"
+                    app:layout_constraintLeft_toLeftOf="@+id/post_sale_tv_name"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/comment_post_tv_name" />
+                    app:layout_constraintTop_toBottomOf="@+id/post_sale_tv_name" />
+
+                <TextView
+                    android:id="@+id/post_sale_tv_number"
+                    style="@style/list_item_text"
+                    android:layout_marginTop="@dimen/margin_padding_5"
+                    android:textColor="@color/app_color_gray_5"
+                    android:textSize="@dimen/app_text_size_small"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/post_sale_tv_attr" />
+
+                <TextView
+                    android:id="@+id/post_sale_tv_price"
+                    style="@style/list_item_text"
+                    android:layout_marginTop="@dimen/margin_padding_5"
+                    android:textStyle="bold"
+                    android:textColor="@color/app_color_gray_5"
+                    android:textSize="@dimen/app_text_size_label"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/post_sale_tv_number" />
+
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/post_sale_show_main"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_padding_20"
+                android:background="@drawable/shape_style_solid_01_16"
+                android:padding="@dimen/app_margin_screen">
+
+                <LinearLayout
+                    android:id="@+id/post_sale_tv_change_main"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:background="@drawable/shape_style_solid_02_08"
+                    android:layout_marginTop="@dimen/margin_padding_5"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent">
+
+                    <TextView
+                        android:id="@+id/post_sale_tv_change"
+                        android:layout_width="88dp"
+                        android:layout_height="32dp"
+                        android:gravity="center"
+                        android:text="@string/order_change"
+                        android:textColor="@color/app_color_white"
+                        android:textSize="@dimen/app_text_size_label"
+                        android:background="@drawable/shape_style_solid_04_08"/>
+
+                    <TextView
+                        android:id="@+id/post_sale_tv_return"
+                        android:layout_width="88dp"
+                        android:layout_height="32dp"
+                        android:gravity="center"
+                        android:text="@string/order_return"
+                        android:textColor="@color/app_color_gray_5"
+                        android:textSize="@dimen/app_text_size_label"/>
+                </LinearLayout>
 
                 <EditText
-                    android:id="@+id/comment_post_et_comment"
+                    android:id="@+id/post_sale_et_reason"
                     style="@style/common_edit_text"
                     android:layout_width="match_parent"
                     android:layout_height="128dp"
                     android:gravity="top"
-                    android:hint="@string/order_comment_hint"
+                    android:hint="@string/order_post_sale_hint"
                     android:background="@drawable/shape_style_solid_02_16"
                     android:padding="@dimen/margin_padding_10"
                     android:layout_marginTop="@dimen/margin_padding_30"
-                    app:layout_constraintTop_toBottomOf="@+id/comment_post_iv_goods" />
+                    app:layout_constraintTop_toBottomOf="@+id/post_sale_tv_change_main"/>
 
                 <TextView
-                    android:id="@+id/comment_post_tv_photo_title"
-                    style="@style/common_small_text"
-                    android:text="@string/order_photo_add"
+                    android:id="@+id/post_sale_tv_refund_price"
+                    style="@style/order_text"
+                    android:text="@string/order_refund_price"
                     android:layout_marginTop="@dimen/margin_padding_20"
-                    app:layout_constraintTop_toBottomOf="@+id/comment_post_et_comment" />
+                    app:layout_constraintTop_toBottomOf="@+id/post_sale_et_reason" />
+
+                <TextView
+                    android:id="@+id/post_sale_tv_return_type"
+                    style="@style/order_text"
+                    android:text="@string/order_return_type"
+                    android:layout_marginTop="@dimen/margin_padding_10"
+                    app:layout_constraintTop_toBottomOf="@+id/post_sale_tv_refund_price" />
+
+                <TextView
+                    android:id="@+id/post_sale_tv_express_no"
+                    style="@style/order_text"
+                    android:text="@string/order_express_no"
+                    android:layout_marginTop="@dimen/margin_padding_10"
+                    app:layout_constraintTop_toBottomOf="@+id/post_sale_tv_return_type" />
+
+                <EditText
+                    android:id="@+id/post_sale_et_express_no"
+                    style="@style/common_edit_text"
+                    android:padding="0dp"
+                    android:layout_width="0dp"
+                    android:hint="@string/order_express_no_hint"
+                    android:background="@color/ui_bg_color_percent_10"
+                    android:layout_marginLeft="@dimen/margin_padding_10"
+                    app:layout_constraintHorizontal_weight="1"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/post_sale_tv_express_no"
+                    app:layout_constraintLeft_toRightOf="@+id/post_sale_tv_express_no"/>
+
+                <android.support.constraint.Group
+                    android:id="@+id/post_sale_group_express_no"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="visible"
+                    app:constraint_referenced_ids="post_sale_tv_express_no, post_sale_et_express_no"/>
+
+                <TextView
+                    android:id="@+id/post_sale_tv_photo_title"
+                    style="@style/order_text"
+                    android:text="@string/order_upload_photo"
+                    android:layout_marginTop="@dimen/app_margin_screen"
+                    app:layout_constraintTop_toBottomOf="@+id/post_sale_tv_express_no" />
 
                 <com.songbao.sampo.widgets.RoundImageView
-                    android:id="@+id/comment_post_iv_photo_01"
+                    android:id="@+id/post_sale_iv_photo_01"
                     android:layout_width="@dimen/image_size_photo"
                     android:layout_height="@dimen/image_size_photo"
                     android:src="@drawable/icon_default_show"
@@ -82,21 +182,21 @@
                     android:layout_marginTop="@dimen/margin_padding_10"
                     android:layout_marginRight="@dimen/margin_padding_10"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toLeftOf="@+id/comment_post_iv_photo_02"
-                    app:layout_constraintTop_toBottomOf="@+id/comment_post_tv_photo_title"/>
+                    app:layout_constraintRight_toLeftOf="@+id/post_sale_iv_photo_02"
+                    app:layout_constraintTop_toBottomOf="@+id/post_sale_tv_photo_title"/>
 
                 <ImageView
-                    android:id="@+id/comment_post_iv_photo_01_delete"
+                    android:id="@+id/post_sale_iv_photo_01_delete"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@mipmap/icon_num_minus"
                     android:layout_marginLeft="49dp"
                     android:layout_marginBottom="48dp"
-                    app:layout_constraintLeft_toLeftOf="@+id/comment_post_iv_photo_01"
-                    app:layout_constraintBottom_toBottomOf="@+id/comment_post_iv_photo_01"/>
+                    app:layout_constraintLeft_toLeftOf="@+id/post_sale_iv_photo_01"
+                    app:layout_constraintBottom_toBottomOf="@+id/post_sale_iv_photo_01"/>
 
                 <com.songbao.sampo.widgets.RoundImageView
-                    android:id="@+id/comment_post_iv_photo_02"
+                    android:id="@+id/post_sale_iv_photo_02"
                     android:layout_width="@dimen/image_size_photo"
                     android:layout_height="@dimen/image_size_photo"
                     android:src="@drawable/icon_default_show"
@@ -104,22 +204,22 @@
                     app:type="round"
                     android:layout_marginTop="@dimen/margin_padding_10"
                     android:layout_marginRight="@dimen/margin_padding_10"
-                    app:layout_constraintLeft_toRightOf="@+id/comment_post_iv_photo_01"
-                    app:layout_constraintRight_toLeftOf="@+id/comment_post_tv_add_photo"
-                    app:layout_constraintTop_toBottomOf="@+id/comment_post_tv_photo_title"/>
+                    app:layout_constraintLeft_toRightOf="@+id/post_sale_iv_photo_01"
+                    app:layout_constraintRight_toLeftOf="@+id/post_sale_tv_add_photo"
+                    app:layout_constraintTop_toBottomOf="@+id/post_sale_tv_photo_title"/>
 
                 <ImageView
-                    android:id="@+id/comment_post_iv_photo_02_delete"
+                    android:id="@+id/post_sale_iv_photo_02_delete"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@mipmap/icon_num_minus"
                     android:layout_marginLeft="49dp"
                     android:layout_marginBottom="48dp"
-                    app:layout_constraintLeft_toLeftOf="@+id/comment_post_iv_photo_02"
-                    app:layout_constraintBottom_toBottomOf="@+id/comment_post_iv_photo_02"/>
+                    app:layout_constraintLeft_toLeftOf="@+id/post_sale_iv_photo_02"
+                    app:layout_constraintBottom_toBottomOf="@+id/post_sale_iv_photo_02"/>
 
                 <com.songbao.sampo.widgets.RoundImageView
-                    android:id="@+id/comment_post_iv_photo_03"
+                    android:id="@+id/post_sale_iv_photo_03"
                     android:layout_width="@dimen/image_size_photo"
                     android:layout_height="@dimen/image_size_photo"
                     android:src="@drawable/icon_default_show"
@@ -127,21 +227,21 @@
                     app:type="round"
                     android:layout_marginTop="@dimen/margin_padding_10"
                     android:layout_marginLeft="@dimen/margin_padding_10"
-                    app:layout_constraintLeft_toRightOf="@+id/comment_post_iv_photo_02"
-                    app:layout_constraintTop_toBottomOf="@+id/comment_post_tv_photo_title"/>
+                    app:layout_constraintLeft_toRightOf="@+id/post_sale_iv_photo_02"
+                    app:layout_constraintTop_toBottomOf="@+id/post_sale_tv_photo_title"/>
 
                 <ImageView
-                    android:id="@+id/comment_post_iv_photo_03_delete"
+                    android:id="@+id/post_sale_iv_photo_03_delete"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@mipmap/icon_num_minus"
                     android:layout_marginLeft="49dp"
                     android:layout_marginBottom="48dp"
-                    app:layout_constraintLeft_toLeftOf="@+id/comment_post_iv_photo_03"
-                    app:layout_constraintBottom_toBottomOf="@+id/comment_post_iv_photo_03"/>
+                    app:layout_constraintLeft_toLeftOf="@+id/post_sale_iv_photo_03"
+                    app:layout_constraintBottom_toBottomOf="@+id/post_sale_iv_photo_03"/>
 
                 <TextView
-                    android:id="@+id/comment_post_tv_add_photo"
+                    android:id="@+id/post_sale_tv_add_photo"
                     android:layout_width="@dimen/image_size_photo"
                     android:layout_height="@dimen/image_size_photo"
                     android:gravity="center"
@@ -150,26 +250,26 @@
                     android:textColor="@color/shows_text_color"
                     android:background="@drawable/shape_style_empty_12_08"
                     android:layout_marginTop="@dimen/margin_padding_10"
-                    app:layout_constraintLeft_toRightOf="@+id/comment_post_iv_photo_02"
-                    app:layout_constraintRight_toLeftOf="@+id/comment_post_fill_add_photo"
-                    app:layout_constraintTop_toBottomOf="@+id/comment_post_tv_photo_title"/>
+                    app:layout_constraintLeft_toRightOf="@+id/post_sale_iv_photo_02"
+                    app:layout_constraintRight_toLeftOf="@+id/post_sale_fill_add_photo"
+                    app:layout_constraintTop_toBottomOf="@+id/post_sale_tv_photo_title"/>
 
                 <View
-                    android:id="@+id/comment_post_fill_add_photo"
+                    android:id="@+id/post_sale_fill_add_photo"
                     android:layout_width="0dp"
                     android:layout_height="@dimen/image_size_photo"
                     android:layout_marginTop="@dimen/margin_padding_10"
                     app:layout_constraintHorizontal_weight="1"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintLeft_toRightOf="@+id/comment_post_tv_add_photo"
-                    app:layout_constraintTop_toBottomOf="@+id/comment_post_tv_photo_title" />
+                    app:layout_constraintLeft_toRightOf="@+id/post_sale_tv_add_photo"
+                    app:layout_constraintTop_toBottomOf="@+id/post_sale_tv_photo_title" />
 
             </android.support.constraint.ConstraintLayout>
         </LinearLayout>
     </ScrollView>
 
     <TextView
-        android:id="@+id/comment_post_tv_post"
+        android:id="@+id/post_sale_tv_submit"
         android:layout_width="match_parent"
         android:layout_height="@dimen/app_height_button"
         android:layout_marginLeft="@dimen/app_margin_screen"
@@ -178,7 +278,7 @@
         android:layout_marginTop="@dimen/margin_padding_20"
         android:background="@drawable/shape_style_solid_04_08"
         android:gravity="center"
-        android:text="@string/post"
+        android:text="@string/order_submit_apply"
         android:textStyle="bold"
         android:textColor="@color/app_color_white"
         android:textSize="@dimen/app_text_size_content" />

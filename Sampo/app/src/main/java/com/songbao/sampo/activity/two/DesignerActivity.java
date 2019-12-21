@@ -1,6 +1,5 @@
 package com.songbao.sampo.activity.two;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -172,7 +171,7 @@ public class DesignerActivity extends BaseActivity implements View.OnClickListen
 				shared.edit().putBoolean(AppConfig.KEY_JUMP_PAGE, true).apply();
 				shared.edit().putInt(AppConfig.KEY_MAIN_CURRENT_INDEX, 2).apply();
 				// 跳转至“我的订制”
-				startActivity(new Intent(mContext, CustomizeActivity.class));
+				openActivity(CustomizeActivity.class);
 			}
 		}, 500);
 	}

@@ -1,6 +1,5 @@
 package com.songbao.sampo.activity.two;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.constraint.Group;
@@ -317,7 +316,7 @@ public class CartActivity extends BaseActivity implements View.OnClickListener{
 					deleteSelectItem();
 				} else { //结算
 					if (totalNum > 0) {
-						startActivity(new Intent(mContext, PostOrderActivity.class));
+						openActivity(PostOrderActivity.class);
 					} else {
 						CommonTools.showToast("请选择结算的商品");
 					}

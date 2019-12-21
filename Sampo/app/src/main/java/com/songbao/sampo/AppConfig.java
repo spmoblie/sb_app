@@ -235,7 +235,7 @@ public class AppConfig {
 	// 加载数据数量
 	public static final String LOAD_SIZE = "10";
 	// 加载缓冲时间
-	public static final int LOADING_TIME = 500;
+	public static final int LOADING_TIME = 200;
 	// 验证码倒计时
 	public static final long SEND_TIME = 60000;
 

@@ -121,7 +121,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 	private void startFragment() {
 		shared.edit().putInt(AppConfig.KEY_MAIN_CURRENT_INDEX, 0).apply();
 		finish();
-		startActivity(new Intent(this, MainActivity.class));
+		startActivity(new Intent(AppApplication.getAppContext(), MainActivity.class));
 	}
 
 	@Override
@@ -217,7 +217,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 	 */
 	protected void openLoginActivity(){
 		shared.edit().putBoolean(AppConfig.KEY_JUMP_PAGE, true).apply();
-		Intent intent = new Intent(this, LoginActivity.class);
+		Intent intent = new Intent(AppApplication.getAppContext(), LoginActivity.class);
 		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		startActivity(intent);
 	}

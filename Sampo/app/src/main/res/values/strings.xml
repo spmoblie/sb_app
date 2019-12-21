@@ -317,8 +317,17 @@
     <string name="order_comment_star">整体评价</string>
     <string name="order_photo_add">添加照片</string>
     <string name="order_delete">删除订单</string>
+    <string name="order_change">换货</string>
+    <string name="order_return">退货</string>
     <string name="order_post_sale">申请售后</string>
+    <string name="order_post_sale_hint">请描述您换货或退货原因</string>
+    <string name="order_refund_price">退款金额：\t\t￥%1$s</string>
     <string name="order_refund_details">退款详情</string>
+    <string name="order_return_type">退换方式：\t\t自行寄回</string>
+    <string name="order_express_no">快递单号：</string>
+    <string name="order_express_no_hint">填写快递单号</string>
+    <string name="order_upload_photo">上传凭证：</string>
+    <string name="order_submit_apply">提交申请</string>
     <string name="order_revoke_refund">撤销退款</string>
     <string name="order_goods_num">共%1$d件商品\t实付款</string>
 
