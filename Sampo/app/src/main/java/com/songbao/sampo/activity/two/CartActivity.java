@@ -62,11 +62,6 @@ public class CartActivity extends BaseActivity implements View.OnClickListener{
 	CartGoodsAdapter rvAdapter;
 
 	private int mPosition = 0;
-	private int data_total = -1; //数据总量
-	private int load_page = 1; //加载页数
-	private int load_type = 1; //加载类型(0:下拉刷新/1:翻页加载)
-	private boolean isLoadOk = true; //加载控制
-
 	private int totalNum;
 	private double totalPrice;
 	private boolean isSelectAll;
@@ -98,7 +93,7 @@ public class CartActivity extends BaseActivity implements View.OnClickListener{
 		refresh_rv.setHeaderLayoutBackground(R.color.ui_color_app_bg_02);
 		refresh_rv.setFooterLayoutBackground(R.color.ui_color_app_bg_02);
 		refresh_rv.setPullRefreshEnabled(true); //下拉刷新
-		refresh_rv.setPullLoadEnabled(true); //上拉加载
+		refresh_rv.setPullLoadEnabled(false); //上拉加载
 		refresh_rv.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<MyRecyclerView>() {
 			@Override
 			public void onPullDownToRefresh(PullToRefreshBase<MyRecyclerView> refreshView) {
@@ -119,7 +114,7 @@ public class CartActivity extends BaseActivity implements View.OnClickListener{
 
 					@Override
 					public void run() {
-						if (!isStopLoadMore(al_show.size(), data_total, 0)) {
+						if (!isStopLoadMore(al_show.size(), -1, 0)) {
 							loadMoreData();
 						} else {
 							refresh_rv.onPullUpRefreshComplete();
@@ -352,7 +347,6 @@ public class CartActivity extends BaseActivity implements View.OnClickListener{
 	 *下拉刷新
 	 */
 	private void refreshData() {
-		load_type = 0;
 		loadServerData();
 	}
 
@@ -360,7 +354,6 @@ public class CartActivity extends BaseActivity implements View.OnClickListener{
 	 * 翻页加载
 	 */
 	private void loadMoreData() {
-		load_type = 1;
 		loadServerData();
 	}
 
@@ -368,16 +361,8 @@ public class CartActivity extends BaseActivity implements View.OnClickListener{
 	 * 加载数据
 	 */
 	private void loadServerData() {
-		if (!isLoadOk) return; //加载频率控制
-		isLoadOk = false;
-		String page = String.valueOf(load_page);
-		if (load_type == 0) {
-			page = "1";
-		}
 		HashMap<String, String> map = new HashMap<>();
-		map.put("page", page);
-		map.put("size", AppConfig.LOAD_SIZE);
-		loadSVData(AppConfig.URL_USER_RESERVATION, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_USER_RESERVATION);
+		loadSVData(AppConfig.URL_CART_GET, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_CART_GET);
 	}
 
 	@Override
@@ -386,22 +371,13 @@ public class CartActivity extends BaseActivity implements View.OnClickListener{
 		BaseEntity baseEn;
 		try {
 			switch (dataType) {
-				case AppConfig.REQUEST_SV_USER_RESERVATION:
+				case AppConfig.REQUEST_SV_CART_GET:
 					baseEn = JsonUtils.getCartListData(jsonObject);
 					if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
-						data_total = baseEn.getDataTotal();
 						List<CartEntity> lists = filterData(baseEn.getLists(), am_show);
 						if (lists != null && lists.size() > 0) {
-							if (load_type == 0) {
-								//下拉
-								LogUtil.i(LogUtil.LOG_HTTP, TAG + " 刷新数据 —> size = " + lists.size());
-								lists.addAll(al_show);
-								al_show.clear();
-							}else {
-								//翻页
-								LogUtil.i(LogUtil.LOG_HTTP, TAG + " 翻页数据 —> size = " + lists.size());
-								load_page++;
-							}
+							lists.addAll(al_show);
+							al_show.clear();
 							al_show.addAll(lists);
 						}
 						updateListData();
@@ -428,7 +404,6 @@ public class CartActivity extends BaseActivity implements View.OnClickListener{
 	@Override
 	protected void stopAnimation() {
 		super.stopAnimation();
-		isLoadOk = true;
 		refresh_rv.onPullUpRefreshComplete();
 		refresh_rv.onPullDownRefreshComplete();
 	}

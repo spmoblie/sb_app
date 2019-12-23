@@ -11,8 +11,9 @@ public class GoodsAttrEntity extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
 
-	private int attrId; //属性id
-	private int goodsId; //商品id
+	private int attrId; //属性Id
+	private String attrCode; //属性Code
+	private String goodsCode; //商品Code
 	private String firstImgUrl; //首张缩略图
 	private double computePrice; //商品结算价
 	private boolean isShow; //属性面板是否展开
@@ -46,17 +47,24 @@ public class GoodsAttrEntity extends BaseEntity {
 		return attrId;
 	}
 
-
 	public void setAttrId(int attrId) {
 		this.attrId = attrId;
 	}
 
-	public String getGoodsId() {
-		return String.valueOf(goodsId);
+	public String getAttrCode() {
+		return attrCode;
 	}
 
-	public void setGoodsId(int goodsId) {
-		this.goodsId = goodsId;
+	public void setAttrCode(String attrCode) {
+		this.attrCode = attrCode;
+	}
+
+	public String getGoodsCode() {
+		return goodsCode;
+	}
+
+	public void setGoodsCode(String goodsCode) {
+		this.goodsCode = goodsCode;
 	}
 
 	public String getFirstImgUrl() {

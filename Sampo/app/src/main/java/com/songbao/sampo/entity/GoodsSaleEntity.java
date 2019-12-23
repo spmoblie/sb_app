@@ -14,6 +14,7 @@ public class GoodsSaleEntity extends BaseEntity {
 	private int saleStatus; //售后状态 6:审核中/7:审核通过/8:审核拒绝
 	private String addTime; //退换时间
 	private String saleReason; //退换原因
+	private String expressNo; //快递单号
 	private ArrayList<String> imgList; //凭证图片
 
 	@Override
@@ -59,6 +60,14 @@ public class GoodsSaleEntity extends BaseEntity {
 
 	public void setSaleReason(String saleReason) {
 		this.saleReason = saleReason;
+	}
+
+	public String getExpressNo() {
+		return expressNo;
+	}
+
+	public void setExpressNo(String expressNo) {
+		this.expressNo = expressNo;
 	}
 
 	public ArrayList<String> getImgList() {

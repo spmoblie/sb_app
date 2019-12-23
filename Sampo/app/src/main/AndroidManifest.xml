@@ -285,6 +285,10 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
         <activity
+            android:name=".activity.mine.RefundActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"/>
+        <activity
             android:name=".activity.mine.SelectAreaActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"/>

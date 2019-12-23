@@ -54,7 +54,7 @@ public class JsonUtils {
     /**
      * 解析获取字符串集
      */
-    private static List<String> getStringList(String urlStr) throws JSONException {
+    private static ArrayList<String> getStringList(String urlStr) throws JSONException {
         ArrayList<String> urls = new ArrayList<>();
         JSONArray param = new JSONArray(urlStr);
         for (int i = 0; i < param.length(); i++) {
@@ -408,13 +408,14 @@ public class JsonUtils {
                         goodsEn = new GoodsEntity();
                         int is = id * 10 + j;
                         goodsEn.setId(is);
+                        goodsEn.setGoodsCode("10000000029345500001");
                         goodsEn.setPicUrl(AppConfig.IMAGE_URL + "design_001.png");
                         goodsEn.setName("松堡王国现代简约彩条双层床");
                         goodsEn.setAttribute("天蓝色；1350*1900");
                         goodsEn.setNumber(is);
                         goodsEn.setPrice(2999);
+                        goodsEn.setSaleStatus(3);
                         goods.add(goodsEn);
-                        goodsEn.setStatus(3);
                     }
                     childEn.setGoodsLists(goods);
 
@@ -554,32 +555,6 @@ public class JsonUtils {
                 childEn.setName(item.getString("label"));
                 childEn.setSortCode(item.getString("catCode"));
                 lists.add(childEn);
-
-                /*List<GoodsSortEntity> childList = new ArrayList<>();
-                for (int j = 0; j < 2; j++) {
-                    childEn = new GoodsSortEntity();
-                    int ij = id * 10 + j;
-                    childEn.setId(ij);
-                    childEn.setParentId(id);
-
-                    List<GoodsEntity> goodsList = new ArrayList<>();
-                    for (int k = 0; k < 2; k++) {
-                        goodsEn = new GoodsEntity();
-                        int ik = ij * 10 + k;
-                        goodsEn.setId(ik);
-                        goodsEn.setPicUrl(AppConfig.IMAGE_URL + "design_001.png");
-                        goodsEn.setName("松堡王国现代简约彩条双层床");
-                        goodsEn.setAttribute(ik + " mm");
-                        goodsEn.setPrice(999999.99);
-
-                        goodsList.add(goodsEn);
-                    }
-                    childEn.setGoodsLists(goodsList);
-                    childList.add(childEn);
-                }
-
-                sortEn.setChildLists(childList);
-                lists.add(childEn);*/
             }
             mainEn.setLists(lists);
         }
@@ -700,6 +675,7 @@ public class JsonUtils {
                         attrEn.setAttrName(attrs.getString("attrValues"));
                         childLists.add(attrEn);
                     }
+                    //构建"全部"属性选项
                     attrEn = new GoodsAttrEntity();
                     attrEn.setAttrId(-1);
                     attrEn.setAttrName("全部");
@@ -720,6 +696,80 @@ public class JsonUtils {
     }
 
     /**
+     * 解析获取商品详情数据
+     */
+    public static BaseEntity getGoodsDetailData(JSONObject jsonObject) throws JSONException {
+        BaseEntity mainEn = getCommonKeyValue(jsonObject);
+
+        if (StringUtil.notNull(jsonObject, "data")) {
+            JSONObject jsonData = jsonObject.getJSONObject("data");
+            GoodsEntity goodsEn = new GoodsEntity();
+            goodsEn.setId(jsonData.getInt("skuId"));
+            goodsEn.setGoodsCode(jsonData.getString("goodsCode"));
+            goodsEn.setName(jsonData.getString("goodsName"));
+            goodsEn.setPrice(jsonData.getDouble("price"));
+
+            // 商品已选属性
+            String attrIds = jsonData.getString("attrIds");
+            GoodsAttrEntity attrEn = new GoodsAttrEntity();
+            String[] ids = attrIds.split(",");
+            for (int i = 0; i < ids.length; i++) {
+                switch (i) {
+                    case 0:
+                        attrEn.setS_id_1(Integer.valueOf(ids[i]));
+                        break;
+                    case 1:
+                        attrEn.setS_id_2(Integer.valueOf(ids[i]));
+                        break;
+                    case 2:
+                        attrEn.setS_id_3(Integer.valueOf(ids[i]));
+                        break;
+                }
+            }
+            String attrNames = jsonData.getString("skuComboName");
+            String[] names = attrNames.split(" ");
+            for (int i = 0; i < names.length; i++) {
+                switch (i) {
+                    case 0:
+                        attrEn.setS_name_1(names[i]);
+                        break;
+                    case 1:
+                        attrEn.setS_name_2(names[i]);
+                        break;
+                    case 2:
+                        attrEn.setS_name_3(names[i]);
+                        break;
+                }
+            }
+            attrEn.setAttrNameStr(attrNames);
+            attrEn.setBuyNum(1);
+            goodsEn.setAttrEn(attrEn);
+
+            // 商品图片集
+            ArrayList<String> imageList = new ArrayList<>();
+            JSONArray pics = jsonData.getJSONArray("goodsPics");
+            for (int i = 0; i < pics.length(); i++) {
+                JSONObject picObj = pics.getJSONObject(i);
+                imageList.add(picObj.getString("goodsPic"));
+            }
+            goodsEn.setImageList(imageList);
+
+            // 详情图片集
+            ArrayList<String> detailList = new ArrayList<>();
+            JSONArray details = jsonData.getJSONArray("goodsPics");
+            for (int i = 0; i < details.length(); i++) {
+                JSONObject picObj = pics.getJSONObject(i);
+                detailList.add(picObj.getString("goodsPic"));
+            }
+            goodsEn.setDetailList(detailList);
+
+            mainEn.setData(goodsEn);
+        }
+
+        return mainEn;
+    }
+
+    /**
      * 解析获取商品属性数据
      */
     public static BaseEntity getGoodsAttrData(JSONObject jsonObject) throws JSONException {
@@ -728,13 +778,12 @@ public class JsonUtils {
         if (StringUtil.notNull(jsonObject, "data")) {
             JSONObject jsonData = jsonObject.getJSONObject("data");
             GoodsAttrEntity attrEn = new GoodsAttrEntity();
-            attrEn.setGoodsId(1);
-            attrEn.setFirstImgUrl(AppConfig.IMAGE_URL + "design_001.png");
             attrEn.setComputePrice(2999.99);
+            attrEn.setFirstImgUrl(AppConfig.IMAGE_URL + "design_001.png");
             // 解析商品attr
-            attrEn.setAttrLists(getGoodsAttrLists(jsonObject, "message"));
+            attrEn.setAttrLists(getGoodsAttrLists(jsonData, "allSales"));
             // 解析商品sku
-            //attrEn.setSkuLists(getGoodsSkuLists(jsonObject, "sku"));
+            //attrEn.setSkuLists(getGoodsSkuLists(jsonData, "sku"));
 
             mainEn.setData(attrEn);
         }
@@ -748,62 +797,27 @@ public class JsonUtils {
     private static ArrayList<GoodsAttrEntity> getGoodsAttrLists(JSONObject jsonObject, String key) throws JSONException {
         ArrayList<GoodsAttrEntity> attrLists = new ArrayList<>();
         if (!StringUtil.notNull(jsonObject, key)) {
-            //JSONArray attr = jsonObject.getJSONArray(key);
-            GoodsAttrEntity listEn;
-            for (int i = 0; i < 6; i++) {
-                //JSONObject as = attr.getJSONObject(i);
-                if (i < 2) {
-                    listEn = new GoodsAttrEntity();
-                    listEn.setAttrId(i+1);
-                    if (i == 0) {
-                        listEn.setAttrName("颜色");
-                        ArrayList<GoodsAttrEntity> asLists = new ArrayList<>();
-                        GoodsAttrEntity asEn;
-                        //JSONArray list = as.getJSONArray("values");
-                        for (int j = 0; j < 3; j++) {
-                            //JSONObject ls = list.getJSONObject(j);
-                            asEn = new GoodsAttrEntity();
-                            asEn.setAttrId(listEn.getAttrId()*10 + j);
-                            asEn.setSkuNum(99);
-                            if (j == 0) {
-                                asEn.setAttrImg(AppConfig.IMAGE_URL + "design_001.png");
-                                asEn.setAttrName("天蓝色");
-                            } else if (j == 1) {
-                                asEn.setAttrImg(AppConfig.IMAGE_URL + "design_004.png");
-                                asEn.setAttrName("原木色");
-                            } else {
-                                asEn.setAttrImg(AppConfig.IMAGE_URL + "design_006.png");
-                                asEn.setAttrName("水洗白");
-                            }
-                            asEn.setAttrPrice(909);
-                            asEn.setAttrImg("");
-                            asLists.add(asEn);
-                        }
-                        listEn.setAttrLists(asLists);
-                    } else if (i == 1) {
-                        listEn.setAttrName("尺寸");
-                        ArrayList<GoodsAttrEntity> asLists = new ArrayList<>();
-                        GoodsAttrEntity asEn;
-                        //JSONArray list = as.getJSONArray("values");
-                        for (int j = 0; j < 2; j++) {
-                            //JSONObject ls = list.getJSONObject(j);
-                            asEn = new GoodsAttrEntity();
-                            asEn.setAttrId(listEn.getAttrId()*10 + j);
-                            asEn.setSkuNum(99);
-                            if (j == 0) {
-                                asEn.setAttrName("1200*1900");
-                            } else if (j == 1) {
-                                asEn.setAttrName("1350*1900");
-                            }
-                            asEn.setAttrPrice(909);
-                            asEn.setAttrImg("");
-                            asLists.add(asEn);
-                        }
-                        listEn.setAttrLists(asLists);
-                    }
-                    attrLists.add(listEn);
+            JSONArray attr = jsonObject.getJSONArray(key);
+            GoodsAttrEntity listEn, asEn;
+            for (int i = 0; i < attr.length(); i++) {
+                JSONObject as = attr.getJSONObject(i);
+                listEn = new GoodsAttrEntity();
+                listEn.setAttrName(as.getString("name"));
+
+                ArrayList<GoodsAttrEntity> asLists = new ArrayList<>();
+                JSONArray list = as.getJSONArray("children");
+                for (int j = 0; j < list.length(); j++) {
+                    JSONObject ls = list.getJSONObject(j);
+                    asEn = new GoodsAttrEntity();
+                    asEn.setAttrCode(ls.getString("attrCode"));
+                    asEn.setAttrName(ls.getString("attrValues"));
+                    asEn.setSkuNum(99);
+                    asEn.setAttrPrice(0);
+                    asLists.add(asEn);
                 }
+                listEn.setAttrLists(asLists);
             }
+            //构建"数量"属性面板
             listEn = new GoodsAttrEntity();
             attrLists.add(listEn);
         }
@@ -886,7 +900,7 @@ public class JsonUtils {
     }
 
     /**
-     * 解析购物车列表数据
+     * 解析地址列表数据
      */
     public static BaseEntity getAddressListData(JSONObject jsonObject) throws JSONException {
         BaseEntity mainEn = getCommonKeyValue(jsonObject);
@@ -913,61 +927,34 @@ public class JsonUtils {
     }
 
     /**
-     * 解析评价列表数据
+     * 解析商品评价数据
      */
     public static BaseEntity getCommentGoodsListData(JSONObject jsonObject) throws JSONException {
         BaseEntity mainEn = getCommonKeyValue(jsonObject);
 
         if (StringUtil.notNull(jsonObject, "data")) {
             JSONObject jsonData = jsonObject.getJSONObject("data");
-            if (StringUtil.notNull(jsonData, "dataList")) {
-                JSONArray data = jsonData.getJSONArray("dataList");
+            if (StringUtil.notNull(jsonData, "list")) {
+                JSONArray data = jsonData.getJSONArray("list");
                 CommentEntity childEn;
                 List<CommentEntity> lists = new ArrayList<>();
-                for (int i = 0; i < 5; i++) {
+                for (int i = 0; i < data.length(); i++) {
+                    JSONObject item = data.getJSONObject(i);
                     childEn = new CommentEntity();
-                    childEn.setId("" + i + 1);
-                    childEn.setNick("草莓味的冰淇淋");
-                    childEn.setGoodsAttr("天蓝色；1350*1900");
-                    childEn.setAddTime("2019/12/25");
-                    childEn.setContent("很不错，稳固，用料足，没有味道，安装师傅说质量很好，值得购买，还会回购");
+                    childEn.setNumber(jsonData.getInt("total"));
+                    childEn.setGoodStar(jsonData.getInt("goodsRate"));
 
-                    if (i == 0) {
-                        childEn.setStarNum(0);
-                        ArrayList<String> imgList = new ArrayList<>();
-                        imgList.add(AppConfig.IMAGE_URL + "design_001.png");
-                        childEn.setImgList(imgList);
-                        childEn.setType(1);
+                    childEn.setId(item.getInt("id"));
+                    childEn.setNick(item.getString("customerName"));
+                    childEn.setHeadUrl(item.getString("customerName"));
+                    childEn.setGoodsAttr(item.getString("skuComboName"));
+                    childEn.setAddTime(item.getString("evaluateTime"));
+                    childEn.setContent(item.getString("evaluateContent"));
+                    childEn.setImg(item.getBoolean("isImg"));
 
-                        childEn.setAddDay(26);
-                        childEn.setAddContent("床垫搭配效果很不错，非常满意，床垫搭配效果很不错，非常满意。");
-                    } else if (i == 1) {
-                        childEn.setStarNum(1);
-                        ArrayList<String> imgList = new ArrayList<>();
-                        imgList.add(AppConfig.IMAGE_URL + "design_001.png");
-                        imgList.add(AppConfig.IMAGE_URL + "design_004.png");
-                        childEn.setImgList(imgList);
-                        childEn.setType(1);
-                    } else if (i == 2) {
-                        childEn.setStarNum(2);
-                        ArrayList<String> imgList = new ArrayList<>();
-                        imgList.add(AppConfig.IMAGE_URL + "design_001.png");
-                        imgList.add(AppConfig.IMAGE_URL + "design_004.png");
-                        imgList.add(AppConfig.IMAGE_URL + "design_006.png");
-                        childEn.setImgList(imgList);
-                        childEn.setType(1);
-                    } else if (i == 3) {
-                        childEn.setStarNum(3);
-                        ArrayList<String> imgList = new ArrayList<>();
-                        imgList.add(AppConfig.IMAGE_URL + "design_001.png");
-                        imgList.add(AppConfig.IMAGE_URL + "design_004.png");
-                        imgList.add(AppConfig.IMAGE_URL + "design_006.png");
-                        imgList.add(AppConfig.IMAGE_URL + "design_001.png");
-                        imgList.add(AppConfig.IMAGE_URL + "design_006.png");
-                        childEn.setImgList(imgList);
-                        childEn.setType(1);
+                    if (childEn.isImg()) {
+                        childEn.setImgList(getStringList(item.getString("evaluateImages")));
                     }
-
                     lists.add(childEn);
                 }
                 mainEn.setLists(lists);
@@ -977,7 +964,7 @@ public class JsonUtils {
     }
 
     /**
-     * 解析评价列表数据
+     * 解析我的评价数据
      */
     public static BaseEntity getCommentOrderListData(JSONObject jsonObject) throws JSONException {
         BaseEntity mainEn = getCommonKeyValue(jsonObject);
@@ -990,7 +977,7 @@ public class JsonUtils {
                 List<CommentEntity> lists = new ArrayList<>();
                 for (int i = 0; i < 5; i++) {
                     childEn = new CommentEntity();
-                    childEn.setId("" + i + 1);
+                    childEn.setId(i + 1);
 
                     goodsEn = new GoodsEntity();
                     goodsEn.setId(10*i);
@@ -1008,7 +995,7 @@ public class JsonUtils {
                         ArrayList<String> imgList = new ArrayList<>();
                         imgList.add(AppConfig.IMAGE_URL + "design_001.png");
                         childEn.setImgList(imgList);
-                        childEn.setType(1);
+                        childEn.setImg(true);
 
                         childEn.setAddDay(26);
                         childEn.setAddContent("床垫搭配效果很不错，非常满意，床垫搭配效果很不错，非常满意。");
@@ -1019,7 +1006,7 @@ public class JsonUtils {
                         imgList.add(AppConfig.IMAGE_URL + "design_001.png");
                         imgList.add(AppConfig.IMAGE_URL + "design_004.png");
                         childEn.setImgList(imgList);
-                        childEn.setType(1);
+                        childEn.setImg(true);
                     } else if (i == 2) {
                         childEn.setStarNum(2);
                         ArrayList<String> imgList = new ArrayList<>();
@@ -1027,13 +1014,36 @@ public class JsonUtils {
                         imgList.add(AppConfig.IMAGE_URL + "design_004.png");
                         imgList.add(AppConfig.IMAGE_URL + "design_006.png");
                         childEn.setImgList(imgList);
-                        childEn.setType(1);
+                        childEn.setImg(true);
                     }
 
                     lists.add(childEn);
                 }
                 mainEn.setLists(lists);
             }
+        }
+        return mainEn;
+    }
+
+    /**
+     * 解析商品售后数据
+     */
+    public static BaseEntity getGoodsSaleData(JSONObject jsonObject) throws JSONException {
+        BaseEntity mainEn = getCommonKeyValue(jsonObject);
+
+        if (StringUtil.notNull(jsonObject, "data")) {
+            JSONObject jsonData = jsonObject.getJSONObject("data");
+            GoodsSaleEntity saleEn = new GoodsSaleEntity();
+            saleEn.setSaleType(2);
+            saleEn.setSaleStatus(7);
+            saleEn.setSaleReason("买的太大了，需要换小的一款");
+            //saleEn.setExpressNo("NS56468416489456");
+
+            ArrayList<String> imgList = new ArrayList<>();
+            imgList.add(AppConfig.IMAGE_URL + "design_001.png");
+            imgList.add(AppConfig.IMAGE_URL + "design_004.png");
+            saleEn.setImgList(imgList);
+            mainEn.setData(saleEn);
         }
         return mainEn;
     }

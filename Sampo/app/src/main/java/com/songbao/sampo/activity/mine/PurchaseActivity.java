@@ -406,7 +406,7 @@ public class PurchaseActivity extends BaseActivity implements View.OnClickListen
             goodsEn.setAttribute("天蓝色；1350*1900天蓝色；1350*1900");
             goodsEn.setNumber(is);
             goodsEn.setPrice(2999);
-            goodsEn.setStatus(1);
+            goodsEn.setSaleStatus(1);
 
             lists.add(goodsEn);
         }

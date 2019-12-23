@@ -1,5 +1,7 @@
 package com.songbao.sampo.entity;
 
+import java.util.ArrayList;
+
 /**
  * 商品数据结构体
  */
@@ -16,10 +18,13 @@ public class GoodsEntity extends BaseEntity {
 	private String material; //产品用料
 	private String veneer; //产品饰面
 	private int number; //产品数量
-	private int status; //0:无事件/1:评价+售后/2:追评+售后/3:售后/4:评价/5:追评
+	private int saleStatus; //0:无/1:售后/2:退款
+	private int commentStatus; //0:无/1:评价/2:追评
 	private double price; //销售价格
 	private GoodsAttrEntity attrEn; //已选属性值
 	private GoodsSaleEntity saleEn; //商品售后信息
+	private ArrayList<String> imageList; //商品图片集
+	private ArrayList<String> detailList; //详情图片集
 
 	@Override
 	public String getEntityId() {
@@ -98,12 +103,20 @@ public class GoodsEntity extends BaseEntity {
 		this.number = number;
 	}
 
-	public int getStatus() {
-		return status;
+	public int getSaleStatus() {
+		return saleStatus;
 	}
 
-	public void setStatus(int status) {
-		this.status = status;
+	public void setSaleStatus(int saleStatus) {
+		this.saleStatus = saleStatus;
+	}
+
+	public int getCommentStatus() {
+		return commentStatus;
+	}
+
+	public void setCommentStatus(int commentStatus) {
+		this.commentStatus = commentStatus;
 	}
 
 	public double getPrice() {
@@ -128,5 +141,21 @@ public class GoodsEntity extends BaseEntity {
 
 	public void setSaleEn(GoodsSaleEntity saleEn) {
 		this.saleEn = saleEn;
+	}
+
+	public ArrayList<String> getImageList() {
+		return imageList;
+	}
+
+	public void setImageList(ArrayList<String> imageList) {
+		this.imageList = imageList;
+	}
+
+	public ArrayList<String> getDetailList() {
+		return detailList;
+	}
+
+	public void setDetailList(ArrayList<String> detailList) {
+		this.detailList = detailList;
 	}
 }

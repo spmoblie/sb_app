@@ -27,18 +27,24 @@ import com.songbao.sampo.activity.mine.CommentGoodsActivity;
 import com.songbao.sampo.adapter.AdapterCallback;
 import com.songbao.sampo.adapter.CommentGLVAdapter;
 import com.songbao.sampo.adapter.GoodsDetailsAdapter;
+import com.songbao.sampo.entity.BaseEntity;
 import com.songbao.sampo.entity.CommentEntity;
 import com.songbao.sampo.entity.GoodsAttrEntity;
 import com.songbao.sampo.entity.GoodsEntity;
 import com.songbao.sampo.utils.CommonTools;
 import com.songbao.sampo.utils.ExceptionUtil;
+import com.songbao.sampo.utils.JsonUtils;
 import com.songbao.sampo.utils.LogUtil;
 import com.songbao.sampo.utils.StringUtil;
+import com.songbao.sampo.utils.retrofit.HttpRequests;
 import com.songbao.sampo.widgets.ObservableScrollView;
 import com.songbao.sampo.widgets.ScrollViewListView;
 import com.songbao.sampo.widgets.ViewPagerScroller;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import butterknife.BindView;
 
@@ -80,6 +86,12 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
     @BindView(R.id.goods_vp_indicator)
     LinearLayout vp_indicator;
 
+    @BindView(R.id.goods_tv_goods_name)
+    TextView tv_name;
+
+    @BindView(R.id.goods_tv_price)
+    TextView tv_price;
+
     @BindView(R.id.goods_spec_choice_main)
     ConstraintLayout spec_main;
 
@@ -88,6 +100,12 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
 
     @BindView(R.id.goods_good_comment_main)
     ConstraintLayout comment_main;
+
+    @BindView(R.id.goods_tv_good_comment_num)
+    TextView tv_comment_num;
+
+    @BindView(R.id.goods_tv_good_comment_percentage)
+    TextView tv_percentage;
 
     @BindView(R.id.goods_lv_comment)
     ScrollViewListView lv_comment;
@@ -124,8 +142,9 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
     private int top_type = TYPE_1; //Top标记
 
     private GoodsEntity goodsEn;
-    private String goodsId;
+    private String goodsCode = "";
     private boolean vprStop = false;
+    private int commentNum, goodStar;
     private int idsSize, idsPosition, vprPosition;
     private ImageView[] indicators = null;
     private ArrayList<ImageView> viewLists = new ArrayList<>();
@@ -138,7 +157,7 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_goods);
 
-        goodsId = getIntent().getStringExtra("goodsId");
+        goodsCode = getIntent().getStringExtra("goodsCode");
 
         initView();
     }
@@ -162,11 +181,42 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
         indicatorsLP = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         indicatorsLP.setMargins(ind_margin, 0, 0, 0);
 
-        initDemoData();
+        //initDemoData();
         initRadioGroup();
         initScrollView();
-        initViewPager();
-        initListView();
+        loadGoodsData();
+        loadCommentData();
+    }
+
+    private void initShowView() {
+        if (goodsEn != null) {
+            tv_name.setText(goodsEn.getName());
+            tv_price.setText(df.format(goodsEn.getPrice()));
+
+            //已选属性
+            updateSelectAttrStr(goodsEn.getAttrEn());
+
+            //商品图片
+            al_image.clear();
+            al_image.addAll(goodsEn.getImageList());
+            initViewPager();
+
+            //精彩评论
+            if (al_comment.size() > 0) {
+                commentNum = al_comment.get(0).getNumber();
+                goodStar = al_comment.get(0).getGoodStar();
+            } else {
+                commentNum = 0;
+                goodStar = 0;
+            }
+            tv_comment_num.setText("（" + commentNum + "）");
+            tv_percentage.setText("好评率\n" + goodStar + "%");
+
+            //详情图片
+            al_detail.clear();
+            al_detail.addAll(goodsEn.getDetailList());
+            initListView();
+        }
     }
 
     private void initRadioGroup() {
@@ -397,7 +447,7 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
             lv_comment_Adapter.addCallback(new AdapterCallback() {
                 @Override
                 public void setOnClick(Object data, int position, int type) {
-                    openCommentActivity(goodsId);
+                    openCommentActivity(goodsCode);
                 }
             });
         }
@@ -462,7 +512,7 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
                 scrollTo(title_detail.getTop() - 150);
                 break;
             case R.id.goods_good_comment_main:
-                openCommentActivity(goodsId);
+                openCommentActivity(goodsCode);
                 break;
             case R.id.bottom_add_cart_tv_home:
                 break;
@@ -471,10 +521,12 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
                 break;
             case R.id.goods_spec_choice_main:
             case R.id.bottom_add_cart_tv_cart_add:
-                loadGoodsAttrData(goodsEn.getEntityId(), goodsEn.getAttrEn());
+                if (goodsEn != null) {
+                    loadGoodsAttrData(goodsEn.getEntityId(), goodsEn.getAttrEn());
+                }
                 break;
             case R.id.bottom_add_cart_tv_customize:
-                openDesignerActivity(goodsId);
+                openDesignerActivity(goodsCode);
                 break;
         }
     }
@@ -530,9 +582,9 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
     /**
      * 打开评价列表页
      */
-    private void openCommentActivity(String goodsId) {
+    private void openCommentActivity(String goodsCode) {
         Intent intent = new Intent(mContext, CommentGoodsActivity.class);
-        intent.putExtra("goodsId", goodsId);
+        intent.putExtra("goodsCode", goodsCode);
         startActivity(intent);
     }
 
@@ -569,6 +621,73 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
         super.onDestroy();
     }
 
+    /**
+     * 加载商品详情数据
+     */
+    private void loadGoodsData() {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("sourceType", AppConfig.LOAD_TYPE);
+        map.put("skuCode", goodsCode);
+        loadSVData(AppConfig.URL_GOODS_DETAIL, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_GOODS_DETAIL);
+    }
+
+    /**
+     * 加载精彩评价数据
+     */
+    private void loadCommentData() {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("page", "1");
+        map.put("size", AppConfig.LOAD_SIZE);
+        map.put("skuCode", goodsCode);
+        map.put("types", "100");
+        loadSVData(AppConfig.URL_GOODS_COMMENT, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_GOODS_COMMENT);
+    }
+
+    @Override
+    protected void callbackData(JSONObject jsonObject, int dataType) {
+        super.callbackData(jsonObject, dataType);
+        BaseEntity baseEn;
+        try {
+            switch (dataType) {
+                case AppConfig.REQUEST_SV_GOODS_DETAIL:
+                    baseEn = JsonUtils.getGoodsDetailData(jsonObject);
+                    if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+                        goodsEn = (GoodsEntity) baseEn.getData();
+                        initShowView();
+                    } else {
+                        handleErrorCode(baseEn);
+                    }
+                    break;
+                case AppConfig.REQUEST_SV_GOODS_COMMENT:
+                    baseEn = JsonUtils.getCommentGoodsListData(jsonObject);
+                    if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+                        ArrayList<CommentEntity> newList = new ArrayList<>();
+                        newList.addAll(baseEn.getLists());
+                        al_comment.clear();
+                        if (newList.size() > 2) {
+                            al_comment.add(newList.get(0));
+                            al_comment.add(newList.get(1));
+                        } else {
+                            al_comment.addAll(newList);
+                        }
+                        initShowView();
+                    } else {
+                        handleErrorCode(baseEn);
+                    }
+                    break;
+            }
+        } catch (Exception e) {
+            loadFailHandle();
+            ExceptionUtil.handle(e);
+        }
+    }
+
+    @Override
+    protected void loadFailHandle() {
+        super.loadFailHandle();
+        handleErrorCode(null);
+    }
+
     private void initDemoData() {
         goodsEn = new GoodsEntity();
         goodsEn.setId(1);
@@ -596,7 +715,7 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
         CommentEntity childEn;
         for (int i = 0; i < 2; i++) {
             childEn = new CommentEntity();
-            childEn.setId("" + i + 1);
+            childEn.setId(i + 1);
             childEn.setNick("草莓味的冰淇淋");
             childEn.setGoodsAttr("天蓝色；1350*1900");
             childEn.setAddTime("2019/12/25");
@@ -609,7 +728,7 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
                 imgList.add(AppConfig.IMAGE_URL + "design_004.png");
                 imgList.add(AppConfig.IMAGE_URL + "design_006.png");
                 childEn.setImgList(imgList);
-                childEn.setType(1);
+                childEn.setImg(true);
 
                 childEn.setAddDay(26);
                 childEn.setAddContent("床垫搭配效果很不错，非常满意，床垫搭配效果很不错，非常满意。");
@@ -622,7 +741,7 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
                 imgList.add(AppConfig.IMAGE_URL + "design_001.png");
                 imgList.add(AppConfig.IMAGE_URL + "design_004.png");
                 childEn.setImgList(imgList);
-                childEn.setType(1);
+                childEn.setImg(true);
             }
 
             al_comment.add(childEn);

@@ -134,7 +134,7 @@ public  class BaseActivity extends FragmentActivity {
 	private String selectName_2 = "";
 	private String selectName_3 = "";
 	private String attrsNameStr = "";
-	private String goodsId = "";
+	private String goodsCode = "";
 	private double mathPrice;
 	private boolean isShow = false;
 	private boolean isSelected = false;
@@ -464,9 +464,9 @@ public  class BaseActivity extends FragmentActivity {
 	/**
 	 * 打开商品详情页
 	 */
-	protected void openGoodsActivity(String goodsId) {
+	protected void openGoodsActivity(String goodsCode) {
 		Intent intent = new Intent(mContext, GoodsActivity.class);
-		intent.putExtra("goodsId", goodsId);
+		intent.putExtra("goodsCode", goodsCode);
 		startActivity(intent);
 	}
 
@@ -1090,7 +1090,7 @@ public  class BaseActivity extends FragmentActivity {
 	/**
 	 * 加载商品属性数据
 	 */
-	protected void loadGoodsAttrData(String id, GoodsAttrEntity gaEn) {
+	protected void loadGoodsAttrData(String code, GoodsAttrEntity gaEn) {
 		secEn = gaEn;
 		if (secEn != null) {
 			buyNumber = secEn.getBuyNum();
@@ -1110,11 +1110,11 @@ public  class BaseActivity extends FragmentActivity {
 			selectName_3 = "";
 			secEn = new GoodsAttrEntity();
 		}
-		if (goodsId.equals(id) && attrEn != null) {
+		if (goodsCode.equals(code) && attrEn != null) {
 			initAttrPopup();
 		} else {
 			attrEn = null;
-			goodsId = id;
+			goodsCode = code;
 			skuNum = 99;
 			isSelected = false;
 			cartPopupWindow = null;
@@ -1131,7 +1131,7 @@ public  class BaseActivity extends FragmentActivity {
 	 */
 	private void initAttrPopup() {
 		if (attrEn == null) return;
-		goodsId = attrEn.getGoodsId();
+		attrEn.setGoodsCode(goodsCode);
 		mathPrice = attrEn.getComputePrice();
 		initSelectShowStr(attrEn);
 		if (cartPopupWindow == null) {

@@ -45,6 +45,7 @@ public class CommentGoodsActivity extends BaseActivity {
 	private int load_page = 1; //加载页数
 	private int load_type = 1; //加载类型(0:下拉刷新/1:翻页加载)
 	private boolean isLoadOk = true; //加载控制
+	private String goodsCode = "";
 	private ArrayList<CommentEntity> al_show = new ArrayList<>();
 	private ArrayMap<String, Boolean> am_show = new ArrayMap<>();
 
@@ -52,6 +53,8 @@ public class CommentGoodsActivity extends BaseActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_recycler_view);
+
+		goodsCode = getIntent().getStringExtra("goodsCode");
 
 		initView();
 	}
@@ -179,7 +182,9 @@ public class CommentGoodsActivity extends BaseActivity {
 		HashMap<String, String> map = new HashMap<>();
 		map.put("page", page);
 		map.put("size", AppConfig.LOAD_SIZE);
-		loadSVData(AppConfig.URL_USER_MESSAGE, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_USER_MESSAGE);
+		map.put("skuCode", goodsCode);
+		map.put("types", "100");
+		loadSVData(AppConfig.URL_GOODS_COMMENT, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_GOODS_COMMENT);
 	}
 
 	@Override
@@ -187,7 +192,7 @@ public class CommentGoodsActivity extends BaseActivity {
 		BaseEntity baseEn;
 		try {
 			switch (dataType) {
-				case AppConfig.REQUEST_SV_USER_MESSAGE:
+				case AppConfig.REQUEST_SV_GOODS_COMMENT:
 					baseEn = JsonUtils.getCommentGoodsListData(jsonObject);
 					if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
 						data_total = baseEn.getDataTotal();

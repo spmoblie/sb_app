@@ -72,7 +72,7 @@ public class CommentORCAdapter extends BaseRecyclerAdapter {
         tv_content.setText(data.getContent());
 
         // 评论图片
-        if (data.getType() == 1) {
+        if (data.isImg()) {
             sv_main.setVisibility(View.VISIBLE);
             initImageView(ll_main, data.getImgList());
         } else {

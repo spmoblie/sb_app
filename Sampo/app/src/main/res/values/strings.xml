@@ -328,6 +328,8 @@
     <string name="order_express_no_hint">填写快递单号</string>
     <string name="order_upload_photo">上传凭证：</string>
     <string name="order_submit_apply">提交申请</string>
+    <string name="order_refund_no">退款编号：\t\t%1$s</string>
+    <string name="order_time_apply">申请时间：\t\t%1$s</string>
     <string name="order_revoke_refund">撤销退款</string>
     <string name="order_goods_num">共%1$d件商品\t实付款</string>
 

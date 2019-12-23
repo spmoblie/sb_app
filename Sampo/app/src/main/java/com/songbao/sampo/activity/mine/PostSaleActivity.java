@@ -18,17 +18,20 @@ import com.songbao.sampo.activity.BaseActivity;
 import com.songbao.sampo.activity.common.clip.ClipPhotoGridActivity;
 import com.songbao.sampo.entity.BaseEntity;
 import com.songbao.sampo.entity.GoodsEntity;
+import com.songbao.sampo.entity.GoodsSaleEntity;
 import com.songbao.sampo.utils.CommonTools;
 import com.songbao.sampo.utils.ExceptionUtil;
 import com.songbao.sampo.utils.JsonUtils;
 import com.songbao.sampo.utils.LogUtil;
 import com.songbao.sampo.utils.StringUtil;
+import com.songbao.sampo.utils.retrofit.HttpRequests;
 import com.songbao.sampo.widgets.RoundImageView;
 
 import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import butterknife.BindView;
 
@@ -98,9 +101,12 @@ public class PostSaleActivity extends BaseActivity implements OnClickListener {
 	TextView tv_submit;
 
 	private GoodsEntity data;
-	private int status = 0; //6:售后(审核中)/7:售后(审核通过)/8:售后(审核拒绝)
-	private int changeType = 1; //1:换货/2：退货
+	private GoodsSaleEntity saleEn;
+	private int saleType = 1; //1:换货/2：退货
+	private int saleStatus = 0; //6:售后(审核中)/7:售后(审核通过)/8:售后(审核拒绝)
 	private double totalPrice = 0;
+	private boolean isEdit = false;
+	private String goodsCode = "";
 	private String contentStr = "";
 	private ArrayList<String> al_photo_url = new ArrayList<>();
 	private ArrayList<String> al_image_url = new ArrayList<>();
@@ -138,6 +144,7 @@ public class PostSaleActivity extends BaseActivity implements OnClickListener {
 			tv_name.setText(data.getName());
 			tv_attr.setText(data.getAttribute());
 
+			goodsCode = data.getGoodsCode();
 			int number = data.getNumber();
 			double price = data.getPrice();
 			totalPrice = price*number;
@@ -145,20 +152,52 @@ public class PostSaleActivity extends BaseActivity implements OnClickListener {
 			tv_price.setText(getString(R.string.pay_rmb, df.format(price)));
 		}
 
+		initShowView();
 		loadSaleData();
+	}
 
+	private void initShowView() {
+		isEdit = false;
+		if (saleEn != null) {
+			saleType = saleEn.getSaleType();
+			saleStatus = saleEn.getSaleStatus();
+			switch (saleStatus) {
+				case 6: //审核中
+					tv_submit.setText("审核中");
+					tv_submit.setBackgroundResource(R.drawable.shape_style_solid_03_08);
+					break;
+				case 7: //审核通过
+					group_express_no.setVisibility(View.VISIBLE);
+					break;
+				case 8: //审核拒绝
+					break;
+				default:
+					isEdit = true;
+					break;
+			}
+
+			if (!StringUtil.isNull(saleEn.getSaleReason())) {
+				et_reason.setText(saleEn.getSaleReason());
+				et_reason.setFocusable(false);
+				et_reason.setFocusableInTouchMode(false);
+			}
+			if (!StringUtil.isNull(saleEn.getExpressNo())) {
+				et_express_no.setText(saleEn.getExpressNo());
+				et_express_no.setFocusable(false);
+				et_express_no.setFocusableInTouchMode(false);
+			}
+			if (saleEn.getImgList() != null && saleEn.getImgList().size() > 0) {
+				al_photo_url.clear();
+				al_photo_url.addAll(saleEn.getImgList());
+			}
+		}
+		initPhotoView();
 		changeViewStatus();
-		switch (status) {
-			case 6: //审核中
-				tv_submit.setText("审核中");
-				tv_submit.setBackgroundResource(R.drawable.shape_style_solid_03_08);
-				break;
-			case 7: //审核通过
-				break;
-			case 8: //审核拒绝
-				break;
-			default:
-				break;
+		if (!isEdit) {
+			tv_add_photo.setVisibility(View.GONE);
+			iv_photo_01_delete.setVisibility(View.GONE);
+			iv_photo_02_delete.setVisibility(View.GONE);
+			iv_photo_03_delete.setVisibility(View.GONE);
 		}
 	}
 
@@ -219,7 +258,7 @@ public class PostSaleActivity extends BaseActivity implements OnClickListener {
 		tv_return.setBackgroundResource(R.color.ui_bg_color_percent_10);
 		tv_change.setTextColor(getResources().getColor(R.color.app_color_gray_5));
 		tv_return.setTextColor(getResources().getColor(R.color.app_color_gray_5));
-		if (changeType == 1) {
+		if (saleType == 1) {
 			tv_change.setBackgroundResource(R.drawable.shape_style_solid_04_08);
 			tv_change.setTextColor(getResources().getColor(R.color.app_color_white));
 			tv_refund_price.setText(getString(R.string.order_refund_price, df.format(0)));
@@ -232,13 +271,18 @@ public class PostSaleActivity extends BaseActivity implements OnClickListener {
 
 	@Override
 	public void onClick(View v) {
+		if (saleEn == null) { //加载失败
+			loadSaleData();
+			return;
+		}
+		if (!isEdit) return; //不可编辑
 		switch (v.getId()) {
 		case R.id.post_sale_tv_change:
-			changeType = 1;
+			saleType = 1;
 			changeViewStatus();
 			break;
 		case R.id.post_sale_tv_return:
-			changeType = 2;
+			saleType = 2;
 			changeViewStatus();
 			break;
 		case R.id.post_sale_iv_photo_01:
@@ -332,8 +376,9 @@ public class PostSaleActivity extends BaseActivity implements OnClickListener {
 	}
 
 	private void loadSaleData() {
-		startAnimation();
-
+		HashMap<String, String> map = new HashMap<>();
+		map.put("GoodsCode", goodsCode);
+		loadSVData(AppConfig.URL_USER_MESSAGE, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_GOODS_SALE);
 	}
 
 	@Override
@@ -346,6 +391,15 @@ public class PostSaleActivity extends BaseActivity implements OnClickListener {
 					if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
 						al_image_url.add(baseEn.getOthers());
 						checkPhotoUrl();
+					} else {
+						handleErrorCode(baseEn);
+					}
+					break;
+				case AppConfig.REQUEST_SV_GOODS_SALE:
+					baseEn = JsonUtils.getGoodsSaleData(jsonObject);
+					if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+						saleEn = (GoodsSaleEntity) baseEn.getData();
+						initShowView();
 					} else {
 						handleErrorCode(baseEn);
 					}

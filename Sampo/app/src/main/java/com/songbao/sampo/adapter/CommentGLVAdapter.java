@@ -98,7 +98,7 @@ public class CommentGLVAdapter extends AppBaseAdapter {
 		holder.rb_star.setRating(data.getStarNum());
 
 		// 评论图片
-		if (data.getType() == 1) {
+		if (data.isImg()) {
 			holder.sv_main.setVisibility(View.VISIBLE);
 			initImageView(holder.ll_main, data.getImgList());
 		} else {

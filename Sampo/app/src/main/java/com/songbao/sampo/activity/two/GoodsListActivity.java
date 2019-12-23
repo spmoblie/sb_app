@@ -479,7 +479,7 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 			@Override
 			public void setOnClick(Object data, int position, int type) {
 				if (position < 0 || position >= al_show.size()) return;
-				openGoodsActivity(al_show.get(position).getEntityId());
+				openGoodsActivity(al_show.get(position).getGoodsCode());
 			}
 		});
 		mRecyclerView.setAdapter(rv_Adapter);
@@ -781,15 +781,16 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 		map.put("isHot", String.valueOf(isHot));
 		map.put("isNews", String.valueOf(isNews));
 		map.put("isRecommend", String.valueOf(isRecommend));
-		if (!StringUtil.isNull(sortCode)) {
-			map.put("refCatCode", sortCode);
-		}
 		map.put("orderByKey", String.valueOf(top_type));
 		if (sort_type > 0) {
 			map.put("sortByNum", String.valueOf(sort_type));
 		}
 		if (!StringUtil.isNull(searchStr)) {
 			map.put("txt", searchStr);
+		} else {
+			if (!StringUtil.isNull(sortCode)) {
+				map.put("refCatCode", sortCode);
+			}
 		}
 		if (!StringUtil.isNull(screenStr)) {
 			map.put("selecteds", screenStr);

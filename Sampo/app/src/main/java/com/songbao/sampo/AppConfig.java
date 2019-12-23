@@ -96,6 +96,12 @@ public class AppConfig {
 	public final static String URL_SCREEN_ATTR = "app/shopping/getAttrValues";
 	// 商品列表
 	public final static String URL_GOODS_LIST = "app/shopping/searchGoodsInfo";
+	// 商品详情
+	public final static String URL_GOODS_DETAIL = "app/shopping/goodsInfo/detail";
+	// 商品评价
+	public final static String URL_GOODS_COMMENT = "app/shopping/goodsInfo/goodsInfoEvaluation";
+	// 购物车商品
+	public final static String URL_CART_GET = "app/shoppingCart/get";
 	// 设计师列表
 	public final static String URL_DESIGN_ALL = "app/design/all";
 
@@ -186,13 +192,21 @@ public class AppConfig {
 	public static final int REQUEST_SV_GOODS_LIST = 0X4003;
 	// 获取筛选属性
 	public static final int REQUEST_SV_SCREEN_ATTR = 0X4004;
+	// 获取商品详情
+	public static final int REQUEST_SV_GOODS_DETAIL = 0X4005;
 	// 获取商品属性
-	public static final int REQUEST_SV_GOODS_ATTR = 0X4005;
+	public static final int REQUEST_SV_GOODS_ATTR = 0X4006;
+	// 获取商品评价
+	public static final int REQUEST_SV_GOODS_COMMENT = 0X4007;
+	// 获取购物车商品
+	public static final int REQUEST_SV_CART_GET = 0X4010;
 	// 获取设计师列表
-	public static final int REQUEST_SV_DESIGN_ALL = 0X4010;
+	public static final int REQUEST_SV_DESIGN_ALL = 0X4020;
 
 	// 上传评论照片
 	public static final int REQUEST_SV_UPLOAD_COMMENT_PHOTO = 0X5001;
+	// 商品售后信息
+	public static final int REQUEST_SV_GOODS_SALE = 0X5002;
 
 	/**
 	 ******************************************* RequestCode协议结束 ******************************************

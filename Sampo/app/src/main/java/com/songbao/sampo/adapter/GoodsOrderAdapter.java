@@ -71,7 +71,7 @@ public class GoodsOrderAdapter extends AppBaseAdapter {
 		if (isOnClick) {
 			holder.view_fill.setVisibility(View.VISIBLE);
 			holder.tv_comment.setText(context.getString(R.string.order_comment));
-			switch (data.getStatus()) {
+			switch (data.getSaleStatus()) {
 				case 1: //评价+售后
 					holder.tv_comment.setVisibility(View.VISIBLE);
 					holder.tv_post_sale.setVisibility(View.VISIBLE);
@@ -111,7 +111,7 @@ public class GoodsOrderAdapter extends AppBaseAdapter {
 				@Override
 				public void onClick(View v) {
 					if (apCallback != null) {
-						if (data.getStatus() == 2 || data.getStatus() == 5) {
+						if (data.getSaleStatus() == 2 || data.getSaleStatus() == 5) {
 							apCallback.setOnClick(data, position, 3);
 						} else {
 							apCallback.setOnClick(data, position, 2);

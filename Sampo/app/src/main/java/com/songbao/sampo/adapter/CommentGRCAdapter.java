@@ -64,7 +64,7 @@ public class CommentGRCAdapter extends BaseRecyclerAdapter {
         rb_star.setRating(data.getStarNum());
 
         // 评论图片
-        if (data.getType() == 1) {
+        if (data.isImg()) {
             sv_main.setVisibility(View.VISIBLE);
             initImageView(ll_main, data.getImgList());
         } else {
