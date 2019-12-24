@@ -15,6 +15,7 @@ import com.songbao.sampo.AppApplication;
 import com.songbao.sampo.R;
 import com.songbao.sampo.entity.GoodsAttrEntity;
 import com.songbao.sampo.utils.CommonTools;
+import com.songbao.sampo.utils.StringUtil;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,14 +31,17 @@ public class GoodsAttrAdapter extends BaseRecyclerAdapter {
 	private final int viewWidth = AppApplication.screen_width;
 
 	private AttrClickCallback callback;
+	private GoodsAttrEntity attrEn;
 	private int skuNum = 99;
 	private int buyNumber = 1;
 	private int txtSize, pdTop, pdRight, mgTop, mgRight, mgDps, tvSpec;
 	private int select_id_1, select_id_2, select_id_3;
-	private View[] views_1, views_2, views_3;
 	private String select_name_1, select_name_2, select_name_3;
-	private HashMap<String, Integer> skuHashMap = new HashMap<>();
-	private HashMap<Integer, GoodsAttrEntity> attrHashMap = new HashMap<>();
+	private String attrsIdStr = "";
+	private String attrsNameStr = "";
+	private boolean isSelected = false;
+	private View[] views_1, views_2, views_3;
+	private HashMap<String, GoodsAttrEntity> skuHashMap = new HashMap<>();
 
 	public GoodsAttrAdapter(Context context, List<Integer> resLayout, AttrClickCallback callback) {
 		super(context, resLayout);
@@ -55,14 +59,21 @@ public class GoodsAttrAdapter extends BaseRecyclerAdapter {
 	/**
 	 * 刷新数据
 	 */
-	public void updateData(GoodsAttrEntity attrEn, GoodsAttrEntity secEn) {
+	public void updateData(GoodsAttrEntity data, GoodsAttrEntity secEn) {
 		if (secEn != null) {
 			buyNumber = secEn.getBuyNum();
 			select_id_1 = secEn.getS_id_1();
 			select_id_2 = secEn.getS_id_2();
 			select_id_3 = secEn.getS_id_3();
+			select_name_1 = secEn.getS_name_1();
+			select_name_2 = secEn.getS_name_2();
+			select_name_3 = secEn.getS_name_3();
 		}
-		updateData(attrEn.getAttrLists());
+		attrEn = data;
+		if (attrEn != null) {
+			initAttrMakeSku(attrEn);
+			updateData(attrEn.getAttrLists());
+		}
 	}
 
 	@Override
@@ -87,35 +98,47 @@ public class GoodsAttrAdapter extends BaseRecyclerAdapter {
 			iv_num_minus.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					if (skuNum > 0) {
-						buyNumber--;
-						if (buyNumber < 1) {
-							buyNumber = 1;
+					initSelectAttrValue(attrEn);
+					if (isSelected) {
+						skuNum = getSkuNum(attrsIdStr);
+						if (skuNum > 0) {
+							buyNumber--;
+							if (buyNumber < 1) {
+								buyNumber = 1;
+							}
+						} else {
+							buyNumber = 0;
 						}
+						if (callback != null) {
+							callback.updateNumber(buyNumber);
+						}
+						tv_number.setText(String.valueOf(buyNumber));
 					} else {
-						buyNumber = 0;
+						CommonTools.showToast(attrsNameStr);
 					}
-					if (callback != null) {
-						callback.updateNumber(buyNumber);
-					}
-					tv_number.setText(String.valueOf(buyNumber));
 				}
 			});
 			iv_num_add.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
-					if (skuNum > 0) {
-						buyNumber++;
-						if (buyNumber > skuNum) {
-							buyNumber = skuNum;
+					initSelectAttrValue(attrEn);
+					if (isSelected) {
+						skuNum = getSkuNum(attrsIdStr);
+						if (skuNum > 0) {
+							buyNumber++;
+							if (buyNumber > skuNum) {
+								buyNumber = skuNum;
+							}
+						} else {
+							buyNumber = 0;
 						}
+						if (callback != null) {
+							callback.updateNumber(buyNumber);
+						}
+						tv_number.setText(String.valueOf(buyNumber));
 					} else {
-						buyNumber = 0;
+						CommonTools.showToast(attrsNameStr);
 					}
-					if (callback != null) {
-						callback.updateNumber(buyNumber);
-					}
-					tv_number.setText(String.valueOf(buyNumber));
 				}
 			});
 		} else {
@@ -169,23 +192,13 @@ public class GoodsAttrAdapter extends BaseRecyclerAdapter {
 				beforeId = nameLists.get(i-1).getAttrId();
 			}
 			TextView tv = new TextView(context);
-			// 判定库存数
-			int skuNum = nameLists.get(i).getSkuNum();
-			if (skuNum > 0) {
-				if (viewId == select_id_1 || viewId == select_id_2 || viewId == select_id_3) {
-					tv.setTextColor(context.getResources().getColor(R.color.app_color_white));
-					tv.setBackground(context.getResources().getDrawable(R.drawable.shape_style_solid_04_08));
-				} else {
-					tv.setTextColor(context.getResources().getColor(R.color.app_color_gray_5));
-					tv.setBackground(context.getResources().getDrawable(R.drawable.shape_style_solid_02_08));
-				}
-			}else {
-				tv.setTextColor(context.getResources().getColor(R.color.debar_text_color));
-				tv.setBackground(context.getResources().getDrawable(R.drawable.shape_style_empty_02_08));
+			if (viewId == select_id_1 || viewId == select_id_2 || viewId == select_id_3) {
+				tv.setTextColor(context.getResources().getColor(R.color.app_color_white));
+				tv.setBackground(context.getResources().getDrawable(R.drawable.shape_style_solid_04_08));
+			} else {
+				tv.setTextColor(context.getResources().getColor(R.color.app_color_gray_5));
+				tv.setBackground(context.getResources().getDrawable(R.drawable.shape_style_solid_02_08));
 			}
-			// 记录库存数
-			skuHashMap.put(String.valueOf(viewId), skuNum);
-			attrHashMap.put(viewId, nameLists.get(i));
 			tv.setPadding(pdRight, pdTop, pdRight, pdTop);
 			tv.setGravity(Gravity.CENTER);
 			tv.setText(str);
@@ -196,27 +209,26 @@ public class GoodsAttrAdapter extends BaseRecyclerAdapter {
 
 				@Override
 				public void onClick(View v) {
-					if (getSkuNum(String.valueOf(v.getId())) <= 0) return;
 					switch (position) {
 						case 0:
 							defaultViewStatus(views_1);
 							changeSelectStatus(v, position, select_id_1);
 							if (callback != null) {
-								callback.setOnClick(data, position, getAttrPrice(select_id_1), select_id_1, select_name_1, getAttrImage(select_id_1));
+								callback.setOnClick(data, position, select_id_1, select_name_1);
 							}
 							break;
 						case 1:
 							defaultViewStatus(views_2);
 							changeSelectStatus(v, position, select_id_2);
 							if (callback != null) {
-								callback.setOnClick(data, position, getAttrPrice(select_id_2), select_id_2, select_name_2, getAttrImage(select_id_2));
+								callback.setOnClick(data, position, select_id_2, select_name_2);
 							}
 							break;
 						case 2:
 							defaultViewStatus(views_3);
 							changeSelectStatus(v, position, select_id_3);
 							if (callback != null) {
-								callback.setOnClick(data, position, getAttrPrice(select_id_3), select_id_3, select_name_3, getAttrImage(select_id_3));
+								callback.setOnClick(data, position, select_id_3, select_name_3);
 							}
 							break;
 					}
@@ -263,18 +275,11 @@ public class GoodsAttrAdapter extends BaseRecyclerAdapter {
 	 * 恢复默认状态
 	 */
 	private void defaultViewStatus(View[] views) {
-		int num;
 		for (int i = 0; i < views.length; i++) {
 			TextView tv_item = (TextView)views[i];
-			num = getSkuNum(String.valueOf(views[i].getId()));
-			if (num > 0) {
-				tv_item.setTextColor(context.getResources().getColor(R.color.app_color_gray_5));
-				views[i].setBackground(context.getResources().getDrawable(R.drawable.shape_style_solid_02_08));
-				views[i].setSelected(false);
-			}else {
-				tv_item.setTextColor(context.getResources().getColor(R.color.debar_text_color));
-				views[i].setBackground(context.getResources().getDrawable(R.drawable.shape_style_empty_02_08));
-			}
+			tv_item.setTextColor(context.getResources().getColor(R.color.app_color_gray_5));
+			views[i].setBackground(context.getResources().getDrawable(R.drawable.shape_style_solid_02_08));
+			views[i].setSelected(false);
 			views[i].setPadding(pdRight, pdTop, pdRight, pdTop);
 		}
 	}
@@ -313,9 +318,82 @@ public class GoodsAttrAdapter extends BaseRecyclerAdapter {
 	}
 
 	/**
+	 * 初始化选择属性值
+	 */
+	public GoodsAttrEntity initSelectAttrValue(GoodsAttrEntity en){
+		GoodsAttrEntity selectAttr = new GoodsAttrEntity();
+		attrsIdStr = "";
+		isSelected = false;
+		if (en != null && en.getAttrLists() != null) {
+			int attrNum = en.getAttrLists().size();
+			GoodsAttrEntity item;
+			StringBuilder sb_id = new StringBuilder();
+			StringBuilder sb_name = new StringBuilder();
+			sb_name.append(context.getString(R.string.item_select_no));
+			for (int i = 0; i < attrNum - 1; i++) {
+				item = en.getAttrLists().get(i);
+				switch (i) {
+					case 0:
+						if (StringUtil.isNull(select_name_1)) {
+							sb_name.append(item.getAttrName());
+							sb_name.append(" ");
+						} else {
+							sb_id.append(select_id_1);
+							sb_id.append(",");
+						}
+						break;
+					case 1:
+						if (StringUtil.isNull(select_name_2)) {
+							sb_name.append(item.getAttrName());
+							sb_name.append(" ");
+						} else {
+							sb_id.append(select_id_2);
+							sb_id.append(",");
+						}
+						break;
+					case 2:
+						if (StringUtil.isNull(select_name_3)) {
+							sb_name.append(item.getAttrName());
+							sb_name.append(" ");
+						} else {
+							sb_id.append(select_id_3);
+							sb_id.append(",");
+						}
+						break;
+				}
+			}
+			if (sb_name.toString().contains(" ")) {
+				//sb_name.deleteCharAt(sb_name.length() - 1);
+				attrsNameStr = sb_name.toString();
+			} else {
+				isSelected = true;
+				if (sb_id.toString().contains(",")) {
+					sb_id.deleteCharAt(sb_id.length() - 1);
+					attrsIdStr = sb_id.toString();
+				}
+				switch (attrNum - 1) {
+					case 1:
+						attrsNameStr = select_name_1;
+						break;
+					case 2:
+						attrsNameStr = context.getString(R.string.goods_attr_selected_2, select_name_1, select_name_2);
+						break;
+					case 3:
+						attrsNameStr = context.getString(R.string.goods_attr_selected_3, select_name_1, select_name_2, select_name_3);
+						break;
+				}
+			}
+		}
+		selectAttr.setSelect(isSelected);
+		selectAttr.setAttrIdStr(attrsIdStr);
+		selectAttr.setAttrNameStr(attrsNameStr);
+		return selectAttr;
+	}
+
+	/**
 	 * 初始化属性组合Sku
 	 */
-	private void initAttrMakeSku(GoodsAttrEntity attrEn) {
+	public void initAttrMakeSku(GoodsAttrEntity attrEn) {
 		if (attrEn != null) {
 			if (attrEn.getSkuLists() != null) {
 				skuHashMap.clear();
@@ -333,19 +411,19 @@ public class GoodsAttrAdapter extends BaseRecyclerAdapter {
 	/**
 	 * 属性Sku
 	 */
-	private int getSkuNum(String keyStr) {
+	public int getSkuNum(String keyStr) {
 		if (skuHashMap.containsKey(keyStr)) {
-			return skuHashMap.get(keyStr);
+			return skuHashMap.get(keyStr).getSkuNum();
 		}
-		return 99;
+		return 0;
 	}
 
 	/**
 	 * 属性价格
 	 */
-	private double getAttrPrice(int key) {
-		if (attrHashMap.containsKey(key)) {
-			return attrHashMap.get(key).getAttrPrice();
+	public double getSkuPrice(String key) {
+		if (skuHashMap.containsKey(key)) {
+			return skuHashMap.get(key).getAttrPrice();
 		}
 		return 0;
 	}
@@ -353,9 +431,9 @@ public class GoodsAttrAdapter extends BaseRecyclerAdapter {
 	/**
 	 * 属性图片
 	 */
-	private String getAttrImage(int key) {
-		if (attrHashMap.containsKey(key)) {
-			return attrHashMap.get(key).getAttrImg();
+	public String getSkuImage(String key) {
+		if (skuHashMap.containsKey(key)) {
+			return skuHashMap.get(key).getAttrImg();
 		}
 		return "";
 	}
@@ -364,7 +442,7 @@ public class GoodsAttrAdapter extends BaseRecyclerAdapter {
 
 		void updateNumber(int number);
 
-		void setOnClick(GoodsAttrEntity data, int pos, double attrPrice, int selectId, String selectName, String selectImg);
+		void setOnClick(GoodsAttrEntity data, int pos, int selectId, String selectName);
 
 	}
 

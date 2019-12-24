@@ -22,6 +22,7 @@ public class AppConfig {
 	public final static String BASE_URL_1 = APP_HTTPS + "xiaobao.sbwg.cn/";
 	// Base域名
 	public final static String BASE_URL_2 = APP_HTTP + "192.168.1.110:8080/";
+	//public final static String BASE_URL_2 = APP_HTTP + "192.168.1.100:8080/";
 	// 图片域名
 	public final static String IMAGE_URL = "file:///android_asset/";
 	// 推广域名
@@ -98,6 +99,8 @@ public class AppConfig {
 	public final static String URL_GOODS_LIST = "app/shopping/searchGoodsInfo";
 	// 商品详情
 	public final static String URL_GOODS_DETAIL = "app/shopping/goodsInfo/detail";
+	// 商品属性
+	public final static String URL_GOODS_ATTR = "app/shopping/goodsInfo/findAttrValueAll";
 	// 商品评价
 	public final static String URL_GOODS_COMMENT = "app/shopping/goodsInfo/goodsInfoEvaluation";
 	// 购物车商品
@@ -207,6 +210,8 @@ public class AppConfig {
 	public static final int REQUEST_SV_UPLOAD_COMMENT_PHOTO = 0X5001;
 	// 商品售后信息
 	public static final int REQUEST_SV_GOODS_SALE = 0X5002;
+	// 商品退款详情
+	public static final int REQUEST_SV_REFUND_DETAIL = 0X5003;
 
 	/**
 	 ******************************************* RequestCode协议结束 ******************************************

@@ -232,21 +232,27 @@ public class PurchaseActivity extends BaseActivity implements View.OnClickListen
                 @Override
                 public void setOnClick(Object data, int position, int type) {
                     if (position < 0 || position >= al_goods.size()) return;
+                    Intent intent;
                     switch (type) {
                         case 0: //查看商品
                             openGoodsActivity(al_goods.get(position).getEntityId());
                             break;
                         case 1: //申请售后
-                            Intent intent = new Intent(mContext, PostSaleActivity.class);
+                            intent = new Intent(mContext, PostSaleActivity.class);
                             intent.putExtra(AppConfig.PAGE_DATA, al_goods.get(position));
                             startActivity(intent);
                             break;
-                        case 2: //我要评价
+                        case 2: //退款详情
+                            intent = new Intent(mContext, RefundActivity.class);
+                            intent.putExtra(AppConfig.PAGE_DATA, al_goods.get(position));
+                            startActivity(intent);
+                            break;
+                        case 3: //我要评价
                             CommentEntity cEn1 = new CommentEntity();
                             cEn1.setGoodsEn(al_goods.get(position));
                             openCommentPostActivity(cEn1);
                             break;
-                        case 3: //追加评价
+                        case 4: //追加评价
                             CommentEntity cEn2 = new CommentEntity();
                             cEn2.setGoodsEn(al_goods.get(position));
                             openCommentAddActivity(cEn2);
@@ -407,6 +413,7 @@ public class PurchaseActivity extends BaseActivity implements View.OnClickListen
             goodsEn.setNumber(is);
             goodsEn.setPrice(2999);
             goodsEn.setSaleStatus(1);
+            goodsEn.setCommentStatus(3);
 
             lists.add(goodsEn);
         }

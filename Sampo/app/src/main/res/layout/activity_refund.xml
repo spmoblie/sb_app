@@ -113,8 +113,6 @@
                     style="@style/common_text_price"
                     android:text="9999"
                     android:layout_marginTop="@dimen/margin_padding_17"
-                    android:layout_marginBottom="@dimen/margin_padding_20"
-                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/refund_iv_goods"/>
 

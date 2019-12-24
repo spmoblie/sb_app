@@ -170,7 +170,15 @@ public class MyPurchaseActivity extends BaseActivity implements View.OnClickList
 			@Override
 			public void setOnClick(Object data, int position, int type) {
 				if (position < 0 || position >= al_show.size()) return;
-				openPurchaseActivity(al_show.get(position));
+				switch (type) {
+					case 0:
+						openPurchaseActivity(al_show.get(position));
+						break;
+					case 1:
+						break;
+					case 2:
+						break;
+				}
 			}
 		});
 		mRecyclerView.setAdapter(rvAdapter);

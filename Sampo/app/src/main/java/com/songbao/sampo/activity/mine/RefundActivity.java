@@ -13,12 +13,17 @@ import com.songbao.sampo.R;
 import com.songbao.sampo.activity.BaseActivity;
 import com.songbao.sampo.entity.BaseEntity;
 import com.songbao.sampo.entity.GoodsEntity;
+import com.songbao.sampo.entity.GoodsSaleEntity;
 import com.songbao.sampo.utils.ExceptionUtil;
 import com.songbao.sampo.utils.JsonUtils;
 import com.songbao.sampo.utils.LogUtil;
+import com.songbao.sampo.utils.TimeUtil;
+import com.songbao.sampo.utils.retrofit.HttpRequests;
 import com.songbao.sampo.widgets.RoundImageView;
 
 import org.json.JSONObject;
+
+import java.util.HashMap;
 
 import butterknife.BindView;
 
@@ -72,34 +77,59 @@ public class RefundActivity extends BaseActivity implements OnClickListener {
     @BindView(R.id.refund_tv_cancel)
     TextView tv_cancel;
 
-    private GoodsEntity data;
+    private GoodsEntity goodsEn;
+    private GoodsSaleEntity saleEn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_refund);
 
-        data = (GoodsEntity) getIntent().getSerializableExtra(AppConfig.PAGE_DATA);
+        goodsEn = (GoodsEntity) getIntent().getSerializableExtra(AppConfig.PAGE_DATA);
 
         initView();
     }
 
     private void initView() {
-        setTitle("退款详情");
+        setTitle(getString(R.string.order_refund_details));
 
-        initShowView();
         loadRefundData();
     }
 
     private void initShowView() {
-        if (data != null) {
+        if (goodsEn != null) {
             Glide.with(AppApplication.getAppContext())
-                    .load(data.getPicUrl())
+                    .load(goodsEn.getPicUrl())
                     .apply(AppApplication.getShowOptions())
                     .into(iv_goods);
 
-            tv_name.setText(data.getName());
-            tv_attr.setText(data.getAttribute());
+            tv_name.setText(goodsEn.getName());
+            tv_attr.setText(goodsEn.getAttribute());
+        }
+        if (saleEn != null) {
+            tv_price.setText(df.format(saleEn.getRefundPrice()));
+            tv_refund_number.setText(getString(R.string.order_refund_no, saleEn.getRefundNo()));
+            tv_time_apply.setText(getString(R.string.order_time_apply, saleEn.getAddTime()));
+            tv_time_update.setText(TimeUtil.getNowString("yyyy年MM月dd日 HH时mm分ss秒"));
+            tv_state_01_time.setText(saleEn.getAddTime());
+
+            switch (saleEn.getSaleStatus()) {
+                case 9:
+                    tv_state_02_time.setText(TimeUtil.getNowString("yyyy年MM月dd日 HH时mm分ss秒"));
+                    tv_state_describe.setText("退款中，请耐心等待");
+                    iv_state_02.setImageResource(R.mipmap.icon_waiting);
+                    iv_state_03.setImageResource(R.mipmap.sel_checkbox_large_no);
+                    break;
+                case 10:
+                    tv_state_describe.setText("退款完成，退款金额已退回原支付账户");
+                    iv_state_02.setImageResource(R.mipmap.icon_waiting);
+                    iv_state_03.setImageResource(R.mipmap.sel_checkbox_large_ok);
+                    break;
+                default:
+                    iv_state_02.setImageResource(R.mipmap.sel_checkbox_large_no);
+                    iv_state_03.setImageResource(R.mipmap.sel_checkbox_large_no);
+                    break;
+            }
         }
     }
 
@@ -139,6 +169,10 @@ public class RefundActivity extends BaseActivity implements OnClickListener {
      * 加载退款详情数据
      */
     private void loadRefundData() {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("page", "1");
+        map.put("size", AppConfig.LOAD_SIZE);
+        loadSVData(AppConfig.URL_USER_MESSAGE, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_REFUND_DETAIL);
     }
 
     @Override
@@ -146,10 +180,11 @@ public class RefundActivity extends BaseActivity implements OnClickListener {
         BaseEntity baseEn;
         try {
             switch (dataType) {
-                case AppConfig.REQUEST_SV_UPLOAD_COMMENT_PHOTO:
-                    baseEn = JsonUtils.getUploadResult(jsonObject);
+                case AppConfig.REQUEST_SV_REFUND_DETAIL:
+                    baseEn = JsonUtils.getRefundDetailData(jsonObject);
                     if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
-
+                        saleEn = (GoodsSaleEntity) baseEn.getData();
+                        initShowView();
                     } else {
                         handleErrorCode(baseEn);
                     }

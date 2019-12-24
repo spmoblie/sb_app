@@ -19,7 +19,7 @@ public class GoodsEntity extends BaseEntity {
 	private String veneer; //产品饰面
 	private int number; //产品数量
 	private int saleStatus; //0:无/1:售后/2:退款
-	private int commentStatus; //0:无/1:评价/2:追评
+	private int commentStatus; //0:无/3:评价/4:追评
 	private double price; //销售价格
 	private GoodsAttrEntity attrEn; //已选属性值
 	private GoodsSaleEntity saleEn; //商品售后信息

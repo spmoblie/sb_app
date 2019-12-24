@@ -113,6 +113,23 @@ public class MyPurchaseAdapter extends BaseRecyclerAdapter {
                 break;
         }
 
+        tv_click_01.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (apCallback != null) {
+                    apCallback.setOnClick(data, pos, 1);
+                }
+            }
+        });
+        tv_click_02.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (apCallback != null) {
+                    apCallback.setOnClick(data, pos, 2);
+                }
+            }
+        });
+
         item_main.setOnClickListener(new View.OnClickListener() {
 
             @Override

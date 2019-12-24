@@ -14,11 +14,8 @@ public class GoodsAttrEntity extends BaseEntity {
 	private int attrId; //属性Id
 	private String attrCode; //属性Code
 	private String goodsCode; //商品Code
-	private String firstImgUrl; //首张缩略图
-	private double computePrice; //商品结算价
 	private boolean isShow; //属性面板是否展开
 	private boolean isSelect; //属性是否选中
-	private int attrNum; //属性项目数
 	private int skuNum; //商品库存数
 	private int buyNum; //已选商品数
 	private int s_id_1; //已选属性id_1
@@ -33,8 +30,8 @@ public class GoodsAttrEntity extends BaseEntity {
 	private String attrNameStr; //已选属性名称
 	private double attrPrice; //属性价值
 	private ArrayList<GoodsAttrEntity> attrLists; //属性集合
-	private String sku_key; //库存集合Key
-	private int sku_value; //库存集合Value
+	private String sku_key; //sku集合Key
+	private GoodsAttrEntity sku_value; //sku集合Value
 	private ArrayList<GoodsAttrEntity> skuLists; //库存集合
 
 
@@ -67,22 +64,6 @@ public class GoodsAttrEntity extends BaseEntity {
 		this.goodsCode = goodsCode;
 	}
 
-	public String getFirstImgUrl() {
-		return firstImgUrl;
-	}
-
-	public void setFirstImgUrl(String firstImgUrl) {
-		this.firstImgUrl = firstImgUrl;
-	}
-
-	public double getComputePrice() {
-		return computePrice;
-	}
-
-	public void setComputePrice(double computePrice) {
-		this.computePrice = computePrice;
-	}
-
 	public boolean isShow() {
 		return isShow;
 	}
@@ -97,14 +78,6 @@ public class GoodsAttrEntity extends BaseEntity {
 
 	public void setSelect(boolean select) {
 		isSelect = select;
-	}
-
-	public int getAttrNum() {
-		return attrNum;
-	}
-
-	public void setAttrNum(int attrNum) {
-		this.attrNum = attrNum;
 	}
 
 	public int getSkuNum() {
@@ -251,16 +224,13 @@ public class GoodsAttrEntity extends BaseEntity {
 		this.sku_key = sku_key;
 	}
 
-
-	public int getSku_value() {
+	public GoodsAttrEntity getSku_value() {
 		return sku_value;
 	}
 
-
-	public void setSku_value(int sku_value) {
+	public void setSku_value(GoodsAttrEntity sku_value) {
 		this.sku_value = sku_value;
 	}
-
 
 	public ArrayList<GoodsAttrEntity> getSkuLists() {
 		return skuLists;

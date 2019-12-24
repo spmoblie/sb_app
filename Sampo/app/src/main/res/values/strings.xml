@@ -26,8 +26,8 @@
     <string name="total">合计：</string>
     <string name="item_price">价格：</string>
     <string name="item_number">数量：</string>
-    <string name="item_select_no">请选择：</string>
-    <string name="item_select_ok">已选择：</string>
+    <string name="item_select_no">选择：</string>
+    <string name="item_select_ok">已选：</string>
     <string name="selected">已选</string>
     <string name="recommend">推荐</string>
     <string name="active">生效中</string>
@@ -263,11 +263,12 @@
     <string name="goods_good_detail">商品详情</string>
     <string name="goods_good_detail_en">COMMODITY DETAILS</string>
     <string name="goods_attr_sku_0">暂时缺货</string>
+    <string name="goods_attr_sku_num">库存：%1$d件</string>
     <string name="goods_attr_num_1">%1$d件</string>
     <string name="goods_attr_num_2">%1$s,\t\t%2$d件</string>
     <string name="goods_attr_selected_1">已选：%1$s</string>
-    <string name="goods_attr_selected_2">%1$s; %2$s</string>
-    <string name="goods_attr_selected_3">%1$s; %2$s; %3$s</string>
+    <string name="goods_attr_selected_2">%1$s %2$s</string>
+    <string name="goods_attr_selected_3">%1$s %2$s %3$s</string>
     <string name="goods_go_customize">我要定制</string>
 
     <!-- Cart -->

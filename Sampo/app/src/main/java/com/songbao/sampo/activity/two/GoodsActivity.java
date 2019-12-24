@@ -522,7 +522,7 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
             case R.id.goods_spec_choice_main:
             case R.id.bottom_add_cart_tv_cart_add:
                 if (goodsEn != null) {
-                    loadGoodsAttrData(goodsEn.getEntityId(), goodsEn.getAttrEn());
+                    loadGoodsAttrData(goodsEn.getGoodsCode(), goodsEn.getAttrEn());
                 }
                 break;
             case R.id.bottom_add_cart_tv_customize:

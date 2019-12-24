@@ -69,32 +69,31 @@ public class GoodsOrderAdapter extends AppBaseAdapter {
 		holder.tv_price.setText(context.getString(R.string.pay_rmb, df.format(data.getPrice())));
 
 		if (isOnClick) {
-			holder.view_fill.setVisibility(View.VISIBLE);
-			holder.tv_comment.setText(context.getString(R.string.order_comment));
+			holder.view_fill.setVisibility(View.GONE);
+			holder.tv_comment.setVisibility(View.GONE);
+			holder.tv_post_sale.setVisibility(View.GONE);
 			switch (data.getSaleStatus()) {
-				case 1: //评价+售后
-					holder.tv_comment.setVisibility(View.VISIBLE);
+				case 1: //售后
+					holder.tv_post_sale.setText(context.getString(R.string.order_post_sale));
 					holder.tv_post_sale.setVisibility(View.VISIBLE);
+					holder.view_fill.setVisibility(View.VISIBLE);
 					break;
-				case 2: //追评+售后
+				case 2: //退款
+					holder.tv_post_sale.setText(context.getString(R.string.order_refund_details));
+					holder.tv_post_sale.setVisibility(View.VISIBLE);
+					holder.view_fill.setVisibility(View.VISIBLE);
+					break;
+			}
+			switch (data.getCommentStatus()) {
+				case 3: //评价
+					holder.tv_comment.setText(context.getString(R.string.order_comment));
+					holder.tv_comment.setVisibility(View.VISIBLE);
+					holder.view_fill.setVisibility(View.VISIBLE);
+					break;
+				case 4: //追评
 					holder.tv_comment.setText(context.getString(R.string.order_comment_add));
 					holder.tv_comment.setVisibility(View.VISIBLE);
-					holder.tv_post_sale.setVisibility(View.VISIBLE);
-					break;
-				case 3: //售后
-					holder.tv_post_sale.setVisibility(View.VISIBLE);
-					break;
-				case 4: //评价
-					holder.tv_comment.setVisibility(View.VISIBLE);
-					break;
-				case 5: //追评
-					holder.tv_comment.setText(context.getString(R.string.order_comment_add));
-					holder.tv_comment.setVisibility(View.VISIBLE);
-					break;
-				default:
-					holder.view_fill.setVisibility(View.GONE);
-					holder.tv_comment.setVisibility(View.GONE);
-					holder.tv_post_sale.setVisibility(View.GONE);
+					holder.view_fill.setVisibility(View.VISIBLE);
 					break;
 			}
 			holder.tv_post_sale.setOnClickListener(new View.OnClickListener() {
@@ -102,7 +101,7 @@ public class GoodsOrderAdapter extends AppBaseAdapter {
 				@Override
 				public void onClick(View v) {
 					if (apCallback != null) {
-						apCallback.setOnClick(data, position, 1);
+						apCallback.setOnClick(data, position, data.getSaleStatus());
 					}
 				}
 			});
@@ -111,11 +110,7 @@ public class GoodsOrderAdapter extends AppBaseAdapter {
 				@Override
 				public void onClick(View v) {
 					if (apCallback != null) {
-						if (data.getSaleStatus() == 2 || data.getSaleStatus() == 5) {
-							apCallback.setOnClick(data, position, 3);
-						} else {
-							apCallback.setOnClick(data, position, 2);
-						}
+						apCallback.setOnClick(data, position, data.getCommentStatus());
 					}
 				}
 			});

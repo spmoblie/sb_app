@@ -414,8 +414,14 @@ public class JsonUtils {
                         goodsEn.setAttribute("天蓝色；1350*1900");
                         goodsEn.setNumber(is);
                         goodsEn.setPrice(2999);
-                        goodsEn.setSaleStatus(3);
+                        goodsEn.setSaleStatus(1);
+                        goodsEn.setCommentStatus(4);
                         goods.add(goodsEn);
+
+                        if (j == 1) {
+                            goodsEn.setSaleStatus(2);
+                            goodsEn.setCommentStatus(3);
+                        }
                     }
                     childEn.setGoodsLists(goods);
 
@@ -625,6 +631,9 @@ public class JsonUtils {
         BaseEntity mainEn = getCommonKeyValue(jsonObject);
 
         if (StringUtil.notNull(jsonObject, "data")) {
+            if (StringUtil.notNull(jsonObject, "total")) {
+                mainEn.setDataTotal(jsonObject.getInt("total"));
+            }
             JSONObject jsonData = jsonObject.getJSONObject("data");
             if (StringUtil.notNull(jsonData, "data")) {
                 JSONArray data = jsonData.getJSONArray("data");
@@ -633,7 +642,7 @@ public class JsonUtils {
                 for (int i = 0; i < data.length(); i++) {
                     JSONObject item = data.getJSONObject(i);
                     childEn = new GoodsEntity();
-                    childEn.setId(i + 1);
+                    childEn.setId(item.getInt("id"));
                     childEn.setGoodsCode(item.getString("skuCode"));
                     childEn.setPicUrl(item.getString("skuPic"));
                     childEn.setName(item.getString("goodsName"));
@@ -778,12 +787,10 @@ public class JsonUtils {
         if (StringUtil.notNull(jsonObject, "data")) {
             JSONObject jsonData = jsonObject.getJSONObject("data");
             GoodsAttrEntity attrEn = new GoodsAttrEntity();
-            attrEn.setComputePrice(2999.99);
-            attrEn.setFirstImgUrl(AppConfig.IMAGE_URL + "design_001.png");
             // 解析商品attr
             attrEn.setAttrLists(getGoodsAttrLists(jsonData, "allSales"));
             // 解析商品sku
-            //attrEn.setSkuLists(getGoodsSkuLists(jsonData, "sku"));
+            attrEn.setSkuLists(getGoodsSkuLists(jsonData, "skuAttrValue"));
 
             mainEn.setData(attrEn);
         }
@@ -796,7 +803,7 @@ public class JsonUtils {
      */
     private static ArrayList<GoodsAttrEntity> getGoodsAttrLists(JSONObject jsonObject, String key) throws JSONException {
         ArrayList<GoodsAttrEntity> attrLists = new ArrayList<>();
-        if (!StringUtil.notNull(jsonObject, key)) {
+        if (StringUtil.notNull(jsonObject, key)) {
             JSONArray attr = jsonObject.getJSONArray(key);
             GoodsAttrEntity listEn, asEn;
             for (int i = 0; i < attr.length(); i++) {
@@ -809,13 +816,12 @@ public class JsonUtils {
                 for (int j = 0; j < list.length(); j++) {
                     JSONObject ls = list.getJSONObject(j);
                     asEn = new GoodsAttrEntity();
-                    asEn.setAttrCode(ls.getString("attrCode"));
-                    asEn.setAttrName(ls.getString("attrValues"));
-                    asEn.setSkuNum(99);
-                    asEn.setAttrPrice(0);
+                    asEn.setAttrId(ls.getInt("id"));
+                    asEn.setAttrName(ls.getString("attrValue"));
                     asLists.add(asEn);
                 }
                 listEn.setAttrLists(asLists);
+                attrLists.add(listEn);
             }
             //构建"数量"属性面板
             listEn = new GoodsAttrEntity();
@@ -831,12 +837,18 @@ public class JsonUtils {
         ArrayList<GoodsAttrEntity> skuLists = new ArrayList<>();
         if (StringUtil.notNull(jsonObject, key)) {
             JSONArray sku = jsonObject.getJSONArray(key);
-            GoodsAttrEntity skuEn;
+            GoodsAttrEntity skuEn, skuValue;
             for (int i = 0; i < sku.length(); i++) {
                 JSONObject ks = sku.getJSONObject(i);
                 skuEn = new GoodsAttrEntity();
-                skuEn.setSku_key(ks.getString("goods_attr"));
-                skuEn.setSku_value(StringUtil.getInteger(ks.getString("product_number")));
+                skuEn.setSku_key(ks.getString("attrIds"));
+
+                skuValue = new GoodsAttrEntity();
+                skuValue.setAttrId(ks.getInt("id"));
+                skuValue.setSkuNum(ks.getInt("stockNum"));
+                skuValue.setAttrPrice(ks.getDouble("price"));
+                skuValue.setAttrImg(ks.getString("skuPic"));
+                skuEn.setSku_value(skuValue);
                 skuLists.add(skuEn);
             }
         }
@@ -950,6 +962,7 @@ public class JsonUtils {
                     childEn.setGoodsAttr(item.getString("skuComboName"));
                     childEn.setAddTime(item.getString("evaluateTime"));
                     childEn.setContent(item.getString("evaluateContent"));
+                    childEn.setStarNum((float) item.getInt("levels"));
                     childEn.setImg(item.getBoolean("isImg"));
 
                     if (childEn.isImg()) {
@@ -1043,6 +1056,27 @@ public class JsonUtils {
             imgList.add(AppConfig.IMAGE_URL + "design_001.png");
             imgList.add(AppConfig.IMAGE_URL + "design_004.png");
             saleEn.setImgList(imgList);
+            mainEn.setData(saleEn);
+        }
+        return mainEn;
+    }
+
+
+    /**
+     * 解析商品退款详情
+     */
+    public static BaseEntity getRefundDetailData(JSONObject jsonObject) throws JSONException {
+        BaseEntity mainEn = getCommonKeyValue(jsonObject);
+
+        if (StringUtil.notNull(jsonObject, "data")) {
+            JSONObject jsonData = jsonObject.getJSONObject("data");
+            GoodsSaleEntity saleEn = new GoodsSaleEntity();
+            saleEn.setSaleStatus(9);
+            saleEn.setRefundPrice(2999.99);
+            saleEn.setAddTime("2019/12/21 10：28：28");
+            saleEn.setEndTime("2019/12/26 18：18：18");
+            saleEn.setRefundNo("NS8888888888888");
+
             mainEn.setData(saleEn);
         }
         return mainEn;
