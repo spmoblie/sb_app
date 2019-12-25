@@ -27,7 +27,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/app_margin_screen"
-            android:text="退款中，请耐心等待"
             android:textColor="@color/app_color_white"
             android:textSize="@dimen/app_text_size_title"
             android:textStyle="bold"
@@ -38,7 +37,6 @@
             android:id="@+id/refund_tv_time_update"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="2019年11月21日  19时40分"
             android:textColor="@color/app_color_white"
             android:textSize="@dimen/app_text_size_small"
             app:layout_constraintLeft_toLeftOf="@+id/refund_tv_state_describe"
@@ -94,7 +92,7 @@
 
                 <TextView
                     style="@style/order_text"
-                    android:text="退款金额"
+                    android:text="@string/order_refund_price"
                     android:layout_marginRight="@dimen/margin_padding_5"
                     app:layout_constraintRight_toLeftOf="@+id/refund_tv_price_curr"
                     app:layout_constraintBottom_toBottomOf="@+id/refund_tv_price_curr" />
@@ -111,7 +109,6 @@
                 <TextView
                     android:id="@+id/refund_tv_price"
                     style="@style/common_text_price"
-                    android:text="9999"
                     android:layout_marginTop="@dimen/margin_padding_17"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/refund_iv_goods"/>
@@ -147,7 +144,7 @@
                 <TextView
                     android:id="@+id/refund_tv_state_01_describe"
                     style="@style/order_text"
-                    android:text="退款申请"
+                    android:text="@string/order_refund_apply"
                     android:layout_marginTop="@dimen/margin_padding_10"
                     app:layout_constraintTop_toBottomOf="@+id/refund_iv_state_01"
                     app:layout_constraintLeft_toLeftOf="@+id/refund_iv_state_01"
@@ -156,7 +153,6 @@
                 <TextView
                     android:id="@+id/refund_tv_state_01_time"
                     style="@style/order_text"
-                    android:text="（11/21  9：02）"
                     android:textSize="@dimen/app_text_size_small"
                     android:layout_marginTop="@dimen/margin_padding_5"
                     app:layout_constraintTop_toBottomOf="@+id/refund_tv_state_01_describe"
@@ -166,7 +162,7 @@
                 <TextView
                     android:id="@+id/refund_tv_state_02_describe"
                     style="@style/order_text"
-                    android:text="退款中"
+                    android:text="@string/order_refund_wait"
                     android:layout_marginTop="@dimen/margin_padding_10"
                     app:layout_constraintTop_toBottomOf="@+id/refund_iv_state_02"
                     app:layout_constraintLeft_toLeftOf="@+id/refund_iv_state_02"
@@ -184,7 +180,7 @@
                 <TextView
                     android:id="@+id/refund_tv_state_03_describe"
                     style="@style/order_text"
-                    android:text="退款完成"
+                    android:text="@string/order_refund_done"
                     android:layout_marginTop="@dimen/margin_padding_10"
                     app:layout_constraintTop_toBottomOf="@+id/refund_iv_state_03"
                     app:layout_constraintLeft_toLeftOf="@+id/refund_iv_state_03"
@@ -208,6 +204,9 @@
                 <TextView
                     android:id="@+id/refund_tv_refund_number"
                     style="@style/order_text"
+                    android:maxLength="27"
+                    android:maxLines="1"
+                    android:ellipsize="end"
                     android:text="@string/order_refund_no"
                     android:layout_marginTop="@dimen/margin_padding_20"
                     app:layout_constraintTop_toBottomOf="@+id/refund_view_line"/>
@@ -216,7 +215,7 @@
                     android:id="@+id/refund_tv_number_copy"
                     style="@style/common_text_bg_frame"
                     android:layout_marginTop="@dimen/margin_padding_18"
-                    android:layout_marginLeft="@dimen/margin_padding_30"
+                    android:layout_marginLeft="@dimen/margin_padding_20"
                     android:background="@drawable/shape_style_empty_02_04"
                     android:text="@string/copy"
                     android:textColor="@color/app_color_gray_5"
@@ -245,9 +244,9 @@
         android:layout_marginTop="@dimen/margin_padding_20"
         android:background="@drawable/shape_style_solid_05_08"
         android:gravity="center"
-        android:text="撤销申请"
+        android:text="@string/order_cancel_apply"
+        android:textStyle="bold"
         android:textColor="@color/app_color_white"
-        android:textSize="@dimen/app_text_size_content"
-        android:textStyle="bold" />
+        android:textSize="@dimen/app_text_size_content" />
 
 </LinearLayout>

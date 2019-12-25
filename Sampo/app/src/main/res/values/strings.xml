@@ -19,6 +19,7 @@
     <string name="save_ok">保存成功</string>
     <string name="my_new">新建</string>
     <string name="add">添加</string>
+    <string name="add_photo">添加照片</string>
     <string name="all">全部</string>
     <string name="see_all">查看全部</string>
     <string name="select">选择</string>
@@ -90,7 +91,7 @@
 
     <!-- Toast -->
     <string name="toast_no_open">暂未开放&#8230; 敬请期待&#8230;</string>
-    <string name="toast_server_busy">服务器繁忙\tT_T</string>
+    <string name="toast_server_busy">服务器繁忙</string>
     <string name="toast_exit_prompt">再按一次退出程序</string>
     <string name="toast_error_data_app">应用数据出错\tT_T\n请重启此应用\tT_T</string>
     <string name="toast_error_data_page">数据出现错误\tT_T\n正在加载数据\tT_T</string>
@@ -232,12 +233,18 @@
     <string name="coupon_buy_now">立即购买</string>
     <string name="coupon_expired_time">过期日：%1$s</string>
 
-    <!-- Find -->
-    <string name="find_comment">评论</string>
-    <string name="find_comment_participate">参与评论</string>
-    <string name="find_comment_total">共%1$d条评论</string>
-    <string name="find_comment_ok">评论已发布</string>
-    <string name="find_comment_input">请输入评论内容</string>
+    <!-- comment -->
+    <string name="comment_me">我要评价</string>
+    <string name="comment_add">追加评价</string>
+    <string name="comment_add_hint">追加一下你的使用体验吧~</string>
+    <string name="comment_add_day">"购买%1$d天后追加评论"</string>
+    <string name="comment_all">全部</string>
+    <string name="comment_new">最新</string>
+    <string name="comment_img">有图</string>
+    <string name="comment_star">整体评价</string>
+    <string name="comment_ok">评论已发布</string>
+    <string name="comment_content_null">评价内容不能为空</string>
+    <string name="comment_content_hint">说说它的优点和美中不足的地方吧~</string>
 
     <!-- Goods -->
     <string name="goods_search_et_hint">输入商品关键字</string>
@@ -309,26 +316,23 @@
     <string name="order_progress_check">查看进度</string>
     <string name="order_logistics">查看物流</string>
     <string name="order_confirm_receipt">确认收货</string>
-    <string name="order_comment">我要评价</string>
-    <string name="order_comment_hint">说说它的优点和美中不足的地方吧~</string>
-    <string name="order_comment_add">追加评价</string>
-    <string name="order_comment_add_hint">追加一下你的使用体验吧~</string>
-    <string name="order_comment_null">评价内容不能为空</string>
-    <string name="order_comment_day">"购买%1$d天后追加评论"</string>
-    <string name="order_comment_star">整体评价</string>
-    <string name="order_photo_add">添加照片</string>
     <string name="order_delete">删除订单</string>
     <string name="order_change">换货</string>
     <string name="order_return">退货</string>
     <string name="order_post_sale">申请售后</string>
     <string name="order_post_sale_hint">请描述您换货或退货原因</string>
-    <string name="order_refund_price">退款金额：\t\t￥%1$s</string>
+    <string name="order_refund_price">退款金额</string>
+    <string name="order_refund_price_num">退款金额：\t\t￥%1$s</string>
     <string name="order_refund_details">退款详情</string>
+    <string name="order_refund_apply">退款申请</string>
+    <string name="order_refund_wait">退款中</string>
+    <string name="order_refund_done">退款完成</string>
     <string name="order_return_type">退换方式：\t\t自行寄回</string>
     <string name="order_express_no">快递单号：</string>
     <string name="order_express_no_hint">填写快递单号</string>
     <string name="order_upload_photo">上传凭证：</string>
     <string name="order_submit_apply">提交申请</string>
+    <string name="order_cancel_apply">撤销申请</string>
     <string name="order_refund_no">退款编号：\t\t%1$s</string>
     <string name="order_time_apply">申请时间：\t\t%1$s</string>
     <string name="order_revoke_refund">撤销退款</string>

@@ -109,10 +109,10 @@ public class CommentGLVAdapter extends AppBaseAdapter {
 		// 追加评价
 		holder.tv_add_day.setVisibility(View.GONE);
 		holder.tv_add_content.setVisibility(View.GONE);
-		if (data.getAddDay() > 0 && !StringUtil.isNull(data.getAddContent())) {
+		if (!StringUtil.isNull(data.getAddContent())) {
 			holder.tv_add_day.setVisibility(View.VISIBLE);
 			holder.tv_add_content.setVisibility(View.VISIBLE);
-			holder.tv_add_day.setText(context.getString(R.string.order_comment_day, data.getAddDay()));
+			holder.tv_add_day.setText(context.getString(R.string.comment_add_day, data.getAddDay()));
 			holder.tv_add_content.setText(data.getAddContent());
 		}
 

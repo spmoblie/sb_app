@@ -82,7 +82,7 @@
     <TextView
         android:id="@+id/goods_order_item_tv_comment"
         style="@style/common_text_bg_frame"
-        android:text="@string/order_comment_add"
+        android:text="@string/comment_add"
         android:textStyle="bold"
         android:textColor="@color/app_color_gray_5"
         android:paddingTop="@dimen/margin_padding_7"

@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.support.v4.util.ArrayMap;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
+import android.widget.TextView;
 
 import com.songbao.sampo.AppApplication;
 import com.songbao.sampo.AppConfig;
@@ -31,9 +32,18 @@ import java.util.List;
 import butterknife.BindView;
 
 
-public class CommentGoodsActivity extends BaseActivity {
+public class CommentGoodsActivity extends BaseActivity implements View.OnClickListener{
 
 	String TAG = CommentGoodsActivity.class.getSimpleName();
+
+	@BindView(R.id.comment_goods_tv_all)
+	TextView tv_all;
+
+	@BindView(R.id.comment_goods_tv_new)
+	TextView tv_new;
+
+	@BindView(R.id.comment_goods_tv_img)
+	TextView tv_img;
 
 	@BindView(R.id.refresh_view_rv)
 	PullToRefreshRecyclerView refresh_rv;
@@ -41,6 +51,10 @@ public class CommentGoodsActivity extends BaseActivity {
 	CommentGRCAdapter rvAdapter;
 	MyRecyclerView mRecyclerView;
 
+	private final int DATA_TYPE_01 = 100; //全部
+	private final int DATA_TYPE_02 = 101; //最新
+	private final int DATA_TYPE_03 = 102; //有图
+	private int dataType = DATA_TYPE_01; //数据类型
 	private int data_total = 0; //数据总量
 	private int load_page = 1; //加载页数
 	private int load_type = 1; //加载类型(0:下拉刷新/1:翻页加载)
@@ -52,7 +66,7 @@ public class CommentGoodsActivity extends BaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_recycler_view);
+		setContentView(R.layout.activity_comment_goods);
 
 		goodsCode = getIntent().getStringExtra("goodsCode");
 
@@ -61,6 +75,10 @@ public class CommentGoodsActivity extends BaseActivity {
 
 	private void initView() {
 		setTitle("精彩评价");
+
+		tv_all.setOnClickListener(this);
+		tv_new.setOnClickListener(this);
+		tv_img.setOnClickListener(this);
 
 		initRecyclerView();
 		loadMoreData();
@@ -130,6 +148,58 @@ public class CommentGoodsActivity extends BaseActivity {
 		rvAdapter.updateData(al_show);
 	}
 
+	/**
+	 * TextView状态切换
+	 */
+	private void changeViewStatus() {
+		tv_all.setBackgroundResource(R.color.ui_bg_color_percent_10);
+		tv_new.setBackgroundResource(R.color.ui_bg_color_percent_10);
+		tv_img.setBackgroundResource(R.color.ui_bg_color_percent_10);
+		tv_all.setTextColor(getResources().getColor(R.color.app_color_gray_5));
+		tv_new.setTextColor(getResources().getColor(R.color.app_color_gray_5));
+		tv_img.setTextColor(getResources().getColor(R.color.app_color_gray_5));
+		switch (dataType) {
+			case DATA_TYPE_02:
+				tv_new.setBackgroundResource(R.drawable.shape_style_solid_04_08);
+				tv_new.setTextColor(getResources().getColor(R.color.app_color_white));
+				break;
+			case DATA_TYPE_03:
+				tv_img.setBackgroundResource(R.drawable.shape_style_solid_04_08);
+				tv_img.setTextColor(getResources().getColor(R.color.app_color_white));
+				break;
+			default:
+				tv_all.setBackgroundResource(R.drawable.shape_style_solid_04_08);
+				tv_all.setTextColor(getResources().getColor(R.color.app_color_white));
+				break;
+		}
+		loadFirstPageData();
+	}
+
+	/**
+	 * 滚动到顶部
+	 */
+	private void toTop() {
+		mRecyclerView.smoothScrollToPosition(0);
+	}
+
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+			case R.id.comment_goods_tv_all:
+				dataType = DATA_TYPE_01;
+				changeViewStatus();
+				break;
+			case R.id.comment_goods_tv_new:
+				dataType = DATA_TYPE_02;
+				changeViewStatus();
+				break;
+			case R.id.comment_goods_tv_img:
+				dataType = DATA_TYPE_03;
+				changeViewStatus();
+				break;
+		}
+	}
+
 	@Override
 	protected void onResume() {
 		LogUtil.i(LogUtil.LOG_TAG, TAG + ": onResume");
@@ -151,6 +221,20 @@ public class CommentGoodsActivity extends BaseActivity {
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
+	}
+
+	private void clearData() {
+		al_show.clear();
+		am_show.clear();
+	}
+
+	/**
+	 * 加载第一页数据
+	 */
+	private void loadFirstPageData() {
+		toTop();
+		clearData();
+		refresh_rv.doPullRefreshing(true, 0);
 	}
 
 	/**
@@ -183,7 +267,7 @@ public class CommentGoodsActivity extends BaseActivity {
 		map.put("page", page);
 		map.put("size", AppConfig.LOAD_SIZE);
 		map.put("skuCode", goodsCode);
-		map.put("types", "100");
+		map.put("types", String.valueOf(dataType));
 		loadSVData(AppConfig.URL_GOODS_COMMENT, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_GOODS_COMMENT);
 	}
 
@@ -228,6 +312,7 @@ public class CommentGoodsActivity extends BaseActivity {
 	@Override
 	protected void loadFailHandle() {
 		super.loadFailHandle();
+		updateListData();
 		handleErrorCode(null);
 	}
 

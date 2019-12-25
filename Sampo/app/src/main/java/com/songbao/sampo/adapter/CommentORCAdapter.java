@@ -88,7 +88,7 @@ public class CommentORCAdapter extends BaseRecyclerAdapter {
         } else {
             if (data.getAddDay() > 0 && !StringUtil.isNull(data.getAddContent())) {
                 group_content_add.setVisibility(View.VISIBLE);
-                tv_add_day.setText(context.getString(R.string.order_comment_day, data.getAddDay()));
+                tv_add_day.setText(context.getString(R.string.comment_add_day, data.getAddDay()));
                 tv_add_content.setText(data.getAddContent());
             }
         }

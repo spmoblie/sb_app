@@ -631,10 +631,10 @@ public class JsonUtils {
         BaseEntity mainEn = getCommonKeyValue(jsonObject);
 
         if (StringUtil.notNull(jsonObject, "data")) {
-            if (StringUtil.notNull(jsonObject, "total")) {
-                mainEn.setDataTotal(jsonObject.getInt("total"));
-            }
             JSONObject jsonData = jsonObject.getJSONObject("data");
+            if (StringUtil.notNull(jsonData, "total")) {
+                mainEn.setDataTotal(jsonData.getInt("total"));
+            }
             if (StringUtil.notNull(jsonData, "data")) {
                 JSONArray data = jsonData.getJSONArray("data");
                 GoodsEntity childEn;
@@ -755,26 +755,15 @@ public class JsonUtils {
             goodsEn.setAttrEn(attrEn);
 
             // 商品图片集
-            ArrayList<String> imageList = new ArrayList<>();
-            JSONArray pics = jsonData.getJSONArray("goodsPics");
-            for (int i = 0; i < pics.length(); i++) {
-                JSONObject picObj = pics.getJSONObject(i);
-                imageList.add(picObj.getString("goodsPic"));
+            if (StringUtil.notNull(jsonData, "goodsPics")) {
+                goodsEn.setImageList(getStringList(jsonData.getString("goodsPics")));
             }
-            goodsEn.setImageList(imageList);
-
             // 详情图片集
-            ArrayList<String> detailList = new ArrayList<>();
-            JSONArray details = jsonData.getJSONArray("goodsPics");
-            for (int i = 0; i < details.length(); i++) {
-                JSONObject picObj = pics.getJSONObject(i);
-                detailList.add(picObj.getString("goodsPic"));
+            if (StringUtil.notNull(jsonData, "goodsDetailImgs")) {
+                goodsEn.setDetailList(getStringList(jsonData.getString("goodsDetailImgs")));
             }
-            goodsEn.setDetailList(detailList);
-
             mainEn.setData(goodsEn);
         }
-
         return mainEn;
     }
 
@@ -848,6 +837,7 @@ public class JsonUtils {
                 skuValue.setSkuNum(ks.getInt("stockNum"));
                 skuValue.setAttrPrice(ks.getDouble("price"));
                 skuValue.setAttrImg(ks.getString("skuPic"));
+                skuValue.setGoodsCode(ks.getString("skuCode"));
                 skuEn.setSku_value(skuValue);
                 skuLists.add(skuEn);
             }
@@ -863,44 +853,58 @@ public class JsonUtils {
 
         if (StringUtil.notNull(jsonObject, "data")) {
             JSONObject jsonData = jsonObject.getJSONObject("data");
-            if (StringUtil.notNull(jsonData, "dataList")) {
-                JSONArray data = jsonData.getJSONArray("dataList");
+            if (StringUtil.notNull(jsonData, "cartItem")) {
+                JSONArray data = jsonData.getJSONArray("cartItem");
                 CartEntity childEn;
                 GoodsEntity goodsEn;
                 GoodsAttrEntity attrEn;
                 List<CartEntity> lists = new ArrayList<>();
-                for (int i = 0; i < 3; i++) {
-                    //JSONObject item = data.getJSONObject(i);
+                for (int i = 0; i < data.length(); i++) {
+                    JSONObject item = data.getJSONObject(i);
                     childEn = new CartEntity();
+                    childEn.setId(item.getInt("id"));
+
                     goodsEn = new GoodsEntity();
-                    childEn.setId(i + 1);
-                    goodsEn.setId(i + 1);
-                    goodsEn.setPicUrl(AppConfig.IMAGE_URL + "design_001.png");
-                    goodsEn.setName("松堡王国现代简约彩条双层床");
-                    goodsEn.setPrice(999.99);
+                    goodsEn.setGoodsCode(item.getString("skuCode"));
+                    goodsEn.setPicUrl(item.getString("goodsPic"));
+                    goodsEn.setName(item.getString("goodsName"));
+                    goodsEn.setPrice(item.getDouble("buyPrice"));
 
+                    // 商品已选属性
+                    String attrIds = item.getString("attrIds");
                     attrEn = new GoodsAttrEntity();
-                    attrEn.setBuyNum(1);
-                    attrEn.setS_id_1(10);
-                    attrEn.setS_id_2(20);
-                    attrEn.setS_name_1("天蓝色");
-                    attrEn.setS_name_2("1200*1900");
-                    attrEn.setAttrNameStr("天蓝色; 1200*1900");
-                    goodsEn.setAttrEn(attrEn);
-
-                    if (i == 1) {
-                        goodsEn.setName("松堡王国现代简约彩条双层床");
-                        goodsEn.setPrice(9999);
-
-                        attrEn = new GoodsAttrEntity();
-                        attrEn.setBuyNum(20);
-                        attrEn.setS_id_1(11);
-                        attrEn.setS_id_2(21);
-                        attrEn.setS_name_1("原木色");
-                        attrEn.setS_name_2("1350*1900");
-                        attrEn.setAttrNameStr("原木色; 135*1900");
-                        goodsEn.setAttrEn(attrEn);
+                    String[] ids = attrIds.split(",");
+                    for (int j = 0; j < ids.length; j++) {
+                        switch (j) {
+                            case 0:
+                                attrEn.setS_id_1(Integer.valueOf(ids[j]));
+                                break;
+                            case 1:
+                                attrEn.setS_id_2(Integer.valueOf(ids[j]));
+                                break;
+                            case 2:
+                                attrEn.setS_id_3(Integer.valueOf(ids[j]));
+                                break;
+                        }
                     }
+                    String attrNames = item.getString("skuComboName");
+                    String[] names = attrNames.split(" ");
+                    for (int k = 0; k < names.length; k++) {
+                        switch (k) {
+                            case 0:
+                                attrEn.setS_name_1(names[k]);
+                                break;
+                            case 1:
+                                attrEn.setS_name_2(names[k]);
+                                break;
+                            case 2:
+                                attrEn.setS_name_3(names[k]);
+                                break;
+                        }
+                    }
+                    attrEn.setAttrNameStr(attrNames);
+                    attrEn.setBuyNum(item.getInt("buyNum"));
+                    goodsEn.setAttrEn(attrEn);
 
                     childEn.setGoodsEn(goodsEn);
                     lists.add(childEn);
@@ -965,8 +969,14 @@ public class JsonUtils {
                     childEn.setStarNum((float) item.getInt("levels"));
                     childEn.setImg(item.getBoolean("isImg"));
 
-                    if (childEn.isImg()) {
+                    if (childEn.isImg()) { //有图
                         childEn.setImgList(getStringList(item.getString("evaluateImages")));
+                    }
+                    if (StringUtil.notNull(item, "content")) {
+                        childEn.setAddContent(item.getString("content"));
+                    }
+                    if (StringUtil.notNull(item, "days")) {
+                        childEn.setAddDay(item.getInt("days"));
                     }
                     lists.add(childEn);
                 }
@@ -1071,11 +1081,11 @@ public class JsonUtils {
         if (StringUtil.notNull(jsonObject, "data")) {
             JSONObject jsonData = jsonObject.getJSONObject("data");
             GoodsSaleEntity saleEn = new GoodsSaleEntity();
-            saleEn.setSaleStatus(9);
+            saleEn.setSaleStatus(10);
             saleEn.setRefundPrice(2999.99);
-            saleEn.setAddTime("2019/12/21 10：28：28");
-            saleEn.setEndTime("2019/12/26 18：18：18");
-            saleEn.setRefundNo("NS8888888888888");
+            saleEn.setAddTime("2019-12-21 10:28:28");
+            saleEn.setEndTime("2019-12-26 18:18:18");
+            saleEn.setRefundNo("NS8888888188888888818888888881");
 
             mainEn.setData(saleEn);
         }

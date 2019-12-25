@@ -126,9 +126,9 @@ public class BaseActivity extends FragmentActivity {
     // 商品属性浮层组件
     private boolean isShow = false;
     private int buyNumber = 1;
-    private int select_id_1 = -1;
-    private int select_id_2 = -1;
-    private int select_id_3 = -1;
+    private int select_id_1 = 0;
+    private int select_id_2 = 0;
+    private int select_id_3 = 0;
     private String select_name_1 = "";
     private String select_name_2 = "";
     private String select_name_3 = "";
@@ -766,7 +766,7 @@ public class BaseActivity extends FragmentActivity {
                 mShareView.showShareLayer(false);
             } else {
                 /*if (!UserManager.getInstance().checkIsLogined()) {
-					openLoginActivity();
+                    openLoginActivity();
 					return;
 				}*/
                 mShareView.showShareLayer(true);
@@ -1129,8 +1129,6 @@ public class BaseActivity extends FragmentActivity {
      */
     private void initAttrPopup() {
         if (attrEn == null) return;
-        //initAttrMakeSku(attrEn);
-        //initSelectAttrValue(attrEn);
         if (cartPopupWindow == null) {
             cartPopupView = LayoutInflater.from(mContext).inflate(R.layout.popup_view_attr, null);
             View view_finish = cartPopupView.findViewById(R.id.attr_view_finish);
@@ -1193,14 +1191,18 @@ public class BaseActivity extends FragmentActivity {
             tv_popup_confirm.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    if (rv_Adapter == null) return;
                     GoodsAttrEntity selectAttr = rv_Adapter.initSelectAttrValue(attrEn);
+                    String attrsIdStr = selectAttr.getAttrIdStr();
                     String attrsNameStr = selectAttr.getAttrNameStr();
                     if (isShow) {
                         if (selectAttr.isSelect()) {
                             if (buyNumber > 0) {
                                 isShow = false;
                                 secEn.setBuyNum(buyNumber);
+                                secEn.setAttrIdStr(attrsIdStr);
                                 secEn.setAttrNameStr(attrsNameStr);
+                                secEn.setGoodsCode(rv_Adapter.getSkuCode(attrsIdStr));
                                 secEn.setS_id_1(select_id_1);
                                 secEn.setS_id_2(select_id_2);
                                 secEn.setS_id_3(select_id_3);
@@ -1250,23 +1252,6 @@ public class BaseActivity extends FragmentActivity {
                             break;
                     }
                     updatePopupView();
-						/*initSelectAttrValue(attrEn);
-						if (isSelected) {
-							// 已选属性
-							tv_popup_select.setText(getString(R.string.goods_attr_selected_1, attrsNameStr));
-							// 刷新图片
-							Glide.with(AppApplication.getAppContext())
-									.load(getSkuImage(attrsIdStr))
-									.apply(AppApplication.getShowOptions())
-									.into(iv_goods_img);
-							// 刷新库存
-							tv_popup_number.setText(getString(R.string.goods_attr_sku_num, getSkuNum(attrsIdStr)));
-							// 刷新价格
-							tv_popup_price.setText(df.format(getSkuPrice(attrsIdStr)));
-						} else {
-							// 提示选择
-							tv_popup_select.setText(attrsNameStr);
-						}*/
                 }
 
             };
@@ -1307,7 +1292,12 @@ public class BaseActivity extends FragmentActivity {
                     .apply(AppApplication.getShowOptions())
                     .into(iv_goods_img);
             // 刷新库存
-            tv_popup_number.setText(getString(R.string.goods_attr_sku_num, rv_Adapter.getSkuNum(attrsIdStr)));
+            int skuNum = rv_Adapter.getSkuNum(attrsIdStr);
+            if (buyNumber > skuNum) {
+                buyNumber = skuNum;
+                rv_Adapter.updateNumber(buyNumber);
+            }
+            tv_popup_number.setText(getString(R.string.goods_attr_sku_num, skuNum));
             // 刷新价格
             tv_popup_price.setText(df.format(rv_Adapter.getSkuPrice(attrsIdStr)));
         } else {
@@ -1315,119 +1305,6 @@ public class BaseActivity extends FragmentActivity {
             tv_popup_select.setText(attrsNameStr);
         }
     }
-
-    /**
-     * 初始化属性组合Sku
-     *//*
-	private void initAttrMakeSku(GoodsAttrEntity attrEn) {
-		if (attrEn != null) {
-			if (attrEn.getSkuLists() != null) {
-				skuHashMap.clear();
-				GoodsAttrEntity sku;
-				for (int i = 0; i < attrEn.getSkuLists().size(); i++) {
-					sku = attrEn.getSkuLists().get(i);
-					if (sku != null) {
-						skuHashMap.put(sku.getSku_key(), sku.getSku_value());
-					}
-				}
-			}
-		}
-	}
-
-	*//**
-     * 属性Sku
-     *//*
-	private int getSkuNum(String keyStr) {
-		if (skuHashMap.containsKey(keyStr)) {
-			return skuHashMap.get(keyStr).getSkuNum();
-		}
-		return 0;
-	}
-
-	*//**
-     * 属性价格
-     *//*
-	private double getSkuPrice(String key) {
-		if (skuHashMap.containsKey(key)) {
-			return skuHashMap.get(key).getAttrPrice();
-		}
-		return 0;
-	}
-
-	*//**
-     * 属性图片
-     *//*
-	private String getSkuImage(String key) {
-		if (skuHashMap.containsKey(key)) {
-			return skuHashMap.get(key).getAttrImg();
-		}
-		return "";
-	}
-
-	private void initSelectAttrValue(GoodsAttrEntity en){
-		attrsIdStr = "";
-		isSelected = false;
-		if (en != null && en.getAttrLists() != null) {
-			attrNum = en.getAttrLists().size();
-			GoodsAttrEntity item;
-			StringBuilder sb_id = new StringBuilder();
-			StringBuilder sb_name = new StringBuilder();
-			sb_name.append(getString(R.string.item_select_no));
-			for (int i = 0; i < attrNum - 1; i++) {
-				item = en.getAttrLists().get(i);
-				switch (i) {
-					case 0:
-						if (StringUtil.isNull(selectName_1)) {
-							sb_name.append(item.getAttrName());
-							sb_name.append(" ");
-						} else {
-							sb_id.append(selectId_1);
-							sb_id.append(",");
-						}
-						break;
-					case 1:
-						if (StringUtil.isNull(selectName_2)) {
-							sb_name.append(item.getAttrName());
-							sb_name.append(" ");
-						} else {
-							sb_id.append(selectId_2);
-							sb_id.append(",");
-						}
-						break;
-					case 2:
-						if (StringUtil.isNull(selectName_3)) {
-							sb_name.append(item.getAttrName());
-							sb_name.append(" ");
-						} else {
-							sb_id.append(selectId_3);
-							sb_id.append(",");
-						}
-						break;
-				}
-			}
-			if (sb_name.toString().contains(" ")) {
-				//sb_name.deleteCharAt(sb_name.length() - 1);
-				attrsNameStr = sb_name.toString();
-			} else {
-				isSelected = true;
-				if (sb_id.toString().contains(",")) {
-					sb_id.deleteCharAt(sb_id.length() - 1);
-					attrsIdStr = sb_id.toString();
-				}
-				switch (attrNum - 1) {
-					case 1:
-						attrsNameStr = selectName_1;
-						break;
-					case 2:
-						attrsNameStr = getString(R.string.goods_attr_selected_2, selectName_1, selectName_2);
-						break;
-					case 3:
-						attrsNameStr = getString(R.string.goods_attr_selected_3, selectName_1, selectName_2, selectName_3);
-						break;
-				}
-			}
-		}
-	}*/
 
     /**
      * 更新已选的商品属性

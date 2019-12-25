@@ -480,6 +480,7 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
                 attrsNameStr = getString(R.string.goods_attr_num_2, attrsNameStr, attrEn.getBuyNum());
             }
             tv_spec.setText(attrsNameStr);
+            postCartData(attrEn);
         }
     }
 
@@ -639,8 +640,17 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
         map.put("page", "1");
         map.put("size", AppConfig.LOAD_SIZE);
         map.put("skuCode", goodsCode);
-        map.put("types", "100");
         loadSVData(AppConfig.URL_GOODS_COMMENT, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_GOODS_COMMENT);
+    }
+
+    /**
+     * 添加购物车
+     */
+    private void postCartData(GoodsAttrEntity attrEn) {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("skuCode", attrEn.getGoodsCode());
+        map.put("buyNum", String.valueOf(attrEn.getBuyNum()));
+        loadSVData(AppConfig.BASE_URL_3, AppConfig.URL_CART_ADD, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_CART_ADD);
     }
 
     @Override
@@ -671,6 +681,14 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
                             al_comment.addAll(newList);
                         }
                         initShowView();
+                    } else {
+                        handleErrorCode(baseEn);
+                    }
+                    break;
+                case AppConfig.REQUEST_SV_CART_ADD:
+                    baseEn = JsonUtils.getGoodsDetailData(jsonObject);
+                    if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+                        CommonTools.showToast("加入购物车成功");
                     } else {
                         handleErrorCode(baseEn);
                     }

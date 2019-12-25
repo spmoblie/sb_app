@@ -176,7 +176,7 @@ public class PurchaseActivity extends BaseActivity implements View.OnClickListen
                     tv_click_01.setTextColor(getResources().getColor(R.color.app_color_gray_5));
                     tv_click_01.setBackgroundResource(R.drawable.shape_style_empty_02_08);
                     tv_click_02.setVisibility(View.VISIBLE);
-                    tv_click_02.setText(getString(R.string.order_comment));
+                    tv_click_02.setText(getString(R.string.comment_me));
                     tv_click_02.setTextColor(getResources().getColor(R.color.app_color_white));
                     tv_click_02.setBackgroundResource(R.drawable.shape_style_solid_06_08);
                     tv_click_03.setVisibility(View.GONE);

@@ -731,6 +731,11 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 		super.onDestroy();
 	}
 
+	private void clearData() {
+		al_show.clear();
+		am_show.clear();
+	}
+
 	/**
 	 * 加载第一页数据
 	 */
@@ -738,12 +743,6 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 		toTop();
 		clearData();
 		refresh_rv.doPullRefreshing(true, 0);
-	}
-
-	private void clearData() {
-		al_show.clear();
-		am_show.clear();
-		updateListData();
 	}
 
 	/**
@@ -851,6 +850,7 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 	@Override
 	protected void loadFailHandle() {
 		super.loadFailHandle();
+		updateListData();
 		handleErrorCode(null);
 	}
 

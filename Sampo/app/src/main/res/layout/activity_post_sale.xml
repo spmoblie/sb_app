@@ -94,22 +94,15 @@
 
                     <TextView
                         android:id="@+id/post_sale_tv_change"
-                        android:layout_width="88dp"
-                        android:layout_height="32dp"
-                        android:gravity="center"
+                        style="@style/common_text_change"
                         android:text="@string/order_change"
                         android:textColor="@color/app_color_white"
-                        android:textSize="@dimen/app_text_size_label"
                         android:background="@drawable/shape_style_solid_04_08"/>
 
                     <TextView
                         android:id="@+id/post_sale_tv_return"
-                        android:layout_width="88dp"
-                        android:layout_height="32dp"
-                        android:gravity="center"
-                        android:text="@string/order_return"
-                        android:textColor="@color/app_color_gray_5"
-                        android:textSize="@dimen/app_text_size_label"/>
+                        style="@style/common_text_change"
+                        android:text="@string/order_return"/>
                 </LinearLayout>
 
                 <EditText
@@ -127,7 +120,7 @@
                 <TextView
                     android:id="@+id/post_sale_tv_refund_price"
                     style="@style/order_text"
-                    android:text="@string/order_refund_price"
+                    android:text="@string/order_refund_price_num"
                     android:layout_marginTop="@dimen/margin_padding_20"
                     app:layout_constraintTop_toBottomOf="@+id/post_sale_et_reason" />
 

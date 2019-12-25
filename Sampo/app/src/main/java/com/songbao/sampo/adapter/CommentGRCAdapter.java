@@ -78,7 +78,7 @@ public class CommentGRCAdapter extends BaseRecyclerAdapter {
         if (data.getAddDay() > 0 && !StringUtil.isNull(data.getAddContent())) {
             tv_add_day.setVisibility(View.VISIBLE);
             tv_add_content.setVisibility(View.VISIBLE);
-            tv_add_day.setText(context.getString(R.string.order_comment_day, data.getAddDay()));
+            tv_add_day.setText(context.getString(R.string.comment_add_day, data.getAddDay()));
             tv_add_content.setText(data.getAddContent());
         }
 

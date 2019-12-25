@@ -84,8 +84,8 @@ public class CartActivity extends BaseActivity implements View.OnClickListener{
 		tv_select_all.setOnClickListener(this);
 		tv_confirm.setOnClickListener(this);
 
-		updateNumber();
 		initRecyclerView();
+		updateListData();
 		loadMoreData();
 	}
 
@@ -362,7 +362,7 @@ public class CartActivity extends BaseActivity implements View.OnClickListener{
 	 */
 	private void loadServerData() {
 		HashMap<String, String> map = new HashMap<>();
-		loadSVData(AppConfig.URL_CART_GET, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_CART_GET);
+		loadSVData(AppConfig.BASE_URL_3, AppConfig.URL_CART_GET, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_CART_GET);
 	}
 
 	@Override

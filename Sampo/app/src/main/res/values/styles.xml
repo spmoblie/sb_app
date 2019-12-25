@@ -529,6 +529,15 @@
         <item name="android:background">@drawable/shape_style_solid_04_08</item>
     </style>
 
+    <!-- 通用文本水平切换样式 -->
+    <style name="common_text_change">
+        <item name="android:layout_width">88dp</item>
+        <item name="android:layout_height">32dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/app_color_gray_5</item>
+        <item name="android:textSize">@dimen/app_text_size_label</item>
+    </style>
+
     <!-- 通用垂直Item布局样式 -->
     <style name="common_item_vertical">
         <item name="android:layout_width">match_parent</item>

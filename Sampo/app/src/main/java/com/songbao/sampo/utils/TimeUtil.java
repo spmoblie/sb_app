@@ -200,6 +200,13 @@ public class TimeUtil {
     /**
      * 将传入的时间格式转换为指定的时间格式
      */
+    public static String strToStr(String newPattern, String oldPattern, String strDate) {
+        return dateToStr(newPattern, strToDate(oldPattern, strDate));
+    }
+
+    /**
+     * 将传入的时间格式转换为指定的时间格式(时间格式需保持一致)
+     */
     public static String strToStrYMD(String pattern, String strDate) {
         return dateToStr(pattern, strToDate(pattern, strDate));
     }
@@ -236,6 +243,19 @@ public class TimeUtil {
         if (strDate.length() < 5) return " 00:00:00";
         String newDate = strDate.substring(0, 5);
         return " " + newDate + ":00";
+    }
+
+
+    /**
+     * 将传入的时间格式转换为指定的时间格式
+     * @param strDate yyyy-MM-dd HH:mm:ss
+     * @return String  （MM/dd HH:mm）
+     */
+    public static String strToStrNode(String strDate){
+        strDate = dateToStr("yyyy/MM/dd HH:mm:ss", strToDate("yyyy-MM-dd HH:mm:ss", strDate));
+        if (strDate.length() < 16) return "00/00 00:00";
+        String newDate = strDate.substring(5, 16);
+        return "（" + newDate + "）";
     }
 
     /**

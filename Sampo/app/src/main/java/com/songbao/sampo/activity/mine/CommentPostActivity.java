@@ -93,7 +93,7 @@ public class CommentPostActivity extends BaseActivity implements OnClickListener
 	}
 
 	private void initView() {
-		setTitle(R.string.order_comment);
+		setTitle(R.string.comment_me);
 
 		iv_photo_01.setOnClickListener(this);
 		iv_photo_02.setOnClickListener(this);
@@ -171,7 +171,7 @@ public class CommentPostActivity extends BaseActivity implements OnClickListener
 		contentStr = et_comment.getText().toString();
 		// 校验非空
 		if (StringUtil.isNull(contentStr)) {
-			CommonTools.showToast(getString(R.string.order_comment_null), Toast.LENGTH_SHORT);
+			CommonTools.showToast(getString(R.string.comment_content_null), Toast.LENGTH_SHORT);
 			return false;
 		}
 		return true;

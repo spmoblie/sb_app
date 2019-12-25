@@ -111,17 +111,21 @@ public class RefundActivity extends BaseActivity implements OnClickListener {
             tv_refund_number.setText(getString(R.string.order_refund_no, saleEn.getRefundNo()));
             tv_time_apply.setText(getString(R.string.order_time_apply, saleEn.getAddTime()));
             tv_time_update.setText(TimeUtil.getNowString("yyyy年MM月dd日 HH时mm分ss秒"));
-            tv_state_01_time.setText(saleEn.getAddTime());
+            tv_state_01_time.setText(TimeUtil.strToStrNode(saleEn.getAddTime()));
 
             switch (saleEn.getSaleStatus()) {
                 case 9:
-                    tv_state_02_time.setText(TimeUtil.getNowString("yyyy年MM月dd日 HH时mm分ss秒"));
+                    tv_state_02_time.setText(TimeUtil.strToStrNode(TimeUtil.getNowString("yyyy-MM-dd HH:mm:ss")));
                     tv_state_describe.setText("退款中，请耐心等待");
+                    tv_state_describe.setTextSize(18);
                     iv_state_02.setImageResource(R.mipmap.icon_waiting);
                     iv_state_03.setImageResource(R.mipmap.sel_checkbox_large_no);
                     break;
                 case 10:
-                    tv_state_describe.setText("退款完成，退款金额已退回原支付账户");
+                    tv_time_update.setText(TimeUtil.strToStr("yyyy年MM月dd日 HH时mm分ss秒", "yyyy-MM-dd HH:mm:ss", saleEn.getEndTime()));
+                    tv_state_03_time.setText(TimeUtil.strToStrNode(saleEn.getEndTime()));
+                    tv_state_describe.setText("退款完成，已退回原支付账户");
+                    tv_state_describe.setTextSize(15);
                     iv_state_02.setImageResource(R.mipmap.icon_waiting);
                     iv_state_03.setImageResource(R.mipmap.sel_checkbox_large_ok);
                     break;
@@ -136,7 +140,7 @@ public class RefundActivity extends BaseActivity implements OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.comment_post_tv_post:
+            case R.id.refund_tv_cancel:
 
                 break;
         }

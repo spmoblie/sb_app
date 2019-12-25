@@ -100,14 +100,16 @@ public class PostSaleActivity extends BaseActivity implements OnClickListener {
 	@BindView(R.id.post_sale_tv_submit)
 	TextView tv_submit;
 
-	private GoodsEntity data;
-	private GoodsSaleEntity saleEn;
-	private int saleType = 1; //1:换货/2：退货
+	private final int DATA_TYPE_01 = 201; //换货
+	private final int DATA_TYPE_02 = 202; //退货
+	private int dataType = DATA_TYPE_01; //数据类型
 	private int saleStatus = 0; //6:售后(审核中)/7:售后(审核通过)/8:售后(审核拒绝)
 	private double totalPrice = 0;
 	private boolean isEdit = false;
 	private String goodsCode = "";
 	private String contentStr = "";
+	private GoodsEntity data;
+	private GoodsSaleEntity saleEn;
 	private ArrayList<String> al_photo_url = new ArrayList<>();
 	private ArrayList<String> al_image_url = new ArrayList<>();
 
@@ -159,7 +161,7 @@ public class PostSaleActivity extends BaseActivity implements OnClickListener {
 	private void initShowView() {
 		isEdit = false;
 		if (saleEn != null) {
-			saleType = saleEn.getSaleType();
+			dataType = saleEn.getSaleType();
 			saleStatus = saleEn.getSaleStatus();
 			switch (saleStatus) {
 				case 6: //审核中
@@ -258,14 +260,14 @@ public class PostSaleActivity extends BaseActivity implements OnClickListener {
 		tv_return.setBackgroundResource(R.color.ui_bg_color_percent_10);
 		tv_change.setTextColor(getResources().getColor(R.color.app_color_gray_5));
 		tv_return.setTextColor(getResources().getColor(R.color.app_color_gray_5));
-		if (saleType == 1) {
+		if (dataType == DATA_TYPE_01) {
 			tv_change.setBackgroundResource(R.drawable.shape_style_solid_04_08);
 			tv_change.setTextColor(getResources().getColor(R.color.app_color_white));
-			tv_refund_price.setText(getString(R.string.order_refund_price, df.format(0)));
+			tv_refund_price.setText(getString(R.string.order_refund_price_num, df.format(0)));
 		} else {
 			tv_return.setBackgroundResource(R.drawable.shape_style_solid_04_08);
 			tv_return.setTextColor(getResources().getColor(R.color.app_color_white));
-			tv_refund_price.setText(getString(R.string.order_refund_price, df.format(totalPrice)));
+			tv_refund_price.setText(getString(R.string.order_refund_price_num, df.format(totalPrice)));
 		}
 	}
 
@@ -278,11 +280,11 @@ public class PostSaleActivity extends BaseActivity implements OnClickListener {
 		if (!isEdit) return; //不可编辑
 		switch (v.getId()) {
 		case R.id.post_sale_tv_change:
-			saleType = 1;
+			dataType = DATA_TYPE_01;
 			changeViewStatus();
 			break;
 		case R.id.post_sale_tv_return:
-			saleType = 2;
+			dataType = DATA_TYPE_02;
 			changeViewStatus();
 			break;
 		case R.id.post_sale_iv_photo_01:

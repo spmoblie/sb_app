@@ -86,12 +86,12 @@ public class GoodsOrderAdapter extends AppBaseAdapter {
 			}
 			switch (data.getCommentStatus()) {
 				case 3: //评价
-					holder.tv_comment.setText(context.getString(R.string.order_comment));
+					holder.tv_comment.setText(context.getString(R.string.comment_me));
 					holder.tv_comment.setVisibility(View.VISIBLE);
 					holder.view_fill.setVisibility(View.VISIBLE);
 					break;
 				case 4: //追评
-					holder.tv_comment.setText(context.getString(R.string.order_comment_add));
+					holder.tv_comment.setText(context.getString(R.string.comment_add));
 					holder.tv_comment.setVisibility(View.VISIBLE);
 					holder.view_fill.setVisibility(View.VISIBLE);
 					break;

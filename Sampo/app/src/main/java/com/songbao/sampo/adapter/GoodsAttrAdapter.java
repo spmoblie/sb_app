@@ -76,6 +76,14 @@ public class GoodsAttrAdapter extends BaseRecyclerAdapter {
 		}
 	}
 
+	/**
+	 * 刷新已选数量
+	 */
+	public void updateNumber(int number) {
+		buyNumber = number;
+		notifyDataSetChanged();
+	}
+
 	@Override
 	public int getItemViewType(int position) {
 		if (position == getItemCount() - 1) {
@@ -368,7 +376,7 @@ public class GoodsAttrAdapter extends BaseRecyclerAdapter {
 			} else {
 				isSelected = true;
 				if (sb_id.toString().contains(",")) {
-					sb_id.deleteCharAt(sb_id.length() - 1);
+					//sb_id.deleteCharAt(sb_id.length() - 1);
 					attrsIdStr = sb_id.toString();
 				}
 				switch (attrNum - 1) {
@@ -434,6 +442,16 @@ public class GoodsAttrAdapter extends BaseRecyclerAdapter {
 	public String getSkuImage(String key) {
 		if (skuHashMap.containsKey(key)) {
 			return skuHashMap.get(key).getAttrImg();
+		}
+		return "";
+	}
+
+	/**
+	 * SkuCode
+	 */
+	public String getSkuCode(String key) {
+		if (skuHashMap.containsKey(key)) {
+			return skuHashMap.get(key).getGoodsCode();
 		}
 		return "";
 	}

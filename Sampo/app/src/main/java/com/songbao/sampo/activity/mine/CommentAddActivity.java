@@ -81,7 +81,7 @@ public class CommentAddActivity extends BaseActivity implements OnClickListener 
 	}
 
 	private void initView() {
-		setTitle(R.string.order_comment_add);
+		setTitle(R.string.comment_add);
 
 		tv_post.setOnClickListener(this);
 
@@ -142,7 +142,7 @@ public class CommentAddActivity extends BaseActivity implements OnClickListener 
 		contentStr = et_add_comment.getText().toString();
 		// 校验非空
 		if (StringUtil.isNull(contentStr)) {
-			CommonTools.showToast(getString(R.string.order_comment_null), Toast.LENGTH_SHORT);
+			CommonTools.showToast(getString(R.string.comment_content_null), Toast.LENGTH_SHORT);
 			return false;
 		}
 		return true;
