@@ -84,8 +84,8 @@ public class AppConfig {
 	public final static String URL_USER_ACTIVITY = "app/user/activity";
 	// 我的预约
 	public final static String URL_USER_RESERVATION = "app/user/reservation";
-	// 我的订单
-	public final static String URL_USER_ORDER = "app/user/order";
+	// 我的定制
+	public final static String URL_USER_CUSTOMIZE = "app/booking/BookingList";
 	// "我的"动态数据
 	public final static String URL_USER_DYNAMIC = "app/user/dynamic";
 
@@ -109,6 +109,8 @@ public class AppConfig {
 	public final static String URL_CART_GET = "app/cart/getCart";
 	// 设计师列表
 	public final static String URL_DESIGN_ALL = "app/design/all";
+	// 提交定制预约
+	public final static String URL_CREATE_BOOKING = "app/booking/createBooking";
 
 	// 上传接口
 	public final static String URL_UPLOAD_PUSH = "app/upload/push";
@@ -209,6 +211,8 @@ public class AppConfig {
 	public static final int REQUEST_SV_CART_GET = 0X4011;
 	// 获取设计师列表
 	public static final int REQUEST_SV_DESIGN_ALL = 0X4020;
+	// 提交定制预约
+	public static final int REQUEST_SV_CREATE_BOOKING = 0X4021;
 
 	// 上传评论照片
 	public static final int REQUEST_SV_UPLOAD_COMMENT_PHOTO = 0X5001;

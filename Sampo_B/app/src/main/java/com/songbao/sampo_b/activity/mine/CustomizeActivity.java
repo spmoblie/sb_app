@@ -708,8 +708,8 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
 		//效果图集
 		ArrayList<String> imgList = new ArrayList<>();
 		imgList.add(AppConfig.IMAGE_URL + "design_001.png");
-		imgList.add(AppConfig.IMAGE_URL + "design_004.png");
-		imgList.add(AppConfig.IMAGE_URL + "design_006.png");
+		imgList.add(AppConfig.IMAGE_URL + "design_001.png");
+		imgList.add(AppConfig.IMAGE_URL + "design_001.png");
 		if (code > 2) {
 			ocEn.setImgList(imgList);
 		}
@@ -730,8 +730,8 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
 					opEn.setType(1);
 					ArrayList<String> imgLs = new ArrayList<>();
 					imgLs.add(AppConfig.IMAGE_URL + "design_001.png");
-					imgLs.add(AppConfig.IMAGE_URL + "design_004.png");
-					imgLs.add(AppConfig.IMAGE_URL + "design_006.png");
+					imgLs.add(AppConfig.IMAGE_URL + "design_001.png");
+					imgLs.add(AppConfig.IMAGE_URL + "design_001.png");
 					opEn.setImgList(imgLs);
 					break;
 				case 2:

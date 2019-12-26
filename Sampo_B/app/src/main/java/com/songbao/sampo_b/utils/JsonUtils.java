@@ -1028,15 +1028,15 @@ public class JsonUtils {
                         childEn.setStarNum(1);
                         ArrayList<String> imgList = new ArrayList<>();
                         imgList.add(AppConfig.IMAGE_URL + "design_001.png");
-                        imgList.add(AppConfig.IMAGE_URL + "design_004.png");
+                        imgList.add(AppConfig.IMAGE_URL + "design_001.png");
                         childEn.setImgList(imgList);
                         childEn.setImg(true);
                     } else if (i == 2) {
                         childEn.setStarNum(2);
                         ArrayList<String> imgList = new ArrayList<>();
                         imgList.add(AppConfig.IMAGE_URL + "design_001.png");
-                        imgList.add(AppConfig.IMAGE_URL + "design_004.png");
-                        imgList.add(AppConfig.IMAGE_URL + "design_006.png");
+                        imgList.add(AppConfig.IMAGE_URL + "design_001.png");
+                        imgList.add(AppConfig.IMAGE_URL + "design_001.png");
                         childEn.setImgList(imgList);
                         childEn.setImg(true);
                     }
@@ -1065,7 +1065,7 @@ public class JsonUtils {
 
             ArrayList<String> imgList = new ArrayList<>();
             imgList.add(AppConfig.IMAGE_URL + "design_001.png");
-            imgList.add(AppConfig.IMAGE_URL + "design_004.png");
+            imgList.add(AppConfig.IMAGE_URL + "design_001.png");
             saleEn.setImgList(imgList);
             mainEn.setData(saleEn);
         }

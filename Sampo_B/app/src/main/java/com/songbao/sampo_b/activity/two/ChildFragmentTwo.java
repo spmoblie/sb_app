@@ -3,14 +3,15 @@ package com.songbao.sampo_b.activity.two;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.v4.util.ArrayMap;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.songbao.sampo_b.AppApplication;
 import com.songbao.sampo_b.AppConfig;
@@ -18,16 +19,17 @@ import com.songbao.sampo_b.R;
 import com.songbao.sampo_b.activity.BaseFragment;
 import com.songbao.sampo_b.activity.common.ScanActivity;
 import com.songbao.sampo_b.adapter.AdapterCallback;
+import com.songbao.sampo_b.adapter.GoodsGridAdapter;
 import com.songbao.sampo_b.adapter.SortOneAdapter;
-import com.songbao.sampo_b.adapter.SortTwoAdapter;
 import com.songbao.sampo_b.entity.BaseEntity;
 import com.songbao.sampo_b.entity.GoodsSortEntity;
 import com.songbao.sampo_b.utils.CommonTools;
 import com.songbao.sampo_b.utils.ExceptionUtil;
 import com.songbao.sampo_b.utils.JsonUtils;
 import com.songbao.sampo_b.utils.LogUtil;
-import com.songbao.sampo_b.utils.UserManager;
 import com.songbao.sampo_b.utils.retrofit.HttpRequests;
+import com.songbao.sampo_b.widgets.pullrefresh.PullToRefreshBase;
+import com.songbao.sampo_b.widgets.pullrefresh.PullToRefreshGridView;
 import com.songbao.sampo_b.widgets.pullrefresh.PullToRefreshRecyclerView;
 import com.songbao.sampo_b.widgets.recycler.MyRecyclerView;
 
@@ -43,35 +45,28 @@ public class ChildFragmentTwo extends BaseFragment implements OnClickListener {
 
 	String TAG = ChildFragmentTwo.class.getSimpleName();
 
-	@BindView(R.id.fg_two_et_search)
-	EditText et_search;
-
-	@BindView(R.id.fg_two_tv_scan)
-	TextView tv_scan;
-
 	@BindView(R.id.fg_two_rv_left)
 	PullToRefreshRecyclerView rv_left;
 
-	@BindView(R.id.fg_two_rv_right)
-	PullToRefreshRecyclerView rv_right;
+	@BindView(R.id.fg_two_gv_right)
+	PullToRefreshGridView gv_right;
 
-	@BindView(R.id.fg_two_iv_cart)
-	ImageView iv_cart;
-
-	@BindView(R.id.fg_two_tv_cart_num)
-	TextView tv_cart_num;
+	@BindView(R.id.fg_two_iv_scan)
+	ImageView iv_scan;
 
 	private Context mContext;
-	private MyRecyclerView mrv_right;
-	private SortOneAdapter rv_adapter_1;
-	private SortTwoAdapter rv_adapter_2;
+	private SortOneAdapter rv_adapter;
+	private GoodsGridAdapter gv_Adapter;
 	private String postSortCode = "";
-	private int postSortId = 0;
+	private int data_total = -1; //数据总量
+	private int load_type = 1; //加载类型(0:下拉刷新/1:翻页加载)
+	private int load_page = 1; //加载页数
 	private boolean isLoadOk = true;
 	private boolean isSortOk = false;
 
 	private ArrayList<GoodsSortEntity> al_left = new ArrayList<>();
 	private ArrayList<GoodsSortEntity> al_right = new ArrayList<>();
+	private ArrayMap<String, Boolean> am_show = new ArrayMap<>();
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -82,8 +77,7 @@ public class ChildFragmentTwo extends BaseFragment implements OnClickListener {
 	 * 与Activity不一样
 	 */
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-							 Bundle savedInstanceState) {
+	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 		LogUtil.i(LogUtil.LOG_TAG, TAG + ": onCreate");
 		mContext = getActivity();
@@ -102,9 +96,7 @@ public class ChildFragmentTwo extends BaseFragment implements OnClickListener {
 	}
 
 	private void initView() {
-		et_search.setOnClickListener(this);
-		tv_scan.setOnClickListener(this);
-		iv_cart.setOnClickListener(this);
+		iv_scan.setOnClickListener(this);
 
 		initRecyclerView();
 	}
@@ -121,70 +113,85 @@ public class ChildFragmentTwo extends BaseFragment implements OnClickListener {
 		mrv_left.setLayoutManager(lm_left);
 
 		// 配置适配器
-		rv_adapter_1 = new SortOneAdapter(mContext, R.layout.item_list_sort_one);
-		rv_adapter_1.addData(al_left);
-		rv_adapter_1.addCallback(new AdapterCallback() {
+		rv_adapter = new SortOneAdapter(mContext, R.layout.item_list_sort_one);
+		rv_adapter.addData(al_left);
+		rv_adapter.addCallback(new AdapterCallback() {
 
 			@Override
 			public void setOnClick(Object data, int position, int type) {
 				if (!isLoadOk) return;
 				if (position < 0 || position >= al_left.size()) return;
-				postSortId = al_left.get(position).getId();
 				postSortCode = al_left.get(position).getSortCode();
-				loadSortGoods();
+				loadFirstPageData();
 				updateLeftListData(position);
 			}
 		});
-		mrv_left.setAdapter(rv_adapter_1);
+		mrv_left.setAdapter(rv_adapter);
 
 
-		rv_right.setPullRefreshEnabled(false); //下拉刷新
-		rv_right.setPullLoadEnabled(false); //上拉加载
+		gv_right.setPullRefreshEnabled(true); //下拉刷新
+		gv_right.setPullLoadEnabled(true); //上拉加载
+		gv_right.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<GridView>() {
+			@Override
+			public void onPullDownToRefresh(PullToRefreshBase<GridView> refreshView) {
+				// 下拉刷新
+				new Handler().postDelayed(new Runnable() {
 
-		// 创建布局管理器
-		LinearLayoutManager lm_right = new LinearLayoutManager(mContext);
-		lm_right.setOrientation(LinearLayoutManager.VERTICAL);
-		// 设置布局管理器
-		mrv_right = rv_right.getRefreshableView();
-		mrv_right.setLayoutManager(lm_right);
-
-		// 配置适配器
-		rv_adapter_2 = new SortTwoAdapter(mContext, R.layout.item_list_sort_two);
-		rv_adapter_2.addData(al_right);
-		rv_adapter_2.addCallback(new AdapterCallback() {
+					@Override
+					public void run() {
+						refreshData();
+					}
+				}, AppConfig.LOADING_TIME);
+			}
 
 			@Override
-			public void setOnClick(Object data, int position, int type) {
-				if (position < 0 || position >= al_right.size()) return;
-				int isHot = 0;
-				int isNews = 0;
-				int isRecommend = 0;
-				if (position == 0) { //新品
-					isNews = 1;
-				} else {
-					isHot = 1;
-				}
-				if (al_right.get(position).getParentId() <= 0) {
-					isRecommend = 1;
-				}
-				openGoodsListActivity(isHot, isNews, isRecommend, al_right.get(position).getSortCode());
+			public void onPullUpToRefresh(PullToRefreshBase<GridView> refreshView) {
+				// 加载更多
+				new Handler().postDelayed(new Runnable() {
+
+					@Override
+					public void run() {
+						if (!isStopLoadMore(al_right.size(), data_total, 0)) {
+							loadMoreData();
+						} else {
+							gv_right.setHasMoreData(false);
+							gv_right.onPullUpRefreshComplete();
+						}
+					}
+				}, AppConfig.LOADING_TIME);
 			}
 		});
-		mrv_right.setAdapter(rv_adapter_2);
+		GridView mGridView = gv_right.getRefreshableView();
+		mGridView.setNumColumns(2);
+		mGridView.setPadding(10, 10, 10, 10);
+		mGridView.setHorizontalSpacing( CommonTools.dpToPx(mContext, 10));
+		mGridView.setVerticalSpacing( CommonTools.dpToPx(mContext, 20));
+		mGridView.setVerticalScrollBarEnabled(false);
+
+		// 配置适配器
+		gv_Adapter = new GoodsGridAdapter(mContext);
+		gv_Adapter.addData(al_right);
+		gv_Adapter.addCallback(new AdapterCallback() {
+			@Override
+			public void setOnClick(Object data, int position, int type) {
+
+			}
+		});
+		mGridView.setAdapter(gv_Adapter);
 	}
 
 	/**
 	 * 更新左边列表数据
 	 */
 	private void updateLeftListData(int selectPos) {
-		rv_adapter_1.updateData(al_left, selectPos);
+		rv_adapter.updateData(al_left, selectPos);
 	}
 
 	/**
 	 * 更新右边列表数据
 	 */
 	private void updateRightListData() {
-		rv_adapter_2.updateData(al_right);
+		gv_Adapter.updateData(al_right);
 		toTop();
 	}
 
@@ -192,23 +199,17 @@ public class ChildFragmentTwo extends BaseFragment implements OnClickListener {
 	 * 滚动到顶部
 	 */
 	private void toTop() {
-		mrv_right.smoothScrollToPosition(0);
+		//gv_right.smoothScrollToPosition(0);
 	}
 
 	@Override
 	public void onClick(View v) {
 		Intent intent;
 		switch (v.getId()) {
-			case R.id.fg_two_et_search:
-				openGoodsListActivity(0, 0, 0, null);
-				break;
-			case R.id.fg_two_tv_scan:
+			case R.id.fg_two_iv_scan:
 				intent = new Intent(mContext, ScanActivity.class);
 				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(intent);
-				break;
-			case R.id.fg_two_iv_cart:
-				startActivity(new Intent(mContext, CartActivity.class));
 				break;
 		}
 	}
@@ -234,29 +235,21 @@ public class ChildFragmentTwo extends BaseFragment implements OnClickListener {
 		if (!isSortOk) {
 			loadSortData();
 		}
-		int cartNum = UserManager.getInstance().getUserCartNum();
-		if (cartNum > 0) {
-			tv_cart_num.setText(String.valueOf(cartNum));
-			tv_cart_num.setVisibility(View.VISIBLE);
-		} else {
-			tv_cart_num.setVisibility(View.GONE);
-		}
-
 		super.onResume();
 	}
 
 	@Override
 	public void onPause() {
-		super.onPause();
 		LogUtil.i(LogUtil.LOG_TAG, TAG + ": onPause");
 		// 页面结束
 		AppApplication.onPageEnd(getActivity(), TAG);
+		super.onPause();
 	}
 
 	@Override
 	public void onDestroy() {
-		super.onDestroy();
 		LogUtil.i(LogUtil.LOG_TAG, TAG + ": onDestroy");
+		super.onDestroy();
 	}
 
 	@Override
@@ -266,23 +259,62 @@ public class ChildFragmentTwo extends BaseFragment implements OnClickListener {
 			this.getView().setVisibility(menuVisible ? View.VISIBLE : View.GONE);
 	}
 
+	private void clearData() {
+		al_right.clear();
+		am_show.clear();
+	}
+
 	/**
-	 * 加载分类数据
+	 * 加载第一页数据
 	 */
-	private void loadSortData() {
-		HashMap<String, String> map = new HashMap<>();
-		loadSVData(AppConfig.URL_SORT_LIST, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_SORT_LIST);
+	private void loadFirstPageData() {
+		toTop();
+		clearData();
+		gv_right.doPullRefreshing(true, 0);
+	}
+
+	/**
+	 *下拉刷新
+	 */
+	private void refreshData() {
+		load_type = 0;
+		loadSortGoods();
+	}
+
+	/**
+	 * 翻页加载
+	 */
+	private void loadMoreData() {
+		load_type = 1;
+		loadSortGoods();
 	}
 
 	/**
 	 * 加载分类商品
 	 */
 	private void loadSortGoods() {
-		if (!isLoadOk) return;
+		if (!isLoadOk) return; //加载频率控制
 		isLoadOk = false;
+		String page = String.valueOf(load_page);
+		if (load_type == 0) {
+			page = "1";
+		}
 		HashMap<String, String> map = new HashMap<>();
+		map.put("page", page);
+		map.put("size", AppConfig.LOAD_SIZE);
+		map.put("isHot", "0");
+		map.put("isNews", "0");
+		map.put("isRecommend", "0");
 		map.put("refCatCode", postSortCode);
-		loadSVData(AppConfig.URL_SORT_GOODS, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_SORT_GOODS);
+		loadSVData(AppConfig.URL_GOODS_LIST, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_GOODS_LIST);
+	}
+
+	/**
+	 * 加载分类数据
+	 */
+	private void loadSortData() {
+		HashMap<String, String> map = new HashMap<>();
+		loadSVData(AppConfig.URL_SORT_LIST, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_SORT_LIST);
 	}
 
 	@Override
@@ -297,17 +329,16 @@ public class ChildFragmentTwo extends BaseFragment implements OnClickListener {
 						al_left.clear();
 						al_left.addAll(baseEn.getLists());
 						if (al_left.size() > 0) {
-							postSortId = al_left.get(0).getId();
 							postSortCode = al_left.get(0).getSortCode();
-							loadSortGoods();
+							loadFirstPageData();
 						}
 						updateLeftListData(0);
 					} else {
 						handleErrorCode(baseEn);
 					}
 					break;
-				case AppConfig.REQUEST_SV_SORT_GOODS:
-					baseEn = JsonUtils.getSortGoodsData(jsonObject, postSortId, postSortCode);
+				case AppConfig.REQUEST_SV_GOODS_LIST:
+					baseEn = JsonUtils.getGoodsListData(jsonObject);
 					if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
 						al_right.clear();
 						al_right.addAll(baseEn.getLists());
@@ -338,6 +369,8 @@ public class ChildFragmentTwo extends BaseFragment implements OnClickListener {
 	protected void stopAnimation() {
 		super.stopAnimation();
 		isLoadOk = true;
+		gv_right.onPullUpRefreshComplete();
+		gv_right.onPullDownRefreshComplete();
 	}
 }
 

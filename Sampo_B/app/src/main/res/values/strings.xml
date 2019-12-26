@@ -127,7 +127,7 @@
 
     <!-- Main -->
     <string name="main_tab_text_1">首页</string>
-    <string name="main_tab_text_2">商城</string>
+    <string name="main_tab_text_2">定制</string>
     <string name="main_tab_text_3">我的</string>
     <string name="main_head_tickets">门票购买</string>
     <string name="main_head_reserve">课程预订</string>

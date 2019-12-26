@@ -60,10 +60,10 @@ public class MyCustomizeActivity extends BaseActivity implements View.OnClickLis
 	MyCustomizeAdapter rvAdapter;
 
 	public static final int TYPE_1 = 0;  //全部
-	public static final int TYPE_2 = 1;  //待付款
-	public static final int TYPE_3 = 2;  //生产中
-	public static final int TYPE_4 = 3;  //待收货
-	public static final int TYPE_5 = 4;  //待评价
+	public static final int TYPE_2 = 101;  //待付款
+	public static final int TYPE_3 = 201;  //生产中
+	public static final int TYPE_4 = 301;  //待收货
+	public static final int TYPE_5 = 701;  //待安装
 
 	private int data_total = -1; //数据总量
 	private int load_type = 1; //加载类型(0:下拉刷新/1:翻页加载)
@@ -111,7 +111,7 @@ public class MyCustomizeActivity extends BaseActivity implements View.OnClickLis
 		rb_2.setText(getString(R.string.order_wait_pay));
 		rb_3.setText(getString(R.string.order_producing));
 		rb_4.setText(getString(R.string.order_wait_receive));
-		rb_5.setText(getString(R.string.order_wait_opinion));
+		rb_5.setText(getString(R.string.order_wait_install));
 		rb_1.setOnClickListener(this);
 		rb_2.setOnClickListener(this);
 		rb_3.setOnClickListener(this);
@@ -424,11 +424,10 @@ public class MyCustomizeActivity extends BaseActivity implements View.OnClickLis
 			page = "1";
 		}
 		HashMap<String, String> map = new HashMap<>();
-		map.put("type", String.valueOf(top_type));
-		map.put("page", page);
+		map.put("orderStatus", String.valueOf(top_type));
+		map.put("current", page);
 		map.put("size", AppConfig.LOAD_SIZE);
-		map.put("isReservation", "1");
-		loadSVData(AppConfig.URL_HOME_LIST, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_USER_CUSTOMIZE);
+		loadSVData(AppConfig.BASE_URL_3, AppConfig.URL_USER_CUSTOMIZE, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_USER_CUSTOMIZE);
 	}
 
 	@Override

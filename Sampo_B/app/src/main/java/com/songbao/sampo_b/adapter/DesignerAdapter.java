@@ -14,7 +14,7 @@ import com.songbao.sampo_b.R;
 import com.songbao.sampo_b.entity.DesignerEntity;
 
 /**
- * 课程可选场次列表适配器
+ * 设计师表格适配器
  */
 public class DesignerAdapter extends AppBaseAdapter {
 
@@ -33,7 +33,7 @@ public class DesignerAdapter extends AppBaseAdapter {
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		ViewHolder holder;
 		if(convertView == null){
-			convertView = View.inflate(context, R.layout.item_list_designer, null);
+			convertView = View.inflate(context, R.layout.item_grid_designer, null);
 			
 			holder = new ViewHolder();
 			holder.item_main = convertView.findViewById(R.id.list_item_designer_main);
