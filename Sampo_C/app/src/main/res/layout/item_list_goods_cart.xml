@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cart_item_view_main"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/ui_color_app_bg_02"
+    android:paddingBottom="@dimen/margin_padding_20">
+
+    <View
+        android:id="@+id/cart_item_top_line"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/margin_padding_20"/>
+
+    <com.songbao.sampo_c.widgets.MyHorizontalScrollView
+        android:id="@+id/cart_item_hsv_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/app_margin_screen"
+            android:paddingRight="@dimen/app_margin_screen">
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/cart_item_left_main"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/shape_style_solid_01_16">
+
+                <ImageView
+                    android:id="@+id/cart_item_iv_select"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="@dimen/margin_padding_10"
+                    android:paddingRight="@dimen/margin_padding_10"
+                    android:paddingTop="@dimen/margin_padding_50"
+                    android:paddingBottom="@dimen/margin_padding_50"
+                    android:src="@drawable/selector_checkbox_large"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.songbao.sampo_c.widgets.RoundImageView
+                    android:id="@+id/cart_item_iv_show"
+                    android:layout_width="@dimen/image_size_goods"
+                    android:layout_height="@dimen/image_size_goods"
+                    android:layout_marginTop="@dimen/app_margin_screen"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/icon_default_show"
+                    app:layout_constraintLeft_toRightOf="@+id/cart_item_iv_select"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:type="round" />
+
+                <TextView
+                    android:id="@+id/cart_item_tv_name"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/margin_padding_10"
+                    android:layout_marginRight="@dimen/app_margin_screen"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textColor="@color/shows_text_color"
+                    android:textSize="@dimen/app_text_size_content"
+                    android:textStyle="bold"
+                    app:layout_constraintHorizontal_weight="1"
+                    app:layout_constraintLeft_toRightOf="@+id/cart_item_iv_show"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/cart_item_iv_show" />
+
+                <TextView
+                    android:id="@+id/cart_item_tv_attr"
+                    style="@style/common_text_bg_frame"
+                    android:layout_marginTop="@dimen/margin_padding_10"
+                    android:background="@drawable/selector_item_goods_attr"
+                    android:drawablePadding="@dimen/margin_padding_5"
+                    android:drawableRight="@mipmap/icon_go_down"
+                    android:paddingBottom="@dimen/margin_padding_7"
+                    android:paddingLeft="@dimen/margin_padding_10"
+                    android:paddingRight="@dimen/margin_padding_10"
+                    android:paddingTop="@dimen/margin_padding_7"
+                    android:textColor="@color/app_color_gray_5"
+                    android:textSize="@dimen/app_text_size_label"
+                    app:layout_constrainedWidth="true"
+                    app:layout_constraintHorizontal_bias="0"
+                    app:layout_constraintHorizontal_chainStyle="packed"
+                    app:layout_constraintLeft_toLeftOf="@+id/cart_item_tv_name"
+                    app:layout_constraintRight_toLeftOf="@+id/cart_item_fill_attr"
+                    app:layout_constraintTop_toBottomOf="@+id/cart_item_tv_name" />
+
+                <View
+                    android:id="@+id/cart_item_fill_attr"
+                    android:layout_width="@dimen/app_margin_screen"
+                    android:layout_height="@dimen/margin_padding_30"
+                    app:layout_constraintLeft_toRightOf="@+id/cart_item_tv_attr"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/cart_item_tv_attr" />
+
+                <TextView
+                    android:id="@+id/cart_item_tv_price_curr"
+                    style="@style/common_text_price_curr"
+                    android:layout_marginLeft="@dimen/margin_padding_10"
+                    android:layout_marginTop="@dimen/margin_padding_20"
+                    app:layout_constraintRight_toLeftOf="@+id/cart_item_tv_price"
+                    app:layout_constraintBottom_toBottomOf="@+id/cart_item_tv_price"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/cart_item_tv_price"/>
+
+                <TextView
+                    android:id="@+id/cart_item_tv_price"
+                    style="@style/common_text_price"
+                    android:layout_marginBottom="@dimen/margin_padding_20"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintRight_toLeftOf="@+id/cart_item_iv_num_minus" />
+
+                <ImageView
+                    android:id="@+id/cart_item_iv_num_minus"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/app_margin_screen"
+                    android:src="@mipmap/icon_num_minus"
+                    app:layout_constraintRight_toLeftOf="@+id/cart_item_tv_number"
+                    app:layout_constraintTop_toTopOf="@+id/cart_item_iv_num_add" />
+
+                <TextView
+                    android:id="@+id/cart_item_tv_number"
+                    style="@style/goods_text"
+                    android:layout_width="38dp"
+                    android:layout_height="32dp"
+                    android:layout_marginBottom="@dimen/app_margin_screen"
+                    android:background="@drawable/shape_style_solid_02_08"
+                    android:gravity="center"
+                    android:maxLines="1"
+                    android:text="@string/number_0"
+                    android:textColor="@color/app_color_gray_5"
+                    android:textSize="@dimen/app_text_size_label"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintRight_toLeftOf="@+id/cart_item_iv_num_add" />
+
+                <ImageView
+                    android:id="@+id/cart_item_iv_num_add"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="@dimen/margin_padding_5"
+                    android:layout_marginTop="@dimen/margin_padding_5"
+                    android:padding="@dimen/app_margin_screen"
+                    android:src="@mipmap/icon_num_add"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/cart_item_iv_show" />
+            </android.support.constraint.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/cart_item_tv_customize"
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/app_margin_screen"
+                android:background="@drawable/shape_style_solid_04_16"
+                android:gravity="center"
+                android:padding="@dimen/app_margin_screen"
+                android:text="@string/goods_go_customize"
+                android:textColor="@color/app_color_white"
+                android:textSize="@dimen/app_text_size_content"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/cart_item_tv_delete"
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:background="@drawable/shape_style_solid_05_16"
+                android:gravity="center"
+                android:text="@string/delete"
+                android:textColor="@color/app_color_white"
+                android:textSize="@dimen/app_text_size_content"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+    </com.songbao.sampo_c.widgets.MyHorizontalScrollView>
+
+</LinearLayout>

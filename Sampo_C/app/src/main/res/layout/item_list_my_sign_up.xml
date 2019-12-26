@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/my_sign_up_item_main"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/app_margin_screen" >
+
+    <TextView
+        android:id="@+id/my_sign_up_item_time"
+        style="@style/list_item_text"
+        android:textColor="@color/app_color_gray_5"
+        android:textSize="@dimen/app_text_size_small"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_padding_18"
+        android:background="@drawable/shape_style_solid_01_16"
+        android:padding="@dimen/app_margin_screen"
+        app:layout_constraintTop_toBottomOf="@+id/my_sign_up_item_time">
+
+        <com.songbao.sampo_c.widgets.RoundImageView
+            android:id="@+id/my_sign_up_item_iv_show"
+            android:layout_width="@dimen/image_size_other"
+            android:layout_height="@dimen/image_size_other"
+            android:scaleType="centerCrop"
+            android:src="@drawable/icon_default_show"
+            app:type="round" />
+
+        <TextView
+            android:id="@+id/my_sign_up_item_tv_cover"
+            android:layout_width="@dimen/margin_padding_110"
+            android:layout_height="@dimen/margin_padding_110"
+            android:gravity="center"
+            android:text="@string/expired"
+            android:textStyle="bold"
+            android:textColor="@color/app_color_white"
+            android:textSize="@dimen/app_text_size_title"
+            android:background="@drawable/shape_style_solid_00_08"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/my_sign_up_item_tv_title"
+            style="@style/list_item_text"
+            android:layout_marginLeft="@dimen/app_margin_screen"
+            android:lines="2"
+            android:maxLines="2"
+            android:textStyle="bold"
+            android:textColor="@color/shows_text_color"
+            android:textSize="@dimen/app_text_size_content"
+            android:layout_alignTop="@+id/my_sign_up_item_iv_show"
+            android:layout_toRightOf="@+id/my_sign_up_item_iv_show"/>
+
+        <TextView
+            android:id="@+id/my_sign_up_item_tv_time"
+            style="@style/list_item_text"
+            android:textColor="@color/app_color_gray_5"
+            android:layout_marginTop="@dimen/margin_padding_10"
+            android:layout_below="@+id/my_sign_up_item_tv_title"
+            android:layout_alignLeft="@+id/my_sign_up_item_tv_title"/>
+
+        <TextView
+            android:id="@+id/my_sign_up_item_tv_address"
+            style="@style/list_item_text"
+            android:maxLines="2"
+            android:textColor="@color/app_color_gray_5"
+            android:layout_alignLeft="@+id/my_sign_up_item_tv_time"
+            android:layout_alignBottom="@+id/my_sign_up_item_iv_show"/>
+
+    </RelativeLayout>
+
+</android.support.constraint.ConstraintLayout>
