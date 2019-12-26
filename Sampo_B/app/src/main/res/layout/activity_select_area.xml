@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/select_area_ll_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/ui_color_app_bg_01"
+    android:orientation="vertical">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/app_margin_screen"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/area_tv_other_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="其它地区"
+            android:textSize="@dimen/app_text_size_small"
+            android:textColor="@color/app_color_gray_9"/>
+
+        <TextView
+            android:id="@+id/area_tv_other_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/app_margin_screen"
+            android:text="山卡拉"
+            android:textSize="@dimen/app_text_size_content"
+            android:textColor="@color/shows_text_color"
+            app:layout_constraintTop_toBottomOf="@+id/area_tv_other_title"/>
+
+    </android.support.constraint.ConstraintLayout>
+
+    <ImageView
+        android:id="@+id/item_area_dividerImageView"
+        style="@style/set_line_horizontal_bg"
+        android:layout_marginLeft="@dimen/app_margin_screen"
+        android:layout_marginRight="@dimen/app_margin_screen"
+        android:contentDescription="@string/desc"
+        android:visibility="gone"/>
+
+    <FrameLayout
+        android:id="@+id/select_area_fl_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+    </FrameLayout>
+
+</LinearLayout>

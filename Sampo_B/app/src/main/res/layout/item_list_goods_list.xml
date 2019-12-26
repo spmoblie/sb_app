@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/ui_color_app_bg_02"
+    android:orientation="vertical"
+    android:paddingTop="@dimen/margin_padding_10"
+    android:paddingBottom="@dimen/margin_padding_10"
+    android:paddingLeft="@dimen/app_margin_screen"
+    android:paddingRight="@dimen/app_margin_screen">
+
+    <RelativeLayout
+        android:id="@+id/goods_list_item_rl_top"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/app_margin_screen"
+        android:visibility="gone"/>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/goods_list_item_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_style_solid_01_16"
+        android:padding="@dimen/app_margin_screen">
+
+        <com.songbao.sampo_b.widgets.RoundImageView
+            android:id="@+id/goods_list_item_iv_show"
+            android:layout_width="@dimen/image_size_other"
+            android:layout_height="@dimen/image_size_other"
+            android:scaleType="centerCrop"
+            android:src="@drawable/icon_default_show"
+            app:type="round" />
+
+        <TextView
+            android:id="@+id/goods_list_item_tv_name"
+            style="@style/goods_name_text"
+            android:maxLines="2"
+            android:lines="2"
+            android:textSize="@dimen/app_text_size_content"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/goods_list_item_iv_show"
+            app:layout_constraintTop_toTopOf="@+id/goods_list_item_iv_show" />
+
+        <TextView
+            android:id="@+id/goods_list_item_tv_attr"
+            style="@style/goods_attr_text"
+            android:paddingTop="@dimen/margin_padding_7"
+            android:paddingBottom="@dimen/margin_padding_7"
+            android:paddingLeft="@dimen/margin_padding_10"
+            android:paddingRight="@dimen/margin_padding_10"
+            android:textColor="@color/app_color_gray_5"
+            android:background="@drawable/selector_item_goods_attr"
+            android:layout_marginTop="@dimen/app_margin_screen"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintHorizontal_bias="0"
+            app:layout_constraintHorizontal_chainStyle="packed"
+            app:layout_constraintRight_toLeftOf="@+id/goods_list_item_fill_attr"
+            app:layout_constraintLeft_toLeftOf="@+id/goods_list_item_tv_name"
+            app:layout_constraintTop_toBottomOf="@+id/goods_list_item_tv_name" />
+
+        <View
+            android:id="@+id/goods_list_item_fill_attr"
+            android:layout_width="@dimen/margin_padding_1"
+            android:layout_height="@dimen/margin_padding_30"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/goods_list_item_tv_attr"
+            app:layout_constraintLeft_toRightOf="@+id/goods_list_item_tv_attr" />
+
+        <TextView
+            android:id="@+id/goods_list_item_tv_price_curr"
+            style="@style/common_text_price_curr"
+            android:layout_marginLeft="@dimen/margin_padding_10"
+            app:layout_constraintLeft_toRightOf="@+id/goods_list_item_iv_show"
+            app:layout_constraintBottom_toBottomOf="@+id/goods_list_item_iv_show" />
+
+        <TextView
+            android:id="@+id/goods_list_item_tv_price"
+            style="@style/common_text_price"
+            app:layout_constraintLeft_toRightOf="@+id/goods_list_item_tv_price_curr"
+            app:layout_constraintBottom_toBottomOf="@+id/goods_list_item_tv_price_curr"
+            app:layout_constraintBaseline_toBaselineOf="@+id/goods_list_item_tv_price_curr"/>
+
+        <ImageView
+            android:id="@+id/goods_list_item_iv_cart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="@dimen/app_margin_screen"
+            android:paddingLeft="@dimen/app_margin_screen"
+            android:src="@mipmap/icon_cart_list"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    </android.support.constraint.ConstraintLayout>
+
+</LinearLayout>

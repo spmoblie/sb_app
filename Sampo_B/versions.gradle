@@ -1,0 +1,168 @@
+ext.deps = [:]
+
+def versions = [:]
+versions.android_gradle_plugin = "3.0.1"
+versions.support = "27.1.1"
+versions.constraint_layout = "1.1.3"
+versions.multidex = "1.0.2"
+
+versions.junit = "4.12"
+versions.testrunner = "1.0.2"
+versions.testespresso = "3.0.2"
+
+versions.rxpermissions = "0.10.2"
+versions.multiImage_selector = "1.2"
+
+versions.arouter_compiler = "1.2.2"
+versions.arouter_api = "1.4.1"
+
+versions.eventbus = "3.1.1"
+
+//ButterKnife
+versions.butterknife = "8.2.1"
+versions.butterknife_compiler = "8.2.1"
+
+//Retrofit
+versions.gson = "2.6.2"
+versions.retrofit = "2.1.0"
+
+//RxJava
+versions.rxjava = "1.1.0"
+versions.rxandroid = "1.1.0"
+versions.converter_gson = "2.1.0"
+versions.adapter_rxjava = "2.1.0"
+
+//OkHttp
+versions.okhttp = "3.4.1"
+versions.logging_interceptor = "3.4.1"
+
+//Glide
+versions.glide = "4.6.1"
+
+//UM
+versions.umeng_common = "2.1.0"
+versions.umeng_analytics = "8.1.3"
+versions.umeng_utdid = "1.1.5.3"
+versions.umeng_push = "6.0.1"
+
+versions.dagger = "2.13"
+versions.dagger_compiler = "2.13"
+
+versions.easy_popup = "1.1.2"
+
+versions.flexbox = "1.0.0"
+
+versions.rxlifecycle = "2.2.1"
+versions.rxlifecycle_android = "2.2.1"
+versions.rxlifecycle_components = "2.2.1"
+
+versions.nohttp = "1.1.4"
+versions.nohttp_ok = "1.1.4"
+
+versions.stetho =  "1.3.1"
+
+def deps = [:]
+//gradle插件依赖
+deps.android_gradle_plugin = "com.android.tools.build:gradle:$versions.android_gradle_plugin"
+
+//测试相关
+deps.junit = "junit:junit:$versions.junit"
+deps.testrunner = "com.android.support.test:runner:$versions.testrunner"
+deps.testespresso = "com.android.support.test.espresso:espresso-core:$versions.testespresso"
+
+//支持库依赖
+def support = [:]
+support.annotations = "com.android.support:support-annotations:$versions.support"
+support.app_compat = "com.android.support:appcompat-v7:$versions.support"
+support.v4 = "com.android.support:support-v4:$versions.support"
+support.v13 = "com.android.support:support-v13:$versions.support"
+support.percent = "com.android.support:percent:$versions.support"
+support.cardview = "com.android.support:cardview-v7:$versions.support"
+support.recyclerview = "com.android.support:recyclerview-v7:$versions.support"
+support.design = "com.android.support:design:$versions.support"
+support.core_utils = "com.android.support:support-core-utils:$versions.support"
+support.multidex = "com.android.support:multidex:$versions.multidex"
+support.constraint_layout = "com.android.support.constraint:constraint-layout:$versions.constraint_layout"
+deps.support = support
+
+
+deps.arouter_api = "com.alibaba:arouter-api:$versions.arouter_api"
+deps.arouter_compiler = "com.alibaba:arouter-compiler:$versions.arouter_compiler"
+deps.rxpermissions = "com.github.tbruyelle:rxpermissions:$versions.rxpermissions"
+deps.multiImage_selector = "com.github.lovetuzitong:MultiImageSelector:$versions.multiImage_selector"
+deps.eventbus = "org.greenrobot:eventbus:$versions.eventbus"
+
+//ButterKnife
+deps.butterknife = "com.jakewharton:butterknife:$versions.butterknife"
+deps.butterknife_compiler = "com.jakewharton:butterknife-compiler:$versions.butterknife_compiler"
+
+//Retrofit
+deps.gson = "com.google.code.gson:gson:$versions.gson"
+deps.retrofit = "com.squareup.retrofit2:retrofit:$versions.retrofit"
+
+//RxJava
+deps.rxjava = "io.reactivex:rxjava:$versions.rxjava"
+deps.rxandroid = "io.reactivex:rxandroid:$versions.rxandroid"
+deps.converter_gson = "com.squareup.retrofit2:converter-gson:$versions.converter_gson"
+deps.adapter_rxjava = "com.squareup.retrofit2:adapter-rxjava:$versions.adapter_rxjava"
+
+//OkHttp
+deps.okhttp = "com.squareup.okhttp3:okhttp:$versions.okhttp"
+deps.logging_interceptor = "com.squareup.okhttp3:logging-interceptor:$versions.logging_interceptor"
+
+//Glide
+deps.glide = "com.github.bumptech.glide:glide:$versions.glide"
+
+//WX
+deps.opensdk_wechat = "com.tencent.mm.opensdk:wechat-sdk-android-without-mta:+"
+
+//UM
+deps.umeng_common = "com.umeng.umsdk:common:$versions.umeng_common"
+deps.umeng_analytics = "com.umeng.umsdk:analytics:$versions.umeng_analytics"
+deps.umeng_utdid = "com.umeng.umsdk:utdid:$versions.umeng_utdid"
+deps.umeng_push = "com.umeng.umsdk:push:$versions.umeng_push"
+
+deps.dagger = "com.google.dagger:dagger:$versions.dagger"
+deps.dagger_compiler = "com.google.dagger:dagger-compiler:$versions.dagger_compiler"
+
+deps.easy_popup = "com.github.zyyoona7:EasyPopup:$versions.easy_popup"
+
+deps.flexbox = "com.google.android:flexbox:$versions.flexbox"
+
+//rxlife
+deps.rxlifecycle = "com.trello.rxlifecycle2:rxlifecycle:$versions.rxlifecycle"
+deps.rxlifecycle_android = "com.trello.rxlifecycle2:rxlifecycle-android:$versions.rxlifecycle_android"
+deps.rxlifecycle_components = "com.trello.rxlifecycle2:rxlifecycle-components:$versions.rxlifecycle_components"
+
+//nohttp
+deps.nohttp = "com.yanzhenjie.nohttp:nohttp:$versions.nohttp"
+deps.nohttp_ok = "com.yanzhenjie.nohttp:okhttp:$versions.nohttp_ok"
+
+ext.deps = deps
+
+def build_versions = [:]
+build_versions.min_sdk = 16
+build_versions.target_sdk = 28
+ext.build_versions = build_versions
+
+def app_version = [:]
+app_version.version_code = 1
+app_version.version_name = "1.0.1"
+ext.app_version = app_version
+
+
+def addRepos(RepositoryHandler handler) {
+    //handler.mavenLocal()
+    handler.google()
+    handler.jcenter()
+    handler.mavenCentral()
+    //Add the JitPack repository
+    //handler.maven { url "https://jitpack.io" }
+    handler.maven { url 'https://maven.google.com/' }
+    handler.maven { url 'https://dl.bintray.com/umsdk/release' } //UM
+    handler.maven { url "https://dl.bintray.com/thelasterstar/maven/" } //WB
+    handler.maven { url 'http://maven.aliyun.com/nexus/content/groups/public/' } //AL
+    handler.maven { url 'http://maven.aliyun.com/nexus/content/repositories/releases/' } //AL
+}
+
+ext.addRepos = this.&addRepos

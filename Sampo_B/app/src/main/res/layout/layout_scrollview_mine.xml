@@ -1,0 +1,217 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/fg_mine_sv_main"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/app_margin_screen"
+        android:background="@mipmap/icon_bg_mine">
+
+        <ImageView
+            android:id="@+id/fg_mine_iv_setting"
+            android:layout_width="@dimen/app_height_events"
+            android:layout_height="@dimen/app_height_events"
+            android:src="@mipmap/icon_me_setting"
+            android:scaleType="center"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent" />
+
+        <ImageView
+            android:id="@+id/fg_mine_iv_message"
+            android:layout_width="@dimen/app_height_events"
+            android:layout_height="@dimen/app_height_events"
+            android:src="@mipmap/icon_me_message"
+            android:scaleType="center"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/fg_mine_iv_setting" />
+
+        <TextView
+            android:id="@+id/fg_mine_tv_message_num"
+            style="@style/common_warn_red_text_number"
+            android:layout_marginTop="@dimen/margin_padding_8"
+            android:layout_marginRight="@dimen/margin_padding_8"
+            app:layout_constraintTop_toTopOf="@+id/fg_mine_iv_message"
+            app:layout_constraintRight_toRightOf="@+id/fg_mine_iv_message"/>
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/fg_mine_cl_head_main"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/fg_mine_iv_setting"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent">
+
+            <com.songbao.sampo_b.widgets.RoundImageView
+                android:id="@+id/fg_mine_iv_head"
+                android:layout_width="@dimen/image_size_head"
+                android:layout_height="@dimen/image_size_head"
+                android:layout_marginBottom="@dimen/margin_padding_25"
+                android:layout_marginLeft="@dimen/app_margin_screen"
+                android:src="@mipmap/icon_default_head"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:type="round" />
+
+            <TextView
+                android:id="@+id/fg_mine_tv_nick"
+                style="@style/block_title_text"
+                android:layout_margin="@dimen/margin_padding_10"
+                android:textSize="@dimen/app_text_size_title"
+                app:layout_constraintLeft_toRightOf="@+id/fg_mine_iv_head"
+                app:layout_constraintTop_toTopOf="@+id/fg_mine_iv_head" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawableRight="@mipmap/icon_go_right"
+                android:drawablePadding="@dimen/margin_padding_10"
+                android:gravity="center_vertical"
+                android:text="编辑个人资料"
+                android:textColor="@color/app_color_gray_9"
+                android:textSize="@dimen/app_text_size_small"
+                app:layout_constraintLeft_toLeftOf="@+id/fg_mine_tv_nick"
+                app:layout_constraintTop_toBottomOf="@+id/fg_mine_tv_nick" />
+
+        </android.support.constraint.ConstraintLayout>
+
+    </android.support.constraint.ConstraintLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/fg_mine_purchase_main"
+            style="@style/setting_lay_item"
+            android:padding="@dimen/app_margin_screen"
+            android:background="@drawable/selector_item_change_1">
+
+            <TextView
+                style="@style/setting_lay_text_title"
+                android:paddingTop="0dp"
+                android:paddingBottom="0dp"
+                android:drawableLeft="@mipmap/icon_me_purchase"
+                android:text="@string/mine_my_purchase"
+                android:textStyle="bold"
+                android:textColor="@color/app_color_gray_5" />
+
+            <TextView
+                android:id="@+id/fg_mine_tv_purchase"
+                style="@style/setting_lay_text_content"
+                android:textSize="@dimen/app_text_size_label" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/fg_mine_coupon_main"
+            style="@style/setting_lay_item"
+            android:padding="@dimen/app_margin_screen"
+            android:visibility="gone"
+            android:background="@drawable/selector_item_change_1">
+
+            <TextView
+                style="@style/setting_lay_text_title"
+                android:paddingTop="0dp"
+                android:paddingBottom="0dp"
+                android:drawableLeft="@mipmap/icon_me_purchase"
+                android:text="@string/mine_my_tickets"
+                android:textStyle="bold"
+                android:textColor="@color/app_color_gray_5" />
+
+            <TextView
+                android:id="@+id/fg_mine_tv_coupon"
+                style="@style/setting_lay_text_content"
+                android:textSize="@dimen/app_text_size_label" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/fg_mine_sign_up_main"
+            style="@style/setting_lay_item"
+            android:padding="@dimen/app_margin_screen"
+            android:background="@drawable/selector_item_change_1">
+
+            <TextView
+                style="@style/setting_lay_text_title"
+                android:paddingTop="0dp"
+                android:paddingBottom="0dp"
+                android:drawableLeft="@mipmap/icon_me_activity"
+                android:text="@string/mine_my_sing_up"
+                android:textStyle="bold"
+                android:textColor="@color/app_color_gray_5" />
+
+            <TextView
+                android:id="@+id/fg_mine_tv_sign_up"
+                style="@style/setting_lay_text_content"
+                android:textSize="@dimen/app_text_size_label" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/fg_mine_reserve_main"
+            style="@style/setting_lay_item"
+            android:padding="@dimen/app_margin_screen"
+            android:background="@drawable/selector_item_change_1">
+
+            <TextView
+                style="@style/setting_lay_text_title"
+                android:paddingTop="0dp"
+                android:paddingBottom="0dp"
+                android:drawableLeft="@mipmap/icon_me_reserve"
+                android:text="@string/mine_my_reserve"
+                android:textStyle="bold"
+                android:textColor="@color/app_color_gray_5" />
+
+            <TextView
+                android:id="@+id/fg_mine_tv_reserve"
+                style="@style/setting_lay_text_content"
+                android:textSize="@dimen/app_text_size_label" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/fg_mine_customize_main"
+            style="@style/setting_lay_item"
+            android:padding="@dimen/app_margin_screen"
+            android:background="@drawable/selector_item_change_1">
+
+            <TextView
+                style="@style/setting_lay_text_title"
+                android:paddingTop="0dp"
+                android:paddingBottom="0dp"
+                android:drawableLeft="@mipmap/icon_me_customize"
+                android:text="@string/mine_my_customize"
+                android:textStyle="bold"
+                android:textColor="@color/app_color_gray_5" />
+
+            <TextView
+                android:id="@+id/fg_mine_tv_customize"
+                style="@style/setting_lay_text_content"
+                android:textSize="@dimen/app_text_size_label" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/fg_mine_help_main"
+            style="@style/setting_lay_item"
+            android:padding="@dimen/app_margin_screen"
+            android:background="@drawable/selector_item_change_1">
+
+            <TextView
+                style="@style/setting_lay_text_title"
+                android:paddingTop="0dp"
+                android:paddingBottom="0dp"
+                android:drawableLeft="@mipmap/icon_me_service"
+                android:text="@string/mine_call"
+                android:textStyle="bold"
+                android:textColor="@color/app_color_gray_5" />
+
+            <TextView
+                style="@style/setting_lay_text_content"
+                android:textSize="@dimen/app_text_size_label" />
+        </RelativeLayout>
+    </LinearLayout>
+
+</LinearLayout>
