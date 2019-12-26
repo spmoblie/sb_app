@@ -156,10 +156,10 @@ public class CartActivity extends BaseActivity implements View.OnClickListener{
 							updateListData();
 							break;
 						case 1: //商品
-							openGoodsActivity(goodsEn.getEntityId());
+							openGoodsActivity(goodsEn.getSkuCode());
 							break;
 						case 2: //属性
-							loadGoodsAttrData(goodsEn.getEntityId(), attrEn);
+							loadGoodsAttrData(goodsEn.getGoodsCode(), attrEn);
 							break;
 						case 3: //减少
 							if (buyNumber > 1) {
@@ -176,7 +176,7 @@ public class CartActivity extends BaseActivity implements View.OnClickListener{
 							updateListData();
 							break;
 						case 5: //定制
-							openDesignerActivity(goodsEn.getEntityId());
+							openDesignerActivity(goodsEn.getSkuCode());
 							break;
 						case 6: //删除
 							al_show.remove(cartEn);

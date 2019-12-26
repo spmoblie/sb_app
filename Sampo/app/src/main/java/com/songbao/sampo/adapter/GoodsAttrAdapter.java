@@ -451,7 +451,7 @@ public class GoodsAttrAdapter extends BaseRecyclerAdapter {
 	 */
 	public String getSkuCode(String key) {
 		if (skuHashMap.containsKey(key)) {
-			return skuHashMap.get(key).getGoodsCode();
+			return skuHashMap.get(key).getSkuCode();
 		}
 		return "";
 	}

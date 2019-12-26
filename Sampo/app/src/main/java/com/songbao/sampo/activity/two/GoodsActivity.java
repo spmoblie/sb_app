@@ -41,6 +41,7 @@ import com.songbao.sampo.widgets.ObservableScrollView;
 import com.songbao.sampo.widgets.ScrollViewListView;
 import com.songbao.sampo.widgets.ViewPagerScroller;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -142,7 +143,7 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
     private int top_type = TYPE_1; //Top标记
 
     private GoodsEntity goodsEn;
-    private String goodsCode = "";
+    private String skuCode = "";
     private boolean vprStop = false;
     private int commentNum, goodStar;
     private int idsSize, idsPosition, vprPosition;
@@ -157,7 +158,7 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_goods);
 
-        goodsCode = getIntent().getStringExtra("goodsCode");
+        skuCode = getIntent().getStringExtra("skuCode");
 
         initView();
     }
@@ -197,8 +198,10 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
             updateSelectAttrStr(goodsEn.getAttrEn());
 
             //商品图片
-            al_image.clear();
-            al_image.addAll(goodsEn.getImageList());
+            if (goodsEn.getImageList() != null) {
+                al_image.clear();
+                al_image.addAll(goodsEn.getImageList());
+            }
             initViewPager();
 
             //精彩评论
@@ -213,8 +216,10 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
             tv_percentage.setText("好评率\n" + goodStar + "%");
 
             //详情图片
-            al_detail.clear();
-            al_detail.addAll(goodsEn.getDetailList());
+            if (goodsEn.getDetailList() != null) {
+                al_detail.clear();
+                al_detail.addAll(goodsEn.getDetailList());
+            }
             initListView();
         }
     }
@@ -447,7 +452,7 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
             lv_comment_Adapter.addCallback(new AdapterCallback() {
                 @Override
                 public void setOnClick(Object data, int position, int type) {
-                    openCommentActivity(goodsCode);
+                    openCommentActivity(skuCode);
                 }
             });
         }
@@ -480,7 +485,9 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
                 attrsNameStr = getString(R.string.goods_attr_num_2, attrsNameStr, attrEn.getBuyNum());
             }
             tv_spec.setText(attrsNameStr);
-            postCartData(attrEn);
+            if (attrEn.isAdd()) {
+                postCartData(attrEn);
+            }
         }
     }
 
@@ -513,7 +520,7 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
                 scrollTo(title_detail.getTop() - 150);
                 break;
             case R.id.goods_good_comment_main:
-                openCommentActivity(goodsCode);
+                openCommentActivity(skuCode);
                 break;
             case R.id.bottom_add_cart_tv_home:
                 break;
@@ -527,7 +534,7 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
                 }
                 break;
             case R.id.bottom_add_cart_tv_customize:
-                openDesignerActivity(goodsCode);
+                openDesignerActivity(skuCode);
                 break;
         }
     }
@@ -628,7 +635,7 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
     private void loadGoodsData() {
         HashMap<String, String> map = new HashMap<>();
         map.put("sourceType", AppConfig.LOAD_TYPE);
-        map.put("skuCode", goodsCode);
+        map.put("skuCode", skuCode);
         loadSVData(AppConfig.URL_GOODS_DETAIL, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_GOODS_DETAIL);
     }
 
@@ -639,7 +646,7 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
         HashMap<String, String> map = new HashMap<>();
         map.put("page", "1");
         map.put("size", AppConfig.LOAD_SIZE);
-        map.put("skuCode", goodsCode);
+        map.put("skuCode", skuCode);
         loadSVData(AppConfig.URL_GOODS_COMMENT, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_GOODS_COMMENT);
     }
 
@@ -647,10 +654,14 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
      * 添加购物车
      */
     private void postCartData(GoodsAttrEntity attrEn) {
-        HashMap<String, String> map = new HashMap<>();
-        map.put("skuCode", attrEn.getGoodsCode());
-        map.put("buyNum", String.valueOf(attrEn.getBuyNum()));
-        loadSVData(AppConfig.BASE_URL_3, AppConfig.URL_CART_ADD, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_CART_ADD);
+        try {
+            JSONObject jsonObj = new JSONObject();
+            jsonObj.put("skuCode", attrEn.getSkuCode());
+            jsonObj.put("buyNum", attrEn.getBuyNum());
+            postJsonData(AppConfig.BASE_URL_3, AppConfig.URL_CART_ADD, jsonObj, AppConfig.REQUEST_SV_CART_ADD);
+        } catch (JSONException e) {
+            ExceptionUtil.handle(e);
+        }
     }
 
     @Override
@@ -686,7 +697,7 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
                     }
                     break;
                 case AppConfig.REQUEST_SV_CART_ADD:
-                    baseEn = JsonUtils.getGoodsDetailData(jsonObject);
+                    baseEn = JsonUtils.getBaseErrorData(jsonObject);
                     if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
                         CommonTools.showToast("加入购物车成功");
                     } else {

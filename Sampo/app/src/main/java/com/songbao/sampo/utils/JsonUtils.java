@@ -408,7 +408,7 @@ public class JsonUtils {
                         goodsEn = new GoodsEntity();
                         int is = id * 10 + j;
                         goodsEn.setId(is);
-                        goodsEn.setGoodsCode("10000000029345500001");
+                        goodsEn.setSkuCode("10000000029345500001");
                         goodsEn.setPicUrl(AppConfig.IMAGE_URL + "design_001.png");
                         goodsEn.setName("松堡王国现代简约彩条双层床");
                         goodsEn.setAttribute("天蓝色；1350*1900");
@@ -643,7 +643,7 @@ public class JsonUtils {
                     JSONObject item = data.getJSONObject(i);
                     childEn = new GoodsEntity();
                     childEn.setId(item.getInt("id"));
-                    childEn.setGoodsCode(item.getString("skuCode"));
+                    childEn.setSkuCode(item.getString("skuCode"));
                     childEn.setPicUrl(item.getString("skuPic"));
                     childEn.setName(item.getString("goodsName"));
                     childEn.setAttribute(item.getString("skuComboName"));
@@ -837,7 +837,7 @@ public class JsonUtils {
                 skuValue.setSkuNum(ks.getInt("stockNum"));
                 skuValue.setAttrPrice(ks.getDouble("price"));
                 skuValue.setAttrImg(ks.getString("skuPic"));
-                skuValue.setGoodsCode(ks.getString("skuCode"));
+                skuValue.setSkuCode(ks.getString("skuCode"));
                 skuEn.setSku_value(skuValue);
                 skuLists.add(skuEn);
             }
@@ -865,7 +865,8 @@ public class JsonUtils {
                     childEn.setId(item.getInt("id"));
 
                     goodsEn = new GoodsEntity();
-                    goodsEn.setGoodsCode(item.getString("skuCode"));
+                    goodsEn.setGoodsCode(item.getString("goodsCode"));
+                    goodsEn.setSkuCode(item.getString("skuCode"));
                     goodsEn.setPicUrl(item.getString("goodsPic"));
                     goodsEn.setName(item.getString("goodsName"));
                     goodsEn.setPrice(item.getDouble("buyPrice"));

@@ -464,18 +464,18 @@ public class BaseActivity extends FragmentActivity {
     /**
      * 打开商品详情页
      */
-    protected void openGoodsActivity(String goodsCode) {
+    protected void openGoodsActivity(String skuCode) {
         Intent intent = new Intent(mContext, GoodsActivity.class);
-        intent.putExtra("goodsCode", goodsCode);
+        intent.putExtra("skuCode", skuCode);
         startActivity(intent);
     }
 
     /**
      * 打开设计师列表页
      */
-    protected void openDesignerActivity(String goodsId) {
+    protected void openDesignerActivity(String skuCode) {
         Intent intent = new Intent(mContext, DesignerActivity.class);
-        intent.putExtra("goodsId", goodsId);
+        intent.putExtra("skuCode", skuCode);
         startActivity(intent);
     }
 
@@ -919,6 +919,59 @@ public class BaseActivity extends FragmentActivity {
     }
 
     /**
+     * 提交标准Json格式数据
+     */
+    protected void postJsonData(String path, JSONObject jsonObj, final int dataType) {
+        postJsonData("", path, jsonObj, dataType);
+    }
+
+    /**
+     * 提交标准Json格式数据
+     */
+    protected void postJsonData(String head, String path, JSONObject jsonObj, final int dataType) {
+        if (StringUtil.isNull(head)) {
+            head = AppConfig.BASE_TYPE;
+        }
+        HttpRequests.getInstance()
+                .postJsonData(head, path, jsonObj)
+                .subscribe(new Observer<ResponseBody>() {
+                    @Override
+                    public void onNext(ResponseBody body) {
+                        try {
+                            callbackData(new JSONObject(body.string()), dataType);
+                        } catch (Exception e) {
+                            loadFailHandle();
+                            ExceptionUtil.handle(e);
+                        }
+                        LogUtil.i(LogUtil.LOG_HTTP, "onNext");
+                    }
+
+                    @Override
+                    public void onError(Throwable throwable) {
+                        if (throwable instanceof Fault) {
+                            Fault fault = (Fault) throwable;
+                            if (fault.getErrorCode() == 404) {
+                                //错误处理
+                            } else if (fault.getErrorCode() == 500) {
+                                //错误处理
+                            }
+                        } else {
+                            //错误处理
+                        }
+                        loadFailHandle();
+                        LogUtil.i(LogUtil.LOG_HTTP, "error message : " + throwable.getMessage());
+                    }
+
+                    @Override
+                    public void onCompleted() {
+                        // 结束处理
+                        stopAnimation();
+                        LogUtil.i(LogUtil.LOG_HTTP, "onCompleted");
+                    }
+                });
+    }
+
+    /**
      * 加载网络数据
      */
     protected void loadSVData(String path, HashMap<String, String> map, int httpType, final int dataType) {
@@ -1094,6 +1147,7 @@ public class BaseActivity extends FragmentActivity {
     protected void loadGoodsAttrData(String code, GoodsAttrEntity gaEn) {
         secEn = gaEn;
         if (secEn != null) {
+            secEn.setAdd(false);
             buyNumber = secEn.getBuyNum();
             select_id_1 = secEn.getS_id_1();
             select_id_2 = secEn.getS_id_2();
@@ -1199,10 +1253,11 @@ public class BaseActivity extends FragmentActivity {
                         if (selectAttr.isSelect()) {
                             if (buyNumber > 0) {
                                 isShow = false;
+                                secEn.setAdd(true);
                                 secEn.setBuyNum(buyNumber);
                                 secEn.setAttrIdStr(attrsIdStr);
                                 secEn.setAttrNameStr(attrsNameStr);
-                                secEn.setGoodsCode(rv_Adapter.getSkuCode(attrsIdStr));
+                                secEn.setSkuCode(rv_Adapter.getSkuCode(attrsIdStr));
                                 secEn.setS_id_1(select_id_1);
                                 secEn.setS_id_2(select_id_2);
                                 secEn.setS_id_3(select_id_3);

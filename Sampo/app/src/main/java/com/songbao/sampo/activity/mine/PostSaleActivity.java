@@ -106,7 +106,7 @@ public class PostSaleActivity extends BaseActivity implements OnClickListener {
 	private int saleStatus = 0; //6:售后(审核中)/7:售后(审核通过)/8:售后(审核拒绝)
 	private double totalPrice = 0;
 	private boolean isEdit = false;
-	private String goodsCode = "";
+	private String skuCode = "";
 	private String contentStr = "";
 	private GoodsEntity data;
 	private GoodsSaleEntity saleEn;
@@ -146,7 +146,7 @@ public class PostSaleActivity extends BaseActivity implements OnClickListener {
 			tv_name.setText(data.getName());
 			tv_attr.setText(data.getAttribute());
 
-			goodsCode = data.getGoodsCode();
+			skuCode = data.getSkuCode();
 			int number = data.getNumber();
 			double price = data.getPrice();
 			totalPrice = price*number;
@@ -379,7 +379,7 @@ public class PostSaleActivity extends BaseActivity implements OnClickListener {
 
 	private void loadSaleData() {
 		HashMap<String, String> map = new HashMap<>();
-		map.put("GoodsCode", goodsCode);
+		map.put("skuCode", skuCode);
 		loadSVData(AppConfig.URL_USER_MESSAGE, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_GOODS_SALE);
 	}
 

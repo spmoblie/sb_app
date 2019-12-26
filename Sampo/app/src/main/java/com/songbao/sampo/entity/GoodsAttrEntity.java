@@ -13,7 +13,8 @@ public class GoodsAttrEntity extends BaseEntity {
 
 	private int attrId; //属性Id
 	private String attrCode; //属性Code
-	private String goodsCode; //商品Code
+	private String skuCode; //商品sku码
+	private boolean isAdd; //是否添加购物车
 	private boolean isShow; //属性面板是否展开
 	private boolean isSelect; //属性是否选中
 	private int skuNum; //商品库存数
@@ -56,12 +57,20 @@ public class GoodsAttrEntity extends BaseEntity {
 		this.attrCode = attrCode;
 	}
 
-	public String getGoodsCode() {
-		return goodsCode;
+	public String getSkuCode() {
+		return skuCode;
 	}
 
-	public void setGoodsCode(String goodsCode) {
-		this.goodsCode = goodsCode;
+	public void setSkuCode(String skuCode) {
+		this.skuCode = skuCode;
+	}
+
+	public boolean isAdd() {
+		return isAdd;
+	}
+
+	public void setAdd(boolean add) {
+		isAdd = add;
 	}
 
 	public boolean isShow() {
