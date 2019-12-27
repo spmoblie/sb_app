@@ -19,7 +19,7 @@
         android:layout_marginLeft="@dimen/app_margin_screen"
         android:layout_marginRight="@dimen/app_margin_screen"
         android:padding="@dimen/app_margin_screen"
-        android:text="免费预约设计"
+        android:text="@string/designer_subscribe"
         android:textSize="@dimen/app_text_size_title"
         android:textStyle="bold" />
 

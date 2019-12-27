@@ -17,18 +17,25 @@ import com.songbao.sampo_b.adapter.AdapterCallback;
 import com.songbao.sampo_b.adapter.OrderLogisticsAdapter;
 import com.songbao.sampo_b.adapter.OrderProgressAdapter;
 import com.songbao.sampo_b.entity.AddressEntity;
+import com.songbao.sampo_b.entity.BaseEntity;
 import com.songbao.sampo_b.entity.DesignerEntity;
 import com.songbao.sampo_b.entity.GoodsEntity;
 import com.songbao.sampo_b.entity.OCustomizeEntity;
 import com.songbao.sampo_b.entity.OLogisticsEntity;
 import com.songbao.sampo_b.entity.OProgressEntity;
+import com.songbao.sampo_b.utils.ExceptionUtil;
+import com.songbao.sampo_b.utils.JsonUtils;
 import com.songbao.sampo_b.utils.LogUtil;
 import com.songbao.sampo_b.utils.StringUtil;
+import com.songbao.sampo_b.utils.retrofit.HttpRequests;
 import com.songbao.sampo_b.widgets.ObservableScrollView;
 import com.songbao.sampo_b.widgets.RoundImageView;
 import com.songbao.sampo_b.widgets.ScrollViewListView;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import butterknife.BindView;
 
@@ -215,6 +222,7 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
 	private boolean isOpenAll; //是否展开生产进度
 
 	private String phone; //设计师联系电话
+	private String orderNo; //订单编号
 
 	private ArrayList<String> al_img = new ArrayList<>();
 	private ArrayList<OProgressEntity> al_6 = new ArrayList<>();
@@ -226,6 +234,8 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_customize);
+
+		ocEn = (OCustomizeEntity) getIntent().getSerializableExtra(AppConfig.PAGE_DATA);
 
 		initView();
 	}
@@ -246,7 +256,11 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
 		open_up.setBounds(0, 0, open_up.getMinimumWidth(), open_up.getMinimumHeight());
 		open_down.setBounds(0, 0, open_down.getMinimumWidth(), open_down.getMinimumHeight());
 
-		initDemoData(1);
+		//initDemoData(1);
+		if (ocEn != null) {
+			orderNo = ocEn.getOrderNo();
+			loadOrderData();
+		}
 	}
 
 	private void initShowData() {
@@ -628,6 +642,42 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
+	}
+
+	/**
+	 * 加载订单详情数据
+	 */
+	private void loadOrderData() {
+		HashMap<String, String> map = new HashMap<>();
+		map.put("bookingCode", orderNo);
+		loadSVData(AppConfig.BASE_URL_3, AppConfig.URL_BOOKING_INFO, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_BOOKING_INFO);
+	}
+
+	@Override
+	protected void callbackData(JSONObject jsonObject, int dataType) {
+		super.callbackData(jsonObject, dataType);
+		BaseEntity baseEn;
+		try {
+			switch (dataType) {
+				case AppConfig.REQUEST_SV_BOOKING_INFO:
+					baseEn = JsonUtils.getCustomizeDetailData(jsonObject);
+					if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+
+					} else {
+						handleErrorCode(baseEn);
+					}
+					break;
+			}
+		} catch (Exception e) {
+			loadFailHandle();
+			ExceptionUtil.handle(e);
+		}
+	}
+
+	@Override
+	protected void loadFailHandle() {
+		super.loadFailHandle();
+		handleErrorCode(null);
 	}
 
 	private void initDemoData(int code) {

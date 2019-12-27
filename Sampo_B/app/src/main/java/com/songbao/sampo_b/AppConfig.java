@@ -111,6 +111,8 @@ public class AppConfig {
 	public final static String URL_DESIGN_ALL = "app/design/all";
 	// 提交定制预约
 	public final static String URL_CREATE_BOOKING = "app/booking/createBooking";
+	// 定制订单详情
+	public final static String URL_BOOKING_INFO = "app/booking/BookingInfo";
 
 	// 上传接口
 	public final static String URL_UPLOAD_PUSH = "app/upload/push";
@@ -213,6 +215,8 @@ public class AppConfig {
 	public static final int REQUEST_SV_DESIGN_ALL = 0X4020;
 	// 提交定制预约
 	public static final int REQUEST_SV_CREATE_BOOKING = 0X4021;
+	// 定制订单详情
+	public static final int REQUEST_SV_BOOKING_INFO = 0X4022;
 
 	// 上传评论照片
 	public static final int REQUEST_SV_UPLOAD_COMMENT_PHOTO = 0X5001;
@@ -419,7 +423,6 @@ public class AppConfig {
 	public static final String ACTIVITY_KEY_PHOTO_PATH = "photo_path";
 	public static final String ACTIVITY_KEY_USER_INFO = "user_info";
 	public static final String ACTIVITY_KEY_SELECT_LIST = "select_list";
-	public static final String ACTIVITY_KEY_RESERVE_POS = "reserve_pos";
 
 	public static final int ACTIVITY_CODE_VIA_CAMERA = 0X9001;
 	public static final int ACTIVITY_CODE_PAY_DATA = 0X9002;
@@ -427,8 +430,6 @@ public class AppConfig {
 	public static final int ACTIVITY_CODE_USER_GENDER = 0X9004;
 	public static final int ACTIVITY_CODE_USER_AREA = 0X9005;
 	public static final int ACTIVITY_CODE_USER_INTRO = 0X9006;
-	public static final int ACTIVITY_CODE_CHOICE_DATE = 0X9007;
-	public static final int ACTIVITY_CODE_RESERVE_POS = 0X9008;
 	public static final int ACTIVITY_CODE_SELECT_ADDS = 0X9009;
 	public static final int ACTIVITY_CODE_EDIT_ADDRESS = 0X9010;
 

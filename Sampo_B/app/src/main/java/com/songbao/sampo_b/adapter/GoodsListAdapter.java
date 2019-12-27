@@ -3,7 +3,6 @@ package com.songbao.sampo_b.adapter;
 import android.content.Context;
 import android.support.constraint.ConstraintLayout;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -36,7 +35,6 @@ public class GoodsListAdapter extends BaseRecyclerAdapter {
         TextView tv_name = holder.getView(R.id.goods_list_item_tv_name);
         TextView tv_attr = holder.getView(R.id.goods_list_item_tv_attr);
         TextView tv_price = holder.getView(R.id.goods_list_item_tv_price);
-        ImageView iv_cart = holder.getView(R.id.goods_list_item_iv_cart);
 
         // 绑定View
         final GoodsEntity data = (GoodsEntity) mDataList.get(pos);
@@ -56,15 +54,6 @@ public class GoodsListAdapter extends BaseRecyclerAdapter {
         tv_attr.setText(data.getAttribute());
         tv_price.setText(df.format(data.getPrice()));
 
-        iv_cart.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                if (apCallback != null) {
-                    apCallback.setOnClick(data, pos, 1);
-                }
-            }
-        });
         item_main.setOnClickListener(new View.OnClickListener() {
 
             @Override

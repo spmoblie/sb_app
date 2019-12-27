@@ -85,12 +85,6 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 	@BindView(R.id.goods_list_rv_goods)
 	PullToRefreshRecyclerView refresh_rv;
 
-	@BindView(R.id.goods_list_iv_cart)
-	ImageView iv_cart;
-
-	@BindView(R.id.goods_list_tv_cart_num)
-	TextView tv_cart_num;
-
 	@BindView(R.id.goods_list_screen_main)
 	LinearLayout screen_main;
 
@@ -166,7 +160,6 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 		iv_left.setOnClickListener(this);
 		iv_clear.setOnClickListener(this);
 		iv_scan.setOnClickListener(this);
-		iv_cart.setOnClickListener(this);
 		tv_top_1.setOnClickListener(this);
 		tv_top_2.setOnClickListener(this);
 		tv_top_3.setOnClickListener(this);
@@ -507,8 +500,6 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 			Intent intent = new Intent(mContext, ScanActivity.class);
 			intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			startActivity(intent);
-			break;
-		case R.id.goods_list_iv_cart:
 			break;
 		case R.id.goods_list_tv_top_item_1:
 			if (!isLoadOk) return; //加载频率控制

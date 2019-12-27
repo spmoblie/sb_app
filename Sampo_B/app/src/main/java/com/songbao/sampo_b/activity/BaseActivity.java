@@ -18,11 +18,8 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.util.ArrayMap;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
 import android.text.TextUtils;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -35,12 +32,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
-import com.bumptech.glide.Glide;
 import com.songbao.sampo_b.AppApplication;
 import com.songbao.sampo_b.AppConfig;
 import com.songbao.sampo_b.AppManager;
@@ -61,23 +55,19 @@ import com.songbao.sampo_b.activity.two.DesignerActivity;
 import com.songbao.sampo_b.activity.two.GoodsActivity;
 import com.songbao.sampo_b.activity.two.GoodsListActivity;
 import com.songbao.sampo_b.activity.two.SketchActivity;
-import com.songbao.sampo_b.adapter.GoodsAttrAdapter;
 import com.songbao.sampo_b.dialog.DialogManager;
 import com.songbao.sampo_b.dialog.LoadDialog;
 import com.songbao.sampo_b.entity.BaseEntity;
 import com.songbao.sampo_b.entity.CommentEntity;
-import com.songbao.sampo_b.entity.GoodsAttrEntity;
 import com.songbao.sampo_b.entity.ShareEntity;
 import com.songbao.sampo_b.utils.CommonTools;
 import com.songbao.sampo_b.utils.ExceptionUtil;
-import com.songbao.sampo_b.utils.JsonUtils;
 import com.songbao.sampo_b.utils.LogUtil;
 import com.songbao.sampo_b.utils.MyCountDownTimer;
 import com.songbao.sampo_b.utils.StringUtil;
 import com.songbao.sampo_b.utils.UserManager;
 import com.songbao.sampo_b.utils.retrofit.Fault;
 import com.songbao.sampo_b.utils.retrofit.HttpRequests;
-import com.songbao.sampo_b.widgets.RoundImageView;
 import com.songbao.sampo_b.widgets.share.ShareView;
 
 import org.json.JSONException;
@@ -122,25 +112,6 @@ public class BaseActivity extends FragmentActivity {
 
     private ShareView mShareView;
     private Animation inAnim, outAnim;
-
-    // 商品属性浮层组件
-    private boolean isShow = false;
-    private int buyNumber = 1;
-    private int select_id_1 = 0;
-    private int select_id_2 = 0;
-    private int select_id_3 = 0;
-    private String select_name_1 = "";
-    private String select_name_2 = "";
-    private String select_name_3 = "";
-    private String goodsCode = "";
-    private GoodsAttrEntity attrEn, secEn;
-    private GoodsAttrAdapter rv_Adapter;
-    private View cartPopupView;
-    private PopupWindow cartPopupWindow;
-    private ConstraintLayout popupShowMain;
-    private RoundImageView iv_goods_img;
-    private TextView tv_popup_price, tv_popup_number, tv_popup_select;
-    private Animation popupAnimShow, popupAnimGone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -1093,22 +1064,7 @@ public class BaseActivity extends FragmentActivity {
      * 回调网络数据
      */
     protected void callbackData(JSONObject jsonObject, int dataType) {
-        try {
-            switch (dataType) {
-                case AppConfig.REQUEST_SV_GOODS_ATTR: //加载商品属性
-                    BaseEntity baseEn = JsonUtils.getGoodsAttrData(jsonObject);
-                    if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
-                        attrEn = (GoodsAttrEntity) baseEn.getData();
-                        initAttrPopup();
-                    } else {
-                        handleErrorCode(baseEn);
-                    }
-                    break;
-            }
-        } catch (JSONException e) {
-            loadFailHandle();
-            ExceptionUtil.handle(e);
-        }
+
     }
 
     /**
@@ -1139,242 +1095,6 @@ public class BaseActivity extends FragmentActivity {
         HashMap<String, String> map = new HashMap<>();
         map.put("deviceToken", UserManager.getInstance().getDeviceToken());
         loadSVData(AppConfig.URL_AUTH_DEVICE, map, HttpRequests.HTTP_POST, 0);
-    }
-
-    /**
-     * 加载商品属性数据
-     */
-    protected void loadGoodsAttrData(String code, GoodsAttrEntity gaEn) {
-        secEn = gaEn;
-        if (secEn != null) {
-            secEn.setAdd(false);
-            buyNumber = secEn.getBuyNum();
-            select_id_1 = secEn.getS_id_1();
-            select_id_2 = secEn.getS_id_2();
-            select_id_3 = secEn.getS_id_3();
-            select_name_1 = secEn.getS_name_1();
-            select_name_2 = secEn.getS_name_2();
-            select_name_3 = secEn.getS_name_3();
-        } else {
-            buyNumber = 1;
-            select_id_1 = 0;
-            select_id_2 = 0;
-            select_id_3 = 0;
-            select_name_1 = "";
-            select_name_2 = "";
-            select_name_3 = "";
-            secEn = new GoodsAttrEntity();
-        }
-        if (goodsCode.equals(code) && attrEn != null) {
-            initAttrPopup();
-        } else {
-            goodsCode = code;
-            attrEn = null;
-            cartPopupWindow = null;
-
-            HashMap<String, String> map = new HashMap<>();
-            map.put("goodsCode", goodsCode);
-            loadSVData(AppConfig.URL_GOODS_ATTR, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_GOODS_ATTR);
-        }
-    }
-
-    /**
-     * 弹出商品属性浮层
-     */
-    private void initAttrPopup() {
-        if (attrEn == null) return;
-        if (cartPopupWindow == null) {
-            cartPopupView = LayoutInflater.from(mContext).inflate(R.layout.popup_view_attr, null);
-            View view_finish = cartPopupView.findViewById(R.id.attr_view_finish);
-            view_finish.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    dismissAttrPopup();
-                }
-            });
-            RelativeLayout rl_dismiss = cartPopupView.findViewById(R.id.attr_view_dismiss);
-            rl_dismiss.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    dismissAttrPopup();
-                }
-            });
-            popupAnimShow = AnimationUtils.loadAnimation(mContext, R.anim.in_from_bottom);
-            popupAnimShow.setAnimationListener(new Animation.AnimationListener() {
-                @Override
-                public void onAnimationStart(Animation animation) {
-
-                }
-
-                @Override
-                public void onAnimationEnd(Animation animation) {
-                    isShow = true;
-                }
-
-                @Override
-                public void onAnimationRepeat(Animation animation) {
-
-                }
-            });
-            popupAnimGone = AnimationUtils.loadAnimation(mContext, R.anim.out_to_bottom);
-            popupAnimGone.setAnimationListener(new Animation.AnimationListener() {
-                @Override
-                public void onAnimationStart(Animation animation) {
-
-                }
-
-                @Override
-                public void onAnimationEnd(Animation animation) {
-                    cartPopupWindow.dismiss();
-                }
-
-                @Override
-                public void onAnimationRepeat(Animation animation) {
-
-                }
-            });
-            popupShowMain = cartPopupView.findViewById(R.id.attr_view_show_main);
-            popupShowMain.startAnimation(popupAnimShow);
-
-            iv_goods_img = cartPopupView.findViewById(R.id.attr_view_iv_show);
-            tv_popup_price = cartPopupView.findViewById(R.id.attr_view_tv_price);
-            tv_popup_number = cartPopupView.findViewById(R.id.attr_view_tv_sku_num);
-            tv_popup_select = cartPopupView.findViewById(R.id.attr_view_tv_selected);
-
-            TextView tv_popup_confirm = cartPopupView.findViewById(R.id.attr_view_tv_confirm);
-            tv_popup_confirm.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (rv_Adapter == null) return;
-                    GoodsAttrEntity selectAttr = rv_Adapter.initSelectAttrValue(attrEn);
-                    String attrsIdStr = selectAttr.getAttrIdStr();
-                    String attrsNameStr = selectAttr.getAttrNameStr();
-                    if (isShow) {
-                        if (selectAttr.isSelect()) {
-                            if (buyNumber > 0) {
-                                isShow = false;
-                                secEn.setAdd(true);
-                                secEn.setBuyNum(buyNumber);
-                                secEn.setAttrIdStr(attrsIdStr);
-                                secEn.setAttrNameStr(attrsNameStr);
-                                secEn.setSkuCode(rv_Adapter.getSkuCode(attrsIdStr));
-                                secEn.setS_id_1(select_id_1);
-                                secEn.setS_id_2(select_id_2);
-                                secEn.setS_id_3(select_id_3);
-                                secEn.setS_name_1(select_name_1);
-                                secEn.setS_name_2(select_name_2);
-                                secEn.setS_name_3(select_name_3);
-                                dismissAttrPopup();
-                                updateSelectAttrStr(secEn);
-                            } else {
-                                //提示缺货
-                                CommonTools.showToast(getString(R.string.goods_attr_sku_0));
-                            }
-                        } else {
-                            CommonTools.showToast(attrsNameStr);
-                        }
-                    }
-                }
-            });
-
-            RecyclerView rv_attr = cartPopupView.findViewById(R.id.attr_view_rv);
-            // 设置布局管理器
-            LinearLayoutManager layoutManager = new LinearLayoutManager(mContext);
-            layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-            rv_attr.setLayoutManager(layoutManager);
-            // 配置适配器
-            GoodsAttrAdapter.AttrClickCallback apCallback = new GoodsAttrAdapter.AttrClickCallback() {
-
-                @Override
-                public void updateNumber(int number) {
-                    buyNumber = number;
-                }
-
-                @Override
-                public void setOnClick(GoodsAttrEntity data, int pos, int selectId, String selectName) {
-                    switch (pos) {
-                        case 0:
-                            select_id_1 = selectId;
-                            select_name_1 = selectName;
-                            break;
-                        case 1:
-                            select_id_2 = selectId;
-                            select_name_2 = selectName;
-                            break;
-                        case 2:
-                            select_id_3 = selectId;
-                            select_name_3 = selectName;
-                            break;
-                    }
-                    updatePopupView();
-                }
-
-            };
-            ArrayList<Integer> resLayout = new ArrayList<>();
-            resLayout.add(R.layout.item_list_attr_item_1);
-            resLayout.add(R.layout.item_list_attr_item_2);
-            rv_Adapter = new GoodsAttrAdapter(mContext, resLayout, apCallback);
-            rv_Adapter.updateData(attrEn, secEn);
-            rv_attr.setAdapter(rv_Adapter);
-
-            updatePopupView();
-
-            cartPopupWindow = new PopupWindow(cartPopupView, RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.MATCH_PARENT);
-            cartPopupWindow.update();
-            cartPopupWindow.setFocusable(true);
-            cartPopupWindow.setOutsideTouchable(true);
-            cartPopupWindow.showAtLocation(cartPopupView, Gravity.BOTTOM, 0, 0);
-        } else {
-            popupShowMain.startAnimation(popupAnimShow);
-            cartPopupWindow.showAtLocation(cartPopupView, Gravity.BOTTOM, 0, 0);
-        }
-    }
-
-    /**
-     * 更新属性值
-     */
-    private void updatePopupView() {
-        if (rv_Adapter == null) return;
-        GoodsAttrEntity selectAttr = rv_Adapter.initSelectAttrValue(attrEn);
-        String attrsIdStr = selectAttr.getAttrIdStr();
-        String attrsNameStr = selectAttr.getAttrNameStr();
-        if (selectAttr.isSelect()) {
-            // 已选属性
-            tv_popup_select.setText(getString(R.string.goods_attr_selected_1, attrsNameStr));
-            // 刷新图片
-            Glide.with(AppApplication.getAppContext())
-                    .load(rv_Adapter.getSkuImage(attrsIdStr))
-                    .apply(AppApplication.getShowOptions())
-                    .into(iv_goods_img);
-            // 刷新库存
-            int skuNum = rv_Adapter.getSkuNum(attrsIdStr);
-            if (buyNumber > skuNum) {
-                buyNumber = skuNum;
-                rv_Adapter.updateNumber(buyNumber);
-            }
-            tv_popup_number.setText(getString(R.string.goods_attr_sku_num, skuNum));
-            // 刷新价格
-            tv_popup_price.setText(df.format(rv_Adapter.getSkuPrice(attrsIdStr)));
-        } else {
-            // 提示选择
-            tv_popup_select.setText(attrsNameStr);
-        }
-    }
-
-    /**
-     * 更新已选的商品属性
-     */
-    protected void updateSelectAttrStr(GoodsAttrEntity attrEn) {
-
-    }
-
-    /**
-     * 关闭商品属性浮层
-     */
-    private void dismissAttrPopup() {
-        if (popupShowMain != null) {
-            popupShowMain.startAnimation(popupAnimGone);
-        }
     }
 
 }

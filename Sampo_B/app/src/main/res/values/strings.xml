@@ -129,20 +129,14 @@
     <string name="main_tab_text_1">首页</string>
     <string name="main_tab_text_2">定制</string>
     <string name="main_tab_text_3">我的</string>
-    <string name="main_head_tickets">门票购买</string>
-    <string name="main_head_reserve">课程预订</string>
     <string name="main_head_title_cn">最新活动</string>
     <string name="main_head_title_en">LATEST ACTIVITY</string>
 
     <!-- Mine -->
     <string name="mine_login">点击头像登录</string>
-    <string name="mine_my_design">我的设计</string>
-    <string name="mine_my_tickets">我的门票</string>
-    <string name="mine_my_sing_up">我的活动</string>
-    <string name="mine_my_reserve">我的预约</string>
-    <string name="mine_my_purchase">我的购买</string>
     <string name="mine_my_customize">我的定制</string>
-    <string name="mine_call">联系客服</string>
+    <string name="mine_my_address">我的地址</string>
+    <string name="mine_my_designer">驻店设计</string>
     <string name="mine_setting">设置中心</string>
     <string name="mine_message">消息中心</string>
     <string name="mine_message_history">以下为历史消息</string>
@@ -157,7 +151,6 @@
     <string name="mine_gender_confidential">保密</string>
     <string name="mine_birthday">生日</string>
     <string name="mine_area">地区</string>
-    <string name="mine_my_address">地址管理</string>
     <string name="mine_change_nick">修改昵称</string>
     <string name="mine_input_nick">请输入昵称</string>
     <string name="mine_change_gender">修改性别</string>
@@ -166,72 +159,11 @@
     <string name="mine_intro">签名</string>
     <string name="mine_intro_hint">填写个性签名更容易获得别人的关注哦</string>
 
-    <!-- Reserve -->
-    <string name="reserve_now">立即预约</string>
-    <string name="reserve_slot">预约时段：</string>
-    <string name="reserve_place">课程地点：</string>
-    <string name="reserve_suit">适用人群：</string>
-    <string name="reserve_date">预约日期</string>
-    <string name="reserve_date_item">预约日期：%1$s</string>
-    <string name="reserve_time">预约时间</string>
-    <string name="reserve_time_item">预约时间：%1$s</string>
-    <string name="reserve_desc">课程介绍</string>
-    <string name="reserve_desc_en">COURSE DESCRIPTION</string>
-    <string name="reserve_choice">选择场次</string>
-    <string name="reserve_qr_code">预约券码</string>
-    <string name="reserve_success">预约成功</string>
-    <string name="reserve_success_can">预约成功（已核销）</string>
-    <string name="reserve_success_end">预约成功（已过期）</string>
-    <string name="reserve_success_show">恭喜您！预约成功</string>
-    <string name="reserve_fail">预约失败\tT_T</string>
-    <string name="reserve_error">预约结果未知~</string>
-
-    <!-- Choice -->
-    <string name="choice_date">选择场次</string>
-    <string name="choice_select_date">请选择日期</string>
-    <string name="choice_select_time">请选择场次</string>
-    <string name="choice_select_time_empty">此日期无可选场次</string>
-    <string name="choice_select_option">可选场次</string>
-    <string name="choice_select_option_en">OPTIONAL EVENTS</string>
-    <string name="choice_reserve_yes">已预约</string>
-    <string name="choice_reserve_ok">可预约</string>
-    <string name="choice_reserve_no">已预满</string>
-
-    <!-- Sign Up -->
-    <string name="sign_up_title">我要报名</string>
-    <string name="sign_up_now">立即报名</string>
-    <string name="sign_up_already">您已报名</string>
-    <string name="sign_up_end">报名已截止</string>
-    <string name="sign_up_input_info">填写资料</string>
-    <string name="sign_up_input_info_en">FILL IN INFORMATION</string>
-    <string name="sign_up_explain">活动说明</string>
-    <string name="sign_up_explain_en">ACTIVITY DESCRIPTION</string>
-    <string name="sign_up_name">姓名：</string>
-    <string name="sign_up_input_name">请输入姓名</string>
-    <string name="sign_up_gender">性别：</string>
-    <string name="sign_up_age">年龄：</string>
-    <string name="sign_up_input_age">请选择年龄范围</string>
-    <string name="sign_up_phone">手机：</string>
-    <string name="sign_up_input_phone">请输入手机号码</string>
-    <string name="sign_up_input_phone_error">请输入正确的11位数手机号码</string>
-    <string name="sign_up_time">活动时间：</string>
-    <string name="sign_up_address">活动地点：</string>
-    <string name="sign_up_people">报名情况：</string>
-    <string name="sign_up_info">活动信息</string>
-    <string name="sign_up_info_time">%1$s 至 %2$s</string>
-    <string name="sign_up_info_number">"已报名%1$d人/限%2$d人报名"</string>
-    <string name="sign_up_cost_hint">费用为大赛统一报名费，主要用于场地租赁和组织等;</string>
-    <string name="sign_up_fail">报名失败\tT_T</string>
-    <string name="sign_up_success">报名成功</string>
-    <string name="sign_up_success_end">报名成功（已过期）</string>
-    <string name="sign_up_success_show">恭喜您！报名成功</string>
-
-    <!-- Coupon -->
-    <string name="coupon_member_meal">会员套餐</string>
-    <string name="coupon_member_meal_en">MEMBERS PACKAGE</string>
-    <string name="coupon_discount">立省%1$s元</string>
-    <string name="coupon_buy_now">立即购买</string>
-    <string name="coupon_expired_time">过期日：%1$s</string>
+    <!-- designer -->
+    <string name="designer_shop">驻店设计师</string>
+    <string name="designer_subscribe">下单定制</string>
+    <string name="designer_subscribe_ok">预约成功</string>
+    <string name="designer_subscribe_tips">确认预约%1$s么?</string>
 
     <!-- comment -->
     <string name="comment_me">我要评价</string>
@@ -247,6 +179,7 @@
     <string name="comment_content_hint">说说它的优点和美中不足的地方吧~</string>
 
     <!-- Goods -->
+    <string name="goods_num">x%1$d</string>
     <string name="goods_search_et_hint">输入商品关键字</string>
     <string name="goods_new_line">新品上线</string>
     <string name="goods_new_line_en">NEW PRODUCT LAUNCH</string>
@@ -277,14 +210,6 @@
     <string name="goods_attr_selected_2">%1$s %2$s</string>
     <string name="goods_attr_selected_3">%1$s %2$s %3$s</string>
     <string name="goods_go_customize">我要定制</string>
-
-    <!-- Cart -->
-    <string name="cart_shopping">购物车</string>
-    <string name="cart_goods_num">x%1$d</string>
-    <string name="cart_manage">管理</string>
-    <string name="cart_delete_num">删除所选(%1$d)</string>
-    <string name="cart_confirm_num">结算(%1$d)</string>
-    <string name="cart_post_order">提交订单</string>
 
     <!-- Order -->
     <string name="order_all">全部</string>
@@ -480,6 +405,8 @@
     <string name="address_province">省</string>
     <string name="address_city">市</string>
     <string name="address_district">区</string>
+    <string name="address_manage">管理</string>
+    <string name="address_delete_num">删除所选(%1$d)</string>
     <string name="address_error_name_empty">请输入收货人姓名</string>
     <string name="address_error_phone_empty">请输入收货人手机号码</string>
     <string name="address_error_area_empty">请选择所在地区信息</string>

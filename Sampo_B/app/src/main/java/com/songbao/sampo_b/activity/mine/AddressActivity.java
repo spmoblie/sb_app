@@ -271,10 +271,10 @@ public class AddressActivity extends BaseActivity implements View.OnClickListene
     private void updateNumber() {
         if (isManage) {
             setRightViewText(getString(R.string.done));
-            tv_address_add.setText(getString(R.string.cart_delete_num, totalNum));
+            tv_address_add.setText(getString(R.string.address_delete_num, totalNum));
             tv_address_add.setBackgroundResource(R.drawable.shape_style_solid_05_08);
         } else {
-            setRightViewText(getString(R.string.cart_manage));
+            setRightViewText(getString(R.string.address_manage));
             tv_address_add.setText(getString(R.string.address_add));
             tv_address_add.setBackgroundResource(R.drawable.shape_style_solid_04_08);
         }

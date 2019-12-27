@@ -65,7 +65,7 @@ public class DesignerActivity extends BaseActivity implements View.OnClickListen
     }
 
     private void initView() {
-        setTitle("预约设计师");
+        setTitle(getString(R.string.designer_shop));
 
         tv_click.setOnClickListener(this);
 
@@ -144,7 +144,7 @@ public class DesignerActivity extends BaseActivity implements View.OnClickListen
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.designer_tv_click:
-                showConfirmDialog("确认预约" + dgName + "么?", null, null, true, true,
+                showConfirmDialog(getString(R.string.designer_subscribe_tips, dgName), null, null, true, true,
                         new Handler() {
                             @Override
                             public void handleMessage(Message msg) {
@@ -265,7 +265,7 @@ public class DesignerActivity extends BaseActivity implements View.OnClickListen
                 case AppConfig.REQUEST_SV_CREATE_BOOKING:
                     baseEn = JsonUtils.getDesignData(jsonObject);
                     if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
-                        CommonTools.showToast("预约成功，可在“我的定制”查看进度。");
+                        CommonTools.showToast(getString(R.string.designer_subscribe_ok));
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {

@@ -150,7 +150,7 @@ public class PostSaleActivity extends BaseActivity implements OnClickListener {
 			int number = data.getNumber();
 			double price = data.getPrice();
 			totalPrice = price*number;
-			tv_number.setText(getString(R.string.cart_goods_num, number));
+			tv_number.setText(getString(R.string.goods_num, number));
 			tv_price.setText(getString(R.string.pay_rmb, df.format(price)));
 		}
 

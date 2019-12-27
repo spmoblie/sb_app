@@ -16,14 +16,13 @@
         <EditText
             android:id="@+id/feed_back_et_content"
             style="@style/common_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:padding="@dimen/margin_padding_10"
             android:gravity="top"
             android:hint="@string/setting_input_hint_feedback"
             android:lines="13"
-            android:maxLines="26"
-            android:textColorHint="@color/input_hint_color"
-            android:textColor="@color/input_text_color"
-            android:textSize="@dimen/app_text_size_label" />
+            android:maxLines="26"/>
     </LinearLayout>
 
     <LinearLayout

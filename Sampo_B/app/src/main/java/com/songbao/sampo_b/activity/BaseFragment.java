@@ -14,6 +14,7 @@ import com.songbao.sampo_b.AppApplication;
 import com.songbao.sampo_b.AppConfig;
 import com.songbao.sampo_b.activity.common.MyWebViewActivity;
 import com.songbao.sampo_b.activity.login.LoginActivity;
+import com.songbao.sampo_b.activity.two.GoodsActivity;
 import com.songbao.sampo_b.dialog.LoadDialog;
 import com.songbao.sampo_b.entity.BaseEntity;
 import com.songbao.sampo_b.utils.CommonTools;
@@ -90,6 +91,15 @@ public class BaseFragment extends Fragment {
 		shared.edit().putBoolean(AppConfig.KEY_JUMP_PAGE, true).apply();
 		Intent intent = new Intent(getActivity(), LoginActivity.class);
 		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		startActivity(intent);
+	}
+
+	/**
+	 * 打开商品详情页
+	 */
+	protected void openGoodsActivity(String skuCode) {
+		Intent intent = new Intent(getActivity(), GoodsActivity.class);
+		intent.putExtra("skuCode", skuCode);
 		startActivity(intent);
 	}
 

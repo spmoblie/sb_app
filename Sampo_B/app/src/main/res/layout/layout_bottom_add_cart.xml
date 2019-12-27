@@ -9,7 +9,6 @@
     <TextView
         android:id="@+id/bottom_add_cart_tv_home"
         style="@style/common_tab_text_assist"
-        android:drawableTop="@mipmap/icon_home"
         android:text="@string/main_tab_text_1"
         android:textSize="@dimen/app_text_size_minis"
         android:layout_marginLeft="@dimen/margin_padding_5"
@@ -22,7 +21,6 @@
     <TextView
         android:id="@+id/bottom_add_cart_tv_cart"
         style="@style/common_tab_text_assist"
-        android:drawableTop="@mipmap/icon_cart_list"
         android:text="购物车"
         android:textSize="@dimen/app_text_size_minis"
         app:layout_constraintHorizontal_weight="1"

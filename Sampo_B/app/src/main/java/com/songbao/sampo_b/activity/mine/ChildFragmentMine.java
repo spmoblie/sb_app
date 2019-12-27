@@ -20,6 +20,8 @@ import com.songbao.sampo_b.AppApplication;
 import com.songbao.sampo_b.AppConfig;
 import com.songbao.sampo_b.R;
 import com.songbao.sampo_b.activity.BaseFragment;
+import com.songbao.sampo_b.activity.common.ScanActivity;
+import com.songbao.sampo_b.activity.two.DesignerActivity;
 import com.songbao.sampo_b.entity.BaseEntity;
 import com.songbao.sampo_b.entity.UserInfoEntity;
 import com.songbao.sampo_b.utils.ExceptionUtil;
@@ -46,13 +48,11 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
 
     String TAG = ChildFragmentMine.class.getSimpleName();
 
-    //PullToRefreshScrollView refresh_sv;
-    //LinearLayout sv_main;
     ConstraintLayout cl_head_main;
     RoundImageView iv_user_head;
-    ImageView iv_setting, iv_message;
+    ImageView iv_scan, iv_message;
     TextView tv_user_nick, tv_message_num;
-    RelativeLayout rl_coupon, rl_purchase, rl_customize, rl_sign_up, rl_reserve, rl_help;
+    RelativeLayout rl_customize, rl_address, rl_designer, rl_setting;
 
     private Context mContext;
 
@@ -91,72 +91,28 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
     }
 
     private void findViewById(View view) {
-        //refresh_sv = view.findViewById(R.id.fg_mine_refresh_sv);
-        //sv_main = (LinearLayout) FrameLayout.inflate(mContext, R.layout.layout_scrollview_mine, null);
-
         cl_head_main = view.findViewById(R.id.fg_mine_cl_head_main);
-        iv_setting = view.findViewById(R.id.fg_mine_iv_setting);
+        iv_scan = view.findViewById(R.id.fg_mine_iv_scan);
         iv_message = view.findViewById(R.id.fg_mine_iv_message);
         iv_user_head = view.findViewById(R.id.fg_mine_iv_head);
         tv_user_nick = view.findViewById(R.id.fg_mine_tv_nick);
         tv_message_num = view.findViewById(R.id.fg_mine_tv_message_num);
 
-        rl_purchase = view.findViewById(R.id.fg_mine_purchase_main);
         rl_customize = view.findViewById(R.id.fg_mine_customize_main);
-        rl_coupon = view.findViewById(R.id.fg_mine_coupon_main);
-        rl_sign_up = view.findViewById(R.id.fg_mine_sign_up_main);
-        rl_reserve = view.findViewById(R.id.fg_mine_reserve_main);
-        rl_help = view.findViewById(R.id.fg_mine_help_main);
+        rl_address = view.findViewById(R.id.fg_mine_address_main);
+        rl_designer = view.findViewById(R.id.fg_mine_designer_main);
+        rl_setting = view.findViewById(R.id.fg_mine_setting_main);
     }
 
     private void initView() {
-        iv_setting.setOnClickListener(this);
+        iv_scan.setOnClickListener(this);
         iv_message.setOnClickListener(this);
         cl_head_main.setOnClickListener(this);
-        rl_purchase.setOnClickListener(this);
         rl_customize.setOnClickListener(this);
-        rl_coupon.setOnClickListener(this);
-        rl_sign_up.setOnClickListener(this);
-        rl_reserve.setOnClickListener(this);
-        rl_help.setOnClickListener(this);
-
-        //initScrollView();
+        rl_address.setOnClickListener(this);
+        rl_designer.setOnClickListener(this);
+        rl_setting.setOnClickListener(this);
     }
-
-    /*private void initScrollView() {
-        refresh_sv.setPullRefreshEnabled(true);
-        refresh_sv.setPullLoadEnabled(true);
-        refresh_sv.setScrollLoadEnabled(false);
-        refresh_sv.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ScrollView>() {
-            @Override
-            public void onPullDownToRefresh(PullToRefreshBase<ScrollView> refreshView) {
-                // 下拉刷新
-                new Handler().postDelayed(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        refresh_sv.onPullDownRefreshComplete();
-                    }
-                }, AppConfig.LOADING_TIME);
-            }
-
-            @Override
-            public void onPullUpToRefresh(PullToRefreshBase<ScrollView> refreshView) {
-                // 加载更多
-                new Handler().postDelayed(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        refresh_sv.onPullUpRefreshComplete();
-                    }
-                }, AppConfig.LOADING_TIME);
-            }
-        });
-
-        ScrollView sv = refresh_sv.getRefreshableView();
-        sv.addView(sv_main);
-        sv.setVerticalScrollBarEnabled(false);
-    }*/
 
     private void initUserView() {
         if (infoEn != null) {
@@ -190,8 +146,10 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.fg_mine_iv_setting:
-                startActivity(new Intent(mContext, SettingActivity.class));
+            case R.id.fg_mine_iv_scan:
+                Intent intent = new Intent(mContext, ScanActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
                 break;
             case R.id.fg_mine_iv_message:
                 if (!checkClick()) return;
@@ -201,28 +159,20 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
                 if (!checkClick()) return;
                 openPersonalActivity();
                 break;
-            case R.id.fg_mine_purchase_main:
-                if (!checkClick()) return;
-                startActivity(new Intent(mContext, MyPurchaseActivity.class));
-                break;
             case R.id.fg_mine_customize_main:
                 if (!checkClick()) return;
                 startActivity(new Intent(mContext, MyCustomizeActivity.class));
                 break;
-            case R.id.fg_mine_coupon_main:
+            case R.id.fg_mine_address_main:
                 if (!checkClick()) return;
-                startActivity(new Intent(mContext, MyTicketsActivity.class));
+                startActivity(new Intent(mContext, AddressActivity.class));
                 break;
-            case R.id.fg_mine_sign_up_main:
+            case R.id.fg_mine_designer_main:
                 if (!checkClick()) return;
-                startActivity(new Intent(mContext, MySignUpActivity.class));
+                startActivity(new Intent(mContext, DesignerActivity.class));
                 break;
-            case R.id.fg_mine_reserve_main:
-                if (!checkClick()) return;
-                startActivity(new Intent(mContext, MyReserveActivity.class));
-                break;
-            case R.id.fg_mine_help_main:
-                openWebViewActivity(getString(R.string.setting_question), "https://support.qq.com/product/100041");
+            case R.id.fg_mine_setting_main:
+                startActivity(new Intent(mContext, SettingActivity.class));
                 break;
         }
     }

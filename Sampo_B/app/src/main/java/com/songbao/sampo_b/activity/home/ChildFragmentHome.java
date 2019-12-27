@@ -66,7 +66,6 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
 
     MyRecyclerView mRecyclerView;
     ViewPager fg_home_vp;
-    ImageView iv_buy, iv_reserve;
     LinearLayout ll_head_main, vp_indicator;
 
     private Context mContext;
@@ -180,40 +179,14 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
             @Override
             public void setOnClick(Object data, int position, int type) {
                 if (position < 0 || position >= al_show.size()) return;
-                ThemeEntity themeEn = al_show.get(position);
-                if (themeEn != null) {
-                    switch (type) {
-                        case 0:
-                            if (themeEn.getThemeType() == AppConfig.THEME_TYPE_1) {
-                                openReserveDetailActivity(themeEn);
-                            } else {
-                                openSignUpDetailActivity(themeEn);
-                            }
-                            break;
-                        case 1:
-                            if (themeEn.getThemeType() == AppConfig.THEME_TYPE_1) {
-                                openReserveDetailActivity(themeEn);
-                            } else {
-                                openSignUpActivity(themeEn);
-                            }
-                            break;
-                    }
-                } else {
-                    CommonTools.showToast(getString(R.string.toast_error_data_app));
-                }
             }
         };
         lv_Adapter = new ThemeListAdapter(mContext, al_show, apCallback);
 
         // 添加头部View
         ll_head_main = (LinearLayout) FrameLayout.inflate(mContext, R.layout.layout_list_head_home, null);
-        iv_buy = ll_head_main.findViewById(R.id.fg_home_head_iv_buy);
-        iv_reserve = ll_head_main.findViewById(R.id.fg_home_head_iv_reserve);
         fg_home_vp = ll_head_main.findViewById(R.id.fg_home_head_viewPager);
         vp_indicator = ll_head_main.findViewById(R.id.fg_home_head_indicator);
-
-        iv_buy.setOnClickListener(this);
-        iv_reserve.setOnClickListener(this);
 
         ll_head_main.setVisibility(View.GONE);
         lv_Adapter.setHeaderView(ll_head_main);
@@ -447,50 +420,8 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
         startActivity(intent);
     }
 
-    /**
-     * 跳转至预约详情页面
-     * @param data
-     */
-    private void openReserveDetailActivity(ThemeEntity data) {
-        if (data == null) return;
-        Intent intent = new Intent(getActivity(), ReserveDetailActivity.class);
-        intent.putExtra(AppConfig.PAGE_DATA, data);
-        startActivity(intent);
-    }
-
-    /**
-     * 跳转至活动详情页面
-     * @param data
-     */
-    private void openSignUpDetailActivity(ThemeEntity data) {
-        if (data == null) return;
-        Intent intent = new Intent(getActivity(), SignUpDetailActivity.class);
-        intent.putExtra(AppConfig.PAGE_DATA, data);
-        startActivity(intent);
-    }
-
-    /**
-     * 跳转至报名页面
-     * @param data
-     */
-    private void openSignUpActivity(ThemeEntity data) {
-        if (data == null) return;
-        Intent intent = new Intent(getActivity(), SignUpActivity.class);
-        intent.putExtra(AppConfig.PAGE_DATA, data);
-        startActivity(intent);
-    }
-
     @Override
     public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.fg_home_head_iv_buy:
-                CommonTools.showToast(getString(R.string.toast_no_open));
-                //startActivity(new Intent(getActivity(), TicketsActivity.class));
-                break;
-            case R.id.fg_home_head_iv_reserve:
-                startActivity(new Intent(getActivity(), ReserveListActivity.class));
-                break;
-        }
     }
 
     @Override

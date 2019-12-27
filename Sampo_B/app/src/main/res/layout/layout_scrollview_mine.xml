@@ -13,13 +13,13 @@
         android:background="@mipmap/icon_bg_mine">
 
         <ImageView
-            android:id="@+id/fg_mine_iv_setting"
+            android:id="@+id/fg_mine_iv_scan"
             android:layout_width="@dimen/app_height_events"
             android:layout_height="@dimen/app_height_events"
-            android:src="@mipmap/icon_me_setting"
+            android:src="@mipmap/icon_scan"
             android:scaleType="center"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintRight_toRightOf="parent" />
+            app:layout_constraintRight_toLeftOf="@+id/fg_mine_iv_message" />
 
         <ImageView
             android:id="@+id/fg_mine_iv_message"
@@ -28,7 +28,7 @@
             android:src="@mipmap/icon_me_message"
             android:scaleType="center"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintRight_toLeftOf="@+id/fg_mine_iv_setting" />
+            app:layout_constraintRight_toRightOf="parent" />
 
         <TextView
             android:id="@+id/fg_mine_tv_message_num"
@@ -42,7 +42,7 @@
             android:id="@+id/fg_mine_cl_head_main"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/fg_mine_iv_setting"
+            app:layout_constraintTop_toBottomOf="@+id/fg_mine_iv_message"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent">
 
@@ -88,91 +88,6 @@
         android:orientation="vertical">
 
         <RelativeLayout
-            android:id="@+id/fg_mine_purchase_main"
-            style="@style/setting_lay_item"
-            android:padding="@dimen/app_margin_screen"
-            android:background="@drawable/selector_item_change_1">
-
-            <TextView
-                style="@style/setting_lay_text_title"
-                android:paddingTop="0dp"
-                android:paddingBottom="0dp"
-                android:drawableLeft="@mipmap/icon_me_purchase"
-                android:text="@string/mine_my_purchase"
-                android:textStyle="bold"
-                android:textColor="@color/app_color_gray_5" />
-
-            <TextView
-                android:id="@+id/fg_mine_tv_purchase"
-                style="@style/setting_lay_text_content"
-                android:textSize="@dimen/app_text_size_label" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/fg_mine_coupon_main"
-            style="@style/setting_lay_item"
-            android:padding="@dimen/app_margin_screen"
-            android:visibility="gone"
-            android:background="@drawable/selector_item_change_1">
-
-            <TextView
-                style="@style/setting_lay_text_title"
-                android:paddingTop="0dp"
-                android:paddingBottom="0dp"
-                android:drawableLeft="@mipmap/icon_me_purchase"
-                android:text="@string/mine_my_tickets"
-                android:textStyle="bold"
-                android:textColor="@color/app_color_gray_5" />
-
-            <TextView
-                android:id="@+id/fg_mine_tv_coupon"
-                style="@style/setting_lay_text_content"
-                android:textSize="@dimen/app_text_size_label" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/fg_mine_sign_up_main"
-            style="@style/setting_lay_item"
-            android:padding="@dimen/app_margin_screen"
-            android:background="@drawable/selector_item_change_1">
-
-            <TextView
-                style="@style/setting_lay_text_title"
-                android:paddingTop="0dp"
-                android:paddingBottom="0dp"
-                android:drawableLeft="@mipmap/icon_me_activity"
-                android:text="@string/mine_my_sing_up"
-                android:textStyle="bold"
-                android:textColor="@color/app_color_gray_5" />
-
-            <TextView
-                android:id="@+id/fg_mine_tv_sign_up"
-                style="@style/setting_lay_text_content"
-                android:textSize="@dimen/app_text_size_label" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/fg_mine_reserve_main"
-            style="@style/setting_lay_item"
-            android:padding="@dimen/app_margin_screen"
-            android:background="@drawable/selector_item_change_1">
-
-            <TextView
-                style="@style/setting_lay_text_title"
-                android:paddingTop="0dp"
-                android:paddingBottom="0dp"
-                android:drawableLeft="@mipmap/icon_me_reserve"
-                android:text="@string/mine_my_reserve"
-                android:textStyle="bold"
-                android:textColor="@color/app_color_gray_5" />
-
-            <TextView
-                android:id="@+id/fg_mine_tv_reserve"
-                style="@style/setting_lay_text_content"
-                android:textSize="@dimen/app_text_size_label" />
-        </RelativeLayout>
-
-        <RelativeLayout
             android:id="@+id/fg_mine_customize_main"
             style="@style/setting_lay_item"
             android:padding="@dimen/app_margin_screen"
@@ -194,7 +109,7 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/fg_mine_help_main"
+            android:id="@+id/fg_mine_address_main"
             style="@style/setting_lay_item"
             android:padding="@dimen/app_margin_screen"
             android:background="@drawable/selector_item_change_1">
@@ -203,8 +118,50 @@
                 style="@style/setting_lay_text_title"
                 android:paddingTop="0dp"
                 android:paddingBottom="0dp"
-                android:drawableLeft="@mipmap/icon_me_service"
-                android:text="@string/mine_call"
+                android:drawableLeft="@mipmap/icon_me_address"
+                android:text="@string/mine_my_address"
+                android:textStyle="bold"
+                android:textColor="@color/app_color_gray_5" />
+
+            <TextView
+                android:id="@+id/fg_mine_tv_sign_up"
+                style="@style/setting_lay_text_content"
+                android:textSize="@dimen/app_text_size_label" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/fg_mine_designer_main"
+            style="@style/setting_lay_item"
+            android:padding="@dimen/app_margin_screen"
+            android:background="@drawable/selector_item_change_1">
+
+            <TextView
+                style="@style/setting_lay_text_title"
+                android:paddingTop="0dp"
+                android:paddingBottom="0dp"
+                android:drawableLeft="@mipmap/icon_me_designer"
+                android:text="@string/mine_my_designer"
+                android:textStyle="bold"
+                android:textColor="@color/app_color_gray_5" />
+
+            <TextView
+                android:id="@+id/fg_mine_tv_reserve"
+                style="@style/setting_lay_text_content"
+                android:textSize="@dimen/app_text_size_label" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/fg_mine_setting_main"
+            style="@style/setting_lay_item"
+            android:padding="@dimen/app_margin_screen"
+            android:background="@drawable/selector_item_change_1">
+
+            <TextView
+                style="@style/setting_lay_text_title"
+                android:paddingTop="0dp"
+                android:paddingBottom="0dp"
+                android:drawableLeft="@mipmap/icon_me_setting"
+                android:text="@string/mine_setting"
                 android:textStyle="bold"
                 android:textColor="@color/app_color_gray_5" />
 

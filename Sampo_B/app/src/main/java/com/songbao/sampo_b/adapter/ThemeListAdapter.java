@@ -95,12 +95,12 @@ public class ThemeListAdapter extends RecyclerView.Adapter<ThemeListAdapter.View
         viewHolder.tv_time.setText(data.getAddTime());
 
         if (data.getThemeType() == AppConfig.THEME_TYPE_1) {
-            viewHolder.tv_sign.setText(mContext.getString(R.string.reserve_now));
+            viewHolder.tv_sign.setText("立即预约");
             viewHolder.tv_sign.setBackgroundResource(R.drawable.shape_style_solid_04_08);
             viewHolder.tv_series.setBackgroundResource(R.drawable.shape_style_empty_06_08);
             viewHolder.tv_series.setTextColor(mContext.getResources().getColor(R.color.app_color_yellow));
         } else {
-            viewHolder.tv_sign.setText(mContext.getString(R.string.sign_up_title));
+            viewHolder.tv_sign.setText("我要报名");
             viewHolder.tv_sign.setBackgroundResource(R.drawable.shape_style_solid_06_08);
             viewHolder.tv_series.setBackgroundResource(R.drawable.shape_style_empty_09_08);
             viewHolder.tv_series.setTextColor(mContext.getResources().getColor(R.color.app_color_blue));

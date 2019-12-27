@@ -22,6 +22,7 @@ import com.songbao.sampo_b.adapter.AdapterCallback;
 import com.songbao.sampo_b.adapter.GoodsGridAdapter;
 import com.songbao.sampo_b.adapter.SortOneAdapter;
 import com.songbao.sampo_b.entity.BaseEntity;
+import com.songbao.sampo_b.entity.GoodsEntity;
 import com.songbao.sampo_b.entity.GoodsSortEntity;
 import com.songbao.sampo_b.utils.CommonTools;
 import com.songbao.sampo_b.utils.ExceptionUtil;
@@ -65,7 +66,7 @@ public class ChildFragmentTwo extends BaseFragment implements OnClickListener {
 	private boolean isSortOk = false;
 
 	private ArrayList<GoodsSortEntity> al_left = new ArrayList<>();
-	private ArrayList<GoodsSortEntity> al_right = new ArrayList<>();
+	private ArrayList<GoodsEntity> al_right = new ArrayList<>();
 	private ArrayMap<String, Boolean> am_show = new ArrayMap<>();
 
 	@Override
@@ -174,7 +175,8 @@ public class ChildFragmentTwo extends BaseFragment implements OnClickListener {
 		gv_Adapter.addCallback(new AdapterCallback() {
 			@Override
 			public void setOnClick(Object data, int position, int type) {
-
+				if (position < 0 || position >= al_right.size()) return;
+				openGoodsActivity(al_right.get(position).getSkuCode());
 			}
 		});
 		mGridView.setAdapter(gv_Adapter);
@@ -204,26 +206,13 @@ public class ChildFragmentTwo extends BaseFragment implements OnClickListener {
 
 	@Override
 	public void onClick(View v) {
-		Intent intent;
 		switch (v.getId()) {
 			case R.id.fg_two_iv_scan:
-				intent = new Intent(mContext, ScanActivity.class);
+				Intent intent = new Intent(mContext, ScanActivity.class);
 				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(intent);
 				break;
 		}
-	}
-
-	/**
-	 * 跳转至商品列表页面
-	 */
-	private void openGoodsListActivity(int isHot, int isNews, int isRecommend, String sortCode) {
-		Intent intent = new Intent(mContext, GoodsListActivity.class);
-		intent.putExtra("sortCode", sortCode);
-		intent.putExtra("isHot", isHot);
-		intent.putExtra("isNews", isNews);
-		intent.putExtra("isRecommend", isRecommend);
-		startActivity(intent);
 	}
 
 	@Override
