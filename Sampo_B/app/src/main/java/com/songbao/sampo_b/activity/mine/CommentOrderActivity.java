@@ -116,7 +116,6 @@ public class CommentOrderActivity extends BaseActivity {
 			@Override
 			public void setOnClick(Object data, int position, int type) {
 				if (position < 0 || position >= al_show.size()) return;
-				openCommentAddActivity(al_show.get(position));
 			}
 		});
 		mRecyclerView.setAdapter(rvAdapter);

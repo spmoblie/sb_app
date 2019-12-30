@@ -61,7 +61,7 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:contentDescription="@string/desc"
-            android:src="@mipmap/icon_arrow_down" />
+            android:src="@mipmap/loading_anim_small" />
 
         <ProgressBar
             android:id="@+id/pull_to_load_header_progress"

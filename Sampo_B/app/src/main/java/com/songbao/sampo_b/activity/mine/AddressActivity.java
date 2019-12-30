@@ -385,7 +385,7 @@ public class AddressActivity extends BaseActivity implements View.OnClickListene
         HashMap<String, String> map = new HashMap<>();
         map.put("page", page);
         map.put("size", AppConfig.LOAD_SIZE);
-        loadSVData(AppConfig.URL_USER_RESERVATION, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_USER_RESERVATION);
+        loadSVData(AppConfig.URL_USER_ADDRESS, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_USER_ADDRESS);
     }
 
     @Override
@@ -394,7 +394,7 @@ public class AddressActivity extends BaseActivity implements View.OnClickListene
         BaseEntity baseEn;
         try {
             switch (dataType) {
-                case AppConfig.REQUEST_SV_USER_RESERVATION:
+                case AppConfig.REQUEST_SV_USER_ADDRESS:
                     baseEn = JsonUtils.getAddressListData(jsonObject);
                     if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
                         data_total = baseEn.getDataTotal();

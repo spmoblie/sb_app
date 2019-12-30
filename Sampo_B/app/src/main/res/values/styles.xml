@@ -103,21 +103,6 @@
         <item name="android:textSize">@dimen/app_text_size_title</item>
     </style>
 
-    <!-- Top右边文字按钮样式 -->
-    <style name="top_right_btn">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_alignParentRight">true</item>
-        <item name="android:layout_centerVertical">true</item>
-        <item name="android:layout_marginRight">@dimen/app_margin_screen</item>
-        <item name="android:background">@color/ui_bg_color_percent_10</item>
-        <item name="android:gravity">right|center_vertical</item>
-        <item name="android:ellipsize">end</item>
-        <item name="android:lines">1</item>
-        <item name="android:textColor">@color/shows_text_color</item>
-        <item name="android:textSize">@dimen/app_text_size_content</item>
-    </style>
-
     <!-- 设置页面布局样式 -->
     <style name="setting_lay_item">
         <item name="android:layout_width">match_parent</item>
@@ -157,31 +142,29 @@
         <item name="android:textSize">@dimen/app_text_size_small</item>
     </style>
 
-    <!-- 注册页面EditText样式 -->
-    <style name="register_edit">
+    <!-- 登录页面EditText样式 -->
+    <style name="login_edit">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">@dimen/login_height_edit</item>
         <item name="android:layout_marginTop">@dimen/margin_padding_30</item>
         <item name="android:paddingRight">@dimen/margin_padding_30</item>
         <item name="android:lines">1</item>
-        <item name="android:digits">0123456789</item>
-        <item name="android:inputType">phone</item>
         <item name="android:background">@color/ui_bg_color_percent_10</item>
         <item name="android:textColorHint">@color/input_hint_color</item>
         <item name="android:textSize">@dimen/app_text_size_label</item>
         <item name="android:textColor">@color/input_text_color</item>
     </style>
 
-    <!-- 注册页面TextView样式 -->
-    <style name="register_text">
+    <!-- 登录页面TextView样式 -->
+    <style name="login_text">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textSize">@dimen/app_text_size_content</item>
         <item name="android:textColor">@color/shows_text_color</item>
     </style>
 
-    <!-- 注册页面Button样式 -->
-    <style name="register_button">
+    <!-- 登录页面Button样式 -->
+    <style name="login_button">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:paddingLeft">@dimen/margin_padding_20</item>
@@ -191,6 +174,7 @@
         <item name="android:layout_marginTop">@dimen/margin_padding_30</item>
         <item name="android:background">@drawable/shape_style_solid_04_08</item>
         <item name="android:gravity">center</item>
+        <item name="android:textStyle">bold</item>
         <item name="android:textSize">@dimen/app_text_size_button</item>
         <item name="android:textColor">@color/tv_color_button</item>
     </style>
@@ -202,56 +186,6 @@
         <item name="android:textStyle">bold</item>
         <item name="android:textSize">@dimen/app_text_size_title</item>
         <item name="android:textColor">@color/shows_text_color</item>
-    </style>
-
-    <!-- 详情页面TextView样式 -->
-    <style name="detail_text">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginTop">@dimen/app_margin_screen</item>
-        <item name="android:layout_marginLeft">@dimen/app_margin_screen</item>
-        <item name="android:layout_marginRight">@dimen/app_margin_screen</item>
-        <item name="android:textSize">@dimen/app_text_size_label</item>
-        <item name="android:textColor">@color/shows_text_color</item>
-    </style>
-
-    <!-- 详情页面含右箭头TextView样式 -->
-    <style name="detail_lay_text_go">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:paddingTop">@dimen/app_margin_screen</item>
-        <item name="android:paddingLeft">@dimen/app_margin_screen</item>
-        <item name="android:paddingRight">@dimen/app_margin_screen</item>
-        <item name="android:drawableRight">@mipmap/icon_go_right</item>
-        <item name="android:drawablePadding">@dimen/margin_padding_10</item>
-        <item name="android:gravity">center_vertical|left</item>
-        <item name="android:textColor">@color/shows_text_color</item>
-        <item name="android:textSize">@dimen/app_text_size_label</item>
-    </style>
-
-    <!-- 报名页面TextView样式 -->
-    <style name="sign_up_text">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:paddingTop">@dimen/margin_padding_10</item>
-        <item name="android:paddingBottom">@dimen/margin_padding_10</item>
-        <item name="android:textSize">@dimen/app_text_size_content</item>
-        <item name="android:textColor">@color/shows_text_color</item>
-    </style>
-
-    <!-- 报名页面EditText样式 -->
-    <style name="sign_up_edit">
-        <item name="android:layout_width">0dp</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:paddingLeft">@dimen/margin_padding_10</item>
-        <item name="android:paddingTop">@dimen/margin_padding_10</item>
-        <item name="android:paddingBottom">@dimen/margin_padding_10</item>
-        <item name="android:inputType">text</item>
-        <item name="android:background">@color/ui_bg_color_percent_10</item>
-        <item name="android:textColorHint">@color/input_hint_color</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/input_text_color</item>
-        <item name="android:textSize">@dimen/app_text_size_content</item>
     </style>
 
     <!-- 商品页面TextView样式 -->
@@ -310,12 +244,12 @@
         <item name="android:paddingLeft">@dimen/margin_padding_12</item>
         <item name="android:paddingRight">@dimen/margin_padding_12</item>
         <item name="android:layout_marginTop">@dimen/margin_padding_20</item>
-        <item name="android:background">@drawable/shape_style_empty_04_08</item>
+        <item name="android:background">@drawable/shape_style_empty_02_08</item>
         <item name="android:gravity">center</item>
         <item name="android:maxLines">1</item>
         <item name="android:ellipsize">end</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:textColor">@color/tv_color_status</item>
+        <item name="android:textColor">@color/app_color_gray_5</item>
         <item name="android:textSize">@dimen/app_text_size_label</item>
     </style>
 

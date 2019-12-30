@@ -22,7 +22,8 @@ public class OCustomizeEntity extends BaseEntity {
 	private String nodeTime8;
 	private String nodeTime9;
 	private String statusDesc; //状态描述
-	private int status;  //1:待付款，2:生产中，3:待收货，4:待安装，5:待评价，6:已完成，7:退换货，8:已取消
+	private int status;
+	private int nodeNo;  //1:提交预约，2:上门量尺，3:效果图，4:支付信息，5:收货信息，6:生产进度，7:产品发货，8:产品安装，9:订单完成
 	private int cycle; //计划生产周期
 	private double price; //订单报价
 	private boolean isPay; //是否支付
@@ -148,6 +149,14 @@ public class OCustomizeEntity extends BaseEntity {
 
 	public void setStatusDesc(String statusDesc) {
 		this.statusDesc = statusDesc;
+	}
+
+	public int getNodeNo() {
+		return nodeNo;
+	}
+
+	public void setNodeNo(int nodeNo) {
+		this.nodeNo = nodeNo;
 	}
 
 	public int getStatus() {

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/my_customize_item_main"
+    android:id="@+id/customize_item_main"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -10,7 +10,7 @@
     android:paddingBottom="@dimen/margin_padding_20">
 
     <RelativeLayout
-        android:id="@+id/my_customize_item_rl_top"
+        android:id="@+id/customize_item_rl_top"
         android:layout_width="match_parent"
         android:layout_height="20dp"/>
 
@@ -21,7 +21,7 @@
         android:background="@drawable/shape_style_solid_01_16">
 
         <TextView
-            android:id="@+id/my_customize_item_tv_time"
+            android:id="@+id/customize_item_tv_time"
             style="@style/list_item_text"
             android:layout_marginTop="@dimen/margin_padding_2"
             android:textColor="@color/app_color_gray_5"
@@ -29,55 +29,55 @@
             app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
-            android:id="@+id/my_customize_item_tv_status"
+            android:id="@+id/customize_item_tv_status"
             style="@style/common_text_bg_frame"
             android:layout_marginLeft="@dimen/margin_padding_10"
-            android:background="@drawable/shape_style_solid_06_04"
+            android:background="@drawable/shape_style_solid_03_04"
             android:textColor="@color/app_color_white"
             android:textSize="@dimen/app_text_size_small"
-            app:layout_constraintLeft_toRightOf="@+id/my_customize_item_tv_time"/>
+            app:layout_constraintLeft_toRightOf="@+id/customize_item_tv_time"/>
 
         <com.songbao.sampo_b.widgets.RoundImageView
-            android:id="@+id/my_customize_item_iv_show"
+            android:id="@+id/customize_item_iv_show"
             android:layout_width="@dimen/image_size_other"
             android:layout_height="@dimen/image_size_other"
             android:layout_marginTop="@dimen/app_margin_screen"
             android:scaleType="centerCrop"
             android:src="@drawable/icon_default_show"
             app:type="round"
-            app:layout_constraintTop_toBottomOf="@+id/my_customize_item_tv_time"/>
+            app:layout_constraintTop_toBottomOf="@+id/customize_item_tv_time"/>
 
         <TextView
-            android:id="@+id/my_customize_item_tv_title"
+            android:id="@+id/customize_item_tv_title"
             style="@style/list_item_text"
             android:layout_marginLeft="@dimen/app_margin_screen"
             android:textStyle="bold"
             android:textSize="@dimen/app_text_size_content"
-            app:layout_constraintTop_toTopOf="@+id/my_customize_item_iv_show"
-            app:layout_constraintLeft_toRightOf="@+id/my_customize_item_iv_show"/>
+            app:layout_constraintTop_toTopOf="@+id/customize_item_iv_show"
+            app:layout_constraintLeft_toRightOf="@+id/customize_item_iv_show"/>
 
         <TextView
-            android:id="@+id/my_customize_item_tv_name"
+            android:id="@+id/customize_item_tv_name"
             style="@style/list_item_text"
             android:layout_marginTop="@dimen/app_margin_screen"
             android:drawableLeft="@mipmap/icon_designer"
             android:drawablePadding="@dimen/margin_padding_5"
             android:textColor="@color/app_color_gray_5"
-            app:layout_constraintTop_toBottomOf="@+id/my_customize_item_tv_title"
-            app:layout_constraintLeft_toLeftOf="@+id/my_customize_item_tv_title"/>
+            app:layout_constraintTop_toBottomOf="@+id/customize_item_tv_title"
+            app:layout_constraintLeft_toLeftOf="@+id/customize_item_tv_title"/>
 
         <TextView
-            android:id="@+id/my_customize_item_tv_phone"
+            android:id="@+id/customize_item_tv_phone"
             style="@style/list_item_text"
             android:layout_marginTop="@dimen/margin_padding_5"
             android:drawableLeft="@mipmap/icon_phone"
             android:drawablePadding="@dimen/margin_padding_5"
             android:textColor="@color/app_color_gray_5"
-            app:layout_constraintTop_toBottomOf="@+id/my_customize_item_tv_name"
-            app:layout_constraintLeft_toLeftOf="@+id/my_customize_item_tv_title"/>
+            app:layout_constraintTop_toBottomOf="@+id/customize_item_tv_name"
+            app:layout_constraintLeft_toLeftOf="@+id/customize_item_tv_title"/>
 
         <TextView
-            android:id="@+id/my_customize_item_tv_click_01"
+            android:id="@+id/customize_item_tv_click_01"
             style="@style/common_text_bg_frame"
             android:layout_marginTop="@dimen/margin_padding_20"
             android:layout_marginRight="@dimen/app_margin_screen"
@@ -86,11 +86,11 @@
             android:paddingLeft="@dimen/margin_padding_18"
             android:paddingRight="@dimen/margin_padding_18"
             android:background="@drawable/shape_style_empty_04_08"
-            app:layout_constraintRight_toLeftOf="@+id/my_customize_item_tv_click_02"
-            app:layout_constraintTop_toBottomOf="@+id/my_customize_item_iv_show"/>
+            app:layout_constraintRight_toLeftOf="@+id/customize_item_tv_click_02"
+            app:layout_constraintTop_toBottomOf="@+id/customize_item_iv_show"/>
 
         <TextView
-            android:id="@+id/my_customize_item_tv_click_02"
+            android:id="@+id/customize_item_tv_click_02"
             style="@style/common_text_bg_frame"
             android:layout_marginTop="@dimen/margin_padding_20"
             android:paddingTop="@dimen/margin_padding_7"
@@ -100,7 +100,7 @@
             android:background="@drawable/shape_style_solid_04_08"
             android:textColor="@color/app_color_white"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/my_customize_item_iv_show"/>
+            app:layout_constraintTop_toBottomOf="@+id/customize_item_iv_show"/>
 
     </android.support.constraint.ConstraintLayout>
 

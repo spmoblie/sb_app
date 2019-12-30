@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import com.songbao.sampo_b.AppApplication;
 import com.songbao.sampo_b.AppConfig;
 import com.songbao.sampo_b.activity.common.MyWebViewActivity;
-import com.songbao.sampo_b.activity.login.LoginActivity;
+import com.songbao.sampo_b.activity.login.LoginAccountActivity;
 import com.songbao.sampo_b.activity.two.GoodsActivity;
 import com.songbao.sampo_b.dialog.LoadDialog;
 import com.songbao.sampo_b.entity.BaseEntity;
@@ -89,7 +89,7 @@ public class BaseFragment extends Fragment {
 	 */
 	protected void openLoginActivity(){
 		shared.edit().putBoolean(AppConfig.KEY_JUMP_PAGE, true).apply();
-		Intent intent = new Intent(getActivity(), LoginActivity.class);
+		Intent intent = new Intent(getActivity(), LoginAccountActivity.class);
 		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		startActivity(intent);
 	}

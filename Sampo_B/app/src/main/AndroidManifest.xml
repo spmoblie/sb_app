@@ -134,31 +134,11 @@
 
         <!-- login -->
         <activity
-            android:name=".activity.login.LoginActivity"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name=".activity.login.LoginPhoneActivity"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name=".activity.login.RegisterActivity"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name=".activity.login.RegisterOauthActivity"
-            android:launchMode="singleTask"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name=".activity.login.ResetPasswordActivity"
+            android:name=".activity.login.LoginAccountActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
 
         <!-- Two -->
-        <activity
-            android:name=".activity.two.DesignerActivity"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.two.GoodsActivity"
             android:launchMode="singleTop"
@@ -202,6 +182,14 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
         <activity
+            android:name=".activity.mine.CustomizeListActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.mine.DesignerListActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"/>
+        <activity
             android:name=".activity.mine.EditUserInfoActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
@@ -211,10 +199,6 @@
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.mine.MessageActivity"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name=".activity.mine.MyCustomizeActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
         <activity

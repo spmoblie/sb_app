@@ -44,21 +44,14 @@ import com.songbao.sampo_b.activity.common.clip.ClipImageCircularActivity;
 import com.songbao.sampo_b.activity.common.clip.ClipImageSquareActivity;
 import com.songbao.sampo_b.activity.common.clip.ClipPhotoGridActivity;
 import com.songbao.sampo_b.activity.common.clip.ClipPhotoOneActivity;
-import com.songbao.sampo_b.activity.login.LoginActivity;
-import com.songbao.sampo_b.activity.login.LoginPhoneActivity;
-import com.songbao.sampo_b.activity.login.RegisterActivity;
-import com.songbao.sampo_b.activity.login.RegisterOauthActivity;
-import com.songbao.sampo_b.activity.login.ResetPasswordActivity;
-import com.songbao.sampo_b.activity.mine.CommentAddActivity;
-import com.songbao.sampo_b.activity.mine.CommentPostActivity;
-import com.songbao.sampo_b.activity.two.DesignerActivity;
+import com.songbao.sampo_b.activity.login.LoginAccountActivity;
+import com.songbao.sampo_b.activity.mine.DesignerListActivity;
 import com.songbao.sampo_b.activity.two.GoodsActivity;
 import com.songbao.sampo_b.activity.two.GoodsListActivity;
 import com.songbao.sampo_b.activity.two.SketchActivity;
 import com.songbao.sampo_b.dialog.DialogManager;
 import com.songbao.sampo_b.dialog.LoadDialog;
 import com.songbao.sampo_b.entity.BaseEntity;
-import com.songbao.sampo_b.entity.CommentEntity;
 import com.songbao.sampo_b.entity.ShareEntity;
 import com.songbao.sampo_b.utils.CommonTools;
 import com.songbao.sampo_b.utils.ExceptionUtil;
@@ -404,11 +397,7 @@ public class BaseActivity extends FragmentActivity {
      * 关闭登录相关Activity
      */
     protected void closeLoginActivity() {
-        AppManager.getInstance().finishActivity(LoginActivity.class);
-        AppManager.getInstance().finishActivity(LoginPhoneActivity.class);
-        AppManager.getInstance().finishActivity(RegisterActivity.class);
-        AppManager.getInstance().finishActivity(RegisterOauthActivity.class);
-        AppManager.getInstance().finishActivity(ResetPasswordActivity.class);
+        AppManager.getInstance().finishActivity(LoginAccountActivity.class);
         postDeviceToken();
     }
 
@@ -419,7 +408,7 @@ public class BaseActivity extends FragmentActivity {
         AppManager.getInstance().finishActivity(GoodsActivity.class);
         AppManager.getInstance().finishActivity(GoodsListActivity.class);
         AppManager.getInstance().finishActivity(SketchActivity.class);
-        AppManager.getInstance().finishActivity(DesignerActivity.class);
+        AppManager.getInstance().finishActivity(DesignerListActivity.class);
     }
 
     /**
@@ -427,7 +416,7 @@ public class BaseActivity extends FragmentActivity {
      */
     protected void openLoginActivity() {
         shared.edit().putBoolean(AppConfig.KEY_JUMP_PAGE, false).apply();
-        Intent intent = new Intent(mContext, LoginActivity.class);
+        Intent intent = new Intent(mContext, LoginAccountActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
@@ -445,31 +434,9 @@ public class BaseActivity extends FragmentActivity {
      * 打开设计师列表页
      */
     protected void openDesignerActivity(String skuCode) {
-        Intent intent = new Intent(mContext, DesignerActivity.class);
+        Intent intent = new Intent(mContext, DesignerListActivity.class);
         intent.putExtra("skuCode", skuCode);
         startActivity(intent);
-    }
-
-    /**
-     * 打开我要评论页
-     */
-    protected void openCommentPostActivity(CommentEntity commentEn) {
-        if (commentEn != null) {
-            Intent intent = new Intent(mContext, CommentPostActivity.class);
-            intent.putExtra(AppConfig.PAGE_DATA, commentEn);
-            startActivity(intent);
-        }
-    }
-
-    /**
-     * 打开追加评论页
-     */
-    protected void openCommentAddActivity(CommentEntity commentEn) {
-        if (commentEn != null) {
-            Intent intent = new Intent(mContext, CommentAddActivity.class);
-            intent.putExtra(AppConfig.PAGE_DATA, commentEn);
-            startActivity(intent);
-        }
     }
 
     /**

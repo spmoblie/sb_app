@@ -14,7 +14,7 @@ import com.songbao.sampo_b.AppConfig;
 import com.songbao.sampo_b.R;
 import com.songbao.sampo_b.activity.BaseActivity;
 import com.songbao.sampo_b.adapter.AdapterCallback;
-import com.songbao.sampo_b.adapter.MyCustomizeAdapter;
+import com.songbao.sampo_b.adapter.CustomizeAdapter;
 import com.songbao.sampo_b.entity.BaseEntity;
 import com.songbao.sampo_b.entity.OCustomizeEntity;
 import com.songbao.sampo_b.utils.ExceptionUtil;
@@ -34,9 +34,9 @@ import java.util.List;
 import butterknife.BindView;
 
 
-public class MyCustomizeActivity extends BaseActivity implements View.OnClickListener{
+public class CustomizeListActivity extends BaseActivity implements View.OnClickListener{
 
-	String TAG = MyCustomizeActivity.class.getSimpleName();
+	String TAG = CustomizeListActivity.class.getSimpleName();
 
 	@BindView(R.id.top_bar_radio_rb_1)
 	RadioButton rb_1;
@@ -57,13 +57,13 @@ public class MyCustomizeActivity extends BaseActivity implements View.OnClickLis
 	PullToRefreshRecyclerView refresh_rv;
 
 	MyRecyclerView mRecyclerView;
-	MyCustomizeAdapter rvAdapter;
+	CustomizeAdapter rvAdapter;
 
 	public static final int TYPE_1 = 0;  //全部
-	public static final int TYPE_2 = 101;  //待付款
-	public static final int TYPE_3 = 201;  //生产中
-	public static final int TYPE_4 = 301;  //待收货
-	public static final int TYPE_5 = 701;  //待安装
+	public static final int TYPE_2 = 1;  //待付款
+	public static final int TYPE_3 = 2;  //生产中
+	public static final int TYPE_4 = 3;  //待收货
+	public static final int TYPE_5 = 4;  //待安装
 
 	private int data_total = -1; //数据总量
 	private int load_type = 1; //加载类型(0:下拉刷新/1:翻页加载)
@@ -163,7 +163,7 @@ public class MyCustomizeActivity extends BaseActivity implements View.OnClickLis
 		mRecyclerView.setLayoutManager(layoutManager);
 
 		// 配置适配器
-		rvAdapter = new MyCustomizeAdapter(mContext, R.layout.item_list_my_customize);
+		rvAdapter = new CustomizeAdapter(mContext, R.layout.item_list_my_customize);
 		rvAdapter.addData(al_show);
 		rvAdapter.addCallback(new AdapterCallback() {
 
@@ -427,7 +427,7 @@ public class MyCustomizeActivity extends BaseActivity implements View.OnClickLis
 		map.put("orderStatus", String.valueOf(top_type));
 		map.put("current", page);
 		map.put("size", AppConfig.LOAD_SIZE);
-		loadSVData(AppConfig.BASE_URL_3, AppConfig.URL_USER_CUSTOMIZE, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_USER_CUSTOMIZE);
+		loadSVData(AppConfig.BASE_URL_3, AppConfig.URL_BOOKING_LIST, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_BOOKING_LIST);
 	}
 
 	@Override
@@ -435,8 +435,8 @@ public class MyCustomizeActivity extends BaseActivity implements View.OnClickLis
 		BaseEntity baseEn;
 		try {
 			switch (dataType) {
-				case AppConfig.REQUEST_SV_USER_CUSTOMIZE:
-					baseEn = JsonUtils.getMyCustomizeData(jsonObject);
+				case AppConfig.REQUEST_SV_BOOKING_LIST:
+					baseEn = JsonUtils.getCustomizelistData(jsonObject);
 					if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
 						int newTotal = baseEn.getDataTotal();
 						List<OCustomizeEntity> lists = new ArrayList<>();

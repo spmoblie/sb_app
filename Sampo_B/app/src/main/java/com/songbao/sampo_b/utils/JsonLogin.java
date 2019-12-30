@@ -52,7 +52,6 @@ public class JsonLogin {
 			JSONObject jsonData = jsonObject.getJSONObject("data");
 			if (StringUtil.notNull(jsonData, "userInfo")) {
 				JSONObject data = jsonData.getJSONObject("userInfo");
-				userInfo.setUserId(data.getString("songbaoId"));
 				userInfo.setUserNick(data.getString("nickName"));
 				userInfo.setUserHead(data.getString("avatarUrl"));
 			}

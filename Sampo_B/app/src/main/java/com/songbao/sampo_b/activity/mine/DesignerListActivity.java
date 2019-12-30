@@ -1,4 +1,4 @@
-package com.songbao.sampo_b.activity.two;
+package com.songbao.sampo_b.activity.mine;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,7 +12,6 @@ import com.songbao.sampo_b.AppApplication;
 import com.songbao.sampo_b.AppConfig;
 import com.songbao.sampo_b.R;
 import com.songbao.sampo_b.activity.BaseActivity;
-import com.songbao.sampo_b.activity.mine.CustomizeActivity;
 import com.songbao.sampo_b.adapter.AdapterCallback;
 import com.songbao.sampo_b.adapter.DesignerAdapter;
 import com.songbao.sampo_b.entity.BaseEntity;
@@ -33,9 +32,9 @@ import java.util.List;
 import butterknife.BindView;
 
 
-public class DesignerActivity extends BaseActivity implements View.OnClickListener {
+public class DesignerListActivity extends BaseActivity implements View.OnClickListener {
 
-    String TAG = DesignerActivity.class.getSimpleName();
+    String TAG = DesignerListActivity.class.getSimpleName();
 
     @BindView(R.id.refresh_view_gv)
     GridView mGridView;
@@ -118,24 +117,24 @@ public class DesignerActivity extends BaseActivity implements View.OnClickListen
         gvAdapter.addCallback(new AdapterCallback() {
             @Override
             public void setOnClick(Object data, int position, int type) {
-                for (int i = 0; i < al_show.size(); i++) {
-                    al_show.get(i).setSelect(false);
-                    if (i == position) {
-                        al_show.get(i).setSelect(true);
-                        dgName = al_show.get(i).getName();
-                    }
-                }
-                updateListData();
+                updateListData(position);
             }
         });
         mGridView.setAdapter(gvAdapter);
     }
 
-    private void updateListData() {
+    private void updateListData(int position) {
         if (al_show.size() <= 0) {
             setNullVisibility(View.VISIBLE);
         } else {
             setNullVisibility(View.GONE);
+            for (int i = 0; i < al_show.size(); i++) {
+                al_show.get(i).setSelect(false);
+                if (i == position) {
+                    al_show.get(i).setSelect(true);
+                    dgName = al_show.get(i).getName();
+                }
+            }
         }
         gvAdapter.updateData(al_show);
     }
@@ -197,8 +196,7 @@ public class DesignerActivity extends BaseActivity implements View.OnClickListen
      */
     private void loadMoreData() {
         load_type = 1;
-        //loadServerData();
-        loadDemoData();
+        loadServerData();
     }
 
     /**
@@ -207,14 +205,14 @@ public class DesignerActivity extends BaseActivity implements View.OnClickListen
     private void loadServerData() {
         if (!isLoadOk) return; //加载频率控制
         isLoadOk = false;
-        String page = String.valueOf(load_page);
+        HashMap<String, String> map = new HashMap<>();
+        /*String page = String.valueOf(load_page);
         if (load_type == 0) {
             page = "1";
         }
-        HashMap<String, String> map = new HashMap<>();
         map.put("page", page);
-        map.put("size", AppConfig.LOAD_SIZE);
-        loadSVData(AppConfig.URL_DESIGN_ALL, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_DESIGN_ALL);
+        map.put("size", AppConfig.LOAD_SIZE);*/
+        loadSVData(AppConfig.URL_USER_DESIGNER, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_USER_DESIGNER);
     }
 
     /**
@@ -225,7 +223,7 @@ public class DesignerActivity extends BaseActivity implements View.OnClickListen
             JSONObject jsonObj = new JSONObject();
             jsonObj.put("designerId", 26);
             jsonObj.put("skuCode", skuCode);
-            postJsonData(AppConfig.BASE_URL_3, AppConfig.URL_CREATE_BOOKING, jsonObj, AppConfig.REQUEST_SV_CREATE_BOOKING);
+            postJsonData(AppConfig.BASE_URL_3, AppConfig.URL_BOOKING_CREATE, jsonObj, AppConfig.REQUEST_SV_BOOKING_CREATE);
         } catch (JSONException e) {
             ExceptionUtil.handle(e);
         }
@@ -236,7 +234,7 @@ public class DesignerActivity extends BaseActivity implements View.OnClickListen
         BaseEntity baseEn;
         try {
             switch (dataType) {
-                case AppConfig.REQUEST_SV_DESIGN_ALL:
+                case AppConfig.REQUEST_SV_USER_DESIGNER:
                     baseEn = JsonUtils.getDesignData(jsonObject);
                     if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
                         data_total = baseEn.getDataTotal();
@@ -254,7 +252,7 @@ public class DesignerActivity extends BaseActivity implements View.OnClickListen
                             }
                             al_show.addAll(lists);
                         }
-                        updateListData();
+                        updateListData(0);
                     } else if (baseEn.getErrno() == AppConfig.ERROR_CODE_TIMEOUT) {
                         handleTimeOut();
                         finish();
@@ -262,7 +260,7 @@ public class DesignerActivity extends BaseActivity implements View.OnClickListen
                         handleErrorCode(baseEn);
                     }
                     break;
-                case AppConfig.REQUEST_SV_CREATE_BOOKING:
+                case AppConfig.REQUEST_SV_BOOKING_CREATE:
                     baseEn = JsonUtils.getDesignData(jsonObject);
                     if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
                         CommonTools.showToast(getString(R.string.designer_subscribe_ok));
@@ -301,48 +299,6 @@ public class DesignerActivity extends BaseActivity implements View.OnClickListen
         isLoadOk = true;
         //refresh_gv.onPullUpRefreshComplete();
         //refresh_gv.onPullDownRefreshComplete();
-    }
-
-    /**
-     * 构建Demo数据
-     */
-    private void loadDemoData() {
-        al_show.clear();
-
-        DesignerEntity chEn_1 = new DesignerEntity();
-        DesignerEntity chEn_2 = new DesignerEntity();
-        DesignerEntity chEn_3 = new DesignerEntity();
-        DesignerEntity chEn_4 = new DesignerEntity();
-
-        chEn_1.setImgUrl("");
-        chEn_1.setName("设计师A");
-        chEn_1.setPhone("13686436466");
-        chEn_1.setInfo("设计师A，国际著名设计师，首位获得德意志联邦共和国 国家设计奖的中国设计师。曾赢得2012年German Design Award。");
-        chEn_1.setSelect(true);
-        al_show.add(chEn_1);
-        chEn_2.setImgUrl("");
-        chEn_2.setName("设计师B");
-        chEn_2.setPhone("15866631336");
-        chEn_2.setInfo("设计师B，著名华裔设计师，出生于纽约曼哈顿上东区，祖籍江苏徐州是永不会出错、绝不会让女星得到“最差劲服装奖”的品质保证。");
-        chEn_2.setSelect(false);
-        al_show.add(chEn_2);
-        chEn_3.setImgUrl("");
-        chEn_3.setName("设计师C");
-        chEn_3.setPhone("13686436466");
-        chEn_3.setInfo("设计师C，国际著名设计师， 首位获得德意志联邦共和国 国家设计奖的中国设计师。 曾赢得2012年German Design Award。");
-        chEn_3.setSelect(false);
-        al_show.add(chEn_3);
-        chEn_4.setImgUrl("");
-        chEn_4.setName("设计师D");
-        chEn_4.setPhone("15866631336");
-        chEn_4.setInfo("设计师D，著名华裔设计师，出生于纽约曼哈顿上东区，祖籍江苏徐州是永不会出错、绝不会让女星得到“最差劲服装奖”的品质保证。");
-        chEn_4.setSelect(false);
-        al_show.add(chEn_4);
-
-        dgName = al_show.get(0).getName();
-
-        updateListData();
-        stopAnimation();
     }
 
 }

@@ -313,9 +313,7 @@ public class UserManager {
 	 * 判定是否登录
 	 */
 	public boolean checkIsLogin(){
-		return !StringUtil.isNull(getXAppToken())
-			&& !StringUtil.isNull(getUserId())
-			&& !getUserId().equals("0");
+		return !StringUtil.isNull(getXAppToken());
 	}
 
 	/**
@@ -335,8 +333,6 @@ public class UserManager {
 			if (sp.getBoolean(AppConfig.KEY_JUMP_PAGE, false)) {
 				editor.putInt(AppConfig.KEY_MAIN_CURRENT_INDEX, 2).apply();
 			}
-			// 清除短信验证码次数限制
-			editor.putInt(AppConfig.KEY_SEND_VERIFY_NUMBER, 0).apply();
 		}
 	}
 

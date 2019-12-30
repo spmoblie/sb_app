@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/ui_color_app_bg_01">
+
+    <ImageView
+        android:id="@+id/login_phone_iv_logo"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintDimensionRatio="108:59"
+        android:src="@mipmap/icon_bg_login"/>
+
+    <TextView
+        android:id="@+id/login_phone_tv_account"
+        style="@style/block_title_text"
+        android:text="@string/login_account"
+        android:layout_marginTop="@dimen/margin_padding_40"
+        android:layout_marginLeft="@dimen/margin_padding_30"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/login_phone_iv_logo"/>
+
+    <EditText
+        android:id="@+id/login_phone_et_account"
+        style="@style/login_edit"
+        android:hint="@string/login_account_input"
+        android:drawableLeft="@mipmap/icon_login_account"
+        android:drawablePadding="@dimen/margin_padding_10"
+        android:layout_margin="@dimen/margin_padding_30"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/login_phone_tv_account"/>
+
+    <ImageView
+        android:id="@+id/login_iv_account_clear"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/icon_clear"
+        android:padding="@dimen/app_margin_screen"
+        android:contentDescription="@string/desc"
+        app:layout_constraintTop_toTopOf="@+id/login_phone_et_account"
+        app:layout_constraintRight_toRightOf="@+id/login_phone_et_account"
+        app:layout_constraintBottom_toBottomOf="@+id/login_phone_et_account"
+        android:visibility="gone" />
+
+    <View
+        style="@style/set_line_horizontal_bg"
+        android:layout_width="0dp"
+        android:layout_marginTop="@dimen/margin_padding_5"
+        android:layout_marginLeft="@dimen/margin_padding_65"
+        android:layout_marginRight="@dimen/margin_padding_30"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/login_phone_et_account"/>
+
+    <EditText
+        android:id="@+id/login_phone_et_password"
+        style="@style/login_edit"
+        android:maxLength="20"
+        android:imeOptions="actionDone"
+        android:hint="@string/login_password"
+        android:digits="@null"
+        android:inputType="textPassword"
+        android:drawableLeft="@mipmap/icon_login_password"
+        android:drawablePadding="@dimen/margin_padding_10"
+        android:layout_marginTop="@dimen/margin_padding_40"
+        app:layout_constraintTop_toBottomOf="@+id/login_phone_et_account"
+        app:layout_constraintLeft_toLeftOf="@+id/login_phone_et_account"
+        app:layout_constraintRight_toRightOf="@+id/login_phone_et_account"/>
+
+    <ImageView
+        android:id="@+id/login_phone_iv_password_check"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/selector_icon_password"
+        android:padding="@dimen/app_margin_screen"
+        android:contentDescription="@string/desc"
+        app:layout_constraintTop_toTopOf="@+id/login_phone_et_password"
+        app:layout_constraintBottom_toBottomOf="@+id/login_phone_et_password"
+        app:layout_constraintRight_toRightOf="@+id/login_phone_et_password"/>
+
+    <View
+        style="@style/set_line_horizontal_bg"
+        android:layout_width="0dp"
+        android:layout_marginTop="@dimen/margin_padding_5"
+        android:layout_marginLeft="@dimen/margin_padding_65"
+        android:layout_marginRight="@dimen/margin_padding_30"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/login_phone_et_password"/>
+
+    <Button
+        android:id="@+id/login_phone_btn_login"
+        style="@style/login_button"
+        android:text="@string/login"
+        android:background="@drawable/shape_style_solid_04_08"
+        android:layout_marginLeft="@dimen/app_margin_screen"
+        android:layout_marginRight="@dimen/app_margin_screen"
+        android:layout_marginBottom="@dimen/margin_padding_40"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+</android.support.constraint.ConstraintLayout>

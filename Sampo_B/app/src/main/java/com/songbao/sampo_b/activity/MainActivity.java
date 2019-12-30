@@ -22,13 +22,14 @@ import com.songbao.sampo_b.AppConfig;
 import com.songbao.sampo_b.AppManager;
 import com.songbao.sampo_b.R;
 import com.songbao.sampo_b.activity.home.ChildFragmentHome;
-import com.songbao.sampo_b.activity.login.LoginActivity;
+import com.songbao.sampo_b.activity.login.LoginAccountActivity;
 import com.songbao.sampo_b.activity.mine.ChildFragmentMine;
 import com.songbao.sampo_b.activity.two.ChildFragmentTwo;
 import com.songbao.sampo_b.utils.CommonTools;
 import com.songbao.sampo_b.utils.ExceptionUtil;
 import com.songbao.sampo_b.utils.LogUtil;
 import com.songbao.sampo_b.utils.UpdateAppVersion;
+import com.songbao.sampo_b.utils.UserManager;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -61,6 +62,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
     private static Fragment fragment = null;
     private static String current_fragment; //当前要显示的Fragment
     private static final String[] FRAGMENT_CONTAINER = {"fragment_1", "fragment_2", "fragment_3"};
+    private int default_index = 2; //默认显示的Fragment下标索引
     private int current_index = -1; //当前显示的Fragment下标索引
     private boolean exit = false;
 
@@ -92,13 +94,13 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
         tab_text_3.setOnClickListener(this);
 
         boolean isJump = shared.getBoolean(AppConfig.KEY_JUMP_PAGE, false);
-        int save_index = shared.getInt(AppConfig.KEY_MAIN_CURRENT_INDEX, 1);
+        int save_index = shared.getInt(AppConfig.KEY_MAIN_CURRENT_INDEX, default_index);
         LogUtil.i(LogUtil.LOG_TAG, TAG + ": isJump = " + isJump + " save = " + save_index + " current = " + current_index);
         // 非主动跳转且页面出现错误时
         if (!isJump && save_index > 0 && current_index == -1) {
             /*startFragment();
             return;*/
-            save_index = 1;
+            save_index = default_index;
         }
         // 设置默认初始化的界面
         switch (save_index) {
@@ -156,6 +158,10 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
         // 页面开始
         AppApplication.onPageStart(this, TAG);
 
+        if (!UserManager.getInstance().checkIsLogin()) {
+            openLoginActivity(); //强制登入
+        }
+
         exit = Boolean.FALSE;
         initView();
 
@@ -175,7 +181,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
     protected void onDestroy() {
         LogUtil.i(LogUtil.LOG_TAG, TAG + ": onDestroy");
 
-        AppApplication.getSharedPreferences().edit().putInt(AppConfig.KEY_MAIN_CURRENT_INDEX, 0).apply();
+        AppApplication.getSharedPreferences().edit().putInt(AppConfig.KEY_MAIN_CURRENT_INDEX, default_index).apply();
         AppManager.getInstance().finishActivity(this);
 
         super.onDestroy();
@@ -193,10 +199,6 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
                 current_index = 1;
                 break;
             case R.id.main_fragment_tab_tv_3:
-			/*if (!UserManager.getInstance().checkIsLogin()) {
-				openLoginActivity();
-				return;
-			}*/
                 if (current_index == 2) return;
                 current_index = 2;
                 break;
@@ -215,7 +217,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
      */
     protected void openLoginActivity() {
         shared.edit().putBoolean(AppConfig.KEY_JUMP_PAGE, true).apply();
-        Intent intent = new Intent(AppApplication.getAppContext(), LoginActivity.class);
+        Intent intent = new Intent(AppApplication.getAppContext(), LoginAccountActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }

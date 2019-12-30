@@ -21,7 +21,6 @@ import com.songbao.sampo_b.AppConfig;
 import com.songbao.sampo_b.R;
 import com.songbao.sampo_b.activity.BaseFragment;
 import com.songbao.sampo_b.activity.common.ScanActivity;
-import com.songbao.sampo_b.activity.two.DesignerActivity;
 import com.songbao.sampo_b.entity.BaseEntity;
 import com.songbao.sampo_b.entity.UserInfoEntity;
 import com.songbao.sampo_b.utils.ExceptionUtil;
@@ -161,7 +160,7 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
                 break;
             case R.id.fg_mine_customize_main:
                 if (!checkClick()) return;
-                startActivity(new Intent(mContext, MyCustomizeActivity.class));
+                startActivity(new Intent(mContext, CustomizeListActivity.class));
                 break;
             case R.id.fg_mine_address_main:
                 if (!checkClick()) return;
@@ -169,7 +168,7 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
                 break;
             case R.id.fg_mine_designer_main:
                 if (!checkClick()) return;
-                startActivity(new Intent(mContext, DesignerActivity.class));
+                startActivity(new Intent(mContext, DesignerListActivity.class));
                 break;
             case R.id.fg_mine_setting_main:
                 startActivity(new Intent(mContext, SettingActivity.class));

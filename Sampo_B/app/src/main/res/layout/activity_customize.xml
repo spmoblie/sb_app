@@ -129,7 +129,7 @@
             <TextView
                 android:id="@+id/customize_tv_module_1_call_designer"
                 style="@style/order_text_button"
-                android:text="联系Ta"
+                android:text="商品详情"
                 app:layout_constraintWidth_percent="0.3"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_1_designer_phone" />
@@ -253,7 +253,6 @@
             <TextView
                 android:id="@+id/customize_tv_module_3_confirm"
                 style="@style/order_text_button"
-                android:text="确认效果图"
                 android:visibility="gone"
                 app:layout_constraintWidth_percent="0.3"
                 app:layout_constraintRight_toRightOf="parent"
@@ -271,7 +270,7 @@
             <TextView
                 android:id="@+id/customize_tv_module_4_title"
                 style="@style/order_text"
-                android:text="支付订单"
+                android:text="支付信息"
                 android:textStyle="bold"
                 android:textColor="@color/shows_text_color"
                 android:textSize="@dimen/app_text_size_content"
@@ -315,7 +314,6 @@
             <TextView
                 android:id="@+id/customize_tv_module_4_go_pay"
                 style="@style/order_text_button"
-                android:text="在线支付"
                 android:visibility="gone"
                 app:layout_constraintWidth_percent="0.3"
                 app:layout_constraintRight_toRightOf="parent"
@@ -388,7 +386,6 @@
             <TextView
                 android:id="@+id/customize_tv_module_5_select_address"
                 style="@style/order_text_button"
-                android:text="选择收货地址"
                 android:visibility="gone"
                 app:layout_constraintWidth_percent="0.35"
                 app:layout_constraintRight_toRightOf="parent"
@@ -490,7 +487,7 @@
             <TextView
                 android:id="@+id/customize_tv_module_7_call_install"
                 style="@style/order_text_button"
-                android:text="联系安装"
+                android:text="@string/order_confirm_receipt"
                 android:visibility="gone"
                 app:layout_constraintWidth_percent="0.3"
                 app:layout_constraintRight_toRightOf="parent"
@@ -539,7 +536,6 @@
             <TextView
                 android:id="@+id/customize_tv_module_8_install_confirm"
                 style="@style/order_text_button"
-                android:text="确认安装完成"
                 android:visibility="gone"
                 app:layout_constraintWidth_percent="0.35"
                 app:layout_constraintRight_toRightOf="parent"
