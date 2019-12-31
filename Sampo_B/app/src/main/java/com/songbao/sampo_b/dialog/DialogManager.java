@@ -187,8 +187,8 @@ public class DialogManager {
 	 * @param isCenter 提示内容是否居中
 	 * @param isVanish 点击框以外是否消失
 	 */
-	public void showTwoBtnDialog(String title, String content, String leftStr, String rightStr,
-                                 int width, boolean isCenter, boolean isVanish, final Handler handler){
+	public void showTwoBtnDialog(String title, String content, String leftStr, String rightStr,int width,
+								 boolean isCenter, boolean isVanish, final Handler handler, final int handlerCode){
 		// 销毁旧对话框
 		dismiss();
 		// 创建新对话框
@@ -231,7 +231,7 @@ public class DialogManager {
 			@Override
 			public void onClick(View v) {
 				if (handler != null) { //确定
-					handler.sendEmptyMessage(AppConfig.DIALOG_CLICK_OK);
+					handler.sendEmptyMessage(handlerCode);
 				}
 				mDialog.dismiss();
 			}

@@ -25,6 +25,7 @@ import com.songbao.sampo_b.utils.retrofit.HttpRequests;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -143,19 +144,7 @@ public class DesignerListActivity extends BaseActivity implements View.OnClickLi
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.designer_tv_click:
-                showConfirmDialog(getString(R.string.designer_subscribe_tips, dgName), null, null, true, true,
-                        new Handler() {
-                            @Override
-                            public void handleMessage(Message msg) {
-                                switch (msg.what) {
-                                    case AppConfig.DIALOG_CLICK_NO:
-                                        break;
-                                    case AppConfig.DIALOG_CLICK_OK:
-                                        postCustomizeData();
-                                        break;
-                                }
-                            }
-                        });
+                showConfirmDialog(getString(R.string.designer_subscribe_tips, dgName), new MyHandler(this));
                 break;
         }
     }
@@ -299,6 +288,25 @@ public class DesignerListActivity extends BaseActivity implements View.OnClickLi
         isLoadOk = true;
         //refresh_gv.onPullUpRefreshComplete();
         //refresh_gv.onPullDownRefreshComplete();
+    }
+
+    static class MyHandler extends Handler {
+
+        WeakReference<DesignerListActivity> mActivity;
+
+        MyHandler(DesignerListActivity activity) {
+            mActivity = new WeakReference<>(activity);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            DesignerListActivity theActivity = mActivity.get();
+            switch (msg.what) {
+                case AppConfig.DIALOG_CLICK_OK:
+                    theActivity.postCustomizeData();
+                    break;
+            }
+        }
     }
 
 }

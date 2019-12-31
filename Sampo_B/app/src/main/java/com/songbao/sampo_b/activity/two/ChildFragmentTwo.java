@@ -248,6 +248,9 @@ public class ChildFragmentTwo extends BaseFragment implements OnClickListener {
 			this.getView().setVisibility(menuVisible ? View.VISIBLE : View.GONE);
 	}
 
+	/**
+	 * 清空缓存
+	 */
 	private void clearData() {
 		al_right.clear();
 		am_show.clear();

@@ -188,7 +188,7 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
     private void changeHead() {
         // 标记裁剪相片的类型为圆形
         shared.edit().putInt(AppConfig.KEY_CLIP_PHOTO_TYPE, AppConfig.PHOTO_TYPE_ROUND).apply();
-        showListDialog(R.string.photo_change_head, getResources().getStringArray(R.array.array_photo_choose),
+        showListDialog(getString(R.string.photo_change_head), getResources().getStringArray(R.array.array_photo_choose),
                 screenWidth * 1 / 2, true, new Handler() {
 
                     @Override

@@ -278,7 +278,7 @@ public class JsonUtils {
     /**
      * 解析定制列表数据
      */
-    public static BaseEntity getCustomizelistData(JSONObject jsonObject) throws JSONException {
+    public static BaseEntity getCustomizeListData(JSONObject jsonObject) throws JSONException {
         BaseEntity mainEn = getCommonKeyValue(jsonObject);
 
         if (StringUtil.notNull(jsonObject, "data")) {
@@ -338,7 +338,7 @@ public class JsonUtils {
                 ocEn.setOrderNo(note_01.getString("bookingCode"));
                 ocEn.setStatus(note_01.getInt("bookingStatus"));
                 ocEn.setStatusDesc(note_01.getString("bookingStatusDesc"));
-                ocEn.setNodeTime1(note_01.getString("create_time"));
+                ocEn.setNodeTime1(note_01.getString("createTime"));
 
                 //商品信息
                 GoodsEntity gdEn = new GoodsEntity();
@@ -358,7 +358,7 @@ public class JsonUtils {
             // 上门量尺
             if (noteNo > 1 && StringUtil.notNull(jsonData, "scaleInfoVO")) {
                 JSONObject note_02 = jsonData.getJSONObject("scaleInfoVO");
-                ocEn.setNodeTime2(note_02.getString("createTime"));
+                ocEn.setNodeTime2(note_02.getString("scaleTime"));
                 GoodsEntity gdEn = ocEn.getGdEn();
                 if (gdEn == null) {
                     gdEn = new GoodsEntity();
@@ -376,36 +376,23 @@ public class JsonUtils {
                 if (StringUtil.notNull(note_03, "pics")) {
                     ocEn.setImgList(getStringList(note_03.getString("pics")));
                 }
-                ocEn.setConfirm(note_03.getBoolean("confirm"));
+                ocEn.setDesigns(note_03.getBoolean("confirm"));
             }
             // 支付信息
             if (noteNo > 3 && StringUtil.notNull(jsonData, "payment")) {
                 JSONObject note_04 = jsonData.getJSONObject("payment");
-                ocEn.setNodeTime4(note_04.getString("createTime"));
-                ocEn.setPrice(note_04.getDouble("skuNum"));
-                ocEn.setCycle(30);
-
-                int payStatus = note_04.getInt("payStatus");
-                if (payStatus == 1) {
-                    ocEn.setPay(true);
-                    ocEn.setPayType(note_04.getString("payChannel"));
-                }
-                if (StringUtil.notNull(note_04, "updateTime")) {
-                    String payDoneTime = note_04.getString("updateTime");
-                    if (!StringUtil.isNull(payDoneTime)) {
-                        ocEn.setNodeTime4(payDoneTime);
-                    }
-                }
+                //ocEn.setNodeTime4(note_04.getString("createTime"));
+                ocEn.setPrice(note_04.getDouble("orderPrice"));
+                ocEn.setCycle(note_04.getInt("leadtimeSpan"));
+                ocEn.setPayment(note_04.getBoolean("confirm"));
             }
             // 收货信息
             if (noteNo > 4 && StringUtil.notNull(jsonData, "orderReciever")) {
                 JSONObject note_05 = jsonData.getJSONObject("orderReciever");
-                ocEn.setNodeTime5("2019/12/26 18:18");
+                ocEn.setNodeTime5(note_05.getString("recieveTime"));
                 AddressEntity adEn = new AddressEntity();
-                adEn.setId(note_05.getInt("id"));
                 adEn.setName(note_05.getString("recieverName"));
-                adEn.setPhone("16999666699");
-                adEn.setDistrict(note_05.getString("addrArea"));
+                adEn.setPhone(note_05.getString("recieverPhone"));
                 adEn.setAddress(note_05.getString("addrDetail"));
                 ocEn.setAdEn(adEn);
             }
@@ -446,18 +433,18 @@ public class JsonUtils {
                     olList.add(olEn);
                 }
                 ocEn.setOlList(olList);
+                ocEn.setReceipt(note_07.getBoolean("confirm"));
             }
             // 产品安装
             if (noteNo > 7 && StringUtil.notNull(jsonData, "installing")) {
                 JSONObject note_08 = jsonData.getJSONObject("installing");
-                ocEn.setNodeTime8(note_08.getString("installingTime"));
-                ocEn.setReceipt(true);
+                ocEn.setNodeTime8(note_08.getString("installTime"));
+                ocEn.setInstall(note_08.getBoolean("confirm"));
             }
             // 订单完成
             if (noteNo > 8 && StringUtil.notNull(jsonData, "finish")) {
                 JSONObject note_09 = jsonData.getJSONObject("finish");
                 ocEn.setNodeTime9(note_09.getString("finishTime"));
-                ocEn.setFinish(true);
             }
             mainEn.setData(ocEn);
         }
@@ -714,22 +701,20 @@ public class JsonUtils {
         BaseEntity mainEn = getCommonKeyValue(jsonObject);
 
         if (StringUtil.notNull(jsonObject, "data")) {
-            JSONObject jsonData = jsonObject.getJSONObject("data");
-            if (StringUtil.notNull(jsonData, "dataList")) {
-                JSONArray data = jsonData.getJSONArray("dataList");
-                AddressEntity childEn;
-                List<AddressEntity> lists = new ArrayList<>();
-                for (int i = 0; i < 3; i++) {
-                    childEn = new AddressEntity();
-                    childEn.setId(i + 1);
-                    childEn.setName("张先生");
-                    childEn.setPhone("1888888888" + i);
-                    childEn.setDistrict("广东省深圳市南山区");
-                    childEn.setAddress("粤海街道科发路大冲城市花园5栋16B");
-                    lists.add(childEn);
-                }
-                mainEn.setLists(lists);
+            JSONArray jsonData = jsonObject.getJSONArray("data");
+            AddressEntity childEn;
+            List<AddressEntity> lists = new ArrayList<>();
+            for (int i = 0; i < jsonData.length(); i++) {
+                JSONObject item = jsonData.getJSONObject(i);
+                childEn = new AddressEntity();
+                childEn.setId(item.getInt("consigneeId"));
+                childEn.setName(item.getString("consigneeName"));
+                childEn.setPhone(item.getString("consigneePhone"));
+                childEn.setDistrict(item.getString("addrArea"));
+                childEn.setAddress(item.getString("addrDetail"));
+                lists.add(childEn);
             }
+            mainEn.setLists(lists);
         }
         return mainEn;
     }

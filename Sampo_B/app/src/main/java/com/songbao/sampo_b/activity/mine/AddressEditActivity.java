@@ -4,6 +4,10 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
@@ -24,13 +28,19 @@ import com.songbao.sampo_b.AppConfig;
 import com.songbao.sampo_b.R;
 import com.songbao.sampo_b.activity.BaseActivity;
 import com.songbao.sampo_b.entity.AddressEntity;
+import com.songbao.sampo_b.entity.BaseEntity;
 import com.songbao.sampo_b.utils.CommonTools;
 import com.songbao.sampo_b.utils.ExceptionUtil;
+import com.songbao.sampo_b.utils.JsonUtils;
 import com.songbao.sampo_b.utils.LogUtil;
 import com.songbao.sampo_b.utils.StringUtil;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -112,8 +122,7 @@ public class AddressEditActivity extends BaseActivity implements OnClickListener
     }
 
     private void initView() {
-        setTitle("编辑收货地址");
-        setRightViewText(getString(R.string.delete));
+        setTitle(getString(R.string.address_edit));
 
         if (data != null) {
             et_name.setText(data.getName());
@@ -122,7 +131,58 @@ public class AddressEditActivity extends BaseActivity implements OnClickListener
             et_detail.setText(data.getAddress());
             addressId = data.getId();
         }
+        if (addressId > 0) {
+            setRightViewText(getString(R.string.delete));
+        }
+        initEditText();
         initViewListener();
+    }
+
+    private void initEditText() {
+        et_phone.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s == null || s.length() == 0) return;
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < s.length(); i++) {
+                    if (i != 3 && i != 8 && s.charAt(i) == ' ') {
+                        continue;
+                    } else {
+                        sb.append(s.charAt(i));
+                        if ((sb.length() == 4 || sb.length() == 9) && sb.charAt(sb.length() - 1) != ' ') {
+                            sb.insert(sb.length() - 1, ' ');
+                        }
+                    }
+                }
+                if (!sb.toString().equals(s.toString())) {
+                    int index = start + 1;
+                    if (sb.charAt(start) == ' ') {
+                        if (before == 0) {
+                            index++;
+                        } else {
+                            index--;
+                        }
+                    } else {
+                        if (before == 1) {
+                            index--;
+                        }
+                    }
+                    et_phone.setText(sb.toString());
+                    et_phone.setSelection(index);
+                }
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
     }
 
     private void initViewListener() {
@@ -141,7 +201,7 @@ public class AddressEditActivity extends BaseActivity implements OnClickListener
 
     @Override
     public void OnListenerRight() {
-        postDeleteAddress();
+        showConfirmDialog(getString(R.string.address_delete_confirm), new MyHandler(this));
     }
 
     @Override
@@ -154,10 +214,12 @@ public class AddressEditActivity extends BaseActivity implements OnClickListener
                 break;
             case R.id.address_edit_tv_save:
                 if (checkData()) {
-                    postEditAddress();
+                    postSaveAddress();
                 }
                 break;
             case R.id.address_edit_tv_area_show: //选择省、市、区
+                hideSoftInput(et_name);
+                hideSoftInput(et_phone);
                 wheel_main.setVisibility(View.VISIBLE);
                 break;
             case R.id.address_edit_wheel_tv_confirm:
@@ -181,10 +243,19 @@ public class AddressEditActivity extends BaseActivity implements OnClickListener
             CommonTools.showToast(getString(R.string.address_error_name_empty));
             return false;
         }
-        // 判定手机号
+        // 号码非空
         phoneStr = et_phone.getText().toString();
         if (StringUtil.isNull(phoneStr)) {
             CommonTools.showToast(getString(R.string.address_error_phone_empty));
+            return false;
+        }
+        // 号码去空
+        if (phoneStr.contains(" ")) {
+            phoneStr = phoneStr.replace(" ", "");
+        }
+        // 校验格式
+        if (!StringUtil.isMobileNO(phoneStr)) {
+            CommonTools.showToast(getString(R.string.login_phone_input_error));
             return false;
         }
         // 判定所在地区
@@ -388,24 +459,92 @@ public class AddressEditActivity extends BaseActivity implements OnClickListener
     }
 
     /**
-     * 提交删除收货地址
+     * 提交保存收货地址
      */
-    private void postDeleteAddress() {
-        isUpdate = true;
-        CommonTools.showToast("删除成功");
-        finish();
+    private void postSaveAddress() {
+        try {
+            JSONObject jsonObj = new JSONObject();
+            jsonObj.put("consigneeId", addressId);
+            jsonObj.put("consigneeName", nameStr);
+            jsonObj.put("consigneePhone", phoneStr);
+            jsonObj.put("addrArea", areaStr);
+            jsonObj.put("addrDetail", addressStr);
+            postJsonData(AppConfig.BASE_URL_3, AppConfig.URL_USER_ADDRESS_EDIT, jsonObj, AppConfig.REQUEST_SV_USER_ADDRESS_EDIT);
+        } catch (JSONException e) {
+            ExceptionUtil.handle(e);
+        }
     }
 
     /**
-     * 提交修改收货地址
+     * 提交删除收货地址
      */
-    private void postEditAddress() {
-        if (isDefault) {
-            userManager.saveDefaultAddressId(addressId);
+    private void postDeleteAddress() {
+        try {
+            JSONObject jsonObj = new JSONObject();
+            jsonObj.put("consigneeIds", String.valueOf(addressId));
+            postJsonData(AppConfig.BASE_URL_3, AppConfig.URL_USER_ADDRESS_DELETE, jsonObj, AppConfig.REQUEST_SV_USER_ADDRESS_DELETE);
+        } catch (JSONException e) {
+            ExceptionUtil.handle(e);
         }
-        isUpdate = true;
-        CommonTools.showToast("保存成功");
-        finish();
+    }
+
+    @Override
+    protected void callbackData(JSONObject jsonObject, int dataType) {
+        super.callbackData(jsonObject, dataType);
+        BaseEntity baseEn;
+        try {
+            switch (dataType) {
+                case AppConfig.REQUEST_SV_USER_ADDRESS_EDIT:
+                    baseEn = JsonUtils.getBaseErrorData(jsonObject);
+                    if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+                        if (addressId > 0 && isDefault) {
+                            userManager.saveDefaultAddressId(addressId);
+                        }
+                        isUpdate = true;
+                        finish();
+                    } else {
+                        handleErrorCode(baseEn);
+                    }
+                    break;
+                case AppConfig.REQUEST_SV_USER_ADDRESS_DELETE:
+                    baseEn = JsonUtils.getBaseErrorData(jsonObject);
+                    if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+                        isUpdate = true;
+                        finish();
+                    } else {
+                        handleErrorCode(baseEn);
+                    }
+                    break;
+            }
+        } catch (Exception e) {
+            loadFailHandle();
+            ExceptionUtil.handle(e);
+        }
+    }
+
+    @Override
+    protected void loadFailHandle() {
+        super.loadFailHandle();
+        handleErrorCode(null);
+    }
+
+    static class MyHandler extends Handler {
+
+        WeakReference<AddressEditActivity> mActivity;
+
+        MyHandler(AddressEditActivity activity) {
+            mActivity = new WeakReference<>(activity);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            AddressEditActivity theActivity = mActivity.get();
+            switch (msg.what) {
+                case AppConfig.DIALOG_CLICK_OK:
+                    theActivity.postDeleteAddress();
+                    break;
+            }
+        }
     }
 
 }

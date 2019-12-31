@@ -37,6 +37,7 @@ import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 import org.json.JSONObject;
 
+import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -258,17 +259,7 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
     }
 
     private void ask4Leave() {
-        showConfirmDialog(R.string.pay_abandon, getString(R.string.leave_confirm),
-                getString(R.string.pay_continue), true, true, new Handler() {
-                    @Override
-                    public void handleMessage(Message msg) {
-                        switch (msg.what) {
-                            case AppConfig.DIALOG_CLICK_NO:
-                                finish();
-                                break;
-                        }
-                    }
-                });
+        showConfirmDialog(getString(R.string.pay_abandon), getString(R.string.leave_confirm), getString(R.string.pay_continue), new MyHandler(this));
     }
 
     @Override
@@ -406,7 +397,7 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
         if (data == null) return;
         int payCode = PAY_FAIL;
         // 银联手机支付控件返回字符串:success、fail、cancel 分别代表支付成功，支付失败，支付取消
-        String str = data.getExtras().getString("pay_result");
+        String str = data.getStringExtra("pay_result");
         if (str.equalsIgnoreCase("success")) {
             payCode = PAY_SUCCESS;
         } else if (str.equalsIgnoreCase("cancel")) {
@@ -509,6 +500,25 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
             case PAY_ERROR:
                 showErrorDialog(getString(R.string.pay_result_error));
                 break;
+        }
+    }
+
+    static class MyHandler extends Handler {
+
+        WeakReference<WXPayEntryActivity> mActivity;
+
+        MyHandler(WXPayEntryActivity activity) {
+            mActivity = new WeakReference<>(activity);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            WXPayEntryActivity theActivity = mActivity.get();
+            switch (msg.what) {
+                case AppConfig.DIALOG_CLICK_NO:
+                    theActivity.finish();
+                    break;
+            }
         }
     }
 

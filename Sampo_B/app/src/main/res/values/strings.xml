@@ -2,7 +2,7 @@
 <resources>
 
     <!-- testing version -->
-    <string name="app_name">松小堡(经销商版)</string>
+    <string name="app_name">松小堡-门店</string>
 
     <!-- General -->
     <string name="confirm">确定</string>
@@ -86,6 +86,7 @@
     <string name="hour">h</string>
     <string name="minute">m</string>
     <string name="second">s</string>
+    <string name="version_no">V%1$s</string>
     <string name="viewpager_indicator">%1$d/%2$d</string>
     <string name="qr_code_scan">二维码扫描</string>
 
@@ -222,7 +223,6 @@
     <string name="order_wait_opinion">待评价</string>
     <string name="order_repair_return">退换货</string>
     <string name="order_cancelled">已取消</string>
-    <string name="order_cancel">取消订单</string>
     <string name="order_pay">立即付款</string>
     <string name="order_price_goods">商品金额</string>
     <string name="order_price_freight">物流运费</string>
@@ -246,16 +246,35 @@
     <string name="order_image_number">点击查看%1$d张效果图</string>
     <string name="order_price_offer">定制产品报价：￥%1$s</string>
     <string name="order_cycle_day">计划生产周期：%1$d天</string>
+    <string name="order_node_01">提交预约</string>
+    <string name="order_node_02">上门量尺</string>
+    <string name="order_node_03">设计效果图</string>
+    <string name="order_node_04">订单支付</string>
+    <string name="order_node_05">收货地址</string>
+    <string name="order_node_06">生产进度跟踪</string>
+    <string name="order_node_07">产品发货</string>
+    <string name="order_node_08">产品安装</string>
+    <string name="order_node_09">订单完成</string>
     <string name="order_progress">定制进度</string>
     <string name="order_progress_check">查看进度</string>
     <string name="order_logistics">查看物流</string>
+    <string name="order_installed">已安装</string>
     <string name="order_confirmed">已确认</string>
-    <string name="order_confirm_image">确认效果图</string>
+    <string name="order_confirm_designs">确认效果图</string>
+    <string name="order_confirm_designs_hint">在确认效果图后\n效果图不可修改</string>
+    <string name="order_confirm_payment">确认支付</string>
+    <string name="order_confirm_payment_hint">确认订单已支付么？</string>
     <string name="order_confirm_receipt">确认收货</string>
+    <string name="order_confirm_receipt_hint">确认货物已收到么？</string>
     <string name="order_confirm_install">确认安装</string>
+    <string name="order_confirm_install_hint">确认安装完成即\n代表订单已完成</string>
     <string name="order_receipt_hint">产品签收后，请确认收货并尽快上门安装。</string>
     <string name="order_install_hint">安装完成后请确认安装完成，如未确认系统会自签收日起7个自然日后自动确认安装完成。</string>
+    <string name="order_finish_hint">您的定制订单已完成，如有任何产品相关问题请联系售后服务或拨打400-880-6558咨询。</string>
     <string name="order_delete">删除订单</string>
+    <string name="order_delete_confirm">确认删除订单么？</string>
+    <string name="order_cancel">取消订单</string>
+    <string name="order_cancel_confirm">确认取消订单么？</string>
     <string name="order_change">换货</string>
     <string name="order_return">退货</string>
     <string name="order_post_sale">申请售后</string>
@@ -406,6 +425,7 @@
     <!-- Address -->
     <string name="address_title">收货地址</string>
     <string name="address_add">新增收货地址</string>
+    <string name="address_edit">编辑收货地址</string>
     <string name="address_default">默认</string>
     <string name="address_default_set">设为默认</string>
     <string name="address_default_setting">设置为默认收货地址</string>
@@ -416,8 +436,9 @@
     <string name="address_phone">联系电话：%1$s</string>
     <string name="address_phone_number">手机号码</string>
     <string name="address_phone_number_hint">填写收货人手机</string>
-    <string name="address_select">选择收货地址</string>
-    <string name="address_change">修改收货地址</string>
+    <string name="address_rise">收货地址：</string>
+    <string name="address_select">选择地址</string>
+    <string name="address_change">修改地址</string>
     <string name="address_area">所在地区</string>
     <string name="address_area_hint">选择所在地区</string>
     <string name="address_detail">详细地址</string>
@@ -427,7 +448,9 @@
     <string name="address_city">市</string>
     <string name="address_district">区</string>
     <string name="address_manage">管理</string>
+    <string name="address_delete_ok">删除成功</string>
     <string name="address_delete_num">删除所选(%1$d)</string>
+    <string name="address_delete_confirm">确认删除地址么？</string>
     <string name="address_error_name_empty">请输入收货人姓名</string>
     <string name="address_error_phone_empty">请输入收货人手机号码</string>
     <string name="address_error_area_empty">请选择所在地区信息</string>

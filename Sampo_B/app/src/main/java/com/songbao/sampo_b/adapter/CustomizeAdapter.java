@@ -83,7 +83,7 @@ public class CustomizeAdapter extends BaseRecyclerAdapter {
                 break;
             case AppConfig.ORDER_STATUS_301: //待发货
                 tv_status.setText(context.getString(R.string.order_wait_send));
-                tv_status.setBackgroundResource(R.drawable.shape_style_solid_07_04);
+                tv_status.setBackgroundResource(R.drawable.shape_style_solid_08_04);
                 break;
             case AppConfig.ORDER_STATUS_401: //待收货
                 tv_status.setText(context.getString(R.string.order_wait_receive));
@@ -100,11 +100,11 @@ public class CustomizeAdapter extends BaseRecyclerAdapter {
             case AppConfig.ORDER_STATUS_501: //已签收
             case AppConfig.ORDER_STATUS_701: //待安装
                 tv_status.setText(context.getString(R.string.order_wait_install));
-                tv_status.setBackgroundResource(R.drawable.shape_style_solid_08_04);
+                tv_status.setBackgroundResource(R.drawable.shape_style_solid_07_04);
                 tv_click_02.setVisibility(View.VISIBLE);
                 tv_click_02.setText(context.getString(R.string.order_confirm_install));
                 tv_click_02.setTextColor(context.getResources().getColor(R.color.app_color_white));
-                tv_click_02.setBackgroundResource(R.drawable.shape_style_solid_08_08);
+                tv_click_02.setBackgroundResource(R.drawable.shape_style_solid_07_08);
                 break;
             case AppConfig.ORDER_STATUS_801: //已完成
                 tv_status.setText(context.getString(R.string.order_completed));
@@ -115,6 +115,7 @@ public class CustomizeAdapter extends BaseRecyclerAdapter {
                 tv_click_02.setBackgroundResource(R.drawable.shape_style_empty_02_08);
                 break;
             case AppConfig.ORDER_STATUS_102: //已取消
+            default:
                 tv_status.setText(context.getString(R.string.order_cancelled));
                 tv_status.setBackgroundResource(R.drawable.shape_style_solid_03_04);
                 tv_click_02.setVisibility(View.VISIBLE);
@@ -123,6 +124,24 @@ public class CustomizeAdapter extends BaseRecyclerAdapter {
                 tv_click_02.setBackgroundResource(R.drawable.shape_style_empty_02_08);
                 break;
         }
+
+        tv_click_01.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (apCallback != null) {
+                    apCallback.setOnClick(data, pos, 1);
+                }
+            }
+        });
+
+        tv_click_02.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (apCallback != null) {
+                    apCallback.setOnClick(data, pos, 2);
+                }
+            }
+        });
 
         item_main.setOnClickListener(new View.OnClickListener() {
 

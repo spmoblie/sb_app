@@ -18,6 +18,8 @@ import com.songbao.sampo_b.activity.common.MyWebViewActivity;
 import com.songbao.sampo_b.utils.LogUtil;
 import com.songbao.sampo_b.utils.UpdateAppVersion;
 
+import java.lang.ref.WeakReference;
+
 
 public class SettingActivity extends BaseActivity implements OnClickListener {
 
@@ -66,7 +68,7 @@ public class SettingActivity extends BaseActivity implements OnClickListener {
         rl_about_us.setOnClickListener(this);
         rl_logout.setOnClickListener(this);
 
-        tv_version_no.setText("V" + AppApplication.version_name);
+        tv_version_no.setText(getString(R.string.version_no, AppApplication.version_name));
 
         iv_push_status.setSelected(pushStatus);
         iv_push_status.setOnClickListener(this);
@@ -104,27 +106,7 @@ public class SettingActivity extends BaseActivity implements OnClickListener {
                 break;
             case R.id.setting_rl_logout:
                 if (isLogin()) {
-                    showConfirmDialog(getString(R.string.setting_logout_confirm), null, null, true, true,
-                            new Handler() {
-                                @Override
-                                public void handleMessage(Message msg) {
-                                    switch (msg.what) {
-                                        case AppConfig.DIALOG_CLICK_NO:
-                                            break;
-                                        case AppConfig.DIALOG_CLICK_OK:
-                                            AppApplication.AppLogout();
-                                            startAnimation();
-                                            new Handler().postDelayed(new Runnable() {
-                                                @Override
-                                                public void run() {
-                                                    stopAnimation();
-                                                    finish();
-                                                }
-                                            }, AppConfig.LOADING_TIME);
-                                            break;
-                                    }
-                                }
-                            });
+                    showConfirmDialog(getString(R.string.setting_logout_confirm), new MyHandler(this));
                 } else {
                     openLoginActivity();
                 }
@@ -166,6 +148,33 @@ public class SettingActivity extends BaseActivity implements OnClickListener {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+    }
+
+    static class MyHandler extends Handler {
+
+        WeakReference<SettingActivity> mActivity;
+
+        MyHandler(SettingActivity activity) {
+            mActivity = new WeakReference<>(activity);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            final SettingActivity theActivity = mActivity.get();
+            switch (msg.what) {
+                case AppConfig.DIALOG_CLICK_OK:
+                    AppApplication.AppLogout();
+                    theActivity.startAnimation();
+                    new Handler().postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            theActivity.stopAnimation();
+                            theActivity.finish();
+                        }
+                    }, AppConfig.LOADING_TIME);
+                    break;
+            }
+        }
     }
 
 }

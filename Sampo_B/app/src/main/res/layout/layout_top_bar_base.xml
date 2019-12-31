@@ -21,6 +21,7 @@
         style="@style/top_bar_icon"
         android:layout_height="match_parent"
         android:contentDescription="@string/desc"
+        android:visibility="gone"
         app:layout_constraintRight_toRightOf="parent"/>
 
     <View

@@ -19,11 +19,13 @@ import com.songbao.sampo_b.entity.BaseEntity;
 import com.songbao.sampo_b.utils.ExceptionUtil;
 import com.songbao.sampo_b.utils.JsonUtils;
 import com.songbao.sampo_b.utils.LogUtil;
+import com.songbao.sampo_b.utils.StringUtil;
 import com.songbao.sampo_b.utils.retrofit.HttpRequests;
 import com.songbao.sampo_b.widgets.pullrefresh.PullToRefreshBase;
 import com.songbao.sampo_b.widgets.pullrefresh.PullToRefreshRecyclerView;
 import com.songbao.sampo_b.widgets.recycler.MyRecyclerView;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
@@ -56,6 +58,7 @@ public class AddressActivity extends BaseActivity implements View.OnClickListene
     private int selectId;
     private boolean isFinish;
     private boolean isManage;
+    private String selectIdStr = "";
     private ArrayList<AddressEntity> al_show = new ArrayList<>();
     private ArrayMap<String, Boolean> am_show = new ArrayMap<>();
 
@@ -148,9 +151,7 @@ public class AddressActivity extends BaseActivity implements View.OnClickListene
                             }
                             break;
                         case 1: //编辑
-                            Intent intent = new Intent(mContext, AddressEditActivity.class);
-                            intent.putExtra(AppConfig.PAGE_DATA, addEn);
-                            startActivityForResult(intent, AppConfig.ACTIVITY_CODE_EDIT_ADDRESS);
+                            openAddressEditActivity(addEn);
                             break;
                         case 5: //默认
                             userManager.saveDefaultAddressId(addEn.getId());
@@ -161,13 +162,8 @@ public class AddressActivity extends BaseActivity implements View.OnClickListene
                             updateListData();
                             break;
                         case 6: //删除
-                            al_show.remove(addEn);
-                            if (userManager.getDefaultAddressId() == addEn.getId()) {
-                                userManager.saveDefaultAddressId(0); //删除了默认地址
-                                initDefaultStatus();
-                            } else {
-                                updateListData();
-                            }
+                            selectIdStr = addEn.getEntityId();
+                            postDeleteAddress();
                             break;
                         case 7: //滚动
                             rvAdapter.reset(mPosition);
@@ -193,21 +189,23 @@ public class AddressActivity extends BaseActivity implements View.OnClickListene
      * 删除选择的地址
      */
     private void deleteSelectItem() {
-        ArrayList<AddressEntity> newList = new ArrayList<>();
+        selectIdStr = "";
+        StringBuffer sb = new StringBuffer();
         AddressEntity cartEn;
         for (int i = 0; i < al_show.size(); i++) {
             cartEn = al_show.get(i);
-            if (!cartEn.isSelect()) {
-                newList.add(cartEn);
-            } else {
-                if (userManager.getDefaultAddressId() == cartEn.getId()) {
-                    userManager.saveDefaultAddressId(0); //删除了默认地址
-                }
+            if (cartEn.isSelect()) {
+                sb.append(cartEn.getId());
+                sb.append(",");
             }
         }
-        al_show.clear();
-        al_show.addAll(newList);
-        updateListData();
+        if (sb.toString().contains(",")) {
+            sb.deleteCharAt(sb.lastIndexOf(","));
+            selectIdStr = sb.toString();
+        }
+        if (!StringUtil.isNull(selectIdStr)) {
+            postDeleteAddress();
+        }
     }
 
     /**
@@ -218,24 +216,14 @@ public class AddressActivity extends BaseActivity implements View.OnClickListene
         if (selectId > 0) {
             defaultId = selectId; //替换为已选Id
         }
-        int firstId = 0;
-        boolean isOk = false;
         for (int i = 0; i < al_show.size(); i++) {
             int addId = al_show.get(i).getId();
-            if (i == 0) {
-                firstId = addId;
-            }
             if (defaultId == addId) {
-                isOk = true;
                 al_show.get(i).setSelect(true);
                 break; //匹配到默认项，结束循环
             } else {
                 al_show.get(i).setSelect(false);
             }
-        }
-        if (!isOk && firstId > 0) {
-            al_show.get(0).setSelect(true);
-            userManager.saveDefaultAddressId(firstId);
         }
         updateListData();
     }
@@ -280,6 +268,15 @@ public class AddressActivity extends BaseActivity implements View.OnClickListene
         }
     }
 
+    /**
+     * 打开编辑地址页
+     */
+    private void openAddressEditActivity(AddressEntity addEn) {
+        Intent intent = new Intent(mContext, AddressEditActivity.class);
+        intent.putExtra(AppConfig.PAGE_DATA, addEn);
+        startActivityForResult(intent, AppConfig.ACTIVITY_CODE_EDIT_ADDRESS);
+    }
+
     @Override
     protected void OnListenerRight() {
         isManage = !isManage;
@@ -320,7 +317,7 @@ public class AddressActivity extends BaseActivity implements View.OnClickListene
                 if (isManage) { //删除
                     deleteSelectItem();
                 } else { //新增
-                    openActivity(AddressEditActivity.class);
+                    openAddressEditActivity(null);
                 }
                 break;
         }
@@ -350,9 +347,18 @@ public class AddressActivity extends BaseActivity implements View.OnClickListene
     }
 
     /**
+     * 清空缓存
+     */
+    private void clearData() {
+        al_show.clear();
+        am_show.clear();
+    }
+
+    /**
      * 加载第一页数据
      */
     private void loadFirstPageData() {
+        clearData();
         refresh_rv.doPullRefreshing(true, 0);
     }
 
@@ -378,14 +384,21 @@ public class AddressActivity extends BaseActivity implements View.OnClickListene
     private void loadServerData() {
         if (!isLoadOk) return; //加载频率控制
         isLoadOk = false;
-        String page = String.valueOf(load_page);
-        if (load_type == 0) {
-            page = "1";
-        }
         HashMap<String, String> map = new HashMap<>();
-        map.put("page", page);
-        map.put("size", AppConfig.LOAD_SIZE);
-        loadSVData(AppConfig.URL_USER_ADDRESS, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_USER_ADDRESS);
+        loadSVData(AppConfig.BASE_URL_3, AppConfig.URL_USER_ADDRESS, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_USER_ADDRESS);
+    }
+
+    /**
+     * 提交删除收货地址
+     */
+    private void postDeleteAddress() {
+        try {
+            JSONObject jsonObj = new JSONObject();
+            jsonObj.put("consigneeIds", selectIdStr);
+            postJsonData(AppConfig.BASE_URL_3, AppConfig.URL_USER_ADDRESS_DELETE, jsonObj, AppConfig.REQUEST_SV_USER_ADDRESS_DELETE);
+        } catch (JSONException e) {
+            ExceptionUtil.handle(e);
+        }
     }
 
     @Override
@@ -420,6 +433,14 @@ public class AddressActivity extends BaseActivity implements View.OnClickListene
                         handleErrorCode(baseEn);
                     }
                     break;
+                case AppConfig.REQUEST_SV_USER_ADDRESS_DELETE:
+                    baseEn = JsonUtils.getBaseErrorData(jsonObject);
+                    if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+                        loadFirstPageData();
+                    } else {
+                        handleErrorCode(baseEn);
+                    }
+                    break;
             }
         } catch (Exception e) {
             loadFailHandle();
@@ -447,7 +468,7 @@ public class AddressActivity extends BaseActivity implements View.OnClickListene
             if (requestCode == AppConfig.ACTIVITY_CODE_EDIT_ADDRESS) {
                 boolean isUpdate = data.getBooleanExtra(AppConfig.PAGE_DATA, false);
                 if (isUpdate) {
-                    refreshData();
+                    loadFirstPageData();
                 }
             }
         }

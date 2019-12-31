@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.support.v4.util.ArrayMap;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
@@ -25,8 +26,10 @@ import com.songbao.sampo_b.widgets.pullrefresh.PullToRefreshBase;
 import com.songbao.sampo_b.widgets.pullrefresh.PullToRefreshRecyclerView;
 import com.songbao.sampo_b.widgets.recycler.MyRecyclerView;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -34,534 +37,739 @@ import java.util.List;
 import butterknife.BindView;
 
 
-public class CustomizeListActivity extends BaseActivity implements View.OnClickListener{
+public class CustomizeListActivity extends BaseActivity implements View.OnClickListener {
 
-	String TAG = CustomizeListActivity.class.getSimpleName();
+    String TAG = CustomizeListActivity.class.getSimpleName();
 
-	@BindView(R.id.top_bar_radio_rb_1)
-	RadioButton rb_1;
+    @BindView(R.id.top_bar_radio_rb_1)
+    RadioButton rb_1;
 
-	@BindView(R.id.top_bar_radio_rb_2)
-	RadioButton rb_2;
+    @BindView(R.id.top_bar_radio_rb_2)
+    RadioButton rb_2;
 
-	@BindView(R.id.top_bar_radio_rb_3)
-	RadioButton rb_3;
+    @BindView(R.id.top_bar_radio_rb_3)
+    RadioButton rb_3;
 
-	@BindView(R.id.top_bar_radio_rb_4)
-	RadioButton rb_4;
+    @BindView(R.id.top_bar_radio_rb_4)
+    RadioButton rb_4;
 
-	@BindView(R.id.top_bar_radio_rb_5)
-	RadioButton rb_5;
+    @BindView(R.id.top_bar_radio_rb_5)
+    RadioButton rb_5;
 
-	@BindView(R.id.refresh_view_rv)
-	PullToRefreshRecyclerView refresh_rv;
+    @BindView(R.id.refresh_view_rv)
+    PullToRefreshRecyclerView refresh_rv;
 
-	MyRecyclerView mRecyclerView;
-	CustomizeAdapter rvAdapter;
+    MyRecyclerView mRecyclerView;
+    CustomizeAdapter rvAdapter;
 
-	public static final int TYPE_1 = 0;  //全部
-	public static final int TYPE_2 = 1;  //待付款
-	public static final int TYPE_3 = 2;  //生产中
-	public static final int TYPE_4 = 3;  //待收货
-	public static final int TYPE_5 = 4;  //待安装
+    public static final int TYPE_1 = 0;  //全部
+    public static final int TYPE_2 = 1;  //待付款
+    public static final int TYPE_3 = 2;  //生产中
+    public static final int TYPE_4 = 3;  //待收货
+    public static final int TYPE_5 = 4;  //待安装
 
-	private int data_total = -1; //数据总量
-	private int load_type = 1; //加载类型(0:下拉刷新/1:翻页加载)
-	private int load_page = 1; //加载页数
-	private int load_page_1 = 1;
-	private int load_page_2 = 1;
-	private int load_page_3 = 1;
-	private int load_page_4 = 1;
-	private int load_page_5 = 1;
-	private int top_type = TYPE_1; //Top标记
-	private int total_1, total_2, total_3, total_4, total_5;
-	private boolean isLoadOk = true; //加载控制
+    private boolean isLoadOk = true; //加载控制
+    private int data_total = -1; //数据总量
+    private int load_type = 1; //加载类型(0:下拉刷新/1:翻页加载)
+    private int load_page = 1; //加载页数
+    private int load_page_1 = 1;
+    private int load_page_2 = 1;
+    private int load_page_3 = 1;
+    private int load_page_4 = 1;
+    private int load_page_5 = 1;
+    private int top_type = TYPE_1; //Top标记
+    private int total_1, total_2, total_3, total_4, total_5;
+    private int selectPosition = 0; //选择的订单索引
+    private String selectOrderNo = ""; //选择的订单编号
 
-	private ArrayList<OCustomizeEntity> al_show = new ArrayList<>();
-	private ArrayList<OCustomizeEntity> al_all_1 = new ArrayList<>();
-	private ArrayList<OCustomizeEntity> al_all_2 = new ArrayList<>();
-	private ArrayList<OCustomizeEntity> al_all_3 = new ArrayList<>();
-	private ArrayList<OCustomizeEntity> al_all_4 = new ArrayList<>();
-	private ArrayList<OCustomizeEntity> al_all_5 = new ArrayList<>();
-	private ArrayMap<String, Boolean> am_all_1 = new ArrayMap<>();
-	private ArrayMap<String, Boolean> am_all_2 = new ArrayMap<>();
-	private ArrayMap<String, Boolean> am_all_3 = new ArrayMap<>();
-	private ArrayMap<String, Boolean> am_all_4 = new ArrayMap<>();
-	private ArrayMap<String, Boolean> am_all_5 = new ArrayMap<>();
+    private ArrayList<OCustomizeEntity> al_show = new ArrayList<>();
+    private ArrayList<OCustomizeEntity> al_all_1 = new ArrayList<>();
+    private ArrayList<OCustomizeEntity> al_all_2 = new ArrayList<>();
+    private ArrayList<OCustomizeEntity> al_all_3 = new ArrayList<>();
+    private ArrayList<OCustomizeEntity> al_all_4 = new ArrayList<>();
+    private ArrayList<OCustomizeEntity> al_all_5 = new ArrayList<>();
+    private ArrayMap<String, Boolean> am_all_1 = new ArrayMap<>();
+    private ArrayMap<String, Boolean> am_all_2 = new ArrayMap<>();
+    private ArrayMap<String, Boolean> am_all_3 = new ArrayMap<>();
+    private ArrayMap<String, Boolean> am_all_4 = new ArrayMap<>();
+    private ArrayMap<String, Boolean> am_all_5 = new ArrayMap<>();
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_recycler_view_top);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_recycler_view_top);
 
-		initView();
-	}
+        initView();
+    }
 
-	private void initView() {
-		setTitle(getString(R.string.mine_my_customize));
+    private void initView() {
+        setTitle(getString(R.string.mine_my_customize));
 
-		initRadioGroup();
-		initRecyclerView();
-		setDefaultRadioButton();
-		loadFirstPageData();
-	}
+        initRadioGroup();
+        initRecyclerView();
+        setDefaultRadioButton();
+        loadFirstPageData();
+    }
 
-	private void initRadioGroup() {
-		rb_1.setText(getString(R.string.order_all));
-		rb_2.setText(getString(R.string.order_wait_pay));
-		rb_3.setText(getString(R.string.order_producing));
-		rb_4.setText(getString(R.string.order_wait_receive));
-		rb_5.setText(getString(R.string.order_wait_install));
-		rb_1.setOnClickListener(this);
-		rb_2.setOnClickListener(this);
-		rb_3.setOnClickListener(this);
-		rb_4.setOnClickListener(this);
-		rb_5.setOnClickListener(this);
-	}
+    private void initRadioGroup() {
+        rb_1.setText(getString(R.string.order_all));
+        rb_2.setText(getString(R.string.order_wait_pay));
+        rb_3.setText(getString(R.string.order_producing));
+        rb_4.setText(getString(R.string.order_wait_receive));
+        rb_5.setText(getString(R.string.order_wait_install));
+        rb_1.setOnClickListener(this);
+        rb_2.setOnClickListener(this);
+        rb_3.setOnClickListener(this);
+        rb_4.setOnClickListener(this);
+        rb_5.setOnClickListener(this);
+    }
 
-	private void initRecyclerView() {
-		refresh_rv.setHeaderLayoutBackground(R.color.ui_color_app_bg_02);
-		refresh_rv.setFooterLayoutBackground(R.color.ui_color_app_bg_02);
-		refresh_rv.setPullRefreshEnabled(true); //下拉刷新
-		refresh_rv.setPullLoadEnabled(true); //上拉加载
-		refresh_rv.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<MyRecyclerView>() {
-			@Override
-			public void onPullDownToRefresh(PullToRefreshBase<MyRecyclerView> refreshView) {
-				// 下拉刷新
-				new Handler().postDelayed(new Runnable() {
+    private void initRecyclerView() {
+        refresh_rv.setHeaderLayoutBackground(R.color.ui_color_app_bg_02);
+        refresh_rv.setFooterLayoutBackground(R.color.ui_color_app_bg_02);
+        refresh_rv.setPullRefreshEnabled(true); //下拉刷新
+        refresh_rv.setPullLoadEnabled(true); //上拉加载
+        refresh_rv.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<MyRecyclerView>() {
+            @Override
+            public void onPullDownToRefresh(PullToRefreshBase<MyRecyclerView> refreshView) {
+                // 下拉刷新
+                new Handler().postDelayed(new Runnable() {
 
-					@Override
-					public void run() {
-						refreshData();
-					}
-				}, AppConfig.LOADING_TIME);
-			}
+                    @Override
+                    public void run() {
+                        refreshData();
+                    }
+                }, AppConfig.LOADING_TIME);
+            }
 
-			@Override
-			public void onPullUpToRefresh(PullToRefreshBase<MyRecyclerView> refreshView) {
-				// 加载更多
-				new Handler().postDelayed(new Runnable() {
+            @Override
+            public void onPullUpToRefresh(PullToRefreshBase<MyRecyclerView> refreshView) {
+                // 加载更多
+                new Handler().postDelayed(new Runnable() {
 
-					@Override
-					public void run() {
-						if (!isStopLoadMore(al_show.size(), data_total, 0)) {
-							loadMoreData();
-						} else {
-							refresh_rv.onPullUpRefreshComplete();
-							refresh_rv.setHasMoreData(false);
-						}
-					}
-				}, AppConfig.LOADING_TIME);
-			}
-		});
+                    @Override
+                    public void run() {
+                        if (!isStopLoadMore(al_show.size(), data_total, 0)) {
+                            loadMoreData();
+                        } else {
+                            refresh_rv.onPullUpRefreshComplete();
+                            refresh_rv.setHasMoreData(false);
+                        }
+                    }
+                }, AppConfig.LOADING_TIME);
+            }
+        });
 
-		// 创建布局管理器
-		LinearLayoutManager layoutManager = new LinearLayoutManager(mContext);
-		layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-		// 设置布局管理器
-		mRecyclerView = refresh_rv.getRefreshableView();
-		mRecyclerView.setLayoutManager(layoutManager);
+        // 创建布局管理器
+        LinearLayoutManager layoutManager = new LinearLayoutManager(mContext);
+        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+        // 设置布局管理器
+        mRecyclerView = refresh_rv.getRefreshableView();
+        mRecyclerView.setLayoutManager(layoutManager);
 
-		// 配置适配器
-		rvAdapter = new CustomizeAdapter(mContext, R.layout.item_list_my_customize);
-		rvAdapter.addData(al_show);
-		rvAdapter.addCallback(new AdapterCallback() {
+        // 配置适配器
+        rvAdapter = new CustomizeAdapter(mContext, R.layout.item_list_my_customize);
+        rvAdapter.addData(al_show);
+        rvAdapter.addCallback(new AdapterCallback() {
 
-			@Override
-			public void setOnClick(Object data, int position, int type) {
-				if (position < 0 || position >= al_show.size()) return;
-				Intent intent = new Intent(mContext, CustomizeActivity.class);
-				intent.putExtra(AppConfig.PAGE_DATA, al_show.get(position));
-				startActivity(intent);
-			}
-		});
-		mRecyclerView.setAdapter(rvAdapter);
-	}
+            @Override
+            public void setOnClick(Object data, int position, int type) {
+                if (position < 0 || position >= al_show.size()) return;
+                OCustomizeEntity ocEn = al_show.get(position);
+                selectPosition = position;
+                selectOrderNo = ocEn.getOrderNo();
+                int status = ocEn.getStatus();
+                switch (type) {
+                    case 1: //按键01
+                        if (status == AppConfig.ORDER_STATUS_401) { //待收货
+                            // 查看物流
+                            openCustomizeActivity(ocEn, 7);
+                        }
+                        break;
+                    case 2: //按键02
+                        switch (status) {
+                            case AppConfig.ORDER_STATUS_101: //待付款
+                                // 取消订单
+                                showConfirmDialog(getString(R.string.order_cancel_confirm), new MyHandler(CustomizeListActivity.this), 101);
+                                break;
+                            case AppConfig.ORDER_STATUS_201: //生产中
+                                // 查看进度
+                                openCustomizeActivity(ocEn, 6);
+                                break;
+                            case AppConfig.ORDER_STATUS_301: //待发货
+                                break;
+                            case AppConfig.ORDER_STATUS_401: //待收货
+                                // 确认收货
+                                openCustomizeActivity(ocEn, 7);
+                                break;
+                            case AppConfig.ORDER_STATUS_501: //已签收
+                            case AppConfig.ORDER_STATUS_701: //待安装
+                                // 确认安装
+                                openCustomizeActivity(ocEn, 8);
+                                break;
+                            case AppConfig.ORDER_STATUS_801: //已完成
+                            case AppConfig.ORDER_STATUS_102: //已取消
+                            default:
+                                // 删除订单
+                                showConfirmDialog(getString(R.string.order_delete_confirm), new MyHandler(CustomizeListActivity.this), 102);
+                                break;
+                        }
+                        break;
+                    default:
+                        openCustomizeActivity(ocEn, -1);
+                        break;
+                }
+            }
+        });
+        mRecyclerView.setAdapter(rvAdapter);
+    }
 
-	/**
-	 * 设置默认项
-	 */
-	private void setDefaultRadioButton() {
-		RadioButton defaultBtn;
-		switch (top_type) {
-			default:
-			case TYPE_1:
-				defaultBtn = rb_1;
-				break;
-			case TYPE_2:
-				defaultBtn = rb_2;
-				break;
-			case TYPE_3:
-				defaultBtn = rb_3;
-				break;
-			case TYPE_4:
-				defaultBtn = rb_4;
-				break;
-			case TYPE_5:
-				defaultBtn = rb_5;
-				break;
-		}
-		changeItemStatus();
-		defaultBtn.setChecked(true);
-	}
+    /**
+     * 打开定制订单详情
+     */
+    private void openCustomizeActivity(OCustomizeEntity ocEn, int nodeNo) {
+        Intent intent = new Intent(mContext, CustomizeActivity.class);
+        intent.putExtra(AppConfig.PAGE_DATA, ocEn);
+        intent.putExtra("nodeNo", nodeNo);
+        startActivityForResult(intent, AppConfig.ACTIVITY_CODE_ORDER_UPDATE);
+    }
 
-	/**
-	 * 自定义Top Item状态切换
-	 */
-	private void changeItemStatus() {
-		rb_1.setTypeface(Typeface.SANS_SERIF, Typeface.NORMAL);
-		rb_2.setTypeface(Typeface.SANS_SERIF, Typeface.NORMAL);
-		rb_3.setTypeface(Typeface.SANS_SERIF, Typeface.NORMAL);
-		rb_4.setTypeface(Typeface.SANS_SERIF, Typeface.NORMAL);
-		rb_5.setTypeface(Typeface.SANS_SERIF, Typeface.NORMAL);
-		switch (top_type) {
-			default:
-			case TYPE_1:
-				rb_1.setTypeface(Typeface.SANS_SERIF, Typeface.BOLD);
-				break;
-			case TYPE_2:
-				rb_2.setTypeface(Typeface.SANS_SERIF, Typeface.BOLD);
-				break;
-			case TYPE_3:
-				rb_3.setTypeface(Typeface.SANS_SERIF, Typeface.BOLD);
-				break;
-			case TYPE_4:
-				rb_4.setTypeface(Typeface.SANS_SERIF, Typeface.BOLD);
-				break;
-			case TYPE_5:
-				rb_5.setTypeface(Typeface.SANS_SERIF, Typeface.BOLD);
-				break;
-		}
-	}
+    /**
+     * 设置默认项
+     */
+    private void setDefaultRadioButton() {
+        RadioButton defaultBtn;
+        switch (top_type) {
+            default:
+            case TYPE_1:
+                defaultBtn = rb_1;
+                break;
+            case TYPE_2:
+                defaultBtn = rb_2;
+                break;
+            case TYPE_3:
+                defaultBtn = rb_3;
+                break;
+            case TYPE_4:
+                defaultBtn = rb_4;
+                break;
+            case TYPE_5:
+                defaultBtn = rb_5;
+                break;
+        }
+        changeItemStatus();
+        defaultBtn.setChecked(true);
+    }
 
-	@Override
-	public void onClick(View v) {
-		if (!isLoadOk) { //加载频率控制
-			setDefaultRadioButton();
-			return;
-		}
-		switch (v.getId()) {
-			case R.id.top_bar_radio_rb_1:
-				if (top_type == TYPE_1) return;
-				top_type = TYPE_1;
-				addOldListData(al_all_1, load_page_1, total_1);
-				if (al_all_1.size() <= 0) {
-					load_page_1 = 1;
-					total_1 = 0;
-					loadFirstPageData();
-				}
-				changeItemStatus();
-				break;
-			case R.id.top_bar_radio_rb_2:
-				if (top_type == TYPE_2) return;
-				top_type = TYPE_2;
-				addOldListData(al_all_2, load_page_2, total_2);
-				if (al_all_2.size() <= 0) {
-					load_page_2 = 1;
-					total_2 = 0;
-					loadFirstPageData();
-				}
-				changeItemStatus();
-				break;
-			case R.id.top_bar_radio_rb_3:
-				if (top_type == TYPE_3) return;
-				top_type = TYPE_3;
-				addOldListData(al_all_3, load_page_3, total_3);
-				if (al_all_3.size() <= 0) {
-					load_page_3 = 1;
-					total_3 = 0;
-					loadFirstPageData();
-				}
-				changeItemStatus();
-				break;
-			case R.id.top_bar_radio_rb_4:
-				if (top_type == TYPE_4) return;
-				top_type = TYPE_4;
-				addOldListData(al_all_4, load_page_4, total_4);
-				if (al_all_4.size() <= 0) {
-					load_page_4 = 1;
-					total_4 = 0;
-					loadFirstPageData();
-				}
-				changeItemStatus();
-				break;
-			case R.id.top_bar_radio_rb_5:
-				if (top_type == TYPE_5) return;
-				top_type = TYPE_5;
-				addOldListData(al_all_5, load_page_5, total_5);
-				if (al_all_5.size() <= 0) {
-					load_page_5 = 1;
-					total_5 = 0;
-					loadFirstPageData();
-				}
-				changeItemStatus();
-				break;
-		}
-	}
+    /**
+     * 自定义Top Item状态切换
+     */
+    private void changeItemStatus() {
+        rb_1.setTypeface(Typeface.SANS_SERIF, Typeface.NORMAL);
+        rb_2.setTypeface(Typeface.SANS_SERIF, Typeface.NORMAL);
+        rb_3.setTypeface(Typeface.SANS_SERIF, Typeface.NORMAL);
+        rb_4.setTypeface(Typeface.SANS_SERIF, Typeface.NORMAL);
+        rb_5.setTypeface(Typeface.SANS_SERIF, Typeface.NORMAL);
+        switch (top_type) {
+            default:
+            case TYPE_1:
+                rb_1.setTypeface(Typeface.SANS_SERIF, Typeface.BOLD);
+                break;
+            case TYPE_2:
+                rb_2.setTypeface(Typeface.SANS_SERIF, Typeface.BOLD);
+                break;
+            case TYPE_3:
+                rb_3.setTypeface(Typeface.SANS_SERIF, Typeface.BOLD);
+                break;
+            case TYPE_4:
+                rb_4.setTypeface(Typeface.SANS_SERIF, Typeface.BOLD);
+                break;
+            case TYPE_5:
+                rb_5.setTypeface(Typeface.SANS_SERIF, Typeface.BOLD);
+                break;
+        }
+    }
 
-	/**
-	 * 展示已缓存的数据并至顶
-	 */
-	private void addOldListData(List<OCustomizeEntity> oldLists, int oldPage, int oldTotal) {
-		refreshAllShow(oldLists, oldTotal);
-		load_page = oldPage;
-		updateListData();
-		if (load_page != 1) {
-			toTop();
-		}
-		setLoadMoreState();
-	}
+    @Override
+    public void onClick(View v) {
+        if (!isLoadOk) { //加载频率控制
+            setDefaultRadioButton();
+            return;
+        }
+        switch (v.getId()) {
+            case R.id.top_bar_radio_rb_1:
+                if (top_type == TYPE_1) return;
+                top_type = TYPE_1;
+                addOldListData(al_all_1, load_page_1, total_1);
+                if (al_all_1.size() <= 0) {
+                    load_page_1 = 1;
+                    total_1 = 0;
+                    loadFirstPageData();
+                }
+                changeItemStatus();
+                break;
+            case R.id.top_bar_radio_rb_2:
+                if (top_type == TYPE_2) return;
+                top_type = TYPE_2;
+                addOldListData(al_all_2, load_page_2, total_2);
+                if (al_all_2.size() <= 0) {
+                    load_page_2 = 1;
+                    total_2 = 0;
+                    loadFirstPageData();
+                }
+                changeItemStatus();
+                break;
+            case R.id.top_bar_radio_rb_3:
+                if (top_type == TYPE_3) return;
+                top_type = TYPE_3;
+                addOldListData(al_all_3, load_page_3, total_3);
+                if (al_all_3.size() <= 0) {
+                    load_page_3 = 1;
+                    total_3 = 0;
+                    loadFirstPageData();
+                }
+                changeItemStatus();
+                break;
+            case R.id.top_bar_radio_rb_4:
+                if (top_type == TYPE_4) return;
+                top_type = TYPE_4;
+                addOldListData(al_all_4, load_page_4, total_4);
+                if (al_all_4.size() <= 0) {
+                    load_page_4 = 1;
+                    total_4 = 0;
+                    loadFirstPageData();
+                }
+                changeItemStatus();
+                break;
+            case R.id.top_bar_radio_rb_5:
+                if (top_type == TYPE_5) return;
+                top_type = TYPE_5;
+                addOldListData(al_all_5, load_page_5, total_5);
+                if (al_all_5.size() <= 0) {
+                    load_page_5 = 1;
+                    total_5 = 0;
+                    loadFirstPageData();
+                }
+                changeItemStatus();
+                break;
+        }
+    }
 
-	/**
-	 * 更新列表数据
-	 */
-	private void updateListData() {
-		if (load_page == 1) {
-			toTop();
-		}
-		if (al_show.size() <= 0) {
-			setNullVisibility(View.VISIBLE);
-		} else {
-			setNullVisibility(View.GONE);
-		}
-		rvAdapter.updateData(al_show);
-	}
+    /**
+     * 展示已缓存的数据并至顶
+     */
+    private void addOldListData(List<OCustomizeEntity> oldLists, int oldPage, int oldTotal) {
+        refreshAllShow(oldLists, oldTotal);
+        load_page = oldPage;
+        updateListData();
+        if (load_page != 1) {
+            toTop();
+        }
+        setLoadMoreState();
+    }
 
-	/**
-	 * 刷新需要展示的数据
-	 */
-	private void refreshAllShow(List<OCustomizeEntity> showLists, int total) {
-		al_show.clear();
-		al_show.addAll(showLists);
-		data_total = total;
-	}
+    /**
+     * 更新列表数据
+     */
+    private void updateListData() {
+        if (load_page == 1) {
+            toTop();
+        }
+        if (al_show.size() <= 0) {
+            setNullVisibility(View.VISIBLE);
+        } else {
+            setNullVisibility(View.GONE);
+        }
+        rvAdapter.updateData(al_show);
+    }
 
-	/**
-	 * 滚动到顶部
-	 */
-	private void toTop() {
-		mRecyclerView.smoothScrollToPosition(0);
-	}
+    /**
+     * 刷新需要展示的数据
+     */
+    private void refreshAllShow(List<OCustomizeEntity> showLists, int total) {
+        al_show.clear();
+        al_show.addAll(showLists);
+        data_total = total;
+    }
 
-	/**
-	 * 设置允许加载更多
-	 */
-	private void setLoadMoreState() {
-		refresh_rv.setHasMoreData(true);
-	}
+    /**
+     * 取消订单时刷新
+     */
+    private void cancelOrderUpdate() {
+        if (selectPosition >= 0 && selectPosition < al_show.size()) {
+            al_show.get(selectPosition).setStatus(AppConfig.ORDER_STATUS_102);
+            switch (top_type) {
+                case TYPE_1:
+                    al_all_1.get(selectPosition).setStatus(AppConfig.ORDER_STATUS_102);
+                    break;
+                case TYPE_2:
+                    al_all_2.get(selectPosition).setStatus(AppConfig.ORDER_STATUS_102);
+                    break;
+                case TYPE_3:
+                    al_all_3.get(selectPosition).setStatus(AppConfig.ORDER_STATUS_102);
+                    break;
+                case TYPE_4:
+                    al_all_4.get(selectPosition).setStatus(AppConfig.ORDER_STATUS_102);
+                    break;
+                case TYPE_5:
+                    al_all_5.get(selectPosition).setStatus(AppConfig.ORDER_STATUS_102);
+                    break;
+            }
+            updateListData();
+        }
+    }
 
-	@Override
-	protected void onResume() {
-		LogUtil.i(LogUtil.LOG_TAG, TAG + ": onResume");
-		// 页面开始
-		AppApplication.onPageStart(this, TAG);
+    /**
+     * 删除订单时刷新
+     */
+    private void deleteOrderUpdate() {
+        if (selectPosition >= 0 && selectPosition < al_show.size()) {
+            al_show.remove(selectPosition);
+            switch (top_type) {
+                case TYPE_1:
+                    al_all_1.remove(selectPosition);
+                    break;
+                case TYPE_2:
+                    al_all_2.remove(selectPosition);
+                    break;
+                case TYPE_3:
+                    al_all_3.remove(selectPosition);
+                    break;
+                case TYPE_4:
+                    al_all_4.remove(selectPosition);
+                    break;
+                case TYPE_5:
+                    al_all_5.remove(selectPosition);
+                    break;
+            }
+            updateListData();
+        }
+    }
 
-		super.onResume();
-	}
-	
-	@Override
-	protected void onPause() {
-		LogUtil.i(LogUtil.LOG_TAG, TAG + ": onPause");
-		// 页面结束
-		AppApplication.onPageEnd(this, TAG);
+    /**
+     * 滚动到顶部
+     */
+    private void toTop() {
+        mRecyclerView.smoothScrollToPosition(0);
+    }
 
-		super.onPause();
-	}
+    /**
+     * 设置允许加载更多
+     */
+    private void setLoadMoreState() {
+        refresh_rv.setHasMoreData(true);
+    }
 
-	@Override
-	protected void onDestroy() {
-		super.onDestroy();
-	}
+    @Override
+    protected void onResume() {
+        LogUtil.i(LogUtil.LOG_TAG, TAG + ": onResume");
+        // 页面开始
+        AppApplication.onPageStart(this, TAG);
 
-	/**
-	 * 加载第一页数据
-	 */
-	private void loadFirstPageData() {
-		refresh_rv.doPullRefreshing(true, 0);
-	}
+        super.onResume();
+    }
 
-	/**
-	 *下拉刷新
-	 */
-	private void refreshData() {
-		load_type = 0;
-		loadServerData();
-	}
+    @Override
+    protected void onPause() {
+        LogUtil.i(LogUtil.LOG_TAG, TAG + ": onPause");
+        // 页面结束
+        AppApplication.onPageEnd(this, TAG);
 
-	/**
-	 * 翻页加载
-	 */
-	private void loadMoreData() {
-		load_type = 1;
-		switch (top_type) {
-			case TYPE_1:
-				load_page = load_page_1;
-				break;
-			case TYPE_2:
-				load_page = load_page_2;
-				break;
-			case TYPE_3:
-				load_page = load_page_3;
-				break;
-			case TYPE_4:
-				load_page = load_page_4;
-				break;
-			case TYPE_5:
-				load_page = load_page_5;
-				break;
-		}
-		loadServerData();
-	}
+        super.onPause();
+    }
 
-	/**
-	 * 加载数据
-	 */
-	private void loadServerData() {
-		if (!isLoadOk) return; //加载频率控制
-		isLoadOk = false;
-		String page = String.valueOf(load_page);
-		if (load_type == 0) {
-			page = "1";
-		}
-		HashMap<String, String> map = new HashMap<>();
-		map.put("orderStatus", String.valueOf(top_type));
-		map.put("current", page);
-		map.put("size", AppConfig.LOAD_SIZE);
-		loadSVData(AppConfig.BASE_URL_3, AppConfig.URL_BOOKING_LIST, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_BOOKING_LIST);
-	}
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 
-	@Override
-	protected void callbackData(JSONObject jsonObject, int dataType) {
-		BaseEntity baseEn;
-		try {
-			switch (dataType) {
-				case AppConfig.REQUEST_SV_BOOKING_LIST:
-					baseEn = JsonUtils.getCustomizelistData(jsonObject);
-					if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
-						int newTotal = baseEn.getDataTotal();
-						List<OCustomizeEntity> lists = new ArrayList<>();
-						switch (top_type) {
-							case TYPE_1:
-								lists = filterData(baseEn.getLists(), am_all_1);
-								if (lists.size() > 0) {
-									if (load_type == 0) {
-										lists.addAll(al_all_1);
-										al_all_1.clear();
-									}else {
-										load_page_1++;
-									}
-									total_1 = newTotal;
-									al_all_1.addAll(lists);
-									refreshAllShow(al_all_1, total_1);
-								}
-								break;
-							case TYPE_2:
-								lists = filterData(baseEn.getLists(), am_all_2);
-								if (lists.size() > 0) {
-									if (load_type == 0) {
-										lists.addAll(al_all_2);
-										al_all_2.clear();
-									}else {
-										load_page_2++;
-									}
-									total_2 = newTotal;
-									al_all_2.addAll(lists);
-									refreshAllShow(al_all_2, total_2);
-								}
-								break;
-							case TYPE_3:
-								lists = filterData(baseEn.getLists(), am_all_3);
-								if (lists.size() > 0) {
-									if (load_type == 0) {
-										lists.addAll(al_all_3);
-										al_all_3.clear();
-									}else {
-										load_page_3++;
-									}
-									total_3 = newTotal;
-									al_all_3.addAll(lists);
-									refreshAllShow(al_all_3, total_3);
-								}
-								break;
-							case TYPE_4:
-								lists = filterData(baseEn.getLists(), am_all_4);
-								if (lists.size() > 0) {
-									if (load_type == 0) {
-										lists.addAll(al_all_4);
-										al_all_4.clear();
-									}else {
-										load_page_4++;
-									}
-									total_4 = newTotal;
-									al_all_4.addAll(lists);
-									refreshAllShow(al_all_4, total_4);
-								}
-								break;
-							case TYPE_5:
-								lists = filterData(baseEn.getLists(), am_all_5);
-								if (lists.size() > 0) {
-									if (load_type == 0) {
-										lists.addAll(al_all_5);
-										al_all_5.clear();
-									}else {
-										load_page_5++;
-									}
-									total_5 = newTotal;
-									al_all_5.addAll(lists);
-									refreshAllShow(al_all_5, total_5);
-								}
-								break;
-						}
-						if (load_type == 0) {
-							setLoadMoreState();
-							LogUtil.i(LogUtil.LOG_HTTP, TAG + " 刷新数据 —> size = " + lists.size());
-						} else {
-							LogUtil.i(LogUtil.LOG_HTTP, TAG + " 翻页数据 —> size = " + lists.size());
-						}
-						updateListData();
-					} else if (baseEn.getErrno() == AppConfig.ERROR_CODE_TIMEOUT) {
-						handleTimeOut();
-						finish();
-					} else {
-						handleErrorCode(baseEn);
-					}
-					break;
-			}
-		} catch (Exception e) {
-			loadFailHandle();
-			ExceptionUtil.handle(e);
-		}
-	}
+    /**
+     * 加载第一页数据
+     */
+    private void loadFirstPageData() {
+        refresh_rv.doPullRefreshing(true, 0);
+    }
 
-	@Override
-	protected void loadFailHandle() {
-		super.loadFailHandle();
+    /**
+     * 下拉刷新
+     */
+    private void refreshData() {
+        load_type = 0;
+        loadServerData();
+    }
 
-		switch (top_type) {
-			case TYPE_1:
-				refreshAllShow(al_all_1, total_1);
-				break;
-			case TYPE_2:
-				refreshAllShow(al_all_2, total_2);
-				break;
-			case TYPE_3:
-				refreshAllShow(al_all_3, total_3);
-				break;
-			case TYPE_4:
-				refreshAllShow(al_all_4, total_4);
-				break;
-			case TYPE_5:
-				refreshAllShow(al_all_5, total_5);
-				break;
-		}
-		updateListData();
-	}
+    /**
+     * 翻页加载
+     */
+    private void loadMoreData() {
+        load_type = 1;
+        switch (top_type) {
+            default:
+            case TYPE_1:
+                load_page = load_page_1;
+                break;
+            case TYPE_2:
+                load_page = load_page_2;
+                break;
+            case TYPE_3:
+                load_page = load_page_3;
+                break;
+            case TYPE_4:
+                load_page = load_page_4;
+                break;
+            case TYPE_5:
+                load_page = load_page_5;
+                break;
+        }
+        loadServerData();
+    }
 
-	@Override
-	protected void stopAnimation() {
-		super.stopAnimation();
-		isLoadOk = true;
-		refresh_rv.onPullUpRefreshComplete();
-		refresh_rv.onPullDownRefreshComplete();
-	}
+    /**
+     * 加载数据
+     */
+    private void loadServerData() {
+        if (!isLoadOk) return; //加载频率控制
+        isLoadOk = false;
+        String page = String.valueOf(load_page);
+        if (load_type == 0) {
+            page = "1";
+        }
+        HashMap<String, String> map = new HashMap<>();
+        map.put("orderStatus", String.valueOf(top_type));
+        map.put("current", page);
+        map.put("size", AppConfig.LOAD_SIZE);
+        loadSVData(AppConfig.BASE_URL_3, AppConfig.URL_BOOKING_LIST, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_BOOKING_LIST);
+    }
+
+    /**
+     * 取消订单
+     */
+    private void postConfirmCancel() {
+        try {
+            JSONObject jsonObj = new JSONObject();
+            jsonObj.put("bookingCode", selectOrderNo);
+            postJsonData(AppConfig.BASE_URL_3, AppConfig.URL_ORDER_CANCEL, jsonObj, AppConfig.REQUEST_SV_ORDER_CANCEL);
+        } catch (JSONException e) {
+            ExceptionUtil.handle(e);
+        }
+    }
+
+    /**
+     * 删除订单
+     */
+    private void postConfirmDelete() {
+        try {
+            JSONObject jsonObj = new JSONObject();
+            jsonObj.put("bookingCode", selectOrderNo);
+            postJsonData(AppConfig.BASE_URL_3, AppConfig.URL_ORDER_DELETE, jsonObj, AppConfig.REQUEST_SV_ORDER_DELETE);
+        } catch (JSONException e) {
+            ExceptionUtil.handle(e);
+        }
+    }
+
+    @Override
+    protected void callbackData(JSONObject jsonObject, int dataType) {
+        BaseEntity baseEn;
+        try {
+            switch (dataType) {
+                case AppConfig.REQUEST_SV_BOOKING_LIST:
+                    baseEn = JsonUtils.getCustomizeListData(jsonObject);
+                    if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+                        int newTotal = baseEn.getDataTotal();
+                        List<OCustomizeEntity> lists = new ArrayList<>();
+                        switch (top_type) {
+                            case TYPE_1:
+                                lists = filterData(baseEn.getLists(), am_all_1);
+                                if (lists.size() > 0) {
+                                    if (load_type == 0) {
+                                        lists.addAll(al_all_1);
+                                        al_all_1.clear();
+                                        if (load_page_1 <= 1) {
+                                            load_page_1++;
+                                        }
+                                    } else {
+                                        load_page_1++;
+                                    }
+                                    total_1 = newTotal;
+                                    al_all_1.addAll(lists);
+                                    refreshAllShow(al_all_1, total_1);
+                                }
+                                break;
+                            case TYPE_2:
+                                lists = filterData(baseEn.getLists(), am_all_2);
+                                if (lists.size() > 0) {
+                                    if (load_type == 0) {
+                                        lists.addAll(al_all_2);
+                                        al_all_2.clear();
+                                        if (load_page_2 <= 1) {
+                                            load_page_2++;
+                                        }
+                                    } else {
+                                        load_page_2++;
+                                    }
+                                    total_2 = newTotal;
+                                    al_all_2.addAll(lists);
+                                    refreshAllShow(al_all_2, total_2);
+                                }
+                                break;
+                            case TYPE_3:
+                                lists = filterData(baseEn.getLists(), am_all_3);
+                                if (lists.size() > 0) {
+                                    if (load_type == 0) {
+                                        lists.addAll(al_all_3);
+                                        al_all_3.clear();
+                                        if (load_page_3 <= 1) {
+                                            load_page_3++;
+                                        }
+                                    } else {
+                                        load_page_3++;
+                                    }
+                                    total_3 = newTotal;
+                                    al_all_3.addAll(lists);
+                                    refreshAllShow(al_all_3, total_3);
+                                }
+                                break;
+                            case TYPE_4:
+                                lists = filterData(baseEn.getLists(), am_all_4);
+                                if (lists.size() > 0) {
+                                    if (load_type == 0) {
+                                        lists.addAll(al_all_4);
+                                        al_all_4.clear();
+                                        if (load_page_4 <= 1) {
+                                            load_page_4++;
+                                        }
+                                    } else {
+                                        load_page_4++;
+                                    }
+                                    total_4 = newTotal;
+                                    al_all_4.addAll(lists);
+                                    refreshAllShow(al_all_4, total_4);
+                                }
+                                break;
+                            case TYPE_5:
+                                lists = filterData(baseEn.getLists(), am_all_5);
+                                if (lists.size() > 0) {
+                                    if (load_type == 0) {
+                                        lists.addAll(al_all_5);
+                                        al_all_5.clear();
+                                        if (load_page_5 <= 1) {
+                                            load_page_5++;
+                                        }
+                                    } else {
+                                        load_page_5++;
+                                    }
+                                    total_5 = newTotal;
+                                    al_all_5.addAll(lists);
+                                    refreshAllShow(al_all_5, total_5);
+                                }
+                                break;
+                        }
+                        if (load_type == 0) {
+                            setLoadMoreState();
+                            LogUtil.i(LogUtil.LOG_HTTP, TAG + " 刷新数据 —> size = " + lists.size());
+                        } else {
+                            LogUtil.i(LogUtil.LOG_HTTP, TAG + " 翻页数据 —> size = " + lists.size());
+                        }
+                        updateListData();
+                    } else if (baseEn.getErrno() == AppConfig.ERROR_CODE_TIMEOUT) {
+                        handleTimeOut();
+                        finish();
+                    } else {
+                        handleErrorCode(baseEn);
+                    }
+                    break;
+                case AppConfig.REQUEST_SV_ORDER_CANCEL:
+                    baseEn = JsonUtils.getCustomizeDetailData(jsonObject);
+                    if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+                        cancelOrderUpdate();
+                    } else {
+                        handleErrorCode(baseEn);
+                    }
+                    break;
+                case AppConfig.REQUEST_SV_ORDER_DELETE:
+                    baseEn = JsonUtils.getCustomizeDetailData(jsonObject);
+                    if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+                        deleteOrderUpdate();
+                    } else {
+                        handleErrorCode(baseEn);
+                    }
+                    break;
+            }
+        } catch (Exception e) {
+            loadFailHandle();
+            ExceptionUtil.handle(e);
+        }
+    }
+
+    @Override
+    protected void loadFailHandle() {
+        super.loadFailHandle();
+
+        switch (top_type) {
+            case TYPE_1:
+                refreshAllShow(al_all_1, total_1);
+                break;
+            case TYPE_2:
+                refreshAllShow(al_all_2, total_2);
+                break;
+            case TYPE_3:
+                refreshAllShow(al_all_3, total_3);
+                break;
+            case TYPE_4:
+                refreshAllShow(al_all_4, total_4);
+                break;
+            case TYPE_5:
+                refreshAllShow(al_all_5, total_5);
+                break;
+        }
+        updateListData();
+    }
+
+    @Override
+    protected void stopAnimation() {
+        super.stopAnimation();
+        isLoadOk = true;
+        refresh_rv.onPullUpRefreshComplete();
+        refresh_rv.onPullDownRefreshComplete();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            if (requestCode == AppConfig.ACTIVITY_CODE_ORDER_UPDATE) {
+                int updateCode = data.getIntExtra(AppConfig.PAGE_DATA, 0);
+                switch (updateCode) {
+                    case 101: //取消订单
+                        cancelOrderUpdate();
+                        break;
+                    case 102: //删除订单
+                        deleteOrderUpdate();
+                        break;
+                }
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    static class MyHandler extends Handler {
+
+        WeakReference<CustomizeListActivity> mActivity;
+
+        MyHandler(CustomizeListActivity activity) {
+            mActivity = new WeakReference<>(activity);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            CustomizeListActivity theActivity = mActivity.get();
+            switch (msg.what) {
+                case 101: //取消订单
+                    theActivity.postConfirmCancel();
+                    break;
+                case 102: //删除订单
+                    theActivity.postConfirmDelete();
+                    break;
+            }
+        }
+    }
 }

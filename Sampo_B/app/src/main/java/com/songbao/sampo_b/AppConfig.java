@@ -58,10 +58,14 @@ public class AppConfig {
 	public final static String URL_USER_MESSAGE = "app/user/message";
 	// 消息状态
 	public final static String URL_USER_MESSAGE_STATUS = "app/user/message/updateStatus";
-	// 我的地址
-	public final static String URL_USER_ADDRESS = "app/user/address";
 	// 驻店设计
 	public final static String URL_USER_DESIGNER = "app/user/designer/getList";
+	// 我的地址
+	public final static String URL_USER_ADDRESS = "app/consignee/list";
+	// 修改地址
+	public final static String URL_USER_ADDRESS_EDIT = "app/consignee/edit";
+	// 删除地址
+	public final static String URL_USER_ADDRESS_DELETE = "app/consignee/delete";
 
 	// 分类列表
 	public final static String URL_SORT_LIST = "app/shopping/getCatInfo";
@@ -73,12 +77,24 @@ public class AppConfig {
 	public final static String URL_GOODS_DETAIL = "app/shopping/goodsInfo/detail";
 	// 商品评价
 	public final static String URL_GOODS_COMMENT = "app/shopping/goodsInfo/goodsInfoEvaluation";
+	// 取消订单
+	public final static String URL_ORDER_CANCEL= "app/order/cancel";
+	// 删除订单
+	public final static String URL_ORDER_DELETE = "app/order/delete";
 	// 提交定制
 	public final static String URL_BOOKING_CREATE = "app/booking/create";
 	// 定制列表
 	public final static String URL_BOOKING_LIST = "app/booking/list";
 	// 定制详情
 	public final static String URL_BOOKING_INFO = "app/booking/Info";
+	// 确认效果图
+	public final static String URL_CONFIRM_DESIGNS = "app/booking/Designs";
+	// 确认支付
+	public final static String URL_CONFIRM_PAYMENT = "app/booking/Payment";
+	// 确认收货
+	public final static String URL_CONFIRM_RECEIPT = "app/booking/Recieved";
+	// 确认安装
+	public final static String URL_CONFIRM_INSTALL = "app/booking/Installed";
 
 	// 上传接口
 	public final static String URL_UPLOAD_PUSH = "app/upload/push";
@@ -126,10 +142,14 @@ public class AppConfig {
 	public static final int REQUEST_SV_USER_DYNAMIC = 0X3004;
 	// 获取我的消息
 	public static final int REQUEST_SV_USER_MESSAGE = 0X3005;
-	// 获取我的地址
-	public static final int REQUEST_SV_USER_ADDRESS = 0X3006;
 	// 获取驻店设计
 	public static final int REQUEST_SV_USER_DESIGNER = 0X3007;
+	// 获取我的地址
+	public static final int REQUEST_SV_USER_ADDRESS = 0X3020;
+	// 新建修改地址
+	public static final int REQUEST_SV_USER_ADDRESS_EDIT = 0X3021;
+	// 删除收货地址
+	public static final int REQUEST_SV_USER_ADDRESS_DELETE = 0X3022;
 
 	// 获取分类列表
 	public static final int REQUEST_SV_SORT_LIST = 0X4001;
@@ -141,12 +161,24 @@ public class AppConfig {
 	public static final int REQUEST_SV_GOODS_DETAIL = 0X4005;
 	// 获取商品评价
 	public static final int REQUEST_SV_GOODS_COMMENT = 0X4007;
+	// 取消订单
+	public static final int REQUEST_SV_ORDER_CANCEL = 0X4010;
+	// 删除订单
+	public static final int REQUEST_SV_ORDER_DELETE = 0X4011;
 	// 提交定制
 	public static final int REQUEST_SV_BOOKING_CREATE = 0X4021;
 	// 定制列表
 	public static final int REQUEST_SV_BOOKING_LIST= 0X4022;
 	// 定制详情
 	public static final int REQUEST_SV_BOOKING_INFO = 0X4023;
+	// 确认效果图
+	public static final int REQUEST_SV_CONFIRM_DESIGNS = 0X4024;
+	// 确认支付
+	public static final int REQUEST_SV_CONFIRM_PAYMENT = 0X4025;
+	// 确认收货
+	public static final int REQUEST_SV_CONFIRM_RECEIPT = 0X4026;
+	// 确认安装
+	public static final int REQUEST_SV_CONFIRM_INSTALL = 0X4027;
 
 	// 上传评论照片
 	public static final int REQUEST_SV_UPLOAD_COMMENT_PHOTO = 0X5001;
@@ -362,8 +394,9 @@ public class AppConfig {
 	public static final int ACTIVITY_CODE_USER_GENDER = 0X9004;
 	public static final int ACTIVITY_CODE_USER_AREA = 0X9005;
 	public static final int ACTIVITY_CODE_USER_INTRO = 0X9006;
-	public static final int ACTIVITY_CODE_SELECT_ADDS = 0X9009;
-	public static final int ACTIVITY_CODE_EDIT_ADDRESS = 0X9010;
+	public static final int ACTIVITY_CODE_SELECT_ADDS = 0X9007;
+	public static final int ACTIVITY_CODE_EDIT_ADDRESS = 0X9008;
+	public static final int ACTIVITY_CODE_ORDER_UPDATE = 0X9009;
 
 	/**
 	 ******************************************* Activity协议结束 ******************************************

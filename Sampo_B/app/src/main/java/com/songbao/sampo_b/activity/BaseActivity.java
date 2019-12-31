@@ -59,7 +59,6 @@ import com.songbao.sampo_b.utils.LogUtil;
 import com.songbao.sampo_b.utils.MyCountDownTimer;
 import com.songbao.sampo_b.utils.StringUtil;
 import com.songbao.sampo_b.utils.UserManager;
-import com.songbao.sampo_b.utils.retrofit.Fault;
 import com.songbao.sampo_b.utils.retrofit.HttpRequests;
 import com.songbao.sampo_b.widgets.share.ShareView;
 
@@ -635,57 +634,83 @@ public class BaseActivity extends FragmentActivity {
     /**
      * 双按钮确认对话框
      */
-    protected void showConfirmDialog(int contentResId, String leftBtnStr, String rightBtnStr,
-                                     boolean isCenter, boolean isVanish, final Handler handler) {
-        showConfirmDialog(getString(contentResId), leftBtnStr, rightBtnStr, isCenter, isVanish, handler);
+    protected void showConfirmDialog(String content, Handler handler) {
+        showConfirmDialog(content, handler, AppConfig.DIALOG_CLICK_OK);
     }
 
-    protected void showConfirmDialog(String content, String leftBtnStr, String rightBtnStr,
-                                     boolean isCenter, boolean isVanish, final Handler handler) {
-        showConfirmDialog(null, content, leftBtnStr, rightBtnStr, isCenter, isVanish, handler);
+    protected void showConfirmDialog(String content, Handler handler, int handlerCode) {
+        showConfirmDialog(content, null, null, handler, handlerCode);
+    }
+
+    protected void showConfirmDialog(String content, String leftBtnStr, String rightBtnStr, Handler handler) {
+        showConfirmDialog(content, leftBtnStr, rightBtnStr, handler, AppConfig.DIALOG_CLICK_OK);
+    }
+
+    protected void showConfirmDialog(String content, String leftBtnStr, String rightBtnStr, Handler handler, int handlerCode) {
+        showConfirmDialog(null, content, leftBtnStr, rightBtnStr, true, true, handler, handlerCode);
+    }
+
+    protected void showConfirmDialog(String title, String content, Handler handler) {
+        showConfirmDialog(title, content, handler, AppConfig.DIALOG_CLICK_OK);
+    }
+
+    protected void showConfirmDialog(String title, String content, Handler handler, int handlerCode) {
+        showConfirmDialog(title, content, null, null, handler, handlerCode);
+    }
+
+    protected void showConfirmDialog(String title, String content, String leftBtnStr, String rightBtnStr, Handler handler) {
+        showConfirmDialog(title, content, leftBtnStr, rightBtnStr, handler, AppConfig.DIALOG_CLICK_OK);
+    }
+
+    protected void showConfirmDialog(String title, String content, String leftBtnStr, String rightBtnStr, Handler handler, int handlerCode) {
+        showConfirmDialog(title, content, leftBtnStr, rightBtnStr, true, true, handler, handlerCode);
     }
 
     protected void showConfirmDialog(String title, String content, String leftBtnStr, String rightBtnStr,
-                                     boolean isCenter, boolean isVanish, final Handler handler) {
-        showConfirmDialog(title, content, leftBtnStr, rightBtnStr, dialogWidth, isCenter, isVanish, handler);
+                                     boolean isCenter, boolean isVanish, Handler handler, int handlerCode) {
+        showConfirmDialog(title, content, leftBtnStr, rightBtnStr, dialogWidth, isCenter, isVanish, handler, handlerCode);
     }
 
     protected void showConfirmDialog(String title, String content, String leftBtnStr, String rightBtnStr,
-                                     int width, boolean isCenter, boolean isVanish, final Handler handler) {
+                                     int width, boolean isCenter, boolean isVanish, Handler handler, int handlerCode) {
         leftBtnStr = (leftBtnStr == null) ? getString(R.string.cancel) : leftBtnStr;
         rightBtnStr = (rightBtnStr == null) ? getString(R.string.confirm) : rightBtnStr;
         if (myDialog == null) {
             myDialog = DialogManager.getInstance(mContext);
         }
-        myDialog.showTwoBtnDialog(title, content, leftBtnStr, rightBtnStr, width, isCenter, isVanish, handler);
+        myDialog.showTwoBtnDialog(title, content, leftBtnStr, rightBtnStr, width, isCenter, isVanish, handler, handlerCode);
     }
 
     /**
      * 可输入的对话框
      */
-    protected void showEditDialog(String title, int inputType, boolean isVanish, final Handler handler) {
+    protected void showEditDialog(String title, int inputType, Handler handler) {
+        showEditDialog(title, inputType, true, handler);
+    }
+
+    protected void showEditDialog(String title, int inputType, boolean isVanish, Handler handler) {
+        showEditDialog(title, dialogWidth, inputType, isVanish, handler);
+    }
+
+    protected void showEditDialog(String title, int width, int inputType, boolean isVanish, Handler handler) {
         if (myDialog == null) {
             myDialog = DialogManager.getInstance(mContext);
         }
-        myDialog.showEditDialog(title, dialogWidth, inputType, isVanish, handler);
+        myDialog.showEditDialog(title, width, inputType, isVanish, handler);
     }
 
     /**
      * 列表展示对话框
      */
-    protected void showListDialog(int contentResId, CharSequence[] items, boolean isCenter, final Handler handler) {
-        showListDialog(contentResId, items, dialogWidth, isCenter, handler);
+    protected void showListDialog(String content, CharSequence[] items, Handler handler) {
+        showListDialog(content, items, true, handler);
     }
 
-    protected void showListDialog(int contentResId, CharSequence[] items, int width, boolean isCenter, final Handler handler) {
-        showListDialog(getString(contentResId), items, width, isCenter, handler);
-    }
-
-    protected void showListDialog(String content, CharSequence[] items, boolean isCenter, final Handler handler) {
+    protected void showListDialog(String content, CharSequence[] items, boolean isCenter, Handler handler) {
         showListDialog(content, items, dialogWidth, isCenter, handler);
     }
 
-    protected void showListDialog(String content, CharSequence[] items, int width, boolean isCenter, final Handler handler) {
+    protected void showListDialog(String content, CharSequence[] items, int width, boolean isCenter, Handler handler) {
         if (myDialog == null) {
             myDialog = DialogManager.getInstance(mContext);
         }
@@ -703,7 +728,7 @@ public class BaseActivity extends FragmentActivity {
             if (mShareView.isShowing()) {
                 mShareView.showShareLayer(false);
             } else {
-                /*if (!UserManager.getInstance().checkIsLogined()) {
+                /*if (!UserManager.getInstance().checkIsLogin()) {
                     openLoginActivity();
 					return;
 				}*/
@@ -886,16 +911,6 @@ public class BaseActivity extends FragmentActivity {
 
                     @Override
                     public void onError(Throwable throwable) {
-                        if (throwable instanceof Fault) {
-                            Fault fault = (Fault) throwable;
-                            if (fault.getErrorCode() == 404) {
-                                //错误处理
-                            } else if (fault.getErrorCode() == 500) {
-                                //错误处理
-                            }
-                        } else {
-                            //错误处理
-                        }
                         loadFailHandle();
                         LogUtil.i(LogUtil.LOG_HTTP, "error message : " + throwable.getMessage());
                     }
@@ -939,7 +954,7 @@ public class BaseActivity extends FragmentActivity {
 
                     @Override
                     public void onError(Throwable throwable) {
-                        if (throwable instanceof Fault) {
+                        /*if (throwable instanceof Fault) {
                             Fault fault = (Fault) throwable;
                             if (fault.getErrorCode() == 404) {
                                 //错误处理
@@ -948,7 +963,7 @@ public class BaseActivity extends FragmentActivity {
                             }
                         } else {
                             //错误处理
-                        }
+                        }*/
                         loadFailHandle();
                         LogUtil.i(LogUtil.LOG_HTTP, "error message : " + throwable.getMessage());
                     }
@@ -1004,16 +1019,6 @@ public class BaseActivity extends FragmentActivity {
 
                     @Override
                     public void onError(Throwable throwable) {
-                        if (throwable instanceof Fault) {
-                            Fault fault = (Fault) throwable;
-                            if (fault.getErrorCode() == 404) {
-                                //错误处理
-                            } else if (fault.getErrorCode() == 500) {
-                                //错误处理
-                            }
-                        } else {
-                            //错误处理
-                        }
                         loadFailHandle();
                         LogUtil.i(LogUtil.LOG_HTTP, "error message : " + throwable.getMessage());
                     }

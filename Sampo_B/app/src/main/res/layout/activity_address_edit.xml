@@ -45,6 +45,8 @@
             android:id="@+id/address_edit_et_phone"
             style="@style/address_edit"
             android:hint="@string/address_phone_number_hint"
+            android:inputType="phone"
+            android:maxLength="13"
             app:layout_constraintWidth_percent="0.75"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="@+id/address_edit_tv_phone"/>
