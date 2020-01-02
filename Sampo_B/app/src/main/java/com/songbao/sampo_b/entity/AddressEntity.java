@@ -19,6 +19,7 @@ public class AddressEntity extends BaseEntity {
 	private String editAdd; //编辑地址
 	private String address; //详细地址
 	private boolean isSelect; //是否选择
+	private boolean isDefault; //是否默认
 
 	
 	public AddressEntity() {
@@ -173,5 +174,13 @@ public class AddressEntity extends BaseEntity {
 
 	public void setSelect(boolean select) {
 		isSelect = select;
+	}
+
+	public boolean isDefault() {
+		return isDefault;
+	}
+
+	public void setDefault(boolean aDefault) {
+		isDefault = aDefault;
 	}
 }

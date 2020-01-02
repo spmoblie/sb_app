@@ -15,7 +15,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.songbao.sampo_b.AppApplication;
 import com.songbao.sampo_b.AppConfig;
@@ -242,7 +241,7 @@ public class ViewPagerActivity extends BaseActivity {
 	    			return;
 				}
 				AppApplication.saveBitmapFile(bm, file, 100);
-				CommonTools.showToast(getString(R.string.photo_show_save_ok), Toast.LENGTH_SHORT);
+				CommonTools.showToast(getString(R.string.photo_show_save_ok));
 				tv_save.setVisibility(View.GONE);
 			}
 		});

@@ -66,6 +66,8 @@ public class AppConfig {
 	public final static String URL_USER_ADDRESS_EDIT = "app/consignee/edit";
 	// 删除地址
 	public final static String URL_USER_ADDRESS_DELETE = "app/consignee/delete";
+	// 默认地址
+	public final static String URL_USER_ADDRESS_DEFAULT = "app/consignee/setConsignee";
 
 	// 分类列表
 	public final static String URL_SORT_LIST = "app/shopping/getCatInfo";
@@ -74,11 +76,13 @@ public class AppConfig {
 	// 商品列表
 	public final static String URL_GOODS_LIST = "app/shopping/searchGoodsInfo";
 	// 商品详情
-	public final static String URL_GOODS_DETAIL = "app/shopping/goodsInfo/detail";
+	public final static String URL_GOODS_DETAIL = "app/shopping/goodsInfo/offlineDetail";
 	// 商品评价
 	public final static String URL_GOODS_COMMENT = "app/shopping/goodsInfo/goodsInfoEvaluation";
+	// 订单收货地址
+	public final static String URL_ORDER_UPDATE = "app/order/update";
 	// 取消订单
-	public final static String URL_ORDER_CANCEL= "app/order/cancel";
+	public final static String URL_ORDER_CANCEL = "app/order/cancel";
 	// 删除订单
 	public final static String URL_ORDER_DELETE = "app/order/delete";
 	// 提交定制
@@ -150,6 +154,8 @@ public class AppConfig {
 	public static final int REQUEST_SV_USER_ADDRESS_EDIT = 0X3021;
 	// 删除收货地址
 	public static final int REQUEST_SV_USER_ADDRESS_DELETE = 0X3022;
+	// 设置默认地址
+	public static final int REQUEST_SV_USER_ADDRESS_DEFAULT = 0X3023;
 
 	// 获取分类列表
 	public static final int REQUEST_SV_SORT_LIST = 0X4001;
@@ -161,10 +167,12 @@ public class AppConfig {
 	public static final int REQUEST_SV_GOODS_DETAIL = 0X4005;
 	// 获取商品评价
 	public static final int REQUEST_SV_GOODS_COMMENT = 0X4007;
+	// 订单收货地址
+	public static final int REQUEST_SV_ORDER_UPDATE = 0X4010;
 	// 取消订单
-	public static final int REQUEST_SV_ORDER_CANCEL = 0X4010;
+	public static final int REQUEST_SV_ORDER_CANCEL = 0X4011;
 	// 删除订单
-	public static final int REQUEST_SV_ORDER_DELETE = 0X4011;
+	public static final int REQUEST_SV_ORDER_DELETE = 0X4012;
 	// 提交定制
 	public static final int REQUEST_SV_BOOKING_CREATE = 0X4021;
 	// 定制列表
@@ -340,10 +348,6 @@ public class AppConfig {
 	public static final String KEY_POST_PHOTO_URL = "post_photo_url";
 	// 偏好设置Key-记录用户新消息数量
 	public static final String KEY_USER_MSG_NUM = "user_msg_num";
-	// 偏好设置Key-记录用户购物车数量
-	public static final String KEY_USER_CART_NUM = "user_cart_num";
-	// 偏好设置Key-记录用户默认地址Id
-	public static final String KEY_USER_DEFAULT_ADDRESS_ID = "user_default_address_id";
 	// 偏好设置Key-记录用户登录授权码
 	public static final String KEY_X_APP_TOKEN = "x_app_token";
 	// 偏好设置Key-记录用户登录设备号

@@ -1,5 +1,6 @@
 package com.songbao.sampo_b.activity.mine;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -16,6 +17,7 @@ import com.songbao.sampo_b.adapter.AdapterCallback;
 import com.songbao.sampo_b.adapter.DesignerAdapter;
 import com.songbao.sampo_b.entity.BaseEntity;
 import com.songbao.sampo_b.entity.DesignerEntity;
+import com.songbao.sampo_b.entity.OCustomizeEntity;
 import com.songbao.sampo_b.utils.CommonTools;
 import com.songbao.sampo_b.utils.ExceptionUtil;
 import com.songbao.sampo_b.utils.JsonUtils;
@@ -49,8 +51,9 @@ public class DesignerListActivity extends BaseActivity implements View.OnClickLi
     private int load_page = 1; //加载页数
     private int load_type = 1; //加载类型(0:下拉刷新/1:翻页加载)
     private boolean isLoadOk = true; //加载控制
-    private String skuCode = "";
+    private int dgId = 0; //选择的设计师
     private String dgName; //选择的设计师姓名
+    private String skuCode = "";
     private ArrayList<DesignerEntity> al_show = new ArrayList<>();
     private ArrayMap<String, Boolean> am_show = new ArrayMap<>();
 
@@ -133,11 +136,22 @@ public class DesignerListActivity extends BaseActivity implements View.OnClickLi
                 al_show.get(i).setSelect(false);
                 if (i == position) {
                     al_show.get(i).setSelect(true);
+                    dgId = al_show.get(i).getId();
                     dgName = al_show.get(i).getName();
                 }
             }
         }
         gvAdapter.updateData(al_show);
+    }
+
+    /**
+     * 打开定制订单详情
+     */
+    private void openCustomizeActivity(OCustomizeEntity ocEn, int nodePosition) {
+        Intent intent = new Intent(mContext, CustomizeActivity.class);
+        intent.putExtra(AppConfig.PAGE_DATA, ocEn);
+        intent.putExtra("nodePosition", nodePosition);
+        startActivityForResult(intent, AppConfig.ACTIVITY_CODE_ORDER_UPDATE);
     }
 
     @Override
@@ -210,7 +224,7 @@ public class DesignerListActivity extends BaseActivity implements View.OnClickLi
     private void postCustomizeData() {
         try {
             JSONObject jsonObj = new JSONObject();
-            jsonObj.put("designerId", 26);
+            jsonObj.put("designerId", dgId);
             jsonObj.put("skuCode", skuCode);
             postJsonData(AppConfig.BASE_URL_3, AppConfig.URL_BOOKING_CREATE, jsonObj, AppConfig.REQUEST_SV_BOOKING_CREATE);
         } catch (JSONException e) {
@@ -250,8 +264,9 @@ public class DesignerListActivity extends BaseActivity implements View.OnClickLi
                     }
                     break;
                 case AppConfig.REQUEST_SV_BOOKING_CREATE:
-                    baseEn = JsonUtils.getDesignData(jsonObject);
+                    baseEn = JsonUtils.getCustomizeResult(jsonObject);
                     if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+                        final String orderNo = (String) baseEn.getData();
                         CommonTools.showToast(getString(R.string.designer_subscribe_ok));
                         new Handler().postDelayed(new Runnable() {
                             @Override
@@ -262,7 +277,9 @@ public class DesignerListActivity extends BaseActivity implements View.OnClickLi
                                 shared.edit().putBoolean(AppConfig.KEY_JUMP_PAGE, true).apply();
                                 shared.edit().putInt(AppConfig.KEY_MAIN_CURRENT_INDEX, 2).apply();
                                 // 跳转至“我的订制”
-                                openActivity(CustomizeActivity.class);
+                                OCustomizeEntity ocEn = new OCustomizeEntity();
+                                ocEn.setOrderNo(orderNo);
+                                openCustomizeActivity(ocEn, -1);
                             }
                         }, 500);
                     } else {

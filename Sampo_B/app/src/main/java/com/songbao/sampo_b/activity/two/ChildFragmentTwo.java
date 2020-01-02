@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.util.ArrayMap;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.LayoutInflater;
@@ -52,10 +53,14 @@ public class ChildFragmentTwo extends BaseFragment implements OnClickListener {
 	@BindView(R.id.fg_two_gv_right)
 	PullToRefreshGridView gv_right;
 
+	@BindView(R.id.fg_two_data_null_main)
+	ConstraintLayout view_null;
+
 	@BindView(R.id.fg_two_iv_scan)
 	ImageView iv_scan;
 
 	private Context mContext;
+	private GridView mGridView;
 	private SortOneAdapter rv_adapter;
 	private GoodsGridAdapter gv_Adapter;
 	private String postSortCode = "";
@@ -162,7 +167,7 @@ public class ChildFragmentTwo extends BaseFragment implements OnClickListener {
 				}, AppConfig.LOADING_TIME);
 			}
 		});
-		GridView mGridView = gv_right.getRefreshableView();
+		mGridView = gv_right.getRefreshableView();
 		mGridView.setNumColumns(2);
 		mGridView.setPadding(10, 10, 10, 10);
 		mGridView.setHorizontalSpacing( CommonTools.dpToPx(mContext, 10));
@@ -176,7 +181,7 @@ public class ChildFragmentTwo extends BaseFragment implements OnClickListener {
 			@Override
 			public void setOnClick(Object data, int position, int type) {
 				if (position < 0 || position >= al_right.size()) return;
-				openGoodsActivity(al_right.get(position).getSkuCode());
+				openGoodsActivity(al_right.get(position).getGoodsCode());
 			}
 		});
 		mGridView.setAdapter(gv_Adapter);
@@ -193,15 +198,27 @@ public class ChildFragmentTwo extends BaseFragment implements OnClickListener {
 	 * 更新右边列表数据
 	 */
 	private void updateRightListData() {
+		if (al_right.size() <= 0) {
+			setNullVisibility(View.VISIBLE);
+		} else {
+			setNullVisibility(View.GONE);
+		}
 		gv_Adapter.updateData(al_right);
 		toTop();
+	}
+
+	/**
+	 * 设置内容为空是否可见
+	 */
+	private void setNullVisibility(int visibility) {
+		view_null.setVisibility(visibility);
 	}
 
 	/**
 	 * 滚动到顶部
 	 */
 	private void toTop() {
-		//gv_right.smoothScrollToPosition(0);
+		mGridView.smoothScrollToPosition(0);
 	}
 
 	@Override

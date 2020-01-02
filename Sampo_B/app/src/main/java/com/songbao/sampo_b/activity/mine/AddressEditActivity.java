@@ -130,10 +130,13 @@ public class AddressEditActivity extends BaseActivity implements OnClickListener
             tv_area.setText(data.getDistrict());
             et_detail.setText(data.getAddress());
             addressId = data.getId();
+            isDefault = data.isDefault();
         }
         if (addressId > 0) {
             setRightViewText(getString(R.string.delete));
         }
+        iv_default.setSelected(isDefault);
+
         initEditText();
         initViewListener();
     }
@@ -469,6 +472,7 @@ public class AddressEditActivity extends BaseActivity implements OnClickListener
             jsonObj.put("consigneePhone", phoneStr);
             jsonObj.put("addrArea", areaStr);
             jsonObj.put("addrDetail", addressStr);
+            jsonObj.put("isDefault", isDefault);
             postJsonData(AppConfig.BASE_URL_3, AppConfig.URL_USER_ADDRESS_EDIT, jsonObj, AppConfig.REQUEST_SV_USER_ADDRESS_EDIT);
         } catch (JSONException e) {
             ExceptionUtil.handle(e);
@@ -495,17 +499,6 @@ public class AddressEditActivity extends BaseActivity implements OnClickListener
         try {
             switch (dataType) {
                 case AppConfig.REQUEST_SV_USER_ADDRESS_EDIT:
-                    baseEn = JsonUtils.getBaseErrorData(jsonObject);
-                    if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
-                        if (addressId > 0 && isDefault) {
-                            userManager.saveDefaultAddressId(addressId);
-                        }
-                        isUpdate = true;
-                        finish();
-                    } else {
-                        handleErrorCode(baseEn);
-                    }
-                    break;
                 case AppConfig.REQUEST_SV_USER_ADDRESS_DELETE:
                     baseEn = JsonUtils.getBaseErrorData(jsonObject);
                     if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {

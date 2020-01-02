@@ -20,6 +20,7 @@ import java.util.List;
 public class AddressAdapter extends BaseRecyclerAdapter {
 
     private int scrollPos = -1;
+    private boolean orSelect = false;
     private LinearLayout.LayoutParams lp;
     private UserManager userManager;
 
@@ -32,12 +33,15 @@ public class AddressAdapter extends BaseRecyclerAdapter {
         lp.width = AppApplication.screen_width - CommonTools.dpToPx(context, 28);
     }
 
-    @Override
-    public void updateData(List data) {
+    public void updateData(List data, boolean orSelect) {
         this.scrollPos = -1;
+        this.orSelect = orSelect;
         super.updateData(data);
     }
 
+    /**
+     * 水平滑动复位
+     */
     public void reset(int scrollPos){
         this.scrollPos = scrollPos;
         notifyDataSetChanged();
@@ -88,15 +92,21 @@ public class AddressAdapter extends BaseRecyclerAdapter {
             }
         });
 
-        if (userManager.getDefaultAddressId() == data.getId()) { //默认
+        tv_name.setText(context.getString(R.string.address_name_phone, data.getName(), data.getPhone()));
+        tv_address.setText(data.getDistrict() + data.getAddress());
+
+        if (data.isDefault()) { //默认
             tv_status.setVisibility(View.VISIBLE);
         } else {
             tv_status.setVisibility(View.GONE);
         }
-        tv_name.setText(context.getString(R.string.address_name_phone, data.getName(), data.getPhone()));
-        tv_address.setText(data.getDistrict() + data.getAddress());
-
-        iv_select.setSelected(data.isSelect());
+        if (orSelect) { //勾选
+            iv_select.setVisibility(View.VISIBLE);
+            iv_select.setSelected(data.isSelect());
+        } else {
+            iv_select.setSelected(false);
+            iv_select.setVisibility(View.GONE);
+        }
         item_left_main.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

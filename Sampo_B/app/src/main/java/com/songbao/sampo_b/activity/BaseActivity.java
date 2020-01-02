@@ -423,9 +423,9 @@ public class BaseActivity extends FragmentActivity {
     /**
      * 打开商品详情页
      */
-    protected void openGoodsActivity(String skuCode) {
+    protected void openGoodsActivity(String goodsCode) {
         Intent intent = new Intent(mContext, GoodsActivity.class);
-        intent.putExtra("skuCode", skuCode);
+        intent.putExtra("goodsCode", goodsCode);
         startActivity(intent);
     }
 

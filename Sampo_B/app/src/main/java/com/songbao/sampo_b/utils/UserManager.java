@@ -229,14 +229,6 @@ public class UserManager {
 		editor.putInt(AppConfig.KEY_USER_MSG_NUM, num).commit();
 	}
 
-	public int getDefaultAddressId(){
-		return sp.getInt(AppConfig.KEY_USER_DEFAULT_ADDRESS_ID, 0);
-	}
-
-	public void saveDefaultAddressId(int addressId){
-		editor.putInt(AppConfig.KEY_USER_DEFAULT_ADDRESS_ID, addressId).commit();
-	}
-
 	public String getXAppToken(){
 		if(StringUtil.isNull(xAppToken)){
 			xAppToken = sp.getString(AppConfig.KEY_X_APP_TOKEN, "");

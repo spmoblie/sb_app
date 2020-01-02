@@ -58,6 +58,7 @@ public class AddressActivity extends BaseActivity implements View.OnClickListene
     private int selectId;
     private boolean isFinish;
     private boolean isManage;
+    private boolean orSelect;
     private String selectIdStr = "";
     private ArrayList<AddressEntity> al_show = new ArrayList<>();
     private ArrayMap<String, Boolean> am_show = new ArrayMap<>();
@@ -127,8 +128,9 @@ public class AddressActivity extends BaseActivity implements View.OnClickListene
         mRecyclerView.setLayoutManager(layoutManager);
 
         // 配置适配器
+        orSelect = isFinish || isManage;
         rvAdapter = new AddressAdapter(mContext, R.layout.item_list_address);
-        rvAdapter.updateData(al_show);
+        rvAdapter.updateData(al_show, orSelect);
         rvAdapter.addCallback(new AdapterCallback() {
 
             @Override
@@ -154,12 +156,8 @@ public class AddressActivity extends BaseActivity implements View.OnClickListene
                             openAddressEditActivity(addEn);
                             break;
                         case 5: //默认
-                            userManager.saveDefaultAddressId(addEn.getId());
-                            if (!isManage && selectId <= 0) {
-                                changeDefaultStatus();
-                                al_show.get(position).setSelect(true);
-                            }
-                            updateListData();
+                            selectIdStr = addEn.getEntityId();
+                            postDefaultAddress();
                             break;
                         case 6: //删除
                             selectIdStr = addEn.getEntityId();
@@ -181,7 +179,8 @@ public class AddressActivity extends BaseActivity implements View.OnClickListene
         } else {
             setNullVisibility(View.GONE);
         }
-        rvAdapter.updateData(al_show);
+        orSelect = isFinish || isManage;
+        rvAdapter.updateData(al_show, orSelect);
         checkAllDataStatus();
     }
 
@@ -209,16 +208,12 @@ public class AddressActivity extends BaseActivity implements View.OnClickListene
     }
 
     /**
-     * 初始化默认选项
+     * 初始化选中项
      */
     private void initDefaultStatus() {
-        int defaultId = userManager.getDefaultAddressId();
-        if (selectId > 0) {
-            defaultId = selectId; //替换为已选Id
-        }
         for (int i = 0; i < al_show.size(); i++) {
             int addId = al_show.get(i).getId();
-            if (defaultId == addId) {
+            if (addId == selectId) {
                 al_show.get(i).setSelect(true);
                 break; //匹配到默认项，结束循环
             } else {
@@ -401,6 +396,19 @@ public class AddressActivity extends BaseActivity implements View.OnClickListene
         }
     }
 
+    /**
+     * 设置默认收货地址
+     */
+    private void postDefaultAddress() {
+        try {
+            JSONObject jsonObj = new JSONObject();
+            jsonObj.put("consigneeId", selectIdStr);
+            postJsonData(AppConfig.BASE_URL_3, AppConfig.URL_USER_ADDRESS_DEFAULT, jsonObj, AppConfig.REQUEST_SV_USER_ADDRESS_DEFAULT);
+        } catch (JSONException e) {
+            ExceptionUtil.handle(e);
+        }
+    }
+
     @Override
     protected void callbackData(JSONObject jsonObject, int dataType) {
         super.callbackData(jsonObject, dataType);
@@ -434,6 +442,7 @@ public class AddressActivity extends BaseActivity implements View.OnClickListene
                     }
                     break;
                 case AppConfig.REQUEST_SV_USER_ADDRESS_DELETE:
+                case AppConfig.REQUEST_SV_USER_ADDRESS_DEFAULT:
                     baseEn = JsonUtils.getBaseErrorData(jsonObject);
                     if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
                         loadFirstPageData();

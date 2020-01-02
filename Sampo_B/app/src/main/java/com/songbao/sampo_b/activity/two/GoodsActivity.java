@@ -1,5 +1,6 @@
 package com.songbao.sampo_b.activity.two;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
@@ -18,16 +19,19 @@ import com.songbao.sampo_b.R;
 import com.songbao.sampo_b.activity.BaseActivity;
 import com.songbao.sampo_b.entity.BaseEntity;
 import com.songbao.sampo_b.entity.GoodsEntity;
+import com.songbao.sampo_b.utils.BitmapUtil;
 import com.songbao.sampo_b.utils.CommonTools;
 import com.songbao.sampo_b.utils.ExceptionUtil;
 import com.songbao.sampo_b.utils.JsonUtils;
 import com.songbao.sampo_b.utils.LogUtil;
+import com.songbao.sampo_b.utils.QRCodeUtil;
 import com.songbao.sampo_b.utils.retrofit.HttpRequests;
 import com.songbao.sampo_b.widgets.ObservableScrollView;
 import com.songbao.sampo_b.widgets.ViewPagerScroller;
 
 import org.json.JSONObject;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -50,11 +54,21 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
     @BindView(R.id.goods_tv_goods_name)
     TextView tv_name;
 
+    @BindView(R.id.goods_iv_code)
+    ImageView iv_code;
+
+    @BindView(R.id.goods_tv_code_show)
+    TextView tv_code_show;
+
+    @BindView(R.id.goods_tv_click)
+    TextView tv_click;
+
     private Runnable mPagerAction;
     private LinearLayout.LayoutParams indicatorsLP;
 
     private GoodsEntity goodsEn;
-    private String skuCode = "";
+    private Bitmap qrImage;
+    private String goodsCode = "";
     private boolean vprStop = false;
     private int idsSize, idsPosition, vprPosition;
     private ImageView[] indicators = null;
@@ -66,13 +80,15 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_goods);
 
-        skuCode = getIntent().getStringExtra("skuCode");
+        goodsCode = getIntent().getStringExtra("goodsCode");
 
         initView();
     }
 
     private void initView() {
-        setHeadVisibility(View.GONE);
+        setTitle(getString(R.string.goods_good_detail));
+
+        tv_click.setOnClickListener(this);
 
         // 动态调整宽高
         int ind_margin = CommonTools.dpToPx(mContext, 5);
@@ -85,6 +101,26 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
     private void initShowView() {
         if (goodsEn != null) {
             tv_name.setText(goodsEn.getName());
+
+            //商品编码
+            final String imgName = "QR_" + goodsCode + ".png";
+            tv_code_show.setText(imgName);
+            int imgSize = AppApplication.screen_width;
+            qrImage = QRCodeUtil.createQRImage(goodsCode, imgSize, imgSize, 1, null);
+            iv_code.setImageBitmap(BitmapUtil.getBitmap(qrImage, 645, 645));
+            iv_code.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    File file = BitmapUtil.createPath(imgName, true);
+                    if (file == null) {
+                        showErrorDialog(R.string.photo_show_save_fail);
+                        return false;
+                    }
+                    AppApplication.saveBitmapFile(qrImage, file, 100);
+                    CommonTools.showToast(getString(R.string.photo_show_save_ok));
+                    return false;
+                }
+            });
 
             //商品图片
             if (goodsEn.getImageList() != null) {
@@ -274,8 +310,8 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.bottom_add_cart_tv_customize:
-                openDesignerActivity(skuCode);
+            case R.id.goods_tv_click:
+                openDesignerActivity(goodsCode);
                 break;
         }
     }
@@ -311,8 +347,7 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
      */
     private void loadGoodsData() {
         HashMap<String, String> map = new HashMap<>();
-        map.put("sourceType", AppConfig.LOAD_TYPE);
-        map.put("skuCode", skuCode);
+        map.put("goodsCode", goodsCode);
         loadSVData(AppConfig.URL_GOODS_DETAIL, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_GOODS_DETAIL);
     }
 

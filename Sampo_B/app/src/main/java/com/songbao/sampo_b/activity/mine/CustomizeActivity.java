@@ -58,6 +58,9 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
     @BindView(R.id.customize_tv_order_status)
     TextView tv_order_status;
 
+    @BindView(R.id.customize_iv_module_1_title_sign)
+    ImageView iv_1_sign;
+
     @BindView(R.id.customize_tv_module_1_time)
     TextView tv_1_time;
 
@@ -73,8 +76,8 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
     @BindView(R.id.customize_tv_module_1_designer_phone)
     TextView tv_1_designer_phone;
 
-    @BindView(R.id.customize_tv_module_1_call_designer)
-    TextView tv_1_call_designer;
+    @BindView(R.id.customize_tv_module_1_check_goods)
+    TextView tv_1_check;
 
     @BindView(R.id.customize_iv_module_2_title_sign)
     ImageView iv_2_sign;
@@ -203,6 +206,7 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
     private OrderLogisticsAdapter lv_7_Adapter;
 
     private OCustomizeEntity ocEn;
+    private AddressEntity selectAddEn;
     private Drawable open_up, open_down;
 
     private boolean isDesigns; //是否确认图片
@@ -213,9 +217,12 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
 
     private int nodeNo = 0;
     private int status = 0;
+    private int addressId = 0;
     private int updateCode = 0;
+    private int nodePosition = 0;
     private String phone; //设计师联系电话
     private String orderNo; //订单编号
+    private String goodsCode; //商品编号
 
     private ArrayList<String> al_img = new ArrayList<>();
     private ArrayList<OProgressEntity> al_6 = new ArrayList<>();
@@ -228,7 +235,7 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_customize);
 
-        nodeNo = getIntent().getIntExtra("nodeNo", 0);
+        nodePosition = getIntent().getIntExtra("nodePosition", 0);
         ocEn = (OCustomizeEntity) getIntent().getSerializableExtra(AppConfig.PAGE_DATA);
 
         initView();
@@ -237,7 +244,7 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
     private void initView() {
         setTitle(getString(R.string.order_progress));
 
-        tv_3_confirm.setText(getString(R.string.order_confirm_designs));
+        /*tv_3_confirm.setText(getString(R.string.order_confirm_designs));
         tv_3_confirm.setOnClickListener(this);
         tv_3_confirm.setVisibility(View.VISIBLE);
         tv_4_confirm.setText(getString(R.string.order_confirm_payment));
@@ -248,7 +255,7 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
         tv_7_confirm.setVisibility(View.VISIBLE);
         tv_8_confirm.setText(getString(R.string.order_confirm_install));
         tv_8_confirm.setOnClickListener(this);
-        tv_8_confirm.setVisibility(View.VISIBLE);
+        tv_8_confirm.setVisibility(View.VISIBLE);*/
 
         open_up = getResources().getDrawable(R.mipmap.icon_go_up);
         open_down = getResources().getDrawable(R.mipmap.icon_go_down);
@@ -258,24 +265,6 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
         if (ocEn != null) {
             orderNo = ocEn.getOrderNo();
             loadOrderData();
-        }
-        if (nodeNo > 0) {
-            new Handler().postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    switch (nodeNo) {
-                        case 6: //查看进度
-                            scrollTo(iv_6_sign.getTop());
-                            break;
-                        case 7: //查看物流、确认收货
-                            scrollTo(iv_7_sign.getTop());
-                            break;
-                        case 8: //确认安装
-                            scrollTo(iv_8_sign.getTop());
-                            break;
-                    }
-                }
-            }, 500);
         }
     }
 
@@ -319,9 +308,14 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
                     break;
             }
 
-            int nodeNo = ocEn.getNodeNo();
+            nodeNo = ocEn.getNodeNo();
             if (nodeNo > 0) { //提交预约
+                iv_1_sign.setSelected(true);
                 tv_1_time.setText(ocEn.getNodeTime1());
+                iv_1_goods_img.setVisibility(View.VISIBLE);
+                tv_1_goods_name.setVisibility(View.VISIBLE);
+                tv_1_designer_name.setVisibility(View.VISIBLE);
+                tv_1_designer_phone.setVisibility(View.VISIBLE);
                 GoodsEntity gdEn = ocEn.getGdEn();
                 if (gdEn != null) {
                     Glide.with(AppApplication.getAppContext())
@@ -329,13 +323,15 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
                             .apply(AppApplication.getShowOptions())
                             .into(iv_1_goods_img);
                     tv_1_goods_name.setText(gdEn.getName());
+                    goodsCode = gdEn.getGoodsCode();
+                    tv_1_check.setOnClickListener(this);
+                    tv_1_check.setVisibility(View.VISIBLE);
                 }
                 DesignerEntity dgEn = ocEn.getDgEn();
                 if (dgEn != null) {
                     phone = dgEn.getPhone();
                     tv_1_designer_phone.setText(phone);
                     tv_1_designer_name.setText(dgEn.getName());
-                    tv_1_call_designer.setOnClickListener(this);
                 }
             }
 
@@ -418,6 +414,7 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
                 tv_5_select_address.setVisibility(View.VISIBLE);
                 AddressEntity adEn = ocEn.getAdEn();
                 if (adEn != null) {
+                    addressId = adEn.getId();
                     tv_5_time.setText(ocEn.getNodeTime5());
                     tv_5_addressee_name.setText(getString(R.string.address_contacts, adEn.getName()));
                     tv_5_addressee_phone.setText(getString(R.string.address_phone, adEn.getPhone()));
@@ -471,12 +468,14 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
                     tv_7_confirm.setText(getString(R.string.order_confirmed));
                     tv_8_confirm.setOnClickListener(this);
                     tv_8_confirm.setVisibility(View.VISIBLE);
+                    tv_8_confirm.setText(getString(R.string.order_confirm_install));
                     tv_8_remind.setText(getString(R.string.order_install_hint));
                 } else {
                     tv_7_confirm.setOnClickListener(this);
                     tv_7_confirm.setText(getString(R.string.order_confirm_receipt));
                     tv_8_remind.setText(getString(R.string.order_receipt_hint));
                 }
+                tv_5_select_address.setVisibility(View.GONE);
                 tv_7_confirm.setVisibility(View.VISIBLE);
                 tv_8_remind.setVisibility(View.VISIBLE);
             }
@@ -487,9 +486,6 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
                 isInstall = ocEn.isInstall();
                 if (isInstall) { //已确认安装
                     tv_8_confirm.setText(getString(R.string.order_installed));
-                } else {
-                    tv_8_confirm.setText(getString(R.string.order_confirm_install));
-                    tv_8_confirm.setOnClickListener(this);
                 }
             }
 
@@ -500,6 +496,26 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
             }
         }
         initListView();
+
+        if (nodePosition > 0) {
+            new Handler().postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    switch (nodePosition) {
+                        case 6: //查看进度
+                            scrollTo(iv_6_sign.getTop());
+                            break;
+                        case 7: //查看物流、确认收货
+                            scrollTo(iv_7_sign.getTop());
+                            break;
+                        case 8: //确认安装
+                            scrollTo(iv_8_sign.getTop());
+                            break;
+                    }
+                    nodePosition = 0;
+                }
+            }, 200);
+        }
     }
 
     private void initListView() {
@@ -547,11 +563,9 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.customize_tv_module_1_call_designer:
+            case R.id.customize_tv_module_1_check_goods:
                 //商品详情
-                if (!StringUtil.isNull(phone)) {
-                    callPhone(phone);
-                }
+                openGoodsActivity(goodsCode);
                 break;
             case R.id.customize_tv_module_3_show:
                 //查看效果图
@@ -571,6 +585,12 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
                 break;
             case R.id.customize_tv_module_5_select_address:
                 //收货地址
+                if (nodeNo > 0 && nodeNo < 9) {
+                    Intent intent = new Intent(mContext, AddressActivity.class);
+                    intent.putExtra("isFinish", true);
+                    intent.putExtra("selectId", addressId);
+                    startActivityForResult(intent, AppConfig.ACTIVITY_CODE_SELECT_ADDS);
+                }
                 break;
             case R.id.customize_tv_module_6_lv_open:
                 //展开进度
@@ -712,6 +732,21 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
     }
 
     /**
+     * 提交收货地址
+     */
+    private void postAddressData(AddressEntity addEn) {
+        if (addEn == null) return;
+        try {
+            JSONObject jsonObj = new JSONObject();
+            jsonObj.put("orderCode", orderNo);
+            jsonObj.put("recieverId", addEn.getId());
+            postJsonData(AppConfig.BASE_URL_3, AppConfig.URL_ORDER_UPDATE, jsonObj, AppConfig.REQUEST_SV_ORDER_UPDATE);
+        } catch (JSONException e) {
+            ExceptionUtil.handle(e);
+        }
+    }
+
+    /**
      * 取消订单
      */
     private void postConfirmCancel() {
@@ -780,7 +815,17 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
                     baseEn = JsonUtils.getCustomizeDetailData(jsonObject);
                     if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
                         loadOrderData();
-                        updateCode = 101;
+                    } else {
+                        handleErrorCode(baseEn);
+                    }
+                    break;
+                case AppConfig.REQUEST_SV_ORDER_UPDATE:
+                    baseEn = JsonUtils.getCustomizeDetailData(jsonObject);
+                    if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+                        if (ocEn != null) {
+                            ocEn.setAdEn(selectAddEn);
+                        }
+                        initShowData();
                     } else {
                         handleErrorCode(baseEn);
                     }
@@ -788,8 +833,8 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
                 case AppConfig.REQUEST_SV_ORDER_CANCEL:
                     baseEn = JsonUtils.getCustomizeDetailData(jsonObject);
                     if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
-                        updateCode = 102;
-                        finish();
+                        updateCode = 101;
+                        loadOrderData();
                     } else {
                         handleErrorCode(baseEn);
                     }
@@ -797,7 +842,8 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
                 case AppConfig.REQUEST_SV_ORDER_DELETE:
                     baseEn = JsonUtils.getCustomizeDetailData(jsonObject);
                     if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
-
+                        updateCode = 102;
+                        finish();
                     } else {
                         handleErrorCode(baseEn);
                     }
@@ -813,6 +859,19 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
     protected void loadFailHandle() {
         super.loadFailHandle();
         handleErrorCode(null);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            if (requestCode == AppConfig.ACTIVITY_CODE_SELECT_ADDS) {
+                selectAddEn = (AddressEntity) data.getSerializableExtra(AppConfig.PAGE_DATA);
+                if (selectAddEn != null) {
+                    postAddressData(selectAddEn);
+                }
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
     }
 
     static class MyHandler extends Handler {
