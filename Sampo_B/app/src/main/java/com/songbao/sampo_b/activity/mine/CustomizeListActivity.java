@@ -547,8 +547,8 @@ public class CustomizeListActivity extends BaseActivity implements View.OnClickL
     private void postConfirmCancel() {
         try {
             JSONObject jsonObj = new JSONObject();
-            jsonObj.put("bookingCode", selectOrderNo);
-            postJsonData(AppConfig.BASE_URL_3, AppConfig.URL_ORDER_CANCEL, jsonObj, AppConfig.REQUEST_SV_ORDER_CANCEL);
+            jsonObj.put("code", selectOrderNo);
+            postJsonData(AppConfig.BASE_URL_3, AppConfig.URL_BOOKING_CANCEL, jsonObj, AppConfig.REQUEST_SV_BOOKING_CANCEL);
         } catch (JSONException e) {
             ExceptionUtil.handle(e);
         }
@@ -560,8 +560,8 @@ public class CustomizeListActivity extends BaseActivity implements View.OnClickL
     private void postConfirmDelete() {
         try {
             JSONObject jsonObj = new JSONObject();
-            jsonObj.put("bookingCode", selectOrderNo);
-            postJsonData(AppConfig.BASE_URL_3, AppConfig.URL_ORDER_DELETE, jsonObj, AppConfig.REQUEST_SV_ORDER_DELETE);
+            jsonObj.put("code", selectOrderNo);
+            postJsonData(AppConfig.BASE_URL_3, AppConfig.URL_BOOKING_DELETE, jsonObj, AppConfig.REQUEST_SV_BOOKING_DELETE);
         } catch (JSONException e) {
             ExceptionUtil.handle(e);
         }
@@ -678,7 +678,7 @@ public class CustomizeListActivity extends BaseActivity implements View.OnClickL
                         handleErrorCode(baseEn);
                     }
                     break;
-                case AppConfig.REQUEST_SV_ORDER_CANCEL:
+                case AppConfig.REQUEST_SV_BOOKING_CANCEL:
                     baseEn = JsonUtils.getCustomizeDetailData(jsonObject);
                     if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
                         cancelOrderUpdate();
@@ -686,7 +686,7 @@ public class CustomizeListActivity extends BaseActivity implements View.OnClickL
                         handleErrorCode(baseEn);
                     }
                     break;
-                case AppConfig.REQUEST_SV_ORDER_DELETE:
+                case AppConfig.REQUEST_SV_BOOKING_DELETE:
                     baseEn = JsonUtils.getCustomizeDetailData(jsonObject);
                     if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
                         deleteOrderUpdate();

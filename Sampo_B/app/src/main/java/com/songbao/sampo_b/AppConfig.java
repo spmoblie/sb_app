@@ -81,12 +81,12 @@ public class AppConfig {
 	public final static String URL_GOODS_COMMENT = "app/shopping/goodsInfo/goodsInfoEvaluation";
 	// 订单收货地址
 	public final static String URL_ORDER_UPDATE = "app/order/update";
-	// 取消订单
-	public final static String URL_ORDER_CANCEL = "app/order/cancel";
-	// 删除订单
-	public final static String URL_ORDER_DELETE = "app/order/delete";
 	// 提交定制
 	public final static String URL_BOOKING_CREATE = "app/booking/create";
+	// 取消定制
+	public final static String URL_BOOKING_CANCEL = "app/booking/cancel";
+	// 删除定制
+	public final static String URL_BOOKING_DELETE = "app/booking/delete";
 	// 定制列表
 	public final static String URL_BOOKING_LIST = "app/booking/list";
 	// 定制详情
@@ -169,24 +169,24 @@ public class AppConfig {
 	public static final int REQUEST_SV_GOODS_COMMENT = 0X4007;
 	// 订单收货地址
 	public static final int REQUEST_SV_ORDER_UPDATE = 0X4010;
-	// 取消订单
-	public static final int REQUEST_SV_ORDER_CANCEL = 0X4011;
-	// 删除订单
-	public static final int REQUEST_SV_ORDER_DELETE = 0X4012;
 	// 提交定制
 	public static final int REQUEST_SV_BOOKING_CREATE = 0X4021;
+	// 取消定制
+	public static final int REQUEST_SV_BOOKING_CANCEL = 0X4022;
+	// 删除定制
+	public static final int REQUEST_SV_BOOKING_DELETE = 0X4023;
 	// 定制列表
-	public static final int REQUEST_SV_BOOKING_LIST= 0X4022;
+	public static final int REQUEST_SV_BOOKING_LIST= 0X4024;
 	// 定制详情
-	public static final int REQUEST_SV_BOOKING_INFO = 0X4023;
+	public static final int REQUEST_SV_BOOKING_INFO = 0X4025;
 	// 确认效果图
-	public static final int REQUEST_SV_CONFIRM_DESIGNS = 0X4024;
+	public static final int REQUEST_SV_CONFIRM_DESIGNS = 0X4026;
 	// 确认支付
-	public static final int REQUEST_SV_CONFIRM_PAYMENT = 0X4025;
+	public static final int REQUEST_SV_CONFIRM_PAYMENT = 0X4027;
 	// 确认收货
-	public static final int REQUEST_SV_CONFIRM_RECEIPT = 0X4026;
+	public static final int REQUEST_SV_CONFIRM_RECEIPT = 0X4028;
 	// 确认安装
-	public static final int REQUEST_SV_CONFIRM_INSTALL = 0X4027;
+	public static final int REQUEST_SV_CONFIRM_INSTALL = 0X4029;
 
 	// 上传评论照片
 	public static final int REQUEST_SV_UPLOAD_COMMENT_PHOTO = 0X5001;

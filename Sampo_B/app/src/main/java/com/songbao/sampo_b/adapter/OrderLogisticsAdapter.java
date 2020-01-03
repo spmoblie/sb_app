@@ -43,7 +43,7 @@ public class OrderLogisticsAdapter extends AppBaseAdapter {
 		// 绑定View
 		final OLogisticsEntity data = (OLogisticsEntity) mDataList.get(position);
 
-		holder.tv_number.setText(data.getName() + ":" + data.getNumber());
+		holder.tv_number.setText(context.getString(R.string.order_logistics_no, data.getName(), data.getNumber()));
 
 		holder.item_main.setOnClickListener(new View.OnClickListener() {
 			@Override

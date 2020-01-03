@@ -264,6 +264,7 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
 
         if (ocEn != null) {
             orderNo = ocEn.getOrderNo();
+            startAnimation();
             loadOrderData();
         }
     }
@@ -752,8 +753,8 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
     private void postConfirmCancel() {
         try {
             JSONObject jsonObj = new JSONObject();
-            jsonObj.put("bookingCode", orderNo);
-            postJsonData(AppConfig.BASE_URL_3, AppConfig.URL_ORDER_CANCEL, jsonObj, AppConfig.REQUEST_SV_ORDER_CANCEL);
+            jsonObj.put("code", orderNo);
+            postJsonData(AppConfig.BASE_URL_3, AppConfig.URL_BOOKING_CANCEL, jsonObj, AppConfig.REQUEST_SV_BOOKING_CANCEL);
         } catch (JSONException e) {
             ExceptionUtil.handle(e);
         }
@@ -765,8 +766,8 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
     private void postConfirmDelete() {
         try {
             JSONObject jsonObj = new JSONObject();
-            jsonObj.put("bookingCode", orderNo);
-            postJsonData(AppConfig.BASE_URL_3, AppConfig.URL_ORDER_DELETE, jsonObj, AppConfig.REQUEST_SV_ORDER_DELETE);
+            jsonObj.put("code", orderNo);
+            postJsonData(AppConfig.BASE_URL_3, AppConfig.URL_BOOKING_DELETE, jsonObj, AppConfig.REQUEST_SV_BOOKING_DELETE);
         } catch (JSONException e) {
             ExceptionUtil.handle(e);
         }
@@ -788,50 +789,19 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
                     }
                     break;
                 case AppConfig.REQUEST_SV_CONFIRM_DESIGNS:
-                    baseEn = JsonUtils.getCustomizeDetailData(jsonObject);
-                    if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
-                        loadOrderData();
-                    } else {
-                        handleErrorCode(baseEn);
-                    }
-                    break;
                 case AppConfig.REQUEST_SV_CONFIRM_PAYMENT:
-                    baseEn = JsonUtils.getCustomizeDetailData(jsonObject);
-                    if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
-                        loadOrderData();
-                    } else {
-                        handleErrorCode(baseEn);
-                    }
-                    break;
                 case AppConfig.REQUEST_SV_CONFIRM_RECEIPT:
-                    baseEn = JsonUtils.getCustomizeDetailData(jsonObject);
-                    if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
-                        loadOrderData();
-                    } else {
-                        handleErrorCode(baseEn);
-                    }
-                    break;
                 case AppConfig.REQUEST_SV_CONFIRM_INSTALL:
-                    baseEn = JsonUtils.getCustomizeDetailData(jsonObject);
+                case AppConfig.REQUEST_SV_ORDER_UPDATE:
+                    baseEn = JsonUtils.getBaseErrorData(jsonObject);
                     if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
                         loadOrderData();
                     } else {
                         handleErrorCode(baseEn);
                     }
                     break;
-                case AppConfig.REQUEST_SV_ORDER_UPDATE:
-                    baseEn = JsonUtils.getCustomizeDetailData(jsonObject);
-                    if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
-                        if (ocEn != null) {
-                            ocEn.setAdEn(selectAddEn);
-                        }
-                        initShowData();
-                    } else {
-                        handleErrorCode(baseEn);
-                    }
-                    break;
-                case AppConfig.REQUEST_SV_ORDER_CANCEL:
-                    baseEn = JsonUtils.getCustomizeDetailData(jsonObject);
+                case AppConfig.REQUEST_SV_BOOKING_CANCEL:
+                    baseEn = JsonUtils.getBaseErrorData(jsonObject);
                     if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
                         updateCode = 101;
                         loadOrderData();
@@ -839,8 +809,8 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
                         handleErrorCode(baseEn);
                     }
                     break;
-                case AppConfig.REQUEST_SV_ORDER_DELETE:
-                    baseEn = JsonUtils.getCustomizeDetailData(jsonObject);
+                case AppConfig.REQUEST_SV_BOOKING_DELETE:
+                    baseEn = JsonUtils.getBaseErrorData(jsonObject);
                     if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
                         updateCode = 102;
                         finish();

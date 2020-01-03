@@ -163,8 +163,8 @@
     <!-- designer -->
     <string name="designer_shop">驻店设计师</string>
     <string name="designer_subscribe">下单定制</string>
-    <string name="designer_subscribe_ok">预约成功</string>
-    <string name="designer_subscribe_tips">确认预约%1$s么?</string>
+    <string name="designer_subscribe_ok">下单成功</string>
+    <string name="designer_subscribe_tips">确认选择%1$s么?</string>
 
     <!-- comment -->
     <string name="comment_me">我要评价</string>
@@ -260,6 +260,7 @@
     <string name="order_progress">定制进度</string>
     <string name="order_progress_check">查看进度</string>
     <string name="order_logistics">查看物流</string>
+    <string name="order_logistics_no">%1$s：%2$s</string>
     <string name="order_installed">已安装</string>
     <string name="order_confirmed">已确认</string>
     <string name="order_confirm_designs">确认效果图</string>
