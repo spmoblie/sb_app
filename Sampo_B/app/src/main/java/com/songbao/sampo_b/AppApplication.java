@@ -24,6 +24,7 @@ import com.songbao.sampo_b.utils.PushManager;
 import com.songbao.sampo_b.utils.SharedUtil;
 import com.songbao.sampo_b.utils.retrofit.HttpRequests;
 import com.umeng.analytics.MobclickAgent;
+import com.uuzuche.lib_zxing.activity.ZXingLibrary;
 
 import java.io.File;
 import java.io.IOException;
@@ -83,6 +84,9 @@ public class AppApplication extends Application {
 
         // 设置App字体不随系统字体变化
         initDisplayMetrics();
+
+        // 初始化二维码扫描组件
+        ZXingLibrary.initDisplayOpinion(spApp);
     }
 
     @Override

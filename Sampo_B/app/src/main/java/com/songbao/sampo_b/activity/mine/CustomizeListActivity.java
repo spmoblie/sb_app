@@ -393,33 +393,6 @@ public class CustomizeListActivity extends BaseActivity implements View.OnClickL
     }
 
     /**
-     * 取消订单时刷新
-     */
-    private void cancelOrderUpdate() {
-        if (selectPosition >= 0 && selectPosition < al_show.size()) {
-            al_show.get(selectPosition).setStatus(AppConfig.ORDER_STATUS_102);
-            switch (top_type) {
-                case TYPE_1:
-                    al_all_1.get(selectPosition).setStatus(AppConfig.ORDER_STATUS_102);
-                    break;
-                case TYPE_2:
-                    al_all_2.get(selectPosition).setStatus(AppConfig.ORDER_STATUS_102);
-                    break;
-                case TYPE_3:
-                    al_all_3.get(selectPosition).setStatus(AppConfig.ORDER_STATUS_102);
-                    break;
-                case TYPE_4:
-                    al_all_4.get(selectPosition).setStatus(AppConfig.ORDER_STATUS_102);
-                    break;
-                case TYPE_5:
-                    al_all_5.get(selectPosition).setStatus(AppConfig.ORDER_STATUS_102);
-                    break;
-            }
-            updateListData();
-        }
-    }
-
-    /**
      * 删除订单时刷新
      */
     private void deleteOrderUpdate() {
@@ -440,6 +413,33 @@ public class CustomizeListActivity extends BaseActivity implements View.OnClickL
                     break;
                 case TYPE_5:
                     al_all_5.remove(selectPosition);
+                    break;
+            }
+            updateListData();
+        }
+    }
+
+    /**
+     * 数据状态更新
+     */
+    private void dataStatusUpdate(int statusCode) {
+        if (selectPosition >= 0 && selectPosition < al_show.size()) {
+            al_show.get(selectPosition).setStatus(statusCode);
+            switch (top_type) {
+                case TYPE_1:
+                    al_all_1.get(selectPosition).setStatus(statusCode);
+                    break;
+                case TYPE_2:
+                    al_all_2.get(selectPosition).setStatus(statusCode);
+                    break;
+                case TYPE_3:
+                    al_all_3.get(selectPosition).setStatus(statusCode);
+                    break;
+                case TYPE_4:
+                    al_all_4.get(selectPosition).setStatus(statusCode);
+                    break;
+                case TYPE_5:
+                    al_all_5.get(selectPosition).setStatus(statusCode);
                     break;
             }
             updateListData();
@@ -681,7 +681,7 @@ public class CustomizeListActivity extends BaseActivity implements View.OnClickL
                 case AppConfig.REQUEST_SV_BOOKING_CANCEL:
                     baseEn = JsonUtils.getCustomizeDetailData(jsonObject);
                     if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
-                        cancelOrderUpdate();
+                        dataStatusUpdate(AppConfig.ORDER_STATUS_102);
                     } else {
                         handleErrorCode(baseEn);
                     }
@@ -739,11 +739,14 @@ public class CustomizeListActivity extends BaseActivity implements View.OnClickL
             if (requestCode == AppConfig.ACTIVITY_CODE_ORDER_UPDATE) {
                 int updateCode = data.getIntExtra(AppConfig.PAGE_DATA, 0);
                 switch (updateCode) {
-                    case 101: //取消订单
-                        cancelOrderUpdate();
-                        break;
-                    case 102: //删除订单
+                    case -1: //删除订单
                         deleteOrderUpdate();
+                        break;
+                    case AppConfig.ORDER_STATUS_102: //取消订单—>已取消
+                    case AppConfig.ORDER_STATUS_201: //确认支付—>生产中
+                    case AppConfig.ORDER_STATUS_701: //确认收货—>待安装
+                    case AppConfig.ORDER_STATUS_801: //确认安装—>已完成
+                        dataStatusUpdate(updateCode);
                         break;
                 }
             }

@@ -222,6 +222,7 @@ public class DesignerListActivity extends BaseActivity implements View.OnClickLi
      * 提交预约
      */
     private void postCustomizeData() {
+        startAnimation();
         try {
             JSONObject jsonObj = new JSONObject();
             jsonObj.put("designerId", dgId);

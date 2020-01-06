@@ -268,7 +268,7 @@
     <string name="order_confirm_payment">确认支付</string>
     <string name="order_confirm_payment_hint">确认订单已支付么？</string>
     <string name="order_confirm_receipt">确认收货</string>
-    <string name="order_confirm_receipt_hint">确认货物已收到么？</string>
+    <string name="order_confirm_receipt_hint">确认货物已到齐么？</string>
     <string name="order_confirm_install">确认安装</string>
     <string name="order_confirm_install_hint">确认安装完成即\n代表订单已完成</string>
     <string name="order_receipt_hint">产品签收后，请确认收货并尽快上门安装。</string>

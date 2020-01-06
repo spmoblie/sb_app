@@ -244,19 +244,6 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
     private void initView() {
         setTitle(getString(R.string.order_progress));
 
-        /*tv_3_confirm.setText(getString(R.string.order_confirm_designs));
-        tv_3_confirm.setOnClickListener(this);
-        tv_3_confirm.setVisibility(View.VISIBLE);
-        tv_4_confirm.setText(getString(R.string.order_confirm_payment));
-        tv_4_confirm.setOnClickListener(this);
-        tv_4_confirm.setVisibility(View.VISIBLE);
-        tv_7_confirm.setText(getString(R.string.order_confirm_receipt));
-        tv_7_confirm.setOnClickListener(this);
-        tv_7_confirm.setVisibility(View.VISIBLE);
-        tv_8_confirm.setText(getString(R.string.order_confirm_install));
-        tv_8_confirm.setOnClickListener(this);
-        tv_8_confirm.setVisibility(View.VISIBLE);*/
-
         open_up = getResources().getDrawable(R.mipmap.icon_go_up);
         open_down = getResources().getDrawable(R.mipmap.icon_go_down);
         open_up.setBounds(0, 0, open_up.getMinimumWidth(), open_up.getMinimumHeight());
@@ -381,9 +368,13 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
                     isDesigns = ocEn.isDesigns();
                     if (isDesigns) {
                         tv_3_confirm.setText(getString(R.string.order_confirmed));
+                        tv_3_confirm.setTextColor(getResources().getColor(R.color.debar_text_color));
+                        tv_3_confirm.setBackgroundResource(R.drawable.shape_style_empty_03_08);
                     } else {
                         tv_3_confirm.setOnClickListener(this);
                         tv_3_confirm.setText(getString(R.string.order_confirm_designs));
+                        tv_3_confirm.setTextColor(getResources().getColor(R.color.app_color_white));
+                        tv_3_confirm.setBackgroundResource(R.drawable.shape_style_solid_04_08);
                     }
                     tv_3_confirm.setVisibility(View.VISIBLE);
                 }
@@ -400,9 +391,13 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
                 isPayment = ocEn.isPayment();
                 if (isPayment) { //已支付
                     tv_4_confirm.setText(getString(R.string.pay_ok));
+                    tv_4_confirm.setTextColor(getResources().getColor(R.color.debar_text_color));
+                    tv_4_confirm.setBackgroundResource(R.drawable.shape_style_empty_03_08);
                 } else {
                     tv_4_confirm.setOnClickListener(this);
                     tv_4_confirm.setText(getString(R.string.order_confirm_payment));
+                    tv_4_confirm.setTextColor(getResources().getColor(R.color.app_color_white));
+                    tv_4_confirm.setBackgroundResource(R.drawable.shape_style_solid_04_08);
                 }
                 tv_4_confirm.setVisibility(View.VISIBLE);
             }
@@ -467,13 +462,21 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
                 isReceipt = ocEn.isReceipt();
                 if (isReceipt) { //已确认安装
                     tv_7_confirm.setText(getString(R.string.order_confirmed));
+                    tv_7_confirm.setTextColor(getResources().getColor(R.color.debar_text_color));
+                    tv_7_confirm.setBackgroundResource(R.drawable.shape_style_empty_03_08);
+
                     tv_8_confirm.setOnClickListener(this);
                     tv_8_confirm.setVisibility(View.VISIBLE);
                     tv_8_confirm.setText(getString(R.string.order_confirm_install));
+                    tv_8_confirm.setTextColor(getResources().getColor(R.color.app_color_white));
+                    tv_8_confirm.setBackgroundResource(R.drawable.shape_style_solid_04_08);
                     tv_8_remind.setText(getString(R.string.order_install_hint));
                 } else {
                     tv_7_confirm.setOnClickListener(this);
                     tv_7_confirm.setText(getString(R.string.order_confirm_receipt));
+                    tv_7_confirm.setTextColor(getResources().getColor(R.color.app_color_white));
+                    tv_7_confirm.setBackgroundResource(R.drawable.shape_style_solid_04_08);
+
                     tv_8_remind.setText(getString(R.string.order_receipt_hint));
                 }
                 tv_5_select_address.setVisibility(View.GONE);
@@ -487,6 +490,8 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
                 isInstall = ocEn.isInstall();
                 if (isInstall) { //已确认安装
                     tv_8_confirm.setText(getString(R.string.order_installed));
+                    tv_8_confirm.setTextColor(getResources().getColor(R.color.debar_text_color));
+                    tv_8_confirm.setBackgroundResource(R.drawable.shape_style_empty_03_08);
                 }
             }
 
@@ -663,7 +668,11 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
 
     @Override
     public void finish() {
-        if (updateCode == 101 || updateCode == 102) {
+        if (updateCode == -1
+                || updateCode == AppConfig.ORDER_STATUS_102
+                || updateCode == AppConfig.ORDER_STATUS_201
+                || updateCode == AppConfig.ORDER_STATUS_701
+                || updateCode == AppConfig.ORDER_STATUS_801) {
             Intent returnIntent = new Intent();
             returnIntent.putExtra(AppConfig.PAGE_DATA, updateCode);
             setResult(RESULT_OK, returnIntent);
@@ -684,6 +693,7 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
      * 确认效果图
      */
     private void postConfirmDesigns() {
+        startAnimation();
         try {
             JSONObject jsonObj = new JSONObject();
             jsonObj.put("bookingCode", orderNo);
@@ -697,6 +707,7 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
      * 确认支付
      */
     private void postConfirmPayment() {
+        startAnimation();
         try {
             JSONObject jsonObj = new JSONObject();
             jsonObj.put("bookingCode", orderNo);
@@ -710,6 +721,7 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
      * 确认收货
      */
     private void postConfirmReceipt() {
+        startAnimation();
         try {
             JSONObject jsonObj = new JSONObject();
             jsonObj.put("bookingCode", orderNo);
@@ -723,6 +735,7 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
      * 确认安装
      */
     private void postConfirmInstall() {
+        startAnimation();
         try {
             JSONObject jsonObj = new JSONObject();
             jsonObj.put("bookingCode", orderNo);
@@ -737,6 +750,7 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
      */
     private void postAddressData(AddressEntity addEn) {
         if (addEn == null) return;
+        startAnimation();
         try {
             JSONObject jsonObj = new JSONObject();
             jsonObj.put("orderCode", orderNo);
@@ -751,6 +765,7 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
      * 取消订单
      */
     private void postConfirmCancel() {
+        startAnimation();
         try {
             JSONObject jsonObj = new JSONObject();
             jsonObj.put("code", orderNo);
@@ -764,6 +779,7 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
      * 删除订单
      */
     private void postConfirmDelete() {
+        startAnimation();
         try {
             JSONObject jsonObj = new JSONObject();
             jsonObj.put("code", orderNo);
@@ -789,9 +805,40 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
                     }
                     break;
                 case AppConfig.REQUEST_SV_CONFIRM_DESIGNS:
+                    baseEn = JsonUtils.getBaseErrorData(jsonObject);
+                    if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+                        loadOrderData();
+                    } else {
+                        handleErrorCode(baseEn);
+                    }
+                    break;
                 case AppConfig.REQUEST_SV_CONFIRM_PAYMENT:
+                    baseEn = JsonUtils.getBaseErrorData(jsonObject);
+                    if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+                        updateCode = AppConfig.ORDER_STATUS_201;
+                        loadOrderData();
+                    } else {
+                        handleErrorCode(baseEn);
+                    }
+                    break;
                 case AppConfig.REQUEST_SV_CONFIRM_RECEIPT:
+                    baseEn = JsonUtils.getBaseErrorData(jsonObject);
+                    if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+                        updateCode = AppConfig.ORDER_STATUS_701;
+                        loadOrderData();
+                    } else {
+                        handleErrorCode(baseEn);
+                    }
+                    break;
                 case AppConfig.REQUEST_SV_CONFIRM_INSTALL:
+                    baseEn = JsonUtils.getBaseErrorData(jsonObject);
+                    if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+                        updateCode = AppConfig.ORDER_STATUS_801;
+                        loadOrderData();
+                    } else {
+                        handleErrorCode(baseEn);
+                    }
+                    break;
                 case AppConfig.REQUEST_SV_ORDER_UPDATE:
                     baseEn = JsonUtils.getBaseErrorData(jsonObject);
                     if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
@@ -803,7 +850,7 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
                 case AppConfig.REQUEST_SV_BOOKING_CANCEL:
                     baseEn = JsonUtils.getBaseErrorData(jsonObject);
                     if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
-                        updateCode = 101;
+                        updateCode = AppConfig.ORDER_STATUS_102;
                         loadOrderData();
                     } else {
                         handleErrorCode(baseEn);
@@ -812,7 +859,7 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
                 case AppConfig.REQUEST_SV_BOOKING_DELETE:
                     baseEn = JsonUtils.getBaseErrorData(jsonObject);
                     if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
-                        updateCode = 102;
+                        updateCode = -1;
                         finish();
                     } else {
                         handleErrorCode(baseEn);

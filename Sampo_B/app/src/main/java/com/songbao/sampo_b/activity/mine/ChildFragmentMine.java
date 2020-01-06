@@ -73,7 +73,7 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
         mContext = getActivity();
         userManager = UserManager.getInstance();
 
-        //AppApplication.updateMineData(true);
+        AppApplication.updateMineData(true);
 
         View view = null;
         try {
@@ -202,10 +202,10 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
         // 页面开始
         AppApplication.onPageStart(TAG);
 
-        AppApplication.updateMineData(true);
         // 用户信息
         if (isLogin()) {
             if (shared.getBoolean(AppConfig.KEY_OPEN_MESSAGE, false)) {
+                refreshMineData();
                 startActivity(new Intent(mContext, MessageActivity.class));
                 shared.edit().putBoolean(AppConfig.KEY_OPEN_MESSAGE, false).apply();
             }
@@ -284,6 +284,7 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
                     if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
                         userManager.saveUserMsgNum(baseEn.getDataTotal());
                         initUserView();
+                        AppApplication.updateMineData(false);
                     }
                     break;
             }

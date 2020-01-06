@@ -37,13 +37,13 @@
                     android:id="@+id/address_item_iv_select"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/selector_checkbox_large" />
+                    android:src="@drawable/selector_checkbox_large"
+                    android:paddingRight="@dimen/margin_padding_10"/>
 
                 <TextView
                     android:id="@+id/address_item_tv_name"
                     style="@style/address_text"
                     android:textStyle="bold"
-                    android:layout_marginLeft="@dimen/margin_padding_10"
                     app:layout_constraintLeft_toRightOf="@+id/address_item_iv_select" />
 
                 <TextView
