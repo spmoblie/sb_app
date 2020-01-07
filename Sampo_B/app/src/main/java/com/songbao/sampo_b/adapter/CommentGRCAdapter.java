@@ -15,6 +15,7 @@ import com.bumptech.glide.Glide;
 import com.songbao.sampo_b.AppApplication;
 import com.songbao.sampo_b.R;
 import com.songbao.sampo_b.entity.CommentEntity;
+import com.songbao.sampo_b.utils.ClickUtils;
 import com.songbao.sampo_b.utils.CommonTools;
 import com.songbao.sampo_b.utils.StringUtil;
 import com.songbao.sampo_b.widgets.RoundImageView;
@@ -116,6 +117,7 @@ public class CommentGRCAdapter extends BaseRecyclerAdapter {
             iv_img.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    if (ClickUtils.isDoubleClick()) return;
                     if (apCallback != null) {
                     }
                 }

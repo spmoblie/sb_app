@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:text="@string/loading_pull_refresh"
-            android:textColor="@color/shows_text_color"
+            android:textColor="@color/app_color_gray_9"
             android:textSize="@dimen/text_size_13" />
 
         <TextView
@@ -30,7 +30,7 @@
             android:layout_below="@+id/pull_to_load_header_tv_hint"
             android:layout_marginTop="@dimen/margin_padding_6"
             android:text="@string/loading_update_time"
-            android:textColor="@color/shows_text_color"
+            android:textColor="@color/app_color_gray_9"
             android:textSize="@dimen/text_size_12"
             android:visibility="gone" />
 
@@ -43,7 +43,7 @@
             android:layout_marginTop="@dimen/margin_padding_6"
             android:layout_toRightOf="@+id/pull_to_load_header_tv_last_time"
             android:minWidth="@dimen/loading_height_bar"
-            android:textColor="@color/shows_text_color"
+            android:textColor="@color/app_color_gray_9"
             android:textSize="@dimen/text_size_12"
             android:visibility="gone" />
     </RelativeLayout>

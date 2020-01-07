@@ -11,9 +11,9 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.songbao.sampo_b.AppApplication;
-import com.songbao.sampo_b.AppConfig;
 import com.songbao.sampo_b.R;
 import com.songbao.sampo_b.entity.ThemeEntity;
+import com.songbao.sampo_b.utils.ClickUtils;
 
 import java.util.ArrayList;
 
@@ -108,6 +108,7 @@ public class ThemeListAdapter extends RecyclerView.Adapter<ThemeListAdapter.View
         viewHolder.tv_sign.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (ClickUtils.isDoubleClick()) return;
                 if (apCallback != null) {
                     apCallback.setOnClick(data, pos, 1);
                 }
@@ -118,6 +119,7 @@ public class ThemeListAdapter extends RecyclerView.Adapter<ThemeListAdapter.View
 
             @Override
             public void onClick(View v) {
+                if (ClickUtils.isDoubleClick()) return;
                 if (apCallback != null) {
                     apCallback.setOnClick(data, pos, 0);
                 }

@@ -16,6 +16,7 @@ import com.songbao.sampo_b.adapter.AdapterCallback;
 import com.songbao.sampo_b.adapter.AddressAdapter;
 import com.songbao.sampo_b.entity.AddressEntity;
 import com.songbao.sampo_b.entity.BaseEntity;
+import com.songbao.sampo_b.utils.ClickUtils;
 import com.songbao.sampo_b.utils.ExceptionUtil;
 import com.songbao.sampo_b.utils.JsonUtils;
 import com.songbao.sampo_b.utils.LogUtil;
@@ -307,6 +308,7 @@ public class AddressActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     public void onClick(View v) {
+        if (ClickUtils.isDoubleClick()) return;
         switch (v.getId()) {
             case R.id.address_view_tv_address_add:
                 if (isManage) { //删除
@@ -380,7 +382,7 @@ public class AddressActivity extends BaseActivity implements View.OnClickListene
         if (!isLoadOk) return; //加载频率控制
         isLoadOk = false;
         HashMap<String, String> map = new HashMap<>();
-        loadSVData(AppConfig.BASE_URL_3, AppConfig.URL_USER_ADDRESS, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_USER_ADDRESS);
+        loadSVData(AppConfig.BASE_URL_3, AppConfig.URL_ADDRESS_LIST, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_ADDRESS_LIST);
     }
 
     /**
@@ -390,7 +392,7 @@ public class AddressActivity extends BaseActivity implements View.OnClickListene
         try {
             JSONObject jsonObj = new JSONObject();
             jsonObj.put("consigneeIds", selectIdStr);
-            postJsonData(AppConfig.BASE_URL_3, AppConfig.URL_USER_ADDRESS_DELETE, jsonObj, AppConfig.REQUEST_SV_USER_ADDRESS_DELETE);
+            postJsonData(AppConfig.BASE_URL_3, AppConfig.URL_ADDRESS_DELETE, jsonObj, AppConfig.REQUEST_SV_ADDRESS_DELETE);
         } catch (JSONException e) {
             ExceptionUtil.handle(e);
         }
@@ -403,7 +405,7 @@ public class AddressActivity extends BaseActivity implements View.OnClickListene
         try {
             JSONObject jsonObj = new JSONObject();
             jsonObj.put("consigneeId", selectIdStr);
-            postJsonData(AppConfig.BASE_URL_3, AppConfig.URL_USER_ADDRESS_DEFAULT, jsonObj, AppConfig.REQUEST_SV_USER_ADDRESS_DEFAULT);
+            postJsonData(AppConfig.BASE_URL_3, AppConfig.URL_ADDRESS_DEFAULT, jsonObj, AppConfig.REQUEST_SV_ADDRESS_DEFAULT);
         } catch (JSONException e) {
             ExceptionUtil.handle(e);
         }
@@ -415,7 +417,7 @@ public class AddressActivity extends BaseActivity implements View.OnClickListene
         BaseEntity baseEn;
         try {
             switch (dataType) {
-                case AppConfig.REQUEST_SV_USER_ADDRESS:
+                case AppConfig.REQUEST_SV_ADDRESS_LIST:
                     baseEn = JsonUtils.getAddressListData(jsonObject);
                     if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
                         data_total = baseEn.getDataTotal();
@@ -441,8 +443,8 @@ public class AddressActivity extends BaseActivity implements View.OnClickListene
                         handleErrorCode(baseEn);
                     }
                     break;
-                case AppConfig.REQUEST_SV_USER_ADDRESS_DELETE:
-                case AppConfig.REQUEST_SV_USER_ADDRESS_DEFAULT:
+                case AppConfig.REQUEST_SV_ADDRESS_DELETE:
+                case AppConfig.REQUEST_SV_ADDRESS_DEFAULT:
                     baseEn = JsonUtils.getBaseErrorData(jsonObject);
                     if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
                         loadFirstPageData();

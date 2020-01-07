@@ -473,7 +473,7 @@ public class AddressEditActivity extends BaseActivity implements OnClickListener
             jsonObj.put("addrArea", areaStr);
             jsonObj.put("addrDetail", addressStr);
             jsonObj.put("isDefault", isDefault);
-            postJsonData(AppConfig.BASE_URL_3, AppConfig.URL_USER_ADDRESS_EDIT, jsonObj, AppConfig.REQUEST_SV_USER_ADDRESS_EDIT);
+            postJsonData(AppConfig.BASE_URL_3, AppConfig.URL_ADDRESS_EDIT, jsonObj, AppConfig.REQUEST_SV_ADDRESS_EDIT);
         } catch (JSONException e) {
             ExceptionUtil.handle(e);
         }
@@ -486,7 +486,7 @@ public class AddressEditActivity extends BaseActivity implements OnClickListener
         try {
             JSONObject jsonObj = new JSONObject();
             jsonObj.put("consigneeIds", String.valueOf(addressId));
-            postJsonData(AppConfig.BASE_URL_3, AppConfig.URL_USER_ADDRESS_DELETE, jsonObj, AppConfig.REQUEST_SV_USER_ADDRESS_DELETE);
+            postJsonData(AppConfig.BASE_URL_3, AppConfig.URL_ADDRESS_DELETE, jsonObj, AppConfig.REQUEST_SV_ADDRESS_DELETE);
         } catch (JSONException e) {
             ExceptionUtil.handle(e);
         }
@@ -498,8 +498,8 @@ public class AddressEditActivity extends BaseActivity implements OnClickListener
         BaseEntity baseEn;
         try {
             switch (dataType) {
-                case AppConfig.REQUEST_SV_USER_ADDRESS_EDIT:
-                case AppConfig.REQUEST_SV_USER_ADDRESS_DELETE:
+                case AppConfig.REQUEST_SV_ADDRESS_EDIT:
+                case AppConfig.REQUEST_SV_ADDRESS_DELETE:
                     baseEn = JsonUtils.getBaseErrorData(jsonObject);
                     if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
                         isUpdate = true;

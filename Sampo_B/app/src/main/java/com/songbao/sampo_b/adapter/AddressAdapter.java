@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.songbao.sampo_b.AppApplication;
 import com.songbao.sampo_b.R;
 import com.songbao.sampo_b.entity.AddressEntity;
+import com.songbao.sampo_b.utils.ClickUtils;
 import com.songbao.sampo_b.utils.CommonTools;
 import com.songbao.sampo_b.utils.UserManager;
 import com.songbao.sampo_b.widgets.MyHorizontalScrollView;
@@ -118,6 +119,7 @@ public class AddressAdapter extends BaseRecyclerAdapter {
         iv_edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (ClickUtils.isDoubleClick()) return;
                 if (apCallback != null) {
                     apCallback.setOnClick(data, pos, 1);
                 }
@@ -126,6 +128,7 @@ public class AddressAdapter extends BaseRecyclerAdapter {
         tv_default.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (ClickUtils.isDoubleClick()) return;
                 if (apCallback != null) {
                     apCallback.setOnClick(data, pos, 5);
                 }
@@ -134,6 +137,7 @@ public class AddressAdapter extends BaseRecyclerAdapter {
         tv_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (ClickUtils.isDoubleClick()) return;
                 if (apCallback != null) {
                     apCallback.setOnClick(data, pos, 6);
                 }

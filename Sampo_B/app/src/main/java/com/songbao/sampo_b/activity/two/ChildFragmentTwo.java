@@ -25,6 +25,7 @@ import com.songbao.sampo_b.adapter.SortOneAdapter;
 import com.songbao.sampo_b.entity.BaseEntity;
 import com.songbao.sampo_b.entity.GoodsEntity;
 import com.songbao.sampo_b.entity.GoodsSortEntity;
+import com.songbao.sampo_b.utils.ClickUtils;
 import com.songbao.sampo_b.utils.CommonTools;
 import com.songbao.sampo_b.utils.ExceptionUtil;
 import com.songbao.sampo_b.utils.JsonUtils;
@@ -64,6 +65,7 @@ public class ChildFragmentTwo extends BaseFragment implements OnClickListener {
 	private SortOneAdapter rv_adapter;
 	private GoodsGridAdapter gv_Adapter;
 	private String postSortCode = "";
+	private int currentPos = -1; //当前下标
 	private int data_total = -1; //数据总量
 	private int load_type = 1; //加载类型(0:下拉刷新/1:翻页加载)
 	private int load_page = 1; //加载页数
@@ -126,7 +128,9 @@ public class ChildFragmentTwo extends BaseFragment implements OnClickListener {
 			@Override
 			public void setOnClick(Object data, int position, int type) {
 				if (!isLoadOk) return;
+				if (position == currentPos) return;
 				if (position < 0 || position >= al_left.size()) return;
+				currentPos = position;
 				postSortCode = al_left.get(position).getSortCode();
 				loadFirstPageData();
 				updateLeftListData(position);
@@ -225,6 +229,7 @@ public class ChildFragmentTwo extends BaseFragment implements OnClickListener {
 	public void onClick(View v) {
 		switch (v.getId()) {
 			case R.id.fg_two_iv_scan:
+				if (ClickUtils.isDoubleClick()) return;
 				Intent intent = new Intent(mContext, ScanActivity.class);
 				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(intent);

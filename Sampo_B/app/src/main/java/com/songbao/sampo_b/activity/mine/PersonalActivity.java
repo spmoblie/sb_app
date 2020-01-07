@@ -24,14 +24,15 @@ import com.songbao.sampo_b.AppApplication;
 import com.songbao.sampo_b.AppConfig;
 import com.songbao.sampo_b.R;
 import com.songbao.sampo_b.activity.BaseActivity;
+import com.songbao.sampo_b.activity.common.SelectListActivity;
 import com.songbao.sampo_b.activity.common.clip.ClipImageCircularActivity;
 import com.songbao.sampo_b.activity.common.clip.ClipPhotoGridActivity;
-import com.songbao.sampo_b.activity.common.SelectListActivity;
 import com.songbao.sampo_b.adapter.SelectListAdapter;
 import com.songbao.sampo_b.entity.BaseEntity;
 import com.songbao.sampo_b.entity.SelectListEntity;
 import com.songbao.sampo_b.entity.UserInfoEntity;
 import com.songbao.sampo_b.utils.BitmapUtil;
+import com.songbao.sampo_b.utils.ClickUtils;
 import com.songbao.sampo_b.utils.CommonTools;
 import com.songbao.sampo_b.utils.ExceptionUtil;
 import com.songbao.sampo_b.utils.JsonUtils;
@@ -141,6 +142,7 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
 
     @Override
     public void onClick(View v) {
+        if (ClickUtils.isDoubleClick()) return;
         Intent intent = null;
         switch (v.getId()) {
             case R.id.personal_rl_head:

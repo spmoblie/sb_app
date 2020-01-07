@@ -424,22 +424,37 @@ public class CustomizeListActivity extends BaseActivity implements View.OnClickL
      */
     private void dataStatusUpdate(int statusCode) {
         if (selectPosition >= 0 && selectPosition < al_show.size()) {
-            al_show.get(selectPosition).setStatus(statusCode);
+            al_show.clear();
             switch (top_type) {
-                case TYPE_1:
+                case TYPE_1: //全部
                     al_all_1.get(selectPosition).setStatus(statusCode);
+                    al_show.addAll(al_all_1);
                     break;
-                case TYPE_2:
-                    al_all_2.get(selectPosition).setStatus(statusCode);
+                case TYPE_2: //待付款 (触发事件：取消订单、确认支付)
+                    al_all_1.clear();
+                    am_all_1.clear();
+                    al_all_3.clear();
+                    am_all_3.clear();
+                    al_all_2.remove(selectPosition);
+                    al_show.addAll(al_all_2);
                     break;
-                case TYPE_3:
+                case TYPE_3: //生产中 (触发事件：无)
                     al_all_3.get(selectPosition).setStatus(statusCode);
+                    al_show.addAll(al_all_3);
                     break;
-                case TYPE_4:
-                    al_all_4.get(selectPosition).setStatus(statusCode);
+                case TYPE_4: //待收货 (触发事件：确认收货)
+                    al_all_1.clear();
+                    am_all_1.clear();
+                    al_all_5.clear();
+                    am_all_5.clear();
+                    al_all_4.remove(selectPosition);
+                    al_show.addAll(al_all_4);
                     break;
-                case TYPE_5:
-                    al_all_5.get(selectPosition).setStatus(statusCode);
+                case TYPE_5: //待安装 (触发事件：确认安装)
+                    al_all_1.clear();
+                    am_all_1.clear();
+                    al_all_5.remove(selectPosition);
+                    al_show.addAll(al_all_5);
                     break;
             }
             updateListData();

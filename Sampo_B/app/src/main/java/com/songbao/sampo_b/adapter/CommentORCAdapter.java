@@ -16,6 +16,7 @@ import com.songbao.sampo_b.AppApplication;
 import com.songbao.sampo_b.R;
 import com.songbao.sampo_b.entity.CommentEntity;
 import com.songbao.sampo_b.entity.GoodsEntity;
+import com.songbao.sampo_b.utils.ClickUtils;
 import com.songbao.sampo_b.utils.CommonTools;
 import com.songbao.sampo_b.utils.StringUtil;
 import com.songbao.sampo_b.widgets.RoundImageView;
@@ -96,6 +97,7 @@ public class CommentORCAdapter extends BaseRecyclerAdapter {
         tv_add_to.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (ClickUtils.isDoubleClick()) return;
                 if (data.isAdd()) {
                     if (apCallback != null) {
                         apCallback.setOnClick(data, pos, 0);

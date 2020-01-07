@@ -4,8 +4,8 @@
     android:layout_height="match_parent"
     android:background="@color/ui_color_app_bg_01">
 
-    <GridView
-        android:id="@+id/refresh_view_gv"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/refresh_view_rv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/ui_color_app_bg_01"/>

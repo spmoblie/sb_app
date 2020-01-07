@@ -23,6 +23,7 @@ import com.songbao.sampo_b.activity.BaseFragment;
 import com.songbao.sampo_b.activity.common.ScanActivity;
 import com.songbao.sampo_b.entity.BaseEntity;
 import com.songbao.sampo_b.entity.UserInfoEntity;
+import com.songbao.sampo_b.utils.ClickUtils;
 import com.songbao.sampo_b.utils.ExceptionUtil;
 import com.songbao.sampo_b.utils.JsonUtils;
 import com.songbao.sampo_b.utils.LogUtil;
@@ -144,6 +145,7 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
 
     @Override
     public void onClick(View v) {
+        if (ClickUtils.isDoubleClick()) return;
         switch (v.getId()) {
             case R.id.fg_mine_iv_scan:
                 Intent intent = new Intent(mContext, ScanActivity.class);

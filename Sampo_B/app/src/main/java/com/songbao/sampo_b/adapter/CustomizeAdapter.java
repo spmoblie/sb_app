@@ -13,6 +13,7 @@ import com.songbao.sampo_b.R;
 import com.songbao.sampo_b.entity.DesignerEntity;
 import com.songbao.sampo_b.entity.GoodsEntity;
 import com.songbao.sampo_b.entity.OCustomizeEntity;
+import com.songbao.sampo_b.utils.ClickUtils;
 import com.songbao.sampo_b.widgets.RoundImageView;
 
 public class CustomizeAdapter extends BaseRecyclerAdapter {
@@ -128,6 +129,7 @@ public class CustomizeAdapter extends BaseRecyclerAdapter {
         tv_click_01.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (ClickUtils.isDoubleClick()) return;
                 if (apCallback != null) {
                     apCallback.setOnClick(data, pos, 1);
                 }
@@ -137,6 +139,7 @@ public class CustomizeAdapter extends BaseRecyclerAdapter {
         tv_click_02.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (ClickUtils.isDoubleClick()) return;
                 if (apCallback != null) {
                     apCallback.setOnClick(data, pos, 2);
                 }
@@ -147,6 +150,7 @@ public class CustomizeAdapter extends BaseRecyclerAdapter {
 
             @Override
             public void onClick(View v) {
+                if (ClickUtils.isDoubleClick()) return;
                 if (apCallback != null) {
                     apCallback.setOnClick(data, pos, 0);
                 }

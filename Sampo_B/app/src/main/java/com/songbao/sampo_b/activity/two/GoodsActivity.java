@@ -20,6 +20,7 @@ import com.songbao.sampo_b.activity.BaseActivity;
 import com.songbao.sampo_b.entity.BaseEntity;
 import com.songbao.sampo_b.entity.GoodsEntity;
 import com.songbao.sampo_b.utils.BitmapUtil;
+import com.songbao.sampo_b.utils.ClickUtils;
 import com.songbao.sampo_b.utils.CommonTools;
 import com.songbao.sampo_b.utils.ExceptionUtil;
 import com.songbao.sampo_b.utils.JsonUtils;
@@ -157,6 +158,7 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
 
                     @Override
                     public void onClick(View v) {
+                        if (ClickUtils.isDoubleClick()) return;
                         openViewPagerActivity(al_image, position);
                     }
                 });
@@ -311,6 +313,7 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.goods_tv_click:
+                if (ClickUtils.isDoubleClick()) return;
                 openDesignerActivity(goodsCode);
                 break;
         }

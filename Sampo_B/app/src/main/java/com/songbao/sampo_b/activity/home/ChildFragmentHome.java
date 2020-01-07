@@ -29,6 +29,7 @@ import com.songbao.sampo_b.adapter.ThemeListAdapter;
 import com.songbao.sampo_b.entity.BaseEntity;
 import com.songbao.sampo_b.entity.ShareEntity;
 import com.songbao.sampo_b.entity.ThemeEntity;
+import com.songbao.sampo_b.utils.ClickUtils;
 import com.songbao.sampo_b.utils.CommonTools;
 import com.songbao.sampo_b.utils.ExceptionUtil;
 import com.songbao.sampo_b.utils.FileManager;
@@ -227,6 +228,7 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
 
                     @Override
                     public void onClick(View v) {
+                        if (ClickUtils.isDoubleClick()) return;
                         openWebviewActivity(items);
                     }
                 });
@@ -422,6 +424,7 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
 
     @Override
     public void onClick(View v) {
+
     }
 
     @Override

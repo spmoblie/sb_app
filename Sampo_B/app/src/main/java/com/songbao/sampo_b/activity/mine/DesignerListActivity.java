@@ -4,9 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.util.ArrayMap;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
-import android.widget.GridView;
 import android.widget.TextView;
 
 import com.songbao.sampo_b.AppApplication;
@@ -30,7 +30,6 @@ import org.json.JSONObject;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import butterknife.BindView;
 
@@ -39,23 +38,19 @@ public class DesignerListActivity extends BaseActivity implements View.OnClickLi
 
     String TAG = DesignerListActivity.class.getSimpleName();
 
-    @BindView(R.id.refresh_view_gv)
-    GridView mGridView;
+    @BindView(R.id.refresh_view_rv)
+    RecyclerView refresh_rv;
 
     @BindView(R.id.designer_tv_click)
     TextView tv_click;
 
-    DesignerAdapter gvAdapter;
+    DesignerAdapter rvAdapter;
 
-    private int data_total = -1; //数据总量
-    private int load_page = 1; //加载页数
-    private int load_type = 1; //加载类型(0:下拉刷新/1:翻页加载)
-    private boolean isLoadOk = true; //加载控制
+    private int currentPos = -1; //当前下标
     private int dgId = 0; //选择的设计师
     private String dgName; //选择的设计师姓名
     private String skuCode = "";
     private ArrayList<DesignerEntity> al_show = new ArrayList<>();
-    private ArrayMap<String, Boolean> am_show = new ArrayMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,58 +68,22 @@ public class DesignerListActivity extends BaseActivity implements View.OnClickLi
         tv_click.setOnClickListener(this);
 
         initRecyclerView();
-        loadMoreData();
+        loadServerData();
     }
 
     private void initRecyclerView() {
-        /*refresh_gv.setPullRefreshEnabled(true); //下拉刷新
-        refresh_gv.setPullLoadEnabled(true); //上拉加载
-		refresh_gv.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<GridView>() {
-			@Override
-			public void onPullDownToRefresh(PullToRefreshBase<GridView> refreshView) {
-				// 下拉刷新
-				new Handler().postDelayed(new Runnable() {
-
-					@Override
-					public void run() {
-						refreshData();
-					}
-				}, AppConfig.LOADING_TIME);
-			}
-
-			@Override
-			public void onPullUpToRefresh(PullToRefreshBase<GridView> refreshView) {
-				// 加载更多
-				new Handler().postDelayed(new Runnable() {
-
-					@Override
-					public void run() {
-						if (!isStopLoadMore(al_show.size(), data_total, 0)) {
-							loadMoreData();
-						} else {
-							refresh_gv.setHasMoreData(false);
-							refresh_gv.onPullUpRefreshComplete();
-						}
-					}
-				}, AppConfig.LOADING_TIME);
-			}
-		});
-		GridView mGridView = refresh_gv.getRefreshableView();*/
-        mGridView.setNumColumns(2);
-        mGridView.setHorizontalSpacing(CommonTools.dpToPx(mContext, 6));
-        mGridView.setVerticalSpacing(CommonTools.dpToPx(mContext, 6));
-        mGridView.setVerticalScrollBarEnabled(false);
-
-        // 配置适配器
-        gvAdapter = new DesignerAdapter(mContext);
-        gvAdapter.addData(al_show);
-        gvAdapter.addCallback(new AdapterCallback() {
+        rvAdapter = new DesignerAdapter(mContext, R.layout.item_grid_designer);
+        rvAdapter.addData(al_show);
+        rvAdapter.addCallback(new AdapterCallback() {
             @Override
             public void setOnClick(Object data, int position, int type) {
+                if (position == currentPos) return;
+                currentPos = position;
                 updateListData(position);
             }
         });
-        mGridView.setAdapter(gvAdapter);
+        refresh_rv.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
+        refresh_rv.setAdapter(rvAdapter);
     }
 
     private void updateListData(int position) {
@@ -141,7 +100,7 @@ public class DesignerListActivity extends BaseActivity implements View.OnClickLi
                 }
             }
         }
-        gvAdapter.updateData(al_show);
+        rvAdapter.updateData(al_show);
     }
 
     /**
@@ -187,34 +146,10 @@ public class DesignerListActivity extends BaseActivity implements View.OnClickLi
     }
 
     /**
-     * 下拉刷新
-     */
-    private void refreshData() {
-        load_type = 0;
-        loadServerData();
-    }
-
-    /**
-     * 翻页加载
-     */
-    private void loadMoreData() {
-        load_type = 1;
-        loadServerData();
-    }
-
-    /**
      * 加载数据
      */
     private void loadServerData() {
-        if (!isLoadOk) return; //加载频率控制
-        isLoadOk = false;
         HashMap<String, String> map = new HashMap<>();
-        /*String page = String.valueOf(load_page);
-        if (load_type == 0) {
-            page = "1";
-        }
-        map.put("page", page);
-        map.put("size", AppConfig.LOAD_SIZE);*/
         loadSVData(AppConfig.URL_USER_DESIGNER, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_USER_DESIGNER);
     }
 
@@ -241,21 +176,8 @@ public class DesignerListActivity extends BaseActivity implements View.OnClickLi
                 case AppConfig.REQUEST_SV_USER_DESIGNER:
                     baseEn = JsonUtils.getDesignData(jsonObject);
                     if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
-                        data_total = baseEn.getDataTotal();
-                        List<DesignerEntity> lists = filterData(baseEn.getLists(), am_show);
-                        if (lists != null && lists.size() > 0) {
-                            if (load_type == 0) {
-                                //下拉
-                                LogUtil.i(LogUtil.LOG_HTTP, TAG + " 刷新数据 —> size = " + lists.size());
-                                lists.addAll(al_show);
-                                al_show.clear();
-                            } else {
-                                //翻页
-                                LogUtil.i(LogUtil.LOG_HTTP, TAG + " 翻页数据 —> size = " + lists.size());
-                                load_page++;
-                            }
-                            al_show.addAll(lists);
-                        }
+                        al_show.clear();
+                        al_show.addAll(baseEn.getLists());
                         updateListData(0);
                     } else if (baseEn.getErrno() == AppConfig.ERROR_CODE_TIMEOUT) {
                         handleTimeOut();
@@ -303,9 +225,6 @@ public class DesignerListActivity extends BaseActivity implements View.OnClickLi
     @Override
     protected void stopAnimation() {
         super.stopAnimation();
-        isLoadOk = true;
-        //refresh_gv.onPullUpRefreshComplete();
-        //refresh_gv.onPullDownRefreshComplete();
     }
 
     static class MyHandler extends Handler {

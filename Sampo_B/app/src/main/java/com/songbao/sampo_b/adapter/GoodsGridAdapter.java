@@ -11,6 +11,7 @@ import com.bumptech.glide.Glide;
 import com.songbao.sampo_b.AppApplication;
 import com.songbao.sampo_b.R;
 import com.songbao.sampo_b.entity.GoodsEntity;
+import com.songbao.sampo_b.utils.ClickUtils;
 import com.songbao.sampo_b.widgets.RoundImageView;
 
 /**
@@ -57,6 +58,7 @@ public class GoodsGridAdapter extends AppBaseAdapter {
 			
 			@Override
 			public void onClick(View v) {
+				if (ClickUtils.isDoubleClick()) return;
 				if (apCallback != null) {
 					apCallback.setOnClick(data, position, 0);
 				}

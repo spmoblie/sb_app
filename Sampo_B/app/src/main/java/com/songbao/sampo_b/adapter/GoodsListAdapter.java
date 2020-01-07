@@ -10,6 +10,7 @@ import com.bumptech.glide.Glide;
 import com.songbao.sampo_b.AppApplication;
 import com.songbao.sampo_b.R;
 import com.songbao.sampo_b.entity.GoodsEntity;
+import com.songbao.sampo_b.utils.ClickUtils;
 import com.songbao.sampo_b.widgets.RoundImageView;
 
 import java.text.DecimalFormat;
@@ -58,6 +59,7 @@ public class GoodsListAdapter extends BaseRecyclerAdapter {
 
             @Override
             public void onClick(View v) {
+                if (ClickUtils.isDoubleClick()) return;
                 if (apCallback != null) {
                     apCallback.setOnClick(data, pos, 0);
                 }

@@ -251,7 +251,6 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
 
         if (ocEn != null) {
             orderNo = ocEn.getOrderNo();
-            startAnimation();
             loadOrderData();
         }
     }
@@ -693,11 +692,10 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
      * 确认效果图
      */
     private void postConfirmDesigns() {
-        startAnimation();
         try {
             JSONObject jsonObj = new JSONObject();
             jsonObj.put("bookingCode", orderNo);
-            postJsonData(AppConfig.BASE_URL_3, AppConfig.URL_CONFIRM_DESIGNS, jsonObj, AppConfig.REQUEST_SV_CONFIRM_DESIGNS);
+            postJsonData(AppConfig.BASE_URL_3, AppConfig.URL_BOOKING_DESIGNS, jsonObj, AppConfig.REQUEST_SV_BOOKING_DESIGNS);
         } catch (JSONException e) {
             ExceptionUtil.handle(e);
         }
@@ -707,11 +705,10 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
      * 确认支付
      */
     private void postConfirmPayment() {
-        startAnimation();
         try {
             JSONObject jsonObj = new JSONObject();
             jsonObj.put("bookingCode", orderNo);
-            postJsonData(AppConfig.BASE_URL_3, AppConfig.URL_CONFIRM_PAYMENT, jsonObj, AppConfig.REQUEST_SV_CONFIRM_PAYMENT);
+            postJsonData(AppConfig.BASE_URL_3, AppConfig.URL_BOOKING_PAYMENT, jsonObj, AppConfig.REQUEST_SV_BOOKING_PAYMENT);
         } catch (JSONException e) {
             ExceptionUtil.handle(e);
         }
@@ -721,11 +718,10 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
      * 确认收货
      */
     private void postConfirmReceipt() {
-        startAnimation();
         try {
             JSONObject jsonObj = new JSONObject();
             jsonObj.put("bookingCode", orderNo);
-            postJsonData(AppConfig.BASE_URL_3, AppConfig.URL_CONFIRM_RECEIPT, jsonObj, AppConfig.REQUEST_SV_CONFIRM_RECEIPT);
+            postJsonData(AppConfig.BASE_URL_3, AppConfig.URL_BOOKING_RECEIPT, jsonObj, AppConfig.REQUEST_SV_BOOKING_RECEIPT);
         } catch (JSONException e) {
             ExceptionUtil.handle(e);
         }
@@ -735,11 +731,10 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
      * 确认安装
      */
     private void postConfirmInstall() {
-        startAnimation();
         try {
             JSONObject jsonObj = new JSONObject();
             jsonObj.put("bookingCode", orderNo);
-            postJsonData(AppConfig.BASE_URL_3, AppConfig.URL_CONFIRM_INSTALL, jsonObj, AppConfig.REQUEST_SV_CONFIRM_INSTALL);
+            postJsonData(AppConfig.BASE_URL_3, AppConfig.URL_BOOKING_INSTALL, jsonObj, AppConfig.REQUEST_SV_BOOKING_INSTALL);
         } catch (JSONException e) {
             ExceptionUtil.handle(e);
         }
@@ -750,7 +745,6 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
      */
     private void postAddressData(AddressEntity addEn) {
         if (addEn == null) return;
-        startAnimation();
         try {
             JSONObject jsonObj = new JSONObject();
             jsonObj.put("orderCode", orderNo);
@@ -765,7 +759,6 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
      * 取消订单
      */
     private void postConfirmCancel() {
-        startAnimation();
         try {
             JSONObject jsonObj = new JSONObject();
             jsonObj.put("code", orderNo);
@@ -779,7 +772,6 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
      * 删除订单
      */
     private void postConfirmDelete() {
-        startAnimation();
         try {
             JSONObject jsonObj = new JSONObject();
             jsonObj.put("code", orderNo);
@@ -804,7 +796,7 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
                         handleErrorCode(baseEn);
                     }
                     break;
-                case AppConfig.REQUEST_SV_CONFIRM_DESIGNS:
+                case AppConfig.REQUEST_SV_BOOKING_DESIGNS:
                     baseEn = JsonUtils.getBaseErrorData(jsonObject);
                     if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
                         loadOrderData();
@@ -812,7 +804,7 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
                         handleErrorCode(baseEn);
                     }
                     break;
-                case AppConfig.REQUEST_SV_CONFIRM_PAYMENT:
+                case AppConfig.REQUEST_SV_BOOKING_PAYMENT:
                     baseEn = JsonUtils.getBaseErrorData(jsonObject);
                     if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
                         updateCode = AppConfig.ORDER_STATUS_201;
@@ -821,7 +813,7 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
                         handleErrorCode(baseEn);
                     }
                     break;
-                case AppConfig.REQUEST_SV_CONFIRM_RECEIPT:
+                case AppConfig.REQUEST_SV_BOOKING_RECEIPT:
                     baseEn = JsonUtils.getBaseErrorData(jsonObject);
                     if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
                         updateCode = AppConfig.ORDER_STATUS_701;
@@ -830,7 +822,7 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
                         handleErrorCode(baseEn);
                     }
                     break;
-                case AppConfig.REQUEST_SV_CONFIRM_INSTALL:
+                case AppConfig.REQUEST_SV_BOOKING_INSTALL:
                     baseEn = JsonUtils.getBaseErrorData(jsonObject);
                     if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
                         updateCode = AppConfig.ORDER_STATUS_801;

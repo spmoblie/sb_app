@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.songbao.sampo_b.AppApplication;
 import com.songbao.sampo_b.R;
 import com.songbao.sampo_b.activity.BaseActivity;
+import com.songbao.sampo_b.utils.ClickUtils;
 import com.songbao.sampo_b.utils.LogUtil;
 import com.songbao.sampo_b.widgets.ObservableWebView;
 
@@ -53,6 +54,7 @@ public class SketchActivity extends BaseActivity {
 		tv_click.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				if (ClickUtils.isDoubleClick()) return;
 				openDesignerActivity("goodsId");
 			}
 		});

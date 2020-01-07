@@ -1,13 +1,11 @@
 package com.songbao.sampo_b.utils;
 
-import com.songbao.sampo_b.AppConfig;
 import com.songbao.sampo_b.entity.AddressEntity;
 import com.songbao.sampo_b.entity.BaseEntity;
 import com.songbao.sampo_b.entity.CommentEntity;
 import com.songbao.sampo_b.entity.DesignerEntity;
 import com.songbao.sampo_b.entity.GoodsAttrEntity;
 import com.songbao.sampo_b.entity.GoodsEntity;
-import com.songbao.sampo_b.entity.GoodsSaleEntity;
 import com.songbao.sampo_b.entity.GoodsSortEntity;
 import com.songbao.sampo_b.entity.MessageEntity;
 import com.songbao.sampo_b.entity.OCustomizeEntity;
@@ -393,7 +391,7 @@ public class JsonUtils {
             // 支付信息
             if (noteNo > 3 && StringUtil.notNull(jsonData, "payment")) {
                 JSONObject note_04 = jsonData.getJSONObject("payment");
-                //ocEn.setNodeTime4(note_04.getString("createTime"));
+                ocEn.setNodeTime4(note_04.getString("paymentTime"));
                 ocEn.setPrice(note_04.getDouble("orderPrice"));
                 ocEn.setCycle(note_04.getInt("leadtimeSpan"));
                 ocEn.setPayment(note_04.getBoolean("confirm"));
@@ -401,7 +399,7 @@ public class JsonUtils {
             // 收货信息
             if (noteNo > 4 && StringUtil.notNull(jsonData, "orderReciever")) {
                 JSONObject note_05 = jsonData.getJSONObject("orderReciever");
-                //ocEn.setNodeTime5(note_05.getString("recieveTime"));
+                ocEn.setNodeTime5(note_05.getString("recieveTime"));
                 AddressEntity adEn = new AddressEntity();
                 adEn.setId(note_05.getInt("recieverId"));
                 adEn.setName(note_05.getString("recieverName"));
@@ -750,105 +748,21 @@ public class JsonUtils {
      * 解析我的评价数据
      */
     public static BaseEntity getCommentOrderListData(JSONObject jsonObject) throws JSONException {
-        BaseEntity mainEn = getCommonKeyValue(jsonObject);
-
-        if (StringUtil.notNull(jsonObject, "data")) {
-            JSONObject jsonData = jsonObject.getJSONObject("data");
-            if (StringUtil.notNull(jsonData, "dataList")) {
-                CommentEntity childEn;
-                GoodsEntity goodsEn;
-                List<CommentEntity> lists = new ArrayList<>();
-                for (int i = 0; i < 5; i++) {
-                    childEn = new CommentEntity();
-                    childEn.setId(i + 1);
-
-                    goodsEn = new GoodsEntity();
-                    goodsEn.setId(10*i);
-                    goodsEn.setPicUrl(AppConfig.IMAGE_URL + "design_001.png");
-                    goodsEn.setName("松堡王国现代简约彩条双层床");
-                    goodsEn.setAttribute("天蓝色；1350*1900");
-                    childEn.setGoodsEn(goodsEn);
-
-                    childEn.setStarNum(5);
-                    childEn.setAddTime("2019/12/25 15:27");
-                    childEn.setContent("全实木的床很结实，款式很简约，整体很满意，安装师傅也很负责，半个小时安装好，床垫搭配效果很不错，非常满意。");
-
-                    if (i == 0) {
-                        childEn.setStarNum(0);
-                        ArrayList<String> imgList = new ArrayList<>();
-                        imgList.add(AppConfig.IMAGE_URL + "design_001.png");
-                        childEn.setImgList(imgList);
-                        childEn.setImg(true);
-
-                        childEn.setAddDay(26);
-                        childEn.setAddContent("床垫搭配效果很不错，非常满意，床垫搭配效果很不错，非常满意。");
-                    } else if (i == 1) {
-                        childEn.setAdd(true);
-                        childEn.setStarNum(1);
-                        ArrayList<String> imgList = new ArrayList<>();
-                        imgList.add(AppConfig.IMAGE_URL + "design_001.png");
-                        imgList.add(AppConfig.IMAGE_URL + "design_001.png");
-                        childEn.setImgList(imgList);
-                        childEn.setImg(true);
-                    } else if (i == 2) {
-                        childEn.setStarNum(2);
-                        ArrayList<String> imgList = new ArrayList<>();
-                        imgList.add(AppConfig.IMAGE_URL + "design_001.png");
-                        imgList.add(AppConfig.IMAGE_URL + "design_001.png");
-                        imgList.add(AppConfig.IMAGE_URL + "design_001.png");
-                        childEn.setImgList(imgList);
-                        childEn.setImg(true);
-                    }
-
-                    lists.add(childEn);
-                }
-                mainEn.setLists(lists);
-            }
-        }
-        return mainEn;
+        return getCommonKeyValue(jsonObject);
     }
 
     /**
      * 解析商品售后数据
      */
     public static BaseEntity getGoodsSaleData(JSONObject jsonObject) throws JSONException {
-        BaseEntity mainEn = getCommonKeyValue(jsonObject);
-
-        if (StringUtil.notNull(jsonObject, "data")) {
-            JSONObject jsonData = jsonObject.getJSONObject("data");
-            GoodsSaleEntity saleEn = new GoodsSaleEntity();
-            saleEn.setSaleType(2);
-            saleEn.setSaleStatus(7);
-            saleEn.setSaleReason("买的太大了，需要换小的一款");
-            //saleEn.setExpressNo("NS56468416489456");
-
-            ArrayList<String> imgList = new ArrayList<>();
-            imgList.add(AppConfig.IMAGE_URL + "design_001.png");
-            imgList.add(AppConfig.IMAGE_URL + "design_001.png");
-            saleEn.setImgList(imgList);
-            mainEn.setData(saleEn);
-        }
-        return mainEn;
+        return getCommonKeyValue(jsonObject);
     }
 
     /**
      * 解析商品退款详情
      */
     public static BaseEntity getRefundDetailData(JSONObject jsonObject) throws JSONException {
-        BaseEntity mainEn = getCommonKeyValue(jsonObject);
-
-        if (StringUtil.notNull(jsonObject, "data")) {
-            JSONObject jsonData = jsonObject.getJSONObject("data");
-            GoodsSaleEntity saleEn = new GoodsSaleEntity();
-            saleEn.setSaleStatus(10);
-            saleEn.setRefundPrice(2999.99);
-            saleEn.setAddTime("2019-12-21 10:28:28");
-            saleEn.setEndTime("2019-12-26 18:18:18");
-            saleEn.setRefundNo("NS8888888188888888818888888881");
-
-            mainEn.setData(saleEn);
-        }
-        return mainEn;
+        return getCommonKeyValue(jsonObject);
     }
 
 }
