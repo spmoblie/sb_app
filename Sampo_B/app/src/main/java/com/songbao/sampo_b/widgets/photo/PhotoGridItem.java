@@ -17,11 +17,8 @@ import com.songbao.sampo_b.utils.CommonTools;
 
 public class PhotoGridItem extends RelativeLayout implements Checkable {
 
-	private Context mContext;
 	private boolean mCheck;
-	private ImageView mImageView;
-	private ImageView mSelect;
-	private RelativeLayout.LayoutParams imageLP;
+	private ImageView mImageView, mSelect;
 
 	public PhotoGridItem(Context context) {
 		this(context, null, 0);
@@ -33,15 +30,15 @@ public class PhotoGridItem extends RelativeLayout implements Checkable {
 
 	public PhotoGridItem(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
-		mContext = context;
-		int imageSize = (AppApplication.screen_width - CommonTools.dpToPx(context, 40)) / 3;
-		this.imageLP = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-		this.imageLP.width = imageSize;
-		this.imageLP.height = imageSize;
 
-		LayoutInflater.from(mContext).inflate(R.layout.item_grid_photo, this);
-		mSelect = (ImageView) findViewById(R.id.photo_select);
-		mImageView = (ImageView) findViewById(R.id.photo_img_view);
+		int imageSize = (AppApplication.screen_width - CommonTools.dpToPx(context, 40)) / 3;
+		RelativeLayout.LayoutParams imageLP = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
+		imageLP.width = imageSize;
+		imageLP.height = imageSize;
+
+		LayoutInflater.from(context).inflate(R.layout.item_grid_photo, this);
+		mSelect = findViewById(R.id.photo_select);
+		mImageView = findViewById(R.id.photo_img_view);
 		mImageView.setLayoutParams(imageLP);
 	}
 

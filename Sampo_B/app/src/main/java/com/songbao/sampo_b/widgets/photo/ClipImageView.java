@@ -4,13 +4,8 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
-import android.graphics.Paint;
-import android.graphics.PorterDuff.Mode;
-import android.graphics.PorterDuffXfermode;
-import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -47,15 +42,11 @@ public class ClipImageView extends AppCompatImageView implements View.OnTouchLis
 	public static final float DEFAULT_MID_SCALE = 2.0f; 
 	public static final float DEFAULT_MIN_SCALE = 0.8f; // 缩放的最小倍数
 
-	private float minScale = DEFAULT_MIN_SCALE;
-	private float midScale = DEFAULT_MID_SCALE;
-	private float maxScale = DEFAULT_MAX_SCALE;
-
 	private SharedPreferences shared;
 	private MultiGestureDetector multiGestureDetector;
 
-	private int borderlength;
-	private boolean isJusted;
+	private int borderLength;
+	private boolean isJust;
 
 
 	private final Matrix baseMatrix = new Matrix();
@@ -100,33 +91,31 @@ public class ClipImageView extends AppCompatImageView implements View.OnTouchLis
 		// 获取剪切后图片的宽高
 		switch (shared.getInt(AppConfig.KEY_CLIP_PHOTO_TYPE, AppConfig.PHOTO_TYPE_ROUND)) {
 		case AppConfig.PHOTO_TYPE_ROUND: //圆形
-			borderlength = (int) CIRCULAR_RADIUS;
+			borderLength = CIRCULAR_RADIUS;
 			break;
 		case AppConfig.PHOTO_TYPE_SQUARE: //方形
-			borderlength = (int) WIDTH_HEIGHT;
+			borderLength = WIDTH_HEIGHT;
 			break;
 		default: //圆形
-			borderlength = (int) CIRCULAR_RADIUS;
+			borderLength = CIRCULAR_RADIUS;
 			break;
 		}
 		float scale = 1.0f;
-		/**
-		 * 判断图片宽高比例，调整显示位置和缩放大小
-		 */
+		// 判断图片宽高比例，调整显示位置和缩放大小
 		// 图片宽度小于等于高度
 		if (drawableWidth <= drawableHeight) {
 			// 判断图片宽度是否小于边框, 缩放铺满裁剪边框
-			if (drawableWidth < borderlength) {
+			if (drawableWidth < borderLength) {
 				baseMatrix.reset();
-				scale = (float) borderlength / drawableWidth;
+				scale = (float) borderLength / drawableWidth;
 				// 缩放
 				baseMatrix.postScale(scale, scale);
 			}
 			// 图片宽度大于高度
 		} else {
-			if (drawableHeight < borderlength) {
+			if (drawableHeight < borderLength) {
 				baseMatrix.reset();
-				scale = (float) borderlength / drawableHeight;
+				scale = (float) borderLength / drawableHeight;
 				// 缩放
 				baseMatrix.postScale(scale, scale);
 			}
@@ -136,7 +125,7 @@ public class ClipImageView extends AppCompatImageView implements View.OnTouchLis
 				(viewHeight - drawableHeight * scale) / 2);
 
 		resetMatrix();
-		isJusted = true;
+		isJust = true;
 	}
 
 	@Override
@@ -144,9 +133,7 @@ public class ClipImageView extends AppCompatImageView implements View.OnTouchLis
 		return multiGestureDetector.onTouchEvent(event);
 	}
 
-	private class MultiGestureDetector extends
-			GestureDetector.SimpleOnGestureListener implements
-            OnScaleGestureListener {
+	private class MultiGestureDetector extends GestureDetector.SimpleOnGestureListener implements OnScaleGestureListener {
 
 		private final ScaleGestureDetector scaleGestureDetector;
 		private final GestureDetector gestureDetector;
@@ -159,7 +146,7 @@ public class ClipImageView extends AppCompatImageView implements View.OnTouchLis
 		private float lastTouchY;
 		private float lastPointerCount;
 
-		public MultiGestureDetector(Context context) {
+		MultiGestureDetector(Context context) {
 			scaleGestureDetector = new ScaleGestureDetector(context, this);
 
 			gestureDetector = new GestureDetector(context, this);
@@ -175,12 +162,12 @@ public class ClipImageView extends AppCompatImageView implements View.OnTouchLis
 			float scale = getScale();
 			float scaleFactor = detector.getScaleFactor();
 			if (getDrawable() != null
-					&& ((scale < maxScale && scaleFactor > 1.0f) || (scale > minScale && scaleFactor < 1.0f))) {
-				if (scaleFactor * scale < minScale) {
-					scaleFactor = minScale / scale;
+					&& ((scale < DEFAULT_MAX_SCALE && scaleFactor > 1.0f) || (scale > DEFAULT_MIN_SCALE && scaleFactor < 1.0f))) {
+				if (scaleFactor * scale < DEFAULT_MIN_SCALE) {
+					scaleFactor = DEFAULT_MIN_SCALE / scale;
 				}
-				if (scaleFactor * scale > maxScale) {
-					scaleFactor = maxScale / scale;
+				if (scaleFactor * scale > DEFAULT_MAX_SCALE) {
+					scaleFactor = DEFAULT_MAX_SCALE / scale;
 				}
 				suppMatrix.postScale(scaleFactor, scaleFactor, getWidth() / 2, getHeight() / 2);
 				checkAndDisplayMatrix();
@@ -197,7 +184,7 @@ public class ClipImageView extends AppCompatImageView implements View.OnTouchLis
 		public void onScaleEnd(ScaleGestureDetector detector) {
 		}
 
-		public boolean onTouchEvent(MotionEvent event) {
+		boolean onTouchEvent(MotionEvent event) {
 			if (gestureDetector.onTouchEvent(event)) {
 				return true;
 			}
@@ -246,7 +233,7 @@ public class ClipImageView extends AppCompatImageView implements View.OnTouchLis
 			case MotionEvent.ACTION_MOVE: {
 				final float dx = x - lastTouchX, dy = y - lastTouchY;
 
-				if (isDragging == false) {
+				if (!isDragging) {
 					// Use Pythagoras to see if drag length is larger than
 					// touch slop
 					isDragging = Math.sqrt((dx * dx) + (dy * dy)) >= scaledTouchSlop;
@@ -287,12 +274,12 @@ public class ClipImageView extends AppCompatImageView implements View.OnTouchLis
 				float x = getWidth() / 2;
 				float y = getHeight() / 2;
 
-				if (scale < midScale) {
-					post(new AnimatedZoomRunnable(scale, midScale, x, y));
-				} else if ((scale >= midScale) && (scale < maxScale)) {
-					post(new AnimatedZoomRunnable(scale, maxScale, x, y));
+				if (scale < DEFAULT_MID_SCALE) {
+					post(new AnimatedZoomRunnable(scale, DEFAULT_MID_SCALE, x, y));
+				} else if ((scale >= DEFAULT_MID_SCALE) && (scale < DEFAULT_MAX_SCALE)) {
+					post(new AnimatedZoomRunnable(scale, DEFAULT_MAX_SCALE, x, y));
 				} else {
-					post(new AnimatedZoomRunnable(scale, minScale, x, y));
+					post(new AnimatedZoomRunnable(scale, DEFAULT_MIN_SCALE, x, y));
 				}
 			} catch (Exception e) {
 				ExceptionUtil.handle(e);
@@ -311,8 +298,7 @@ public class ClipImageView extends AppCompatImageView implements View.OnTouchLis
 		private final float targetZoom;
 		private final float deltaScale;
 
-		public AnimatedZoomRunnable(final float currentZoom,
-				final float targetZoom, final float focalX, final float focalY) {
+		AnimatedZoomRunnable(final float currentZoom, final float targetZoom, final float focalX, final float focalY) {
 			this.targetZoom = targetZoom;
 			this.focalX = focalX;
 			this.focalY = focalY;
@@ -330,15 +316,11 @@ public class ClipImageView extends AppCompatImageView implements View.OnTouchLis
 
 			final float currentScale = getScale();
 
-			if (((deltaScale > 1f) && (currentScale < targetZoom))
-					|| ((deltaScale < 1f) && (targetZoom < currentScale))) {
-				// We haven't hit our target scale yet, so post ourselves
-				// again
-//				postOnAnimation(ClipImageView.this, this);
-
+			if (((deltaScale > 1f) && (currentScale < targetZoom)) || ((deltaScale < 1f) && (targetZoom < currentScale))) {
+				// We haven't hit our target scale yet, so post ourselves again
+				postOnAnimation(ClipImageView.this, this);
 			} else {
-				// We've scaled past our target zoom, so calculate the
-				// necessary scale so we're back at target zoom
+				// We've scaled past our target zoom, so calculate the necessary scale so we're back at target zoom
 				final float delta = targetZoom / currentScale;
 				suppMatrix.postScale(delta, delta, focalX, focalY);
 				checkAndDisplayMatrix();
@@ -367,7 +349,7 @@ public class ClipImageView extends AppCompatImageView implements View.OnTouchLis
 
 	@Override
 	public void onGlobalLayout() {
-		if (isJusted) {
+		if (isJust) {
 			return;
 		}
 		// 调整视图位置
@@ -406,17 +388,17 @@ public class ClipImageView extends AppCompatImageView implements View.OnTouchLis
 		final float viewWidth = getWidth();
 		final float viewHeight = getHeight();
 		// 判断移动或缩放后，图片显示是否超出裁剪框边界
-		if (rect.top > (viewHeight - borderlength) / 2) {
-			deltaY = (viewHeight - borderlength) / 2 - rect.top;
+		if (rect.top > (viewHeight - borderLength) / 2) {
+			deltaY = (viewHeight - borderLength) / 2 - rect.top;
 		}
-		if (rect.bottom < (viewHeight + borderlength) / 2) {
-			deltaY = (viewHeight + borderlength) / 2 - rect.bottom;
+		if (rect.bottom < (viewHeight + borderLength) / 2) {
+			deltaY = (viewHeight + borderLength) / 2 - rect.bottom;
 		}
-		if (rect.left > (viewWidth - borderlength) / 2) {
-			deltaX = (viewWidth - borderlength) / 2 - rect.left;
+		if (rect.left > (viewWidth - borderLength) / 2) {
+			deltaX = (viewWidth - borderLength) / 2 - rect.left;
 		}
-		if (rect.right < (viewWidth + borderlength) / 2) {
-			deltaX = (viewWidth + borderlength) / 2 - rect.right;
+		if (rect.right < (viewWidth + borderLength) / 2) {
+			deltaX = (viewWidth + borderLength) / 2 - rect.right;
 		}
 		// Finally actually translate the matrix
 		suppMatrix.postTranslate(deltaX, deltaY);
@@ -460,83 +442,20 @@ public class ClipImageView extends AppCompatImageView implements View.OnTouchLis
 
 	/**
 	 * 剪切图片，返回剪切后的bitmap对象
-	 *
-	 * @return
 	 */
 	public Bitmap clip() {
 
 		int width = this.getWidth();
 		int height = this.getHeight();
 
-		if (width > borderlength && height > borderlength) {
+		if (width > borderLength && height > borderLength) {
 			Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
 			Canvas canvas = new Canvas(bitmap);
 			draw(canvas);
-			/*return toRoundBitmap(Bitmap.createBitmap(bitmap, (getWidth() - borderlength) / 2,
-				(getHeight() - borderlength) / 2, borderlength, borderlength));*/
-			return Bitmap.createBitmap(bitmap, (width - borderlength) / 2,
-					(height - borderlength) / 2, borderlength, borderlength);
+			return Bitmap.createBitmap(bitmap, (width - borderLength) / 2, (height - borderLength) / 2, borderLength, borderLength);
 		}else {
 			return null;
 		}
 	}
 
-	/**
-	 * 转换图片成圆形
-	 * 
-	 * @param bitmap
-	 *            传入Bitmap对象
-	 * @return
-	 */
-	public Bitmap toRoundBitmap(Bitmap bitmap) {
-		int width = bitmap.getWidth();
-		int height = bitmap.getHeight();
-		float roundPx;
-		float left, top, right, bottom, dst_left, dst_top, dst_right, dst_bottom;
-		if (width <= height) {
-			roundPx = width / 2;
-			top = 0;
-			bottom = width;
-			left = 0;
-			right = width;
-			height = width;
-			dst_left = 0;
-			dst_top = 0;
-			dst_right = width;
-			dst_bottom = width;
-		} else {
-			roundPx = height / 2;
-			float clip = (width - height) / 2;
-			left = clip;
-			right = width - clip;
-			top = 0;
-			bottom = height;
-			width = height;
-			dst_left = 0;
-			dst_top = 0;
-			dst_right = height;
-			dst_bottom = height;
-		}
-
-		Bitmap output = Bitmap.createBitmap(width, height, Config.ARGB_8888);
-		Canvas canvas = new Canvas(output);
-
-		final int color = 0xff424242;
-		final Paint paint = new Paint();
-		final Rect src = new Rect((int) left, (int) top, (int) right,
-				(int) bottom);
-		final Rect dst = new Rect((int) dst_left, (int) dst_top,
-				(int) dst_right, (int) dst_bottom);
-		final RectF rectF = new RectF(dst);
-
-		paint.setAntiAlias(true);
-
-		canvas.drawARGB(0, 0, 0, 0);
-		paint.setColor(color);
-		canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
-
-		paint.setXfermode(new PorterDuffXfermode(Mode.SRC_IN));
-		canvas.drawBitmap(bitmap, src, dst, paint);
-		return output;
-	}
 }

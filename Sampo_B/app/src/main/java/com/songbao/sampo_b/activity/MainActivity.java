@@ -253,7 +253,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 
         FragmentManager fm;
 
-        public MyFragmentPagerAdapter(FragmentManager fm) {
+        MyFragmentPagerAdapter(FragmentManager fm) {
             super(fm);
             this.fm = fm;
         }
@@ -296,9 +296,9 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
             // 得到缓存的fragment
-            Fragment fragment = (Fragment) super.instantiateItem(container, position);
+            /*Fragment fragment = (Fragment) super.instantiateItem(container, position);
             // 得到tag，这点很重要
-			/*String fragmentTag = fragment.getTag();
+			String fragmentTag = fragment.getTag();
 			switch (position) {
 				case R.id.main_fragment_tab_tv_2:
 					if (isNewFour) {
@@ -315,8 +315,9 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 						isNewFour = true;
 					}
 				break;
-			}*/
-            return fragment;
+			}
+            return fragment;*/
+            return super.instantiateItem(container, position);
         }
     }
 

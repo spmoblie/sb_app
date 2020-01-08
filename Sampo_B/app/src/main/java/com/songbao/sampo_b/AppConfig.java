@@ -11,7 +11,7 @@ public class AppConfig {
 	 */
 
 	// 是否正式发布
-	public static final boolean IS_PUBLISH = true;
+	public static final boolean IS_PUBLISH = false;
 	// http协议
 	private final static String APP_HTTP = "http://";
 	// https协议
@@ -255,7 +255,7 @@ public class AppConfig {
 			Manifest.permission.WRITE_EXTERNAL_STORAGE };
 
 	// UM
-	public static final String UM_MESSAGE_SECRET = "bd15bd03b6f410f2b5c0bfb5e7d470cb";
+	public static final String UM_MESSAGE_SECRET = "91f2dbb2d7f3c63d663cead167391580";
 	// QQ AppID
 	public static final String QQ_APP_ID = "1104891333";
 	// QQ授权接口参数：Scope权限

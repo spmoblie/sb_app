@@ -86,6 +86,7 @@
     <string name="hour">h</string>
     <string name="minute">m</string>
     <string name="second">s</string>
+    <string name="version_no">V%1$s</string>
     <string name="viewpager_indicator">%1$d/%2$d</string>
     <string name="qr_code_scan">二维码扫描</string>
 
@@ -232,6 +233,12 @@
     <string name="coupon_discount">立省%1$s元</string>
     <string name="coupon_buy_now">立即购买</string>
     <string name="coupon_expired_time">过期日：%1$s</string>
+
+    <!-- designer -->
+    <string name="designer_shop">驻店设计师</string>
+    <string name="designer_subscribe">下单定制</string>
+    <string name="designer_subscribe_ok">下单成功</string>
+    <string name="designer_subscribe_tips">确认选择%1$s么?</string>
 
     <!-- comment -->
     <string name="comment_me">我要评价</string>

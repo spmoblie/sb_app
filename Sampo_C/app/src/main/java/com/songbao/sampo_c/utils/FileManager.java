@@ -1,6 +1,5 @@
 package com.songbao.sampo_c.utils;
 
-import android.annotation.SuppressLint;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
@@ -26,56 +25,54 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 
 public class FileManager {
-	
-	public final static int SUCCESS = 999999;
-	public final static int FAIL = -999999;
 
 	/**
 	 * 写入数据（String）
-	 * 
+	 *
 	 * @param fileName 文件名
 	 * @param writeStr 写入文本对象
 	 * @param isSave 是否保存
 	 */
 	public static void writeFileSaveString(String fileName, String writeStr, boolean isSave) {
 		if (StringUtil.isNull(fileName) || StringUtil.isNull(writeStr)) return;
-		FileOutputStream fout = null;
+		FileOutputStream fos = null;
 		try {
-			String path = "";
+			String path;
 			if (isSave) {
 				path = AppConfig.SAVE_PATH_TXT_SAVE + fileName;
 			}else {
 				path = AppConfig.SAVE_PATH_TXT_DICE + fileName;
 			}
 			checkFilePath(path);
-			fout = new FileOutputStream(path);
+			fos = new FileOutputStream(path);
 			byte[] bytes = writeStr.getBytes();
-			fout.write(bytes);
+			fos.write(bytes);
 		} catch (Exception e) {
 			ExceptionUtil.handle(e);
 		} finally {
-        	try {
-        		if (fout != null) {
-        			fout.close();
+			try {
+				if (fos != null) {
+					fos.close();
 				}
 			} catch (Exception e) {
 				ExceptionUtil.handle(e);
 			}
-        }
+		}
 	}
 
 	/**
 	 * 读取数据（String）
-	 * 
+	 *
 	 * @param fileName 文件名
 	 * @param isSave 是否保存
 	 */
 	public static String readFileSaveString(String fileName, boolean isSave) {
-		FileInputStream fin = null;
-		String path = "";
-		String resu = "";
+		FileInputStream fis = null;
+		String path;
+		String result = "";
 		try {
 			if (isSave) {
 				path = AppConfig.SAVE_PATH_TXT_SAVE + fileName;
@@ -84,41 +81,41 @@ public class FileManager {
 			}
 			File file = new File(path);
 			if (file.exists()) {
-				fin = new FileInputStream(file);
-				int length = fin.available();
+				fis = new FileInputStream(file);
+				int length = fis.available();
 				byte[] buffer = new byte[length];
-				fin.read(buffer);
-				resu = new String(buffer, "UTF-8");
+				fis.read(buffer);
+				result = new String(buffer, "UTF-8");
 			}
 		} catch (Exception e) {
 			ExceptionUtil.handle(e);
 		} finally {
-        	try {
-        		if (fin != null) {
-        			fin.close();
+			try {
+				if (fis != null) {
+					fis.close();
 				}
 			} catch (Exception e) {
 				ExceptionUtil.handle(e);
 			}
-        }
-		return resu;
+		}
+		return result;
 	}
-	
+
 	/**
 	 * 写入数据（Object）
-	 * 
+	 *
 	 * @param fileName 文件名
 	 * @param obj 写入对象
 	 * @param pathType 0 : AppConfig.SAVE_PATH_TXT_DICE
 	 *                 1 : AppConfig.SAVE_PATH_TXT_SAVE
 	 *                 2 : AppConfig.SAVE_USER_DATA_PATH
 	 */
-    public static void writeFileSaveObject(String fileName, Object obj, int pathType) {
+	public static void writeFileSaveObject(String fileName, Object obj, int pathType) {
 		if (StringUtil.isNull(fileName) || obj == null) return;
 		ObjectOutputStream objOut = null;
-    	FileOutputStream fos = null;
-        try {
-        	String path;
+		FileOutputStream fos = null;
+		try {
+			String path;
 			switch (pathType) {
 				case 1:
 					path = AppConfig.SAVE_PATH_TXT_SAVE + fileName;
@@ -133,38 +130,38 @@ public class FileManager {
 			checkFilePath(path);
 			fos = new FileOutputStream(new File(path));
 			objOut = new ObjectOutputStream(fos);
-            objOut.writeObject(obj);
-            objOut.flush();
-        } catch (IOException e) {
+			objOut.writeObject(obj);
+			objOut.flush();
+		} catch (IOException e) {
 			ExceptionUtil.handle(e);
-        }finally{
-        	try {
-        		if (fos != null) {
-        			fos.close();
+		}finally{
+			try {
+				if (fos != null) {
+					fos.close();
 				}
-        		if (objOut != null) {
-        			objOut.close();
+				if (objOut != null) {
+					objOut.close();
 				}
 			} catch (IOException e) {
 				ExceptionUtil.handle(e);
 			}
-        }
-    }
-    
-    /**
+		}
+	}
+
+	/**
 	 * 读取数据（Object）
-	 * 
+	 *
 	 * @param fileName 文件名
 	 * @param pathType 0 : AppConfig.SAVE_PATH_TXT_DICE
 	 *                 1 : AppConfig.SAVE_PATH_TXT_SAVE
 	 *                 2 : AppConfig.SAVE_USER_DATA_PATH
 	 * @return
 	 */
-    public static Object readFileSaveObject(String fileName, int pathType) {
-        Object temp = null;
-        FileInputStream in = null;
-        ObjectInputStream objIn = null;
-        try {
+	public static Object readFileSaveObject(String fileName, int pathType) {
+		Object temp = null;
+		FileInputStream in = null;
+		ObjectInputStream objIn = null;
+		try {
 			String path;
 			switch (pathType) {
 				case 1:
@@ -177,75 +174,33 @@ public class FileManager {
 					path = AppConfig.SAVE_PATH_TXT_DICE + fileName;
 					break;
 			}
-        	File file = new File(path);
+			File file = new File(path);
 			if (file.exists()) {
 				in = new FileInputStream(file);
 				objIn = new ObjectInputStream(in);
 				temp = objIn.readObject();
 			}
-        } catch (Exception e) {
+		} catch (Exception e) {
 			ExceptionUtil.handle(e);
-        }finally{
-        	try {
-        		if (in != null) {
-        			in.close();
+		}finally{
+			try {
+				if (in != null) {
+					in.close();
 				}
-        		if (objIn != null) {
-        			objIn.close();
+				if (objIn != null) {
+					objIn.close();
 				}
 			} catch (Exception e) {
 				ExceptionUtil.handle(e);
 			}
-        }
-        return temp;
-    }
-	
-	/**
-	 * 写入数据（网络流对象）
-	 * 
-	 * @param path 保存路径
-	 * @param entity 网络流对象
-	 */
-    /*public static String writeFileSaveHttpEntity(String path, HttpEntity entity) {
-		if (StringUtil.isNull(path) || entity == null) return "";
-    	InputStream is = null;
-		FileOutputStream fos = null;
-		String resu = "ok";
-        try {
-			checkFilePath(path);
-			is = entity.getContent();
-			if (is != null) {
-				File file = new File(path);
-				fos = new FileOutputStream(file);
-				byte[] buf = new byte[1024];
-				int ch = -1;
-				while ((ch = is.read(buf)) != -1) {
-					fos.write(buf, 0, ch);
-				}
-				fos.flush();
-			}
-        } catch (IOException e) {
-			ExceptionUtil.handle(e);
-            resu = null;
-        } finally {
-        	try {
-				if (is != null) {
-					is.close();
-				}
-				if (fos != null) {
-					fos.close();
-				}
-			} catch (IOException e) {
-				ExceptionUtil.handle(e);
-			}
-        }
-        return resu;
-    }*/
+		}
+		return temp;
+	}
 
 	/**
 	 * 校验文件路径，不存在则创建
 	 */
-	public static void checkFilePath(String path) throws IOException {
+	static void checkFilePath(String path) throws IOException {
 		File file = new File(path);
 		//判定文件所在的目录是否存在，不存在则创建
 		File parentFile = file.getParentFile();
@@ -278,7 +233,7 @@ public class FileManager {
 
 	/**
 	 * 获取文件夹大小
-	 * 
+	 *
 	 * @param file File实例
 	 * @return long 单位为b
 	 * @throws Exception
@@ -292,11 +247,11 @@ public class FileManager {
 		if (fileList == null) {
 			return size;
 		}
-		for (int i = 0; i < fileList.length; i++) {
-			if (fileList[i].isDirectory()) {
-				size = size + getFolderSize(fileList[i]);
+		for (java.io.File files: fileList) {
+			if (files.isDirectory()) {
+				size = size + getFolderSize(files);
 			} else {
-				size = size + fileList[i].length();
+				size = size + files.length();
 			}
 		}
 		return size;
@@ -339,7 +294,7 @@ public class FileManager {
 			file.delete();
 		}
 	}
-	
+
 	/**
 	 * 从给定的Uri返回文件的绝对路径
 	 *
@@ -347,62 +302,60 @@ public class FileManager {
 	 * @return the file path or null
 	 */
 	public static String getRealFilePath(final Uri uri ) {
-	    if ( null == uri ) return null;
-	    final String scheme = uri.getScheme();
-	    String data = null;
-	    if ( scheme == null )
-	        data = uri.getPath();
-	    else if ( ContentResolver.SCHEME_FILE.equals( scheme ) ) {
-	        data = uri.getPath();
-	    } else if ( ContentResolver.SCHEME_CONTENT.equals( scheme ) ) {
-	        Cursor cursor = AppApplication.getAppContext().getContentResolver()
+		if ( null == uri ) return null;
+		final String scheme = uri.getScheme();
+		String data = null;
+		if ( scheme == null )
+			data = uri.getPath();
+		else if ( ContentResolver.SCHEME_FILE.equals( scheme ) ) {
+			data = uri.getPath();
+		} else if ( ContentResolver.SCHEME_CONTENT.equals( scheme ) ) {
+			Cursor cursor = AppApplication.getAppContext().getContentResolver()
 					.query( uri, new String[] { ImageColumns.DATA }, null, null, null );
-	        if ( null != cursor ) {
-	            if ( cursor.moveToFirst() ) {
-	                int index = cursor.getColumnIndex( ImageColumns.DATA );
-	                if ( index > -1 ) {
-	                    data = cursor.getString( index );
-	                }
-	            }
-	            cursor.close();
-	        }
-	    }
-	    return data;
+			if ( null != cursor ) {
+				if ( cursor.moveToFirst() ) {
+					int index = cursor.getColumnIndex( ImageColumns.DATA );
+					if ( index > -1 ) {
+						data = cursor.getString( index );
+					}
+				}
+				cursor.close();
+			}
+		}
+		return data;
 	}
 
 	/**
 	 * 使用当前时间生成文件名
 	 * @param fileType 文件类型(.jpg / .txt / ...)
 	 */
-	@SuppressLint("SimpleDateFormat")
 	public static String getFileName(String fileType){
-	    SimpleDateFormat s = new SimpleDateFormat("ddMMyyyyhhmmss");
-        String dateTime = s.format(new Date());
-        String imgFileName = dateTime + fileType;
-        return imgFileName;
+		SimpleDateFormat s = new SimpleDateFormat("ddMMyyyyhhmmss", Locale.getDefault());
+		String dateTime = s.format(new Date());
+		return dateTime + fileType;
 	}
 
 	/**
 	 * 读取指定文件中的内容
 	 */
 	public static String getStringFromFile(File file) throws Exception {
-	    FileInputStream fis = new FileInputStream(file);
-	    BufferedReader reader = new BufferedReader(new InputStreamReader(fis));
-	    StringBuilder sb = new StringBuilder();
-	    String line = null;
-	    while ((line = reader.readLine()) != null) {
-	      sb.append(line).append("\n");
-	    }
-	    reader.close();
-	    fis.close();        
-	    return sb.toString();
+		FileInputStream fis = new FileInputStream(file);
+		BufferedReader reader = new BufferedReader(new InputStreamReader(fis));
+		StringBuilder sb = new StringBuilder();
+		String line;
+		while ((line = reader.readLine()) != null) {
+			sb.append(line).append("\n");
+		}
+		reader.close();
+		fis.close();
+		return sb.toString();
 	}
 
 	/**
 	 * 读取Asset中的文件内容
 	 */
 	public static String loadJSONFromAsset(String filename) {
-		String json = null;
+		String json;
 		try {
 			InputStream is = AppApplication.getAppContext().getAssets().open(filename);
 			int size = is.available();
@@ -416,7 +369,7 @@ public class FileManager {
 		}
 		return json;
 	}
-    
+
 	/**
 	 * 读取Asset中的图片
 	 */
@@ -431,7 +384,7 @@ public class FileManager {
 			return null;
 		}
 	}
-	
+
 	/**
 	 * 下载指定Url的文件保存至指定路径
 	 */
@@ -440,7 +393,7 @@ public class FileManager {
 		InputStream input = null;
 		OutputStream output = null;
 		HttpURLConnection connection = null;
-		int result = FAIL;
+		int result = -999;
 		try {
 			URL url = new URL(urlStr);
 			connection = (HttpURLConnection) url.openConnection();
@@ -455,7 +408,7 @@ public class FileManager {
 			while ((count = input.read(data)) != -1) {
 				output.write(data, 0, count);
 			}
-			result = SUCCESS;
+			result = 999;
 		} catch (Exception e) {
 			ExceptionUtil.handle(e);
 		} finally {
@@ -472,5 +425,5 @@ public class FileManager {
 		}
 		return result;
 	}
-	
+
 }

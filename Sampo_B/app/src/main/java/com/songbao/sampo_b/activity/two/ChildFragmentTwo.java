@@ -1,5 +1,6 @@
 package com.songbao.sampo_b.activity.two;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -40,6 +41,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -74,7 +76,7 @@ public class ChildFragmentTwo extends BaseFragment implements OnClickListener {
 
 	private ArrayList<GoodsSortEntity> al_left = new ArrayList<>();
 	private ArrayList<GoodsEntity> al_right = new ArrayList<>();
-	private ArrayMap<String, Boolean> am_show = new ArrayMap<>();
+	private ArrayMap<String, Boolean> am_right = new ArrayMap<>();
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -85,6 +87,7 @@ public class ChildFragmentTwo extends BaseFragment implements OnClickListener {
 	 * 与Activity不一样
 	 */
 	@Override
+	@SuppressLint("InflateParams")
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
 		LogUtil.i(LogUtil.LOG_TAG, TAG + ": onCreate");
@@ -275,7 +278,7 @@ public class ChildFragmentTwo extends BaseFragment implements OnClickListener {
 	 */
 	private void clearData() {
 		al_right.clear();
-		am_show.clear();
+		am_right.clear();
 	}
 
 	/**
@@ -354,8 +357,21 @@ public class ChildFragmentTwo extends BaseFragment implements OnClickListener {
 				case AppConfig.REQUEST_SV_GOODS_LIST:
 					baseEn = JsonUtils.getGoodsListData(jsonObject);
 					if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
-						al_right.clear();
-						al_right.addAll(baseEn.getLists());
+						data_total = baseEn.getDataTotal();
+						List<GoodsEntity> lists = filterData(baseEn.getLists(), am_right);
+						if (lists != null && lists.size() > 0) {
+							if (load_type == 0) {
+								//下拉
+								LogUtil.i(LogUtil.LOG_HTTP, TAG + " 刷新数据 —> size = " + lists.size());
+								lists.addAll(al_right);
+								al_right.clear();
+							}else {
+								//翻页
+								LogUtil.i(LogUtil.LOG_HTTP, TAG + " 翻页数据 —> size = " + lists.size());
+								load_page++;
+							}
+							al_right.addAll(lists);
+						}
 						updateRightListData();
 					} else {
 						handleErrorCode(baseEn);

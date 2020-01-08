@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnKeyListener;
 import android.content.Intent;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Message;
 import android.text.Html;
@@ -20,6 +19,7 @@ import com.songbao.sampo_c.utils.CommonTools;
 import com.songbao.sampo_c.utils.StringUtil;
 
 import java.io.File;
+import java.lang.ref.WeakReference;
 
 
 public class AppVersionDialog {
@@ -57,17 +57,8 @@ public class AppVersionDialog {
 		} else {
 			description = Html.fromHtml(description).toString();
 		}
-		dm.showTwoBtnDialog(null, description, mContext.getString(R.string.ignore),
-				mContext.getString(R.string.confirm), DIALOG_WIDTH, true, true, new Handler() {
-					@Override
-					public void handleMessage(Message msg) {
-						switch (msg.what) {
-							case AppConfig.DIALOG_CLICK_OK:
-								startLoadApk(apkLoadAddress);
-								break;
-						}
-					}
-				});
+		dm.showTwoBtnDialog(null, description, mContext.getString(R.string.ignore), mContext.getString(R.string.confirm),
+				DIALOG_WIDTH, true, true, new DialogHandler(this), AppConfig.DIALOG_CLICK_OK);
 	}
 	
 	/**
@@ -84,17 +75,7 @@ public class AppVersionDialog {
 		} else {
 			description = Html.fromHtml(description).toString();
 		}
-		dm.showOneBtnDialog(description,
-				DIALOG_WIDTH, true, false, new Handler() {
-					@Override
-					public void handleMessage(Message msg) {
-						switch (msg.what) {
-							case AppConfig.DIALOG_CLICK_OK:
-								startLoadApk(apkLoadAddress);
-								break;
-						}
-					}
-				}, keylistener);
+		dm.showOneBtnDialog(description, DIALOG_WIDTH, true, false, new DialogHandler(this), keyListener);
 	}
 
 	/**
@@ -102,14 +83,14 @@ public class AppVersionDialog {
 	 */
 	private void startLoadApk(final String address) {
 		loadApkDialog();
-		new UpdateAppHttpTask().execute(address);
+		//new UpdateAppHttpTask().execute(address);
 	}
 
 	/**
 	 * 弹出下载缓冲对话框
 	 */
-	public void loadApkDialog() {
-		dm.showLoadDialog(DIALOG_WIDTH, keylistener);
+	private void loadApkDialog() {
+		dm.showLoadDialog(DIALOG_WIDTH, keyListener);
 	}
 	
 	/**
@@ -125,7 +106,7 @@ public class AppVersionDialog {
 	/**
 	 * 物理键盘监听器
 	 */
-	OnKeyListener keylistener = new DialogInterface.OnKeyListener() {
+	private OnKeyListener keyListener = new OnKeyListener() {
 		
 		private boolean exit = false;
 
@@ -151,16 +132,16 @@ public class AppVersionDialog {
 	/**
 	 * 下载apk安装包的异步任务
 	 */
-	class UpdateAppHttpTask extends AsyncTask<String, Void, String> {
+	/*class UpdateAppHttpTask extends AsyncTask<String, Void, String> {
 
 		protected String doInBackground(String... url) {
-//			List<MyNameValuePair> params = new ArrayList<MyNameValuePair>();
-//			try {
-//				HttpEntity entity = HttpUtil.getEntity(url[0], params, HttpUtil.METHOD_POST);
-//				return FileManager.writeFileSaveHttpEntity(APK_PATH, entity);
-//			} catch (Exception e) {
-//				ExceptionUtil.handle(e);
-//			}
+			List<MyNameValuePair> params = new ArrayList<MyNameValuePair>();
+			try {
+				HttpEntity entity = HttpUtil.getEntity(url[0], params, HttpUtil.METHOD_POST);
+				return FileManager.writeFileSaveHttpEntity(APK_PATH, entity);
+			} catch (Exception e) {
+				ExceptionUtil.handle(e);
+			}
 			return null;
 		}
 
@@ -170,22 +151,32 @@ public class AppVersionDialog {
 			} else {
 				if (isForce) {
 					dm.showOneBtnDialog(mContext.getString(R.string.toast_server_busy),
-							DIALOG_WIDTH, true, false, new Handler() {
-								@Override
-								public void handleMessage(Message msg) {
-									switch (msg.what) {
-										case AppConfig.DIALOG_CLICK_OK:
-											startLoadApk(apkLoadAddress);
-											break;
-									}
-								}
-							}, keylistener);
+							DIALOG_WIDTH, true, false, new DialogHandler(AppVersionDialog.this), keyListener);
 				} else {
 					showStatus(mContext.getString(R.string.toast_server_busy));
 				}
 			}
 		}
 
+	}*/
+
+	static class DialogHandler extends Handler {
+
+		WeakReference<AppVersionDialog> mDialog;
+
+		DialogHandler(AppVersionDialog dialog) {
+			mDialog = new WeakReference<>(dialog);
+		}
+
+		@Override
+		public void handleMessage(Message msg) {
+			AppVersionDialog theDialog = mDialog.get();
+			switch (msg.what) {
+				case AppConfig.DIALOG_CLICK_OK:
+					theDialog.startLoadApk(theDialog.apkLoadAddress);
+					break;
+			}
+		}
 	}
 
 }

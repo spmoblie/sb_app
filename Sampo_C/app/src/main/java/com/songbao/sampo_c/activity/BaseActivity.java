@@ -57,7 +57,7 @@ import com.songbao.sampo_c.activity.login.RegisterOauthActivity;
 import com.songbao.sampo_c.activity.login.ResetPasswordActivity;
 import com.songbao.sampo_c.activity.mine.CommentAddActivity;
 import com.songbao.sampo_c.activity.mine.CommentPostActivity;
-import com.songbao.sampo_c.activity.two.DesignerActivity;
+import com.songbao.sampo_c.activity.mine.DesignerListActivity;
 import com.songbao.sampo_c.activity.two.GoodsActivity;
 import com.songbao.sampo_c.activity.two.GoodsListActivity;
 import com.songbao.sampo_c.activity.two.SketchActivity;
@@ -448,7 +448,7 @@ public class BaseActivity extends FragmentActivity {
         AppManager.getInstance().finishActivity(GoodsActivity.class);
         AppManager.getInstance().finishActivity(GoodsListActivity.class);
         AppManager.getInstance().finishActivity(SketchActivity.class);
-        AppManager.getInstance().finishActivity(DesignerActivity.class);
+        AppManager.getInstance().finishActivity(DesignerListActivity.class);
     }
 
     /**
@@ -474,7 +474,7 @@ public class BaseActivity extends FragmentActivity {
      * 打开设计师列表页
      */
     protected void openDesignerActivity(String skuCode) {
-        Intent intent = new Intent(mContext, DesignerActivity.class);
+        Intent intent = new Intent(mContext, DesignerListActivity.class);
         intent.putExtra("skuCode", skuCode);
         startActivity(intent);
     }
@@ -697,29 +697,51 @@ public class BaseActivity extends FragmentActivity {
     /**
      * 双按钮确认对话框
      */
-    protected void showConfirmDialog(int contentResId, String leftBtnStr, String rightBtnStr,
-                                     boolean isCenter, boolean isVanish, final Handler handler) {
-        showConfirmDialog(getString(contentResId), leftBtnStr, rightBtnStr, isCenter, isVanish, handler);
+    protected void showConfirmDialog(String content, Handler handler) {
+        showConfirmDialog(content, handler, AppConfig.DIALOG_CLICK_OK);
     }
 
-    protected void showConfirmDialog(String content, String leftBtnStr, String rightBtnStr,
-                                     boolean isCenter, boolean isVanish, final Handler handler) {
-        showConfirmDialog(null, content, leftBtnStr, rightBtnStr, isCenter, isVanish, handler);
+    protected void showConfirmDialog(String content, Handler handler, int handlerCode) {
+        showConfirmDialog(content, null, null, handler, handlerCode);
+    }
+
+    protected void showConfirmDialog(String content, String leftBtnStr, String rightBtnStr, Handler handler) {
+        showConfirmDialog(content, leftBtnStr, rightBtnStr, handler, AppConfig.DIALOG_CLICK_OK);
+    }
+
+    protected void showConfirmDialog(String content, String leftBtnStr, String rightBtnStr, Handler handler, int handlerCode) {
+        showConfirmDialog(null, content, leftBtnStr, rightBtnStr, true, true, handler, handlerCode);
+    }
+
+    protected void showConfirmDialog(String title, String content, Handler handler) {
+        showConfirmDialog(title, content, handler, AppConfig.DIALOG_CLICK_OK);
+    }
+
+    protected void showConfirmDialog(String title, String content, Handler handler, int handlerCode) {
+        showConfirmDialog(title, content, null, null, handler, handlerCode);
+    }
+
+    protected void showConfirmDialog(String title, String content, String leftBtnStr, String rightBtnStr, Handler handler) {
+        showConfirmDialog(title, content, leftBtnStr, rightBtnStr, handler, AppConfig.DIALOG_CLICK_OK);
+    }
+
+    protected void showConfirmDialog(String title, String content, String leftBtnStr, String rightBtnStr, Handler handler, int handlerCode) {
+        showConfirmDialog(title, content, leftBtnStr, rightBtnStr, true, true, handler, handlerCode);
     }
 
     protected void showConfirmDialog(String title, String content, String leftBtnStr, String rightBtnStr,
-                                     boolean isCenter, boolean isVanish, final Handler handler) {
-        showConfirmDialog(title, content, leftBtnStr, rightBtnStr, dialogWidth, isCenter, isVanish, handler);
+                                     boolean isCenter, boolean isVanish, Handler handler, int handlerCode) {
+        showConfirmDialog(title, content, leftBtnStr, rightBtnStr, dialogWidth, isCenter, isVanish, handler, handlerCode);
     }
 
     protected void showConfirmDialog(String title, String content, String leftBtnStr, String rightBtnStr,
-                                     int width, boolean isCenter, boolean isVanish, final Handler handler) {
+                                     int width, boolean isCenter, boolean isVanish, Handler handler, int handlerCode) {
         leftBtnStr = (leftBtnStr == null) ? getString(R.string.cancel) : leftBtnStr;
         rightBtnStr = (rightBtnStr == null) ? getString(R.string.confirm) : rightBtnStr;
         if (myDialog == null) {
             myDialog = DialogManager.getInstance(mContext);
         }
-        myDialog.showTwoBtnDialog(title, content, leftBtnStr, rightBtnStr, width, isCenter, isVanish, handler);
+        myDialog.showTwoBtnDialog(title, content, leftBtnStr, rightBtnStr, width, isCenter, isVanish, handler, handlerCode);
     }
 
     /**

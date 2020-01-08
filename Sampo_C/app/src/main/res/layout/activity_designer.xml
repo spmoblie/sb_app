@@ -4,8 +4,8 @@
     android:layout_height="match_parent"
     android:background="@color/ui_color_app_bg_01">
 
-    <GridView
-        android:id="@+id/refresh_view_gv"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/refresh_view_rv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/ui_color_app_bg_01"/>
@@ -19,7 +19,7 @@
         android:layout_marginLeft="@dimen/app_margin_screen"
         android:layout_marginRight="@dimen/app_margin_screen"
         android:padding="@dimen/app_margin_screen"
-        android:text="免费预约设计"
+        android:text="@string/designer_subscribe"
         android:textSize="@dimen/app_text_size_title"
         android:textStyle="bold" />
 

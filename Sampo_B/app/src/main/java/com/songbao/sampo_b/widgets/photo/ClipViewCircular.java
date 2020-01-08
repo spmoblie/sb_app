@@ -43,7 +43,7 @@ public class ClipViewCircular extends View {
 		int height = this.getHeight();
 
 		int innerCircle = CIRCULAR_RADIUS; // 内圆半径
-		int ringWidth = height; // 圆环宽度
+		int ringWidth = height*2/2; // 圆环宽度
 
 		// 第一种方法绘制圆环
 		// 绘制内圆

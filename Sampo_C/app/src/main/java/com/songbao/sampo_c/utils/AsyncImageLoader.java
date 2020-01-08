@@ -1,6 +1,5 @@
 package com.songbao.sampo_c.utils;
 
-import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.os.Handler;
 import android.os.Message;
@@ -9,6 +8,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.FutureTarget;
 import com.songbao.sampo_c.AppApplication;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 /**
@@ -17,7 +17,7 @@ import java.util.ArrayList;
 public class AsyncImageLoader {
 
 	private ArrayList<ImageLoadTask> tasks;
-	private Thread workThread;
+	private final Thread workThread;
 	private Handler handler;
 	private boolean isLoop;
 	private AsyncImageLoaderCallback ailCallback;
@@ -39,21 +39,19 @@ public class AsyncImageLoader {
 		}
 	}
 
-	@SuppressLint("HandlerLeak")
+	private void callbackImage(Message msg) {
+		if (ailCallback != null) {
+			ImageLoadTask task = (ImageLoadTask) msg.obj;
+			ailCallback.imageLoaded(task.oldPath, task.newPath, task.bitmap);
+		}
+	}
+
 	private AsyncImageLoader(AsyncImageLoaderCallback callback) {
 		this.isLoop = true;
-		this.tasks = new ArrayList<>();
 		this.ailCallback = callback;
+		this.tasks = new ArrayList<>();
+		this.handler = new MyHandler(this);
 
-		this.handler = new Handler() {
-			@Override
-			public void handleMessage(Message msg) {
-				if (ailCallback != null) {
-					ImageLoadTask task = (ImageLoadTask) msg.obj;
-					ailCallback.imageLoaded(task.oldPath, task.newPath, task.bitmap);
-				}
-			}
-		};
 		this.workThread = new Thread() {
 			@Override
 			public void run() {
@@ -106,7 +104,7 @@ public class AsyncImageLoader {
 			}
 		}
 	}
-	
+
 	public void clearInstance(){
 		quit();
 		instance = null;
@@ -114,7 +112,7 @@ public class AsyncImageLoader {
 
 	/**
 	 * 根据指定的图片路径获取图片对象
-	 * 
+	 *
 	 * @param oldPath 图片路径
 	 */
 	public ImageLoadTask loadImage(String oldPath) {
@@ -122,7 +120,7 @@ public class AsyncImageLoader {
 		ImageLoadTask task;
 		String newPath;
 		if (oldPath.contains(":")) {
-			newPath = oldPath.toString().replace(":", "");
+			newPath = oldPath.replace(":", "");
 		} else {
 			newPath = oldPath;
 		}
@@ -148,7 +146,7 @@ public class AsyncImageLoader {
 		}
 		// 缓存及SD卡都不存在图片则新建任务加入任务队列
 		task = new ImageLoadTask(newPath, oldPath);
-		if (!tasks.equals(task)) {
+		if (!tasks.contains(task)) {
 			tasks.add(task);
 			synchronized (workThread) {
 				try {
@@ -167,13 +165,13 @@ public class AsyncImageLoader {
 		private String oldPath;
 		private Bitmap bitmap;
 
-		public ImageLoadTask(String oldPath, String newPath, Bitmap bitmap) {
+		ImageLoadTask(String oldPath, String newPath, Bitmap bitmap) {
 			this.oldPath = oldPath;
 			this.newPath = newPath;
 			this.bitmap = bitmap;
 		}
 
-		public ImageLoadTask(String newPath, String oldPath) {
+		ImageLoadTask(String newPath, String oldPath) {
 			this.newPath = newPath;
 			this.oldPath = oldPath;
 		}
@@ -194,6 +192,21 @@ public class AsyncImageLoader {
 		public boolean equals(Object o) {
 			ImageLoadTask task = (ImageLoadTask) o;
 			return newPath.equals(task.newPath);
+		}
+	}
+
+	static class MyHandler extends Handler {
+
+		WeakReference<AsyncImageLoader> mActivity;
+
+		MyHandler(AsyncImageLoader className) {
+			mActivity = new WeakReference<>(className);
+		}
+
+		@Override
+		public void handleMessage(Message msg) {
+			AsyncImageLoader theClass = mActivity.get();
+			theClass.callbackImage(msg);
 		}
 	}
 

@@ -70,6 +70,7 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
     private GoodsEntity goodsEn;
     private Bitmap qrImage;
     private String goodsCode = "";
+    private boolean isLoop = false;
     private boolean vprStop = false;
     private int idsSize, idsPosition, vprPosition;
     private ImageView[] indicators = null;
@@ -124,11 +125,10 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
             });
 
             //商品图片
-            if (goodsEn.getImageList() != null) {
-                al_image.clear();
+            if (goodsEn.getImageList() != null && al_image.size() <= 0) {
                 al_image.addAll(goodsEn.getImageList());
+                initViewPager();
             }
-            initViewPager();
         }
     }
 
@@ -175,44 +175,35 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
                     vp_indicator.addView(indicators[i]);
                 }
             }
-            final boolean loop = viewLists.size() > 3 ? true : false;
+            if (viewLists != null && viewLists.size() > 3) {
+                isLoop = true;
+            }
             goods_vp.setAdapter(new PagerAdapter() {
 
                 // 创建
                 @NonNull
                 @Override
                 public Object instantiateItem(@NonNull ViewGroup container, int position) {
-                    if (viewLists.size() <= 0) return null;
-                    try {
-                        View layout;
-                        if (loop) {
-                            layout = viewLists.get(position % viewLists.size());
-                        } else {
-                            layout = viewLists.get(position);
-                        }
-                        container.addView(layout);
-                        return layout;
-                    } catch (Exception e) {
-                        ExceptionUtil.handle(e);
-                        return null;
+                    View layout;
+                    if (isLoop) {
+                        layout = viewLists.get(position % viewLists.size());
+                    } else {
+                        layout = viewLists.get(position);
                     }
+                    container.addView(layout);
+                    return layout;
                 }
 
                 // 销毁
                 @Override
                 public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
-                    if (viewLists.size() <= 0) return;
-                    try {
-                        View layout;
-                        if (loop) {
-                            layout = viewLists.get(position % viewLists.size());
-                        } else {
-                            layout = viewLists.get(position);
-                        }
-                        container.removeView(layout);
-                    } catch (Exception e) {
-                        ExceptionUtil.handle(e);
+                    View layout;
+                    if (isLoop) {
+                        layout = viewLists.get(position % viewLists.size());
+                    } else {
+                        layout = viewLists.get(position);
                     }
+                    container.removeView(layout);
                 }
 
                 @Override
@@ -222,7 +213,7 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
 
                 @Override
                 public int getCount() {
-                    if (loop) {
+                    if (isLoop) {
                         return Integer.MAX_VALUE;
                     } else {
                         return viewLists.size();
@@ -234,7 +225,7 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
                 @Override
                 public void onPageSelected(final int arg0) {
                     if (goods_vp == null || viewLists.size() <= 1) return;
-                    if (loop) {
+                    if (isLoop) {
                         vprPosition = arg0;
                         idsPosition = arg0 % viewLists.size();
                         if (idsPosition == viewLists.size()) {
@@ -269,7 +260,7 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
                     }
                 }
             });
-            if (loop) {
+            if (isLoop) {
                 goods_vp.setCurrentItem(viewLists.size() * 10);
                 if (mPagerAction == null) {
                     mPagerAction = new Runnable() {

@@ -44,6 +44,7 @@ import com.songbao.sampo_b.widgets.RoundImageView;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -57,7 +58,7 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
     RoundImageView iv_head;
     TextView tv_nick, tv_gender, tv_birthday, tv_area, tv_intro;
 
-    private String nickStr, genderStr, birthdayStr, areaStr, introStr;
+    private String nickStr, birthdayStr, areaStr, introStr;
     private String changeStr, userKey, clip_head_path;
     private File saveFile;
     private int genderCode = 0;
@@ -69,7 +70,7 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_personal);
 
-        infoEn = (UserInfoEntity) getIntent().getExtras().get(AppConfig.PAGE_DATA);
+        infoEn = (UserInfoEntity) getIntent().getSerializableExtra(AppConfig.PAGE_DATA);
 
         findViewById();
         initView();
@@ -115,6 +116,7 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
             areaStr = userManager.getUserArea();
             introStr = userManager.getUserIntro();
         }
+        String genderStr;
         switch (genderCode) { //定义性别
             case 1:
                 genderStr = getString(R.string.mine_gender_male);
@@ -143,7 +145,7 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
     @Override
     public void onClick(View v) {
         if (ClickUtils.isDoubleClick()) return;
-        Intent intent = null;
+        Intent intent;
         switch (v.getId()) {
             case R.id.personal_rl_head:
                 if (!checkPermission()) return;
@@ -157,21 +159,21 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
                 intent.putExtra(EditUserInfoActivity.KEY_TIPS, "");
                 intent.putExtra(EditUserInfoActivity.KEY_USER, "nickname");
                 startActivityForResult(intent, AppConfig.ACTIVITY_CODE_USER_NICK);
-                return;
+                break;
             case R.id.personal_rl_gender:
                 SelectListEntity selectEn = getGenderListEntity();
                 intent = new Intent(mContext, SelectListActivity.class);
                 intent.putExtra(AppConfig.PAGE_TYPE, SelectListAdapter.DATA_TYPE_5);
                 intent.putExtra(AppConfig.PAGE_DATA, selectEn);
                 startActivityForResult(intent, AppConfig.ACTIVITY_CODE_USER_GENDER);
-                return;
+                break;
             case R.id.personal_rl_birthday:
                 showDateDialog();
                 break;
             case R.id.personal_rl_area:
                 intent = new Intent(mContext, SelectAreaActivity.class);
                 startActivityForResult(intent, AppConfig.ACTIVITY_CODE_USER_AREA);
-                return;
+                break;
             case R.id.personal_rl_intro:
                 intent = new Intent(mContext, EditUserInfoActivity.class);
                 intent.putExtra(EditUserInfoActivity.KEY_TITLE, getString(R.string.mine_change_intro));
@@ -180,10 +182,7 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
                 intent.putExtra(EditUserInfoActivity.KEY_TIPS, "");
                 intent.putExtra(EditUserInfoActivity.KEY_USER, "signature");
                 startActivityForResult(intent, AppConfig.ACTIVITY_CODE_USER_INTRO);
-                return;
-        }
-        if (intent != null) {
-            startActivity(intent);
+                break;
         }
     }
 
@@ -191,38 +190,7 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
         // 标记裁剪相片的类型为圆形
         shared.edit().putInt(AppConfig.KEY_CLIP_PHOTO_TYPE, AppConfig.PHOTO_TYPE_ROUND).apply();
         showListDialog(getString(R.string.photo_change_head), getResources().getStringArray(R.array.array_photo_choose),
-                screenWidth * 1 / 2, true, new Handler() {
-
-                    @Override
-                    public void handleMessage(Message msg) {
-                        super.handleMessage(msg);
-                        switch (msg.what) {
-                            case 0: //拍照
-                                String status = Environment.getExternalStorageState();
-                                if (status.equals(Environment.MEDIA_MOUNTED)) { //先验证手机是否有sdcard
-                                    try {
-                                        saveFile = BitmapUtil.createPath("IMG_" + System.currentTimeMillis() + ".jpg", true);
-                                        //注意：AndroidManifest.xml处的android:authorities必须跟getPackageName() + ".fileprovider"一样
-                                        Uri uri = FileProvider.getUriForFile(mContext, getPackageName() + ".fileprovider", saveFile);
-                                        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                                        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
-                                        intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
-                                        startActivityForResult(intent, AppConfig.ACTIVITY_CODE_VIA_CAMERA);
-                                    } catch (ActivityNotFoundException e) {
-                                        ExceptionUtil.handle(e);
-                                        CommonTools.showToast(getString(R.string.photo_save_directory_error));
-                                    }
-                                } else {
-                                    CommonTools.showToast(getString(R.string.photo_save_sd_error));
-                                }
-                                break;
-                            case 1: //本地
-                                openActivity(ClipPhotoGridActivity.class);
-                                break;
-                        }
-                    }
-
-                });
+                screenWidth/2, true, new MyHandler(this));
     }
 
     @SuppressWarnings("ResourceType")
@@ -251,13 +219,13 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 // 修改本地生日
                 String yearStr = year + "-";
-                String monthStr = "";
+                String monthStr;
                 if (monthOfYear < 9) {
                     monthStr = "0" + (monthOfYear + 1) + "-";
                 } else {
                     monthStr = (monthOfYear + 1) + "-";
                 }
-                String dayStr = "";
+                String dayStr;
                 if (dayOfMonth < 10) {
                     dayStr = "0" + dayOfMonth;
                 } else {
@@ -297,7 +265,7 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
                 startClipImageActivity(saveFile.getAbsolutePath());
             } else if (requestCode == AppConfig.ACTIVITY_CODE_USER_NICK) //修改昵称
             {
-                nickStr = data.getExtras().getString(AppConfig.ACTIVITY_KEY_USER_INFO);
+                nickStr = data.getStringExtra(AppConfig.ACTIVITY_KEY_USER_INFO);
                 if (infoEn != null) {
                     infoEn.setUserNick(nickStr);
                 }
@@ -305,7 +273,7 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
                 setView();
             } else if (requestCode == AppConfig.ACTIVITY_CODE_USER_GENDER) //修改性别
             {
-                genderCode = data.getExtras().getInt(AppConfig.ACTIVITY_KEY_SELECT_LIST, 1);
+                genderCode = data.getIntExtra(AppConfig.ACTIVITY_KEY_SELECT_LIST, 1);
                 if (infoEn != null) {
                     infoEn.setGenderCode(genderCode);
                 }
@@ -313,7 +281,7 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
                 setView();
             } else if (requestCode == AppConfig.ACTIVITY_CODE_USER_AREA) //修改地区
             {
-                areaStr = data.getExtras().getString(AppConfig.ACTIVITY_KEY_USER_INFO);
+                areaStr = data.getStringExtra(AppConfig.ACTIVITY_KEY_USER_INFO);
                 if (infoEn != null) {
                     infoEn.setUserArea(areaStr);
                 }
@@ -324,7 +292,7 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
                 saveUserInfo();
             } else if (requestCode == AppConfig.ACTIVITY_CODE_USER_INTRO) //修改简介
             {
-                introStr = data.getExtras().getString(AppConfig.ACTIVITY_KEY_USER_INFO);
+                introStr = data.getStringExtra(AppConfig.ACTIVITY_KEY_USER_INFO);
                 if (infoEn != null) {
                     infoEn.setUserIntro(introStr);
                 }
@@ -381,9 +349,9 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
         childEn2.setChildShowName(getString(R.string.mine_gender_female));
         childLists.add(childEn2);
         SelectListEntity childEn3 = new SelectListEntity();
-		childEn3.setChildId(3);
-		childEn3.setChildShowName(getString(R.string.mine_gender_confidential));
-		childLists.add(childEn3);
+        childEn3.setChildId(3);
+        childEn3.setChildShowName(getString(R.string.mine_gender_confidential));
+        childLists.add(childEn3);
         switch (genderCode) {
             case 1:
                 selectEn.setSelectEn(childEn1);
@@ -391,9 +359,9 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
             case 2:
                 selectEn.setSelectEn(childEn2);
                 break;
-		case 3:
-			selectEn.setSelectEn(childEn3);
-			break;
+            case 3:
+                selectEn.setSelectEn(childEn3);
+                break;
         }
         selectEn.setChildLists(childLists);
         return selectEn;
@@ -465,6 +433,60 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
     protected void loadFailHandle() {
         super.loadFailHandle();
         handleErrorCode(null);
+    }
+
+    static class MyHandler extends Handler {
+
+        WeakReference<PersonalActivity> mActivity;
+
+        MyHandler(PersonalActivity activity) {
+            mActivity = new WeakReference<>(activity);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            PersonalActivity theActivity = mActivity.get();
+            switch (msg.what) {
+                case 0: //拍照
+                    theActivity.openCamera();
+                    break;
+                case 1: //本地
+                    theActivity.openPhotoAlbum();
+                    break;
+            }
+        }
+    }
+
+    /**
+     * 开启拍照
+     */
+    private void openCamera() {
+        String status = Environment.getExternalStorageState();
+        if (status.equals(Environment.MEDIA_MOUNTED)) { //先验证手机是否有sdcard
+            try {
+                saveFile = BitmapUtil.createPath("IMG_" + System.currentTimeMillis() + ".jpg", true);
+                //注意：AndroidManifest.xml处的android:authorities必须跟getPackageName() + ".fileprovider"一样
+                Uri uri = FileProvider.getUriForFile(mContext, getPackageName() + ".fileprovider", saveFile);
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+                intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
+                startActivityForResult(intent, AppConfig.ACTIVITY_CODE_VIA_CAMERA);
+            } catch (ActivityNotFoundException e) {
+                ExceptionUtil.handle(e);
+                CommonTools.showToast(getString(R.string.photo_save_directory_error));
+            }
+        } else {
+            CommonTools.showToast(getString(R.string.photo_save_sd_error));
+        }
+    }
+
+    /**
+     * 本地相册
+     */
+    private void openPhotoAlbum() {
+        Intent intent = new Intent(mContext, ClipPhotoGridActivity.class);
+        intent.putExtra("isClip", true);
+        startActivity(intent);
     }
 
 }

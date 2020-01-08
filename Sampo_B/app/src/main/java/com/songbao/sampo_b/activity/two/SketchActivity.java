@@ -41,9 +41,8 @@ public class SketchActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_sketch);
 
-		Bundle bundle = getIntent().getExtras();
-		titleStr = bundle.getString("title");
-		lodUrl = bundle.getString("lodUrl");
+		titleStr = getIntent().getStringExtra("title");
+		lodUrl = getIntent().getStringExtra("lodUrl");
 
 		initView();
 	}

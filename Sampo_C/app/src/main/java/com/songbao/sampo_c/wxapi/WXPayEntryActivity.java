@@ -1,7 +1,6 @@
 package com.songbao.sampo_c.wxapi;
 
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -37,6 +36,7 @@ import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
 import org.json.JSONObject;
 
+import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -65,33 +65,12 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
     private RelativeLayout rl_select_wx, rl_select_zfb, rl_select_union;
     private Button btn_confirm;
 
+    private MyHandler myHandler;
+    private String orderSn, orderTotal;
     private int payStatus = PAY_CANCEL; //支付状态
     private int payType = PAY_WX; //支付类型
     private int checkCount = 0; //查询支付结果的次数
     private int pageType = 0; //1:报名支付、预约支付
-    private String orderSn, orderTotal;
-
-    @SuppressLint("HandlerLeak")
-    private Handler mHandler = new Handler() {
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case SDK_ZFB_PAY_FLAG: {
-                    PayResult payResult = new PayResult((Map<String, String>) msg.obj);
-                    // 对于支付结果，请商户依赖服务端的异步通知结果。同步通知结果，仅作为支付结束的通知。
-                    String resultStatus = payResult.getResultStatus();
-                    // 判断resultStatus 为“9000”则代表支付成功
-                    if (TextUtils.equals(resultStatus, "9000")) {
-                        checkPayResult();
-                    } else if (TextUtils.equals(resultStatus, "6001")) {
-                        showPayResult(PAY_CANCEL);
-                    } else {
-                        showPayResult(PAY_FAIL);
-                    }
-                    break;
-                }
-            }
-        }
-    };
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -104,6 +83,8 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
 
         api = WXAPIFactory.createWXAPI(mContext, AppConfig.WX_APP_ID);
         api.registerApp(AppConfig.WX_APP_ID);
+
+        myHandler = new MyHandler(this);
 
         findViewById();
         initView();
@@ -258,17 +239,7 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
     }
 
     private void ask4Leave() {
-        showConfirmDialog(R.string.pay_abandon, getString(R.string.leave_confirm),
-                getString(R.string.pay_continue), true, true, new Handler() {
-                    @Override
-                    public void handleMessage(Message msg) {
-                        switch (msg.what) {
-                            case AppConfig.DIALOG_CLICK_NO:
-                                finish();
-                                break;
-                        }
-                    }
-                });
+        showConfirmDialog(getString(R.string.pay_abandon), getString(R.string.leave_confirm), getString(R.string.pay_continue), myHandler);
     }
 
     @Override
@@ -356,7 +327,7 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
 				Message msg = new Message();
 				msg.what = SDK_ZFB_PAY_FLAG;
 				msg.obj = result;
-				mHandler.sendMessage(msg);*/
+				myHandler.sendMessage(msg);*/
             }
         };
         // 必须异步调用
@@ -406,7 +377,7 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
         if (data == null) return;
         int payCode = PAY_FAIL;
         // 银联手机支付控件返回字符串:success、fail、cancel 分别代表支付成功，支付失败，支付取消
-        String str = data.getExtras().getString("pay_result");
+        String str = data.getStringExtra("pay_result");
         if (str.equalsIgnoreCase("success")) {
             payCode = PAY_SUCCESS;
         } else if (str.equalsIgnoreCase("cancel")) {
@@ -509,6 +480,46 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
             case PAY_ERROR:
                 showErrorDialog(getString(R.string.pay_result_error));
                 break;
+        }
+    }
+
+    static class MyHandler extends Handler {
+
+        WeakReference<WXPayEntryActivity> mActivity;
+
+        MyHandler(WXPayEntryActivity activity) {
+            mActivity = new WeakReference<>(activity);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            WXPayEntryActivity theActivity = mActivity.get();
+            switch (msg.what) {
+                case AppConfig.DIALOG_CLICK_NO:
+                    theActivity.finish();
+                    break;
+                case SDK_ZFB_PAY_FLAG: {
+                    theActivity.handlerZFBResult(msg);
+                    break;
+                }
+            }
+        }
+    }
+
+    /**
+     * 支付宝回调结果处理
+     */
+    private void handlerZFBResult(Message msg) {
+        PayResult payResult = new PayResult((Map<String, String>) msg.obj);
+        // 对于支付结果，请商户依赖服务端的异步通知结果。同步通知结果，仅作为支付结束的通知。
+        String resultStatus = payResult.getResultStatus();
+        // 判断resultStatus 为“9000”则代表支付成功
+        if (TextUtils.equals(resultStatus, "9000")) {
+            checkPayResult();
+        } else if (TextUtils.equals(resultStatus, "6001")) {
+            showPayResult(PAY_CANCEL);
+        } else {
+            showPayResult(PAY_FAIL);
         }
     }
 

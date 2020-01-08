@@ -88,6 +88,10 @@ public class AppConfig {
 	public final static String URL_USER_ORDER = "app/user/order";
 	// "我的"动态数据
 	public final static String URL_USER_DYNAMIC = "app/user/dynamic";
+	// 驻店设计
+	public final static String URL_USER_DESIGNER = "app/user/designer/getList";
+	// 提交定制
+	public final static String URL_BOOKING_CREATE = "trade/app/booking/create";
 
 	// 分类列表
 	public final static String URL_SORT_LIST = "app/shopping/getCatInfo";
@@ -188,6 +192,8 @@ public class AppConfig {
 	public static final int REQUEST_SV_USER_RESERVATION = 0X3009;
 	// "我的"动态数据
 	public static final int REQUEST_SV_USER_DYNAMIC = 0X3010;
+	// 驻店设计
+	public static final int REQUEST_SV_USER_DESIGNER = 0X3007;
 
 	// 获取分类列表
 	public static final int REQUEST_SV_SORT_LIST = 0X4001;
@@ -209,6 +215,8 @@ public class AppConfig {
 	public static final int REQUEST_SV_CART_GET = 0X4011;
 	// 获取设计师列表
 	public static final int REQUEST_SV_DESIGN_ALL = 0X4020;
+	// 提交定制
+	public static final int REQUEST_SV_BOOKING_CREATE = 0X4202;
 
 	// 上传评论照片
 	public static final int REQUEST_SV_UPLOAD_COMMENT_PHOTO = 0X5001;
@@ -427,6 +435,7 @@ public class AppConfig {
 	public static final int ACTIVITY_CODE_RESERVE_POS = 0X9008;
 	public static final int ACTIVITY_CODE_SELECT_ADDS = 0X9009;
 	public static final int ACTIVITY_CODE_EDIT_ADDRESS = 0X9010;
+	public static final int ACTIVITY_CODE_ORDER_UPDATE = 0X9011;
 
 	/**
 	 ******************************************* Activity协议结束 ******************************************

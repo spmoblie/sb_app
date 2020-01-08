@@ -377,6 +377,18 @@ public class JsonUtils {
     }
 
     /**
+     * 解析提交定制订单返回数据
+     */
+    public static BaseEntity getCustomizeResult(JSONObject jsonObject) throws JSONException {
+        BaseEntity mainEn = getCommonKeyValue(jsonObject);
+
+        if (StringUtil.notNull(jsonObject, "data")) {
+            mainEn.setData(jsonObject.getString("data"));
+        }
+        return mainEn;
+    }
+
+    /**
      * 解析我的购买数据
      */
     public static BaseEntity getMyPurchaseData(JSONObject jsonObject) throws JSONException {

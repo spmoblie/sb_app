@@ -673,15 +673,15 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 		screenStr = "";
 		isScreen = false;
 		ArrayList<GoodsAttrEntity> attrList = attrEn.getAttrLists();
-		StringBuffer sb = new StringBuffer();
+		StringBuilder sb = new StringBuilder();
 		for (int i = 0; i < attrList.size()-1; i++) {
 			GoodsAttrEntity attr = attrList.get(i);
 			String attrNameStr = attr.getAttrNameStr();
 			if (!StringUtil.isNull(attrNameStr)) {
 				String[] names = attrNameStr.split("_");
-				for (int j = 0; j < names.length; j++) {
-					if (!StringUtil.isNull(names[j])) {
-						sb.append(names[j]);
+				for (String name: names) {
+					if (!StringUtil.isNull(name)) {
+						sb.append(name);
 						sb.append("|");
 					}
 				}
