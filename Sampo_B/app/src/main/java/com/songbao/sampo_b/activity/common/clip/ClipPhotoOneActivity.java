@@ -23,10 +23,9 @@ public class ClipPhotoOneActivity extends BaseActivity {
     String TAG = ClipPhotoOneActivity.class.getSimpleName();
 
     private GridView gv;
-    private ClipPhotoEntity album, photoItem;
-    private ClipPhotoOneAdapter adapter;
     private int sizeNub;
     private boolean isClip;
+    private ClipPhotoEntity album, photoItem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +33,7 @@ public class ClipPhotoOneActivity extends BaseActivity {
         setContentView(R.layout.activity_clip_photo_one);
 
         isClip = getIntent().getBooleanExtra("isClip", false);
-        album = (ClipPhotoEntity) getIntent().getExtras().get("album");
+        album = (ClipPhotoEntity) getIntent().getSerializableExtra("album");
 
         findViewById();
         initView();
@@ -48,8 +47,7 @@ public class ClipPhotoOneActivity extends BaseActivity {
         setTitle(R.string.photo_select_one_title);
 
         sizeNub = album.getBitList().size();
-        adapter = new ClipPhotoOneAdapter(mContext, album);
-        gv.setAdapter(adapter);
+        gv.setAdapter(new ClipPhotoOneAdapter(mContext, album));
         gv.setSelector(R.color.ui_color_app_bg_01);
         gv.setOnItemClickListener(gvItemClickListener);
     }

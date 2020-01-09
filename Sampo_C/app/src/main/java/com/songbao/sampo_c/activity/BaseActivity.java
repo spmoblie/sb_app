@@ -75,7 +75,6 @@ import com.songbao.sampo_c.utils.LogUtil;
 import com.songbao.sampo_c.utils.MyCountDownTimer;
 import com.songbao.sampo_c.utils.StringUtil;
 import com.songbao.sampo_c.utils.UserManager;
-import com.songbao.sampo_c.utils.retrofit.Fault;
 import com.songbao.sampo_c.utils.retrofit.HttpRequests;
 import com.songbao.sampo_c.widgets.RoundImageView;
 import com.songbao.sampo_c.widgets.share.ShareView;
@@ -84,6 +83,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.lang.ref.WeakReference;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -204,8 +204,8 @@ public class BaseActivity extends FragmentActivity {
             }
         });
 
-        inAnim = new AnimationUtils().loadAnimation(mContext, R.anim.in_from_right);
-        outAnim = new AnimationUtils().loadAnimation(mContext, R.anim.out_to_left);
+        inAnim = AnimationUtils.loadAnimation(mContext, R.anim.in_from_right);
+        outAnim = AnimationUtils.loadAnimation(mContext, R.anim.out_to_left);
 
         setNullVisibility(View.GONE);
     }
@@ -464,9 +464,9 @@ public class BaseActivity extends FragmentActivity {
     /**
      * 打开商品详情页
      */
-    protected void openGoodsActivity(String skuCode) {
+    protected void openGoodsActivity(String goodsCode) {
         Intent intent = new Intent(mContext, GoodsActivity.class);
-        intent.putExtra("skuCode", skuCode);
+        intent.putExtra("goodsCode", goodsCode);
         startActivity(intent);
     }
 
@@ -557,9 +557,9 @@ public class BaseActivity extends FragmentActivity {
         List<String> mPermissionList = new ArrayList<>();
         String[] permissions = AppConfig.PERMISSIONS;
         // 判断哪些权限未授予
-        for (int i = 0; i < permissions.length; i++) {
-            if (ContextCompat.checkSelfPermission(this, permissions[i]) != PackageManager.PERMISSION_GRANTED) {
-                mPermissionList.add(permissions[i]);
+        for (String pmsStr: permissions) {
+            if (ContextCompat.checkSelfPermission(this, pmsStr) != PackageManager.PERMISSION_GRANTED) {
+                mPermissionList.add(pmsStr);
             }
         }
         if (!mPermissionList.isEmpty()) {
@@ -634,12 +634,7 @@ public class BaseActivity extends FragmentActivity {
      */
     protected void showTimeOutDialog() {
         AppApplication.AppLogout();
-        showErrorDialog(getString(R.string.login_timeout), true, new Handler() {
-            @Override
-            public void handleMessage(Message msg) {
-                openLoginActivity();
-            }
-        });
+        showErrorDialog(getString(R.string.login_timeout), true, new TimeOutHandler(this));
     }
 
     /**
@@ -747,29 +742,33 @@ public class BaseActivity extends FragmentActivity {
     /**
      * 可输入的对话框
      */
-    protected void showEditDialog(String title, int inputType, boolean isVanish, final Handler handler) {
+    protected void showEditDialog(String title, int inputType, Handler handler) {
+        showEditDialog(title, inputType, true, handler);
+    }
+
+    protected void showEditDialog(String title, int inputType, boolean isVanish, Handler handler) {
+        showEditDialog(title, dialogWidth, inputType, isVanish, handler);
+    }
+
+    protected void showEditDialog(String title, int width, int inputType, boolean isVanish, Handler handler) {
         if (myDialog == null) {
             myDialog = DialogManager.getInstance(mContext);
         }
-        myDialog.showEditDialog(title, dialogWidth, inputType, isVanish, handler);
+        myDialog.showEditDialog(title, width, inputType, isVanish, handler);
     }
 
     /**
      * 列表展示对话框
      */
-    protected void showListDialog(int contentResId, CharSequence[] items, boolean isCenter, final Handler handler) {
-        showListDialog(contentResId, items, dialogWidth, isCenter, handler);
+    protected void showListDialog(String content, CharSequence[] items, Handler handler) {
+        showListDialog(content, items, true, handler);
     }
 
-    protected void showListDialog(int contentResId, CharSequence[] items, int width, boolean isCenter, final Handler handler) {
-        showListDialog(getString(contentResId), items, width, isCenter, handler);
-    }
-
-    protected void showListDialog(String content, CharSequence[] items, boolean isCenter, final Handler handler) {
+    protected void showListDialog(String content, CharSequence[] items, boolean isCenter, Handler handler) {
         showListDialog(content, items, dialogWidth, isCenter, handler);
     }
 
-    protected void showListDialog(String content, CharSequence[] items, int width, boolean isCenter, final Handler handler) {
+    protected void showListDialog(String content, CharSequence[] items, int width, boolean isCenter, Handler handler) {
         if (myDialog == null) {
             myDialog = DialogManager.getInstance(mContext);
         }
@@ -787,7 +786,7 @@ public class BaseActivity extends FragmentActivity {
             if (mShareView.isShowing()) {
                 mShareView.showShareLayer(false);
             } else {
-                /*if (!UserManager.getInstance().checkIsLogined()) {
+                /*if (!UserManager.getInstance().checkIsLogin()) {
                     openLoginActivity();
 					return;
 				}*/
@@ -838,7 +837,9 @@ public class BaseActivity extends FragmentActivity {
      */
     protected void hideSoftInput(View view) {
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(view.getWindowToken(), 0); //强制隐藏
+        if (imm != null) {
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0); //强制隐藏
+        }
     }
 
     /**
@@ -846,7 +847,9 @@ public class BaseActivity extends FragmentActivity {
      */
     protected void toggleSoftInput() {
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+        if (imm != null) {
+            imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+        }
     }
 
     /**
@@ -894,6 +897,20 @@ public class BaseActivity extends FragmentActivity {
      */
     protected void onTimerFinish() {
         isTimeFinish = true;
+    }
+
+    /**
+     * List数据类型转换
+     */
+    public static <T> ArrayList<T> castList(Object obj, Class<T> clazz) {
+        ArrayList<T> result = new ArrayList<>();
+        if(obj instanceof List<?>) {
+            for (Object o : (List<?>) obj) {
+                result.add(clazz.cast(o));
+            }
+            return result;
+        }
+        return null;
     }
 
     /**
@@ -970,16 +987,6 @@ public class BaseActivity extends FragmentActivity {
 
                     @Override
                     public void onError(Throwable throwable) {
-                        if (throwable instanceof Fault) {
-                            Fault fault = (Fault) throwable;
-                            if (fault.getErrorCode() == 404) {
-                                //错误处理
-                            } else if (fault.getErrorCode() == 500) {
-                                //错误处理
-                            }
-                        } else {
-                            //错误处理
-                        }
                         loadFailHandle();
                         LogUtil.i(LogUtil.LOG_HTTP, "error message : " + throwable.getMessage());
                     }
@@ -1023,7 +1030,7 @@ public class BaseActivity extends FragmentActivity {
 
                     @Override
                     public void onError(Throwable throwable) {
-                        if (throwable instanceof Fault) {
+                        /*if (throwable instanceof Fault) {
                             Fault fault = (Fault) throwable;
                             if (fault.getErrorCode() == 404) {
                                 //错误处理
@@ -1032,7 +1039,7 @@ public class BaseActivity extends FragmentActivity {
                             }
                         } else {
                             //错误处理
-                        }
+                        }*/
                         loadFailHandle();
                         LogUtil.i(LogUtil.LOG_HTTP, "error message : " + throwable.getMessage());
                     }
@@ -1088,16 +1095,6 @@ public class BaseActivity extends FragmentActivity {
 
                     @Override
                     public void onError(Throwable throwable) {
-                        if (throwable instanceof Fault) {
-                            Fault fault = (Fault) throwable;
-                            if (fault.getErrorCode() == 404) {
-                                //错误处理
-                            } else if (fault.getErrorCode() == 500) {
-                                //错误处理
-                            }
-                        } else {
-                            //错误处理
-                        }
                         loadFailHandle();
                         LogUtil.i(LogUtil.LOG_HTTP, "error message : " + throwable.getMessage());
                     }
@@ -1206,7 +1203,7 @@ public class BaseActivity extends FragmentActivity {
     private void initAttrPopup() {
         if (attrEn == null) return;
         if (cartPopupWindow == null) {
-            cartPopupView = LayoutInflater.from(mContext).inflate(R.layout.popup_view_attr, null);
+            cartPopupView = View.inflate(mContext, R.layout.popup_view_attr, null);
             View view_finish = cartPopupView.findViewById(R.id.attr_view_finish);
             view_finish.setOnClickListener(new OnClickListener() {
                 @Override
@@ -1396,6 +1393,20 @@ public class BaseActivity extends FragmentActivity {
     private void dismissAttrPopup() {
         if (popupShowMain != null) {
             popupShowMain.startAnimation(popupAnimGone);
+        }
+    }
+
+    static class TimeOutHandler extends Handler {
+
+        WeakReference<BaseActivity> mActivity;
+
+        TimeOutHandler(BaseActivity activity) {
+            mActivity = new WeakReference<>(activity);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            mActivity.get().openLoginActivity();
         }
     }
 

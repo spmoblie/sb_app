@@ -15,14 +15,13 @@ import com.bumptech.glide.Glide;
 import com.songbao.sampo_b.AppApplication;
 import com.songbao.sampo_b.R;
 import com.songbao.sampo_b.entity.CommentEntity;
-import com.songbao.sampo_b.utils.ClickUtils;
 import com.songbao.sampo_b.utils.CommonTools;
 import com.songbao.sampo_b.utils.StringUtil;
 import com.songbao.sampo_b.widgets.RoundImageView;
 
 import java.util.ArrayList;
 
-public class CommentGRCAdapter extends BaseRecyclerAdapter {
+public class CommentGRCAdapter extends BaseRecyclerAdapter<CommentEntity> {
 
     private int imageTotalWidth;
     private RelativeLayout.LayoutParams goodsImgLP;
@@ -50,7 +49,7 @@ public class CommentGRCAdapter extends BaseRecyclerAdapter {
         TextView tv_add_content = holder.getView(R.id.comment_goods_item_tv_add_content);
 
         // 绑定View
-        final CommentEntity data = (CommentEntity) mDataList.get(pos);
+        final CommentEntity data = mDataList.get(pos);
 
         Glide.with(AppApplication.getAppContext())
                 .load(data.getHeadUrl())
@@ -117,9 +116,7 @@ public class CommentGRCAdapter extends BaseRecyclerAdapter {
             iv_img.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (ClickUtils.isDoubleClick()) return;
-                    if (apCallback != null) {
-                    }
+
                 }
             });
 

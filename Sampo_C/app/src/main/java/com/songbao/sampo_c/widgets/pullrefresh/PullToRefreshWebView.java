@@ -1,6 +1,5 @@
 package com.songbao.sampo_c.widgets.pullrefresh;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.webkit.WebView;
@@ -11,26 +10,26 @@ import android.webkit.WebView;
 public class PullToRefreshWebView extends PullToRefreshBase<WebView> {
     /**
      * 构造方法
-     * 
+     *
      * @param context context
      */
     public PullToRefreshWebView(Context context) {
         this(context, null);
     }
-    
+
     /**
      * 构造方法
-     * 
+     *
      * @param context context
      * @param attrs attrs
      */
     public PullToRefreshWebView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
-    
+
     /**
      * 构造方法
-     * 
+     *
      * @param context context
      * @param attrs attrs
      * @param defStyle defStyle
@@ -39,29 +38,17 @@ public class PullToRefreshWebView extends PullToRefreshBase<WebView> {
         super(context, attrs, defStyle);
     }
 
-    /**
-     * @see com.nj1s.lib.pullrefresh.PullToRefreshBase#createRefreshableView(android.content.Context, android.util.AttributeSet)
-     */
     @Override
     protected WebView createRefreshableView(Context context, AttributeSet attrs) {
-        WebView webView = new WebView(context);
-        return webView;
+        return new WebView(context);
     }
 
-    /**
-     * @see com.nj1s.lib.pullrefresh.PullToRefreshBase#isReadyForPullDown()
-     */
     @Override
     protected boolean isReadyForPullDown() {
         return mRefreshableView.getScrollY() == 0;
     }
 
-    /**
-     * @see com.nj1s.lib.pullrefresh.PullToRefreshBase#isReadyForPullUp()
-     */
-    @SuppressLint("FloatMath")
-	@SuppressWarnings("deprecation")
-	@Override
+    @Override
     protected boolean isReadyForPullUp() {
         float exactContentHeight = (float) Math.floor(mRefreshableView.getContentHeight() * mRefreshableView.getScale());
         return mRefreshableView.getScrollY() >= (exactContentHeight - mRefreshableView.getHeight());

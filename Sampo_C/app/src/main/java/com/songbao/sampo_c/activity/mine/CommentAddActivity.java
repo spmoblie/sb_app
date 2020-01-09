@@ -151,11 +151,11 @@ public class CommentAddActivity extends BaseActivity implements OnClickListener 
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.comment_add_tv_post:
-			if (checkData()) {
-				postData();
-			}
-			break;
+			case R.id.comment_add_tv_post:
+				if (checkData()) {
+					postData();
+				}
+				break;
 		}
 	}
 
@@ -167,7 +167,7 @@ public class CommentAddActivity extends BaseActivity implements OnClickListener 
 
 		super.onResume();
 	}
-	
+
 	@Override
 	protected void onPause() {
 		LogUtil.i(LogUtil.LOG_TAG, TAG + ": onPause");
@@ -187,10 +187,10 @@ public class CommentAddActivity extends BaseActivity implements OnClickListener 
 		new Handler().postDelayed(new Runnable() {
 			@Override
 			public void run() {
-				CommonTools.showToast("发布成功，待审核~");
+				CommonTools.showToast(contentStr + "发布成功，待审核~");
 				stopAnimation();
 			}
 		}, AppConfig.LOADING_TIME);
 	}
-	
+
 }

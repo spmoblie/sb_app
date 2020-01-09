@@ -802,7 +802,7 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 
 	@Override
 	protected void callbackData(JSONObject jsonObject, int dataType) {
-		BaseEntity baseEn;
+		BaseEntity<GoodsEntity> baseEn;
 		try {
 			switch (dataType) {
 				case AppConfig.REQUEST_SV_GOODS_LIST:

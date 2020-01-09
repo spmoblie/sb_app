@@ -3,7 +3,7 @@ package com.songbao.sampo_c.entity;
 public class AddressEntity extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private int id;
 	private String name; //联系人
 	private String phone; //手机
@@ -19,8 +19,9 @@ public class AddressEntity extends BaseEntity {
 	private String editAdd; //编辑地址
 	private String address; //详细地址
 	private boolean isSelect; //是否选择
+	private boolean isDefault; //是否默认
 
-	
+
 	public AddressEntity() {
 		super();
 	}
@@ -76,7 +77,7 @@ public class AddressEntity extends BaseEntity {
 	public void setCountryId(int countryId) {
 		this.countryId = countryId;
 	}
-	
+
 
 	public String getCountry() {
 		return country;
@@ -117,7 +118,7 @@ public class AddressEntity extends BaseEntity {
 		this.cityId = cityId;
 	}
 
-	
+
 	public String getCity() {
 		return city;
 	}
@@ -136,7 +137,7 @@ public class AddressEntity extends BaseEntity {
 	public void setDistrictId(int districtId) {
 		this.districtId = districtId;
 	}
-	
+
 
 	public String getDistrict() {
 		return district;
@@ -173,5 +174,13 @@ public class AddressEntity extends BaseEntity {
 
 	public void setSelect(boolean select) {
 		isSelect = select;
+	}
+
+	public boolean isDefault() {
+		return isDefault;
+	}
+
+	public void setDefault(boolean aDefault) {
+		isDefault = aDefault;
 	}
 }

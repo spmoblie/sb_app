@@ -37,13 +37,13 @@ public class ClipPhotoGridActivity extends BaseActivity {
 
 	// 设置获取图片的字段信
 	private static final String[] STORE_IMAGES = {
-		MediaStore.Images.Media.DISPLAY_NAME, // 显示的名称
-		MediaStore.Images.Media.LATITUDE, // 维度
-		MediaStore.Images.Media.LONGITUDE, // 经度
-		MediaStore.Images.Media._ID, // id
-		MediaStore.Images.Media.BUCKET_ID, // dir id 目录
-		MediaStore.Images.Media.BUCKET_DISPLAY_NAME, // dir name 目录名字
-		MediaStore.Images.Media.DATA // 图片路径
+			MediaStore.Images.Media.DISPLAY_NAME, // 显示的名称
+			MediaStore.Images.Media.LATITUDE, // 维度
+			MediaStore.Images.Media.LONGITUDE, // 经度
+			MediaStore.Images.Media._ID, // id
+			MediaStore.Images.Media.BUCKET_ID, // dir id 目录
+			MediaStore.Images.Media.BUCKET_DISPLAY_NAME, // dir name 目录名字
+			MediaStore.Images.Media.DATA // 图片路径
 	};
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +55,7 @@ public class ClipPhotoGridActivity extends BaseActivity {
 		findViewById();
 		initView();
 	}
-	
+
 	private void findViewById() {
 		gv_album = findViewById(R.id.clip_photo_list_gv);
 	}
@@ -72,7 +72,7 @@ public class ClipPhotoGridActivity extends BaseActivity {
 		gv_album.setOnItemClickListener(albumClickListener);
 		gv_album.setSelector(R.color.ui_color_app_bg_01);
 	}
-	
+
 	@Override
 	public void OnListenerRight() {
 		if (albumList.size() > 0) {
@@ -91,7 +91,7 @@ public class ClipPhotoGridActivity extends BaseActivity {
 		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 		startActivity(intent);
 	}
-	
+
 	@Override
 	protected void onResume() {
 		LogUtil.i(LogUtil.LOG_TAG, TAG + ": onResume");
@@ -100,7 +100,7 @@ public class ClipPhotoGridActivity extends BaseActivity {
 
 		super.onResume();
 	}
-	
+
 	@Override
 	protected void onPause() {
 		LogUtil.i(LogUtil.LOG_TAG, TAG + ": onPause");
@@ -114,7 +114,7 @@ public class ClipPhotoGridActivity extends BaseActivity {
 	protected void onDestroy() {
 		super.onDestroy();
 	}
-	
+
 	/**
 	 * 相册点击事件
 	 */
@@ -130,8 +130,8 @@ public class ClipPhotoGridActivity extends BaseActivity {
 	 */
 	private List<ClipPhotoEntity> getPhotoAlbum() {
 		Cursor cursor = MediaStore.Images.Media.query(getContentResolver(), MediaStore.Images.Media.EXTERNAL_CONTENT_URI, STORE_IMAGES);
-		List<ClipPhotoEntity> albumList = new ArrayList<ClipPhotoEntity>();
-		Map<String, ClipPhotoEntity> countMap = new HashMap<String, ClipPhotoEntity>();
+		List<ClipPhotoEntity> albumList = new ArrayList<>();
+		Map<String, ClipPhotoEntity> countMap = new HashMap<>();
 		ClipPhotoEntity pa;
 		while (cursor.moveToNext()) {
 			String id = cursor.getString(3);
@@ -159,5 +159,5 @@ public class ClipPhotoGridActivity extends BaseActivity {
 		}
 		return albumList;
 	}
-	
+
 }

@@ -30,7 +30,7 @@ public class FeedBackActivity extends BaseActivity implements OnClickListener {
 	Button btn_submit;
 
 	private String contentStr;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -57,11 +57,11 @@ public class FeedBackActivity extends BaseActivity implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.feed_back_btn_submit:
-			if (checkData()) {
-				postData();
-			}
-			break;
+			case R.id.feed_back_btn_submit:
+				if (checkData()) {
+					postData();
+				}
+				break;
 		}
 	}
 
@@ -73,7 +73,7 @@ public class FeedBackActivity extends BaseActivity implements OnClickListener {
 
 		super.onResume();
 	}
-	
+
 	@Override
 	protected void onPause() {
 		LogUtil.i(LogUtil.LOG_TAG, TAG + ": onPause");
@@ -93,10 +93,11 @@ public class FeedBackActivity extends BaseActivity implements OnClickListener {
 		new Handler().postDelayed(new Runnable() {
 			@Override
 			public void run() {
+				CommonTools.showToast(contentStr);
 				CommonTools.showToast(getString(R.string.setting_feedback_post_ok));
 				stopAnimation();
 			}
 		}, AppConfig.LOADING_TIME);
 	}
-	
+
 }

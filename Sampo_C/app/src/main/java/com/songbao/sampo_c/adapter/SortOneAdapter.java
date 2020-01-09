@@ -11,7 +11,7 @@ import com.songbao.sampo_c.entity.GoodsSortEntity;
 
 import java.util.List;
 
-public class SortOneAdapter extends BaseRecyclerAdapter {
+public class SortOneAdapter extends BaseRecyclerAdapter<GoodsSortEntity> {
 
     private int selectPos = 0;
 
@@ -38,7 +38,7 @@ public class SortOneAdapter extends BaseRecyclerAdapter {
         TextView tv_name = holder.getView(R.id.sort_one_item_tv_name);
 
         // 绑定View
-        final GoodsSortEntity data = (GoodsSortEntity) mDataList.get(pos);
+        final GoodsSortEntity data = mDataList.get(pos);
 
         if (pos == 0) {
             rl_top.setVisibility(View.VISIBLE);

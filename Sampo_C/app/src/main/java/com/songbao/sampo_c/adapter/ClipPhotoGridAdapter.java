@@ -5,7 +5,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.provider.MediaStore;
 import android.provider.MediaStore.Images.Thumbnails;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -23,7 +22,7 @@ import java.util.List;
 /**
  * 选择相册适配器
  */
-public class ClipPhotoGridAdapter extends AppBaseAdapter {
+public class ClipPhotoGridAdapter extends AppBaseAdapter<ClipPhotoEntity> {
 
 	private BitmapFactory.Options options;
 	private LinearLayout.LayoutParams imageLP;
@@ -52,7 +51,7 @@ public class ClipPhotoGridAdapter extends AppBaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		ViewHolder holder;
 		if (convertView == null) {
-			convertView = LayoutInflater.from(context).inflate(R.layout.item_list_photo_select, null);
+			convertView = View.inflate(context, R.layout.item_list_photo_select, null);
 			holder = new ViewHolder();
 			holder.tv =  convertView.findViewById(R.id.photo_item_name);
 			holder.iv = convertView.findViewById(R.id.photo_item_image);
@@ -61,13 +60,13 @@ public class ClipPhotoGridAdapter extends AppBaseAdapter {
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
-		/** 通过ID 获取缩略图 */
-		ClipPhotoEntity data = (ClipPhotoEntity) mDataList.get(position);
+		// 通过ID 获取缩略图
+		ClipPhotoEntity data = mDataList.get(position);
 
 		Bitmap bitmap = MediaStore.Images.Thumbnails.getThumbnail(context .getContentResolver(),
 				data.getFirstId(), Thumbnails.MINI_KIND, options);
 		holder.iv.setImageBitmap(bitmap);
-		holder.tv.setText(data.getName() + " ( " + data.getCount() + " )");
+		holder.tv.setText(context.getString(R.string.photo_show_number, data.getName(), data.getCount()));
 
 		return convertView;
 	}

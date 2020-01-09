@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.NonNull;
 import android.support.v4.util.ArrayMap;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -15,7 +16,6 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.songbao.sampo_c.AppApplication;
 import com.songbao.sampo_c.AppConfig;
@@ -29,6 +29,7 @@ import com.songbao.sampo_c.widgets.DragImageView;
 import com.songbao.sampo_c.widgets.IViewPager;
 
 import java.io.File;
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 /**
@@ -43,20 +44,19 @@ public class ViewPagerActivity extends BaseActivity {
 	public static final String HASH_MAP_KEY_IMG = "img";
 	public static final String HASH_MAP_KEY_BAR = "bar";
 	public static final String HASH_MAP_KEY_BTM = "btm";
-	
-	private ArrayList<String> urlLists;
-	private ArrayList<View> viewLists = new ArrayList<View>();
-	private ArrayList<DragImageView> imgLists = new ArrayList<DragImageView>();
-	private ArrayMap<String, DragImageView> am_img = new ArrayMap<String, DragImageView>();
-	private ArrayMap<String, ProgressBar> am_bar = new ArrayMap<String, ProgressBar>();
-	private ArrayMap<String, Bitmap> am_btm = new ArrayMap<String, Bitmap>();
-	private int mCurrentItem;
+
 	private TextView tv_save, tv_page;
-	private FrameLayout frameLayout;
-	private ProgressBar progress;
-	private DragImageView imageView, showView;
 	private IViewPager viewPager;
+	private DragImageView showView;
 	private AsyncImageLoader asyncImageLoader;
+
+	private int mCurrentItem;
+	private ArrayList<String> urlLists;
+	private ArrayList<View> viewLists = new ArrayList<>();
+	private ArrayList<DragImageView> imgLists = new ArrayList<>();
+	private ArrayMap<String, DragImageView> am_img = new ArrayMap<>();
+	private ArrayMap<String, ProgressBar> am_bar = new ArrayMap<>();
+	private ArrayMap<String, Bitmap> am_btm = new ArrayMap<>();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -76,20 +76,11 @@ public class ViewPagerActivity extends BaseActivity {
 		tv_save = findViewById(R.id.my_image_save);
 		tv_page = findViewById(R.id.my_viewpager_tv_page);
 	}
-	
+
 	private void initViewPager() {
 		setHeadVisibility(View.GONE);
 		if (urlLists == null) {
-			showErrorDialog(null, false, new Handler() {
-				@Override
-				public void handleMessage(Message msg) {
-					switch (msg.what) {
-						case AppConfig.DIALOG_CLICK_OK:
-							finish();
-							break;
-					}
-				}
-			});
+			showErrorDialog(null, false, new MyHandler(this));
 			return;
 		}
 		setPageNum(urlLists.size());
@@ -118,14 +109,14 @@ public class ViewPagerActivity extends BaseActivity {
 		for (int i = 0; i < urlLists.size(); i++) {
 			String imgUrl = urlLists.get(i);
 			// 创建父布局
-			frameLayout = new FrameLayout(getApplicationContext());
+			FrameLayout frameLayout = new FrameLayout(getApplicationContext());
 			frameLayout.setLayoutParams(lp_m);
 			// 创建子布局-加载动画
-			progress = new ProgressBar(getApplicationContext());
+			ProgressBar progress = new ProgressBar(getApplicationContext());
 			progress.setVisibility(View.GONE);
 			progress.setLayoutParams(lp_w);
 			// 创建子布局-显示图片
-			imageView = new DragImageView(getApplicationContext());
+			DragImageView imageView = new DragImageView(getApplicationContext());
 			imageView.setLayoutParams(lp_m);
 			imageView.setmActivity(this);
 			imageView.setScreen_H(screenHeight - statusHeight);
@@ -177,72 +168,68 @@ public class ViewPagerActivity extends BaseActivity {
 		}
 		initShowView();
 		viewPager.setAdapter(new PagerAdapter()
-        {
-            // 创建
-            @Override
-            public Object instantiateItem(View container, int position)
-            {
-                View layout = viewLists.get(position % viewLists.size());
-                viewPager.addView(layout);
+		{
+			// 创建
+			@NonNull
+			@Override
+			public Object instantiateItem(@NonNull ViewGroup container, int position) {
+				View layout = viewLists.get(position % viewLists.size());
+				viewPager.addView(layout);
 				return layout;
-            }
-            
-            // 销毁
-            @Override
-            public void destroyItem(View container, int position, Object object)
-            {
-                View layout = viewLists.get(position % viewLists.size());
-                viewPager.removeView(layout);
-            }
-            
-            @Override
-            public boolean isViewFromObject(View arg0, Object arg1)
-            {
-                return arg0 == arg1;
-                
-            }
-            
-            @Override
-            public int getCount()
-            {
-                return viewLists.size();
-            }
-            
-        });
-		viewPager.setOnPageChangeListener(new OnPageChangeListener(){
-            
-            @Override
-            public void onPageSelected(final int position){
-            	tv_save.setVisibility(View.GONE);
-            	mCurrentItem = position % viewLists.size();
+			}
+
+			// 销毁
+			@Override
+			public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
+				View layout = viewLists.get(position % viewLists.size());
+				viewPager.removeView(layout);
+			}
+
+			@Override
+			public boolean isViewFromObject(@NonNull View view, @NonNull Object object) {
+				return view == object;
+			}
+
+			@Override
+			public int getCount() {
+				return viewLists.size();
+			}
+
+		});
+		viewPager.addOnPageChangeListener(new OnPageChangeListener(){
+
+			@Override
+			public void onPageSelected(final int position){
+				tv_save.setVisibility(View.GONE);
+				mCurrentItem = position % viewLists.size();
 				initShowView();
 				setPageNum(viewLists.size());
-            }
-            
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels){
-            	
-            }
-            
-            @Override
-            public void onPageScrollStateChanged(int position){
-            	
-            }
-        });
+			}
+
+			@Override
+			public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels){
+
+			}
+
+			@Override
+			public void onPageScrollStateChanged(int position){
+
+			}
+		});
 		viewPager.setCurrentItem(mCurrentItem);
 
 		tv_save.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				Bitmap bm = am_btm.get(HASH_MAP_KEY_BTM + urlLists.get(mCurrentItem));
 				File file = BitmapUtil.createPath(BitmapUtil.filterPath(urlLists.get(mCurrentItem)), true);
 				if (file == null) {
-	            	showErrorDialog(R.string.photo_show_save_fail);
-	    			return;
+					showErrorDialog(R.string.photo_show_save_fail);
+					return;
 				}
 				AppApplication.saveBitmapFile(bm, file, 100);
-				CommonTools.showToast(getString(R.string.photo_show_save_ok), Toast.LENGTH_SHORT);
+				CommonTools.showToast(getString(R.string.photo_show_save_ok));
 				tv_save.setVisibility(View.GONE);
 			}
 		});
@@ -250,11 +237,11 @@ public class ViewPagerActivity extends BaseActivity {
 
 	private void initShowView() {
 		if (mCurrentItem >= 0 && mCurrentItem < imgLists.size()) {
-            if (showView != null) {
-                showView.setReset();
-            }
-            showView = imgLists.get(mCurrentItem);
-        }
+			if (showView != null) {
+				showView.setReset();
+			}
+			showView = imgLists.get(mCurrentItem);
+		}
 	}
 
 	private void setPageNum(int totalNum) {
@@ -290,6 +277,24 @@ public class ViewPagerActivity extends BaseActivity {
 		am_btm.clear();
 
 		super.onDestroy();
+	}
+
+	static class MyHandler extends Handler {
+
+		WeakReference<ViewPagerActivity> mActivity;
+
+		MyHandler(ViewPagerActivity activity) {
+			mActivity = new WeakReference<>(activity);
+		}
+
+		@Override
+		public void handleMessage(Message msg) {
+			switch (msg.what) {
+				case AppConfig.DIALOG_CLICK_OK:
+					mActivity.get().finish();
+					break;
+			}
+		}
 	}
 
 }

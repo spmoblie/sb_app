@@ -18,7 +18,7 @@ import java.util.List;
 /**
  * 选择列表适配器
  */
-public class SelectListAdapter extends AppBaseAdapter {
+public class SelectListAdapter extends AppBaseAdapter<SelectListEntity> {
 	
 	public static final int DATA_TYPE_1 = 1; //ScreenListActivity
 	public static final int DATA_TYPE_2 = 2; //ScreenListActivity --> SelectListActivity 
@@ -68,7 +68,7 @@ public class SelectListAdapter extends AppBaseAdapter {
 		}else{
 			holder=(ViewHolder)convertView.getTag();
 		}
-		final SelectListEntity data = (SelectListEntity) mDataList.get(position);
+		final SelectListEntity data = mDataList.get(position);
 		switch (dataType) {
 		case DATA_TYPE_1: //ScreenListActivity
 			holder.tv_item_name.setText(data.getTypeName());

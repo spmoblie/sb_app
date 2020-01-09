@@ -14,6 +14,7 @@ import com.songbao.sampo_c.AppApplication;
 import com.songbao.sampo_c.AppConfig;
 import com.songbao.sampo_c.activity.common.MyWebViewActivity;
 import com.songbao.sampo_c.activity.login.LoginActivity;
+import com.songbao.sampo_c.activity.two.GoodsActivity;
 import com.songbao.sampo_c.dialog.LoadDialog;
 import com.songbao.sampo_c.entity.BaseEntity;
 import com.songbao.sampo_c.utils.CommonTools;
@@ -21,7 +22,6 @@ import com.songbao.sampo_c.utils.ExceptionUtil;
 import com.songbao.sampo_c.utils.LogUtil;
 import com.songbao.sampo_c.utils.StringUtil;
 import com.songbao.sampo_c.utils.UserManager;
-import com.songbao.sampo_c.utils.retrofit.Fault;
 import com.songbao.sampo_c.utils.retrofit.HttpRequests;
 
 import org.json.JSONObject;
@@ -48,7 +48,7 @@ public class BaseFragment extends Fragment {
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+	public View onCreateView(@Nullable LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		return null;
 	}
 
@@ -90,6 +90,15 @@ public class BaseFragment extends Fragment {
 		shared.edit().putBoolean(AppConfig.KEY_JUMP_PAGE, true).apply();
 		Intent intent = new Intent(getActivity(), LoginActivity.class);
 		intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		startActivity(intent);
+	}
+
+	/**
+	 * 打开商品详情页
+	 */
+	protected void openGoodsActivity(String goodsCode) {
+		Intent intent = new Intent(getActivity(), GoodsActivity.class);
+		intent.putExtra("goodsCode", goodsCode);
 		startActivity(intent);
 	}
 
@@ -227,17 +236,6 @@ public class BaseFragment extends Fragment {
 
 					@Override
 					public void onError(Throwable throwable) {
-						if (throwable instanceof Fault) {
-							Fault fault = (Fault) throwable;
-							if (fault.getErrorCode() == 404) {
-								//错误处理
-							} else
-							if (fault.getErrorCode() == 500) {
-								//错误处理
-							}
-						} else {
-							//错误处理
-						}
 						loadFailHandle();
 						LogUtil.i(LogUtil.LOG_HTTP,"onError error message : " + throwable.getMessage());
 					}

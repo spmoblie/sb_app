@@ -58,11 +58,11 @@ public class EditUserInfoActivity extends BaseActivity {
 		setContentView(R.layout.activity_edit_info);
 
 		Intent intent = getIntent();
-		titleStr = intent.getExtras().getString(KEY_TITLE);
-		showStr = intent.getExtras().getString(KEY_SHOW);
-		hintStr = intent.getExtras().getString(KEY_HINT);
-		tipsStr = intent.getExtras().getString(KEY_TIPS);
-		userKey = intent.getExtras().getString(KEY_USER);
+		titleStr = intent.getStringExtra(KEY_TITLE);
+		showStr = intent.getStringExtra(KEY_SHOW);
+		hintStr = intent.getStringExtra(KEY_HINT);
+		tipsStr = intent.getStringExtra(KEY_TIPS);
+		userKey = intent.getStringExtra(KEY_USER);
 		
 		initView();
 	}

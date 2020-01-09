@@ -115,8 +115,7 @@ public class CommentOrderActivity extends BaseActivity {
 
 			@Override
 			public void setOnClick(Object data, int position, int type) {
-				if (position < 0 || position >= al_show.size()) return;
-				openCommentAddActivity(al_show.get(position));
+				//if (position < 0 || position >= al_show.size()) return;
 			}
 		});
 		mRecyclerView.setAdapter(rvAdapter);
@@ -139,7 +138,7 @@ public class CommentOrderActivity extends BaseActivity {
 
 		super.onResume();
 	}
-	
+
 	@Override
 	protected void onPause() {
 		LogUtil.i(LogUtil.LOG_TAG, TAG + ": onPause");
@@ -188,7 +187,7 @@ public class CommentOrderActivity extends BaseActivity {
 
 	@Override
 	protected void callbackData(JSONObject jsonObject, int dataType) {
-		BaseEntity baseEn;
+		BaseEntity<CommentEntity> baseEn;
 		try {
 			switch (dataType) {
 				case AppConfig.REQUEST_SV_USER_MESSAGE:

@@ -1,4 +1,4 @@
-package com.songbao.sampo_b.adapter;
+package com.songbao.sampo_c.adapter;
 
 import android.content.Context;
 import android.view.View;
@@ -7,14 +7,14 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.songbao.sampo_b.AppApplication;
-import com.songbao.sampo_b.AppConfig;
-import com.songbao.sampo_b.R;
-import com.songbao.sampo_b.entity.DesignerEntity;
-import com.songbao.sampo_b.entity.GoodsEntity;
-import com.songbao.sampo_b.entity.OCustomizeEntity;
-import com.songbao.sampo_b.utils.ClickUtils;
-import com.songbao.sampo_b.widgets.RoundImageView;
+import com.songbao.sampo_c.AppApplication;
+import com.songbao.sampo_c.AppConfig;
+import com.songbao.sampo_c.R;
+import com.songbao.sampo_c.entity.DesignerEntity;
+import com.songbao.sampo_c.entity.GoodsEntity;
+import com.songbao.sampo_c.entity.OCustomizeEntity;
+import com.songbao.sampo_c.utils.ClickUtils;
+import com.songbao.sampo_c.widgets.RoundImageView;
 
 public class CustomizeAdapter extends BaseRecyclerAdapter<OCustomizeEntity> {
 

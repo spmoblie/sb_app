@@ -273,7 +273,7 @@ public class CommentGoodsActivity extends BaseActivity implements View.OnClickLi
 
 	@Override
 	protected void callbackData(JSONObject jsonObject, int dataType) {
-		BaseEntity baseEn;
+		BaseEntity<CommentEntity> baseEn;
 		try {
 			switch (dataType) {
 				case AppConfig.REQUEST_SV_GOODS_COMMENT:

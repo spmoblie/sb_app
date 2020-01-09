@@ -1,7 +1,10 @@
 package com.songbao.sampo_c.activity.mine;
 
+import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
@@ -17,18 +20,27 @@ import com.songbao.sampo_c.adapter.AdapterCallback;
 import com.songbao.sampo_c.adapter.OrderLogisticsAdapter;
 import com.songbao.sampo_c.adapter.OrderProgressAdapter;
 import com.songbao.sampo_c.entity.AddressEntity;
+import com.songbao.sampo_c.entity.BaseEntity;
 import com.songbao.sampo_c.entity.DesignerEntity;
 import com.songbao.sampo_c.entity.GoodsEntity;
 import com.songbao.sampo_c.entity.OCustomizeEntity;
 import com.songbao.sampo_c.entity.OLogisticsEntity;
 import com.songbao.sampo_c.entity.OProgressEntity;
+import com.songbao.sampo_c.utils.ExceptionUtil;
+import com.songbao.sampo_c.utils.JsonUtils;
 import com.songbao.sampo_c.utils.LogUtil;
 import com.songbao.sampo_c.utils.StringUtil;
+import com.songbao.sampo_c.utils.retrofit.HttpRequests;
 import com.songbao.sampo_c.widgets.ObservableScrollView;
 import com.songbao.sampo_c.widgets.RoundImageView;
 import com.songbao.sampo_c.widgets.ScrollViewListView;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import butterknife.BindView;
 
@@ -46,6 +58,9 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
 	@BindView(R.id.customize_tv_order_status)
 	TextView tv_order_status;
 
+	@BindView(R.id.customize_iv_module_1_title_sign)
+	ImageView iv_1_sign;
+
 	@BindView(R.id.customize_tv_module_1_time)
 	TextView tv_1_time;
 
@@ -61,8 +76,8 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
 	@BindView(R.id.customize_tv_module_1_designer_phone)
 	TextView tv_1_designer_phone;
 
-	@BindView(R.id.customize_tv_module_1_call_designer)
-	TextView tv_1_call_designer;
+	@BindView(R.id.customize_tv_module_1_check_goods)
+	TextView tv_1_check;
 
 	@BindView(R.id.customize_iv_module_2_title_sign)
 	ImageView iv_2_sign;
@@ -112,8 +127,8 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
 	@BindView(R.id.customize_tv_module_4_order_pay)
 	TextView tv_4_order_pay;
 
-	@BindView(R.id.customize_tv_module_4_go_pay)
-	TextView tv_4_go_pay;
+	@BindView(R.id.customize_tv_module_4_confirm)
+	TextView tv_4_confirm;
 
 	@BindView(R.id.customize_iv_module_5_title_sign)
 	ImageView iv_5_sign;
@@ -157,8 +172,8 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
 	@BindView(R.id.customize_module_7_lv)
 	ScrollViewListView lv_7;
 
-	@BindView(R.id.customize_tv_module_7_call_install)
-	TextView tv_7_call_install;
+	@BindView(R.id.customize_tv_module_7_confirm)
+	TextView tv_7_confirm;
 
 	@BindView(R.id.customize_iv_module_8_title_sign)
 	ImageView iv_8_sign;
@@ -169,8 +184,8 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
 	@BindView(R.id.customize_tv_module_8_remind)
 	TextView tv_8_remind;
 
-	@BindView(R.id.customize_tv_module_8_install_confirm)
-	TextView tv_8_install_confirm;
+	@BindView(R.id.customize_tv_module_8_confirm)
+	TextView tv_8_confirm;
 
 	@BindView(R.id.customize_iv_module_9_title_sign)
 	ImageView iv_9_sign;
@@ -187,34 +202,25 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
 	@BindView(R.id.customize_tv_module_9_post_sale)
 	TextView tv_9_post_sale;
 
-	@BindView(R.id.customize_tv_module_2_title)
-	TextView tv_2_title;
-	@BindView(R.id.customize_tv_module_3_title)
-	TextView tv_3_title;
-	@BindView(R.id.customize_tv_module_4_title)
-	TextView tv_4_title;
-	@BindView(R.id.customize_tv_module_5_title)
-	TextView tv_5_title;
-	@BindView(R.id.customize_tv_module_6_title)
-	TextView tv_6_title;
-	@BindView(R.id.customize_tv_module_7_title)
-	TextView tv_7_title;
-	@BindView(R.id.customize_tv_module_8_title)
-	TextView tv_8_title;
-
 	private OrderProgressAdapter lv_6_Adapter;
 	private OrderLogisticsAdapter lv_7_Adapter;
 
 	private OCustomizeEntity ocEn;
 	private Drawable open_up, open_down;
 
-	private boolean isPay; //是否支付
-	private boolean isFinish; //是否安装完成
+	private boolean isDesigns; //是否确认图片
+	private boolean isPayment; //是否确认支付
 	private boolean isReceipt; //是否确认收货
-	private boolean isConfirm; //是否确认效果图
-	private boolean isOpenAll; //是否展开生产进度
+	private boolean isInstall; //是否确认安装
+	private boolean isOpenAll; //是否展开进度
 
-	private String phone; //设计师联系电话
+	private int nodeNo = 0;
+	private int status = 0;
+	private int addressId = 0;
+	private int updateCode = 0;
+	private int nodePosition = 0;
+	private String orderNo; //订单编号
+	private String goodsCode; //商品编号
 
 	private ArrayList<String> al_img = new ArrayList<>();
 	private ArrayList<OProgressEntity> al_6 = new ArrayList<>();
@@ -227,264 +233,291 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_customize);
 
+		nodePosition = getIntent().getIntExtra("nodePosition", 0);
+		ocEn = (OCustomizeEntity) getIntent().getSerializableExtra(AppConfig.PAGE_DATA);
+
 		initView();
 	}
 
 	private void initView() {
 		setTitle(getString(R.string.order_progress));
 
-		tv_2_title.setOnClickListener(this);
-		tv_3_title.setOnClickListener(this);
-		tv_4_title.setOnClickListener(this);
-		tv_5_title.setOnClickListener(this);
-		tv_6_title.setOnClickListener(this);
-		tv_7_title.setOnClickListener(this);
-		tv_8_title.setOnClickListener(this);
-
 		open_up = getResources().getDrawable(R.mipmap.icon_go_up);
 		open_down = getResources().getDrawable(R.mipmap.icon_go_down);
 		open_up.setBounds(0, 0, open_up.getMinimumWidth(), open_up.getMinimumHeight());
 		open_down.setBounds(0, 0, open_down.getMinimumWidth(), open_down.getMinimumHeight());
 
-		initDemoData(1);
+		if (ocEn != null) {
+			orderNo = ocEn.getOrderNo();
+			loadOrderData();
+		}
 	}
 
 	private void initShowData() {
-		setRightViewText(getString(R.string.order_cancel));
 		if (ocEn != null) {
-			tv_order_number.setText("定制编号：" + ocEn.getOrderNo());
-			switch (ocEn.getStatus()) {
-				case 1: //待付款
+			tv_order_number.setText(getString(R.string.order_booking_no, ocEn.getOrderNo()));
+			status = ocEn.getStatus();
+			switch (status) {
+				case AppConfig.ORDER_STATUS_101: //待付款
+					setRightViewText(getString(R.string.order_cancel));
 					tv_order_status.setText(getString(R.string.order_wait_pay));
 					tv_order_status.setBackgroundResource(R.drawable.shape_style_solid_09_04);
 					break;
-				case 2: //生产中
+				case AppConfig.ORDER_STATUS_201: //生产中
 					tv_order_status.setText(getString(R.string.order_producing));
 					tv_order_status.setBackgroundResource(R.drawable.shape_style_solid_10_04);
 					break;
-				case 3: //待收货
+				case AppConfig.ORDER_STATUS_301: //待发货
+					tv_order_status.setText(getString(R.string.order_wait_send));
+					tv_order_status.setBackgroundResource(R.drawable.shape_style_solid_08_04);
+					break;
+				case AppConfig.ORDER_STATUS_401: //待收货
 					tv_order_status.setText(getString(R.string.order_wait_receive));
 					tv_order_status.setBackgroundResource(R.drawable.shape_style_solid_04_04);
 					break;
-				case 4: //待安装
+				case AppConfig.ORDER_STATUS_501: //已签收
+				case AppConfig.ORDER_STATUS_701: //待安装
 					tv_order_status.setText(getString(R.string.order_wait_install));
-					tv_order_status.setBackgroundResource(R.drawable.shape_style_solid_06_04);
+					tv_order_status.setBackgroundResource(R.drawable.shape_style_solid_07_04);
 					break;
-				case 5: //待评价
+				case AppConfig.ORDER_STATUS_801: //已完成
+					setRightViewText(getString(R.string.order_delete));
 					tv_order_status.setText(getString(R.string.order_completed));
 					tv_order_status.setBackgroundResource(R.drawable.shape_style_solid_03_04);
 					break;
-				case 6: //已完成
-					tv_order_status.setText(getString(R.string.order_completed));
-					tv_order_status.setBackgroundResource(R.drawable.shape_style_solid_03_04);
-					break;
-				case 7: //退换货
-					tv_order_status.setText(getString(R.string.order_repair_return));
-					tv_order_status.setBackgroundResource(R.drawable.shape_style_solid_05_04);
-					break;
-				case 8: //已取消
+				case AppConfig.ORDER_STATUS_102: //已取消
+				default:
 					setRightViewText(getString(R.string.order_delete));
 					tv_order_status.setText(getString(R.string.order_cancelled));
 					tv_order_status.setBackgroundResource(R.drawable.shape_style_solid_03_04);
 					break;
 			}
 
-			// 提交预约
-			tv_1_time.setText(ocEn.getNodeTime1());
-			GoodsEntity gdEn = ocEn.getGdEn();
-			if (gdEn != null) {
-				Glide.with(AppApplication.getAppContext())
-						.load(gdEn.getPicUrl())
-						.apply(AppApplication.getShowOptions())
-						.into(iv_1_goods_img);
-				tv_1_goods_name.setText(gdEn.getName());
-			}
-			DesignerEntity dgEn = ocEn.getDgEn();
-			if (dgEn != null) {
-				phone = dgEn.getPhone();
-				tv_1_designer_phone.setText(phone);
-				tv_1_designer_name.setText(dgEn.getName());
-				tv_1_call_designer.setOnClickListener(this);
+			nodeNo = ocEn.getNodeNo();
+			if (nodeNo > 0) { //提交预约
+				iv_1_sign.setSelected(true);
+				tv_1_time.setText(ocEn.getNodeTime1());
+				iv_1_goods_img.setVisibility(View.VISIBLE);
+				tv_1_goods_name.setVisibility(View.VISIBLE);
+				tv_1_designer_name.setVisibility(View.VISIBLE);
+				tv_1_designer_phone.setVisibility(View.VISIBLE);
+				GoodsEntity gdEn = ocEn.getGdEn();
+				if (gdEn != null) {
+					Glide.with(AppApplication.getAppContext())
+							.load(gdEn.getPicUrl())
+							.apply(AppApplication.getShowOptions())
+							.into(iv_1_goods_img);
+					tv_1_goods_name.setText(gdEn.getName());
+					goodsCode = gdEn.getGoodsCode();
+					tv_1_check.setOnClickListener(this);
+					tv_1_check.setVisibility(View.VISIBLE);
+				}
+				DesignerEntity dgEn = ocEn.getDgEn();
+				if (dgEn != null) {
+					tv_1_designer_phone.setText(dgEn.getPhone());
+					tv_1_designer_name.setText(dgEn.getName());
+				}
 			}
 
-			// 上门量尺
-			if (!StringUtil.isNull(ocEn.getNodeTime2())) {
+			if (nodeNo > 1) { //上门量尺
 				iv_2_sign.setSelected(true);
 				tv_2_time.setText(ocEn.getNodeTime2());
-			}
-			if (gdEn != null) {
-				if (!StringUtil.isNull(gdEn.getAttribute())) {
-					tv_2_goods_spec.setVisibility(View.VISIBLE);
-					tv_2_goods_spec.setText("产品规格：" + gdEn.getAttribute());
-				}
-				if (!StringUtil.isNull(gdEn.getColor())) {
-					tv_2_goods_color.setVisibility(View.VISIBLE);
-					tv_2_goods_color.setText("产品颜色：" + gdEn.getColor());
-				}
-				if (!StringUtil.isNull(gdEn.getMaterial())) {
-					tv_2_goods_material.setVisibility(View.VISIBLE);
-					tv_2_goods_material.setText("产品用料：" + gdEn.getMaterial());
-				}
-				if (!StringUtil.isNull(gdEn.getVeneer())) {
-					tv_2_goods_veneer.setVisibility(View.VISIBLE);
-					tv_2_goods_veneer.setText("产品饰面：" + gdEn.getVeneer());
+				GoodsEntity gdEn = ocEn.getGdEn();
+				if (gdEn != null) {
+					if (!StringUtil.isNull(gdEn.getAttribute())) {
+						tv_2_goods_spec.setVisibility(View.VISIBLE);
+						tv_2_goods_spec.setText(getString(R.string.order_attr_show, gdEn.getAttribute()));
+					}
+					if (!StringUtil.isNull(gdEn.getColor())) {
+						tv_2_goods_color.setVisibility(View.VISIBLE);
+						tv_2_goods_color.setText(getString(R.string.order_color_show, gdEn.getColor()));
+					}
+					if (!StringUtil.isNull(gdEn.getMaterial())) {
+						tv_2_goods_material.setVisibility(View.VISIBLE);
+						tv_2_goods_material.setText(getString(R.string.order_material_show, gdEn.getMaterial()));
+					}
+					if (!StringUtil.isNull(gdEn.getVeneer())) {
+						tv_2_goods_veneer.setVisibility(View.VISIBLE);
+						tv_2_goods_veneer.setText(getString(R.string.order_veneer_show, gdEn.getVeneer()));
+					}
 				}
 			}
 
-			// 设计效果图
-			al_img.clear();
-			if (ocEn.getImgList() != null) {
-				al_img.addAll(ocEn.getImgList());
-			}
-			if (al_img.size() > 0) {
+			if (nodeNo > 2) { //设计效果图
 				iv_3_sign.setSelected(true);
 				tv_3_time.setText(ocEn.getNodeTime3());
-
-				iv_3_show.setVisibility(View.VISIBLE);
-				Glide.with(AppApplication.getAppContext())
-						.load(al_img.get(0))
-						.apply(AppApplication.getShowOptions())
-						.into(iv_3_show);
-
-				tv_3_show.setVisibility(View.VISIBLE);
-				tv_3_show.setText("点击查看" + al_img.size() + "张效果图");
-				tv_3_show.setOnClickListener(this);
-
-				isConfirm = ocEn.isConfirm();
-				if (isConfirm) { //已确认
-					tv_3_confirm.setText("已确认");
-					tv_3_confirm.setTextColor(getResources().getColor(R.color.app_color_white));
-					tv_3_confirm.setBackgroundResource(R.drawable.shape_style_solid_03_08);
-				} else {
-					tv_3_confirm.setText("确认效果图");
+				al_img.clear();
+				if (ocEn.getImgList() != null) {
+					al_img.addAll(ocEn.getImgList());
 				}
-				tv_3_confirm.setOnClickListener(this);
-				tv_3_confirm.setVisibility(View.VISIBLE);
+				if (al_img.size() > 0) {
+					iv_3_show.setVisibility(View.VISIBLE);
+					Glide.with(AppApplication.getAppContext())
+							.load(al_img.get(0))
+							.apply(AppApplication.getShowOptions())
+							.into(iv_3_show);
+
+					tv_3_show.setVisibility(View.VISIBLE);
+					tv_3_show.setText(getString(R.string.order_image_number, al_img.size()));
+					tv_3_show.setOnClickListener(this);
+
+					isDesigns = ocEn.isDesigns();
+					if (isDesigns) {
+						tv_3_confirm.setText(getString(R.string.order_confirmed));
+						tv_3_confirm.setTextColor(getResources().getColor(R.color.debar_text_color));
+						tv_3_confirm.setBackgroundResource(R.drawable.shape_style_empty_03_08);
+					} else {
+						tv_3_confirm.setOnClickListener(this);
+						tv_3_confirm.setText(getString(R.string.order_confirm_designs));
+						tv_3_confirm.setTextColor(getResources().getColor(R.color.app_color_white));
+						tv_3_confirm.setBackgroundResource(R.drawable.shape_style_solid_04_08);
+					}
+					tv_3_confirm.setVisibility(View.VISIBLE);
+				}
 			}
 
-			// 支付订单
-			if (!StringUtil.isNull(ocEn.getNodeTime4())) {
+			if (nodeNo > 3) { //支付信息
 				iv_4_sign.setSelected(true);
 				tv_4_time.setText(ocEn.getNodeTime4());
-
-			}
-			if (ocEn.getPrice() > 0) {
 				tv_4_order_price.setVisibility(View.VISIBLE);
-				tv_4_order_price.setText("定制产品报价：￥" + ocEn.getPrice());
-
-				isPay = ocEn.isPay();
-				if (isPay) { //已支付
-					tv_4_go_pay.setText("已支付");
-					tv_4_go_pay.setTextColor(getResources().getColor(R.color.app_color_white));
-					tv_4_go_pay.setBackgroundResource(R.drawable.shape_style_solid_03_08);
-
-					tv_5_addressee_name.setVisibility(View.VISIBLE);
-					tv_5_addressee_phone.setVisibility(View.VISIBLE);
-					tv_5_address_1.setVisibility(View.VISIBLE);
-					tv_5_address_2.setVisibility(View.VISIBLE);
-					tv_5_select_address.setVisibility(View.VISIBLE);
-				} else {
-					tv_4_go_pay.setText("在线支付");
-				}
-				tv_4_go_pay.setOnClickListener(this);
-				tv_4_go_pay.setVisibility(View.VISIBLE);
-			}
-			if (ocEn.getCycle() > 0) {
+				tv_4_order_price.setText(getString(R.string.order_price_offer, df.format(ocEn.getPrice())));
 				tv_4_order_day.setVisibility(View.VISIBLE);
-				tv_4_order_day.setText("计划生产周期：" + ocEn.getCycle() + "天");
-			}
-			if (!StringUtil.isNull(ocEn.getPayType())) {
-				tv_4_order_pay.setVisibility(View.VISIBLE);
-				tv_4_order_pay.setText("订单支付方式：" + ocEn.getPayType());
-			}
+				tv_4_order_day.setText(getString(R.string.order_cycle_day, ocEn.getCycle()));
 
-			// 确认收货信息
-			AddressEntity adEn = ocEn.getAdEn();
-			if (adEn != null) {
-				tv_5_time.setText(ocEn.getNodeTime5());
-				tv_5_addressee_name.setText("联系人：" + adEn.getName());
-				tv_5_addressee_phone.setText("联系电话：" + adEn.getPhone());
-				tv_5_address_2.setText(adEn.getAddress());
-				if (StringUtil.isNull(adEn.getName())
-						|| StringUtil.isNull(adEn.getPhone())
-						|| StringUtil.isNull(adEn.getAddress())) {
-					iv_5_sign.setSelected(false);
-					tv_5_select_address.setText("选择收货地址");
+				isPayment = ocEn.isPayment();
+				if (isPayment) { //已支付
+					tv_4_confirm.setText(getString(R.string.pay_ok));
+					tv_4_confirm.setTextColor(getResources().getColor(R.color.debar_text_color));
+					tv_4_confirm.setBackgroundResource(R.drawable.shape_style_empty_03_08);
 				} else {
-					iv_5_sign.setSelected(true);
-					tv_5_select_address.setText("修改收货地址");
+					tv_4_confirm.setOnClickListener(this);
+					tv_4_confirm.setText(getString(R.string.order_confirm_payment));
+					tv_4_confirm.setTextColor(getResources().getColor(R.color.app_color_white));
+					tv_4_confirm.setBackgroundResource(R.drawable.shape_style_solid_04_08);
 				}
-				tv_5_select_address.setOnClickListener(this);
+				tv_4_confirm.setVisibility(View.VISIBLE);
 			}
 
-			// 生产进度跟踪
-			al_6.clear();
-			al_6_1.clear();
-			al_6_all.clear();
-			if (ocEn.getOpList() != null) {
-				al_6_all.addAll(ocEn.getOpList());
+			if (nodeNo > 4) { //确认收货信息
+				tv_5_addressee_name.setVisibility(View.VISIBLE);
+				tv_5_addressee_phone.setVisibility(View.VISIBLE);
+				tv_5_address_1.setVisibility(View.VISIBLE);
+				tv_5_address_2.setVisibility(View.VISIBLE);
+				tv_5_select_address.setVisibility(View.VISIBLE);
+				AddressEntity adEn = ocEn.getAdEn();
+				if (adEn != null) {
+					addressId = adEn.getId();
+					tv_5_time.setText(ocEn.getNodeTime5());
+					tv_5_addressee_name.setText(getString(R.string.address_contacts, adEn.getName()));
+					tv_5_addressee_phone.setText(getString(R.string.address_phone, adEn.getPhone()));
+					tv_5_address_2.setText(adEn.getAddress());
+					if (StringUtil.isNull(adEn.getName())
+							|| StringUtil.isNull(adEn.getPhone())
+							|| StringUtil.isNull(adEn.getAddress())) {
+						iv_5_sign.setSelected(false);
+						tv_5_select_address.setText(getString(R.string.address_select));
+					} else {
+						iv_5_sign.setSelected(true);
+						tv_5_select_address.setText(getString(R.string.address_change));
+					}
+					tv_5_select_address.setOnClickListener(this);
+				}
 			}
-			if (al_6_all.size() > 0) {
-				al_6_1.add(al_6_all.get(0));
-				al_6.addAll(al_6_1); //默认显示1条数据
 
+			if (nodeNo > 5) { //生产进度跟踪
 				iv_6_sign.setSelected(true);
-				tv_6_time.setText(ocEn.getNodeTime6());
-				if (al_6_all.size() > 1) {
-					tv_6_lv_open.setOnClickListener(this);
-					tv_6_lv_open.setVisibility(View.VISIBLE);
+				al_6.clear();
+				al_6_1.clear();
+				al_6_all.clear();
+				if (ocEn.getOpList() != null) {
+					al_6_all.addAll(ocEn.getOpList());
 				}
-				lv_6.setVisibility(View.VISIBLE);
+				if (al_6_all.size() > 0) {
+					al_6_1.add(al_6_all.get(0));
+					al_6.addAll(al_6_1); //默认显示1条数据
+
+					tv_6_time.setText(al_6_all.get(al_6_all.size() - 1).getAddTime());
+					if (al_6_all.size() > 1) {
+						tv_6_lv_open.setOnClickListener(this);
+						tv_6_lv_open.setVisibility(View.VISIBLE);
+					}
+					lv_6.setVisibility(View.VISIBLE);
+				}
 			}
 
-			// 产品发货
-			al_7.clear();
-			if (ocEn.getOlList() != null) {
-				al_7.addAll(ocEn.getOlList());
-			}
-			if (al_7.size() > 0) {
+			if (nodeNo > 6) { //产品发货
 				iv_7_sign.setSelected(true);
 				tv_7_time.setText(ocEn.getNodeTime7());
+				al_7.clear();
+				if (ocEn.getOlList() != null) {
+					al_7.addAll(ocEn.getOlList());
+				}
+				if (al_7.size() > 0) {
+					lv_7.setVisibility(View.VISIBLE);
+				}
+				isReceipt = ocEn.isReceipt();
+				if (isReceipt) { //已确认安装
+					tv_7_confirm.setText(getString(R.string.order_confirmed));
+					tv_7_confirm.setTextColor(getResources().getColor(R.color.debar_text_color));
+					tv_7_confirm.setBackgroundResource(R.drawable.shape_style_empty_03_08);
 
-				lv_7.setVisibility(View.VISIBLE);
-				tv_7_call_install.setOnClickListener(this);
-				tv_7_call_install.setVisibility(View.VISIBLE);
+					tv_8_confirm.setOnClickListener(this);
+					tv_8_confirm.setVisibility(View.VISIBLE);
+					tv_8_confirm.setText(getString(R.string.order_confirm_install));
+					tv_8_confirm.setTextColor(getResources().getColor(R.color.app_color_white));
+					tv_8_confirm.setBackgroundResource(R.drawable.shape_style_solid_04_08);
+					tv_8_remind.setText(getString(R.string.order_install_hint));
+				} else {
+					tv_7_confirm.setOnClickListener(this);
+					tv_7_confirm.setText(getString(R.string.order_confirm_receipt));
+					tv_7_confirm.setTextColor(getResources().getColor(R.color.app_color_white));
+					tv_7_confirm.setBackgroundResource(R.drawable.shape_style_solid_04_08);
+
+					tv_8_remind.setText(getString(R.string.order_receipt_hint));
+				}
+				tv_5_select_address.setVisibility(View.GONE);
+				tv_7_confirm.setVisibility(View.VISIBLE);
 				tv_8_remind.setVisibility(View.VISIBLE);
 			}
 
-			// 产品安装
-			isReceipt = ocEn.isReceipt();
-			if (isReceipt) { //已确认收货
+			if (nodeNo > 7) { //产品安装
 				iv_8_sign.setSelected(true);
 				tv_8_time.setText(ocEn.getNodeTime8());
-				tv_8_remind.setText("安装完成后请确认安装完成，如未确认系统会自签收日起7个自然日后自动确认安装完成。");
-				tv_7_call_install.setText("联系安装");
-				tv_8_install_confirm.setOnClickListener(this);
-				tv_8_install_confirm.setVisibility(View.VISIBLE);
-			} else {
-				tv_7_call_install.setText("确认收货");
-				tv_8_remind.setText("产品签收后请确认收货，确认收货后方可联系上门安装服务。");
+				isInstall = ocEn.isInstall();
+				if (isInstall) { //已确认安装
+					tv_8_confirm.setText(getString(R.string.order_installed));
+					tv_8_confirm.setTextColor(getResources().getColor(R.color.debar_text_color));
+					tv_8_confirm.setBackgroundResource(R.drawable.shape_style_empty_03_08);
+				}
 			}
 
-			// 订单完成
-			isFinish = ocEn.isFinish();
-			if (isFinish) {
+			if (nodeNo > 8) { //订单完成
 				iv_9_sign.setSelected(true);
 				tv_9_time.setText(ocEn.getNodeTime9());
-				tv_8_install_confirm.setText("已安装");
-				tv_8_install_confirm.setTextColor(getResources().getColor(R.color.app_color_white));
-				tv_8_install_confirm.setBackgroundResource(R.drawable.shape_style_solid_03_08);
 				tv_9_remind.setVisibility(View.VISIBLE);
-				tv_9_comment.setVisibility(View.VISIBLE);
-				tv_9_post_sale.setVisibility(View.VISIBLE);
-			} else {
-				tv_8_install_confirm.setText("确认安装完成");
-				tv_9_remind.setVisibility(View.GONE);
-				tv_9_comment.setVisibility(View.GONE);
-				tv_9_post_sale.setVisibility(View.GONE);
 			}
 		}
 		initListView();
+
+		if (nodePosition > 0) {
+			new Handler().postDelayed(new Runnable() {
+				@Override
+				public void run() {
+					switch (nodePosition) {
+						case 6: //查看进度
+							scrollTo(iv_6_sign.getTop());
+							break;
+						case 7: //查看物流、确认收货
+							scrollTo(iv_7_sign.getTop());
+							break;
+						case 8: //确认安装
+							scrollTo(iv_8_sign.getTop());
+							break;
+					}
+					nodePosition = 0;
+				}
+			}, 200);
+		}
 	}
 
 	private void initListView() {
@@ -496,7 +529,7 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
 				public void setOnClick(Object data, int position, int type) {
 					if (data != null) {
 						if (type == 1) {
-							ArrayList<String> imgList = (ArrayList<String>) data;
+							ArrayList<String> imgList = castList(data, String.class);
 							openViewPagerActivity(imgList, position);
 						}
 					}
@@ -522,14 +555,19 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
 		lv_7.setOverScrollMode(ListView.OVER_SCROLL_NEVER);
 	}
 
+	/**
+	 * 滚动到指定位置
+	 */
+	private void scrollTo(int y) {
+		sv_main.smoothScrollTo(0, y);
+	}
+
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-			case R.id.customize_tv_module_1_call_designer:
-				//联系Ta
-				if (!StringUtil.isNull(phone)) {
-					callPhone(phone);
-				}
+			case R.id.customize_tv_module_1_check_goods:
+				//商品详情
+				openGoodsActivity(goodsCode);
 				break;
 			case R.id.customize_tv_module_3_show:
 				//查看效果图
@@ -537,74 +575,68 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
 				break;
 			case R.id.customize_tv_module_3_confirm:
 				//确认效果图
-				if (!isConfirm) {
-					initDemoData(4);
+				if (!isDesigns) {
+					showConfirmDialog(getString(R.string.order_confirm_designs_hint), new MyHandler(this), 3);
 				}
 				break;
-			case R.id.customize_tv_module_4_go_pay:
-				//去支付
-				if (!isPay) {
-					initDemoData(5);
+			case R.id.customize_tv_module_4_confirm:
+				//确认支付
+				if (!isPayment) {
+					showConfirmDialog(getString(R.string.order_confirm_payment_hint), new MyHandler(this), 4);
 				}
 				break;
 			case R.id.customize_tv_module_5_select_address:
 				//收货地址
+				if (nodeNo > 0 && nodeNo < 9) {
+					Intent intent = new Intent(mContext, AddressActivity.class);
+					intent.putExtra("isFinish", true);
+					intent.putExtra("selectId", addressId);
+					startActivityForResult(intent, AppConfig.ACTIVITY_CODE_SELECT_ADDS);
+				}
 				break;
 			case R.id.customize_tv_module_6_lv_open:
 				//展开进度
 				al_6.clear();
 				isOpenAll = !isOpenAll;
 				if (isOpenAll) {
-					tv_6_lv_open.setText("收起");
+					tv_6_lv_open.setText(getString(R.string.put_away));
 					tv_6_lv_open.setCompoundDrawables(null, null, open_up, null);
 					al_6.addAll(al_6_all);
 				} else {
-					tv_6_lv_open.setText("展开");
+					tv_6_lv_open.setText(getString(R.string.unfold));
 					tv_6_lv_open.setCompoundDrawables(null, null, open_down, null);
 					al_6.addAll(al_6_1);
 				}
 				initListView();
 				break;
-			case R.id.customize_tv_module_7_call_install:
-				//确认收货or联系安装
+			case R.id.customize_tv_module_7_confirm:
+				//确认收货
 				if (!isReceipt) {
-					initDemoData(8);
-				} else {
-					if (!StringUtil.isNull(phone)) {
-						callPhone(phone);
-					}
+					showConfirmDialog(getString(R.string.order_confirm_receipt_hint), new MyHandler(this), 7);
 				}
 				break;
-			case R.id.customize_tv_module_8_install_confirm:
-				//确认安装完成
-				if (!isFinish) {
-					initDemoData(9);
+			case R.id.customize_tv_module_8_confirm:
+				//确认安装
+				if (!isInstall) {
+					showConfirmDialog(getString(R.string.order_confirm_install_hint), new MyHandler(this), 8);
 				}
-				break;
-			case R.id.customize_tv_module_2_title:
-				initDemoData(2);
-				break;
-			case R.id.customize_tv_module_3_title:
-				initDemoData(3);
-				break;
-			case R.id.customize_tv_module_4_title:
-				initDemoData(4);
-				break;
-			case R.id.customize_tv_module_5_title:
-				initDemoData(5);
-				break;
-			case R.id.customize_tv_module_6_title:
-				initDemoData(6);
-				break;
-			case R.id.customize_tv_module_7_title:
-				initDemoData(7);
 				break;
 		}
 	}
 
 	@Override
 	protected void OnListenerRight() {
-
+		switch (status) {
+			case AppConfig.ORDER_STATUS_101: //待付款
+				// 取消订单
+				showConfirmDialog(getString(R.string.order_cancel_confirm), new MyHandler(this), 101);
+				break;
+			case AppConfig.ORDER_STATUS_102: //已取消
+			case AppConfig.ORDER_STATUS_801: //已完成
+				// 删除订单
+				showConfirmDialog(getString(R.string.order_delete_confirm), new MyHandler(this), 102);
+				break;
+		}
 	}
 
 	@Override
@@ -615,7 +647,7 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
 
 		super.onResume();
 	}
-	
+
 	@Override
 	protected void onPause() {
 		LogUtil.i(LogUtil.LOG_TAG, TAG + ": onPause");
@@ -630,153 +662,256 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
 		super.onDestroy();
 	}
 
-	private void initDemoData(int code) {
-
-		ocEn = new OCustomizeEntity();
-
-		ocEn.setId(6);
-		ocEn.setOrderNo("35461211011241");
-		if (code < 5) {
-			ocEn.setStatus(1);
-		} else if (code == 5 || code == 6){
-			ocEn.setStatus(2);
-		} else if (code == 7){
-			ocEn.setStatus(3);
-		} else if (code == 8){
-			ocEn.setStatus(4);
-		} else if (code == 9){
-			ocEn.setStatus(6);
+	@Override
+	public void finish() {
+		if (updateCode == -1
+				|| updateCode == AppConfig.ORDER_STATUS_102
+				|| updateCode == AppConfig.ORDER_STATUS_201
+				|| updateCode == AppConfig.ORDER_STATUS_701
+				|| updateCode == AppConfig.ORDER_STATUS_801) {
+			Intent returnIntent = new Intent();
+			returnIntent.putExtra(AppConfig.PAGE_DATA, updateCode);
+			setResult(RESULT_OK, returnIntent);
 		}
-		if (code > 3) {
-			ocEn.setCycle(30);
-			ocEn.setPrice(1000);
-			if (code > 4) {
-				ocEn.setPay(true);
-				ocEn.setPayType("微信支付");
+		super.finish();
+	}
+
+	/**
+	 * 加载订单详情数据
+	 */
+	private void loadOrderData() {
+		HashMap<String, String> map = new HashMap<>();
+		map.put("bookingCode", orderNo);
+		loadSVData(AppConfig.BASE_URL_3, AppConfig.URL_BOOKING_INFO, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_BOOKING_INFO);
+	}
+
+	/**
+	 * 确认效果图
+	 */
+	private void postConfirmDesigns() {
+		try {
+			JSONObject jsonObj = new JSONObject();
+			jsonObj.put("bookingCode", orderNo);
+			postJsonData(AppConfig.BASE_URL_3, AppConfig.URL_BOOKING_DESIGNS, jsonObj, AppConfig.REQUEST_SV_BOOKING_DESIGNS);
+		} catch (JSONException e) {
+			ExceptionUtil.handle(e);
+		}
+	}
+
+	/**
+	 * 确认支付
+	 */
+	private void postConfirmPayment() {
+		try {
+			JSONObject jsonObj = new JSONObject();
+			jsonObj.put("bookingCode", orderNo);
+			postJsonData(AppConfig.BASE_URL_3, AppConfig.URL_BOOKING_PAYMENT, jsonObj, AppConfig.REQUEST_SV_BOOKING_PAYMENT);
+		} catch (JSONException e) {
+			ExceptionUtil.handle(e);
+		}
+	}
+
+	/**
+	 * 确认收货
+	 */
+	private void postConfirmReceipt() {
+		try {
+			JSONObject jsonObj = new JSONObject();
+			jsonObj.put("bookingCode", orderNo);
+			postJsonData(AppConfig.BASE_URL_3, AppConfig.URL_BOOKING_RECEIPT, jsonObj, AppConfig.REQUEST_SV_BOOKING_RECEIPT);
+		} catch (JSONException e) {
+			ExceptionUtil.handle(e);
+		}
+	}
+
+	/**
+	 * 确认安装
+	 */
+	private void postConfirmInstall() {
+		try {
+			JSONObject jsonObj = new JSONObject();
+			jsonObj.put("bookingCode", orderNo);
+			postJsonData(AppConfig.BASE_URL_3, AppConfig.URL_BOOKING_INSTALL, jsonObj, AppConfig.REQUEST_SV_BOOKING_INSTALL);
+		} catch (JSONException e) {
+			ExceptionUtil.handle(e);
+		}
+	}
+
+	/**
+	 * 提交收货地址
+	 */
+	private void postAddressData(AddressEntity addEn) {
+		if (addEn == null) return;
+		try {
+			JSONObject jsonObj = new JSONObject();
+			jsonObj.put("orderCode", orderNo);
+			jsonObj.put("recieverId", addEn.getId());
+			postJsonData(AppConfig.BASE_URL_3, AppConfig.URL_ORDER_UPDATE, jsonObj, AppConfig.REQUEST_SV_ORDER_UPDATE);
+		} catch (JSONException e) {
+			ExceptionUtil.handle(e);
+		}
+	}
+
+	/**
+	 * 取消订单
+	 */
+	private void postConfirmCancel() {
+		try {
+			JSONObject jsonObj = new JSONObject();
+			jsonObj.put("code", orderNo);
+			postJsonData(AppConfig.BASE_URL_3, AppConfig.URL_BOOKING_CANCEL, jsonObj, AppConfig.REQUEST_SV_BOOKING_CANCEL);
+		} catch (JSONException e) {
+			ExceptionUtil.handle(e);
+		}
+	}
+
+	/**
+	 * 删除订单
+	 */
+	private void postConfirmDelete() {
+		try {
+			JSONObject jsonObj = new JSONObject();
+			jsonObj.put("code", orderNo);
+			postJsonData(AppConfig.BASE_URL_3, AppConfig.URL_BOOKING_DELETE, jsonObj, AppConfig.REQUEST_SV_BOOKING_DELETE);
+		} catch (JSONException e) {
+			ExceptionUtil.handle(e);
+		}
+	}
+
+	@Override
+	protected void callbackData(JSONObject jsonObject, int dataType) {
+		super.callbackData(jsonObject, dataType);
+		BaseEntity<OCustomizeEntity> baseEn;
+		try {
+			switch (dataType) {
+				case AppConfig.REQUEST_SV_BOOKING_INFO:
+					baseEn = JsonUtils.getCustomizeDetailData(jsonObject);
+					if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+						ocEn = baseEn.getData();
+						initShowData();
+					} else {
+						handleErrorCode(baseEn);
+					}
+					break;
+				case AppConfig.REQUEST_SV_BOOKING_DESIGNS:
+					baseEn = JsonUtils.getBaseErrorData(jsonObject);
+					if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+						loadOrderData();
+					} else {
+						handleErrorCode(baseEn);
+					}
+					break;
+				case AppConfig.REQUEST_SV_BOOKING_PAYMENT:
+					baseEn = JsonUtils.getBaseErrorData(jsonObject);
+					if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+						updateCode = AppConfig.ORDER_STATUS_201;
+						loadOrderData();
+					} else {
+						handleErrorCode(baseEn);
+					}
+					break;
+				case AppConfig.REQUEST_SV_BOOKING_RECEIPT:
+					baseEn = JsonUtils.getBaseErrorData(jsonObject);
+					if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+						updateCode = AppConfig.ORDER_STATUS_701;
+						loadOrderData();
+					} else {
+						handleErrorCode(baseEn);
+					}
+					break;
+				case AppConfig.REQUEST_SV_BOOKING_INSTALL:
+					baseEn = JsonUtils.getBaseErrorData(jsonObject);
+					if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+						updateCode = AppConfig.ORDER_STATUS_801;
+						loadOrderData();
+					} else {
+						handleErrorCode(baseEn);
+					}
+					break;
+				case AppConfig.REQUEST_SV_ORDER_UPDATE:
+					baseEn = JsonUtils.getBaseErrorData(jsonObject);
+					if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+						loadOrderData();
+					} else {
+						handleErrorCode(baseEn);
+					}
+					break;
+				case AppConfig.REQUEST_SV_BOOKING_CANCEL:
+					baseEn = JsonUtils.getBaseErrorData(jsonObject);
+					if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+						updateCode = AppConfig.ORDER_STATUS_102;
+						loadOrderData();
+					} else {
+						handleErrorCode(baseEn);
+					}
+					break;
+				case AppConfig.REQUEST_SV_BOOKING_DELETE:
+					baseEn = JsonUtils.getBaseErrorData(jsonObject);
+					if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+						updateCode = -1;
+						finish();
+					} else {
+						handleErrorCode(baseEn);
+					}
+					break;
 			}
-			ocEn.setConfirm(true);
+		} catch (Exception e) {
+			loadFailHandle();
+			ExceptionUtil.handle(e);
 		}
-		if (code > 7) {
-			ocEn.setReceipt(true);
-		}
-		if (code == 9) {
-			ocEn.setFinish(true);
-		}
-		ocEn.setNodeTime1("2019-12-14 10:18");
-		if (code > 1) {
-			ocEn.setNodeTime2("2019-12-14 10:18");
-		}
-		ocEn.setNodeTime3("2019-12-14 10:18");
-		if (code > 3) {
-			ocEn.setNodeTime4("2019-12-14 10:18");
-		}
-		if (code > 4) {
-			ocEn.setNodeTime5("2019-12-14 10:18");
-		}
-		ocEn.setNodeTime6("2019-12-14 10:18");
-		ocEn.setNodeTime7("2019-12-14 10:18");
-		ocEn.setNodeTime9("2019-12-14 10:18");
-		ocEn.setNodeTime8("2019-12-14 10:18");
+	}
 
-		//商品信息
-		GoodsEntity gdEn = new GoodsEntity();
-		gdEn.setName("松堡王国运动男孩双层床");
-		gdEn.setPicUrl(AppConfig.IMAGE_URL + "design_001.png");
-		if (code > 1) {
-			gdEn.setAttribute("2030*1372*1870mm");
-			gdEn.setColor("深蓝色");
-			gdEn.setMaterial("北欧松木");
-			gdEn.setVeneer("环保水性漆涂层");
+	@Override
+	protected void loadFailHandle() {
+		super.loadFailHandle();
+		handleErrorCode(null);
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (resultCode == RESULT_OK) {
+			if (requestCode == AppConfig.ACTIVITY_CODE_SELECT_ADDS) {
+				AddressEntity selectAddEn = (AddressEntity) data.getSerializableExtra(AppConfig.PAGE_DATA);
+				if (selectAddEn != null) {
+					postAddressData(selectAddEn);
+				}
+			}
 		}
-		ocEn.setGdEn(gdEn);
+		super.onActivityResult(requestCode, resultCode, data);
+	}
 
-		//设计师
-		DesignerEntity dgEn = new DesignerEntity();
-		dgEn.setName("设计师C");
-		dgEn.setPhone("13686436466");
-		ocEn.setDgEn(dgEn);
+	static class MyHandler extends Handler {
 
-		//收货地址
-		AddressEntity adEn = new AddressEntity();
-		adEn.setName("李女士");
-		adEn.setPhone("16999666699");
-		adEn.setAddress("广东省深圳市南山区粤海街道科发路大冲城市花园5栋16B");
-		if (code > 4) {
-			ocEn.setAdEn(adEn);
+		WeakReference<CustomizeActivity> mActivity;
+
+		MyHandler(CustomizeActivity activity) {
+			mActivity = new WeakReference<>(activity);
 		}
 
-		//效果图集
-		ArrayList<String> imgList = new ArrayList<>();
-		imgList.add(AppConfig.IMAGE_URL + "design_001.png");
-		imgList.add(AppConfig.IMAGE_URL + "design_004.png");
-		imgList.add(AppConfig.IMAGE_URL + "design_006.png");
-		if (code > 2) {
-			ocEn.setImgList(imgList);
-		}
-
-		//生产进度
-		OProgressEntity opEn;
-		ArrayList<OProgressEntity> opList = new ArrayList<>();
-		for (int i = 0; i < 5; i++) {
-			opEn = new OProgressEntity();
-			opEn.setId(i+1);
-			opEn.setAddTime("2019/11/14  8：0" + i);
-
-			switch (i) {
-				case 0:
-					opEn.setContent("木材备料，即将送往生产线");
+		@Override
+		public void handleMessage(Message msg) {
+			CustomizeActivity theActivity = mActivity.get();
+			switch (msg.what) {
+				case 3: //确认效果图
+					theActivity.postConfirmDesigns();
 					break;
-				case 1:
-					opEn.setType(1);
-					ArrayList<String> imgLs = new ArrayList<>();
-					imgLs.add(AppConfig.IMAGE_URL + "design_001.png");
-					imgLs.add(AppConfig.IMAGE_URL + "design_004.png");
-					imgLs.add(AppConfig.IMAGE_URL + "design_006.png");
-					opEn.setImgList(imgLs);
+				case 4: //确认支付
+					theActivity.postConfirmPayment();
 					break;
-				case 2:
-					opEn.setContent("产品生产完成，即将打包入库");
+				case 7: //确认收货
+					theActivity.postConfirmReceipt();
 					break;
-				case 3:
-					opEn.setContent("产品已入库");
+				case 8: //确认安装
+					theActivity.postConfirmInstall();
 					break;
-				case 4:
-					opEn.setContent("产品已出库");
+				case 101: //取消订单
+					theActivity.postConfirmCancel();
+					break;
+				case 102: //删除订单
+					theActivity.postConfirmDelete();
 					break;
 			}
-			opList.add(opEn);
 		}
-		if (code > 5) {
-			ocEn.setOpList(opList);
-		}
-
-		//物流单号
-		OLogisticsEntity olEn;
-		ArrayList<OLogisticsEntity> olList = new ArrayList<>();
-		for (int i = 0; i < 3; i++) {
-			olEn = new OLogisticsEntity();
-			olEn.setId(i+1);
-			switch (i) {
-				case 0:
-					olEn.setName("德邦物流");
-					olEn.setNumber("DB5412210021456");
-					break;
-				case 1:
-					olEn.setName("顺丰物流");
-					olEn.setNumber("SF5412210021456");
-					break;
-				case 2:
-					olEn.setName("京东物流");
-					olEn.setNumber("JD5412210021456");
-					break;
-			}
-			olList.add(olEn);
-		}
-		if (code > 6) {
-			ocEn.setOlList(olList);
-		}
-
-		initShowData();
 	}
 
 }

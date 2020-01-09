@@ -93,6 +93,7 @@ public class FeedBackActivity extends BaseActivity implements OnClickListener {
 		new Handler().postDelayed(new Runnable() {
 			@Override
 			public void run() {
+				CommonTools.showToast(contentStr);
 				CommonTools.showToast(getString(R.string.setting_feedback_post_ok));
 				stopAnimation();
 			}

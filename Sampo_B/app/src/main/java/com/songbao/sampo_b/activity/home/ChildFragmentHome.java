@@ -1,11 +1,11 @@
 package com.songbao.sampo_b.activity.home;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.util.ArrayMap;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -57,7 +57,6 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 
-@SuppressLint("UseSparseArrays")
 public class ChildFragmentHome extends BaseFragment implements OnClickListener {
 
     String TAG = ChildFragmentHome.class.getSimpleName();
@@ -71,11 +70,11 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
 
     private Context mContext;
     private Runnable mPagerAction;
-    private AdapterCallback apCallback;
     private ThemeListAdapter lv_Adapter;
     private LinearLayout.LayoutParams bannerLP;
     private LinearLayout.LayoutParams indicatorsLP;
 
+    private boolean isLoop = false;
     private boolean vprStop = false;
     private boolean isLoadHead = true;
     private int idsSize, idsPosition, vprPosition;
@@ -98,7 +97,10 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
      * 与Activity不一样
      */
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@Nullable LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = View.inflate(getActivity(), R.layout.fragment_layout_home, null);
+        //Butter Knife初始化
+        ButterKnife.bind(this, view);
 
         LogUtil.i(LogUtil.LOG_TAG, TAG + ": onCreate");
         mContext = getActivity();
@@ -114,16 +116,7 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
         bannerLP.width = ban_widths;
         bannerLP.height = ban_widths * AppConfig.IMG_HEIGHT / AppConfig.IMG_WIDTHS;
 
-        View view = null;
-        try {
-            view = inflater.inflate(R.layout.fragment_layout_home, null);
-            //Butter Knife初始化
-            ButterKnife.bind(this, view);
-
-            initView();
-        } catch (Exception e) {
-            ExceptionUtil.handle(e);
-        }
+        initView();
         return view;
     }
 
@@ -175,14 +168,13 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
         mRecyclerView.setLayoutManager(layoutManager);
 
         // 创建适配器
-        apCallback = new AdapterCallback() {
+        lv_Adapter = new ThemeListAdapter(mContext, al_show, new AdapterCallback() {
 
             @Override
             public void setOnClick(Object data, int position, int type) {
-                if (position < 0 || position >= al_show.size()) return;
+                //if (position < 0 || position >= al_show.size()) return;
             }
-        };
-        lv_Adapter = new ThemeListAdapter(mContext, al_show, apCallback);
+        });
 
         // 添加头部View
         ll_head_main = (LinearLayout) FrameLayout.inflate(mContext, R.layout.layout_list_head_home, null);
@@ -206,14 +198,17 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
     private void initViewPager() {
         if (fg_home_vp == null) return;
         if (al_head.size() > 0) {
+            isLoop = false;
             clearViewPagerData();
-            idsSize = al_head.size();
+            ArrayList<ThemeEntity> al_show = new ArrayList<>();
+            al_show.addAll(al_head);
+            idsSize = al_show.size();
             indicators = new ImageView[idsSize]; // 定义指示器数组大小
             if (idsSize == 2 || idsSize == 3) {
-                al_head.addAll(al_head);
+                al_show.addAll(al_head);
             }
-            for (int i = 0; i < al_head.size(); i++) {
-                final ThemeEntity items = al_head.get(i);
+            for (int i = 0; i < al_show.size(); i++) {
+                final ThemeEntity items = al_show.get(i);
 
                 RoundImageView iv_show = new RoundImageView(mContext);
                 iv_show.setScaleType(ImageView.ScaleType.CENTER_CROP);
@@ -245,7 +240,9 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
                     vp_indicator.addView(indicators[i]);
                 }
             }
-            final boolean loop = viewLists.size() > 3 ? true : false;
+            if (viewLists.size() > 3) {
+                isLoop = true;
+            }
             fg_home_vp.setLayoutParams(bannerLP);
             /*fg_home_vp.setPageTransformer(true, new ViewPager.PageTransformer() {
 
@@ -272,10 +269,9 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
                 @NonNull
                 @Override
                 public Object instantiateItem(@NonNull ViewGroup container, int position) {
-                    if (viewLists.size() <= 0) return null;
                     try {
                         View layout;
-                        if (loop) {
+                        if (isLoop) {
                             layout = viewLists.get(position % viewLists.size());
                         } else {
                             layout = viewLists.get(position);
@@ -284,7 +280,7 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
                         return layout;
                     } catch (Exception e) {
                         ExceptionUtil.handle(e);
-                        return null;
+                        return  new ImageView(mContext);
                     }
                 }
 
@@ -294,7 +290,7 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
                     if (viewLists.size() <= 0) return;
                     try {
                         View layout;
-                        if (loop) {
+                        if (isLoop) {
                             layout = viewLists.get(position % viewLists.size());
                         } else {
                             layout = viewLists.get(position);
@@ -312,7 +308,7 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
 
                 @Override
                 public int getCount() {
-                    if (loop) {
+                    if (isLoop) {
                         return Integer.MAX_VALUE;
                     } else {
                         return viewLists.size();
@@ -324,7 +320,7 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
                 @Override
                 public void onPageSelected(final int arg0) {
                     if (fg_home_vp == null || viewLists.size() <= 1) return;
-                    if (loop) {
+                    if (isLoop) {
                         vprPosition = arg0;
                         idsPosition = arg0 % viewLists.size();
                         if (idsPosition == viewLists.size()) {
@@ -359,7 +355,7 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
                     }
                 }
             });
-            if (loop) {
+            if (isLoop) {
                 fg_home_vp.setCurrentItem(viewLists.size() * 10);
                 if (mPagerAction == null) {
                     mPagerAction = new Runnable() {
@@ -518,7 +514,7 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
 
     @Override
     protected void callbackData(JSONObject jsonObject, int dataType) {
-        BaseEntity baseEn;
+        BaseEntity<ThemeEntity> baseEn;
         try {
             switch (dataType) {
                 case AppConfig.REQUEST_SV_HOME_HEAD:

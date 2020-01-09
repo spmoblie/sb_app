@@ -130,8 +130,8 @@ public class ClipPhotoGridActivity extends BaseActivity {
 	 */
 	private List<ClipPhotoEntity> getPhotoAlbum() {
 		Cursor cursor = MediaStore.Images.Media.query(getContentResolver(), MediaStore.Images.Media.EXTERNAL_CONTENT_URI, STORE_IMAGES);
-		List<ClipPhotoEntity> albumList = new ArrayList<ClipPhotoEntity>();
-		Map<String, ClipPhotoEntity> countMap = new HashMap<String, ClipPhotoEntity>();
+		List<ClipPhotoEntity> albumList = new ArrayList<>();
+		Map<String, ClipPhotoEntity> countMap = new HashMap<>();
 		ClipPhotoEntity pa;
 		while (cursor.moveToNext()) {
 			String id = cursor.getString(3);

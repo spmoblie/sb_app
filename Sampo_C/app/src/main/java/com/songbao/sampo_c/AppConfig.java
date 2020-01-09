@@ -90,8 +90,6 @@ public class AppConfig {
 	public final static String URL_USER_DYNAMIC = "app/user/dynamic";
 	// 驻店设计
 	public final static String URL_USER_DESIGNER = "app/user/designer/getList";
-	// 提交定制
-	public final static String URL_BOOKING_CREATE = "trade/app/booking/create";
 
 	// 分类列表
 	public final static String URL_SORT_LIST = "app/shopping/getCatInfo";
@@ -113,6 +111,36 @@ public class AppConfig {
 	public final static String URL_CART_GET = "app/cart/getCart";
 	// 设计师列表
 	public final static String URL_DESIGN_ALL = "app/design/all";
+
+	// 我的地址
+	public final static String URL_ADDRESS_LIST = "trade/app/consignee/list";
+	// 修改地址
+	public final static String URL_ADDRESS_EDIT = "trade/app/consignee/edit";
+	// 删除地址
+	public final static String URL_ADDRESS_DELETE = "trade/app/consignee/delete";
+	// 默认地址
+	public final static String URL_ADDRESS_DEFAULT = "trade/app/consignee/setConsignee";
+
+	// 订单地址
+	public final static String URL_ORDER_UPDATE = "trade/app/order/update";
+	// 提交定制
+	public final static String URL_BOOKING_CREATE = "trade/app/booking/create";
+	// 取消定制
+	public final static String URL_BOOKING_CANCEL = "trade/app/booking/cancel";
+	// 删除定制
+	public final static String URL_BOOKING_DELETE = "trade/app/booking/delete";
+	// 定制列表
+	public final static String URL_BOOKING_LIST = "trade/app/booking/list";
+	// 定制详情
+	public final static String URL_BOOKING_INFO = "trade/app/booking/info";
+	// 确认设计
+	public final static String URL_BOOKING_DESIGNS = "trade/app/booking/designs";
+	// 确认支付
+	public final static String URL_BOOKING_PAYMENT = "trade/app/booking/payment";
+	// 确认收货
+	public final static String URL_BOOKING_RECEIPT = "trade/app/booking/received";
+	// 确认安装
+	public final static String URL_BOOKING_INSTALL = "trade/app/booking/installed";
 
 	// 上传接口
 	public final static String URL_UPLOAD_PUSH = "app/upload/push";
@@ -213,23 +241,47 @@ public class AppConfig {
 	public static final int REQUEST_SV_CART_ADD = 0X4010;
 	// 获取购物车商品
 	public static final int REQUEST_SV_CART_GET = 0X4011;
-	// 获取设计师列表
-	public static final int REQUEST_SV_DESIGN_ALL = 0X4020;
+
+	// 我的地址
+	public static final int REQUEST_SV_ADDRESS_LIST = 0X4101;
+	// 修改地址
+	public static final int REQUEST_SV_ADDRESS_EDIT = 0X4102;
+	// 删除地址
+	public static final int REQUEST_SV_ADDRESS_DELETE = 0X4103;
+	// 默认地址
+	public static final int REQUEST_SV_ADDRESS_DEFAULT = 0X4104;
+
+	// 订单地址
+	public static final int REQUEST_SV_ORDER_UPDATE = 0X4201;
 	// 提交定制
 	public static final int REQUEST_SV_BOOKING_CREATE = 0X4202;
+	// 取消定制
+	public static final int REQUEST_SV_BOOKING_CANCEL = 0X4203;
+	// 删除定制
+	public static final int REQUEST_SV_BOOKING_DELETE = 0X4204;
+	// 定制列表
+	public static final int REQUEST_SV_BOOKING_LIST= 0X4205;
+	// 定制详情
+	public static final int REQUEST_SV_BOOKING_INFO = 0X4206;
+	// 确认设计
+	public static final int REQUEST_SV_BOOKING_DESIGNS = 0X4207;
+	// 确认支付
+	public static final int REQUEST_SV_BOOKING_PAYMENT = 0X4208;
+	// 确认收货
+	public static final int REQUEST_SV_BOOKING_RECEIPT = 0X4209;
+	// 确认安装
+	public static final int REQUEST_SV_BOOKING_INSTALL = 0X4210;
 
-	// 上传评论照片
-	public static final int REQUEST_SV_UPLOAD_COMMENT_PHOTO = 0X5001;
-	// 商品售后信息
-	public static final int REQUEST_SV_GOODS_SALE = 0X5002;
-	// 商品退款详情
-	public static final int REQUEST_SV_REFUND_DETAIL = 0X5003;
+	// 商品售后
+	public static final int REQUEST_SV_GOODS_SALE = 0X5001;
+	// 退款详情
+	public static final int REQUEST_SV_REFUND_DETAIL = 0X5002;
+	// 评论照片
+	public static final int REQUEST_SV_UPLOAD_COMMENT_PHOTO = 0X5003;
 
 	/**
 	 ******************************************* RequestCode协议结束 ******************************************
-	 */
 
-	/**
 	 ******************************************* 全局常量设置开始 ******************************************
 	 */
 
@@ -257,6 +309,18 @@ public class AppConfig {
 	public static final int ERROR_CODE_PHONE_REGISTERED = 705;
 	// Error状态码：手机号未注册
 	public static final int ERROR_CODE_PHONE_UNREGISTERED = 706;
+
+	// 订单状态码
+	public static final int ORDER_STATUS_101 = 101; //待付款
+	public static final int ORDER_STATUS_102 = 102; //已取消
+	public static final int ORDER_STATUS_201 = 201; //生产中
+	public static final int ORDER_STATUS_301 = 301; //待发货
+	public static final int ORDER_STATUS_302 = 302; //退款中
+	public static final int ORDER_STATUS_303 = 303; //已退款
+	public static final int ORDER_STATUS_401 = 401; //待收货
+	public static final int ORDER_STATUS_501 = 501; //已签收
+	public static final int ORDER_STATUS_701 = 701; //待安装
+	public static final int ORDER_STATUS_801 = 800; //已完成
 
 	// 图片宽高比例
 	public static final int IMG_WIDTHS = 16;

@@ -237,6 +237,10 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
         <activity
+            android:name=".activity.mine.CustomizeListActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"/>
+        <activity
             android:name=".activity.mine.DesignerListActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
@@ -250,10 +254,6 @@
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.mine.MessageActivity"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name=".activity.mine.MyCustomizeActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
         <activity

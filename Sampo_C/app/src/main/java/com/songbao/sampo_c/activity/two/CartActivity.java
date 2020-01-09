@@ -368,7 +368,7 @@ public class CartActivity extends BaseActivity implements View.OnClickListener{
 	@Override
 	protected void callbackData(JSONObject jsonObject, int dataType) {
 		super.callbackData(jsonObject, dataType);
-		BaseEntity baseEn;
+		BaseEntity<CartEntity> baseEn;
 		try {
 			switch (dataType) {
 				case AppConfig.REQUEST_SV_CART_GET:

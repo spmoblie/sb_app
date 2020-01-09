@@ -190,7 +190,7 @@ public class AddressActivity extends BaseActivity implements View.OnClickListene
      */
     private void deleteSelectItem() {
         selectIdStr = "";
-        StringBuffer sb = new StringBuffer();
+        StringBuilder sb = new StringBuilder();
         AddressEntity cartEn;
         for (int i = 0; i < al_show.size(); i++) {
             cartEn = al_show.get(i);
@@ -414,7 +414,7 @@ public class AddressActivity extends BaseActivity implements View.OnClickListene
     @Override
     protected void callbackData(JSONObject jsonObject, int dataType) {
         super.callbackData(jsonObject, dataType);
-        BaseEntity baseEn;
+        BaseEntity<AddressEntity> baseEn;
         try {
             switch (dataType) {
                 case AppConfig.REQUEST_SV_ADDRESS_LIST:

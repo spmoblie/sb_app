@@ -10,9 +10,10 @@ public class OLogisticsEntity extends BaseEntity {
 	private int id;
 	private String name; //物流公司名称
 	private String number; //物流单号
+	private String orderNo; //订单编码
 
 	public OLogisticsEntity() {
-		
+
 	}
 
 	@Override
@@ -42,5 +43,13 @@ public class OLogisticsEntity extends BaseEntity {
 
 	public void setNumber(String number) {
 		this.number = number;
+	}
+
+	public String getOrderNo() {
+		return orderNo;
+	}
+
+	public void setOrderNo(String orderNo) {
+		this.orderNo = orderNo;
 	}
 }

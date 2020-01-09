@@ -21,13 +21,15 @@ public class OCustomizeEntity extends BaseEntity {
 	private String nodeTime7;
 	private String nodeTime8;
 	private String nodeTime9;
-	private int status;  //1:待付款，2:生产中，3:待收货，4:待安装，5:待评价，6:已完成，7:退换货，8:已取消
+	private String statusDesc; //状态描述
+	private int status;
+	private int nodeNo;  //1:提交预约，2:上门量尺，3:效果图，4:支付信息，5:收货信息，6:生产进度，7:产品发货，8:产品安装，9:订单完成
 	private int cycle; //计划生产周期
 	private double price; //订单报价
-	private boolean isPay; //是否支付
-	private boolean isFinish; //是否安装完成
+	private boolean isPayment; //是否确认支付
+	private boolean isDesigns; //是否确认图片
 	private boolean isReceipt; //是否确认收货
-	private boolean isConfirm; //是否确认效果图
+	private boolean isInstall; //是否确认安装
 	private AddressEntity adEn; //收货地址
 	private GoodsEntity gdEn; //定制商品信息
 	private DesignerEntity dgEn; //设计师信息
@@ -37,7 +39,7 @@ public class OCustomizeEntity extends BaseEntity {
 	private ArrayList<OLogisticsEntity> olList; //物流单号数集
 
 	public OCustomizeEntity() {
-		
+
 	}
 
 	@Override
@@ -141,6 +143,22 @@ public class OCustomizeEntity extends BaseEntity {
 		this.nodeTime9 = nodeTime9;
 	}
 
+	public String getStatusDesc() {
+		return statusDesc;
+	}
+
+	public void setStatusDesc(String statusDesc) {
+		this.statusDesc = statusDesc;
+	}
+
+	public int getNodeNo() {
+		return nodeNo;
+	}
+
+	public void setNodeNo(int nodeNo) {
+		this.nodeNo = nodeNo;
+	}
+
 	public int getStatus() {
 		return status;
 	}
@@ -165,20 +183,20 @@ public class OCustomizeEntity extends BaseEntity {
 		this.price = price;
 	}
 
-	public boolean isPay() {
-		return isPay;
+	public boolean isPayment() {
+		return isPayment;
 	}
 
-	public void setPay(boolean pay) {
-		isPay = pay;
+	public void setPayment(boolean payment) {
+		isPayment = payment;
 	}
 
-	public boolean isFinish() {
-		return isFinish;
+	public boolean isDesigns() {
+		return isDesigns;
 	}
 
-	public void setFinish(boolean finish) {
-		isFinish = finish;
+	public void setDesigns(boolean designs) {
+		isDesigns = designs;
 	}
 
 	public boolean isReceipt() {
@@ -189,12 +207,12 @@ public class OCustomizeEntity extends BaseEntity {
 		isReceipt = receipt;
 	}
 
-	public boolean isConfirm() {
-		return isConfirm;
+	public boolean isInstall() {
+		return isInstall;
 	}
 
-	public void setConfirm(boolean confirm) {
-		isConfirm = confirm;
+	public void setInstall(boolean install) {
+		isInstall = install;
 	}
 
 	public AddressEntity getAdEn() {

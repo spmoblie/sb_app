@@ -170,7 +170,7 @@ public class DesignerListActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     protected void callbackData(JSONObject jsonObject, int dataType) {
-        BaseEntity baseEn;
+        BaseEntity<DesignerEntity> baseEn;
         try {
             switch (dataType) {
                 case AppConfig.REQUEST_SV_USER_DESIGNER:
@@ -189,7 +189,7 @@ public class DesignerListActivity extends BaseActivity implements View.OnClickLi
                 case AppConfig.REQUEST_SV_BOOKING_CREATE:
                     baseEn = JsonUtils.getCustomizeResult(jsonObject);
                     if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
-                        final String orderNo = (String) baseEn.getData();
+                        final String orderNo = baseEn.getOthers();
                         CommonTools.showToast(getString(R.string.designer_subscribe_ok));
                         new Handler().postDelayed(new Runnable() {
                             @Override

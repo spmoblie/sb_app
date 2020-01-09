@@ -24,7 +24,7 @@ import java.util.ArrayList;
 /**
  * 商品精彩评价列表适配器
  */
-public class CommentGLVAdapter extends AppBaseAdapter {
+public class CommentGLVAdapter extends AppBaseAdapter<CommentEntity> {
 
 	private int imageTotalWidth;
 	private RelativeLayout.LayoutParams goodsImgLP;
@@ -77,7 +77,7 @@ public class CommentGLVAdapter extends AppBaseAdapter {
 		}
 
 		// 绑定View
-		final CommentEntity data = (CommentEntity) mDataList.get(position);
+		final CommentEntity data = mDataList.get(position);
 
 		if (position == getCount() - 1) {
 			holder.iv_line.setVisibility(View.GONE);

@@ -12,7 +12,7 @@ import com.songbao.sampo_c.entity.OLogisticsEntity;
 /**
  * 订单物流单号列表适配器
  */
-public class OrderLogisticsAdapter extends AppBaseAdapter {
+public class OrderLogisticsAdapter extends AppBaseAdapter<OLogisticsEntity> {
 
 	public OrderLogisticsAdapter(Context context) {
 		super(context);
@@ -30,7 +30,7 @@ public class OrderLogisticsAdapter extends AppBaseAdapter {
 		ViewHolder holder;
 		if(convertView == null){
 			convertView = View.inflate(context, R.layout.item_list_order_logistics, null);
-			
+
 			holder = new ViewHolder();
 			holder.item_main = convertView.findViewById(R.id.order_logistics_item_main);
 			holder.tv_number = convertView.findViewById(R.id.order_logistics_tv_number);
@@ -41,9 +41,9 @@ public class OrderLogisticsAdapter extends AppBaseAdapter {
 		}
 
 		// 绑定View
-		final OLogisticsEntity data = (OLogisticsEntity) mDataList.get(position);
+		final OLogisticsEntity data = mDataList.get(position);
 
-		holder.tv_number.setText(data.getName() + ":" + data.getNumber());
+		holder.tv_number.setText(context.getString(R.string.order_logistics_no, data.getName(), data.getNumber()));
 
 		holder.item_main.setOnClickListener(new View.OnClickListener() {
 			@Override

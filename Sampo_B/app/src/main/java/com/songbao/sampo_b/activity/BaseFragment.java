@@ -22,7 +22,6 @@ import com.songbao.sampo_b.utils.ExceptionUtil;
 import com.songbao.sampo_b.utils.LogUtil;
 import com.songbao.sampo_b.utils.StringUtil;
 import com.songbao.sampo_b.utils.UserManager;
-import com.songbao.sampo_b.utils.retrofit.Fault;
 import com.songbao.sampo_b.utils.retrofit.HttpRequests;
 
 import org.json.JSONObject;
@@ -49,7 +48,7 @@ public class BaseFragment extends Fragment {
 	}
 
 	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+	public View onCreateView(@Nullable LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		return null;
 	}
 
@@ -237,17 +236,6 @@ public class BaseFragment extends Fragment {
 
 					@Override
 					public void onError(Throwable throwable) {
-						if (throwable instanceof Fault) {
-							Fault fault = (Fault) throwable;
-							if (fault.getErrorCode() == 404) {
-								//错误处理
-							} else
-							if (fault.getErrorCode() == 500) {
-								//错误处理
-							}
-						} else {
-							//错误处理
-						}
 						loadFailHandle();
 						LogUtil.i(LogUtil.LOG_HTTP,"onError error message : " + throwable.getMessage());
 					}

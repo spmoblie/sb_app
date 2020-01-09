@@ -11,7 +11,7 @@ import com.songbao.sampo_c.AppApplication;
 import com.songbao.sampo_c.R;
 import com.songbao.sampo_c.entity.DesignerEntity;
 
-public class DesignerAdapter extends BaseRecyclerAdapter {
+public class DesignerAdapter extends BaseRecyclerAdapter<DesignerEntity> {
 
     public DesignerAdapter(Context context, int resLayout) {
         super(context, resLayout);
@@ -28,7 +28,7 @@ public class DesignerAdapter extends BaseRecyclerAdapter {
         TextView tv_info = holder.getView(R.id.list_item_designer_tv_info);
 
         // 绑定View
-        final DesignerEntity data = (DesignerEntity) mDataList.get(pos);
+        final DesignerEntity data = mDataList.get(pos);
         Glide.with(AppApplication.getAppContext())
                 .load(data.getImgUrl())
                 .apply(AppApplication.getShowOptions())

@@ -23,7 +23,7 @@ import com.songbao.sampo_b.widgets.RoundImageView;
 
 import java.util.ArrayList;
 
-public class CommentORCAdapter extends BaseRecyclerAdapter {
+public class CommentORCAdapter extends BaseRecyclerAdapter<CommentEntity> {
 
     private RelativeLayout.LayoutParams goodsImgLP;
 
@@ -55,7 +55,7 @@ public class CommentORCAdapter extends BaseRecyclerAdapter {
         Group group_content_add = holder.getView(R.id.comment_order_item_tv_content_add_group);
 
         // 绑定View
-        final CommentEntity data = (CommentEntity) mDataList.get(pos);
+        final CommentEntity data = mDataList.get(pos);
 
         GoodsEntity goodsEn = data.getGoodsEn();
         if (goodsEn != null) {

@@ -1,4 +1,4 @@
-package com.songbao.sampo_b.activity.mine;
+package com.songbao.sampo_c.activity.mine;
 
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -10,21 +10,21 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
 import android.widget.RadioButton;
 
-import com.songbao.sampo_b.AppApplication;
-import com.songbao.sampo_b.AppConfig;
-import com.songbao.sampo_b.R;
-import com.songbao.sampo_b.activity.BaseActivity;
-import com.songbao.sampo_b.adapter.AdapterCallback;
-import com.songbao.sampo_b.adapter.CustomizeAdapter;
-import com.songbao.sampo_b.entity.BaseEntity;
-import com.songbao.sampo_b.entity.OCustomizeEntity;
-import com.songbao.sampo_b.utils.ExceptionUtil;
-import com.songbao.sampo_b.utils.JsonUtils;
-import com.songbao.sampo_b.utils.LogUtil;
-import com.songbao.sampo_b.utils.retrofit.HttpRequests;
-import com.songbao.sampo_b.widgets.pullrefresh.PullToRefreshBase;
-import com.songbao.sampo_b.widgets.pullrefresh.PullToRefreshRecyclerView;
-import com.songbao.sampo_b.widgets.recycler.MyRecyclerView;
+import com.songbao.sampo_c.AppApplication;
+import com.songbao.sampo_c.AppConfig;
+import com.songbao.sampo_c.R;
+import com.songbao.sampo_c.activity.BaseActivity;
+import com.songbao.sampo_c.adapter.AdapterCallback;
+import com.songbao.sampo_c.adapter.CustomizeAdapter;
+import com.songbao.sampo_c.entity.BaseEntity;
+import com.songbao.sampo_c.entity.OCustomizeEntity;
+import com.songbao.sampo_c.utils.ExceptionUtil;
+import com.songbao.sampo_c.utils.JsonUtils;
+import com.songbao.sampo_c.utils.LogUtil;
+import com.songbao.sampo_c.utils.retrofit.HttpRequests;
+import com.songbao.sampo_c.widgets.pullrefresh.PullToRefreshBase;
+import com.songbao.sampo_c.widgets.pullrefresh.PullToRefreshRecyclerView;
+import com.songbao.sampo_c.widgets.recycler.MyRecyclerView;
 
 import org.json.JSONException;
 import org.json.JSONObject;

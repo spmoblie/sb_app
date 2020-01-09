@@ -1,6 +1,5 @@
 package com.songbao.sampo_c.adapter;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Typeface;
 import android.view.Gravity;
@@ -25,8 +24,7 @@ import java.util.List;
 /**
  * 商品属性面板RecyclerView适配器
  */
-@SuppressLint({ "UseSparseArrays" })
-public class GoodsAttrAdapter extends BaseRecyclerAdapter {
+public class GoodsAttrAdapter extends BaseRecyclerAdapter<GoodsAttrEntity> {
 
 	private final int viewWidth = AppApplication.screen_width;
 
@@ -95,7 +93,7 @@ public class GoodsAttrAdapter extends BaseRecyclerAdapter {
 
 	@Override
 	public void bindData(BaseRecyclerHolder holder, final int pos) {
-		final GoodsAttrEntity data = (GoodsAttrEntity) mDataList.get(pos);
+		final GoodsAttrEntity data = mDataList.get(pos);
 		if (pos == getItemCount() - 1) { //价格
 			// 获取View
 			ImageView iv_num_minus = holder.getView(R.id.attr_item_2_iv_num_minus);
@@ -283,12 +281,12 @@ public class GoodsAttrAdapter extends BaseRecyclerAdapter {
 	 * 恢复默认状态
 	 */
 	private void defaultViewStatus(View[] views) {
-		for (int i = 0; i < views.length; i++) {
-			TextView tv_item = (TextView)views[i];
+		for (View view: views) {
+			TextView tv_item = (TextView)view;
 			tv_item.setTextColor(context.getResources().getColor(R.color.app_color_gray_5));
-			views[i].setBackground(context.getResources().getDrawable(R.drawable.shape_style_solid_02_08));
-			views[i].setSelected(false);
-			views[i].setPadding(pdRight, pdTop, pdRight, pdTop);
+			view.setBackground(context.getResources().getDrawable(R.drawable.shape_style_solid_02_08));
+			view.setSelected(false);
+			view.setPadding(pdRight, pdTop, pdRight, pdTop);
 		}
 	}
 

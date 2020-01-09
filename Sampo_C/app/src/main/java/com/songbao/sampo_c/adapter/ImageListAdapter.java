@@ -10,11 +10,11 @@ import com.songbao.sampo_c.AppApplication;
 import com.songbao.sampo_c.R;
 
 /**
- * 商品详情图片列表适配器
+ * 图片列表适配器
  */
-public class GoodsDetailsAdapter extends AppBaseAdapter {
+public class ImageListAdapter extends AppBaseAdapter<String> {
 
-	public GoodsDetailsAdapter(Context context) {
+	public ImageListAdapter(Context context) {
 		super(context);
 	}
 
@@ -27,15 +27,15 @@ public class GoodsDetailsAdapter extends AppBaseAdapter {
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		ViewHolder holder;
 		if(convertView == null){
-			convertView = View.inflate(context, R.layout.item_list_goods_details, null);
-			
+			convertView = View.inflate(context, R.layout.item_list_image, null);
+
 			holder = new ViewHolder();
-			holder.iv_show = convertView.findViewById(R.id.list_item_goods_details_show);
+			holder.iv_show = convertView.findViewById(R.id.list_item_image_show);
 			convertView.setTag(holder);
 		}else{
 			holder = (ViewHolder)convertView.getTag();
 		}
-		String imgUrl = (String) mDataList.get(position);
+		String imgUrl = mDataList.get(position);
 
 		Glide.with(AppApplication.getAppContext())
 				.load(imgUrl)

@@ -20,22 +20,20 @@ import com.songbao.sampo_b.utils.StringUtil;
 import com.songbao.sampo_b.widgets.PriceTextWatcher;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 
 /**
  * 商品筛选RecyclerView适配器
  */
-public class GoodsScreenAdapter extends BaseRecyclerAdapter {
+public class GoodsScreenAdapter extends BaseRecyclerAdapter<GoodsAttrEntity> {
 
 	private final int viewWidth = AppApplication.screen_width * 4 / 5;
 
 	private Context context;
-	private HashMap<Integer, GoodsAttrEntity> attrHashMap = new HashMap<>();
 	private ScreenClickCallback scCallback;
-	private int txtSize, pdTop, pdRight, mgTop, mgRight, mgDps, tvSpec;
 	private long minPrice, maxPrice;
+	private int txtSize, pdTop, pdRight, mgTop, mgRight, mgDps, tvSpec;
 
 	public GoodsScreenAdapter(Context context, List<Integer> resLayout, ScreenClickCallback callback) {
 		super(context, resLayout);
@@ -71,7 +69,7 @@ public class GoodsScreenAdapter extends BaseRecyclerAdapter {
 
 	@Override
 	public void bindData(BaseRecyclerHolder holder, final int pos) {
-		final GoodsAttrEntity data = (GoodsAttrEntity) mDataList.get(pos);
+		final GoodsAttrEntity data = mDataList.get(pos);
 		if (pos == getItemCount() - 1) { //价格
 			// 获取View
 			EditText et_price_min = holder.getView(R.id.screen_item_2_tv_attr_min);
@@ -163,14 +161,15 @@ public class GoodsScreenAdapter extends BaseRecyclerAdapter {
 
 				rl_main.removeAllViews();
 				addAttributeView(rl_main, data, pos);
+
+				if (data.isShow()) {
+					rl_main.setVisibility(View.VISIBLE);
+				} else {
+					rl_main.setVisibility(View.GONE);
+				}
+				iv_show.setSelected(data.isShow());
 			}
 
-			if (data.isShow()) {
-				rl_main.setVisibility(View.VISIBLE);
-			} else {
-				rl_main.setVisibility(View.GONE);
-			}
-			iv_show.setSelected(data.isShow());
 			iv_show.setOnClickListener(new OnClickListener() {
 				@Override
 				public void onClick(View v) {
@@ -224,7 +223,6 @@ public class GoodsScreenAdapter extends BaseRecyclerAdapter {
 				beforeId = attrLists.get(i-1).getAttrId();
 			}
 			TextView tv = new TextView(context);
-			attrHashMap.put(viewId, attrEn);
 			tv.setPadding(pdRight, pdTop, pdRight, pdTop);
 			tv.setGravity(Gravity.CENTER);
 			tv.setId(viewId);

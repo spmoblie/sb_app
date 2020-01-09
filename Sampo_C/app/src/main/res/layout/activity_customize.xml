@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.songbao.sampo_c.widgets.ObservableScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.songbao.sampo_b.widgets.ObservableScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/customize_sv_main"
     android:layout_width="match_parent"
@@ -28,11 +28,11 @@
                 android:layout_width="1dp"
                 android:layout_height="0dp"
                 android:background="@drawable/shape_line_dotted"
-                app:layout_constraintVertical_weight="1"
-                app:layout_constraintTop_toBottomOf="@+id/customize_iv_module_1_title_sign"
                 app:layout_constraintBottom_toTopOf="@+id/customize_iv_module_9_title_sign"
                 app:layout_constraintLeft_toLeftOf="@+id/customize_iv_module_1_title_sign"
-                app:layout_constraintRight_toRightOf="@+id/customize_iv_module_1_title_sign"/>
+                app:layout_constraintRight_toRightOf="@+id/customize_iv_module_1_title_sign"
+                app:layout_constraintTop_toBottomOf="@+id/customize_iv_module_1_title_sign"
+                app:layout_constraintVertical_weight="1" />
 
             <TextView
                 android:id="@+id/customize_tv_order_number"
@@ -45,7 +45,7 @@
             <TextView
                 android:id="@+id/customize_tv_order_status"
                 style="@style/common_text_bg_frame"
-                android:layout_marginLeft="@dimen/margin_padding_10"
+                android:layout_marginStart="@dimen/margin_padding_10"
                 android:textColor="@color/app_color_white"
                 android:textSize="@dimen/app_text_size_small"
                 app:layout_constraintLeft_toRightOf="@+id/customize_tv_order_number" />
@@ -54,18 +54,19 @@
                 android:id="@+id/customize_iv_module_1_title_sign"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/sel_checkbox_large_ok"
                 android:layout_marginTop="@dimen/margin_padding_30"
-                app:layout_constraintTop_toBottomOf="@+id/customize_tv_order_number"/>
+                android:contentDescription="@string/desc"
+                android:src="@drawable/selector_checkbox_large"
+                app:layout_constraintTop_toBottomOf="@+id/customize_tv_order_number" />
 
             <TextView
                 android:id="@+id/customize_tv_module_1_title"
                 style="@style/order_text"
-                android:text="提交预约"
-                android:textStyle="bold"
+                android:layout_marginStart="@dimen/margin_padding_10"
+                android:text="@string/order_node_01"
                 android:textColor="@color/shows_text_color"
                 android:textSize="@dimen/app_text_size_content"
-                android:layout_marginLeft="@dimen/margin_padding_10"
+                android:textStyle="bold"
                 app:layout_constraintLeft_toRightOf="@+id/customize_iv_module_1_title_sign"
                 app:layout_constraintTop_toTopOf="@+id/customize_iv_module_1_title_sign" />
 
@@ -74,83 +75,89 @@
                 style="@style/order_text"
                 android:textColor="@color/app_color_gray_9"
                 android:textSize="@dimen/app_text_size_small"
+                app:layout_constraintBottom_toBottomOf="@+id/customize_tv_module_1_title"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/customize_tv_module_1_title"
-                app:layout_constraintBottom_toBottomOf="@+id/customize_tv_module_1_title"/>
+                app:layout_constraintTop_toTopOf="@+id/customize_tv_module_1_title" />
 
-            <com.songbao.sampo_c.widgets.RoundImageView
+            <com.songbao.sampo_b.widgets.RoundImageView
                 android:id="@+id/customize_iv_module_1_goods_img"
                 android:layout_width="76dp"
                 android:layout_height="76dp"
+                android:layout_marginTop="@dimen/margin_padding_20"
                 android:scaleType="centerCrop"
                 android:src="@drawable/icon_default_show"
-                android:layout_marginTop="@dimen/margin_padding_20"
-                app:type="round"
+                android:visibility="gone"
                 app:layout_constraintLeft_toLeftOf="@+id/customize_tv_module_1_title"
-                app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_1_title"/>
+                app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_1_title"
+                app:type="round" />
 
             <TextView
                 android:id="@+id/customize_tv_module_1_goods_name"
                 style="@style/list_item_text"
                 android:layout_width="0dp"
+                android:layout_marginStart="@dimen/app_margin_screen"
                 android:textColor="@color/app_color_gray_5"
-                android:layout_marginLeft="@dimen/app_margin_screen"
+                android:visibility="gone"
                 app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintLeft_toRightOf="@+id/customize_iv_module_1_goods_img"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/customize_iv_module_1_goods_img"
-                app:layout_constraintLeft_toRightOf="@+id/customize_iv_module_1_goods_img" />
+                app:layout_constraintTop_toTopOf="@+id/customize_iv_module_1_goods_img" />
 
             <TextView
                 android:id="@+id/customize_tv_module_1_designer_name"
                 style="@style/list_item_text"
                 android:layout_width="0dp"
-                android:textColor="@color/app_color_gray_5"
-                android:drawableLeft="@mipmap/icon_designer"
-                android:drawablePadding="@dimen/margin_padding_5"
                 android:layout_marginTop="@dimen/margin_padding_10"
+                android:drawablePadding="@dimen/margin_padding_5"
+                android:drawableStart="@mipmap/icon_designer"
+                android:textColor="@color/app_color_gray_5"
+                android:visibility="gone"
                 app:layout_constraintHorizontal_weight="1"
-                app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintLeft_toLeftOf="@+id/customize_tv_module_1_goods_name"
+                app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_1_goods_name" />
 
             <TextView
                 android:id="@+id/customize_tv_module_1_designer_phone"
                 style="@style/list_item_text"
                 android:layout_width="0dp"
-                android:textColor="@color/app_color_gray_5"
-                android:drawableLeft="@mipmap/icon_phone"
-                android:drawablePadding="@dimen/margin_padding_5"
                 android:layout_marginTop="@dimen/margin_padding_10"
+                android:drawablePadding="@dimen/margin_padding_5"
+                android:drawableStart="@mipmap/icon_phone"
+                android:textColor="@color/app_color_gray_5"
+                android:visibility="gone"
                 app:layout_constraintHorizontal_weight="1"
-                app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintLeft_toLeftOf="@+id/customize_tv_module_1_designer_name"
+                app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_1_designer_name" />
 
             <TextView
-                android:id="@+id/customize_tv_module_1_call_designer"
+                android:id="@+id/customize_tv_module_1_check_goods"
                 style="@style/order_text_button"
-                android:text="联系Ta"
-                app:layout_constraintWidth_percent="0.3"
+                android:text="@string/goods_good_detail"
+                android:visibility="gone"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_1_designer_phone" />
+                app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_1_designer_phone"
+                app:layout_constraintWidth_percent="0.3" />
 
             <ImageView
                 android:id="@+id/customize_iv_module_2_title_sign"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/selector_checkbox_large"
-                android:background="@color/app_color_white"
                 android:layout_marginTop="@dimen/margin_padding_40"
-                app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_1_call_designer"/>
+                android:background="@color/app_color_white"
+                android:contentDescription="@string/desc"
+                android:src="@drawable/selector_checkbox_large"
+                app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_1_check_goods" />
 
             <TextView
                 android:id="@+id/customize_tv_module_2_title"
                 style="@style/order_text"
-                android:text="上门量尺"
-                android:textStyle="bold"
+                android:layout_marginStart="@dimen/margin_padding_10"
+                android:text="@string/order_node_02"
                 android:textColor="@color/shows_text_color"
                 android:textSize="@dimen/app_text_size_content"
-                android:layout_marginLeft="@dimen/margin_padding_10"
+                android:textStyle="bold"
                 app:layout_constraintLeft_toRightOf="@+id/customize_iv_module_2_title_sign"
                 app:layout_constraintTop_toTopOf="@+id/customize_iv_module_2_title_sign" />
 
@@ -159,39 +166,39 @@
                 style="@style/order_text"
                 android:textColor="@color/app_color_gray_9"
                 android:textSize="@dimen/app_text_size_small"
+                app:layout_constraintBottom_toBottomOf="@+id/customize_tv_module_2_title"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/customize_tv_module_2_title"
-                app:layout_constraintBottom_toBottomOf="@+id/customize_tv_module_2_title"/>
+                app:layout_constraintTop_toTopOf="@+id/customize_tv_module_2_title" />
 
             <TextView
                 android:id="@+id/customize_tv_module_2_goods_spec"
                 style="@style/order_text"
-                android:visibility="gone"
                 android:layout_marginTop="@dimen/margin_padding_20"
+                android:visibility="gone"
                 app:layout_constraintLeft_toLeftOf="@+id/customize_tv_module_2_title"
                 app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_2_title" />
 
             <TextView
                 android:id="@+id/customize_tv_module_2_goods_color"
                 style="@style/order_text"
-                android:visibility="gone"
                 android:layout_marginTop="@dimen/margin_padding_5"
+                android:visibility="gone"
                 app:layout_constraintLeft_toLeftOf="@+id/customize_tv_module_2_goods_spec"
                 app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_2_goods_spec" />
 
             <TextView
                 android:id="@+id/customize_tv_module_2_goods_material"
                 style="@style/order_text"
-                android:visibility="gone"
                 android:layout_marginTop="@dimen/margin_padding_5"
+                android:visibility="gone"
                 app:layout_constraintLeft_toLeftOf="@+id/customize_tv_module_2_goods_color"
                 app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_2_goods_color" />
 
             <TextView
                 android:id="@+id/customize_tv_module_2_goods_veneer"
                 style="@style/order_text"
-                android:visibility="gone"
                 android:layout_marginTop="@dimen/margin_padding_5"
+                android:visibility="gone"
                 app:layout_constraintLeft_toLeftOf="@+id/customize_tv_module_2_goods_material"
                 app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_2_goods_material" />
 
@@ -199,19 +206,20 @@
                 android:id="@+id/customize_iv_module_3_title_sign"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/selector_checkbox_large"
-                android:background="@color/app_color_white"
                 android:layout_marginTop="@dimen/margin_padding_40"
-                app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_2_goods_veneer"/>
+                android:background="@color/app_color_white"
+                android:contentDescription="@string/desc"
+                android:src="@drawable/selector_checkbox_large"
+                app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_2_goods_veneer" />
 
             <TextView
                 android:id="@+id/customize_tv_module_3_title"
                 style="@style/order_text"
-                android:text="设计效果图"
-                android:textStyle="bold"
+                android:layout_marginStart="@dimen/margin_padding_10"
+                android:text="@string/order_node_03"
                 android:textColor="@color/shows_text_color"
                 android:textSize="@dimen/app_text_size_content"
-                android:layout_marginLeft="@dimen/margin_padding_10"
+                android:textStyle="bold"
                 app:layout_constraintLeft_toRightOf="@+id/customize_iv_module_3_title_sign"
                 app:layout_constraintTop_toTopOf="@+id/customize_iv_module_3_title_sign" />
 
@@ -220,62 +228,62 @@
                 style="@style/order_text"
                 android:textColor="@color/app_color_gray_9"
                 android:textSize="@dimen/app_text_size_small"
+                app:layout_constraintBottom_toBottomOf="@+id/customize_tv_module_3_title"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/customize_tv_module_3_title"
-                app:layout_constraintBottom_toBottomOf="@+id/customize_tv_module_3_title"/>
+                app:layout_constraintTop_toTopOf="@+id/customize_tv_module_3_title" />
 
-            <com.songbao.sampo_c.widgets.RoundImageView
+            <com.songbao.sampo_b.widgets.RoundImageView
                 android:id="@+id/customize_iv_module_3_show"
                 android:layout_width="160dp"
                 android:layout_height="90dp"
+                android:layout_marginTop="@dimen/margin_padding_20"
                 android:scaleType="centerCrop"
                 android:src="@drawable/icon_default_show"
-                android:layout_marginTop="@dimen/margin_padding_20"
                 android:visibility="gone"
-                app:type="round"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_3_title"/>
+                app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_3_title"
+                app:type="round" />
 
             <TextView
                 android:id="@+id/customize_tv_module_3_show"
                 android:layout_width="160dp"
                 android:layout_height="90dp"
+                android:layout_marginTop="@dimen/margin_padding_20"
+                android:background="@drawable/shape_style_solid_00_08"
                 android:gravity="center"
                 android:textColor="@color/app_color_white"
                 android:textSize="@dimen/app_text_size_content"
                 android:textStyle="bold"
                 android:visibility="gone"
-                android:background="@drawable/shape_style_solid_00_08"
-                android:layout_marginTop="@dimen/margin_padding_20"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_3_title" />
 
             <TextView
                 android:id="@+id/customize_tv_module_3_confirm"
                 style="@style/order_text_button"
-                android:text="确认效果图"
                 android:visibility="gone"
-                app:layout_constraintWidth_percent="0.3"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/customize_iv_module_3_show" />
+                app:layout_constraintTop_toBottomOf="@+id/customize_iv_module_3_show"
+                app:layout_constraintWidth_percent="0.3" />
 
             <ImageView
                 android:id="@+id/customize_iv_module_4_title_sign"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/selector_checkbox_large"
-                android:background="@color/app_color_white"
                 android:layout_marginTop="@dimen/margin_padding_40"
-                app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_3_confirm"/>
+                android:background="@color/app_color_white"
+                android:contentDescription="@string/desc"
+                android:src="@drawable/selector_checkbox_large"
+                app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_3_confirm" />
 
             <TextView
                 android:id="@+id/customize_tv_module_4_title"
                 style="@style/order_text"
-                android:text="支付订单"
-                android:textStyle="bold"
+                android:layout_marginStart="@dimen/margin_padding_10"
+                android:text="@string/order_node_04"
                 android:textColor="@color/shows_text_color"
                 android:textSize="@dimen/app_text_size_content"
-                android:layout_marginLeft="@dimen/margin_padding_10"
+                android:textStyle="bold"
                 app:layout_constraintLeft_toRightOf="@+id/customize_iv_module_4_title_sign"
                 app:layout_constraintTop_toTopOf="@+id/customize_iv_module_4_title_sign" />
 
@@ -284,60 +292,60 @@
                 style="@style/order_text"
                 android:textColor="@color/app_color_gray_9"
                 android:textSize="@dimen/app_text_size_small"
+                app:layout_constraintBottom_toBottomOf="@+id/customize_tv_module_4_title"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/customize_tv_module_4_title"
-                app:layout_constraintBottom_toBottomOf="@+id/customize_tv_module_4_title"/>
+                app:layout_constraintTop_toTopOf="@+id/customize_tv_module_4_title" />
 
             <TextView
                 android:id="@+id/customize_tv_module_4_order_price"
                 style="@style/order_text"
-                android:visibility="gone"
                 android:layout_marginTop="@dimen/margin_padding_20"
+                android:visibility="gone"
                 app:layout_constraintLeft_toLeftOf="@+id/customize_tv_module_4_title"
                 app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_4_title" />
 
             <TextView
                 android:id="@+id/customize_tv_module_4_order_day"
                 style="@style/order_text"
-                android:visibility="gone"
                 android:layout_marginTop="@dimen/margin_padding_5"
+                android:visibility="gone"
                 app:layout_constraintLeft_toLeftOf="@+id/customize_tv_module_4_order_price"
                 app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_4_order_price" />
 
             <TextView
                 android:id="@+id/customize_tv_module_4_order_pay"
                 style="@style/order_text"
-                android:visibility="gone"
                 android:layout_marginTop="@dimen/margin_padding_5"
+                android:visibility="gone"
                 app:layout_constraintLeft_toLeftOf="@+id/customize_tv_module_4_order_day"
                 app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_4_order_day" />
 
             <TextView
-                android:id="@+id/customize_tv_module_4_go_pay"
+                android:id="@+id/customize_tv_module_4_confirm"
                 style="@style/order_text_button"
-                android:text="在线支付"
                 android:visibility="gone"
-                app:layout_constraintWidth_percent="0.3"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_4_order_day" />
+                app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_4_order_day"
+                app:layout_constraintWidth_percent="0.3" />
 
             <ImageView
                 android:id="@+id/customize_iv_module_5_title_sign"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/selector_checkbox_large"
-                android:background="@color/app_color_white"
                 android:layout_marginTop="@dimen/margin_padding_40"
-                app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_4_go_pay"/>
+                android:background="@color/app_color_white"
+                android:contentDescription="@string/desc"
+                android:src="@drawable/selector_checkbox_large"
+                app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_4_confirm" />
 
             <TextView
                 android:id="@+id/customize_tv_module_5_title"
                 style="@style/order_text"
-                android:text="确认收货信息"
-                android:textStyle="bold"
+                android:layout_marginStart="@dimen/margin_padding_10"
+                android:text="@string/order_node_05"
                 android:textColor="@color/shows_text_color"
                 android:textSize="@dimen/app_text_size_content"
-                android:layout_marginLeft="@dimen/margin_padding_10"
+                android:textStyle="bold"
                 app:layout_constraintLeft_toRightOf="@+id/customize_iv_module_5_title_sign"
                 app:layout_constraintTop_toTopOf="@+id/customize_iv_module_5_title_sign" />
 
@@ -346,32 +354,32 @@
                 style="@style/order_text"
                 android:textColor="@color/app_color_gray_9"
                 android:textSize="@dimen/app_text_size_small"
+                app:layout_constraintBottom_toBottomOf="@+id/customize_tv_module_5_title"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/customize_tv_module_5_title"
-                app:layout_constraintBottom_toBottomOf="@+id/customize_tv_module_5_title"/>
+                app:layout_constraintTop_toTopOf="@+id/customize_tv_module_5_title" />
 
             <TextView
                 android:id="@+id/customize_tv_module_5_addressee_name"
                 style="@style/order_text"
-                android:visibility="gone"
                 android:layout_marginTop="@dimen/margin_padding_20"
+                android:visibility="gone"
                 app:layout_constraintLeft_toLeftOf="@+id/customize_tv_module_5_title"
                 app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_5_title" />
 
             <TextView
                 android:id="@+id/customize_tv_module_5_addressee_phone"
                 style="@style/order_text"
-                android:visibility="gone"
                 android:layout_marginTop="@dimen/margin_padding_5"
+                android:visibility="gone"
                 app:layout_constraintLeft_toLeftOf="@+id/customize_tv_module_5_addressee_name"
                 app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_5_addressee_name" />
 
             <TextView
                 android:id="@+id/customize_tv_module_5_address_1"
                 style="@style/order_text"
-                android:text="收货地址："
-                android:visibility="gone"
                 android:layout_marginTop="@dimen/margin_padding_5"
+                android:text="@string/address_rise"
+                android:visibility="gone"
                 app:layout_constraintLeft_toLeftOf="@+id/customize_tv_module_5_addressee_phone"
                 app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_5_addressee_phone" />
 
@@ -381,36 +389,36 @@
                 android:layout_width="0dp"
                 android:visibility="gone"
                 app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintLeft_toRightOf="@+id/customize_tv_module_5_address_1"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/customize_tv_module_5_address_1"
-                app:layout_constraintLeft_toRightOf="@+id/customize_tv_module_5_address_1" />
+                app:layout_constraintTop_toTopOf="@+id/customize_tv_module_5_address_1" />
 
             <TextView
                 android:id="@+id/customize_tv_module_5_select_address"
                 style="@style/order_text_button"
-                android:text="选择收货地址"
                 android:visibility="gone"
-                app:layout_constraintWidth_percent="0.35"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_5_address_2" />
+                app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_5_address_2"
+                app:layout_constraintWidth_percent="0.3" />
 
             <ImageView
                 android:id="@+id/customize_iv_module_6_title_sign"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/selector_checkbox_large"
-                android:background="@color/app_color_white"
                 android:layout_marginTop="@dimen/margin_padding_40"
-                app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_5_select_address"/>
+                android:background="@color/app_color_white"
+                android:contentDescription="@string/desc"
+                android:src="@drawable/selector_checkbox_large"
+                app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_5_select_address" />
 
             <TextView
                 android:id="@+id/customize_tv_module_6_title"
                 style="@style/order_text"
-                android:text="生产进度跟踪"
-                android:textStyle="bold"
+                android:layout_marginStart="@dimen/margin_padding_10"
+                android:text="@string/order_node_06"
                 android:textColor="@color/shows_text_color"
                 android:textSize="@dimen/app_text_size_content"
-                android:layout_marginLeft="@dimen/margin_padding_10"
+                android:textStyle="bold"
                 app:layout_constraintLeft_toRightOf="@+id/customize_iv_module_6_title_sign"
                 app:layout_constraintTop_toTopOf="@+id/customize_iv_module_6_title_sign" />
 
@@ -419,51 +427,52 @@
                 style="@style/order_text"
                 android:textColor="@color/app_color_gray_9"
                 android:textSize="@dimen/app_text_size_small"
+                app:layout_constraintBottom_toBottomOf="@+id/customize_tv_module_6_title"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/customize_tv_module_6_title"
-                app:layout_constraintBottom_toBottomOf="@+id/customize_tv_module_6_title"/>
+                app:layout_constraintTop_toTopOf="@+id/customize_tv_module_6_title" />
 
-            <com.songbao.sampo_c.widgets.ScrollViewListView
+            <com.songbao.sampo_b.widgets.ScrollViewListView
                 android:id="@+id/customize_module_6_lv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_padding_20"
                 android:visibility="gone"
                 app:layout_constraintHorizontal_weight="1"
-                app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintLeft_toLeftOf="@+id/customize_tv_module_6_title"
-                app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_6_title"/>
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_6_title" />
 
             <TextView
                 android:id="@+id/customize_tv_module_6_lv_open"
                 style="@style/order_text"
-                android:text="展开"
-                android:textColor="@color/shows_text_color"
-                android:textSize="@dimen/app_text_size_content"
-                android:drawableRight="@mipmap/icon_go_down"
+                android:drawableEnd="@mipmap/icon_go_down"
                 android:drawablePadding="@dimen/margin_padding_5"
                 android:paddingTop="@dimen/margin_padding_5"
+                android:text="@string/unfold"
+                android:textColor="@color/shows_text_color"
+                android:textSize="@dimen/app_text_size_content"
                 android:visibility="gone"
                 app:layout_constraintLeft_toLeftOf="@+id/customize_module_6_lv"
-                app:layout_constraintTop_toBottomOf="@+id/customize_module_6_lv"/>
+                app:layout_constraintTop_toBottomOf="@+id/customize_module_6_lv" />
 
             <ImageView
                 android:id="@+id/customize_iv_module_7_title_sign"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/selector_checkbox_large"
-                android:background="@color/app_color_white"
                 android:layout_marginTop="@dimen/margin_padding_40"
-                app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_6_lv_open"/>
+                android:background="@color/app_color_white"
+                android:contentDescription="@string/desc"
+                android:src="@drawable/selector_checkbox_large"
+                app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_6_lv_open" />
 
             <TextView
                 android:id="@+id/customize_tv_module_7_title"
                 style="@style/order_text"
-                android:text="产品发货"
-                android:textStyle="bold"
+                android:layout_marginStart="@dimen/margin_padding_10"
+                android:text="@string/order_node_07"
                 android:textColor="@color/shows_text_color"
                 android:textSize="@dimen/app_text_size_content"
-                android:layout_marginLeft="@dimen/margin_padding_10"
+                android:textStyle="bold"
                 app:layout_constraintLeft_toRightOf="@+id/customize_iv_module_7_title_sign"
                 app:layout_constraintTop_toTopOf="@+id/customize_iv_module_7_title_sign" />
 
@@ -472,47 +481,48 @@
                 style="@style/order_text"
                 android:textColor="@color/app_color_gray_9"
                 android:textSize="@dimen/app_text_size_small"
+                app:layout_constraintBottom_toBottomOf="@+id/customize_tv_module_7_title"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/customize_tv_module_7_title"
-                app:layout_constraintBottom_toBottomOf="@+id/customize_tv_module_7_title"/>
+                app:layout_constraintTop_toTopOf="@+id/customize_tv_module_7_title" />
 
-            <com.songbao.sampo_c.widgets.ScrollViewListView
+            <com.songbao.sampo_b.widgets.ScrollViewListView
                 android:id="@+id/customize_module_7_lv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_padding_20"
                 android:visibility="gone"
                 app:layout_constraintHorizontal_weight="1"
-                app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintLeft_toLeftOf="@+id/customize_tv_module_7_title"
-                app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_7_title"/>
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_7_title" />
 
             <TextView
-                android:id="@+id/customize_tv_module_7_call_install"
+                android:id="@+id/customize_tv_module_7_confirm"
                 style="@style/order_text_button"
-                android:text="联系安装"
+                android:text="@string/order_confirm_receipt"
                 android:visibility="gone"
-                app:layout_constraintWidth_percent="0.3"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/customize_module_7_lv" />
+                app:layout_constraintTop_toBottomOf="@+id/customize_module_7_lv"
+                app:layout_constraintWidth_percent="0.3" />
 
             <ImageView
                 android:id="@+id/customize_iv_module_8_title_sign"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/selector_checkbox_large"
-                android:background="@color/app_color_white"
                 android:layout_marginTop="@dimen/margin_padding_40"
-                app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_7_call_install"/>
+                android:background="@color/app_color_white"
+                android:contentDescription="@string/desc"
+                android:src="@drawable/selector_checkbox_large"
+                app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_7_confirm" />
 
             <TextView
                 android:id="@+id/customize_tv_module_8_title"
                 style="@style/order_text"
-                android:text="产品安装"
-                android:textStyle="bold"
+                android:layout_marginStart="@dimen/margin_padding_10"
+                android:text="@string/order_node_08"
                 android:textColor="@color/shows_text_color"
                 android:textSize="@dimen/app_text_size_content"
-                android:layout_marginLeft="@dimen/margin_padding_10"
+                android:textStyle="bold"
                 app:layout_constraintLeft_toRightOf="@+id/customize_iv_module_8_title_sign"
                 app:layout_constraintTop_toTopOf="@+id/customize_iv_module_8_title_sign" />
 
@@ -521,9 +531,9 @@
                 style="@style/order_text"
                 android:textColor="@color/app_color_gray_9"
                 android:textSize="@dimen/app_text_size_small"
+                app:layout_constraintBottom_toBottomOf="@+id/customize_tv_module_8_title"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/customize_tv_module_8_title"
-                app:layout_constraintBottom_toBottomOf="@+id/customize_tv_module_8_title"/>
+                app:layout_constraintTop_toTopOf="@+id/customize_tv_module_8_title" />
 
             <TextView
                 android:id="@+id/customize_tv_module_8_remind"
@@ -532,36 +542,36 @@
                 android:layout_marginTop="@dimen/margin_padding_20"
                 android:visibility="gone"
                 app:layout_constraintHorizontal_weight="1"
-                app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintLeft_toLeftOf="@+id/customize_tv_module_8_title"
+                app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_8_title" />
 
             <TextView
-                android:id="@+id/customize_tv_module_8_install_confirm"
+                android:id="@+id/customize_tv_module_8_confirm"
                 style="@style/order_text_button"
-                android:text="确认安装完成"
                 android:visibility="gone"
-                app:layout_constraintWidth_percent="0.35"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_8_remind" />
+                app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_8_remind"
+                app:layout_constraintWidth_percent="0.3" />
 
             <ImageView
                 android:id="@+id/customize_iv_module_9_title_sign"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/selector_checkbox_large"
-                android:background="@color/app_color_white"
                 android:layout_marginTop="@dimen/margin_padding_40"
-                app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_8_install_confirm"/>
+                android:background="@color/app_color_white"
+                android:contentDescription="@string/desc"
+                android:src="@drawable/selector_checkbox_large"
+                app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_8_confirm" />
 
             <TextView
                 android:id="@+id/customize_tv_module_9_title"
                 style="@style/order_text"
-                android:text="订单完成"
-                android:textStyle="bold"
+                android:layout_marginStart="@dimen/margin_padding_10"
+                android:text="@string/order_node_09"
                 android:textColor="@color/shows_text_color"
                 android:textSize="@dimen/app_text_size_content"
-                android:layout_marginLeft="@dimen/margin_padding_10"
+                android:textStyle="bold"
                 app:layout_constraintLeft_toRightOf="@+id/customize_iv_module_9_title_sign"
                 app:layout_constraintTop_toTopOf="@+id/customize_iv_module_9_title_sign" />
 
@@ -570,47 +580,47 @@
                 style="@style/order_text"
                 android:textColor="@color/app_color_gray_9"
                 android:textSize="@dimen/app_text_size_small"
+                app:layout_constraintBottom_toBottomOf="@+id/customize_tv_module_9_title"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/customize_tv_module_9_title"
-                app:layout_constraintBottom_toBottomOf="@+id/customize_tv_module_9_title"/>
+                app:layout_constraintTop_toTopOf="@+id/customize_tv_module_9_title" />
 
             <TextView
                 android:id="@+id/customize_tv_module_9_remind"
                 style="@style/order_text"
                 android:layout_width="0dp"
-                android:text="您的定制产品已完成安装，有任何产品相关问题请联系售后服务或拨打400-880-6558咨询"
                 android:layout_marginTop="@dimen/margin_padding_20"
+                android:text="@string/order_finish_hint"
                 android:visibility="gone"
                 app:layout_constraintHorizontal_weight="1"
-                app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintLeft_toLeftOf="@+id/customize_tv_module_9_title"
+                app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_9_title" />
 
             <TextView
                 android:id="@+id/customize_tv_module_9_comment"
                 style="@style/order_text_button"
-                android:text="我要评价"
-                android:textColor="@color/app_color_white"
                 android:background="@drawable/shape_style_solid_06_08"
+                android:text="@string/comment_me"
+                android:textColor="@color/app_color_white"
                 android:visibility="gone"
-                app:layout_constraintWidth_percent="0.3"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_9_remind" />
+                app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_9_remind"
+                app:layout_constraintWidth_percent="0.3" />
 
             <TextView
                 android:id="@+id/customize_tv_module_9_post_sale"
                 style="@style/order_text_button"
-                android:text="申请售后"
-                android:textColor="@color/app_color_gray_5"
+                android:layout_marginEnd="@dimen/margin_padding_20"
                 android:background="@drawable/shape_style_empty_02_08"
-                android:layout_marginRight="@dimen/margin_padding_20"
+                android:text="@string/order_post_sale"
+                android:textColor="@color/app_color_gray_5"
                 android:visibility="gone"
-                app:layout_constraintWidth_percent="0.3"
                 app:layout_constraintRight_toLeftOf="@+id/customize_tv_module_9_comment"
-                app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_9_remind" />
+                app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_9_remind"
+                app:layout_constraintWidth_percent="0.3" />
 
         </android.support.constraint.ConstraintLayout>
 
     </LinearLayout>
 
-</com.songbao.sampo_c.widgets.ObservableScrollView>
+</com.songbao.sampo_b.widgets.ObservableScrollView>

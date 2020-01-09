@@ -53,7 +53,6 @@ public class ChoiceDateActivity extends BaseActivity implements View.OnClickList
     @BindView(R.id.choice_date_tv_confirm)
     TextView tv_confirm;
 
-    private ThemeEntity data;
     private OptionEntity selectEn;
     private ChoiceListAdapter lv_Adapter;
     private boolean isChange = false;
@@ -69,7 +68,7 @@ public class ChoiceDateActivity extends BaseActivity implements View.OnClickList
 
         assignDay = getIntent().getStringExtra("assignDay");
         assignTime = getIntent().getStringExtra("assignTime");
-        data = (ThemeEntity) getIntent().getSerializableExtra(AppConfig.PAGE_DATA);
+        ThemeEntity data = (ThemeEntity) getIntent().getSerializableExtra(AppConfig.PAGE_DATA);
         if (data != null) {
             themeId = data.getThemeId();
         }
@@ -366,13 +365,12 @@ public class ChoiceDateActivity extends BaseActivity implements View.OnClickList
 
     @Override
     protected void callbackData(JSONObject jsonObject, int dataType) {
-        BaseEntity baseEn;
         try {
             switch (dataType) {
                 case AppConfig.REQUEST_SV_RESERVATION_DATE:
-                    baseEn = JsonUtils.getDateList(jsonObject);
-                    if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
-                        List<String> lists = baseEn.getLists();
+                    BaseEntity<String> dateEn = JsonUtils.getDateList(jsonObject);
+                    if (dateEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+                        List<String> lists = dateEn.getLists();
                         if (lists.size() > 0) {
                             al_date.clear();
                             al_date.addAll(lists);
@@ -380,13 +378,13 @@ public class ChoiceDateActivity extends BaseActivity implements View.OnClickList
                             loadDateOk = true;
                         }
                     } else {
-                        handleErrorCode(baseEn);
+                        handleErrorCode(dateEn);
                     }
                     break;
                 case AppConfig.REQUEST_SV_RESERVATION_TIME:
-                    baseEn = JsonUtils.getTimeSlot(jsonObject);
-                    if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
-                        List<OptionEntity> lists = baseEn.getLists();
+                    BaseEntity<OptionEntity> timeEn = JsonUtils.getTimeSlot(jsonObject);
+                    if (timeEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+                        List<OptionEntity> lists = timeEn.getLists();
                         if (lists.size() > 0) {
                             al_show.clear();
                             al_show.addAll(lists);
@@ -398,11 +396,11 @@ public class ChoiceDateActivity extends BaseActivity implements View.OnClickList
                         }
                     } else {
                         initListView();
-                        handleErrorCode(baseEn);
+                        handleErrorCode(timeEn);
                     }
                     break;
                 case AppConfig.REQUEST_SV_RESERVATION_IS:
-                    baseEn = JsonUtils.getBaseErrorData(jsonObject);
+                    BaseEntity baseEn = JsonUtils.getBaseErrorData(jsonObject);
                     if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
                         isChange = true;
                         finish();

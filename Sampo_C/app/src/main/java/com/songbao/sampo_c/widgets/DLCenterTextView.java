@@ -1,17 +1,15 @@
 package com.songbao.sampo_c.widgets;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.drawable.Drawable;
+import android.support.v7.widget.AppCompatTextView;
 import android.util.AttributeSet;
-import android.widget.TextView;
 
 /**
  * 自定义控件，使用drawableLeft与text水平居中显示
  */
-@SuppressLint("AppCompatCustomView")
-public class DLCenterTextView extends TextView {
+public class DLCenterTextView extends AppCompatTextView {
 
     public DLCenterTextView(Context context) {
         super(context);
@@ -28,16 +26,14 @@ public class DLCenterTextView extends TextView {
     @Override
     protected void onDraw(Canvas canvas) {
         Drawable[] drawables = getCompoundDrawables();
-        if(drawables != null){
-            Drawable drawableLeft = drawables[0];
-            if(drawableLeft != null){
-                float textWidth = getPaint().measureText(getText().toString());
-                int drawablePadding = getCompoundDrawablePadding();
-                int drawableWidth = 0;
-                drawableWidth = drawableLeft.getIntrinsicWidth();
-                float bodyWidth = textWidth + drawableWidth + drawablePadding;
-                canvas.translate((getWidth() - bodyWidth) / 2, 0);
-            }
+        Drawable drawableLeft = drawables[0];
+        if(drawableLeft != null){
+            float textWidth = getPaint().measureText(getText().toString());
+            int drawablePadding = getCompoundDrawablePadding();
+            int drawableWidth;
+            drawableWidth = drawableLeft.getIntrinsicWidth();
+            float bodyWidth = textWidth + drawableWidth + drawablePadding;
+            canvas.translate((getWidth() - bodyWidth) / 2, 0);
         }
         super.onDraw(canvas);
     }

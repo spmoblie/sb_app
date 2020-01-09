@@ -1,10 +1,10 @@
 package com.songbao.sampo_b.activity.two;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.util.ArrayMap;
 import android.support.v7.widget.LinearLayoutManager;
@@ -87,22 +87,15 @@ public class ChildFragmentTwo extends BaseFragment implements OnClickListener {
 	 * 与Activity不一样
 	 */
 	@Override
-	@SuppressLint("InflateParams")
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+	public View onCreateView(@Nullable LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+		View view = View.inflate(getActivity(), R.layout.fragment_layout_sampo, null);
+		//Butter Knife初始化
+		ButterKnife.bind(this, view);
 
-		LogUtil.i(LogUtil.LOG_TAG, TAG + ": onCreate");
 		mContext = getActivity();
+		LogUtil.i(LogUtil.LOG_TAG, TAG + ": onCreate");
 
-		View view = null;
-		try {
-			view = inflater.inflate(R.layout.fragment_layout_sampo, null);
-			//Butter Knife初始化
-			ButterKnife.bind(this, view);
-
-			initView();
-		} catch (Exception e) {
-			ExceptionUtil.handle(e);
-		}
+		initView();
 		return view;
 	}
 
@@ -336,29 +329,28 @@ public class ChildFragmentTwo extends BaseFragment implements OnClickListener {
 
 	@Override
 	protected void callbackData(JSONObject jsonObject, int dataType) {
-		BaseEntity baseEn;
 		try {
 			switch (dataType) {
 				case AppConfig.REQUEST_SV_SORT_LIST:
-					baseEn = JsonUtils.getSortListData(jsonObject);
-					if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+					BaseEntity<GoodsSortEntity> sortEn = JsonUtils.getSortListData(jsonObject);
+					if (sortEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
 						isSortOk = true;
 						al_left.clear();
-						al_left.addAll(baseEn.getLists());
+						al_left.addAll(sortEn.getLists());
 						if (al_left.size() > 0) {
 							postSortCode = al_left.get(0).getSortCode();
 							loadFirstPageData();
 						}
 						updateLeftListData(0);
 					} else {
-						handleErrorCode(baseEn);
+						handleErrorCode(sortEn);
 					}
 					break;
 				case AppConfig.REQUEST_SV_GOODS_LIST:
-					baseEn = JsonUtils.getGoodsListData(jsonObject);
-					if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
-						data_total = baseEn.getDataTotal();
-						List<GoodsEntity> lists = filterData(baseEn.getLists(), am_right);
+					BaseEntity<GoodsEntity> goodsEn = JsonUtils.getGoodsListData(jsonObject);
+					if (goodsEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+						data_total = goodsEn.getDataTotal();
+						List<GoodsEntity> lists = filterData(goodsEn.getLists(), am_right);
 						if (lists != null && lists.size() > 0) {
 							if (load_type == 0) {
 								//下拉
@@ -374,7 +366,7 @@ public class ChildFragmentTwo extends BaseFragment implements OnClickListener {
 						}
 						updateRightListData();
 					} else {
-						handleErrorCode(baseEn);
+						handleErrorCode(goodsEn);
 					}
 					break;
 			}

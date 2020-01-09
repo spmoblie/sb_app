@@ -29,8 +29,8 @@ public class JsonUtils {
     /**
      * 解析公共数据
      */
-    private static BaseEntity getCommonKeyValue(JSONObject jsonObj) throws JSONException {
-        BaseEntity baseEn = new BaseEntity();
+    private static <T extends BaseEntity> BaseEntity<T> getCommonKeyValue(JSONObject jsonObj) throws JSONException {
+        BaseEntity<T> baseEn = new BaseEntity<>();
         if (jsonObj.has("errno")) {
             baseEn.setErrno(jsonObj.getInt("errno"));
         }
@@ -43,7 +43,7 @@ public class JsonUtils {
     /**
      * 解析返回的状态码
      */
-    public static BaseEntity getBaseErrorData(JSONObject jsonObject) throws JSONException {
+    public static <T extends BaseEntity> BaseEntity<T> getBaseErrorData(JSONObject jsonObject) throws JSONException {
         return getCommonKeyValue(jsonObject);
     }
 
@@ -62,8 +62,8 @@ public class JsonUtils {
     /**
      * 解析首页头部数据
      */
-    public static BaseEntity getHomeHead(JSONObject jsonObject) throws JSONException {
-        BaseEntity mainEn = getCommonKeyValue(jsonObject);
+    public static BaseEntity<ThemeEntity> getHomeHead(JSONObject jsonObject) throws JSONException {
+        BaseEntity<ThemeEntity> mainEn = getCommonKeyValue(jsonObject);
 
         if (StringUtil.notNull(jsonObject, "data")) {
             JSONObject jsonData = jsonObject.getJSONObject("data");
@@ -90,8 +90,8 @@ public class JsonUtils {
     /**
      * 解析首页列表数据
      */
-    public static BaseEntity getHomeList(JSONObject jsonObject) throws JSONException {
-        BaseEntity mainEn = getCommonKeyValue(jsonObject);
+    public static BaseEntity<ThemeEntity> getHomeList(JSONObject jsonObject) throws JSONException {
+        BaseEntity<ThemeEntity> mainEn = getCommonKeyValue(jsonObject);
 
         if (StringUtil.notNull(jsonObject, "data")) {
             JSONObject jsonData = jsonObject.getJSONObject("data");
@@ -169,8 +169,8 @@ public class JsonUtils {
     /**
      * 解析用户资料数据
      */
-    public static BaseEntity getUserInfo(JSONObject jsonObject) throws JSONException {
-        BaseEntity mainEn = getCommonKeyValue(jsonObject);
+    public static BaseEntity<UserInfoEntity> getUserInfo(JSONObject jsonObject) throws JSONException {
+        BaseEntity<UserInfoEntity> mainEn = getCommonKeyValue(jsonObject);
 
         UserInfoEntity userInfo = new UserInfoEntity();
         if (StringUtil.notNull(jsonObject, "data")) {
@@ -205,8 +205,8 @@ public class JsonUtils {
     /**
      * 解析用户动态数据
      */
-    public static BaseEntity getUserDynamic(JSONObject jsonObject) throws JSONException {
-        BaseEntity mainEn = getCommonKeyValue(jsonObject);
+    public static BaseEntity<UserInfoEntity> getUserDynamic(JSONObject jsonObject) throws JSONException {
+        BaseEntity<UserInfoEntity> mainEn = getCommonKeyValue(jsonObject);
 
         if (StringUtil.notNull(jsonObject, "data")) {
             JSONObject jsonData = jsonObject.getJSONObject("data");
@@ -220,8 +220,8 @@ public class JsonUtils {
     /**
      * 解析我的消息数据
      */
-    public static BaseEntity getMessageData(JSONObject jsonObject) throws JSONException {
-        BaseEntity mainEn = getCommonKeyValue(jsonObject);
+    public static BaseEntity<MessageEntity> getMessageData(JSONObject jsonObject) throws JSONException {
+        BaseEntity<MessageEntity> mainEn = getCommonKeyValue(jsonObject);
 
         if (StringUtil.notNull(jsonObject, "data")) {
             JSONObject jsonData = jsonObject.getJSONObject("data");
@@ -239,7 +239,10 @@ public class JsonUtils {
                     childEn.setTitle(item.getString("title"));
                     childEn.setContent(item.getString("text"));
                     childEn.setAddTime(item.getString("addTime"));
-                    childEn.setRead(item.getInt("status") == 4 ? true : false);
+
+                    if (item.getInt("status") == 4) {
+                        childEn.setRead(true);
+                    }
                     lists.add(childEn);
                 }
                 mainEn.setLists(lists);
@@ -251,8 +254,8 @@ public class JsonUtils {
     /**
      * 解析设计师数据
      */
-    public static BaseEntity getDesignData(JSONObject jsonObject) throws JSONException {
-        BaseEntity mainEn = getCommonKeyValue(jsonObject);
+    public static BaseEntity<DesignerEntity> getDesignData(JSONObject jsonObject) throws JSONException {
+        BaseEntity<DesignerEntity> mainEn = getCommonKeyValue(jsonObject);
 
         if (StringUtil.notNull(jsonObject, "data")) {
             JSONArray jsonData = jsonObject.getJSONArray("data");
@@ -276,11 +279,11 @@ public class JsonUtils {
     /**
      * 解析提交定制订单返回数据
      */
-    public static BaseEntity getCustomizeResult(JSONObject jsonObject) throws JSONException {
-        BaseEntity mainEn = getCommonKeyValue(jsonObject);
+    public static BaseEntity<DesignerEntity> getCustomizeResult(JSONObject jsonObject) throws JSONException {
+        BaseEntity<DesignerEntity> mainEn = getCommonKeyValue(jsonObject);
 
         if (StringUtil.notNull(jsonObject, "data")) {
-            mainEn.setData(jsonObject.getString("data"));
+            mainEn.setOthers(jsonObject.getString("data"));
         }
         return mainEn;
     }
@@ -288,8 +291,8 @@ public class JsonUtils {
     /**
      * 解析定制列表数据
      */
-    public static BaseEntity getCustomizeListData(JSONObject jsonObject) throws JSONException {
-        BaseEntity mainEn = getCommonKeyValue(jsonObject);
+    public static BaseEntity<OCustomizeEntity> getCustomizeListData(JSONObject jsonObject) throws JSONException {
+        BaseEntity<OCustomizeEntity> mainEn = getCommonKeyValue(jsonObject);
 
         if (StringUtil.notNull(jsonObject, "data")) {
             JSONObject jsonData = jsonObject.getJSONObject("data");
@@ -334,8 +337,8 @@ public class JsonUtils {
     /**
      * 解析定制订单详情数据
      */
-    public static BaseEntity getCustomizeDetailData(JSONObject jsonObject) throws JSONException {
-        BaseEntity mainEn = getCommonKeyValue(jsonObject);
+    public static BaseEntity<OCustomizeEntity> getCustomizeDetailData(JSONObject jsonObject) throws JSONException {
+        BaseEntity<OCustomizeEntity> mainEn = getCommonKeyValue(jsonObject);
 
         if (StringUtil.notNull(jsonObject, "data")) {
             JSONObject jsonData = jsonObject.getJSONObject("data");
@@ -470,8 +473,8 @@ public class JsonUtils {
     /**
      * 解析分类列表数据
      */
-    public static BaseEntity getSortListData(JSONObject jsonObject) throws JSONException {
-        BaseEntity mainEn = getCommonKeyValue(jsonObject);
+    public static BaseEntity<GoodsSortEntity> getSortListData(JSONObject jsonObject) throws JSONException {
+        BaseEntity<GoodsSortEntity> mainEn = getCommonKeyValue(jsonObject);
 
         if (StringUtil.notNull(jsonObject, "data")) {
             JSONArray data = jsonObject.getJSONArray("data");
@@ -493,8 +496,8 @@ public class JsonUtils {
     /**
      * 解析商品列表数据
      */
-    public static BaseEntity getGoodsListData(JSONObject jsonObject) throws JSONException {
-        BaseEntity mainEn = getCommonKeyValue(jsonObject);
+    public static BaseEntity<GoodsEntity> getGoodsListData(JSONObject jsonObject) throws JSONException {
+        BaseEntity<GoodsEntity> mainEn = getCommonKeyValue(jsonObject);
 
         if (StringUtil.notNull(jsonObject, "data")) {
             JSONObject jsonData = jsonObject.getJSONObject("data");
@@ -677,8 +680,8 @@ public class JsonUtils {
     /**
      * 解析地址列表数据
      */
-    public static BaseEntity getAddressListData(JSONObject jsonObject) throws JSONException {
-        BaseEntity mainEn = getCommonKeyValue(jsonObject);
+    public static BaseEntity<AddressEntity> getAddressListData(JSONObject jsonObject) throws JSONException {
+        BaseEntity<AddressEntity> mainEn = getCommonKeyValue(jsonObject);
 
         if (StringUtil.notNull(jsonObject, "data")) {
             JSONArray jsonData = jsonObject.getJSONArray("data");
@@ -703,8 +706,8 @@ public class JsonUtils {
     /**
      * 解析商品评价数据
      */
-    public static BaseEntity getCommentGoodsListData(JSONObject jsonObject) throws JSONException {
-        BaseEntity mainEn = getCommonKeyValue(jsonObject);
+    public static BaseEntity<CommentEntity> getCommentGoodsListData(JSONObject jsonObject) throws JSONException {
+        BaseEntity<CommentEntity> mainEn = getCommonKeyValue(jsonObject);
 
         if (StringUtil.notNull(jsonObject, "data")) {
             JSONObject jsonData = jsonObject.getJSONObject("data");
@@ -747,7 +750,7 @@ public class JsonUtils {
     /**
      * 解析我的评价数据
      */
-    public static BaseEntity getCommentOrderListData(JSONObject jsonObject) throws JSONException {
+    public static BaseEntity<CommentEntity> getCommentOrderListData(JSONObject jsonObject) throws JSONException {
         return getCommonKeyValue(jsonObject);
     }
 

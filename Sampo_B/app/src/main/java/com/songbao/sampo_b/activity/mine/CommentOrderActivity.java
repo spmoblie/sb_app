@@ -115,7 +115,7 @@ public class CommentOrderActivity extends BaseActivity {
 
 			@Override
 			public void setOnClick(Object data, int position, int type) {
-				if (position < 0 || position >= al_show.size()) return;
+				//if (position < 0 || position >= al_show.size()) return;
 			}
 		});
 		mRecyclerView.setAdapter(rvAdapter);
@@ -187,7 +187,7 @@ public class CommentOrderActivity extends BaseActivity {
 
 	@Override
 	protected void callbackData(JSONObject jsonObject, int dataType) {
-		BaseEntity baseEn;
+		BaseEntity<CommentEntity> baseEn;
 		try {
 			switch (dataType) {
 				case AppConfig.REQUEST_SV_USER_MESSAGE:

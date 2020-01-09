@@ -22,7 +22,7 @@ import java.util.ArrayList;
 /**
  * 定制产品生产进度列表适配器
  */
-public class OrderProgressAdapter extends AppBaseAdapter {
+public class OrderProgressAdapter extends AppBaseAdapter<OProgressEntity> {
 
 	private int imageTotalWidth;
 	private RelativeLayout.LayoutParams goodsImgLP;
@@ -48,7 +48,7 @@ public class OrderProgressAdapter extends AppBaseAdapter {
 		ViewHolder holder;
 		if(convertView == null){
 			convertView = View.inflate(context, R.layout.item_list_order_progress, null);
-			
+
 			holder = new ViewHolder();
 			holder.item_main = convertView.findViewById(R.id.order_progress_item_main);
 			holder.tv_time = convertView.findViewById(R.id.order_progress_tv_time);
@@ -61,7 +61,7 @@ public class OrderProgressAdapter extends AppBaseAdapter {
 		}
 
 		// 绑定View
-		final OProgressEntity data = (OProgressEntity) mDataList.get(position);
+		final OProgressEntity data = mDataList.get(position);
 
 		holder.tv_time.setText(data.getAddTime());
 		holder.tv_content.setText(data.getContent());

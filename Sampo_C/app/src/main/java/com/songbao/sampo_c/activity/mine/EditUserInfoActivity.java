@@ -47,42 +47,42 @@ public class EditUserInfoActivity extends BaseActivity {
 
 	@BindView(R.id.edit_info_tv_reminder)
 	TextView tv_reminder;
-	
+
 	private boolean isChange = false;
 	private boolean isPost = true;
 	private String titleStr, showStr, hintStr, tipsStr, userKey;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_edit_info);
 
 		Intent intent = getIntent();
-		titleStr = intent.getExtras().getString(KEY_TITLE);
-		showStr = intent.getExtras().getString(KEY_SHOW);
-		hintStr = intent.getExtras().getString(KEY_HINT);
-		tipsStr = intent.getExtras().getString(KEY_TIPS);
-		userKey = intent.getExtras().getString(KEY_USER);
-		
+		titleStr = intent.getStringExtra(KEY_TITLE);
+		showStr = intent.getStringExtra(KEY_SHOW);
+		hintStr = intent.getStringExtra(KEY_HINT);
+		tipsStr = intent.getStringExtra(KEY_TIPS);
+		userKey = intent.getStringExtra(KEY_USER);
+
 		initView();
 	}
 
 	private void initView() {
 		setTitle(titleStr);
 		setRightViewText(getString(R.string.save));
-		
+
 		et_content.addTextChangedListener(new TextWatcher() {
-			
+
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
-				
+
 			}
-			
+
 			@Override
 			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-				
+
 			}
-			
+
 			@Override
 			public void afterTextChanged(Editable s) {
 				if (StringUtil.isNull(s.toString())) {
@@ -100,9 +100,9 @@ public class EditUserInfoActivity extends BaseActivity {
 		if (!StringUtil.isNull(tipsStr)) {
 			tv_reminder.setText(tipsStr);
 		}
-		
+
 		iv_clear.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				showStr = "";
@@ -123,13 +123,13 @@ public class EditUserInfoActivity extends BaseActivity {
 		}
 		return true;
 	}
-	
+
 	@Override
 	public void OnListenerLeft() {
 		super.OnListenerLeft();
 		finish();
 	}
-	
+
 	@Override
 	public void OnListenerRight() {
 		super.OnListenerRight();
@@ -151,7 +151,7 @@ public class EditUserInfoActivity extends BaseActivity {
 
 		super.onResume();
 	}
-	
+
 	@Override
 	protected void onPause() {
 		LogUtil.i(LogUtil.LOG_TAG, TAG + ": onPause");
@@ -165,7 +165,7 @@ public class EditUserInfoActivity extends BaseActivity {
 	protected void onDestroy() {
 		super.onDestroy();
 	}
-	
+
 	@Override
 	public void finish() {
 		if (isChange && !StringUtil.isNull(showStr)) {
@@ -214,5 +214,5 @@ public class EditUserInfoActivity extends BaseActivity {
 		isPost = true;
 		handleErrorCode(null);
 	}
-	
+
 }

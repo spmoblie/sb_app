@@ -1,6 +1,7 @@
 package com.songbao.sampo_b.adapter;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -63,8 +64,9 @@ public class ThemeListAdapter extends RecyclerView.Adapter<ThemeListAdapter.View
         return 1;
     }
 
+    @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         // 创建头部View
         if(mHeaderView != null && i == 0) return new ViewHolder(mHeaderView);
         // 创建一个View
@@ -74,7 +76,7 @@ public class ThemeListAdapter extends RecyclerView.Adapter<ThemeListAdapter.View
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(@NonNull ViewHolder viewHolder, int i) {
         if(getItemViewType(i) == 0) return;
         final int pos = getRealPosition(viewHolder);
         final ThemeEntity data = mData.get(pos);

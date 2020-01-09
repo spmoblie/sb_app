@@ -31,6 +31,7 @@ import com.songbao.sampo_c.wxapi.WXPayEntryActivity;
 
 import org.json.JSONObject;
 
+import java.lang.ref.WeakReference;
 import java.util.HashMap;
 
 import butterknife.BindView;
@@ -69,6 +70,7 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
     LinearLayout.LayoutParams showImgLP;
 
     private ThemeEntity data;
+    private CharSequence[] items;
     private int status; //1:报名中, 2:已截止
     private int genderCode = 1; //1:男, 2:女
     private double payAmount = 0.00;
@@ -290,20 +292,8 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
      * 选择年龄
      */
     private void selectAge() {
-        final CharSequence[] items = getResources().getStringArray(R.array.array_gender);
-        showListDialog(R.string.sign_up_input_age, items, true, new Handler() {
-
-            @Override
-            public void handleMessage(Message msg) {
-                if (msg == null) return;
-                String ageStr = items[msg.what].toString();
-                if (et_age != null) {
-                    et_age.setText(ageStr);
-                    isAge_Ok = true;
-                }
-            }
-
-        });
+        items = getResources().getStringArray(R.array.array_gender);
+        showListDialog(getString(R.string.sign_up_input_age), items, true, new MyHandler(this));
     }
 
     /**
@@ -514,6 +504,29 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
                 showStr = getString(R.string.sign_up_fail);
                 showSuccessDialog(showStr, false);
                 break;
+        }
+    }
+
+    private void handleSelectAge(Message msg) {
+        if (msg == null) return;
+        String ageStr = items[msg.what].toString();
+        if (et_age != null) {
+            et_age.setText(ageStr);
+            isAge_Ok = true;
+        }
+    }
+
+    static class MyHandler extends Handler {
+
+        WeakReference<SignUpActivity> mActivity;
+
+        MyHandler(SignUpActivity activity) {
+            mActivity = new WeakReference<>(activity);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            mActivity.get().handleSelectAge(msg);
         }
     }
 

@@ -16,7 +16,7 @@ import com.songbao.sampo_c.widgets.RoundImageView;
 
 import java.text.DecimalFormat;
 
-public class SortTwoAdapter extends BaseRecyclerAdapter {
+public class SortTwoAdapter extends BaseRecyclerAdapter<GoodsSortEntity> {
 
     private DecimalFormat df;
 
@@ -44,7 +44,7 @@ public class SortTwoAdapter extends BaseRecyclerAdapter {
         Group group_goods_2 = holder.getView(R.id.sort_two_item_group_goods_2);
 
         // 绑定View
-        final GoodsSortEntity data = (GoodsSortEntity) mDataList.get(pos);
+        final GoodsSortEntity data = mDataList.get(pos);
 
         if (pos == 0) {
             tv_title.setText(context.getString(R.string.goods_new_line));

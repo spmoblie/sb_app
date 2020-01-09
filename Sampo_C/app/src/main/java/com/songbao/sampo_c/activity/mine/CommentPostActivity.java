@@ -180,35 +180,35 @@ public class CommentPostActivity extends BaseActivity implements OnClickListener
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.comment_post_iv_photo_01:
-		case R.id.comment_post_iv_photo_01_delete:
-			if (al_photo_url.size() > 0) {
-				al_photo_url.remove(0);
-				initPhotoView();
-			}
-			break;
-		case R.id.comment_post_iv_photo_02:
-		case R.id.comment_post_iv_photo_02_delete:
-			if (al_photo_url.size() > 1) {
-				al_photo_url.remove(1);
-				initPhotoView();
-			}
-			break;
-		case R.id.comment_post_iv_photo_03:
-		case R.id.comment_post_iv_photo_03_delete:
-			if (al_photo_url.size() > 2) {
-				al_photo_url.remove(2);
-				initPhotoView();
-			}
-			break;
-		case R.id.comment_post_tv_add_photo:
-			openActivity(ClipPhotoGridActivity.class);
-			break;
-		case R.id.comment_post_tv_post:
-			if (checkData()) {
-				checkPhotoUrl();
-			}
-			break;
+			case R.id.comment_post_iv_photo_01:
+			case R.id.comment_post_iv_photo_01_delete:
+				if (al_photo_url.size() > 0) {
+					al_photo_url.remove(0);
+					initPhotoView();
+				}
+				break;
+			case R.id.comment_post_iv_photo_02:
+			case R.id.comment_post_iv_photo_02_delete:
+				if (al_photo_url.size() > 1) {
+					al_photo_url.remove(1);
+					initPhotoView();
+				}
+				break;
+			case R.id.comment_post_iv_photo_03:
+			case R.id.comment_post_iv_photo_03_delete:
+				if (al_photo_url.size() > 2) {
+					al_photo_url.remove(2);
+					initPhotoView();
+				}
+				break;
+			case R.id.comment_post_tv_add_photo:
+				openActivity(ClipPhotoGridActivity.class);
+				break;
+			case R.id.comment_post_tv_post:
+				if (checkData()) {
+					checkPhotoUrl();
+				}
+				break;
 		}
 	}
 
@@ -229,7 +229,7 @@ public class CommentPostActivity extends BaseActivity implements OnClickListener
 
 		super.onResume();
 	}
-	
+
 	@Override
 	protected void onPause() {
 		LogUtil.i(LogUtil.LOG_TAG, TAG + ": onPause");
@@ -265,9 +265,10 @@ public class CommentPostActivity extends BaseActivity implements OnClickListener
 
 	private void postData() {
 		startAnimation();
-		if (al_image_url.size() > 0) {
+		/*if (al_image_url.size() > 0) {
 
-		}
+		}*/
+		CommonTools.showToast(starNum + contentStr + al_image_url.size());
 	}
 
 	@Override
@@ -296,5 +297,5 @@ public class CommentPostActivity extends BaseActivity implements OnClickListener
 		super.loadFailHandle();
 		handleErrorCode(null);
 	}
-	
+
 }

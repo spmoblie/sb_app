@@ -265,9 +265,10 @@ public class CommentPostActivity extends BaseActivity implements OnClickListener
 
 	private void postData() {
 		startAnimation();
-		if (al_image_url.size() > 0) {
+		/*if (al_image_url.size() > 0) {
 
-		}
+		}*/
+		CommonTools.showToast(starNum + contentStr + al_image_url.size());
 	}
 
 	@Override

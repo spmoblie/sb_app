@@ -90,7 +90,7 @@ public class SketchActivity extends BaseActivity {
 
 				@Override
 				public boolean shouldOverrideUrlLoading(WebView view, String url) {
-					if (url.contains("sxb")) {
+					if (url.contains("sampo")) {
 						view.loadUrl(url);
 						return true; //当加载重定向URL时，物理返回按键myWebView.canGoBack()判断为true。
 					}

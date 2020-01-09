@@ -313,6 +313,7 @@
     <string name="photo_upload_img_ok">上传%1$s成功</string>
     <string name="photo_img_url_error">%1$s出现错误！请重新编辑！</string>
     <string name="photo_clip_error">裁剪相片时出错！\n请重新选择相片！</string>
+    <string name="photo_show_number">%1$s ( %2$s )</string>
     <string name="photo_show_save_image">保存到手机</string>
     <string name="photo_show_save_ok">保存成功</string>
     <string name="photo_show_save_fail">保存图片出错！请检查SD卡是否正确安装或重试！</string>
@@ -443,9 +444,11 @@
     <string name="address_select">选择地址</string>
     <string name="address_change">修改地址</string>
     <string name="address_area">所在地区</string>
+    <string name="address_area_show">%1$s%2$s%3$s</string>
     <string name="address_area_hint">选择所在地区</string>
     <string name="address_detail">详细地址</string>
     <string name="address_detail_hint">填写详细地址</string>
+    <string name="address_detail_show">%1$s%2$s</string>
     <string name="address_save_used">保存并使用</string>
     <string name="address_province">省</string>
     <string name="address_city">市</string>

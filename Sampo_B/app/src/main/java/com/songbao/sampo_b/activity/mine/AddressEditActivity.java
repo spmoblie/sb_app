@@ -1,6 +1,5 @@
 package com.songbao.sampo_b.activity.mine;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.os.Bundle;
@@ -50,7 +49,6 @@ import javax.xml.parsers.SAXParserFactory;
 
 import butterknife.BindView;
 
-@SuppressLint("UseSparseArrays")
 public class AddressEditActivity extends BaseActivity implements OnClickListener, OnWheelChangedListener {
 
     String TAG = AddressEditActivity.class.getSimpleName();
@@ -109,7 +107,7 @@ public class AddressEditActivity extends BaseActivity implements OnClickListener
     private String[] mProvinceData; //所有省数集
     private Map<String, String[]> mCityDataMap = new HashMap<>(); //key - 省 value - 市
     private Map<String, String[]> mDistrictDataMap = new HashMap<>(); //key - 市 values - 区
-    private Map<String, String> mZCodeDataMap = new HashMap<>(); //key - 区 values - 邮编
+    //private Map<String, String> mZCodeDataMap = new HashMap<>(); //key - 区 values - 邮编
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -150,7 +148,7 @@ public class AddressEditActivity extends BaseActivity implements OnClickListener
                 StringBuilder sb = new StringBuilder();
                 for (int i = 0; i < s.length(); i++) {
                     if (i != 3 && i != 8 && s.charAt(i) == ' ') {
-                        continue;
+                        break;
                     } else {
                         sb.append(s.charAt(i));
                         if ((sb.length() == 4 || sb.length() == 9) && sb.charAt(sb.length() - 1) != ' ') {
@@ -230,7 +228,7 @@ public class AddressEditActivity extends BaseActivity implements OnClickListener
                 if (mProvinceName.isEmpty() || mCityName.isEmpty() || mDistrictName.isEmpty()) {
                     updateCities();
                 }
-                tv_area.setText(mProvinceName + mCityName + mDistrictName);
+                tv_area.setText(getString(R.string.address_area_show, mProvinceName, mCityName, mDistrictName));
                 break;
             case R.id.address_edit_wheel_finish:
             case R.id.address_edit_wheel_dismiss:
@@ -311,9 +309,8 @@ public class AddressEditActivity extends BaseActivity implements OnClickListener
         super.finish();
     }
 
-    @SuppressWarnings("unused")
     private void setUpData() {
-        initProvinceDatas();
+        initProvinceData();
         ArrayWheelAdapter awp_adapter = new ArrayWheelAdapter<>(mContext, mProvinceData);
         awp_adapter.setTextColor(getResources().getColor(R.color.shows_text_color));
         wheel_province.setViewAdapter(awp_adapter);
@@ -391,7 +388,7 @@ public class AddressEditActivity extends BaseActivity implements OnClickListener
     /**
      * 解析省市区的XML数据
      */
-    protected void initProvinceDatas() {
+    protected void initProvinceData() {
         InputStream input = null;
         List<ProvinceModel> provinceList;
         AssetManager asset = getAssets();
@@ -409,44 +406,38 @@ public class AddressEditActivity extends BaseActivity implements OnClickListener
             // 初始化默认选中的省、市、区
             if (provinceList != null && !provinceList.isEmpty()) {
                 mProvinceName = provinceList.get(0).getName();
-                List<CityModel> cityList = provinceList.get(0).getCityList();
-                if (cityList != null && !cityList.isEmpty()) {
-                    mCityName = cityList.get(0).getName();
-                    List<DistrictModel> districtList = cityList.get(0).getDistrictList();
+                List<CityModel> cityList_0 = provinceList.get(0).getCityList();
+                if (cityList_0 != null && !cityList_0.isEmpty()) {
+                    mCityName = cityList_0.get(0).getName();
+                    List<DistrictModel> districtList = cityList_0.get(0).getDistrictList();
                     mDistrictName = districtList.get(0).getName();
                 }
-            }
-            mProvinceData = new String[provinceList.size()];
-            for (int i = 0; i < provinceList.size(); i++) {
-                // 遍历所有省的数据
-                mProvinceData[i] = provinceList.get(i).getName();
-                List<CityModel> cityList = provinceList.get(i).getCityList();
-                String[] cityNames = new String[cityList.size()];
-                for (int j = 0; j < cityList.size(); j++) {
-                    // 遍历省下面的所有市的数据
-                    cityNames[j] = cityList.get(j).getName();
-                    List<DistrictModel> districtList = cityList.get(j)
-                            .getDistrictList();
-                    String[] districtNameArray = new String[districtList
-                            .size()];
-                    DistrictModel[] districtArray = new DistrictModel[districtList
-                            .size()];
-                    for (int k = 0; k < districtList.size(); k++) {
-                        // 遍历市下面所有区/县的数据
-                        DistrictModel districtModel = new DistrictModel(
-                                districtList.get(k).getName(), districtList
-                                .get(k).getZipcode());
-                        // 区/县对于的邮编，保存到mZCodeDataMap
-                        mZCodeDataMap.put(districtList.get(k).getName(),
-                                districtList.get(k).getZipcode());
-                        districtArray[k] = districtModel;
-                        districtNameArray[k] = districtModel.getName();
+                mProvinceData = new String[provinceList.size()];
+                for (int i = 0; i < provinceList.size(); i++) {
+                    // 遍历所有省的数据
+                    mProvinceData[i] = provinceList.get(i).getName();
+                    List<CityModel> cityList = provinceList.get(i).getCityList();
+                    String[] cityNames = new String[cityList.size()];
+                    for (int j = 0; j < cityList.size(); j++) {
+                        // 遍历省下面的所有市的数据
+                        cityNames[j] = cityList.get(j).getName();
+                        List<DistrictModel> districtList = cityList.get(j).getDistrictList();
+                        String[] districtNameArray = new String[districtList.size()];
+                        //DistrictModel[] districtArray = new DistrictModel[districtList.size()];
+                        for (int k = 0; k < districtList.size(); k++) {
+                            // 遍历市下面所有区/县的数据
+                            DistrictModel districtModel = new DistrictModel(districtList.get(k).getName(), districtList.get(k).getZipcode());
+                            // 区/县对于的邮编，保存到mZCodeDataMap
+                            //mZCodeDataMap.put(districtList.get(k).getName(), districtList.get(k).getZipcode());
+                            //districtArray[k] = districtModel;
+                            districtNameArray[k] = districtModel.getName();
+                        }
+                        // 市-区/县的数据，保存到mDistrictDataMap
+                        mDistrictDataMap.put(cityNames[j], districtNameArray);
                     }
-                    // 市-区/县的数据，保存到mDistrictDataMap
-                    mDistrictDataMap.put(cityNames[j], districtNameArray);
+                    // 省-市的数据，保存到mCityDataMap
+                    mCityDataMap.put(provinceList.get(i).getName(), cityNames);
                 }
-                // 省-市的数据，保存到mCityDataMap
-                mCityDataMap.put(provinceList.get(i).getName(), cityNames);
             }
         } catch (Exception e) {
             ExceptionUtil.handle(e);

@@ -14,7 +14,7 @@ import com.songbao.sampo_c.entity.OptionEntity;
 /**
  * 课程可选场次列表适配器
  */
-public class ChoiceListAdapter extends AppBaseAdapter {
+public class ChoiceListAdapter extends AppBaseAdapter<OptionEntity> {
 
 	public ChoiceListAdapter(Context context) {
 		super(context);
@@ -42,7 +42,7 @@ public class ChoiceListAdapter extends AppBaseAdapter {
 		}else{
 			holder = (ViewHolder)convertView.getTag();
 		}
-		final OptionEntity data = (OptionEntity) mDataList.get(position);
+		final OptionEntity data = mDataList.get(position);
 		holder.tv_time.setText(data.getTime());
 		if (data.isState()) {
 			holder.tv_state.setText(context.getString(R.string.choice_reserve_ok));

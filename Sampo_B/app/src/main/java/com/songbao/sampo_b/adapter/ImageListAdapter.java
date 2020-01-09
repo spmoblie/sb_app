@@ -27,10 +27,10 @@ public class ImageListAdapter extends AppBaseAdapter {
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		ViewHolder holder;
 		if(convertView == null){
-			convertView = View.inflate(context, R.layout.item_list_goods_details, null);
+			convertView = View.inflate(context, R.layout.item_list_image, null);
 			
 			holder = new ViewHolder();
-			holder.iv_show = convertView.findViewById(R.id.list_item_goods_details_show);
+			holder.iv_show = convertView.findViewById(R.id.list_item_image_show);
 			convertView.setTag(holder);
 		}else{
 			holder = (ViewHolder)convertView.getTag();

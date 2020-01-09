@@ -26,11 +26,12 @@ import com.songbao.sampo_c.activity.BaseActivity;
 import com.songbao.sampo_c.activity.mine.CommentGoodsActivity;
 import com.songbao.sampo_c.adapter.AdapterCallback;
 import com.songbao.sampo_c.adapter.CommentGLVAdapter;
-import com.songbao.sampo_c.adapter.GoodsDetailsAdapter;
+import com.songbao.sampo_c.adapter.ImageListAdapter;
 import com.songbao.sampo_c.entity.BaseEntity;
 import com.songbao.sampo_c.entity.CommentEntity;
 import com.songbao.sampo_c.entity.GoodsAttrEntity;
 import com.songbao.sampo_c.entity.GoodsEntity;
+import com.songbao.sampo_c.utils.ClickUtils;
 import com.songbao.sampo_c.utils.CommonTools;
 import com.songbao.sampo_c.utils.ExceptionUtil;
 import com.songbao.sampo_c.utils.JsonUtils;
@@ -135,7 +136,7 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
     private Runnable mPagerAction;
     private LinearLayout.LayoutParams indicatorsLP;
     private CommentGLVAdapter lv_comment_Adapter;
-    private GoodsDetailsAdapter lv_detail_Adapter;
+    private ImageListAdapter lv_detail_Adapter;
 
     public static final int TYPE_1 = 1;  //商品
     public static final int TYPE_2 = 2;  //评价
@@ -144,6 +145,7 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
 
     private GoodsEntity goodsEn;
     private String skuCode = "";
+    private boolean isLoop = false;
     private boolean vprStop = false;
     private int commentNum, goodStar;
     private int idsSize, idsPosition, vprPosition;
@@ -271,6 +273,7 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
 
     private void initViewPager() {
         if (al_image.size() > 0) {
+            isLoop = false;
             clearViewPagerData();
             ArrayList<String> al_show = new ArrayList<>();
             al_show.addAll(al_image);
@@ -295,6 +298,7 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
 
                     @Override
                     public void onClick(View v) {
+                        if (ClickUtils.isDoubleClick()) return;
                         openViewPagerActivity(al_image, position);
                     }
                 });
@@ -311,44 +315,35 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
                     vp_indicator.addView(indicators[i]);
                 }
             }
-            final boolean loop = viewLists.size() > 3 ? true : false;
+            if (viewLists.size() > 3) {
+                isLoop = true;
+            }
             goods_vp.setAdapter(new PagerAdapter() {
 
                 // 创建
                 @NonNull
                 @Override
                 public Object instantiateItem(@NonNull ViewGroup container, int position) {
-                    if (viewLists.size() <= 0) return null;
-                    try {
-                        View layout;
-                        if (loop) {
-                            layout = viewLists.get(position % viewLists.size());
-                        } else {
-                            layout = viewLists.get(position);
-                        }
-                        container.addView(layout);
-                        return layout;
-                    } catch (Exception e) {
-                        ExceptionUtil.handle(e);
-                        return null;
+                    View layout;
+                    if (isLoop) {
+                        layout = viewLists.get(position % viewLists.size());
+                    } else {
+                        layout = viewLists.get(position);
                     }
+                    container.addView(layout);
+                    return layout;
                 }
 
                 // 销毁
                 @Override
                 public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
-                    if (viewLists.size() <= 0) return;
-                    try {
-                        View layout;
-                        if (loop) {
-                            layout = viewLists.get(position % viewLists.size());
-                        } else {
-                            layout = viewLists.get(position);
-                        }
-                        container.removeView(layout);
-                    } catch (Exception e) {
-                        ExceptionUtil.handle(e);
+                    View layout;
+                    if (isLoop) {
+                        layout = viewLists.get(position % viewLists.size());
+                    } else {
+                        layout = viewLists.get(position);
                     }
+                    container.removeView(layout);
                 }
 
                 @Override
@@ -358,7 +353,7 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
 
                 @Override
                 public int getCount() {
-                    if (loop) {
+                    if (isLoop) {
                         return Integer.MAX_VALUE;
                     } else {
                         return viewLists.size();
@@ -370,7 +365,7 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
                 @Override
                 public void onPageSelected(final int arg0) {
                     if (goods_vp == null || viewLists.size() <= 1) return;
-                    if (loop) {
+                    if (isLoop) {
                         vprPosition = arg0;
                         idsPosition = arg0 % viewLists.size();
                         if (idsPosition == viewLists.size()) {
@@ -405,7 +400,7 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
                     }
                 }
             });
-            if (loop) {
+            if (isLoop) {
                 goods_vp.setCurrentItem(viewLists.size() * 10);
                 if (mPagerAction == null) {
                     mPagerAction = new Runnable() {
@@ -462,7 +457,7 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
 
         //商品详情
         if (lv_detail_Adapter == null) {
-            lv_detail_Adapter = new GoodsDetailsAdapter(mContext);
+            lv_detail_Adapter = new ImageListAdapter(mContext);
             lv_detail_Adapter.addCallback(new AdapterCallback() {
                 @Override
                 public void setOnClick(Object data, int position, int type) {
@@ -667,23 +662,22 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
     @Override
     protected void callbackData(JSONObject jsonObject, int dataType) {
         super.callbackData(jsonObject, dataType);
-        BaseEntity baseEn;
         try {
             switch (dataType) {
                 case AppConfig.REQUEST_SV_GOODS_DETAIL:
-                    baseEn = JsonUtils.getGoodsDetailData(jsonObject);
-                    if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
-                        goodsEn = (GoodsEntity) baseEn.getData();
+                    BaseEntity<GoodsEntity> GoodsEn = JsonUtils.getGoodsDetailData(jsonObject);
+                    if (GoodsEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+                        goodsEn = GoodsEn.getData();
                         initShowView();
                     } else {
-                        handleErrorCode(baseEn);
+                        handleErrorCode(GoodsEn);
                     }
                     break;
                 case AppConfig.REQUEST_SV_GOODS_COMMENT:
-                    baseEn = JsonUtils.getCommentGoodsListData(jsonObject);
-                    if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+                    BaseEntity<CommentEntity> commentEn = JsonUtils.getCommentGoodsListData(jsonObject);
+                    if (commentEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
                         ArrayList<CommentEntity> newList = new ArrayList<>();
-                        newList.addAll(baseEn.getLists());
+                        newList.addAll(commentEn.getLists());
                         al_comment.clear();
                         if (newList.size() > 2) {
                             al_comment.add(newList.get(0));
@@ -693,11 +687,11 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
                         }
                         initShowView();
                     } else {
-                        handleErrorCode(baseEn);
+                        handleErrorCode(commentEn);
                     }
                     break;
                 case AppConfig.REQUEST_SV_CART_ADD:
-                    baseEn = JsonUtils.getBaseErrorData(jsonObject);
+                    BaseEntity baseEn = JsonUtils.getBaseErrorData(jsonObject);
                     if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
                         CommonTools.showToast("加入购物车成功");
                     } else {

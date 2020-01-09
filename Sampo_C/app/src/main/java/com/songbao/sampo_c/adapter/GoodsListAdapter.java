@@ -18,7 +18,7 @@ import java.text.DecimalFormat;
 /**
  * 商品列表适配器
  */
-public class GoodsListAdapter extends BaseRecyclerAdapter {
+public class GoodsListAdapter extends BaseRecyclerAdapter<GoodsEntity> {
 
     private DecimalFormat df;
 
@@ -39,7 +39,7 @@ public class GoodsListAdapter extends BaseRecyclerAdapter {
         ImageView iv_cart = holder.getView(R.id.goods_list_item_iv_cart);
 
         // 绑定View
-        final GoodsEntity data = (GoodsEntity) mDataList.get(pos);
+        final GoodsEntity data = mDataList.get(pos);
 
         if (pos == 0) {
             rl_top.setVisibility(View.VISIBLE);

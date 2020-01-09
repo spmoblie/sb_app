@@ -134,6 +134,7 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
 
     private void initViewPager() {
         if (al_image.size() > 0) {
+            isLoop = false;
             clearViewPagerData();
             ArrayList<String> al_show = new ArrayList<>();
             al_show.addAll(al_image);
@@ -175,7 +176,7 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
                     vp_indicator.addView(indicators[i]);
                 }
             }
-            if (viewLists != null && viewLists.size() > 3) {
+            if (viewLists.size() > 3) {
                 isLoop = true;
             }
             goods_vp.setAdapter(new PagerAdapter() {

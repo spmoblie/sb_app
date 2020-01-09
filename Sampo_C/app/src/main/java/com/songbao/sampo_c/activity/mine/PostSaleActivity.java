@@ -39,7 +39,7 @@ import butterknife.BindView;
 public class PostSaleActivity extends BaseActivity implements OnClickListener {
 
 	String TAG = PostSaleActivity.class.getSimpleName();
-	
+
 	@BindView(R.id.post_sale_goods_main)
 	ConstraintLayout goods_main;
 
@@ -51,25 +51,25 @@ public class PostSaleActivity extends BaseActivity implements OnClickListener {
 
 	@BindView(R.id.post_sale_tv_attr)
 	TextView tv_attr;
-	
+
 	@BindView(R.id.post_sale_tv_number)
 	TextView tv_number;
-	
+
 	@BindView(R.id.post_sale_tv_price)
 	TextView tv_price;
-	
+
 	@BindView(R.id.post_sale_tv_change)
 	TextView tv_change;
-	
+
 	@BindView(R.id.post_sale_tv_return)
 	TextView tv_return;
-	
+
 	@BindView(R.id.post_sale_et_reason)
 	EditText et_reason;
 
 	@BindView(R.id.post_sale_tv_refund_price)
 	TextView tv_refund_price;
-	
+
 	@BindView(R.id.post_sale_et_express_no)
 	EditText et_express_no;
 
@@ -103,7 +103,6 @@ public class PostSaleActivity extends BaseActivity implements OnClickListener {
 	private final int DATA_TYPE_01 = 201; //换货
 	private final int DATA_TYPE_02 = 202; //退货
 	private int dataType = DATA_TYPE_01; //数据类型
-	private int saleStatus = 0; //6:售后(审核中)/7:售后(审核通过)/8:售后(审核拒绝)
 	private double totalPrice = 0;
 	private boolean isEdit = false;
 	private String skuCode = "";
@@ -150,7 +149,7 @@ public class PostSaleActivity extends BaseActivity implements OnClickListener {
 			int number = data.getNumber();
 			double price = data.getPrice();
 			totalPrice = price*number;
-			tv_number.setText(getString(R.string.cart_goods_num, number));
+			tv_number.setText(getString(R.string.goods_num, number));
 			tv_price.setText(getString(R.string.pay_rmb, df.format(price)));
 		}
 
@@ -162,8 +161,7 @@ public class PostSaleActivity extends BaseActivity implements OnClickListener {
 		isEdit = false;
 		if (saleEn != null) {
 			dataType = saleEn.getSaleType();
-			saleStatus = saleEn.getSaleStatus();
-			switch (saleStatus) {
+			switch (saleEn.getSaleStatus()) {
 				case 6: //审核中
 					tv_submit.setText("审核中");
 					tv_submit.setBackgroundResource(R.drawable.shape_style_solid_03_08);
@@ -260,14 +258,18 @@ public class PostSaleActivity extends BaseActivity implements OnClickListener {
 		tv_return.setBackgroundResource(R.color.ui_bg_color_percent_10);
 		tv_change.setTextColor(getResources().getColor(R.color.app_color_gray_5));
 		tv_return.setTextColor(getResources().getColor(R.color.app_color_gray_5));
-		if (dataType == DATA_TYPE_01) {
-			tv_change.setBackgroundResource(R.drawable.shape_style_solid_04_08);
-			tv_change.setTextColor(getResources().getColor(R.color.app_color_white));
-			tv_refund_price.setText(getString(R.string.order_refund_price_num, df.format(0)));
-		} else {
-			tv_return.setBackgroundResource(R.drawable.shape_style_solid_04_08);
-			tv_return.setTextColor(getResources().getColor(R.color.app_color_white));
-			tv_refund_price.setText(getString(R.string.order_refund_price_num, df.format(totalPrice)));
+		switch (dataType) {
+			case DATA_TYPE_01:
+				tv_change.setBackgroundResource(R.drawable.shape_style_solid_04_08);
+				tv_change.setTextColor(getResources().getColor(R.color.app_color_white));
+				tv_refund_price.setText(getString(R.string.order_refund_price_num, df.format(0)));
+				break;
+			case DATA_TYPE_02:
+			default:
+				tv_return.setBackgroundResource(R.drawable.shape_style_solid_04_08);
+				tv_return.setTextColor(getResources().getColor(R.color.app_color_white));
+				tv_refund_price.setText(getString(R.string.order_refund_price_num, df.format(totalPrice)));
+				break;
 		}
 	}
 
@@ -279,43 +281,43 @@ public class PostSaleActivity extends BaseActivity implements OnClickListener {
 		}
 		if (!isEdit) return; //不可编辑
 		switch (v.getId()) {
-		case R.id.post_sale_tv_change:
-			dataType = DATA_TYPE_01;
-			changeViewStatus();
-			break;
-		case R.id.post_sale_tv_return:
-			dataType = DATA_TYPE_02;
-			changeViewStatus();
-			break;
-		case R.id.post_sale_iv_photo_01:
-		case R.id.post_sale_iv_photo_01_delete:
-			if (al_photo_url.size() > 0) {
-				al_photo_url.remove(0);
-				initPhotoView();
-			}
-			break;
-		case R.id.post_sale_iv_photo_02:
-		case R.id.post_sale_iv_photo_02_delete:
-			if (al_photo_url.size() > 1) {
-				al_photo_url.remove(1);
-				initPhotoView();
-			}
-			break;
-		case R.id.post_sale_iv_photo_03:
-		case R.id.post_sale_iv_photo_03_delete:
-			if (al_photo_url.size() > 2) {
-				al_photo_url.remove(2);
-				initPhotoView();
-			}
-			break;
-		case R.id.post_sale_tv_add_photo:
-			openActivity(ClipPhotoGridActivity.class);
-			break;
-		case R.id.post_sale_tv_submit:
-			if (checkData()) {
-				//checkPhotoUrl();
-			}
-			break;
+			case R.id.post_sale_tv_change:
+				dataType = DATA_TYPE_01;
+				changeViewStatus();
+				break;
+			case R.id.post_sale_tv_return:
+				dataType = DATA_TYPE_02;
+				changeViewStatus();
+				break;
+			case R.id.post_sale_iv_photo_01:
+			case R.id.post_sale_iv_photo_01_delete:
+				if (al_photo_url.size() > 0) {
+					al_photo_url.remove(0);
+					initPhotoView();
+				}
+				break;
+			case R.id.post_sale_iv_photo_02:
+			case R.id.post_sale_iv_photo_02_delete:
+				if (al_photo_url.size() > 1) {
+					al_photo_url.remove(1);
+					initPhotoView();
+				}
+				break;
+			case R.id.post_sale_iv_photo_03:
+			case R.id.post_sale_iv_photo_03_delete:
+				if (al_photo_url.size() > 2) {
+					al_photo_url.remove(2);
+					initPhotoView();
+				}
+				break;
+			case R.id.post_sale_tv_add_photo:
+				openActivity(ClipPhotoGridActivity.class);
+				break;
+			case R.id.post_sale_tv_submit:
+			/*if (checkData()) {
+				checkPhotoUrl();
+			}*/
+				break;
 		}
 	}
 
@@ -336,7 +338,7 @@ public class PostSaleActivity extends BaseActivity implements OnClickListener {
 
 		super.onResume();
 	}
-	
+
 	@Override
 	protected void onPause() {
 		LogUtil.i(LogUtil.LOG_TAG, TAG + ": onPause");
@@ -372,9 +374,10 @@ public class PostSaleActivity extends BaseActivity implements OnClickListener {
 
 	private void postData() {
 		startAnimation();
-		if (al_image_url.size() > 0) {
+		/*if (al_image_url.size() > 0) {
 
-		}
+		}*/
+		CommonTools.showToast(contentStr + al_image_url.size());
 	}
 
 	private void loadSaleData() {
@@ -418,5 +421,5 @@ public class PostSaleActivity extends BaseActivity implements OnClickListener {
 		super.loadFailHandle();
 		handleErrorCode(null);
 	}
-	
+
 }

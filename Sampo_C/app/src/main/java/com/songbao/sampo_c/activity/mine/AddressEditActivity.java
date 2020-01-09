@@ -1,9 +1,12 @@
 package com.songbao.sampo_c.activity.mine;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.res.AssetManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
@@ -24,13 +27,19 @@ import com.songbao.sampo_c.AppConfig;
 import com.songbao.sampo_c.R;
 import com.songbao.sampo_c.activity.BaseActivity;
 import com.songbao.sampo_c.entity.AddressEntity;
+import com.songbao.sampo_c.entity.BaseEntity;
 import com.songbao.sampo_c.utils.CommonTools;
 import com.songbao.sampo_c.utils.ExceptionUtil;
+import com.songbao.sampo_c.utils.JsonUtils;
 import com.songbao.sampo_c.utils.LogUtil;
 import com.songbao.sampo_c.utils.StringUtil;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.ref.WeakReference;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,7 +49,6 @@ import javax.xml.parsers.SAXParserFactory;
 
 import butterknife.BindView;
 
-@SuppressLint("UseSparseArrays")
 public class AddressEditActivity extends BaseActivity implements OnClickListener, OnWheelChangedListener {
 
     String TAG = AddressEditActivity.class.getSimpleName();
@@ -99,7 +107,7 @@ public class AddressEditActivity extends BaseActivity implements OnClickListener
     private String[] mProvinceData; //所有省数集
     private Map<String, String[]> mCityDataMap = new HashMap<>(); //key - 省 value - 市
     private Map<String, String[]> mDistrictDataMap = new HashMap<>(); //key - 市 values - 区
-    private Map<String, String> mZCodeDataMap = new HashMap<>(); //key - 区 values - 邮编
+    //private Map<String, String> mZCodeDataMap = new HashMap<>(); //key - 区 values - 邮编
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -112,8 +120,7 @@ public class AddressEditActivity extends BaseActivity implements OnClickListener
     }
 
     private void initView() {
-        setTitle("编辑收货地址");
-        setRightViewText(getString(R.string.delete));
+        setTitle(getString(R.string.address_edit));
 
         if (data != null) {
             et_name.setText(data.getName());
@@ -121,8 +128,62 @@ public class AddressEditActivity extends BaseActivity implements OnClickListener
             tv_area.setText(data.getDistrict());
             et_detail.setText(data.getAddress());
             addressId = data.getId();
+            isDefault = data.isDefault();
         }
+        if (addressId > 0) {
+            setRightViewText(getString(R.string.delete));
+        }
+        iv_default.setSelected(isDefault);
+
+        initEditText();
         initViewListener();
+    }
+
+    private void initEditText() {
+        et_phone.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s == null || s.length() == 0) return;
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < s.length(); i++) {
+                    if (i != 3 && i != 8 && s.charAt(i) == ' ') {
+                        break;
+                    } else {
+                        sb.append(s.charAt(i));
+                        if ((sb.length() == 4 || sb.length() == 9) && sb.charAt(sb.length() - 1) != ' ') {
+                            sb.insert(sb.length() - 1, ' ');
+                        }
+                    }
+                }
+                if (!sb.toString().equals(s.toString())) {
+                    int index = start + 1;
+                    if (sb.charAt(start) == ' ') {
+                        if (before == 0) {
+                            index++;
+                        } else {
+                            index--;
+                        }
+                    } else {
+                        if (before == 1) {
+                            index--;
+                        }
+                    }
+                    et_phone.setText(sb.toString());
+                    et_phone.setSelection(index);
+                }
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
     }
 
     private void initViewListener() {
@@ -141,7 +202,7 @@ public class AddressEditActivity extends BaseActivity implements OnClickListener
 
     @Override
     public void OnListenerRight() {
-        postDeleteAddress();
+        showConfirmDialog(getString(R.string.address_delete_confirm), new MyHandler(this));
     }
 
     @Override
@@ -154,10 +215,12 @@ public class AddressEditActivity extends BaseActivity implements OnClickListener
                 break;
             case R.id.address_edit_tv_save:
                 if (checkData()) {
-                    postEditAddress();
+                    postSaveAddress();
                 }
                 break;
             case R.id.address_edit_tv_area_show: //选择省、市、区
+                hideSoftInput(et_name);
+                hideSoftInput(et_phone);
                 wheel_main.setVisibility(View.VISIBLE);
                 break;
             case R.id.address_edit_wheel_tv_confirm:
@@ -165,7 +228,7 @@ public class AddressEditActivity extends BaseActivity implements OnClickListener
                 if (mProvinceName.isEmpty() || mCityName.isEmpty() || mDistrictName.isEmpty()) {
                     updateCities();
                 }
-                tv_area.setText(mProvinceName + mCityName + mDistrictName);
+                tv_area.setText(getString(R.string.address_area_show, mProvinceName, mCityName, mDistrictName));
                 break;
             case R.id.address_edit_wheel_finish:
             case R.id.address_edit_wheel_dismiss:
@@ -181,10 +244,19 @@ public class AddressEditActivity extends BaseActivity implements OnClickListener
             CommonTools.showToast(getString(R.string.address_error_name_empty));
             return false;
         }
-        // 判定手机号
+        // 号码非空
         phoneStr = et_phone.getText().toString();
         if (StringUtil.isNull(phoneStr)) {
             CommonTools.showToast(getString(R.string.address_error_phone_empty));
+            return false;
+        }
+        // 号码去空
+        if (phoneStr.contains(" ")) {
+            phoneStr = phoneStr.replace(" ", "");
+        }
+        // 校验格式
+        if (!StringUtil.isMobileNO(phoneStr)) {
+            CommonTools.showToast(getString(R.string.login_phone_input_error));
             return false;
         }
         // 判定所在地区
@@ -237,9 +309,8 @@ public class AddressEditActivity extends BaseActivity implements OnClickListener
         super.finish();
     }
 
-    @SuppressWarnings("unused")
     private void setUpData() {
-        initProvinceDatas();
+        initProvinceData();
         ArrayWheelAdapter awp_adapter = new ArrayWheelAdapter<>(mContext, mProvinceData);
         awp_adapter.setTextColor(getResources().getColor(R.color.shows_text_color));
         wheel_province.setViewAdapter(awp_adapter);
@@ -317,7 +388,7 @@ public class AddressEditActivity extends BaseActivity implements OnClickListener
     /**
      * 解析省市区的XML数据
      */
-    protected void initProvinceDatas() {
+    protected void initProvinceData() {
         InputStream input = null;
         List<ProvinceModel> provinceList;
         AssetManager asset = getAssets();
@@ -335,44 +406,38 @@ public class AddressEditActivity extends BaseActivity implements OnClickListener
             // 初始化默认选中的省、市、区
             if (provinceList != null && !provinceList.isEmpty()) {
                 mProvinceName = provinceList.get(0).getName();
-                List<CityModel> cityList = provinceList.get(0).getCityList();
-                if (cityList != null && !cityList.isEmpty()) {
-                    mCityName = cityList.get(0).getName();
-                    List<DistrictModel> districtList = cityList.get(0).getDistrictList();
+                List<CityModel> cityList_0 = provinceList.get(0).getCityList();
+                if (cityList_0 != null && !cityList_0.isEmpty()) {
+                    mCityName = cityList_0.get(0).getName();
+                    List<DistrictModel> districtList = cityList_0.get(0).getDistrictList();
                     mDistrictName = districtList.get(0).getName();
                 }
-            }
-            mProvinceData = new String[provinceList.size()];
-            for (int i = 0; i < provinceList.size(); i++) {
-                // 遍历所有省的数据
-                mProvinceData[i] = provinceList.get(i).getName();
-                List<CityModel> cityList = provinceList.get(i).getCityList();
-                String[] cityNames = new String[cityList.size()];
-                for (int j = 0; j < cityList.size(); j++) {
-                    // 遍历省下面的所有市的数据
-                    cityNames[j] = cityList.get(j).getName();
-                    List<DistrictModel> districtList = cityList.get(j)
-                            .getDistrictList();
-                    String[] districtNameArray = new String[districtList
-                            .size()];
-                    DistrictModel[] districtArray = new DistrictModel[districtList
-                            .size()];
-                    for (int k = 0; k < districtList.size(); k++) {
-                        // 遍历市下面所有区/县的数据
-                        DistrictModel districtModel = new DistrictModel(
-                                districtList.get(k).getName(), districtList
-                                .get(k).getZipcode());
-                        // 区/县对于的邮编，保存到mZCodeDataMap
-                        mZCodeDataMap.put(districtList.get(k).getName(),
-                                districtList.get(k).getZipcode());
-                        districtArray[k] = districtModel;
-                        districtNameArray[k] = districtModel.getName();
+                mProvinceData = new String[provinceList.size()];
+                for (int i = 0; i < provinceList.size(); i++) {
+                    // 遍历所有省的数据
+                    mProvinceData[i] = provinceList.get(i).getName();
+                    List<CityModel> cityList = provinceList.get(i).getCityList();
+                    String[] cityNames = new String[cityList.size()];
+                    for (int j = 0; j < cityList.size(); j++) {
+                        // 遍历省下面的所有市的数据
+                        cityNames[j] = cityList.get(j).getName();
+                        List<DistrictModel> districtList = cityList.get(j).getDistrictList();
+                        String[] districtNameArray = new String[districtList.size()];
+                        //DistrictModel[] districtArray = new DistrictModel[districtList.size()];
+                        for (int k = 0; k < districtList.size(); k++) {
+                            // 遍历市下面所有区/县的数据
+                            DistrictModel districtModel = new DistrictModel(districtList.get(k).getName(), districtList.get(k).getZipcode());
+                            // 区/县对于的邮编，保存到mZCodeDataMap
+                            //mZCodeDataMap.put(districtList.get(k).getName(), districtList.get(k).getZipcode());
+                            //districtArray[k] = districtModel;
+                            districtNameArray[k] = districtModel.getName();
+                        }
+                        // 市-区/县的数据，保存到mDistrictDataMap
+                        mDistrictDataMap.put(cityNames[j], districtNameArray);
                     }
-                    // 市-区/县的数据，保存到mDistrictDataMap
-                    mDistrictDataMap.put(cityNames[j], districtNameArray);
+                    // 省-市的数据，保存到mCityDataMap
+                    mCityDataMap.put(provinceList.get(i).getName(), cityNames);
                 }
-                // 省-市的数据，保存到mCityDataMap
-                mCityDataMap.put(provinceList.get(i).getName(), cityNames);
             }
         } catch (Exception e) {
             ExceptionUtil.handle(e);
@@ -388,24 +453,82 @@ public class AddressEditActivity extends BaseActivity implements OnClickListener
     }
 
     /**
-     * 提交删除收货地址
+     * 提交保存收货地址
      */
-    private void postDeleteAddress() {
-        isUpdate = true;
-        CommonTools.showToast("删除成功");
-        finish();
+    private void postSaveAddress() {
+        try {
+            JSONObject jsonObj = new JSONObject();
+            jsonObj.put("consigneeId", addressId);
+            jsonObj.put("consigneeName", nameStr);
+            jsonObj.put("consigneePhone", phoneStr);
+            jsonObj.put("addrArea", areaStr);
+            jsonObj.put("addrDetail", addressStr);
+            jsonObj.put("isDefault", isDefault);
+            postJsonData(AppConfig.BASE_URL_3, AppConfig.URL_ADDRESS_EDIT, jsonObj, AppConfig.REQUEST_SV_ADDRESS_EDIT);
+        } catch (JSONException e) {
+            ExceptionUtil.handle(e);
+        }
     }
 
     /**
-     * 提交修改收货地址
+     * 提交删除收货地址
      */
-    private void postEditAddress() {
-        if (isDefault) {
-            userManager.saveDefaultAddressId(addressId);
+    private void postDeleteAddress() {
+        try {
+            JSONObject jsonObj = new JSONObject();
+            jsonObj.put("consigneeIds", String.valueOf(addressId));
+            postJsonData(AppConfig.BASE_URL_3, AppConfig.URL_ADDRESS_DELETE, jsonObj, AppConfig.REQUEST_SV_ADDRESS_DELETE);
+        } catch (JSONException e) {
+            ExceptionUtil.handle(e);
         }
-        isUpdate = true;
-        CommonTools.showToast("保存成功");
-        finish();
+    }
+
+    @Override
+    protected void callbackData(JSONObject jsonObject, int dataType) {
+        super.callbackData(jsonObject, dataType);
+        BaseEntity baseEn;
+        try {
+            switch (dataType) {
+                case AppConfig.REQUEST_SV_ADDRESS_EDIT:
+                case AppConfig.REQUEST_SV_ADDRESS_DELETE:
+                    baseEn = JsonUtils.getBaseErrorData(jsonObject);
+                    if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+                        isUpdate = true;
+                        finish();
+                    } else {
+                        handleErrorCode(baseEn);
+                    }
+                    break;
+            }
+        } catch (Exception e) {
+            loadFailHandle();
+            ExceptionUtil.handle(e);
+        }
+    }
+
+    @Override
+    protected void loadFailHandle() {
+        super.loadFailHandle();
+        handleErrorCode(null);
+    }
+
+    static class MyHandler extends Handler {
+
+        WeakReference<AddressEditActivity> mActivity;
+
+        MyHandler(AddressEditActivity activity) {
+            mActivity = new WeakReference<>(activity);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            AddressEditActivity theActivity = mActivity.get();
+            switch (msg.what) {
+                case AppConfig.DIALOG_CLICK_OK:
+                    theActivity.postDeleteAddress();
+                    break;
+            }
+        }
     }
 
 }

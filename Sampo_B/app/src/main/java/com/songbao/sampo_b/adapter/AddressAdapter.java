@@ -13,28 +13,24 @@ import com.songbao.sampo_b.R;
 import com.songbao.sampo_b.entity.AddressEntity;
 import com.songbao.sampo_b.utils.ClickUtils;
 import com.songbao.sampo_b.utils.CommonTools;
-import com.songbao.sampo_b.utils.UserManager;
 import com.songbao.sampo_b.widgets.MyHorizontalScrollView;
 
-import java.util.List;
+import java.util.ArrayList;
 
-public class AddressAdapter extends BaseRecyclerAdapter {
+public class AddressAdapter extends BaseRecyclerAdapter<AddressEntity> {
 
     private int scrollPos = -1;
     private boolean orSelect = false;
     private LinearLayout.LayoutParams lp;
-    private UserManager userManager;
 
     public AddressAdapter(Context context, int resLayout) {
         super(context, resLayout);
-
-        userManager = UserManager.getInstance();
 
         lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         lp.width = AppApplication.screen_width - CommonTools.dpToPx(context, 28);
     }
 
-    public void updateData(List data, boolean orSelect) {
+    public void updateData(ArrayList<AddressEntity> data, boolean orSelect) {
         this.scrollPos = -1;
         this.orSelect = orSelect;
         super.updateData(data);
@@ -64,7 +60,7 @@ public class AddressAdapter extends BaseRecyclerAdapter {
         TextView tv_delete = holder.getView(R.id.address_item_tv_delete);
 
         // 绑定View
-        final AddressEntity data = (AddressEntity) mDataList.get(pos);
+        final AddressEntity data = mDataList.get(pos);
 
         if (pos == 0) {
             item_top_line.setVisibility(View.VISIBLE);
@@ -94,7 +90,7 @@ public class AddressAdapter extends BaseRecyclerAdapter {
         });
 
         tv_name.setText(context.getString(R.string.address_name_phone, data.getName(), data.getPhone()));
-        tv_address.setText(data.getDistrict() + data.getAddress());
+        tv_address.setText(context.getString(R.string.address_detail_show, data.getDistrict(), data.getAddress()));
 
         if (data.isDefault()) { //默认
             tv_status.setVisibility(View.VISIBLE);

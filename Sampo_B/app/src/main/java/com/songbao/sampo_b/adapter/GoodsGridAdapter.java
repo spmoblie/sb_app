@@ -17,7 +17,7 @@ import com.songbao.sampo_b.widgets.RoundImageView;
 /**
  * 商品表格适配器
  */
-public class GoodsGridAdapter extends AppBaseAdapter {
+public class GoodsGridAdapter extends AppBaseAdapter<GoodsEntity> {
 
 	public GoodsGridAdapter(Context context) {
 		super(context);
@@ -45,7 +45,7 @@ public class GoodsGridAdapter extends AppBaseAdapter {
 		}else{
 			holder = (ViewHolder)convertView.getTag();
 		}
-		final GoodsEntity data = (GoodsEntity) mDataList.get(position);
+		final GoodsEntity data = mDataList.get(position);
 
 		Glide.with(AppApplication.getAppContext())
 				.load(data.getPicUrl())

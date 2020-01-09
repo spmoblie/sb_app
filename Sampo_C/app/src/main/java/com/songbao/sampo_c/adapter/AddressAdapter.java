@@ -11,33 +11,34 @@ import android.widget.TextView;
 import com.songbao.sampo_c.AppApplication;
 import com.songbao.sampo_c.R;
 import com.songbao.sampo_c.entity.AddressEntity;
+import com.songbao.sampo_c.utils.ClickUtils;
 import com.songbao.sampo_c.utils.CommonTools;
-import com.songbao.sampo_c.utils.UserManager;
 import com.songbao.sampo_c.widgets.MyHorizontalScrollView;
 
-import java.util.List;
+import java.util.ArrayList;
 
-public class AddressAdapter extends BaseRecyclerAdapter {
+public class AddressAdapter extends BaseRecyclerAdapter<AddressEntity> {
 
     private int scrollPos = -1;
+    private boolean orSelect = false;
     private LinearLayout.LayoutParams lp;
-    private UserManager userManager;
 
     public AddressAdapter(Context context, int resLayout) {
         super(context, resLayout);
-
-        userManager = UserManager.getInstance();
 
         lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         lp.width = AppApplication.screen_width - CommonTools.dpToPx(context, 28);
     }
 
-    @Override
-    public void updateData(List data) {
+    public void updateData(ArrayList<AddressEntity> data, boolean orSelect) {
         this.scrollPos = -1;
+        this.orSelect = orSelect;
         super.updateData(data);
     }
 
+    /**
+     * 水平滑动复位
+     */
     public void reset(int scrollPos){
         this.scrollPos = scrollPos;
         notifyDataSetChanged();
@@ -59,7 +60,7 @@ public class AddressAdapter extends BaseRecyclerAdapter {
         TextView tv_delete = holder.getView(R.id.address_item_tv_delete);
 
         // 绑定View
-        final AddressEntity data = (AddressEntity) mDataList.get(pos);
+        final AddressEntity data = mDataList.get(pos);
 
         if (pos == 0) {
             item_top_line.setVisibility(View.VISIBLE);
@@ -88,15 +89,21 @@ public class AddressAdapter extends BaseRecyclerAdapter {
             }
         });
 
-        if (userManager.getDefaultAddressId() == data.getId()) { //默认
+        tv_name.setText(context.getString(R.string.address_name_phone, data.getName(), data.getPhone()));
+        tv_address.setText(context.getString(R.string.address_detail_show, data.getDistrict(), data.getAddress()));
+
+        if (data.isDefault()) { //默认
             tv_status.setVisibility(View.VISIBLE);
         } else {
             tv_status.setVisibility(View.GONE);
         }
-        tv_name.setText(context.getString(R.string.address_name_phone, data.getName(), data.getPhone()));
-        tv_address.setText(data.getDistrict() + data.getAddress());
-
-        iv_select.setSelected(data.isSelect());
+        if (orSelect) { //勾选
+            iv_select.setVisibility(View.VISIBLE);
+            iv_select.setSelected(data.isSelect());
+        } else {
+            iv_select.setSelected(false);
+            iv_select.setVisibility(View.GONE);
+        }
         item_left_main.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -108,6 +115,7 @@ public class AddressAdapter extends BaseRecyclerAdapter {
         iv_edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (ClickUtils.isDoubleClick()) return;
                 if (apCallback != null) {
                     apCallback.setOnClick(data, pos, 1);
                 }
@@ -116,6 +124,7 @@ public class AddressAdapter extends BaseRecyclerAdapter {
         tv_default.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (ClickUtils.isDoubleClick()) return;
                 if (apCallback != null) {
                     apCallback.setOnClick(data, pos, 5);
                 }
@@ -124,6 +133,7 @@ public class AddressAdapter extends BaseRecyclerAdapter {
         tv_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (ClickUtils.isDoubleClick()) return;
                 if (apCallback != null) {
                     apCallback.setOnClick(data, pos, 6);
                 }

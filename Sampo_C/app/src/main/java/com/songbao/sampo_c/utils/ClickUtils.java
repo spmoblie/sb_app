@@ -1,5 +1,4 @@
-package com.songbao.sampo_b.utils;
-
+package com.songbao.sampo_c.utils;
 
 public class ClickUtils {
 

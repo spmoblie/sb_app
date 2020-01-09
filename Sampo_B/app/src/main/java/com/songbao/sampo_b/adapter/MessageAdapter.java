@@ -12,7 +12,7 @@ import com.songbao.sampo_b.entity.MessageEntity;
 
 import java.util.List;
 
-public class MessageAdapter extends BaseRecyclerAdapter {
+public class MessageAdapter extends BaseRecyclerAdapter<MessageEntity> {
 
     private int newNum = 0;
 
@@ -50,7 +50,7 @@ public class MessageAdapter extends BaseRecyclerAdapter {
         ImageView item_warn_red = holder.getView(R.id.message_item_warn_red);
 
         // 绑定View
-        final MessageEntity data = (MessageEntity) mDataList.get(pos);
+        final MessageEntity data = mDataList.get(pos);
         item_time.setText(data.getAddTime());
         item_title.setText(data.getTitle());
         item_content.setText(data.getContent());

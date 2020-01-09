@@ -66,6 +66,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.lang.ref.WeakReference;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -167,8 +168,8 @@ public class BaseActivity extends FragmentActivity {
             }
         });
 
-        inAnim = new AnimationUtils().loadAnimation(mContext, R.anim.in_from_right);
-        outAnim = new AnimationUtils().loadAnimation(mContext, R.anim.out_to_left);
+        inAnim = AnimationUtils.loadAnimation(mContext, R.anim.in_from_right);
+        outAnim = AnimationUtils.loadAnimation(mContext, R.anim.out_to_left);
 
         setNullVisibility(View.GONE);
     }
@@ -494,9 +495,9 @@ public class BaseActivity extends FragmentActivity {
         List<String> mPermissionList = new ArrayList<>();
         String[] permissions = AppConfig.PERMISSIONS;
         // 判断哪些权限未授予
-        for (int i = 0; i < permissions.length; i++) {
-            if (ContextCompat.checkSelfPermission(this, permissions[i]) != PackageManager.PERMISSION_GRANTED) {
-                mPermissionList.add(permissions[i]);
+        for (String pmsStr: permissions) {
+            if (ContextCompat.checkSelfPermission(this, pmsStr) != PackageManager.PERMISSION_GRANTED) {
+                mPermissionList.add(pmsStr);
             }
         }
         if (!mPermissionList.isEmpty()) {
@@ -571,12 +572,7 @@ public class BaseActivity extends FragmentActivity {
      */
     protected void showTimeOutDialog() {
         AppApplication.AppLogout();
-        showErrorDialog(getString(R.string.login_timeout), true, new Handler() {
-            @Override
-            public void handleMessage(Message msg) {
-                openLoginActivity();
-            }
-        });
+        showErrorDialog(getString(R.string.login_timeout), true, new TimeOutHandler(this));
     }
 
     /**
@@ -779,7 +775,9 @@ public class BaseActivity extends FragmentActivity {
      */
     protected void hideSoftInput(View view) {
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.hideSoftInputFromWindow(view.getWindowToken(), 0); //强制隐藏
+        if (imm != null) {
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0); //强制隐藏
+        }
     }
 
     /**
@@ -787,7 +785,9 @@ public class BaseActivity extends FragmentActivity {
      */
     protected void toggleSoftInput() {
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+        if (imm != null) {
+            imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+        }
     }
 
     /**
@@ -835,6 +835,20 @@ public class BaseActivity extends FragmentActivity {
      */
     protected void onTimerFinish() {
         isTimeFinish = true;
+    }
+
+    /**
+     * List数据类型转换
+     */
+    public static <T> ArrayList<T> castList(Object obj, Class<T> clazz) {
+        ArrayList<T> result = new ArrayList<>();
+        if(obj instanceof List<?>) {
+            for (Object o : (List<?>) obj) {
+                result.add(clazz.cast(o));
+            }
+            return result;
+        }
+        return null;
     }
 
     /**
@@ -1067,6 +1081,20 @@ public class BaseActivity extends FragmentActivity {
         HashMap<String, String> map = new HashMap<>();
         map.put("deviceToken", UserManager.getInstance().getDeviceToken());
         loadSVData(AppConfig.URL_AUTH_DEVICE, map, HttpRequests.HTTP_POST, 0);
+    }
+
+    static class TimeOutHandler extends Handler {
+
+        WeakReference<BaseActivity> mActivity;
+
+        TimeOutHandler(BaseActivity activity) {
+            mActivity = new WeakReference<>(activity);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            mActivity.get().openLoginActivity();
+        }
     }
 
 }

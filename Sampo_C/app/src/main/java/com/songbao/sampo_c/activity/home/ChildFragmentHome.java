@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.util.ArrayMap;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -98,7 +99,10 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
      * 与Activity不一样
      */
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@Nullable LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = View.inflate(getActivity(), R.layout.fragment_layout_home, null);
+        //Butter Knife初始化
+        ButterKnife.bind(this, view);
 
         LogUtil.i(LogUtil.LOG_TAG, TAG + ": onCreate");
         mContext = getActivity();
@@ -114,16 +118,7 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
         bannerLP.width = ban_widths;
         bannerLP.height = ban_widths * AppConfig.IMG_HEIGHT / AppConfig.IMG_WIDTHS;
 
-        View view = null;
-        try {
-            view = inflater.inflate(R.layout.fragment_layout_home, null);
-            //Butter Knife初始化
-            ButterKnife.bind(this, view);
-
-            initView();
-        } catch (Exception e) {
-            ExceptionUtil.handle(e);
-        }
+        initView();
         return view;
     }
 

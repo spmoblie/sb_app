@@ -187,7 +187,7 @@ public class CommentAddActivity extends BaseActivity implements OnClickListener 
 		new Handler().postDelayed(new Runnable() {
 			@Override
 			public void run() {
-				CommonTools.showToast("发布成功，待审核~");
+				CommonTools.showToast(contentStr + "发布成功，待审核~");
 				stopAnimation();
 			}
 		}, AppConfig.LOADING_TIME);

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -291,13 +292,14 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 		public int getCount() {
 			return FRAGMENT_CONTAINER.length;
 		}
-		
+
+		@NonNull
 		@Override
-		public Object instantiateItem(ViewGroup container, int position) {
+		public Object instantiateItem(@NonNull ViewGroup container, int position) {
 			// 得到缓存的fragment
-			Fragment fragment = (Fragment) super.instantiateItem(container, position);
-			// 得到tag，这点很重要
-			/*String fragmentTag = fragment.getTag();
+            /*Fragment fragment = (Fragment) super.instantiateItem(container, position);
+            // 得到tag，这点很重要
+			String fragmentTag = fragment.getTag();
 			switch (position) {
 				case R.id.main_fragment_tab_tv_2:
 					if (isNewFour) {
@@ -314,8 +316,9 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 						isNewFour = true;
 					}
 				break;
-			}*/
-			return fragment;
+			}
+            return fragment;*/
+			return super.instantiateItem(container, position);
 		}
 	}
 

@@ -206,7 +206,6 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
     private OrderLogisticsAdapter lv_7_Adapter;
 
     private OCustomizeEntity ocEn;
-    private AddressEntity selectAddEn;
     private Drawable open_up, open_down;
 
     private boolean isDesigns; //是否确认图片
@@ -220,7 +219,6 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
     private int addressId = 0;
     private int updateCode = 0;
     private int nodePosition = 0;
-    private String phone; //设计师联系电话
     private String orderNo; //订单编号
     private String goodsCode; //商品编号
 
@@ -316,8 +314,7 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
                 }
                 DesignerEntity dgEn = ocEn.getDgEn();
                 if (dgEn != null) {
-                    phone = dgEn.getPhone();
-                    tv_1_designer_phone.setText(phone);
+                    tv_1_designer_phone.setText(dgEn.getPhone());
                     tv_1_designer_name.setText(dgEn.getName());
                 }
             }
@@ -532,7 +529,7 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
                 public void setOnClick(Object data, int position, int type) {
                     if (data != null) {
                         if (type == 1) {
-                            ArrayList<String> imgList = (ArrayList<String>) data;
+                            ArrayList<String> imgList = castList(data, String.class);
                             openViewPagerActivity(imgList, position);
                         }
                     }
@@ -784,13 +781,13 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
     @Override
     protected void callbackData(JSONObject jsonObject, int dataType) {
         super.callbackData(jsonObject, dataType);
-        BaseEntity baseEn;
+        BaseEntity<OCustomizeEntity> baseEn;
         try {
             switch (dataType) {
                 case AppConfig.REQUEST_SV_BOOKING_INFO:
                     baseEn = JsonUtils.getCustomizeDetailData(jsonObject);
                     if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
-                        ocEn = (OCustomizeEntity) baseEn.getData();
+                        ocEn = baseEn.getData();
                         initShowData();
                     } else {
                         handleErrorCode(baseEn);
@@ -874,7 +871,7 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
             if (requestCode == AppConfig.ACTIVITY_CODE_SELECT_ADDS) {
-                selectAddEn = (AddressEntity) data.getSerializableExtra(AppConfig.PAGE_DATA);
+                AddressEntity selectAddEn = (AddressEntity) data.getSerializableExtra(AppConfig.PAGE_DATA);
                 if (selectAddEn != null) {
                     postAddressData(selectAddEn);
                 }

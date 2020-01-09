@@ -10,10 +10,6 @@ import com.songbao.sampo_b.utils.CommonTools;
 import com.uuzuche.lib_zxing.activity.CaptureFragment;
 import com.uuzuche.lib_zxing.activity.CodeUtils;
 
-/**
- * Created by admin on 2020/1/3.
- */
-
 public class ScanActivity extends BaseActivity {
 
     @Override

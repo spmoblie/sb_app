@@ -208,7 +208,7 @@ public class CommentGoodsActivity extends BaseActivity implements View.OnClickLi
 
 		super.onResume();
 	}
-	
+
 	@Override
 	protected void onPause() {
 		LogUtil.i(LogUtil.LOG_TAG, TAG + ": onPause");
@@ -273,7 +273,7 @@ public class CommentGoodsActivity extends BaseActivity implements View.OnClickLi
 
 	@Override
 	protected void callbackData(JSONObject jsonObject, int dataType) {
-		BaseEntity baseEn;
+		BaseEntity<CommentEntity> baseEn;
 		try {
 			switch (dataType) {
 				case AppConfig.REQUEST_SV_GOODS_COMMENT:

@@ -12,7 +12,7 @@ import com.songbao.sampo_b.entity.OLogisticsEntity;
 /**
  * 订单物流单号列表适配器
  */
-public class OrderLogisticsAdapter extends AppBaseAdapter {
+public class OrderLogisticsAdapter extends AppBaseAdapter<OLogisticsEntity> {
 
 	public OrderLogisticsAdapter(Context context) {
 		super(context);
@@ -41,7 +41,7 @@ public class OrderLogisticsAdapter extends AppBaseAdapter {
 		}
 
 		// 绑定View
-		final OLogisticsEntity data = (OLogisticsEntity) mDataList.get(position);
+		final OLogisticsEntity data = mDataList.get(position);
 
 		holder.tv_number.setText(context.getString(R.string.order_logistics_no, data.getName(), data.getNumber()));
 

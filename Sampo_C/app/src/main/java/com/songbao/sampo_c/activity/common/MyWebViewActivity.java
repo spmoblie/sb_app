@@ -1,6 +1,7 @@
 package com.songbao.sampo_c.activity.common;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
@@ -27,6 +28,8 @@ import com.songbao.sampo_c.utils.StringUtil;
 import com.songbao.sampo_c.widgets.ObservableWebView;
 import com.songbao.sampo_c.widgets.WebViewLoadingBar;
 
+import java.lang.ref.WeakReference;
+
 import butterknife.BindView;
 
 
@@ -47,29 +50,12 @@ public class MyWebViewActivity extends BaseActivity {
 	@BindView(R.id.web_view_loading_bar)
 	WebViewLoadingBar webViewLoadingBar;
 
+	private MyHandler mHandler;
 	private ShareEntity shareEn;
 	private String titleStr, lodUrl;
 	private Bitmap shareBm;
 	private int saveY = 0;
 	private boolean isScroll = false;
-
-	private Handler mHandler = new Handler(){
-		@Override
-		public void handleMessage(Message msg) {
-			switch (msg.what) {
-				case TYPE_LOAD_URL_SUCCESS:
-					if (myWebView != null && isScroll && saveY > 0) {
-						myWebView.scrollTo(0, saveY);
-						saveY = 0;
-						isScroll = false;
-					}
-					break;
-				case TYPE_LOAD_IMG_SUCCESS:
-					initShareData(shareBm);
-					break;
-			}
-		}
-	};
 
 	private void initShareData(Bitmap bm) {
 		if (shareEn != null) {
@@ -84,16 +70,18 @@ public class MyWebViewActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_my_webview);
 
-		Bundle bundle = getIntent().getExtras();
-		titleStr = bundle.getString("title");
-		lodUrl = bundle.getString("lodUrl");
-		shareEn = (ShareEntity) bundle.getSerializable(AppConfig.PAGE_DATA);
+		Intent intent = getIntent();
+		titleStr = intent.getStringExtra("title");
+		lodUrl = intent.getStringExtra("lodUrl");
+		shareEn = (ShareEntity) intent.getSerializableExtra(AppConfig.PAGE_DATA);
 
 		initView();
 	}
 
 	private void initView() {
 		setTitle(titleStr);
+
+		mHandler = new MyHandler(this);
 
 		//loadShareImg();
 		initWebView();
@@ -236,7 +224,7 @@ public class MyWebViewActivity extends BaseActivity {
 
 		super.onResume();
 	}
-	
+
 	@Override
 	protected void onPause() {
 		LogUtil.i(LogUtil.LOG_TAG, TAG + ": onPause");
@@ -253,6 +241,36 @@ public class MyWebViewActivity extends BaseActivity {
 			myWebView.clearCache(true);
 		}
 		super.onDestroy();
+	}
+
+	private void handlerLoadSuccess(Message msg) {
+		if (msg == null) return;
+		switch (msg.what) {
+			case TYPE_LOAD_URL_SUCCESS:
+				if (myWebView != null && isScroll && saveY > 0) {
+					myWebView.scrollTo(0, saveY);
+					saveY = 0;
+					isScroll = false;
+				}
+				break;
+			case TYPE_LOAD_IMG_SUCCESS:
+				initShareData(shareBm);
+				break;
+		}
+	}
+
+	static class MyHandler extends Handler {
+
+		WeakReference<MyWebViewActivity> mActivity;
+
+		MyHandler(MyWebViewActivity activity) {
+			mActivity = new WeakReference<>(activity);
+		}
+
+		@Override
+		public void handleMessage(Message msg) {
+			mActivity.get().handlerLoadSuccess(msg);
+		}
 	}
 
 	class JsToJava {

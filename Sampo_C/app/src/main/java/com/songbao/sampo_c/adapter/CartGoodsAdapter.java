@@ -21,7 +21,7 @@ import com.songbao.sampo_c.widgets.RoundImageView;
 import java.text.DecimalFormat;
 import java.util.List;
 
-public class CartGoodsAdapter extends BaseRecyclerAdapter {
+public class CartGoodsAdapter extends BaseRecyclerAdapter<CartEntity> {
 
     private int scrollPos = -1;
     private DecimalFormat df;
@@ -37,7 +37,7 @@ public class CartGoodsAdapter extends BaseRecyclerAdapter {
     }
 
     @Override
-    public void updateData(List data) {
+    public void updateData(List<CartEntity> data) {
         this.scrollPos = -1;
         super.updateData(data);
     }
@@ -65,7 +65,7 @@ public class CartGoodsAdapter extends BaseRecyclerAdapter {
         TextView tv_delete = holder.getView(R.id.cart_item_tv_delete);
 
         // 绑定View
-        final CartEntity data = (CartEntity) mDataList.get(pos);
+        final CartEntity data = mDataList.get(pos);
         GoodsEntity goodsEn = data.getGoodsEn();
 
         if (pos == 0) {

@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.songbao.sampo_c.AppApplication;
 import com.songbao.sampo_c.R;
 import com.songbao.sampo_c.activity.BaseActivity;
+import com.songbao.sampo_c.utils.ClickUtils;
 import com.songbao.sampo_c.utils.LogUtil;
 import com.songbao.sampo_c.widgets.ObservableWebView;
 
@@ -40,9 +41,8 @@ public class SketchActivity extends BaseActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_sketch);
 
-		Bundle bundle = getIntent().getExtras();
-		titleStr = bundle.getString("title");
-		lodUrl = bundle.getString("lodUrl");
+		titleStr = getIntent().getStringExtra("title");
+		lodUrl = getIntent().getStringExtra("lodUrl");
 
 		initView();
 	}
@@ -53,6 +53,7 @@ public class SketchActivity extends BaseActivity {
 		tv_click.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				if (ClickUtils.isDoubleClick()) return;
 				openDesignerActivity("goodsId");
 			}
 		});
@@ -89,7 +90,7 @@ public class SketchActivity extends BaseActivity {
 
 				@Override
 				public boolean shouldOverrideUrlLoading(WebView view, String url) {
-					if (url.contains("sxb")) {
+					if (url.contains("sampo")) {
 						view.loadUrl(url);
 						return true; //当加载重定向URL时，物理返回按键myWebView.canGoBack()判断为true。
 					}
@@ -126,7 +127,7 @@ public class SketchActivity extends BaseActivity {
 
 		super.onResume();
 	}
-	
+
 	@Override
 	protected void onPause() {
 		LogUtil.i(LogUtil.LOG_TAG, TAG + ": onPause");
