@@ -6,6 +6,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Handler;
 
 import com.songbao.sampo_c.AppApplication;
@@ -16,43 +17,41 @@ import com.songbao.sampo_c.dialog.DialogManager;
 import com.songbao.sampo_c.dialog.LoadDialog;
 import com.songbao.sampo_c.entity.UpdateVersionEntity;
 
+import java.lang.ref.WeakReference;
+
 
 public class UpdateAppVersion {
 
 	private static UpdateAppVersion instance;
+	private WeakReference<Context> weakContext;
 	private SharedPreferences shared;
-	private Context mContext;
 	private DialogManager dm;
 	private String curVersionName;
-	private int curVersionCode;
+	private long curVersionCode;
 	private boolean isHomeIndex = false;
+
+	private UpdateAppVersion(Context context, boolean isHome) {
+		weakContext = new WeakReference<>(context);
+		shared = AppApplication.getSharedPreferences();
+		dm = DialogManager.getInstance(context);
+		isHomeIndex = isHome;
+		startCheckAppVersion();
+	}
 
 	public static UpdateAppVersion getInstance(Context context, boolean isHomeIndex) {
 		if (instance == null) {
-			syncInit(context, isHomeIndex);
+			synchronized (UpdateAppVersion.class) {
+				if (instance == null){
+					instance = new UpdateAppVersion(context, isHomeIndex);
+				}
+			}
 		}
 		return instance;
 	}
 
-	private static synchronized void syncInit(Context context, boolean isHomeIndex) {
-		if (instance == null) {
-			instance = new UpdateAppVersion(context, isHomeIndex);
-		}
-	}
-	
-	private UpdateAppVersion(Context context, boolean isHomeIndex) {
-		mContext = context;
-		dm = DialogManager.getInstance(mContext);
-		this.isHomeIndex = isHomeIndex;
-		shared = AppApplication.getSharedPreferences();
-		startCheckAppVersion();
-	}
-
-	public void clearInstance() {
-		if (dm != null) {
-			dm.clearInstance();
-		}
+	public static void clearInstance() {
 		instance = null;
+		DialogManager.clearInstance();
 	}
 
 	private void startCheckAppVersion() {
@@ -60,11 +59,11 @@ public class UpdateAppVersion {
 		// 检测网络状态
 		if (NetworkUtil.networkStateTips()) {
 			if (!isHomeIndex) { //非首页
-				LoadDialog.show(mContext);
+				LoadDialog.show(weakContext.get());
 			}
 			new HttpTask().execute(); //异步检查版本信息
 		} else {
-			CommonTools.showToast(mContext.getString(R.string.network_fault));
+			CommonTools.showToast(weakContext.get().getString(R.string.network_fault));
 			new Handler().postDelayed(new Runnable() {
 				@Override
 				public void run() {
@@ -79,10 +78,14 @@ public class UpdateAppVersion {
 	 */
 	private void getAppVersionInfo() {
 		try {
-			PackageManager pm = mContext.getPackageManager();
-			PackageInfo pinfo = pm.getPackageInfo(mContext.getPackageName(), PackageManager.GET_CONFIGURATIONS);
-			curVersionName = pinfo.versionName;
-			curVersionCode = pinfo.versionCode;
+			PackageManager pm = weakContext.get().getPackageManager();
+			PackageInfo packageInfo = pm.getPackageInfo(weakContext.get().getPackageName(), PackageManager.GET_CONFIGURATIONS);
+			curVersionName = packageInfo.versionName;
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+				curVersionCode = packageInfo.getLongVersionCode();
+			} else {
+				curVersionCode = packageInfo.versionCode;
+			}
 			AppApplication.version_name = curVersionName;
 		} catch (NameNotFoundException e) {
 			ExceptionUtil.handle(e);
@@ -117,7 +120,7 @@ public class UpdateAppVersion {
 		}
 
 		protected void onPostExecute(Object result) {
-			AppVersionDialog appDialog = new AppVersionDialog(mContext, dm);
+			AppVersionDialog appDialog = new AppVersionDialog(dm);
 			if (!isHomeIndex) {
 				LoadDialog.hidden();
 			}
@@ -150,12 +153,12 @@ public class UpdateAppVersion {
 					}
 				} else {
 					if (!isHomeIndex) {
-						appDialog.showStatus(mContext.getString(R.string.dialog_version_new)); //提示已是最新版本
+						appDialog.showStatus(weakContext.get().getString(R.string.dialog_version_new)); //提示已是最新版本
 					}
 				}
 			} else {
 				if (!isHomeIndex) {
-					appDialog.showStatus(mContext.getString(R.string.toast_server_busy));
+					appDialog.showStatus(weakContext.get().getString(R.string.toast_server_busy));
 				}
 			}
 			clearInstance();
@@ -170,10 +173,7 @@ public class UpdateAppVersion {
 			getAppVersionInfo();
 		}
 		int newVersion = StringUtil.getInteger(minVersion);
-		if (curVersionCode < newVersion) {
-			return true;
-		}
-		return false;
+		return curVersionCode < newVersion;
 	}
 
 	/**
@@ -182,16 +182,16 @@ public class UpdateAppVersion {
 	private boolean compareVersion(String minVersion) {
 		boolean isUpdate = false;
 		if (StringUtil.isNull(minVersion)){
-			return isUpdate;
+			return false;
 		}
 		if (StringUtil.isNull(curVersionName)) {
 			getAppVersionInfo();
 		}
 		String[] minValues = minVersion.split("\\.");
-		int minlength = minValues.length;
+		int minLength = minValues.length;
 		String[] curValues = curVersionName.split("\\.");
 		int curLength = curValues.length;
-		if (minlength > 1 && curLength > 1) {
+		if (minLength > 1 && curLength > 1) {
 			int minFirst = Integer.parseInt(minValues[0]);
 			int curFirst = Integer.parseInt(curValues[0]);
 			if (curFirst < minFirst) {
@@ -207,7 +207,7 @@ public class UpdateAppVersion {
 					if (curLength > 2) {
 						curThree = Integer.parseInt(curValues[2]);
 					}
-					if (minlength > 2) {
+					if (minLength > 2) {
 						minThree = Integer.parseInt(minValues[2]);
 					}
 					if (curThree < minThree) {

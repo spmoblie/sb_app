@@ -222,16 +222,16 @@ public class LoginAccountActivity extends BaseActivity implements OnClickListene
 
     @Override
     protected void callbackData(JSONObject jsonObject, int dataType) {
-        BaseEntity baseEn;
+        BaseEntity<UserInfoEntity> baseEn;
         try {
             switch (dataType) {
                 case AppConfig.REQUEST_SV_AUTH_LOGIN:
                     baseEn = JsonLogin.getLoginData(jsonObject);
-                    if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
-                        userManager.saveUserLoginSuccess((UserInfoEntity) baseEn.getData());
+                    if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
+                        userManager.saveUserLoginSuccess(baseEn.getData());
                         closeLoginActivity();
                     } else
-                    if (baseEn.getErrno() == AppConfig.ERROR_CODE_PHONE_UNREGISTERED) {
+                    if (baseEn.getErrNo() == AppConfig.ERROR_CODE_PHONE_UNREGISTERED) {
                         CommonTools.showToast(getString(R.string.login_account_error));
                     } else {
                         handleErrorCode(baseEn);

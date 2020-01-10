@@ -17,23 +17,23 @@ public class BitmapCache {
 	private ReferenceQueue<Bitmap> q;
 
 	/** 用于Chche内容的存储 */
-	private Hashtable<String, BtimapRef> bitmapRefs;
+	private Hashtable<String, BitmapRef> bitmapRefs;
 
 	/**
 	 * 继承SoftReference，使得每一个实例都具有可识别的标识。
 	 */
-	private class BtimapRef extends SoftReference<Bitmap> {
+	private class BitmapRef extends SoftReference<Bitmap> {
 		private String _key = "";
 
-		public BtimapRef(Bitmap bmp, ReferenceQueue<Bitmap> q, String key) {
+		public BitmapRef(Bitmap bmp, ReferenceQueue<Bitmap> q, String key) {
 			super(bmp, q);
 			_key = key;
 		}
 	}
 
 	private BitmapCache() {
-		q = new ReferenceQueue<Bitmap>();
-		bitmapRefs = new Hashtable<String, BtimapRef>();
+		q = new ReferenceQueue<>();
+		bitmapRefs = new Hashtable<>();
 	}
 
 	/**
@@ -58,7 +58,7 @@ public class BitmapCache {
 		} else {
 			cleanCache(); //清除垃圾引用
 		}
-		BtimapRef ref = new BtimapRef(bmp, q, key);
+		BitmapRef ref = new BitmapRef(bmp, q, key);
 		bitmapRefs.put(key, ref);
 	}
 
@@ -66,13 +66,13 @@ public class BitmapCache {
 	 * 依据所指定的文件名获取图片
 	 */
 	public Bitmap getBitmap(String filename) {
-		Bitmap bitmapImage = null;
 		if (StringUtil.isNull(filename)) {
-			return bitmapImage;
+			return null;
 		}
+		Bitmap bitmapImage = null;
 		// 缓存中是否有该Bitmap实例的软引用，如果有，从软引用中取得。
 		if (bitmapRefs != null && bitmapRefs.containsKey(filename)) {
-			BtimapRef ref = bitmapRefs.get(filename);
+			BitmapRef ref = bitmapRefs.get(filename);
 			bitmapImage = ref.get();
 		}
 		return bitmapImage;
@@ -82,8 +82,8 @@ public class BitmapCache {
 	 * 清除垃圾引用
 	 */
 	private void cleanCache() {
-		BtimapRef ref;
-		while ((ref = (BtimapRef) q.poll()) != null) {
+		BitmapRef ref;
+		while ((ref = (BitmapRef) q.poll()) != null) {
 			bitmapRefs.remove(ref._key);
 		}
 	}

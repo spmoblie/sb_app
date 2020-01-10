@@ -17,13 +17,13 @@ public class JsonLogin {
 	/**
 	 * 解析通用数据
 	 */
-	private static BaseEntity getCommonKeyValue(JSONObject jsonObj) throws JSONException {
-		BaseEntity baseEn = new BaseEntity();
+	private static <T extends BaseEntity> BaseEntity<T> getCommonKeyValue(JSONObject jsonObj) throws JSONException {
+		BaseEntity<T> baseEn = new BaseEntity<>();
 		if (jsonObj.has("errno")) {
-			baseEn.setErrno(jsonObj.getInt("errno"));
+			baseEn.setErrNo(jsonObj.getInt("errno"));
 		}
 		if (jsonObj.has("errmsg")) {
-			baseEn.setErrmsg(jsonObj.getString("errmsg"));
+			baseEn.setErrMsg(jsonObj.getString("errmsg"));
 		}
 		return baseEn;
 	}
@@ -44,8 +44,8 @@ public class JsonLogin {
 	 * @return
 	 * @throws JSONException
 	 */
-	public static BaseEntity getLoginData(JSONObject jsonObject) throws JSONException {
-		BaseEntity mainEn = getCommonKeyValue(jsonObject);
+	public static BaseEntity<UserInfoEntity> getLoginData(JSONObject jsonObject) throws JSONException {
+		BaseEntity<UserInfoEntity> mainEn = getCommonKeyValue(jsonObject);
 
 		UserInfoEntity userInfo = new UserInfoEntity();
 		if (StringUtil.notNull(jsonObject, "data")) {
@@ -141,16 +141,14 @@ public class JsonLogin {
 	 * 获取支付宝授权信息
 	 */
 	public static AuthResult getALAuthInfo(JSONObject jsonObj) throws JSONException {
-		AuthResult authResult = null;
-		return authResult;
+		return null;
 	}
 
 	/**
 	 * 获取支付宝用户信息
 	 */
 	public static UserInfoEntity getALUserInfo(JSONObject jsonObj) throws JSONException {
-		UserInfoEntity userInfo = null;
-		return userInfo;
+		return null;
 	}
 
 	/**

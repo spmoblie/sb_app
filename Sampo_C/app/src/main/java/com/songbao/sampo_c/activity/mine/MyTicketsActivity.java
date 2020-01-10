@@ -190,7 +190,7 @@ public class MyTicketsActivity extends BaseActivity {
 			switch (dataType) {
 				case AppConfig.REQUEST_SV_USER_TICKETS:
 					baseEn = JsonUtils.getMyTicketsData(jsonObject);
-					if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+					if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
 						data_total = baseEn.getDataTotal();
 						List<CouponEntity> lists = filterData(baseEn.getLists(), am_show);
 						if (lists != null && lists.size() > 0) {
@@ -207,7 +207,7 @@ public class MyTicketsActivity extends BaseActivity {
 							al_show.addAll(lists);
 						}
 						updateListData();
-					} else if (baseEn.getErrno() == AppConfig.ERROR_CODE_TIMEOUT) {
+					} else if (baseEn.getErrNo() == AppConfig.ERROR_CODE_TIMEOUT) {
 						handleTimeOut();
 						finish();
 					} else {

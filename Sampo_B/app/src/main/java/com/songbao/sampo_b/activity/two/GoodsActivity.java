@@ -349,13 +349,13 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
     @Override
     protected void callbackData(JSONObject jsonObject, int dataType) {
         super.callbackData(jsonObject, dataType);
-        BaseEntity baseEn;
+        BaseEntity<GoodsEntity> baseEn;
         try {
             switch (dataType) {
                 case AppConfig.REQUEST_SV_GOODS_DETAIL:
                     baseEn = JsonUtils.getGoodsDetailData(jsonObject);
-                    if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
-                        goodsEn = (GoodsEntity) baseEn.getData();
+                    if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
+                        goodsEn = baseEn.getData();
                         initShowView();
                     } else {
                         handleErrorCode(baseEn);

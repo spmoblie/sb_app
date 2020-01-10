@@ -201,13 +201,11 @@ public class BaseActivity extends FragmentActivity {
     @Override
     protected void onPause() {
         LogUtil.i(LogUtil.LOG_TAG, TAG + ": onPause()");
-        if (myDialog != null) {
-            myDialog.clearInstance();
-        }
         // 缓存标题View高度
         if (AppApplication.title_height <= 0) {
             AppApplication.title_height = top_main.getHeight();
         }
+        DialogManager.clearInstance();
         super.onPause();
     }
 
@@ -546,12 +544,12 @@ public class BaseActivity extends FragmentActivity {
      */
     protected void handleErrorCode(BaseEntity baseEn) {
         if (baseEn != null) {
-            switch (baseEn.getErrno()) {
+            switch (baseEn.getErrNo()) {
                 case AppConfig.ERROR_CODE_TIMEOUT: //登录超时
                     showTimeOutDialog();
                     break;
                 default:
-                    showServerBusy(baseEn.getErrmsg());
+                    showServerBusy(baseEn.getErrMsg());
                     break;
             }
         } else {

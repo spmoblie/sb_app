@@ -6,9 +6,9 @@ import android.content.Context;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.graphics.Point;
 import android.graphics.Rect;
 import android.location.LocationManager;
-import android.os.Build;
 import android.util.DisplayMetrics;
 import android.view.Display;
 import android.view.WindowManager;
@@ -66,25 +66,31 @@ public class DeviceUtil {
 	/**
 	 * 获取手机屏幕宽度
 	 */
-	@SuppressWarnings("deprecation")
-	public static int getDeviceWidth(Context context) 
-	{
-		WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-		Display display = wm.getDefaultDisplay();
-
-		return display.getWidth();
+	public static int getDeviceWidth(Context context) {
+		WindowManager manager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+		if (manager != null) {
+			Display display = manager.getDefaultDisplay();
+			Point point = new Point();
+			display.getSize(point);
+			return point.x;
+		} else {
+			return 0;
+		}
 	}
 
 	/**
 	 * 获取手机屏幕高度
 	 */
-	@SuppressWarnings("deprecation")
-	public static int getDeviceHeight(Context context) 
-	{
-		WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-		Display display = wm.getDefaultDisplay();
-
-		return display.getHeight();
+	public static int getDeviceHeight(Context context) {
+		WindowManager manager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+		if (manager != null) {
+			Display display = manager.getDefaultDisplay();
+			Point point = new Point();
+			display.getSize(point);
+			return point.y;
+		} else {
+			return 0;
+		}
 	}
 	
 	/**
@@ -103,8 +109,7 @@ public class DeviceUtil {
 	/**
 	 * 获取手机屏幕物理密度
 	 */
-	public static float getDeviceDenstity(Context context) 
-	{
+	public static float getDeviceDensity(Context context) {
 		DisplayMetrics metrics = context.getResources().getDisplayMetrics();
 		return metrics.density;
 	}
@@ -115,21 +120,21 @@ public class DeviceUtil {
 	 * @return
 	 */
 	public static boolean isPad(Context context) {
-		WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-		Display display = wm.getDefaultDisplay();
-		// 屏幕宽度
-		float screenWidth = display.getWidth();
-		// 屏幕高度
-		float screenHeight = display.getHeight();
-		DisplayMetrics dm = new DisplayMetrics();
-		display.getMetrics(dm);
-		double x = Math.pow(dm.widthPixels / dm.xdpi, 2);
-		double y = Math.pow(dm.heightPixels / dm.ydpi, 2);
-		// 屏幕尺寸
-		double screenInches = Math.sqrt(x + y);
-		// 大于6尺寸则为Pad
-		if (screenInches >= 6.0) {
-			return true;
+		WindowManager manager = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+		if (manager != null) {
+			Display display = manager.getDefaultDisplay();
+			Point point = new Point();
+			display.getSize(point);
+			float screenWidth = point.x;
+			float screenHeight = point.y;
+			DisplayMetrics dm = new DisplayMetrics();
+			display.getMetrics(dm);
+			double x = Math.pow(dm.widthPixels / dm.xdpi, 2);
+			double y = Math.pow(dm.heightPixels / dm.ydpi, 2);
+			// 屏幕尺寸
+			double screenInches = Math.sqrt(x + y);
+			// 大于6尺寸则为Pad
+			return screenInches >= 6.0;
 		}
 		return false;
 	}
@@ -174,44 +179,23 @@ public class DeviceUtil {
 	 * @param packageName 要判断应用的包名
 	 */
 	public static boolean isAppAlive(Context context, String packageName){
-		ActivityManager activityManager =
-				(ActivityManager)context.getSystemService(Context.ACTIVITY_SERVICE);
-		List<ActivityManager.RunningAppProcessInfo> processInfos
-				= activityManager.getRunningAppProcesses();
-		for(int i = 0; i < processInfos.size(); i++){
-			if(processInfos.get(i).processName.equals(packageName)){
-				LogUtil.i("NotificationLaunch",
-						String.format("the %s is running, isAppAlive return true", packageName));
-				return true;
+		ActivityManager activityManager = (ActivityManager)context.getSystemService(Context.ACTIVITY_SERVICE);
+		if (activityManager != null) {
+			List<ActivityManager.RunningAppProcessInfo> processInfo = activityManager.getRunningAppProcesses();
+			for(int i = 0; i < processInfo.size(); i++){
+				if(processInfo.get(i).processName.equals(packageName)){
+					LogUtil.i("NotificationLaunch", String.format("the %s is running, isAppAlive return true", packageName));
+					return true;
+				}
 			}
 		}
-		LogUtil.i("NotificationLaunch",
-				String.format("the %s is not running, isAppAlive return false", packageName));
+		LogUtil.i("NotificationLaunch", String.format("the %s is not running, isAppAlive return false", packageName));
 		return false;
 	}
-	
-	public static boolean isDisplayFullNumBannerInSR1()
-	{
-		if(android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
-		{
-			return true;
-		}
-		
-		return false;
-	}
-	
-	public static boolean isLocationServiceAllowed()
-	{
-		LocationManager locationManager = (LocationManager) AppApplication
-				.getAppContext().getSystemService(Context.LOCATION_SERVICE);
 
-		if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
-				|| locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER))
-		{
-			return true;
-		}
-
-		return false;
+	public static boolean isLocationServiceAllowed() {
+		LocationManager locationManager = (LocationManager) AppApplication.getAppContext().getSystemService(Context.LOCATION_SERVICE);
+		return locationManager != null && (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER));
 	}
 	
 }

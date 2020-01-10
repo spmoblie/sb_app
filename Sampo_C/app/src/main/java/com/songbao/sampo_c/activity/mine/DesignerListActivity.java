@@ -175,11 +175,11 @@ public class DesignerListActivity extends BaseActivity implements View.OnClickLi
             switch (dataType) {
                 case AppConfig.REQUEST_SV_USER_DESIGNER:
                     baseEn = JsonUtils.getDesignData(jsonObject);
-                    if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+                    if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
                         al_show.clear();
                         al_show.addAll(baseEn.getLists());
                         updateListData(0);
-                    } else if (baseEn.getErrno() == AppConfig.ERROR_CODE_TIMEOUT) {
+                    } else if (baseEn.getErrNo() == AppConfig.ERROR_CODE_TIMEOUT) {
                         handleTimeOut();
                         finish();
                     } else {
@@ -188,7 +188,7 @@ public class DesignerListActivity extends BaseActivity implements View.OnClickLi
                     break;
                 case AppConfig.REQUEST_SV_BOOKING_CREATE:
                     baseEn = JsonUtils.getCustomizeResult(jsonObject);
-                    if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+                    if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
                         final String orderNo = baseEn.getOthers();
                         CommonTools.showToast(getString(R.string.designer_subscribe_ok));
                         new Handler().postDelayed(new Runnable() {

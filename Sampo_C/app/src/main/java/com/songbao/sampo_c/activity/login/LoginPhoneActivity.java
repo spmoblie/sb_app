@@ -111,7 +111,7 @@ public class LoginPhoneActivity extends BaseActivity implements OnClickListener 
                 StringBuilder sb = new StringBuilder();
                 for (int i = 0; i < s.length(); i++) {
                     if (i != 3 && i != 8 && s.charAt(i) == ' ') {
-                        continue;
+                        break;
                     } else {
                         sb.append(s.charAt(i));
                         if ((sb.length() == 4 || sb.length() == 9) && sb.charAt(sb.length() - 1) != ' ') {
@@ -459,7 +459,7 @@ public class LoginPhoneActivity extends BaseActivity implements OnClickListener 
                 case AppConfig.REQUEST_SV_AUTH_MESSAGE:
                     send_Again = true;
                     baseEn = JsonLogin.getBaseErrorData(jsonObject);
-                    if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+                    if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
                         setSendCodeState(false);
                         send_number++;
                         if (send_number < 3) {
@@ -476,11 +476,11 @@ public class LoginPhoneActivity extends BaseActivity implements OnClickListener 
                     break;
                 case AppConfig.REQUEST_SV_AUTH_LOGIN:
                     baseEn = JsonLogin.getLoginData(jsonObject);
-                    if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+                    if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
                         userManager.saveUserLoginSuccess((UserInfoEntity) baseEn.getData());
                         closeLoginActivity();
                     } else
-                    if (baseEn.getErrno() == AppConfig.ERROR_CODE_PHONE_UNREGISTERED) {
+                    if (baseEn.getErrNo() == AppConfig.ERROR_CODE_PHONE_UNREGISTERED) {
                         tv_phone_error.setVisibility(View.VISIBLE);
                         tv_phone_error.setText(getString(R.string.login_phone_unregistered));
                     } else {

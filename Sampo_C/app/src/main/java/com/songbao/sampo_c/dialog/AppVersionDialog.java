@@ -25,14 +25,12 @@ import java.lang.ref.WeakReference;
 public class AppVersionDialog {
 
 	private static final int DIALOG_WIDTH = AppApplication.screen_width * 2/3;
-	private static final String APK_PATH = AppConfig.SAVE_PATH_APK_DICE + "/song_bao_sxb.apk";
-	private Context mContext;
+	private static final String APK_PATH = AppConfig.SAVE_PATH_APK_DICE + "/sampo.apk";
 	private DialogManager dm;
 	private String apkLoadAddress;
 	private boolean isForce = false;
 
-	public AppVersionDialog(Context context, DialogManager dialogManager) {
-		this.mContext = context;
+	public AppVersionDialog(DialogManager dialogManager) {
 		this.dm = dialogManager;
 	}
 
@@ -40,7 +38,9 @@ public class AppVersionDialog {
 	 * 更新状态提示
 	 */
 	public void showStatus(String msgStr){
-		dm.showOneBtnDialog(msgStr, DIALOG_WIDTH, true, true, null, null);
+		if (dm != null) {
+			dm.showOneBtnDialog(msgStr, DIALOG_WIDTH, true, true, null, null);
+		}
 	}
 	
 	/**
@@ -50,15 +50,18 @@ public class AppVersionDialog {
 	 * @param description 更新描述
 	 */
 	public void foundNewVersion(String address, String description){
+		Context context = AppApplication.getAppContext();
 		isForce = false;
 		apkLoadAddress = address;
 		if (StringUtil.isNull(description)) {
-			description = mContext.getString(R.string.dialog_version_update);
+			description = context.getString(R.string.dialog_version_update);
 		} else {
 			description = Html.fromHtml(description).toString();
 		}
-		dm.showTwoBtnDialog(null, description, mContext.getString(R.string.ignore), mContext.getString(R.string.confirm),
-				DIALOG_WIDTH, true, true, new DialogHandler(this), AppConfig.DIALOG_CLICK_OK);
+		if (dm != null) {
+			dm.showTwoBtnDialog(null, description, context.getString(R.string.ignore), context.getString(R.string.confirm),
+					DIALOG_WIDTH, true, true, new DialogHandler(this), AppConfig.DIALOG_CLICK_OK);
+		}
 	}
 	
 	/**
@@ -71,11 +74,13 @@ public class AppVersionDialog {
 		isForce = true;
 		apkLoadAddress = address;
 		if (StringUtil.isNull(description)) {
-			description = mContext.getString(R.string.dialog_version_update_force);
+			description = AppApplication.getAppContext().getString(R.string.dialog_version_update_force);
 		} else {
 			description = Html.fromHtml(description).toString();
 		}
-		dm.showOneBtnDialog(description, DIALOG_WIDTH, true, false, new DialogHandler(this), keyListener);
+		if (dm != null) {
+			dm.showOneBtnDialog(description, DIALOG_WIDTH, true, false, new DialogHandler(this), keyListener);
+		}
 	}
 
 	/**
@@ -90,7 +95,9 @@ public class AppVersionDialog {
 	 * 弹出下载缓冲对话框
 	 */
 	private void loadApkDialog() {
-		dm.showLoadDialog(DIALOG_WIDTH, keyListener);
+		if (dm != null) {
+			dm.showLoadDialog(DIALOG_WIDTH, keyListener);
+		}
 	}
 	
 	/**
@@ -99,9 +106,11 @@ public class AppVersionDialog {
 	private void startInstallApk() {
 		Intent intent = new Intent(Intent.ACTION_VIEW);
 		intent.setDataAndType(Uri.fromFile(new File(APK_PATH)), "application/vnd.android.package-archive");
-		mContext.startActivity(intent);
-		dm.dismiss();
-	} 
+		AppApplication.getAppContext().startActivity(intent);
+		if (dm != null) {
+			dm.dismiss();
+		}
+	}
 
 	/**
 	 * 物理键盘监听器
@@ -122,7 +131,7 @@ public class AppVersionDialog {
 							exit = Boolean.FALSE;
 						}
 					}, 2000);
-					CommonTools.showToast(mContext.getString(R.string.toast_exit_prompt), Toast.LENGTH_SHORT);
+					CommonTools.showToast(AppApplication.getAppContext().getString(R.string.toast_exit_prompt), Toast.LENGTH_SHORT);
 				}
 			}
 			return true;

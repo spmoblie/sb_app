@@ -398,7 +398,7 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
             switch (dataType) {
                 case AppConfig.REQUEST_SV_UPLOAD_HEAD:
                     baseEn = JsonUtils.getUploadResult(jsonObject);
-                    if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+                    if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
                         changeStr = baseEn.getOthers();
                         userKey = "avatar";
                         saveUserInfo();
@@ -408,7 +408,7 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
                     break;
                 case AppConfig.REQUEST_SV_USER_SAVE:
                     baseEn = JsonUtils.getUploadResult(jsonObject);
-                    if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+                    if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
                         AppApplication.updateUserData(true);
                         if (userKey.equals("avatar")) {
                             // 替换头像

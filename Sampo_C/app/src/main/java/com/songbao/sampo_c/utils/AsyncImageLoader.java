@@ -23,29 +23,6 @@ public class AsyncImageLoader {
 	private AsyncImageLoaderCallback ailCallback;
 	private static AsyncImageLoader instance;
 
-	/**
-	 * 创建此对象请记得在Activity的onPause()中调用clearInstance()销毁对象
-	 */
-	public static AsyncImageLoader getInstance(AsyncImageLoaderCallback callback) {
-		if (instance == null) {
-			syncInit(callback);
-		}
-		return instance;
-	}
-
-	private static synchronized void syncInit(AsyncImageLoaderCallback callback) {
-		if (instance == null) {
-			instance = new AsyncImageLoader(callback);
-		}
-	}
-
-	private void callbackImage(Message msg) {
-		if (ailCallback != null) {
-			ImageLoadTask task = (ImageLoadTask) msg.obj;
-			ailCallback.imageLoaded(task.oldPath, task.newPath, task.bitmap);
-		}
-	}
-
 	private AsyncImageLoader(AsyncImageLoaderCallback callback) {
 		this.isLoop = true;
 		this.ailCallback = callback;
@@ -105,6 +82,20 @@ public class AsyncImageLoader {
 		}
 	}
 
+	/**
+	 * 创建此对象请记得在Activity的onPause()中调用clearInstance()销毁对象
+	 */
+	public static AsyncImageLoader getInstance(AsyncImageLoaderCallback callback) {
+		if (instance == null) {
+			synchronized (AsyncImageLoader.class) {
+				if (instance == null){
+					instance = new AsyncImageLoader(callback);
+				}
+			}
+		}
+		return instance;
+	}
+	
 	public void clearInstance(){
 		quit();
 		instance = null;
@@ -112,7 +103,7 @@ public class AsyncImageLoader {
 
 	/**
 	 * 根据指定的图片路径获取图片对象
-	 *
+	 * 
 	 * @param oldPath 图片路径
 	 */
 	public ImageLoadTask loadImage(String oldPath) {
@@ -192,6 +183,13 @@ public class AsyncImageLoader {
 		public boolean equals(Object o) {
 			ImageLoadTask task = (ImageLoadTask) o;
 			return newPath.equals(task.newPath);
+		}
+	}
+
+	private void callbackImage(Message msg) {
+		if (ailCallback != null) {
+			ImageLoadTask task = (ImageLoadTask) msg.obj;
+			ailCallback.imageLoaded(task.oldPath, task.newPath, task.bitmap);
 		}
 	}
 

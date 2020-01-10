@@ -286,7 +286,7 @@ public class ChildFragmentTwo extends BaseFragment implements OnClickListener {
 			switch (dataType) {
 				case AppConfig.REQUEST_SV_SORT_LIST:
 					baseEn = JsonUtils.getSortListData(jsonObject);
-					if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+					if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
 						isSortOk = true;
 						al_left.clear();
 						al_left.addAll(baseEn.getLists());
@@ -302,7 +302,7 @@ public class ChildFragmentTwo extends BaseFragment implements OnClickListener {
 					break;
 				case AppConfig.REQUEST_SV_SORT_GOODS:
 					baseEn = JsonUtils.getSortGoodsData(jsonObject, postSortId, postSortCode);
-					if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+					if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
 						al_right.clear();
 						al_right.addAll(baseEn.getLists());
 						updateRightListData();

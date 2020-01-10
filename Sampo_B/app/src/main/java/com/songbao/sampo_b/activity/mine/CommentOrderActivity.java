@@ -192,7 +192,7 @@ public class CommentOrderActivity extends BaseActivity {
 			switch (dataType) {
 				case AppConfig.REQUEST_SV_USER_MESSAGE:
 					baseEn = JsonUtils.getCommentOrderListData(jsonObject);
-					if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+					if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
 						data_total = baseEn.getDataTotal();
 						List<CommentEntity> lists = filterData(baseEn.getLists(), am_show);
 						if (lists != null && lists.size() > 0) {
@@ -209,7 +209,7 @@ public class CommentOrderActivity extends BaseActivity {
 							al_show.addAll(lists);
 						}
 						updateListData();
-					} else if (baseEn.getErrno() == AppConfig.ERROR_CODE_TIMEOUT) {
+					} else if (baseEn.getErrNo() == AppConfig.ERROR_CODE_TIMEOUT) {
 						handleTimeOut();
 						finish();
 					} else {

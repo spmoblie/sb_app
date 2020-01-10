@@ -278,7 +278,7 @@ public class CommentPostActivity extends BaseActivity implements OnClickListener
 			switch (dataType) {
 				case AppConfig.REQUEST_SV_UPLOAD_COMMENT_PHOTO:
 					baseEn = JsonUtils.getUploadResult(jsonObject);
-					if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+					if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
 						al_image_url.add(baseEn.getOthers());
 						checkPhotoUrl();
 					} else {

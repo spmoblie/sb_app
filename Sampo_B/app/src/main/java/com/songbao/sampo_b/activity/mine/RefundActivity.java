@@ -186,7 +186,7 @@ public class RefundActivity extends BaseActivity implements OnClickListener {
             switch (dataType) {
                 case AppConfig.REQUEST_SV_REFUND_DETAIL:
                     baseEn = JsonUtils.getRefundDetailData(jsonObject);
-                    if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+                    if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
                         saleEn = (GoodsSaleEntity) baseEn.getData();
                         initShowView();
                     } else {

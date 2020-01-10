@@ -816,7 +816,7 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 			switch (dataType) {
 				case AppConfig.REQUEST_SV_GOODS_LIST:
 					baseEn = JsonUtils.getGoodsListData(jsonObject);
-					if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+					if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
 						data_total = baseEn.getDataTotal();
 						List<GoodsEntity> lists = filterData(baseEn.getLists(), am_show);
 						if (lists != null && lists.size() > 0) {

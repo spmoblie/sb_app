@@ -44,12 +44,12 @@ public class QRCodeUtil {
 	 * @param drop      背景图片
 	 */
 	public static Bitmap createQRImage(String url, int widthPix, int heightPix, int marginPix, Bitmap logoBm, Bitmap drop) {
-		Bitmap bitmap = null;
 		try {
 			// 判断URL合法性
 			if (StringUtil.isNull(url)) {
-				return bitmap;
+				return null;
 			}
+			Bitmap bitmap;
 			// 配置参数
 			Hashtable<EncodeHintType, Object> hints = new Hashtable<>();
 			hints.put(EncodeHintType.CHARACTER_SET, "utf-8");
@@ -106,14 +106,13 @@ public class QRCodeUtil {
 	 * @param filePath  用于存储二维码图片的文件路径
 	 * @return 生成二维码及保存文件是否成功
 	 */
-	public static boolean createQRImage(Bitmap drop, String content,
-                                        int widthPix, int heightPix, int marginPix, Bitmap logoBm, String filePath) {
+	public static boolean createQRImage(Bitmap drop, String content, int widthPix, int heightPix, int marginPix, Bitmap logoBm, String filePath) {
 		try {
 			if (StringUtil.isNull(content)) {
 				return false;
 			}
 			// 配置参数
-			Map<EncodeHintType, Object> hints = new HashMap<EncodeHintType, Object>();
+			Map<EncodeHintType, Object> hints = new HashMap<>();
 			hints.put(EncodeHintType.CHARACTER_SET, "utf-8");
 			// 容错级别
 			//hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H);

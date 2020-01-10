@@ -139,8 +139,6 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) { //API 24
             setTextUrl();
-        } else {
-
         }
     }
 
@@ -505,18 +503,14 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
             switch (dataType) {
                 case AppConfig.REQUEST_SV_AUTH_WX_USER:
                     WXUserInfoEntity wxUserInfo = JsonLogin.getWXUserInfo(jsonObject);
-                    if (wxUserInfo != null) {
-                        oauthEn = new UserInfoEntity();
-                        oauthEn.setUserArea(LOGIN_TYPE_WX);
-                        oauthEn.setUserId(wxUserInfo.getUnionid());
-                        oauthEn.setUserNick(wxUserInfo.getNickname());
-                        oauthEn.setUserHead(wxUserInfo.getAvatar());
-                        oauthEn.setGenderStr(wxUserInfo.getGender());
-                        // 注册微信用户信息
-                        startRegisterOauthActivity(oauthEn);
-                    } else {
-                        showLoginError();
-                    }
+                    oauthEn = new UserInfoEntity();
+                    oauthEn.setUserArea(LOGIN_TYPE_WX);
+                    oauthEn.setUserId(wxUserInfo.getUnionid());
+                    oauthEn.setUserNick(wxUserInfo.getNickname());
+                    oauthEn.setUserHead(wxUserInfo.getAvatar());
+                    oauthEn.setGenderStr(wxUserInfo.getGender());
+                    // 注册微信用户信息
+                    startRegisterOauthActivity(oauthEn);
                     break;
                 case AppConfig.REQUEST_SV_AUTH_WB_USER:
                     oauthEn = JsonLogin.getWBUserInfo(jsonObject);
@@ -530,16 +524,20 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
                     break;
                 case AppConfig.REQUEST_SV_AUTH_OAUTH:
                     BaseEntity baseEn = JsonLogin.getLoginData(jsonObject);
-                    if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) { //校验通过
+                    if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) { //校验通过
                         userManager.saveUserLoginSuccess((UserInfoEntity) baseEn.getData());
                         closeLoginActivity();
-                    } else if (baseEn.getErrno() == 99990) { //校验不通过
-                        if (loginType == LOGIN_TYPE_WX) {
-                            getWXUserInfo();
-                        }else if (loginType == LOGIN_TYPE_QQ) {
-                            getQQUserInfo();
-                        }else if (loginType == LOGIN_TYPE_WB) {
-                            getWBUserInfo();
+                    } else if (baseEn.getErrNo() == 99990) { //校验不通过
+                        switch (loginType) {
+                            case LOGIN_TYPE_WX:
+                                getWXUserInfo();
+                                break;
+                            case LOGIN_TYPE_QQ:
+                                getQQUserInfo();
+                                break;
+                            case LOGIN_TYPE_WB:
+                                getWBUserInfo();
+                                break;
                         }
                     } else {
                         handleErrorCode(baseEn);

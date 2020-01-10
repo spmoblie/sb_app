@@ -456,7 +456,7 @@ public class MyPurchaseActivity extends BaseActivity implements View.OnClickList
 			switch (dataType) {
 				case AppConfig.REQUEST_SV_USER_PURCHASE:
 					baseEn = JsonUtils.getMyPurchaseData(jsonObject);
-					if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+					if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
 						int newTotal = baseEn.getDataTotal();
 						List<OPurchaseEntity> lists = new ArrayList<>();
 						switch (top_type) {
@@ -538,7 +538,7 @@ public class MyPurchaseActivity extends BaseActivity implements View.OnClickList
 							LogUtil.i(LogUtil.LOG_HTTP, TAG + " 翻页数据 —> size = " + lists.size());
 						}
 						updateListData();
-					} else if (baseEn.getErrno() == AppConfig.ERROR_CODE_TIMEOUT) {
+					} else if (baseEn.getErrNo() == AppConfig.ERROR_CODE_TIMEOUT) {
 						handleTimeOut();
 						finish();
 					} else {

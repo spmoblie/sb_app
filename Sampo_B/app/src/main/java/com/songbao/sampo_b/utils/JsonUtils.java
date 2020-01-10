@@ -32,10 +32,10 @@ public class JsonUtils {
     private static <T extends BaseEntity> BaseEntity<T> getCommonKeyValue(JSONObject jsonObj) throws JSONException {
         BaseEntity<T> baseEn = new BaseEntity<>();
         if (jsonObj.has("errno")) {
-            baseEn.setErrno(jsonObj.getInt("errno"));
+            baseEn.setErrNo(jsonObj.getInt("errno"));
         }
         if (jsonObj.has("errmsg")) {
-            baseEn.setErrmsg(jsonObj.getString("errmsg"));
+            baseEn.setErrMsg(jsonObj.getString("errmsg"));
         }
         return baseEn;
     }
@@ -134,7 +134,7 @@ public class JsonUtils {
         BaseEntity mainEn = getCommonKeyValue(jsonObject);
 
         if (StringUtil.notNull(jsonObject, "data")) {
-            mainEn.setData(jsonObject.getString("data"));
+            mainEn.setOthers(jsonObject.getString("data"));
         }
         return mainEn;
     }
@@ -142,8 +142,8 @@ public class JsonUtils {
     /**
      * 解析获取支付信息
      */
-    public static BaseEntity getPayInfo(JSONObject jsonObject, int payType) throws JSONException {
-        BaseEntity mainEn = getCommonKeyValue(jsonObject);
+    public static BaseEntity<PaymentEntity> getPayInfo(JSONObject jsonObject, int payType) throws JSONException {
+        BaseEntity<PaymentEntity> mainEn = getCommonKeyValue(jsonObject);
 
         if (StringUtil.notNull(jsonObject, "data")) {
             PaymentEntity payEn = new PaymentEntity();
@@ -387,7 +387,13 @@ public class JsonUtils {
                 JSONObject note_03 = jsonData.getJSONObject("sketchVO");
                 ocEn.setNodeTime3(note_03.getString("createTime"));
                 if (StringUtil.notNull(note_03, "pics")) {
-                    ocEn.setImgList(getStringList(note_03.getString("pics")));
+                    JSONArray jsonImg = note_03.getJSONArray("pics");
+                    ArrayList<String> imgLists = new ArrayList<>();
+                    for (int i = 0; i < jsonImg.length(); i++) {
+                        JSONObject items = jsonImg.getJSONObject(i);
+                        imgLists.add(items.getString("designPic"));
+                    }
+                    ocEn.setImgList(imgLists);
                 }
                 ocEn.setDesigns(note_03.getBoolean("confirm"));
             }
@@ -576,8 +582,8 @@ public class JsonUtils {
     /**
      * 解析获取商品详情数据
      */
-    public static BaseEntity getGoodsDetailData(JSONObject jsonObject) throws JSONException {
-        BaseEntity mainEn = getCommonKeyValue(jsonObject);
+    public static BaseEntity<GoodsEntity> getGoodsDetailData(JSONObject jsonObject) throws JSONException {
+        BaseEntity<GoodsEntity> mainEn = getCommonKeyValue(jsonObject);
 
         if (StringUtil.notNull(jsonObject, "data")) {
             JSONObject jsonData = jsonObject.getJSONObject("data");
@@ -602,8 +608,8 @@ public class JsonUtils {
     /**
      * 解析获取商品属性数据
      */
-    public static BaseEntity getGoodsAttrData(JSONObject jsonObject) throws JSONException {
-        BaseEntity mainEn = getCommonKeyValue(jsonObject);
+    public static BaseEntity<GoodsAttrEntity> getGoodsAttrData(JSONObject jsonObject) throws JSONException {
+        BaseEntity<GoodsAttrEntity> mainEn = getCommonKeyValue(jsonObject);
 
         if (StringUtil.notNull(jsonObject, "data")) {
             JSONObject jsonData = jsonObject.getJSONObject("data");

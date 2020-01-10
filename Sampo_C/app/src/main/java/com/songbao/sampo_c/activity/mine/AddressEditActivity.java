@@ -492,7 +492,7 @@ public class AddressEditActivity extends BaseActivity implements OnClickListener
                 case AppConfig.REQUEST_SV_ADDRESS_EDIT:
                 case AppConfig.REQUEST_SV_ADDRESS_DELETE:
                     baseEn = JsonUtils.getBaseErrorData(jsonObject);
-                    if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+                    if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
                         isUpdate = true;
                         finish();
                     } else {

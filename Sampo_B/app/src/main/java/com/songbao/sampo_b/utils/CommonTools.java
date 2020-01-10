@@ -2,14 +2,12 @@ package com.songbao.sampo_b.utils;
 
 import android.app.Activity;
 import android.content.Context;
-import android.content.res.Resources;
 import android.graphics.Point;
 import android.graphics.PointF;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -61,8 +59,7 @@ public class CommonTools {
 
 		// 自定义View
 		Context ctx = AppApplication.getAppContext();
-    	LayoutInflater inflater = (LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-    	View view = inflater.inflate(R.layout.layout_toast, null);
+    	View view = View.inflate(ctx, R.layout.layout_toast, null);
     	TextView text = view.findViewById(R.id.toast_message);
     	text.setText(message);
 
@@ -91,8 +88,7 @@ public class CommonTools {
 		cancelToast();
 
 		Context ctx = AppApplication.getAppContext();
-		LayoutInflater inflater = (LayoutInflater) ctx.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.layout_toast_page_num, null);
+		View view = View.inflate(ctx, R.layout.layout_toast_page_num, null);
 		TextView text = view.findViewById(R.id.toast_message);
 		text.setText(message);
 
@@ -132,49 +128,28 @@ public class CommonTools {
 	
 	public static float dpToPx(Context context, float dp) {
 	    DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
-	    float px = dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT);       
-	    return px;
+	    return dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT);
 	}
 	
 	public static int dpToPx(Context context, int dp) {
 	    DisplayMetrics displayMetrics = context.getResources().getDisplayMetrics();
-	    int px = Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));       
-	    return px;
+	    return Math.round(dp * (displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT));
 	}
 
 	public static float convertDpToPixel(Context context, float dp) {
-		Resources r = context.getResources();
-		float px = TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, r.getDisplayMetrics());
-		return px;
+		return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, context.getResources().getDisplayMetrics());
 	}
 	
-	public static double getHypotenuseByPyth(PointF pt1, PointF pt2) {
+	public static double getHypotenuseByPath(PointF pt1, PointF pt2) {
         int w = (int) (Math.max(pt1.x, pt2.x) - Math.min(pt1.x, pt2.x));
         int h = (int) (Math.max(pt1.y, pt2.y) - Math.min(pt1.y, pt2.y));
         return Math.sqrt(w * w + h * h);
     }
 	
-	@SuppressWarnings("rawtypes")
-	/*public static List<RowObject> convertToRowObject(List dataList, int numOfCol) {
-		List<RowObject> result = new ArrayList<RowObject>();
-		for (int i = 0; i < dataList.size();) {
-			RowObject tmp = new RowObject(numOfCol);
-			for (int j = 0; j < tmp.objectArr.length; j++) {
-				if (i < dataList.size() && dataList.get(i) != null) {
-					tmp.objectArr[j] = dataList.get(i);
-					i += 1;
-				}
-			}
-			result.add(tmp);
-		}
-		return result;
-	}*/
-	
 	public static double getAngle(float x, float y, float x2, float y2) {
         float dx = x2 - x;
         float dy = y2 - y;
-        double DRoation = Math.atan2(dy, dx);
-        return DRoation / Math.PI * 180;
+        return Math.atan2(dy, dx) / Math.PI * 180;
     }
 	
 	public static float getScaleFactor(double oldDist, double newDist) {
@@ -218,7 +193,7 @@ public class CommonTools {
 	/**
 	 * 获取存储屏幕信息的Point
 	 */
-	public static Point getScreeanSize(Activity activity){
+	public static Point getScreenSize(Activity activity){
 	    Display display = activity.getWindowManager().getDefaultDisplay();
 	    Point size = new Point();
 	    display.getSize(size);

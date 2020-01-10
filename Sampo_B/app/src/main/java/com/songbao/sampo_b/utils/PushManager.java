@@ -1,6 +1,5 @@
 package com.songbao.sampo_b.utils;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Handler;
 
@@ -22,7 +21,6 @@ public class PushManager {
 
 	private static PushManager instance = null;
 	private SharedPreferences shared;
-	private Context mContext;
 	private PushAgent mPushAgent;
 	private UserManager mUserManager;
 
@@ -40,7 +38,6 @@ public class PushManager {
 	}
 
 	private PushManager(){
-		mContext = AppApplication.getAppContext();
 		shared = AppApplication.getSharedPreferences();
 		mUserManager = UserManager.getInstance();
 	}
@@ -50,11 +47,11 @@ public class PushManager {
 	 */
 	public void initPushService() {
 		// 初始化SDK
-		UMConfigure.init(mContext, UMConfigure.DEVICE_TYPE_PHONE, AppConfig.UM_MESSAGE_SECRET);
+		UMConfigure.init(AppApplication.getAppContext(), UMConfigure.DEVICE_TYPE_PHONE, AppConfig.UM_MESSAGE_SECRET);
 		// Log开关设置
 		UMConfigure.setLogEnabled(!AppConfig.IS_PUBLISH);
 
-		mPushAgent = PushAgent.getInstance(mContext);
+		mPushAgent = PushAgent.getInstance(AppApplication.getAppContext());
 		//注册推送服务，每次调用register方法都会回调该接口
 		mPushAgent.register(new IUmengRegisterCallback() {
 			@Override

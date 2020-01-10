@@ -786,7 +786,7 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
 			switch (dataType) {
 				case AppConfig.REQUEST_SV_BOOKING_INFO:
 					baseEn = JsonUtils.getCustomizeDetailData(jsonObject);
-					if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+					if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
 						ocEn = baseEn.getData();
 						initShowData();
 					} else {
@@ -795,7 +795,7 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
 					break;
 				case AppConfig.REQUEST_SV_BOOKING_DESIGNS:
 					baseEn = JsonUtils.getBaseErrorData(jsonObject);
-					if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+					if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
 						loadOrderData();
 					} else {
 						handleErrorCode(baseEn);
@@ -803,7 +803,7 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
 					break;
 				case AppConfig.REQUEST_SV_BOOKING_PAYMENT:
 					baseEn = JsonUtils.getBaseErrorData(jsonObject);
-					if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+					if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
 						updateCode = AppConfig.ORDER_STATUS_201;
 						loadOrderData();
 					} else {
@@ -812,7 +812,7 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
 					break;
 				case AppConfig.REQUEST_SV_BOOKING_RECEIPT:
 					baseEn = JsonUtils.getBaseErrorData(jsonObject);
-					if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+					if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
 						updateCode = AppConfig.ORDER_STATUS_701;
 						loadOrderData();
 					} else {
@@ -821,7 +821,7 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
 					break;
 				case AppConfig.REQUEST_SV_BOOKING_INSTALL:
 					baseEn = JsonUtils.getBaseErrorData(jsonObject);
-					if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+					if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
 						updateCode = AppConfig.ORDER_STATUS_801;
 						loadOrderData();
 					} else {
@@ -830,7 +830,7 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
 					break;
 				case AppConfig.REQUEST_SV_ORDER_UPDATE:
 					baseEn = JsonUtils.getBaseErrorData(jsonObject);
-					if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+					if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
 						loadOrderData();
 					} else {
 						handleErrorCode(baseEn);
@@ -838,7 +838,7 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
 					break;
 				case AppConfig.REQUEST_SV_BOOKING_CANCEL:
 					baseEn = JsonUtils.getBaseErrorData(jsonObject);
-					if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+					if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
 						updateCode = AppConfig.ORDER_STATUS_102;
 						loadOrderData();
 					} else {
@@ -847,7 +847,7 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
 					break;
 				case AppConfig.REQUEST_SV_BOOKING_DELETE:
 					baseEn = JsonUtils.getBaseErrorData(jsonObject);
-					if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+					if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
 						updateCode = -1;
 						finish();
 					} else {

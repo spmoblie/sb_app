@@ -216,7 +216,7 @@ public class ReserveListActivity extends BaseActivity implements OnClickListener
 			switch (dataType) {
 				case AppConfig.REQUEST_SV_HOME_LIST:
 					baseEn = JsonUtils.getHomeList(jsonObject);
-					if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+					if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
 						data_total = baseEn.getDataTotal();
 						List<ThemeEntity> lists = filterData(baseEn.getLists(), am_show);
 						if (lists != null && lists.size() > 0) {
@@ -233,7 +233,7 @@ public class ReserveListActivity extends BaseActivity implements OnClickListener
 							al_show.addAll(lists);
 						}
 						updateListData();
-					} else if (baseEn.getErrno() == AppConfig.ERROR_CODE_TIMEOUT) {
+					} else if (baseEn.getErrNo() == AppConfig.ERROR_CODE_TIMEOUT) {
 						handleTimeOut();
 						finish();
 					} else {

@@ -281,7 +281,7 @@ public class BaseFragment extends Fragment {
 	 */
 	protected void handleErrorCode(BaseEntity baseEn) {
 		if (baseEn != null) {
-			switch (baseEn.getErrno()) {
+			switch (baseEn.getErrNo()) {
 				case AppConfig.ERROR_CODE_TIMEOUT: //登录超时
 					AppApplication.AppLogout();
 					openLoginActivity();

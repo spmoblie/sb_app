@@ -356,7 +356,7 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
     private void getPayDataFail(BaseEntity baseEn) {
         stopAnimation();
         if (baseEn != null) {
-            showErrorDialog(baseEn.getErrmsg());
+            showErrorDialog(baseEn.getErrMsg());
         } else {
             showErrorDialog(R.string.pay_info_error);
         }
@@ -411,13 +411,13 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
 
     @Override
     protected void callbackData(JSONObject jsonObject, int dataType) {
-        BaseEntity baseEn;
+        BaseEntity<PaymentEntity> baseEn;
         try {
             switch (dataType) {
                 case AppConfig.REQUEST_SV_PAY_PARAMETER:
                     baseEn = JsonUtils.getPayInfo(jsonObject, payType);
-                    if (baseEn != null && baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
-                        PaymentEntity payEntity = (PaymentEntity) baseEn.getData();
+                    if (baseEn != null && baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
+                        PaymentEntity payEntity = baseEn.getData();
                         switch (payType) {
                             case PAY_WX: //微信支付
                                 sendWeiXiPayReq(payEntity);
@@ -435,7 +435,7 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
                     break;
                 case AppConfig.REQUEST_SV_PAY_CHECK_RESULT:
                     baseEn = JsonUtils.getBaseErrorData(jsonObject);
-                    if (baseEn != null && baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+                    if (baseEn != null && baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
                         showPayResult(PAY_SUCCESS);
                     } else {
                         if (checkCount < 3) {

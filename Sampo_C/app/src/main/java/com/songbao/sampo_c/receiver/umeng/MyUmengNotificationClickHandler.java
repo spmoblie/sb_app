@@ -48,8 +48,10 @@ public class MyUmengNotificationClickHandler extends UmengNotificationClickHandl
             LogUtil.i("PushManager", "the app process is dead");
             //如果App进程已经被杀死，则重新启动App。
             Intent launchIntent = context.getPackageManager().getLaunchIntentForPackage(context.getPackageName());
-            launchIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
-            context.startActivity(launchIntent);
+            if (launchIntent != null) {
+                launchIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
+                context.startActivity(launchIntent);
+            }
         }
     }
 

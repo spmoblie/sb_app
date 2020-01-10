@@ -17,8 +17,6 @@ import android.graphics.Rect;
 import android.graphics.RectF;
 import android.media.ExifInterface;
 import android.media.MediaMetadataRetriever;
-import android.media.ThumbnailUtils;
-import android.os.Build;
 import android.provider.MediaStore;
 import android.util.Base64;
 import android.view.Display;
@@ -143,41 +141,38 @@ public class BitmapUtil {
     /**
      * 从字节流中获取图片对象
      */
-    @SuppressWarnings("deprecation")
 	public static Bitmap getBitmapFromByte(byte[] bitmapBytes) {
-    	if (bitmapBytes != null) {
-    		Display display = ((WindowManager) AppApplication.getAppContext()
-					.getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay();
-    		int reqWidth, reqHeight;
-    		Point point = new Point();
-    		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR2) {
-    			display.getSize(point);
-    			reqWidth = point.x;
-    			reqHeight = point.y;
-    		} else {
-    			reqWidth = display.getWidth();
-    			reqHeight = display.getHeight();
-    		}
-    		final Options options = new Options();
-    		// 设置仅加载图片的边界信息
-    		options.inJustDecodeBounds = true;
-    		// 设置图片大小可变
-    		options.inMutable = true;
-    		// 设置重用Bitmap内存从而改进性能，避免重新分配内存
-    		options.inBitmap = BitmapFactory.decodeByteArray(bitmapBytes, 0, bitmapBytes.length, options);
-    		// 设置图片缩放比例
-    		options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
-    		// 取消仅加载边界的设置
-    		options.inJustDecodeBounds = false; 
-    		// 设置系统回收时释放内存
-    		options.inPurgeable = true; 
-    		// 与inPurgeable配合使用
-    		options.inInputShareable = true; 
-    		return BitmapFactory.decodeByteArray(bitmapBytes, 0, bitmapBytes.length, options);
-		}else {
-			return null;
+		if (bitmapBytes == null) return null;
+		WindowManager manager = (WindowManager) AppApplication.getAppContext().getSystemService(Context.WINDOW_SERVICE);
+		Display display = null;
+		if (manager != null) {
+			display = manager.getDefaultDisplay();
 		}
-    }
+		if (display != null) {
+			int reqWidth, reqHeight;
+			Point point = new Point();
+			display.getSize(point);
+			reqWidth = point.x;
+			reqHeight = point.y;
+			final Options options = new Options();
+			// 设置仅加载图片的边界信息
+			options.inJustDecodeBounds = true;
+			// 设置图片大小可变
+			options.inMutable = true;
+			// 设置重用Bitmap内存从而改进性能，避免重新分配内存
+			options.inBitmap = BitmapFactory.decodeByteArray(bitmapBytes, 0, bitmapBytes.length, options);
+			// 设置图片缩放比例
+			options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
+			// 取消仅加载边界的设置
+			options.inJustDecodeBounds = false;
+			// 设置系统回收时释放内存
+			options.inPurgeable = true;
+			// 与inPurgeable配合使用
+			options.inInputShareable = true;
+			return BitmapFactory.decodeByteArray(bitmapBytes, 0, bitmapBytes.length, options);
+		}
+		return null;
+	}
     
     /**
      * 计算Bitmap缩放比例1
@@ -229,11 +224,12 @@ public class BitmapUtil {
 		MediaMetadataRetriever retriever = new MediaMetadataRetriever();
 		int kind = MediaStore.Video.Thumbnails.MINI_KIND;
 		try {
-			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+			/*if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
 				retriever.setDataSource(url, new HashMap<String, String>());
 			} else {
 				retriever.setDataSource(url);
-			}
+			}*/
+			retriever.setDataSource(url, new HashMap<String, String>());
 			bitmap = retriever.getFrameAtTime();
 		} catch (IllegalArgumentException ex) {
 			// Assume this is a corrupt video file
@@ -246,10 +242,9 @@ public class BitmapUtil {
 				// Ignore failures while cleaning up.
 			}
 		}
-		if (kind == MediaStore.Images.Thumbnails.MICRO_KIND && bitmap != null) {
-			bitmap = ThumbnailUtils.extractThumbnail(bitmap, width, height,
-					ThumbnailUtils.OPTIONS_RECYCLE_INPUT);
-		}
+		/*if (kind == MediaStore.Images.Thumbnails.MICRO_KIND && bitmap != null) {
+			bitmap = ThumbnailUtils.extractThumbnail(bitmap, width, height, ThumbnailUtils.OPTIONS_RECYCLE_INPUT);
+		}*/
 		return bitmap;
 	}
 	
@@ -257,9 +252,9 @@ public class BitmapUtil {
 	 * 过滤Path中的特殊字符
 	 */
 	public static String filterPath(String oldPath){
-		String newPath = "";
+		String newPath;
 		if (oldPath.contains(":")) {
-			newPath = oldPath.toString().replace(":", "");
+			newPath = oldPath.replace(":", "");
 		}else {
 			newPath = oldPath;
 		}
@@ -286,14 +281,12 @@ public class BitmapUtil {
 	 * 保存图片
 	 */
 	public static void save(Bitmap bm, File file, int compress) throws IOException{
+		file = checkFile(file);
 		if(bm != null && file != null){
-			file = checkFile(file);
 			FileOutputStream stream = new FileOutputStream(file);
-			if (stream != null) {
-				bm.compress(CompressFormat.JPEG, compress, stream);
-				stream.flush();
-				stream.close();
-			}
+			bm.compress(CompressFormat.JPEG, compress, stream);
+			stream.flush();
+			stream.close();
 		}
 	}
 
@@ -398,12 +391,11 @@ public class BitmapUtil {
 		Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
 		RectF rectF = new RectF(rect);
 		int color = 0xff424242;
-		float roundPx = corner; // 设置圆角
 		// 绘制
 		paint.setAntiAlias(true);
 		canvas.drawARGB(0, 0, 0, 0);
 		paint.setColor(color);
-		canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
+		canvas.drawRoundRect(rectF, corner, corner, paint);
 		paint.setXfermode(new PorterDuffXfermode(Mode.SRC_IN));
 		canvas.drawBitmap(bitmap, rect, rect, paint);
 
@@ -425,7 +417,7 @@ public class BitmapUtil {
 			if (bm1 == null) {
 				bm1 = BitmapCache.getInstance().getBitmap(imagePaths.get(0));
 			}
-			Bitmap bm2 = null;
+			Bitmap bm2;
 			Bitmap longBm = null;
 			for (int i = 1; i < imagePaths.size(); i++) {
 				bm2 = BitmapFactory.decodeFile(imagePaths.get(i));
@@ -522,23 +514,25 @@ public class BitmapUtil {
 		matrix.postScale(desiredWScale, desiredHScale);
 		Bitmap scaledBitmap = Bitmap.createBitmap(width, height, Config.ARGB_8888);
 
-		float ratioX = width / (float) sampledSrcBitmap.getWidth();
-		float ratioY = height / (float) sampledSrcBitmap.getHeight();
-		Matrix scaleMatrix = new Matrix();
-		scaleMatrix.setScale(ratioX, ratioY);
-		Canvas canvas = new Canvas(scaledBitmap);
-		canvas.setMatrix(scaleMatrix);
-		canvas.drawBitmap(sampledSrcBitmap, 0, 0, new Paint(Paint.FILTER_BITMAP_FLAG));
-		FileOutputStream fos = null;
-		try {
-			fos = new FileOutputStream(file, false);
-			scaledBitmap.compress(format, compress, fos);
-			fos.flush();
-			fos.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
+		if (sampledSrcBitmap != null) {
+			float ratioX = width / (float) sampledSrcBitmap.getWidth();
+			float ratioY = height / (float) sampledSrcBitmap.getHeight();
+			Matrix scaleMatrix = new Matrix();
+			scaleMatrix.setScale(ratioX, ratioY);
+			Canvas canvas = new Canvas(scaledBitmap);
+			canvas.setMatrix(scaleMatrix);
+			canvas.drawBitmap(sampledSrcBitmap, 0, 0, new Paint(Paint.FILTER_BITMAP_FLAG));
+			FileOutputStream fos;
+			try {
+				fos = new FileOutputStream(file, false);
+				scaledBitmap.compress(format, compress, fos);
+				fos.flush();
+				fos.close();
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
 		}
 	}
 

@@ -369,7 +369,7 @@ public class ChoiceDateActivity extends BaseActivity implements View.OnClickList
             switch (dataType) {
                 case AppConfig.REQUEST_SV_RESERVATION_DATE:
                     BaseEntity<String> dateEn = JsonUtils.getDateList(jsonObject);
-                    if (dateEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+                    if (dateEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
                         List<String> lists = dateEn.getLists();
                         if (lists.size() > 0) {
                             al_date.clear();
@@ -383,7 +383,7 @@ public class ChoiceDateActivity extends BaseActivity implements View.OnClickList
                     break;
                 case AppConfig.REQUEST_SV_RESERVATION_TIME:
                     BaseEntity<OptionEntity> timeEn = JsonUtils.getTimeSlot(jsonObject);
-                    if (timeEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+                    if (timeEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
                         List<OptionEntity> lists = timeEn.getLists();
                         if (lists.size() > 0) {
                             al_show.clear();
@@ -401,16 +401,16 @@ public class ChoiceDateActivity extends BaseActivity implements View.OnClickList
                     break;
                 case AppConfig.REQUEST_SV_RESERVATION_IS:
                     BaseEntity baseEn = JsonUtils.getBaseErrorData(jsonObject);
-                    if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+                    if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
                         isChange = true;
                         finish();
                     } else
-                    if (baseEn.getErrno() == AppConfig.ERROR_CODE_FULL) { //该时段已约满
+                    if (baseEn.getErrNo() == AppConfig.ERROR_CODE_FULL) { //该时段已约满
                         String dayStr = selectDay;
                         clearData();
                         selectDay = dayStr;
                         getTimeData(); //刷新预约状态
-                        CommonTools.showToast(baseEn.getErrmsg());
+                        CommonTools.showToast(baseEn.getErrMsg());
                     } else {
                         handleErrorCode(baseEn);
                     }

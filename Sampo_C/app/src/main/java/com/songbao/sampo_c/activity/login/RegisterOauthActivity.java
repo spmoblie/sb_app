@@ -74,7 +74,7 @@ public class RegisterOauthActivity extends BaseActivity implements OnClickListen
 		AppManager.getInstance().addActivity(this); //添加Activity到堆栈
 		LogUtil.i(TAG, "onCreate");
 		
-		infoEn = (UserInfoEntity) getIntent().getExtras().get("oauthEn");
+		infoEn = (UserInfoEntity) getIntent().getSerializableExtra("oauthEn");
 		
 		initView();
 	}
@@ -106,7 +106,7 @@ public class RegisterOauthActivity extends BaseActivity implements OnClickListen
 				StringBuilder sb = new StringBuilder();
 				for (int i = 0; i < s.length(); i++) {
 					if (i != 3 && i != 8 && s.charAt(i) == ' ') {
-						continue;
+						break;
 					} else {
 						sb.append(s.charAt(i));
 						if ((sb.length() == 4 || sb.length() == 9) && sb.charAt(sb.length() - 1) != ' ') {
@@ -361,7 +361,7 @@ public class RegisterOauthActivity extends BaseActivity implements OnClickListen
 				case AppConfig.REQUEST_SV_AUTH_MESSAGE:
 					send_Again = true;
 					baseEn = JsonLogin.getBaseErrorData(jsonObject);
-					if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+					if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
 						setSendCodeState(false);
 						send_number++;
 						if (send_number < 3) {
@@ -378,7 +378,7 @@ public class RegisterOauthActivity extends BaseActivity implements OnClickListen
 					break;
 				case AppConfig.REQUEST_SV_AUTH_OAUTH_REG:
 					baseEn = JsonLogin.getLoginData(jsonObject);
-					if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+					if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
 						userManager.saveUserLoginSuccess((UserInfoEntity) baseEn.getData());
 						closeLoginActivity();
 						CommonTools.showToast(getString(R.string.login_oauth_ok));

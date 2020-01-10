@@ -311,28 +311,28 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
 
     @Override
     protected void callbackData(JSONObject jsonObject, int dataType) {
-        BaseEntity baseEn = null;
         try {
             switch (dataType) {
                 case AppConfig.REQUEST_SV_USER_GET:
-                    baseEn = JsonUtils.getUserInfo(jsonObject);
-                    if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
-                        userManager.saveUserInfo((UserInfoEntity) baseEn.getData());
+                    BaseEntity<UserInfoEntity> baseEn = JsonUtils.getUserInfo(jsonObject);
+                    if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
+                        userManager.saveUserInfo(baseEn.getData());
                         infoEn = getUserInfoData();
                         initUserView();
                         loadUserHead();
                         AppApplication.updateUserData(false);
                     }
+                    handleErrorCode(baseEn);
                     break;
                 case AppConfig.REQUEST_SV_USER_DYNAMIC:
-                    baseEn = JsonUtils.getUserDynamic(jsonObject);
-                    if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
-                        userManager.saveUserMsgNum(baseEn.getDataTotal());
+                    BaseEntity numEn = JsonUtils.getUserDynamic(jsonObject);
+                    if (numEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
+                        userManager.saveUserMsgNum(numEn.getDataTotal());
                         initUserView();
                     }
+                    handleErrorCode(numEn);
                     break;
             }
-            handleErrorCode(baseEn);
         } catch (Exception e) {
             loadFailHandle();
             ExceptionUtil.handle(e);

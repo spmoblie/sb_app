@@ -13,7 +13,7 @@ import java.util.List;
 public class XmlParserHandler extends DefaultHandler {
 
 	private AreaEntity areaEntity = new AreaEntity();
-	private List<AreaEntity> areaList = new ArrayList<AreaEntity>();
+	private List<AreaEntity> areaList = new ArrayList<>();
 	 	  
 	public XmlParserHandler() {
 		

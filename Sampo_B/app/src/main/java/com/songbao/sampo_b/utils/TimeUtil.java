@@ -39,7 +39,7 @@ public class TimeUtil {
      *                 ......
      */
     public static String getNowString(String pattern) {
-        SimpleDateFormat formatter = new SimpleDateFormat(pattern);
+        SimpleDateFormat formatter = new SimpleDateFormat(pattern, Locale.getDefault());
         return formatter.format(new Date());
     }
 
@@ -47,7 +47,7 @@ public class TimeUtil {
      * 获取当前时间
      */
     public static Date getNowDate(String pattern) {
-        SimpleDateFormat formatter = new SimpleDateFormat(pattern);
+        SimpleDateFormat formatter = new SimpleDateFormat(pattern, Locale.getDefault());
         String dateString = formatter.format(new Date());
         return formatter.parse(dateString, new ParsePosition(8));
     }
@@ -80,7 +80,7 @@ public class TimeUtil {
      * @param strDate 文本格式
      */
     public static Date strToDate(String pattern, String strDate) {
-        SimpleDateFormat formatter = new SimpleDateFormat(pattern);
+        SimpleDateFormat formatter = new SimpleDateFormat(pattern, Locale.getDefault());
         return formatter.parse(strDate, new ParsePosition(0));
     }
 
@@ -89,7 +89,7 @@ public class TimeUtil {
      * @param dateDate 时间对象
      */
     public static String dateToStr(String pattern, Date dateDate) {
-        SimpleDateFormat formatter = new SimpleDateFormat(pattern);
+        SimpleDateFormat formatter = new SimpleDateFormat(pattern, Locale.getDefault());
         return formatter.format(dateDate);
     }
 
@@ -122,7 +122,7 @@ public class TimeUtil {
      * @param longDate 毫秒格式
      */
     public static Date longToDate(long longDate) {
-        return new Date(longDate + 0);
+        return new Date(longDate);
     }
 
     /**
@@ -271,8 +271,8 @@ public class TimeUtil {
      * 二个小时时间间的差值,必须保证二个时间都是"HH:MM"的格式，返回字符型的分钟
      */
     public static String getTwoHour(String st1, String st2) {
-        String[] kk = null;
-        String[] jj = null;
+        String[] kk;
+        String[] jj;
         kk = st1.split(":");
         jj = st2.split(":");
         if (Integer.parseInt(kk[0]) < Integer.parseInt(jj[0]))
@@ -291,7 +291,7 @@ public class TimeUtil {
      * 得到二个日期间的间隔天数
      */
     public static String getTwoDay(String sj1, String sj2) {
-        SimpleDateFormat myFormatter = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat myFormatter = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         long day;
         try {
             Date date1 = myFormatter.parse(sj1);
@@ -307,16 +307,17 @@ public class TimeUtil {
      * 时间前推或后推分钟,其中JJ表示分钟.
      */
     public static String getPreTime(String sj1, String jj) {
-        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        String mydate1 = "";
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+        String myDate = "";
         try {
             Date date1 = format.parse(sj1);
             long Time = (date1.getTime() / 1000) + Integer.parseInt(jj) * 60;
             date1.setTime(Time * 1000);
-            mydate1 = format.format(date1);
+            myDate = format.format(date1);
         } catch (Exception e) {
+            ExceptionUtil.handle(e);
         }
-        return mydate1;
+        return myDate;
     }
 
     /**
@@ -324,7 +325,7 @@ public class TimeUtil {
      */
     public static String getNextDay(String nowDate, String delay) {
         try {
-            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
             Date d = strToDate("yyyy-MM-dd", nowDate);
             long myTime = (d.getTime() / 1000) + Integer.parseInt(delay) * 24 * 60 * 60;
             d.setTime(myTime * 1000);
@@ -342,23 +343,25 @@ public class TimeUtil {
      */
     public static boolean isLeapYear(String date) {
 
-        /**
-         * 详细设计： 1.被400整除是闰年，否则： 2.不能被4整除则不是闰年 3.能被4整除同时不能被100整除则是闰年
-         * 3.能被4整除同时能被100整除则不是闰年
-         */
+        // 详细设计：1.被400整除是闰年，
+        // 否则：    2.不能被4整除则不是闰年
+        //           3.能被4整除同时不能被100整除则是闰年
+        //           4.能被4整除同时能被100整除则不是闰年
         Date d = strToDate("yyyy-MM-dd", date);
         GregorianCalendar gc = (GregorianCalendar) Calendar.getInstance();
         gc.setTime(d);
         int year = gc.get(Calendar.YEAR);
-        if ((year % 400) == 0)
+        if ((year % 400) == 0) {
             return true;
-        else if ((year % 4) == 0) {
-            if ((year % 100) == 0)
+        }else if ((year % 4) == 0) {
+            if ((year % 100) == 0) {
                 return false;
-            else
+            }else {
                 return true;
-        } else
+            }
+        } else {
             return false;
+        }
     }
 
     /**

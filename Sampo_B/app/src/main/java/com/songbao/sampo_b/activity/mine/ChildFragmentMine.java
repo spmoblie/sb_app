@@ -267,7 +267,7 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
             switch (dataType) {
                 case AppConfig.REQUEST_SV_USER_GET:
                     baseEn = JsonUtils.getUserInfo(jsonObject);
-                    if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+                    if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
                         userManager.saveUserInfo(baseEn.getData());
                         infoEn = getUserInfoData();
                         initUserView();
@@ -277,7 +277,7 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
                     break;
                 case AppConfig.REQUEST_SV_USER_DYNAMIC:
                     baseEn = JsonUtils.getUserDynamic(jsonObject);
-                    if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+                    if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
                         userManager.saveUserMsgNum(baseEn.getDataTotal());
                         initUserView();
                         AppApplication.updateMineData(false);

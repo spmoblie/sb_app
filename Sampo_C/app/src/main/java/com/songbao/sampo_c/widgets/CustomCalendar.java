@@ -27,6 +27,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -477,7 +478,7 @@ public class CustomCalendar extends View {
      * @param day
      * @return*/
     private String getCalendarStr(Date month, int day){
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-");
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-", Locale.getDefault());
         String dayStr = String.valueOf(day);
         if (day < 10) {
             dayStr = "0" + day;
@@ -490,7 +491,7 @@ public class CustomCalendar extends View {
      * @param month
      * @return*/
     private String getMonthStr(Date month){
-        SimpleDateFormat df = new SimpleDateFormat("yyyy年MM月");
+        SimpleDateFormat df = new SimpleDateFormat("yyyy年MM月", Locale.getDefault());
         return df.format(month);
     }
 
@@ -501,7 +502,7 @@ public class CustomCalendar extends View {
      */
     private Date str2Date(String str){
         try {
-            SimpleDateFormat df = new SimpleDateFormat("yyyy年MM月");
+            SimpleDateFormat df = new SimpleDateFormat("yyyy年MM月", Locale.getDefault());
             return df.parse(str);
         }catch (Exception e){
             e.printStackTrace();

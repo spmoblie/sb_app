@@ -15,6 +15,7 @@ import com.songbao.sampo_c.R;
 import com.songbao.sampo_c.activity.BaseActivity;
 import com.songbao.sampo_c.entity.BaseEntity;
 import com.songbao.sampo_c.entity.CouponEntity;
+import com.songbao.sampo_c.entity.ThemeEntity;
 import com.songbao.sampo_c.utils.CommonTools;
 import com.songbao.sampo_c.utils.ExceptionUtil;
 import com.songbao.sampo_c.utils.JsonUtils;
@@ -260,12 +261,12 @@ public class TicketsActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     protected void callbackData(JSONObject jsonObject, int dataType) {
-        BaseEntity baseEn;
+        BaseEntity<ThemeEntity> baseEn;
         try {
             switch (dataType) {
                 case AppConfig.REQUEST_SV_ACTIVITY_DETAIL:
                     baseEn = JsonUtils.getThemeDetail(jsonObject);
-                    if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+                    if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
 
                     } else {
                         handleErrorCode(baseEn);

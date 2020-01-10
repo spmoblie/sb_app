@@ -666,7 +666,7 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
             switch (dataType) {
                 case AppConfig.REQUEST_SV_GOODS_DETAIL:
                     BaseEntity<GoodsEntity> GoodsEn = JsonUtils.getGoodsDetailData(jsonObject);
-                    if (GoodsEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+                    if (GoodsEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
                         goodsEn = GoodsEn.getData();
                         initShowView();
                     } else {
@@ -675,7 +675,7 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
                     break;
                 case AppConfig.REQUEST_SV_GOODS_COMMENT:
                     BaseEntity<CommentEntity> commentEn = JsonUtils.getCommentGoodsListData(jsonObject);
-                    if (commentEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+                    if (commentEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
                         ArrayList<CommentEntity> newList = new ArrayList<>();
                         newList.addAll(commentEn.getLists());
                         al_comment.clear();
@@ -692,7 +692,7 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
                     break;
                 case AppConfig.REQUEST_SV_CART_ADD:
                     BaseEntity baseEn = JsonUtils.getBaseErrorData(jsonObject);
-                    if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+                    if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
                         CommonTools.showToast("加入购物车成功");
                     } else {
                         handleErrorCode(baseEn);

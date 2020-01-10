@@ -38,23 +38,21 @@ public class UserManager {
 	private String wxUnionId = null;
 	private String wxRefreshToken = null;
 
-	public static UserManager getInstance(){
-		if (instance == null) {
-			syncInit();
-		}
-		return instance;
-	}
-
-	private static synchronized void syncInit() {
-		if (instance == null) {
-			instance = new UserManager();
-		}
-	}
-
 	private UserManager(){
 		sp = AppApplication.getSharedPreferences();
 		editor = sp.edit();
 		editor.apply();
+	}
+
+	public static UserManager getInstance(){
+		if (instance == null) {
+			synchronized (UserManager.class) {
+				if (instance == null){
+					instance = new UserManager();
+				}
+			}
+		}
+		return instance;
 	}
 
 	public String getUserId(){

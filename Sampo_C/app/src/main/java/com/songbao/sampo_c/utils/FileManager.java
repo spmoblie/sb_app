@@ -225,10 +225,7 @@ public class FileManager {
 			return false;
 		}
 		//判断文件是否存在
-		if(!file.exists()){
-			return false;
-		}
-		return true;
+		return file.exists();
 	}
 
 	/**

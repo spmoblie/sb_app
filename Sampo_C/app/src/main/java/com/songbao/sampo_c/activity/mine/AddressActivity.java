@@ -419,7 +419,7 @@ public class AddressActivity extends BaseActivity implements View.OnClickListene
             switch (dataType) {
                 case AppConfig.REQUEST_SV_ADDRESS_LIST:
                     baseEn = JsonUtils.getAddressListData(jsonObject);
-                    if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+                    if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
                         data_total = baseEn.getDataTotal();
                         List<AddressEntity> lists = filterData(baseEn.getLists(), am_show);
                         if (lists != null && lists.size() > 0) {
@@ -436,7 +436,7 @@ public class AddressActivity extends BaseActivity implements View.OnClickListene
                             al_show.addAll(lists);
                         }
                         initDefaultStatus();
-                    } else if (baseEn.getErrno() == AppConfig.ERROR_CODE_TIMEOUT) {
+                    } else if (baseEn.getErrNo() == AppConfig.ERROR_CODE_TIMEOUT) {
                         handleTimeOut();
                         finish();
                     } else {
@@ -446,7 +446,7 @@ public class AddressActivity extends BaseActivity implements View.OnClickListene
                 case AppConfig.REQUEST_SV_ADDRESS_DELETE:
                 case AppConfig.REQUEST_SV_ADDRESS_DEFAULT:
                     baseEn = JsonUtils.getBaseErrorData(jsonObject);
-                    if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+                    if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
                         loadFirstPageData();
                     } else {
                         handleErrorCode(baseEn);

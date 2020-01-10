@@ -193,7 +193,7 @@ public class EditUserInfoActivity extends BaseActivity {
 				case AppConfig.REQUEST_SV_USER_SAVE:
 					isPost = true;
 					baseEn = JsonUtils.getUploadResult(jsonObject);
-					if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+					if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
 						AppApplication.updateUserData(true);
 						isChange = true;
 						finish();

@@ -18,6 +18,7 @@ import com.songbao.sampo_c.entity.BaseEntity;
 import com.songbao.sampo_c.entity.CommentEntity;
 import com.songbao.sampo_c.entity.GoodsEntity;
 import com.songbao.sampo_c.entity.OPurchaseEntity;
+import com.songbao.sampo_c.entity.ThemeEntity;
 import com.songbao.sampo_c.utils.ExceptionUtil;
 import com.songbao.sampo_c.utils.JsonUtils;
 import com.songbao.sampo_c.utils.LogUtil;
@@ -336,13 +337,13 @@ public class PurchaseActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     protected void callbackData(JSONObject jsonObject, int dataType) {
-        BaseEntity baseEn;
+        BaseEntity<ThemeEntity> baseEn;
         try {
             switch (dataType) {
                 case AppConfig.REQUEST_SV_ACTIVITY_DETAIL:
                     baseEn = JsonUtils.getThemeDetail(jsonObject);
-                    if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
-                        //setView((ThemeEntity) baseEn.getData());
+                    if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
+                        //setView(baseEn.getData());
                     } else {
                         handleErrorCode(baseEn);
                     }

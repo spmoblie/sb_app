@@ -373,7 +373,7 @@ public class CartActivity extends BaseActivity implements View.OnClickListener{
 			switch (dataType) {
 				case AppConfig.REQUEST_SV_CART_GET:
 					baseEn = JsonUtils.getCartListData(jsonObject);
-					if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+					if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
 						List<CartEntity> lists = filterData(baseEn.getLists(), am_show);
 						if (lists != null && lists.size() > 0) {
 							lists.addAll(al_show);
@@ -381,7 +381,7 @@ public class CartActivity extends BaseActivity implements View.OnClickListener{
 							al_show.addAll(lists);
 						}
 						updateListData();
-					} else if (baseEn.getErrno() == AppConfig.ERROR_CODE_TIMEOUT) {
+					} else if (baseEn.getErrNo() == AppConfig.ERROR_CODE_TIMEOUT) {
 						handleTimeOut();
 						finish();
 					} else {

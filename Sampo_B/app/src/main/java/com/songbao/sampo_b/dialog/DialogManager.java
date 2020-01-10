@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.DialogInterface.OnKeyListener;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -23,24 +25,17 @@ import com.songbao.sampo_b.AppConfig;
 import com.songbao.sampo_b.R;
 import com.songbao.sampo_b.utils.StringUtil;
 
-import java.util.Arrays;
-import java.util.List;
+import java.lang.ref.WeakReference;
 
 
 public class DialogManager {
 
-	private Context mContext;
+	private WeakReference<Context> weakContext;
 	private Dialog mDialog;
 	private static DialogManager instance;
 
 	private DialogManager(Context context) {
-		this.mContext = context;
-	}
-
-	private static synchronized void syncInit(Context context) {
-		if (instance == null) {
-			instance = new DialogManager(context);
-		}
+		weakContext = new WeakReference<>(context);
 	}
 
 	/**
@@ -48,12 +43,16 @@ public class DialogManager {
 	 */
 	public static DialogManager getInstance(Context context) {
 		if (instance == null) {
-			syncInit(context);
+			synchronized (DialogManager.class) {
+				if (instance == null){
+					instance = new DialogManager(context);
+				}
+			}
 		}
 		return instance;
 	}
 
-	public void clearInstance(){
+	public static void clearInstance(){
 		instance = null;
 	}
 
@@ -74,7 +73,7 @@ public class DialogManager {
 		// 销毁旧对话框
 		dismiss();
 		// 创建新对话框
-		mDialog = new Dialog(mContext, R.style.MyDialog);
+		mDialog = new Dialog(weakContext.get(), R.style.MyDialog);
 		mDialog.setCanceledOnTouchOutside(false);
 		if (keyListener != null) {
 			mDialog.setOnKeyListener(keyListener);
@@ -101,7 +100,7 @@ public class DialogManager {
 		// 销毁旧对话框
 		dismiss();
 		// 创建新对话框
-		mDialog = new Dialog(mContext, R.style.MyDialog);
+		mDialog = new Dialog(weakContext.get(), R.style.MyDialog);
 		mDialog.setCanceledOnTouchOutside(true);
 		mDialog.setContentView(R.layout.dialog_success);
 		// 设置对话框的坐标及宽高
@@ -152,7 +151,7 @@ public class DialogManager {
 		// 销毁旧对话框
 		dismiss();
 		// 创建新对话框
-		mDialog =  new Dialog(mContext, R.style.MyDialog);
+		mDialog =  new Dialog(weakContext.get(), R.style.MyDialog);
 		mDialog.setCanceledOnTouchOutside(isVanish);
 		if (keyListener != null) {
 			mDialog.setOnKeyListener(keyListener);
@@ -201,7 +200,7 @@ public class DialogManager {
 		// 销毁旧对话框
 		dismiss();
 		// 创建新对话框
-		mDialog =  new Dialog(mContext, R.style.MyDialog);
+		mDialog =  new Dialog(weakContext.get(), R.style.MyDialog);
 		mDialog.setCanceledOnTouchOutside(isVanish);
 		mDialog.setContentView(R.layout.dialog_btn_two);
 		// 设置对话框的坐标及宽高
@@ -259,7 +258,7 @@ public class DialogManager {
 		// 销毁旧对话框
 		dismiss();
 		// 创建新对话框
-		mDialog =  new Dialog(mContext, R.style.MyDialog);
+		mDialog =  new Dialog(weakContext.get(), R.style.MyDialog);
 		mDialog.setCanceledOnTouchOutside(isVanish);
 		mDialog.setContentView(R.layout.dialog_edit);
 		// 设置对话框的坐标及宽高
@@ -313,7 +312,7 @@ public class DialogManager {
 		// 销毁旧对话框
 		dismiss();
 		// 创建新对话框
-		mDialog =  new Dialog(mContext, R.style.MyDialog);
+		mDialog =  new Dialog(weakContext.get(), R.style.MyDialog);
 		mDialog.setContentView(R.layout.dialog_listview);
 		// 设置对话框的坐标及宽高
 		Window window = mDialog.getWindow();
@@ -330,18 +329,17 @@ public class DialogManager {
 		}
 		ListView lv = mDialog.findViewById(R.id.dialog_list_lv);
 		lv.setSelector(R.color.app_color_white);
-		List<CharSequence> itemList = Arrays.asList(items);
-        ArrayAdapter adapter = new ArrayAdapter(mContext, android.R.layout.simple_list_item_1, itemList) {
+        ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(weakContext.get(), android.R.layout.simple_list_item_1, items) {
 
 			@Override
-			public View getView(int position, View convertView, ViewGroup parent) {
+			public @NonNull View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 				View view = super.getView(position, convertView, parent);
 				TextView tv_item = view.findViewById(android.R.id.text1);
 				tv_item.setPadding(30, 0, 30, 0);
 				tv_item.setTextSize(18);
-				tv_item.setTextColor(mContext.getResources().getColor(R.color.shows_text_color));
+				tv_item.setTextColor(weakContext.get().getResources().getColor(R.color.shows_text_color));
 				if (!isCenter) { //不居中
-					tv_item.setGravity(Gravity.LEFT| Gravity.CENTER_VERTICAL);
+					tv_item.setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
 				} else {
 					tv_item.setGravity(Gravity.CENTER);
 				}

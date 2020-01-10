@@ -519,7 +519,7 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
             switch (dataType) {
                 case AppConfig.REQUEST_SV_HOME_HEAD:
                     baseEn = JsonUtils.getHomeHead(jsonObject);
-                    if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+                    if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
                         List<ThemeEntity> lists = baseEn.getLists();
                         if (lists != null && lists.size() > 0) {
                             ThemeEntity headEn = new ThemeEntity();
@@ -535,12 +535,12 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
                         }
                     } else {
                         loadFailHandle();
-                        LogUtil.i(LogUtil.LOG_HTTP, TAG + " Head数据加载失败 —> " + baseEn.getErrmsg());
+                        LogUtil.i(LogUtil.LOG_HTTP, TAG + " Head数据加载失败 —> " + baseEn.getErrMsg());
                     }
                     break;
                 case AppConfig.REQUEST_SV_HOME_LIST:
                     baseEn = JsonUtils.getHomeList(jsonObject);
-                    if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+                    if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
                         data_total = baseEn.getDataTotal();
                         if (load_page == 1) {
                             al_show.clear();
@@ -567,7 +567,7 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
                         }
                     } else {
                         loadFailHandle();
-                        LogUtil.i(LogUtil.LOG_HTTP, TAG + " 加载失败 —> page = " + load_page + " error msg = " + baseEn.getErrmsg());
+                        LogUtil.i(LogUtil.LOG_HTTP, TAG + " 加载失败 —> page = " + load_page + " error msg = " + baseEn.getErrMsg());
                     }
                     updateListData();
                     break;

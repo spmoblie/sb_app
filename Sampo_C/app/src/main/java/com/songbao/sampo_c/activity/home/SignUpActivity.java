@@ -148,7 +148,7 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
                 StringBuilder sb = new StringBuilder();
                 for (int i = 0; i < s.length(); i++) {
                     if (i != 3 && i != 8 && s.charAt(i) == ' ') {
-                        continue;
+                        break;
                     } else {
                         sb.append(s.charAt(i));
                         if ((sb.length() == 4 || sb.length() == 9) && sb.charAt(sb.length() - 1) != ' ') {
@@ -440,28 +440,28 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
 
     @Override
     protected void callbackData(JSONObject jsonObject, int dataType) {
-        BaseEntity baseEn;
+        BaseEntity<ThemeEntity> baseEn;
         try {
             switch (dataType) {
                 case AppConfig.REQUEST_SV_ACTIVITY_DETAIL:
                     baseEn = JsonUtils.getThemeDetail(jsonObject);
-                    if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
-                        setView((ThemeEntity) baseEn.getData());
+                    if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
+                        setView(baseEn.getData());
                     } else {
                         handleErrorCode(baseEn);
                     }
                     break;
                 case AppConfig.REQUEST_SV_SIGN_UP_ADD:
-                    baseEn = JsonUtils.getPayOrderOn(jsonObject);
-                    if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
-                        orderNo = (String) baseEn.getData();
+                    BaseEntity resultEn = JsonUtils.getPayOrderOn(jsonObject);
+                    if (resultEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
+                        orderNo = resultEn.getOthers();
                         if (!StringUtil.isNull(orderNo)) {
                             startPay();
                         } else {
                             //无需支付处理
                         }
                     } else {
-                        showSuccessDialog(baseEn.getErrmsg(), false);
+                        showSuccessDialog(resultEn.getErrMsg(), false);
                     }
                     break;
             }

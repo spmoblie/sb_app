@@ -6,14 +6,12 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 
 public class CalendarUtil {
 
-    private String TAG = CalendarUtil.class.getSimpleName();
-
     private static CalendarUtil instance = null;
-
     private List<String> activeDateList;
 
     private CalendarUtil() {
@@ -22,7 +20,11 @@ public class CalendarUtil {
 
     public static CalendarUtil getInstance() {
         if (instance == null) {
-            instance = new CalendarUtil();
+            synchronized (CalendarUtil.class) {
+                if (instance == null){
+                    instance = new CalendarUtil();
+                }
+            }
         }
         return instance;
     }
@@ -83,7 +85,7 @@ public class CalendarUtil {
     * @return 是工作日返回true，非工作日返回false 
     */
     public boolean isWorkDay(Calendar calendar) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         if (calendar.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY
                 && calendar.get(Calendar.DAY_OF_WEEK) != Calendar.SUNDAY) {
             //平时
@@ -101,7 +103,7 @@ public class CalendarUtil {
      * @return
      */
     public boolean orSelectDay(Calendar calendar) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         return getActiveDateList().contains(sdf.format(calendar.getTime()));
     }
 
@@ -113,7 +115,7 @@ public class CalendarUtil {
      */
     public String getSpecWorkDate(String strDate) {
         String workDay = null;
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         Date d = null;
         try {
             d = sdf.parse(strDate);

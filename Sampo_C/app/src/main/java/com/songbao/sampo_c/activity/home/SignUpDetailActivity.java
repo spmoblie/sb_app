@@ -286,13 +286,13 @@ public class SignUpDetailActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     protected void callbackData(JSONObject jsonObject, int dataType) {
-        BaseEntity baseEn;
+        BaseEntity<ThemeEntity> baseEn;
         try {
             switch (dataType) {
                 case AppConfig.REQUEST_SV_ACTIVITY_DETAIL:
                     baseEn = JsonUtils.getThemeDetail(jsonObject);
-                    if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
-                        data = (ThemeEntity) baseEn.getData();
+                    if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
+                        data = baseEn.getData();
                         setView(data);
                         isLoadOk = true;
                     } else {

@@ -11,8 +11,8 @@ public class BaseEntity<T> implements Serializable {
 
     private static final long serialVersionUID = 2980439304361030908L;
 
-    private int errno; //响应状态
-    private String errmsg; //状态描述
+    private int errNo; //响应状态
+    private String errMsg; //状态描述
     private String others; //其它内容
 
     private T data; //单个数据
@@ -24,29 +24,29 @@ public class BaseEntity<T> implements Serializable {
         super();
     }
 
-    public BaseEntity(int errno, String errmsg) {
-        this.errno = errno;
-        this.errmsg = errmsg;
+    public BaseEntity(int errNo, String errMsg) {
+        this.errNo = errNo;
+        this.errMsg = errMsg;
     }
 
     public String getEntityId() {
         return "";
     }
 
-    public int getErrno() {
-        return errno;
+    public int getErrNo() {
+        return errNo;
     }
 
-    public void setErrno(int errno) {
-        this.errno = errno;
+    public void setErrNo(int errNo) {
+        this.errNo = errNo;
     }
 
-    public String getErrmsg() {
-        return errmsg;
+    public String getErrMsg() {
+        return errMsg;
     }
 
-    public void setErrmsg(String errmsg) {
-        this.errmsg = errmsg;
+    public void setErrMsg(String errMsg) {
+        this.errMsg = errMsg;
     }
 
     public String getOthers() {
@@ -84,8 +84,8 @@ public class BaseEntity<T> implements Serializable {
     @Override
     public String toString() {
         return "BaseEntity{" +
-                "errno=" + errno +
-                ", errmsg='" + errmsg + '\'' +
+                "errNo=" + errNo +
+                ", errMsg='" + errMsg + '\'' +
                 ", others='" + others + '\'' +
                 ", data=" + data +
                 ", lists=" + lists +

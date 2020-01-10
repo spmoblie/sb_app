@@ -589,7 +589,7 @@ public class CustomizeListActivity extends BaseActivity implements View.OnClickL
             switch (dataType) {
                 case AppConfig.REQUEST_SV_BOOKING_LIST:
                     baseEn = JsonUtils.getCustomizeListData(jsonObject);
-                    if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+                    if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
                         int newTotal = baseEn.getDataTotal();
                         List<OCustomizeEntity> lists = new ArrayList<>();
                         switch (top_type) {
@@ -686,7 +686,7 @@ public class CustomizeListActivity extends BaseActivity implements View.OnClickL
                             LogUtil.i(LogUtil.LOG_HTTP, TAG + " 翻页数据 —> size = " + lists.size());
                         }
                         updateListData();
-                    } else if (baseEn.getErrno() == AppConfig.ERROR_CODE_TIMEOUT) {
+                    } else if (baseEn.getErrNo() == AppConfig.ERROR_CODE_TIMEOUT) {
                         handleTimeOut();
                         finish();
                     } else {
@@ -695,7 +695,7 @@ public class CustomizeListActivity extends BaseActivity implements View.OnClickL
                     break;
                 case AppConfig.REQUEST_SV_BOOKING_CANCEL:
                     baseEn = JsonUtils.getCustomizeDetailData(jsonObject);
-                    if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+                    if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
                         dataStatusUpdate(AppConfig.ORDER_STATUS_102);
                     } else {
                         handleErrorCode(baseEn);
@@ -703,7 +703,7 @@ public class CustomizeListActivity extends BaseActivity implements View.OnClickL
                     break;
                 case AppConfig.REQUEST_SV_BOOKING_DELETE:
                     baseEn = JsonUtils.getCustomizeDetailData(jsonObject);
-                    if (baseEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+                    if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
                         deleteOrderUpdate();
                     } else {
                         handleErrorCode(baseEn);

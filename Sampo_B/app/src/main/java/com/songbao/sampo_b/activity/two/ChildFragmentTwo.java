@@ -333,7 +333,7 @@ public class ChildFragmentTwo extends BaseFragment implements OnClickListener {
 			switch (dataType) {
 				case AppConfig.REQUEST_SV_SORT_LIST:
 					BaseEntity<GoodsSortEntity> sortEn = JsonUtils.getSortListData(jsonObject);
-					if (sortEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+					if (sortEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
 						isSortOk = true;
 						al_left.clear();
 						al_left.addAll(sortEn.getLists());
@@ -348,7 +348,7 @@ public class ChildFragmentTwo extends BaseFragment implements OnClickListener {
 					break;
 				case AppConfig.REQUEST_SV_GOODS_LIST:
 					BaseEntity<GoodsEntity> goodsEn = JsonUtils.getGoodsListData(jsonObject);
-					if (goodsEn.getErrno() == AppConfig.ERROR_CODE_SUCCESS) {
+					if (goodsEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
 						data_total = goodsEn.getDataTotal();
 						List<GoodsEntity> lists = filterData(goodsEn.getLists(), am_right);
 						if (lists != null && lists.size() > 0) {

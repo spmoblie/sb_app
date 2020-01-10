@@ -18,8 +18,11 @@ public class NetStateChangedReceiver extends BroadcastReceiver {
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		try {
+			NetworkInfo activeNetwork = null;
 			ConnectivityManager manager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
-			NetworkInfo activeNetwork = manager.getActiveNetworkInfo();
+			if (manager != null) {
+				activeNetwork = manager.getActiveNetworkInfo();
+			}
 			if(activeNetwork == null){
 				//AppApplication.network_current_state = -1;
 				LogUtil.i("NetSatateChangedReceiver", "用户关闭了网络");

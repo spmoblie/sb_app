@@ -33,7 +33,7 @@ public class MyUmengMessageHandler extends UmengMessageHandler {
         LogUtil.i("PushManager", "自定义通知 getNotification " + msg.custom);
         switch (msg.builder_id) {
             case 1:
-                NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
+                NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "");
                 /*RemoteViews myNotificationView = new RemoteViews(context.getPackageName(), R.layout.notification_view);
                 myNotificationView.setTextViewText(R.id.notification_title, msg.title);
                 myNotificationView.setTextViewText(R.id.notification_text, msg.text);
