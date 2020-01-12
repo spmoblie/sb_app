@@ -45,14 +45,14 @@
         <TextView
             android:id="@+id/my_sign_up_item_tv_title"
             style="@style/list_item_text"
-            android:layout_marginLeft="@dimen/app_margin_screen"
+            android:layout_marginStart="@dimen/app_margin_screen"
             android:lines="2"
             android:maxLines="2"
             android:textStyle="bold"
             android:textColor="@color/shows_text_color"
             android:textSize="@dimen/app_text_size_content"
             android:layout_alignTop="@+id/my_sign_up_item_iv_show"
-            android:layout_toRightOf="@+id/my_sign_up_item_iv_show"/>
+            android:layout_toEndOf="@+id/my_sign_up_item_iv_show"/>
 
         <TextView
             android:id="@+id/my_sign_up_item_tv_time"
@@ -60,14 +60,14 @@
             android:textColor="@color/app_color_gray_5"
             android:layout_marginTop="@dimen/margin_padding_10"
             android:layout_below="@+id/my_sign_up_item_tv_title"
-            android:layout_alignLeft="@+id/my_sign_up_item_tv_title"/>
+            android:layout_alignStart="@+id/my_sign_up_item_tv_title"/>
 
         <TextView
             android:id="@+id/my_sign_up_item_tv_address"
             style="@style/list_item_text"
             android:maxLines="2"
             android:textColor="@color/app_color_gray_5"
-            android:layout_alignLeft="@+id/my_sign_up_item_tv_time"
+            android:layout_alignStart="@+id/my_sign_up_item_tv_time"
             android:layout_alignBottom="@+id/my_sign_up_item_iv_show"/>
 
     </RelativeLayout>

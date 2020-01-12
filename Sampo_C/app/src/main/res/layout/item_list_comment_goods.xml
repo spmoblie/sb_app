@@ -20,7 +20,7 @@
         style="@style/list_item_text"
         android:textColor="@color/app_color_gray_5"
         android:textSize="@dimen/app_text_size_small"
-        android:layout_marginLeft="@dimen/margin_padding_5"
+        android:layout_marginStart="@dimen/margin_padding_5"
         app:layout_constraintLeft_toRightOf="@+id/comment_goods_item_iv_head"
         app:layout_constraintTop_toTopOf="@+id/comment_goods_item_iv_head"
         app:layout_constraintBottom_toBottomOf="@+id/comment_goods_item_iv_head" />
@@ -51,7 +51,7 @@
         android:rating="3"
         android:stepSize="1"
         android:isIndicator="true"
-        android:layout_marginLeft="@dimen/margin_padding_3"
+        android:layout_marginStart="@dimen/margin_padding_3"
         android:layout_marginTop="@dimen/margin_padding_5"
         app:layout_constraintLeft_toRightOf="@+id/comment_goods_item_iv_head"
         app:layout_constraintTop_toBottomOf="@+id/comment_goods_item_tv_nick"/>
@@ -62,7 +62,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:paddingTop="@dimen/margin_padding_20"
-        android:layout_marginLeft="@dimen/margin_padding_30"
+        android:layout_marginStart="@dimen/margin_padding_30"
         app:layout_constraintTop_toBottomOf="@+id/comment_goods_item_rb_star">
 
         <TextView
@@ -117,7 +117,7 @@
         style="@style/set_line_horizontal_bg"
         android:contentDescription="@string/desc"
         android:layout_marginTop="@dimen/margin_padding_20"
-        android:layout_marginLeft="@dimen/margin_padding_30"
+        android:layout_marginStart="@dimen/margin_padding_30"
         app:layout_constraintTop_toBottomOf="@+id/comment_goods_item_ll_content_main"/>
 
 </android.support.constraint.ConstraintLayout>

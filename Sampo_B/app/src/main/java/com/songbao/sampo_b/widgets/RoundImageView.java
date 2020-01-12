@@ -18,10 +18,6 @@ import android.util.TypedValue;
 import com.songbao.sampo_b.R;
 
 
-/**
- * Created by Beck on 2019/8/16.
- */
-
 public class RoundImageView extends AppCompatImageView {
     /**
      * 圆形模式
@@ -70,9 +66,7 @@ public class RoundImageView extends AppCompatImageView {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-        /**
-         * 当模式为圆形模式的时候，我们强制让宽高一致
-         */
+        // 当模式为圆形模式的时候，我们强制让宽高一致
         if (currMode == MODE_CIRCLE) {
             super.onMeasure(widthMeasureSpec, heightMeasureSpec);
             int result = Math.min(getMeasuredHeight(), getMeasuredWidth());
@@ -138,7 +132,7 @@ public class RoundImageView extends AppCompatImageView {
         }
         Bitmap bitmap = Bitmap.createBitmap(getWidth(), getHeight(), Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bitmap);
-        //根据传递的scaletype获取matrix对象，设置给bitmap
+        //根据传递的scaleType获取matrix对象，设置给bitmap
         Matrix matrix = getImageMatrix();
         if (matrix != null) {
             canvas.concat(matrix);

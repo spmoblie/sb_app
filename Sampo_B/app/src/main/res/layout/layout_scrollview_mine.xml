@@ -18,6 +18,7 @@
             android:layout_height="@dimen/app_height_events"
             android:src="@mipmap/icon_scan"
             android:scaleType="center"
+            android:contentDescription="@string/desc"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintRight_toLeftOf="@+id/fg_mine_iv_message" />
 
@@ -27,6 +28,7 @@
             android:layout_height="@dimen/app_height_events"
             android:src="@mipmap/icon_me_message"
             android:scaleType="center"
+            android:contentDescription="@string/desc"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintRight_toRightOf="parent" />
 
@@ -34,7 +36,7 @@
             android:id="@+id/fg_mine_tv_message_num"
             style="@style/common_warn_red_text_number"
             android:layout_marginTop="@dimen/margin_padding_8"
-            android:layout_marginRight="@dimen/margin_padding_8"
+            android:layout_marginEnd="@dimen/margin_padding_8"
             app:layout_constraintTop_toTopOf="@+id/fg_mine_iv_message"
             app:layout_constraintRight_toRightOf="@+id/fg_mine_iv_message"/>
 
@@ -51,7 +53,7 @@
                 android:layout_width="@dimen/image_size_head"
                 android:layout_height="@dimen/image_size_head"
                 android:layout_marginBottom="@dimen/margin_padding_25"
-                android:layout_marginLeft="@dimen/app_margin_screen"
+                android:layout_marginStart="@dimen/app_margin_screen"
                 android:src="@mipmap/icon_default_head"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toLeftOf="parent"
@@ -69,10 +71,10 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:drawableRight="@mipmap/icon_go_right"
+                android:drawableEnd="@mipmap/icon_go_right"
                 android:drawablePadding="@dimen/margin_padding_10"
                 android:gravity="center_vertical"
-                android:text="编辑个人资料"
+                android:text="@string/mine_user_edit"
                 android:textColor="@color/app_color_gray_9"
                 android:textSize="@dimen/app_text_size_small"
                 app:layout_constraintLeft_toLeftOf="@+id/fg_mine_tv_nick"
@@ -97,7 +99,7 @@
                 style="@style/setting_lay_text_title"
                 android:paddingTop="0dp"
                 android:paddingBottom="0dp"
-                android:drawableLeft="@mipmap/icon_me_customize"
+                android:drawableStart="@mipmap/icon_me_customize"
                 android:text="@string/mine_my_customize"
                 android:textStyle="bold"
                 android:textColor="@color/app_color_gray_5" />
@@ -118,7 +120,7 @@
                 style="@style/setting_lay_text_title"
                 android:paddingTop="0dp"
                 android:paddingBottom="0dp"
-                android:drawableLeft="@mipmap/icon_me_address"
+                android:drawableStart="@mipmap/icon_me_address"
                 android:text="@string/mine_my_address"
                 android:textStyle="bold"
                 android:textColor="@color/app_color_gray_5" />
@@ -139,7 +141,7 @@
                 style="@style/setting_lay_text_title"
                 android:paddingTop="0dp"
                 android:paddingBottom="0dp"
-                android:drawableLeft="@mipmap/icon_me_designer"
+                android:drawableStart="@mipmap/icon_me_designer"
                 android:text="@string/mine_my_designer"
                 android:textStyle="bold"
                 android:textColor="@color/app_color_gray_5" />
@@ -160,7 +162,7 @@
                 style="@style/setting_lay_text_title"
                 android:paddingTop="0dp"
                 android:paddingBottom="0dp"
-                android:drawableLeft="@mipmap/icon_me_setting"
+                android:drawableStart="@mipmap/icon_me_setting"
                 android:text="@string/mine_setting"
                 android:textStyle="bold"
                 android:textColor="@color/app_color_gray_5" />

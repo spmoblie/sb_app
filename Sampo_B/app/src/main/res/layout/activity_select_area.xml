@@ -36,8 +36,8 @@
     <ImageView
         android:id="@+id/item_area_dividerImageView"
         style="@style/set_line_horizontal_bg"
-        android:layout_marginLeft="@dimen/app_margin_screen"
-        android:layout_marginRight="@dimen/app_margin_screen"
+        android:layout_marginStart="@dimen/app_margin_screen"
+        android:layout_marginEnd="@dimen/app_margin_screen"
         android:contentDescription="@string/desc"
         android:visibility="gone"/>
 

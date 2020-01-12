@@ -22,7 +22,8 @@
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
-                android:src="@drawable/icon_default_show" />
+                android:src="@drawable/icon_default_show"
+                android:contentDescription="@string/desc"/>
 
             <TextView
                 android:id="@+id/reserve_detail_tv_title"
@@ -43,7 +44,7 @@
                 <TextView
                     android:id="@+id/reserve_detail_tv_series"
                     style="@style/common_text_bg_frame"
-                    android:layout_marginLeft="@dimen/margin_padding_10"
+                    android:layout_marginStart="@dimen/margin_padding_10"
                     android:background="@drawable/shape_style_empty_06_08"
                     android:textColor="@color/app_color_yellow" />
 
@@ -57,14 +58,14 @@
 
                 <TextView
                     style="@style/detail_text"
-                    android:drawableLeft="@mipmap/icon_time"
+                    android:drawableStart="@mipmap/icon_time"
                     android:drawablePadding="@dimen/margin_padding_5"
                     android:text="@string/reserve_slot" />
 
                 <TextView
                     android:id="@+id/reserve_detail_tv_slot"
                     style="@style/detail_text"
-                    android:layout_marginLeft="0dp"
+                    android:layout_marginStart="0dp"
                     android:textColor="@color/app_color_gray_5" />
             </LinearLayout>
 
@@ -75,14 +76,14 @@
 
                 <TextView
                     style="@style/detail_text"
-                    android:drawableLeft="@mipmap/icon_site"
+                    android:drawableStart="@mipmap/icon_site"
                     android:drawablePadding="@dimen/margin_padding_5"
                     android:text="@string/reserve_place" />
 
                 <TextView
                     android:id="@+id/reserve_detail_tv_place"
                     style="@style/detail_text"
-                    android:layout_marginLeft="0dp"
+                    android:layout_marginStart="0dp"
                     android:textColor="@color/app_color_gray_5" />
             </LinearLayout>
 
@@ -93,14 +94,14 @@
 
                 <TextView
                     style="@style/detail_text"
-                    android:drawableLeft="@mipmap/icon_people"
+                    android:drawableStart="@mipmap/icon_people"
                     android:drawablePadding="@dimen/margin_padding_5"
                     android:text="@string/reserve_suit" />
 
                 <TextView
                     android:id="@+id/reserve_detail_tv_suit"
                     style="@style/detail_text"
-                    android:layout_marginLeft="0dp"
+                    android:layout_marginStart="0dp"
                     android:textColor="@color/app_color_gray_5" />
             </LinearLayout>
 
@@ -133,7 +134,7 @@
                     android:textSize="@dimen/app_text_size_content"
                     android:textStyle="bold"
                     android:layout_marginTop="@dimen/app_margin_screen"
-                    android:layout_marginRight="@dimen/margin_padding_50"
+                    android:layout_marginEnd="@dimen/margin_padding_50"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintRight_toRightOf="parent" />
 
@@ -143,7 +144,8 @@
                     android:layout_height="wrap_content"
                     android:src="@mipmap/icon_go_right"
                     android:layout_marginTop="@dimen/margin_padding_17"
-                    android:layout_marginRight="@dimen/app_margin_screen"
+                    android:layout_marginEnd="@dimen/app_margin_screen"
+                    android:contentDescription="@string/desc"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintRight_toRightOf="parent" />
             </android.support.constraint.ConstraintLayout>
@@ -172,7 +174,7 @@
                     android:textSize="@dimen/app_text_size_content"
                     android:textStyle="bold"
                     android:layout_marginTop="@dimen/app_margin_screen"
-                    android:layout_marginRight="@dimen/margin_padding_50"
+                    android:layout_marginEnd="@dimen/margin_padding_50"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintRight_toRightOf="parent" />
 
@@ -182,7 +184,8 @@
                     android:layout_height="wrap_content"
                     android:src="@mipmap/icon_go_right"
                     android:layout_marginTop="@dimen/margin_padding_17"
-                    android:layout_marginRight="@dimen/app_margin_screen"
+                    android:layout_marginEnd="@dimen/app_margin_screen"
+                    android:contentDescription="@string/desc"
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintRight_toRightOf="parent" />
             </android.support.constraint.ConstraintLayout>
@@ -208,10 +211,11 @@
                     android:id="@+id/reserve_detail_iv_code"
                     android:layout_width="@dimen/margin_padding_125"
                     android:layout_height="@dimen/margin_padding_125"
-                    android:layout_marginRight="@dimen/margin_padding_50"
+                    android:layout_marginEnd="@dimen/margin_padding_50"
                     android:layout_marginTop="@dimen/app_margin_screen"
                     android:scaleType="fitCenter"
                     android:src="@mipmap/icon_default_head"
+                    android:contentDescription="@string/desc"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -219,7 +223,7 @@
                     android:id="@+id/reserve_detail_tv_cover"
                     android:layout_width="@dimen/margin_padding_125"
                     android:layout_height="@dimen/margin_padding_125"
-                    android:layout_marginRight="@dimen/margin_padding_50"
+                    android:layout_marginEnd="@dimen/margin_padding_50"
                     android:layout_marginTop="@dimen/app_margin_screen"
                     android:background="@color/ui_bg_color_percent_03"
                     android:gravity="center"
@@ -278,8 +282,8 @@
         android:layout_width="match_parent"
         android:layout_gravity="bottom"
         android:layout_marginBottom="@dimen/margin_padding_50"
-        android:layout_marginLeft="@dimen/app_margin_screen"
-        android:layout_marginRight="@dimen/app_margin_screen"
+        android:layout_marginStart="@dimen/app_margin_screen"
+        android:layout_marginEnd="@dimen/app_margin_screen"
         android:padding="@dimen/app_margin_screen"
         android:text="@string/reserve_success"
         android:textSize="@dimen/app_text_size_title"
@@ -292,8 +296,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:layout_marginBottom="@dimen/margin_padding_50"
-        android:layout_marginLeft="@dimen/app_margin_screen"
-        android:layout_marginRight="@dimen/app_margin_screen"
+        android:layout_marginStart="@dimen/app_margin_screen"
+        android:layout_marginEnd="@dimen/app_margin_screen"
         android:background="@drawable/shape_style_solid_01_08"
         android:elevation="80dp"
         android:padding="@dimen/margin_padding_2">
@@ -301,7 +305,7 @@
         <TextView
             android:id="@+id/reserve_detail_tv_price_curr"
             style="@style/common_text_price_curr"
-            android:layout_marginLeft="@dimen/margin_padding_30"
+            android:layout_marginStart="@dimen/margin_padding_30"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"
@@ -336,6 +340,7 @@
         android:layout_gravity="center"
         android:padding="@dimen/app_margin_screen"
         android:background="@color/ui_bg_color_percent_08"
+        android:contentDescription="@string/desc"
         android:src="@drawable/icon_default_show"
         android:scaleType="fitCenter"
         android:visibility="gone"/>

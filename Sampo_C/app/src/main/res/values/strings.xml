@@ -11,7 +11,7 @@
     <string name="ignore">忽略</string>
     <string name="proceed">继续</string>
     <string name="being_not">暂不</string>
-    <string name="reset">重置</string>r
+    <string name="reset">重置</string>
     <string name="retry">重试</string>
     <string name="back">返回</string>
     <string name="copy">复制</string>
@@ -19,6 +19,7 @@
     <string name="save_ok">保存成功</string>
     <string name="my_new">新建</string>
     <string name="add">添加</string>
+    <string name="add_sign">+</string>
     <string name="add_photo">添加照片</string>
     <string name="all">全部</string>
     <string name="see_all">查看全部</string>
@@ -137,6 +138,7 @@
 
     <!-- Mine -->
     <string name="mine_login">点击头像登录</string>
+    <string name="mine_user_edit">编辑个人资料</string>
     <string name="mine_my_design">我的设计</string>
     <string name="mine_my_tickets">我的门票</string>
     <string name="mine_my_sing_up">我的活动</string>
@@ -284,6 +286,8 @@
     <string name="goods_attr_selected_1">已选：%1$s</string>
     <string name="goods_attr_selected_2">%1$s %2$s</string>
     <string name="goods_attr_selected_3">%1$s %2$s %3$s</string>
+    <string name="goods_cart">购物车</string>
+    <string name="goods_cart_add">加入购物车</string>
     <string name="goods_go_customize">我要定制</string>
 
     <!-- Cart -->
@@ -353,7 +357,7 @@
     <string name="order_confirm_install_hint">确认安装完成即\n代表订单已完成</string>
     <string name="order_receipt_hint">产品签收后，请确认收货并尽快上门安装。</string>
     <string name="order_install_hint">安装完成后请确认安装完成，如未确认系统会自签收日起7个自然日后自动确认安装完成。</string>
-    <string name="order_finish_hint">您的定制订单已完成，如有任何产品相关问题请联系售后服务或拨打400-880-6558咨询。</string>
+    <string name="order_finish_hint">您的定制订单已完成，如有任何产品相关问题请联系售后服务或拨打400&#8211;880&#8211;6558咨询。</string>
     <string name="order_delete">删除订单</string>
     <string name="order_delete_confirm">确认删除订单么？</string>
     <string name="order_cancel">取消订单</string>
@@ -432,11 +436,11 @@
     <string name="login_verify_code_send_3">您已连续发送了3次验证码\n请等待倒计时结束后再发送</string>
     <string name="login_verify_code_input">请输入短信验证码</string>
     <string name="login_verify_code_error">请输入正确的验证码</string>
-    <string name="login_password">密码（6-20位）</string>
-    <string name="login_password_type">密码（6-20位字母+数字）</string>
-    <string name="login_password_new">新密码（6-20位字母+数字）</string>
+    <string name="login_password">密码（6&#8211;20位）</string>
+    <string name="login_password_type">密码（6&#8211;20位字母+数字）</string>
+    <string name="login_password_new">新密码（6&#8211;20位字母+数字）</string>
     <string name="login_password_input">请输入密码</string>
-    <string name="login_password_error">密码必须为6-20位英文字母+数字</string>
+    <string name="login_password_error">密码必须为6&#8211;20位英文字母+数字</string>
     <string name="login_password_reset">重置密码</string>
     <string name="login_mode_password">密码登录</string>
     <string name="login_mode_verify_code">验证码登录</string>

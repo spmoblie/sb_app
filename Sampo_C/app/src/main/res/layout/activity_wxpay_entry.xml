@@ -36,7 +36,7 @@
         <LinearLayout
             android:id="@+id/payment_ll_select_pay_select"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <RelativeLayout style="@style/common_item_vertical">
@@ -61,14 +61,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/app_margin_screen"
-                    android:src="@mipmap/payment_wx" />
+                    android:src="@mipmap/payment_wx"
+                    android:contentDescription="@string/desc"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/margin_padding_10"
+                    android:layout_marginStart="@dimen/margin_padding_10"
                     android:layout_marginTop="@dimen/app_margin_screen"
-                    android:layout_toRightOf="@+id/payment_iv_pay_wx"
+                    android:layout_toEndOf="@+id/payment_iv_pay_wx"
                     android:text="@string/pay_wx"
                     android:textColor="@color/shows_text_color"
                     android:textSize="@dimen/app_text_size_content" />
@@ -77,8 +78,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignBottom="@+id/payment_iv_pay_wx"
-                    android:layout_marginLeft="@dimen/margin_padding_10"
-                    android:layout_toRightOf="@+id/payment_iv_pay_wx"
+                    android:layout_marginStart="@dimen/margin_padding_10"
+                    android:layout_toEndOf="@+id/payment_iv_pay_wx"
                     android:text="@string/pay_wx_hint"
                     android:textColor="@color/shows_text_color"
                     android:textSize="@dimen/app_text_size_small" />
@@ -87,8 +88,9 @@
                     android:id="@+id/payment_iv_select_wx"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
+                    android:contentDescription="@string/desc"
                     android:src="@drawable/selector_checkbox_large" />
 
             </RelativeLayout>
@@ -106,14 +108,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/app_margin_screen"
-                    android:src="@mipmap/payment_zfb" />
+                    android:src="@mipmap/payment_zfb"
+                    android:contentDescription="@string/desc"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/margin_padding_10"
+                    android:layout_marginStart="@dimen/margin_padding_10"
                     android:layout_marginTop="@dimen/app_margin_screen"
-                    android:layout_toRightOf="@+id/payment_iv_pay_zfb"
+                    android:layout_toEndOf="@+id/payment_iv_pay_zfb"
                     android:text="@string/pay_zfb"
                     android:textColor="@color/shows_text_color"
                     android:textSize="@dimen/app_text_size_content" />
@@ -122,8 +125,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignBottom="@+id/payment_iv_pay_zfb"
-                    android:layout_marginLeft="@dimen/margin_padding_10"
-                    android:layout_toRightOf="@+id/payment_iv_pay_zfb"
+                    android:layout_marginStart="@dimen/margin_padding_10"
+                    android:layout_toEndOf="@+id/payment_iv_pay_zfb"
                     android:text="@string/pay_zfb_hint"
                     android:textColor="@color/shows_text_color"
                     android:textSize="@dimen/app_text_size_small" />
@@ -132,8 +135,9 @@
                     android:id="@+id/payment_iv_select_zfb"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
+                    android:contentDescription="@string/desc"
                     android:src="@drawable/selector_checkbox_large" />
 
             </RelativeLayout>
@@ -151,14 +155,15 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/app_margin_screen"
-                    android:src="@mipmap/payment_union" />
+                    android:src="@mipmap/payment_union"
+                    android:contentDescription="@string/desc"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/margin_padding_10"
+                    android:layout_marginStart="@dimen/margin_padding_10"
                     android:layout_marginTop="@dimen/app_margin_screen"
-                    android:layout_toRightOf="@+id/payment_iv_pay_union"
+                    android:layout_toEndOf="@+id/payment_iv_pay_union"
                     android:text="@string/pay_union"
                     android:textColor="@color/shows_text_color"
                     android:textSize="@dimen/app_text_size_content" />
@@ -167,8 +172,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignBottom="@+id/payment_iv_pay_union"
-                    android:layout_marginLeft="@dimen/margin_padding_10"
-                    android:layout_toRightOf="@+id/payment_iv_pay_union"
+                    android:layout_marginStart="@dimen/margin_padding_10"
+                    android:layout_toEndOf="@+id/payment_iv_pay_union"
                     android:text="@string/pay_union_hint"
                     android:textColor="@color/shows_text_color"
                     android:textSize="@dimen/app_text_size_small" />
@@ -177,7 +182,7 @@
                     android:id="@+id/payment_iv_select_union"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
+                    android:layout_alignParentEnd="true"
                     android:layout_centerVertical="true"
                     android:contentDescription="@string/desc"
                     android:src="@drawable/selector_checkbox_large" />

@@ -15,16 +15,14 @@ import android.widget.LinearLayout;
  */
 public class ScrollViewListView extends LinearLayout{
 	
-	@SuppressWarnings("unused")
 	private MyOnItemClickListener onItemClickListener;
 	private BaseAdapter adapter;
 	boolean footerViewAttached = false;
-	private View footerview;
+	private View footerView;
 	
 	/**
-	* 通知更新listview
+	* 通知更新ListView
 	*/
-	@SuppressWarnings("deprecation")
 	public void notifyChange() {
 		int count = getChildCount();
 		if (footerViewAttached) {
@@ -37,18 +35,18 @@ public class ScrollViewListView extends LinearLayout{
 			layout.setLayoutParams(params);
 			layout.setOrientation(VERTICAL);
 			View v = adapter.getView(i, null, null);
-//			v.setOnClickListener(new OnClickListener() {
-//				
-//				@Override
-//				public void onClick(View v) {
-//					if (onItemClickListener != null) {
-//						onItemClickListener.onItemClick(ScrollViewListView.this, layout, index,
-//						adapter.getItem(index));
-//					}
-//				}
-//			});
+			/*v.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					if (onItemClickListener != null) {
+						onItemClickListener.onItemClick(ScrollViewListView.this, layout, index,
+						adapter.getItem(index));
+					}
+				}
+			});*/
 			ImageView imageView = new ImageView(getContext());
-//			imageView.setBackgroundResource(R.drawable.divider_list);
+			//imageView.setBackgroundResource(R.drawable.divider_list);
 			imageView.setLayoutParams(params);
 			layout.addView(v);
 			layout.addView(imageView);
@@ -71,12 +69,12 @@ public class ScrollViewListView extends LinearLayout{
 	}
 	
 	/**
-	* 初始化footerview
+	* 初始化footerView
 	*
 	* @param footerView
 	*/
 	public void initFooterView(final View footerView) {
-		this.footerview = footerView;
+		this.footerView = footerView;
 	}
 	
 	/**
@@ -85,7 +83,7 @@ public class ScrollViewListView extends LinearLayout{
 	* @param onClickListener
 	*/
 	public void setFooterViewListener(OnClickListener onClickListener) {
-		this.footerview.setOnClickListener(onClickListener);
+		this.footerView.setOnClickListener(onClickListener);
 	}
 	
 	public BaseAdapter getAdapter() {
@@ -95,13 +93,13 @@ public class ScrollViewListView extends LinearLayout{
 	/**
 	* 设置adapter并模拟listview添加????数据
 	*
-	* @param adpater
+	* @param adapter
 	*/
-	public void setAdapter(BaseAdapter adpater) {
-		this.adapter = adpater;
+	public void setAdapter(BaseAdapter adapter) {
+		this.adapter = adapter;
 		removeAllViews();
 		if (footerViewAttached)
-			addView(footerview);
+			addView(footerView);
 		notifyChange();
 	}
 	
@@ -118,8 +116,8 @@ public class ScrollViewListView extends LinearLayout{
 	* 没有下一页了
 	*/
 	public void noMorePages() {
-		if (footerview != null && footerViewAttached) {
-			removeView(footerview);
+		if (footerView != null && footerViewAttached) {
+			removeView(footerView);
 			footerViewAttached = false;
 		}
 	}
@@ -128,14 +126,14 @@ public class ScrollViewListView extends LinearLayout{
 	* 可能还有下一??
 	*/
 	public void mayHaveMorePages() {
-		if (!footerViewAttached && footerview != null) {
-			addView(footerview);
+		if (!footerViewAttached && footerView != null) {
+			addView(footerView);
 			footerViewAttached = true;
 		}
 	}
 	
-	public static interface MyOnItemClickListener {
-		public void onItemClick(ViewGroup parent, View view, int position, Object o);
+	public interface MyOnItemClickListener {
+		void onItemClick(ViewGroup parent, View view, int position, Object o);
 	}
 	
 }

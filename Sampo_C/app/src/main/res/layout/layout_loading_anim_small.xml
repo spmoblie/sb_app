@@ -10,7 +10,7 @@
         android:layout_width="@dimen/loading_small_size"
         android:layout_height="@dimen/loading_small_size"
         style="@android:style/Widget.ProgressBar.Small.Inverse"
-        android:layout_marginRight="@dimen/margin_padding_10"
+        android:layout_marginEnd="@dimen/margin_padding_10"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"

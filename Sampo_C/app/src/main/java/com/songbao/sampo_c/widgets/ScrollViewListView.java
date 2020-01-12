@@ -15,7 +15,6 @@ import android.widget.LinearLayout;
  */
 public class ScrollViewListView extends LinearLayout{
 	
-	@SuppressWarnings("unused")
 	private MyOnItemClickListener onItemClickListener;
 	private BaseAdapter adapter;
 	boolean footerViewAttached = false;
@@ -24,7 +23,6 @@ public class ScrollViewListView extends LinearLayout{
 	/**
 	* 通知更新listview
 	*/
-	@SuppressWarnings("deprecation")
 	public void notifyChange() {
 		int count = getChildCount();
 		if (footerViewAttached) {

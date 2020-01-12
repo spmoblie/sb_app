@@ -1,6 +1,5 @@
 package com.songbao.sampo_c.utils;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 
 import com.songbao.sampo_c.AppApplication;
@@ -13,7 +12,6 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
-@SuppressLint({"SimpleDateFormat", "DefaultLocale"})
 public class TimeUtil {
 
     long start;

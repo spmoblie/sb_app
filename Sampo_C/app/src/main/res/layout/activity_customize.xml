@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.songbao.sampo_b.widgets.ObservableScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.songbao.sampo_c.widgets.ObservableScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/customize_sv_main"
     android:layout_width="match_parent"
@@ -79,7 +79,7 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/customize_tv_module_1_title" />
 
-            <com.songbao.sampo_b.widgets.RoundImageView
+            <com.songbao.sampo_c.widgets.RoundImageView
                 android:id="@+id/customize_iv_module_1_goods_img"
                 android:layout_width="76dp"
                 android:layout_height="76dp"
@@ -232,7 +232,7 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/customize_tv_module_3_title" />
 
-            <com.songbao.sampo_b.widgets.RoundImageView
+            <com.songbao.sampo_c.widgets.RoundImageView
                 android:id="@+id/customize_iv_module_3_show"
                 android:layout_width="160dp"
                 android:layout_height="90dp"
@@ -431,7 +431,7 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/customize_tv_module_6_title" />
 
-            <com.songbao.sampo_b.widgets.ScrollViewListView
+            <com.songbao.sampo_c.widgets.ScrollViewListView
                 android:id="@+id/customize_module_6_lv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -485,7 +485,7 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/customize_tv_module_7_title" />
 
-            <com.songbao.sampo_b.widgets.ScrollViewListView
+            <com.songbao.sampo_c.widgets.ScrollViewListView
                 android:id="@+id/customize_module_7_lv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -623,4 +623,4 @@
 
     </LinearLayout>
 
-</com.songbao.sampo_b.widgets.ObservableScrollView>
+</com.songbao.sampo_c.widgets.ObservableScrollView>

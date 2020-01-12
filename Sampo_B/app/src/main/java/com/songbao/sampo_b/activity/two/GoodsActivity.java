@@ -225,7 +225,7 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
 
                 @Override
                 public void onPageSelected(final int arg0) {
-                    if (goods_vp == null || viewLists.size() <= 1) return;
+                    if (viewLists.size() <= 1) return;
                     if (isLoop) {
                         vprPosition = arg0;
                         idsPosition = arg0 % viewLists.size();
@@ -268,12 +268,10 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
 
                         @Override
                         public void run() {
-                            if (goods_vp == null || viewLists.size() <= 1) return;
+                            if (viewLists.size() <= 1) return;
                             if (!vprStop) {
                                 vprPosition++;
-                                if (goods_vp != null) {
-                                    goods_vp.setCurrentItem(vprPosition);
-                                }
+                                goods_vp.setCurrentItem(vprPosition);
                             }
                             vprStop = false;
                             goods_vp.postDelayed(mPagerAction, 5000);
@@ -292,13 +290,9 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
         if (viewLists.size() > 0) {
             viewLists.clear();
         }
-        if (goods_vp != null) {
-            goods_vp.removeAllViews();
-            goods_vp.removeCallbacks(mPagerAction);
-        }
-        if (vp_indicator != null) {
-            vp_indicator.removeAllViews();
-        }
+        goods_vp.removeAllViews();
+        goods_vp.removeCallbacks(mPagerAction);
+        vp_indicator.removeAllViews();
     }
 
     @Override

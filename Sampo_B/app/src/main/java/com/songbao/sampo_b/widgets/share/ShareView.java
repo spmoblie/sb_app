@@ -573,7 +573,6 @@ public class ShareView implements WbShareCallback, IWXAPIEventHandler {
 	/**
 	 * 复制链接
 	 */
-	@SuppressWarnings("deprecation")
 	private void urlCopy() {
 		if (mShareEn != null) {
 			ClipboardManager clip = (ClipboardManager)mContext.getSystemService(Context.CLIPBOARD_SERVICE);

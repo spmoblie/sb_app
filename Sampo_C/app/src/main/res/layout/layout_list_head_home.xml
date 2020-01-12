@@ -32,15 +32,17 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:src="@mipmap/icon_home_tickets"/>
+            android:src="@mipmap/icon_home_tickets"
+            android:contentDescription="@string/desc"/>
 
         <ImageView
             android:id="@+id/fg_home_head_iv_reserve"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_marginLeft="@dimen/app_margin_screen"
-            android:src="@mipmap/icon_home_reserve"/>
+            android:layout_marginStart="@dimen/app_margin_screen"
+            android:src="@mipmap/icon_home_reserve"
+            android:contentDescription="@string/desc"/>
     </LinearLayout>
 
     <android.support.constraint.ConstraintLayout
@@ -59,7 +61,7 @@
             android:id="@+id/fg_home_head_tv_title_en"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/margin_padding_1"
+            android:layout_marginStart="@dimen/margin_padding_1"
             android:text="@string/main_head_title_en"
             android:textSize="@dimen/text_size_13"
             android:textColor="@color/app_color_gray_9"
@@ -71,7 +73,8 @@
             android:layout_height="wrap_content"
             android:src="@mipmap/icon_new"
             android:layout_marginTop="@dimen/margin_padding_6"
-            android:layout_marginLeft="@dimen/margin_padding_5"
+            android:layout_marginStart="@dimen/margin_padding_5"
+            android:contentDescription="@string/desc"
             app:layout_constraintTop_toTopOf="@+id/fg_home_head_tv_title"
             app:layout_constraintLeft_toRightOf="@+id/fg_home_head_tv_title"/>
 

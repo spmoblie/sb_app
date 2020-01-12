@@ -46,9 +46,9 @@
             android:id="@+id/my_reserve_item_tv_title"
             style="@style/list_item_text"
             android:layout_alignTop="@+id/my_reserve_item_iv_show"
-            android:layout_marginLeft="@dimen/app_margin_screen"
+            android:layout_marginStart="@dimen/app_margin_screen"
             android:layout_marginTop="@dimen/margin_padding_10"
-            android:layout_toRightOf="@+id/my_reserve_item_iv_show"
+            android:layout_toEndOf="@+id/my_reserve_item_iv_show"
             android:lines="2"
             android:maxLines="2"
             android:textColor="@color/shows_text_color"
@@ -58,7 +58,7 @@
         <TextView
             android:id="@+id/my_reserve_item_tv_date"
             style="@style/list_item_text"
-            android:layout_alignLeft="@+id/my_reserve_item_tv_title"
+            android:layout_alignStart="@+id/my_reserve_item_tv_title"
             android:layout_below="@+id/my_reserve_item_tv_title"
             android:layout_marginTop="@dimen/margin_padding_10"
             android:textColor="@color/app_color_gray_5" />
@@ -66,7 +66,7 @@
         <TextView
             android:id="@+id/my_reserve_item_tv_time"
             style="@style/list_item_text"
-            android:layout_alignLeft="@+id/my_reserve_item_tv_date"
+            android:layout_alignStart="@+id/my_reserve_item_tv_date"
             android:layout_below="@+id/my_reserve_item_tv_date"
             android:layout_marginTop="@dimen/margin_padding_10"
             android:textColor="@color/app_color_gray_5" />

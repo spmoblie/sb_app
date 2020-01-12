@@ -1,12 +1,11 @@
 package com.songbao.sampo_c.widgets;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 import android.view.View;
-import android.widget.ImageView;
 
 import com.songbao.sampo_c.R;
 import com.songbao.sampo_c.utils.ExceptionUtil;
@@ -14,10 +13,9 @@ import com.songbao.sampo_c.utils.ExceptionUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-@SuppressLint("AppCompatCustomView")
-public class WebViewLoadingBar extends ImageView{
+public class WebViewLoadingBar extends AppCompatImageView {
 	
-	private List<Integer> resIdList = new ArrayList<Integer>();
+	private List<Integer> resIdList = new ArrayList<>();
 	private int scaleSize = 0;
 	private Bitmap previousBitmap;
 	private boolean exceptionOccurred = false;
@@ -55,7 +53,7 @@ public class WebViewLoadingBar extends ImageView{
 		resIdList.add(R.mipmap.locading_horizontal_09);
 		resIdList.add(R.mipmap.locading_horizontal_10);
 		
-		scaleSize = (int)(100/resIdList.size());
+		scaleSize = (100/resIdList.size());
 	}
 	
 	public void setProgress(int progress) {
@@ -69,7 +67,7 @@ public class WebViewLoadingBar extends ImageView{
 			int pendingIndex = 0;
 			
 			if(progress > 0) {
-				pendingIndex = (int)(progress/scaleSize);
+				pendingIndex = (progress/scaleSize);
 			}
 			
 			if(pendingIndex < resIdList.size()) {

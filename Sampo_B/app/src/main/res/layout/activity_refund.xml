@@ -16,8 +16,9 @@
             android:id="@+id/refund_top_iv_face"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/margin_padding_30"
+            android:layout_marginStart="@dimen/margin_padding_30"
             android:src="@mipmap/icon_face_succeed"
+            android:contentDescription="@string/desc"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -26,7 +27,7 @@
             android:id="@+id/refund_tv_state_describe"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/app_margin_screen"
+            android:layout_marginStart="@dimen/app_margin_screen"
             android:textColor="@color/app_color_white"
             android:textSize="@dimen/app_text_size_title"
             android:textStyle="bold"
@@ -93,14 +94,14 @@
                 <TextView
                     style="@style/order_text"
                     android:text="@string/order_refund_price"
-                    android:layout_marginRight="@dimen/margin_padding_5"
+                    android:layout_marginEnd="@dimen/margin_padding_5"
                     app:layout_constraintRight_toLeftOf="@+id/refund_tv_price_curr"
                     app:layout_constraintBottom_toBottomOf="@+id/refund_tv_price_curr" />
 
                 <TextView
                     android:id="@+id/refund_tv_price_curr"
                     style="@style/common_text_price_curr"
-                    android:layout_marginLeft="@dimen/margin_padding_10"
+                    android:layout_marginStart="@dimen/margin_padding_10"
                     android:layout_marginTop="@dimen/margin_padding_20"
                     app:layout_constraintRight_toLeftOf="@+id/refund_tv_price"
                     app:layout_constraintBottom_toBottomOf="@+id/refund_tv_price"
@@ -119,7 +120,8 @@
                     android:layout_height="wrap_content"
                     android:src="@mipmap/sel_checkbox_large_ok"
                     android:layout_marginTop="@dimen/margin_padding_36"
-                    android:layout_marginLeft="@dimen/margin_padding_45"
+                    android:layout_marginStart="@dimen/margin_padding_45"
+                    android:contentDescription="@string/desc"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/refund_tv_price"/>
 
@@ -128,6 +130,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@mipmap/icon_waiting"
+                    android:contentDescription="@string/desc"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/refund_iv_state_01"/>
@@ -137,7 +140,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@mipmap/sel_checkbox_large_no"
-                    android:layout_marginRight="@dimen/margin_padding_45"
+                    android:layout_marginEnd="@dimen/margin_padding_45"
+                    android:contentDescription="@string/desc"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/refund_iv_state_02"/>
 
@@ -215,7 +219,7 @@
                     android:id="@+id/refund_tv_number_copy"
                     style="@style/common_text_bg_frame"
                     android:layout_marginTop="@dimen/margin_padding_18"
-                    android:layout_marginLeft="@dimen/margin_padding_20"
+                    android:layout_marginStart="@dimen/margin_padding_20"
                     android:background="@drawable/shape_style_empty_02_04"
                     android:text="@string/copy"
                     android:textColor="@color/app_color_gray_5"
@@ -239,8 +243,8 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/app_height_button"
         android:layout_marginBottom="@dimen/margin_padding_20"
-        android:layout_marginLeft="@dimen/app_margin_screen"
-        android:layout_marginRight="@dimen/app_margin_screen"
+        android:layout_marginStart="@dimen/app_margin_screen"
+        android:layout_marginEnd="@dimen/app_margin_screen"
         android:layout_marginTop="@dimen/margin_padding_20"
         android:background="@drawable/shape_style_solid_05_08"
         android:gravity="center"

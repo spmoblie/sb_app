@@ -5,6 +5,6 @@
     <item android:state_selected="true" android:color="@color/tv_color_bottom" />
     <item android:state_checked="true" android:color="@color/tv_color_bottom" />
     <item android:state_checked="false" android:color="@color/app_color_gray_9"/>
-    <item android:color="@color/app_color_gray_9"></item>
+    <item android:color="@color/app_color_gray_9"/>
 
 </selector>

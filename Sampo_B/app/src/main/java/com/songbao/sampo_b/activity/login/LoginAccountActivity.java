@@ -36,19 +36,19 @@ public class LoginAccountActivity extends BaseActivity implements OnClickListene
 
     String TAG = LoginAccountActivity.class.getSimpleName();
 
-    @BindView(R.id.login_phone_et_account)
+    @BindView(R.id.login_account_et_account)
     EditText et_account;
 
-    @BindView(R.id.login_phone_et_password)
+    @BindView(R.id.login_account_et_password)
     EditText et_password;
 
     @BindView(R.id.login_iv_account_clear)
     ImageView iv_account_clear;
 
-    @BindView(R.id.login_phone_iv_password_check)
+    @BindView(R.id.login_account_iv_password_check)
     ImageView iv_password_check;
 
-    @BindView(R.id.login_phone_btn_login)
+    @BindView(R.id.login_account_btn_login)
     Button btn_login;
 
     private String accountStr = "";
@@ -131,7 +131,7 @@ public class LoginAccountActivity extends BaseActivity implements OnClickListene
             case R.id.login_iv_account_clear:
                 editTextFocusAndClear(et_account);
                 break;
-            case R.id.login_phone_iv_password_check:
+            case R.id.login_account_iv_password_check:
                 if (!iv_password_check.isSelected()) {
                     iv_password_check.setSelected(true);
                     changeEditTextPassword(et_password, true);
@@ -140,7 +140,7 @@ public class LoginAccountActivity extends BaseActivity implements OnClickListene
                     changeEditTextPassword(et_password, false);
                 }
                 break;
-            case R.id.login_phone_btn_login:
+            case R.id.login_account_btn_login:
                 if (checkData()) {
                     postLoginData();
                 }

@@ -51,7 +51,6 @@ public class PriceTextWatcher implements TextWatcher {
                 input = input.substring(1, input.length());
                 et_price.setText(input);
                 et_price.setSelection(input.length());
-                return;
             }
         }
     }

@@ -22,6 +22,7 @@ import com.songbao.sampo_b.utils.CommonTools;
 import com.songbao.sampo_b.utils.ExceptionUtil;
 import com.songbao.sampo_b.utils.JsonUtils;
 import com.songbao.sampo_b.utils.LogUtil;
+import com.songbao.sampo_b.utils.StringUtil;
 import com.songbao.sampo_b.utils.retrofit.HttpRequests;
 
 import org.json.JSONException;
@@ -66,6 +67,10 @@ public class DesignerListActivity extends BaseActivity implements View.OnClickLi
         setTitle(getString(R.string.designer_shop));
 
         tv_click.setOnClickListener(this);
+
+        if (StringUtil.isNull(skuCode)) {
+            tv_click.setVisibility(View.GONE);
+        }
 
         initRecyclerView();
         loadServerData();

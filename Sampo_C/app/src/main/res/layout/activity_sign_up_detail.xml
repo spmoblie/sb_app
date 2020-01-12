@@ -20,7 +20,8 @@
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
-                android:src="@drawable/icon_default_show" />
+                android:src="@drawable/icon_default_show"
+                android:contentDescription="@string/desc"/>
 
             <TextView
                 android:id="@+id/sign_up_detail_tv_title"
@@ -41,7 +42,7 @@
                 <TextView
                     android:id="@+id/sign_up_detail_tv_series"
                     style="@style/common_text_bg_frame"
-                    android:layout_marginLeft="@dimen/margin_padding_10"
+                    android:layout_marginStart="@dimen/margin_padding_10"
                     android:background="@drawable/shape_style_empty_09_08"
                     android:textColor="@color/app_color_blue" />
 
@@ -55,14 +56,14 @@
 
                 <TextView
                     style="@style/detail_text"
-                    android:drawableLeft="@mipmap/icon_time"
+                    android:drawableStart="@mipmap/icon_time"
                     android:drawablePadding="@dimen/margin_padding_5"
                     android:text="@string/sign_up_time" />
 
                 <TextView
                     android:id="@+id/sign_up_detail_tv_time"
                     style="@style/detail_text"
-                    android:layout_marginLeft="0dp"
+                    android:layout_marginStart="0dp"
                     android:textColor="@color/app_color_gray_5" />
             </LinearLayout>
 
@@ -73,14 +74,14 @@
 
                 <TextView
                     style="@style/detail_text"
-                    android:drawableLeft="@mipmap/icon_site"
+                    android:drawableStart="@mipmap/icon_site"
                     android:drawablePadding="@dimen/margin_padding_5"
                     android:text="@string/sign_up_address" />
 
                 <TextView
                     android:id="@+id/sign_up_detail_tv_place"
                     style="@style/detail_text"
-                    android:layout_marginLeft="0dp"
+                    android:layout_marginStart="0dp"
                     android:textColor="@color/app_color_gray_5" />
             </LinearLayout>
 
@@ -91,14 +92,14 @@
 
                 <TextView
                     style="@style/detail_text"
-                    android:drawableLeft="@mipmap/icon_statistics"
+                    android:drawableStart="@mipmap/icon_statistics"
                     android:drawablePadding="@dimen/margin_padding_5"
                     android:text="@string/sign_up_people" />
 
                 <TextView
                     android:id="@+id/sign_up_detail_tv_people"
                     style="@style/detail_text"
-                    android:layout_marginLeft="0dp"
+                    android:layout_marginStart="0dp"
                     android:textColor="@color/app_color_gray_5" />
             </LinearLayout>
 
@@ -109,14 +110,14 @@
 
                 <TextView
                     style="@style/detail_text"
-                    android:drawableLeft="@mipmap/icon_people"
+                    android:drawableStart="@mipmap/icon_people"
                     android:drawablePadding="@dimen/margin_padding_5"
                     android:text="@string/reserve_suit" />
 
                 <TextView
                     android:id="@+id/sign_up_detail_tv_suit"
                     style="@style/detail_text"
-                    android:layout_marginLeft="0dp"
+                    android:layout_marginStart="0dp"
                     android:textColor="@color/app_color_gray_5" />
             </LinearLayout>
 
@@ -155,8 +156,8 @@
         android:layout_width="match_parent"
         android:layout_gravity="bottom"
         android:layout_marginBottom="@dimen/margin_padding_50"
-        android:layout_marginLeft="@dimen/app_margin_screen"
-        android:layout_marginRight="@dimen/app_margin_screen"
+        android:layout_marginStart="@dimen/app_margin_screen"
+        android:layout_marginEnd="@dimen/app_margin_screen"
         android:padding="@dimen/app_margin_screen"
         android:text="@string/sign_up_title"
         android:textSize="@dimen/app_text_size_title"

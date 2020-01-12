@@ -136,7 +136,6 @@ public abstract class PullToRefreshBase<T extends View> extends LinearLayout imp
 
         // 得到Header的高度，这个高度需要用这种方式得到，在onLayout方法里面得到的高度始终是0
         getViewTreeObserver().addOnGlobalLayoutListener(new OnGlobalLayoutListener() {
-            @SuppressWarnings("deprecation")
 			@Override
             public void onGlobalLayout() {
                 refreshLoadingViewsSize();

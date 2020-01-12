@@ -118,7 +118,7 @@ public class ViewPagerActivity extends BaseActivity {
 			// 创建子布局-显示图片
 			DragImageView imageView = new DragImageView(getApplicationContext());
 			imageView.setLayoutParams(lp_m);
-			imageView.setmActivity(this);
+			imageView.setMActivity(this);
 			imageView.setScreen_H(screenHeight - statusHeight);
 			imageView.setScreen_W(screenWidth);
 			imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);

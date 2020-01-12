@@ -19,11 +19,11 @@
             android:layout_gravity="bottom"
             android:layout_marginTop="@dimen/margin_padding_5"
             android:layout_marginBottom="@dimen/margin_padding_5"
-            android:layout_marginLeft="@dimen/app_margin_screen"
-            android:layout_marginRight="@dimen/app_margin_screen"
+            android:layout_marginStart="@dimen/app_margin_screen"
+            android:layout_marginEnd="@dimen/app_margin_screen"
             android:background="@drawable/shape_style_solid_00_08"
             android:padding="@dimen/app_margin_screen"
-            android:text="我要订制"
+            android:text="@string/goods_go_customize"
             android:textSize="@dimen/app_text_size_title"
             android:textStyle="bold" />
 

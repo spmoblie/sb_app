@@ -15,7 +15,9 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.security.KeyStore;
 import java.security.SecureRandom;
+import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
+import java.security.cert.X509Certificate;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -23,6 +25,7 @@ import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManagerFactory;
+import javax.net.ssl.X509TrustManager;
 
 import okhttp3.Cache;
 import okhttp3.CacheControl;
@@ -43,7 +46,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class RetrofitServiceManager {
 
     //设缓存有效期为1天
-    private static final long CACHE_STALE_SEC = 60 * 60 * 24 * 1;
+    private static final long CACHE_STALE_SEC = 60 * 60 * 24;
     //查询缓存的Cache-Control设置，为if-only-cache时只查询缓存而不会请求服务器，max-stale可以配合设置缓存失效时间
     private static final String CACHE_CONTROL_CACHE = "only-if-cached, max-stale=" + CACHE_STALE_SEC;
     private static final int DEFAULT_TIME_OUT_CONN = 5; //超时时间 5s
@@ -99,7 +102,22 @@ public class RetrofitServiceManager {
             final TrustManagerFactory tmf = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
             tmf.init(keyStore);
             sslContext.init(null, tmf.getTrustManagers(), new SecureRandom());
-            builder.sslSocketFactory(sslContext.getSocketFactory());
+            builder.sslSocketFactory(sslContext.getSocketFactory(), new X509TrustManager() {
+                @Override
+                public void checkClientTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+
+                }
+
+                @Override
+                public void checkServerTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+
+                }
+
+                @Override
+                public X509Certificate[] getAcceptedIssuers() {
+                    return new X509Certificate[0];
+                }
+            });
             builder.hostnameVerifier(new HostnameVerifier() {
                 @Override
                 public boolean verify(String s, SSLSession sslSession) {

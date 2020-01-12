@@ -274,8 +274,8 @@ public class DialogManager {
 			tv_title.setText(title);
 			tv_title.setVisibility(View.VISIBLE);
 		}
-		final EditText et_password = mDialog.findViewById(R.id.dialog_et_password);
-		et_password.setInputType(inputType);
+		final EditText et_content = mDialog.findViewById(R.id.dialog_et_content);
+		et_content.setInputType(inputType);
 
 		Button left = mDialog.findViewById(R.id.dialog_button_cancel);
 		left.setOnClickListener(new OnClickListener() {
@@ -291,11 +291,11 @@ public class DialogManager {
 		right.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				String passStr = et_password.getText().toString();
-				if (StringUtil.isNull(passStr)) return;
+				String contStr = et_content.getText().toString();
+				if (StringUtil.isNull(contStr)) return;
 				if (handler != null) { //确定
 					Message msg = Message.obtain();
-					msg.obj = passStr;
+					msg.obj = contStr;
 					handler.sendMessage(msg);
 				}
 				mDialog.dismiss();

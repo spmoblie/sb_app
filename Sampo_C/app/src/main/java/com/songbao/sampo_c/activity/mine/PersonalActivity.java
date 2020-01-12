@@ -193,7 +193,6 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
                 screenWidth/2, true, new MyHandler(this));
     }
 
-    @SuppressWarnings("ResourceType")
     private void showDateDialog() {
         String[] dates = null;
         if (!StringUtil.isNull(birthdayStr) && birthdayStr.contains("-")) { //解析当前生日

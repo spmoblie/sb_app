@@ -17,11 +17,13 @@
         android:visibility="gone" />
 
     <EditText
-        android:id="@+id/dialog_et_password"
+        android:id="@+id/dialog_et_content"
+        android:labelFor="@+id/dialog_et_content"
         style="@style/common_edit_text"
         android:layout_width="match_parent"
         android:gravity="center"
         android:padding="@dimen/app_margin_screen"
+        android:inputType="text"
         android:textColor="@color/dialog_text_content"
         android:textSize="@dimen/app_text_size_content" />
 
@@ -37,7 +39,8 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:layout_marginRight="@dimen/app_margin_screen"
+            style="?android:attr/buttonBarStyle"
+            android:layout_marginEnd="@dimen/app_margin_screen"
             android:background="@drawable/shape_style_empty_02_08"
             android:padding="@dimen/margin_padding_8"
             android:gravity="center"
@@ -50,6 +53,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            style="?android:attr/buttonBarStyle"
             android:background="@drawable/shape_style_solid_04_08"
             android:padding="@dimen/margin_padding_8"
             android:gravity="center"

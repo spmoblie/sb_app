@@ -28,7 +28,7 @@
             android:id="@+id/edit_info_iv_clear"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/app_margin_screen"
+            android:layout_marginEnd="@dimen/app_margin_screen"
             android:contentDescription="@string/desc"
             android:src="@mipmap/icon_clear"
             android:visibility="gone" />

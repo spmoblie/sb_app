@@ -10,6 +10,7 @@
         android:id="@+id/tickets_iv_top_card"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:contentDescription="@string/desc"
         android:scaleType="fitStart"
         android:src="@mipmap/icon_card_bg" />
 
@@ -66,9 +67,9 @@
                 <TextView
                     android:id="@+id/tv_price_new_1_curr"
                     style="@style/common_text_price_curr"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/tickets_set_meal_1_tv_price_new"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintBaseline_toBaselineOf="@+id/tickets_set_meal_1_tv_price_new"/>
+                    app:layout_constraintLeft_toLeftOf="parent" />
 
                 <TextView
                     android:id="@+id/tickets_set_meal_1_tv_price_new"
@@ -87,9 +88,9 @@
             <TextView
                 android:id="@+id/tickets_set_meal_1_tv_discount"
                 style="@style/common_text_bg_frame"
+                android:background="@drawable/shape_style_solid_07_08"
                 android:paddingLeft="@dimen/margin_padding_11"
                 android:paddingRight="@dimen/margin_padding_11"
-                android:background="@drawable/shape_style_solid_07_08"
                 android:textColor="@color/app_color_white"
                 android:textSize="@dimen/app_text_size_minis" />
         </LinearLayout>
@@ -99,6 +100,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_padding_23"
+            android:contentDescription="@string/desc"
             android:src="@mipmap/icon_discount"
             android:visibility="gone"
             app:layout_constraintLeft_toLeftOf="@+id/tickets_set_meal_1_main"
@@ -134,9 +136,9 @@
                 <TextView
                     android:id="@+id/tv_price_new_2_curr"
                     style="@style/common_text_price_curr"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/tickets_set_meal_2_tv_price_new"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintBaseline_toBaselineOf="@+id/tickets_set_meal_2_tv_price_new"/>
+                    app:layout_constraintLeft_toLeftOf="parent" />
 
                 <TextView
                     android:id="@+id/tickets_set_meal_2_tv_price_new"
@@ -155,9 +157,9 @@
             <TextView
                 android:id="@+id/tickets_set_meal_2_tv_discount"
                 style="@style/common_text_bg_frame"
+                android:background="@drawable/shape_style_solid_07_08"
                 android:paddingLeft="@dimen/margin_padding_11"
                 android:paddingRight="@dimen/margin_padding_11"
-                android:background="@drawable/shape_style_solid_07_08"
                 android:textColor="@color/app_color_white"
                 android:textSize="@dimen/app_text_size_minis" />
         </LinearLayout>
@@ -167,6 +169,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_padding_23"
+            android:contentDescription="@string/desc"
             android:src="@mipmap/icon_discount"
             android:visibility="gone"
             app:layout_constraintLeft_toLeftOf="@+id/tickets_set_meal_2_main"
@@ -201,9 +204,9 @@
                 <TextView
                     android:id="@+id/tv_price_new_3_curr"
                     style="@style/common_text_price_curr"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/tickets_set_meal_3_tv_price_new"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintBaseline_toBaselineOf="@+id/tickets_set_meal_3_tv_price_new"/>
+                    app:layout_constraintLeft_toLeftOf="parent" />
 
                 <TextView
                     android:id="@+id/tickets_set_meal_3_tv_price_new"
@@ -222,9 +225,9 @@
             <TextView
                 android:id="@+id/tickets_set_meal_3_tv_discount"
                 style="@style/common_text_bg_frame"
+                android:background="@drawable/shape_style_solid_07_08"
                 android:paddingLeft="@dimen/margin_padding_11"
                 android:paddingRight="@dimen/margin_padding_11"
-                android:background="@drawable/shape_style_solid_07_08"
                 android:textColor="@color/app_color_white"
                 android:textSize="@dimen/app_text_size_minis" />
         </LinearLayout>
@@ -234,6 +237,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_padding_23"
+            android:contentDescription="@string/desc"
             android:src="@mipmap/icon_discount"
             android:visibility="gone"
             app:layout_constraintLeft_toLeftOf="@+id/tickets_set_meal_3_main"

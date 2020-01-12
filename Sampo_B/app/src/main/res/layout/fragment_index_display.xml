@@ -22,7 +22,7 @@
         android:layout_height="match_parent"
         android:paddingLeft="@dimen/margin_padding_10"
         android:paddingRight="@dimen/margin_padding_10"
-        android:layout_gravity="right"
+        android:layout_gravity="end"
         android:visibility="gone" />
 
 </FrameLayout>

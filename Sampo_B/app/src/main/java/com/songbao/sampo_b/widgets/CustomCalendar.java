@@ -210,14 +210,14 @@ public class CustomCalendar extends View {
         //第一行能展示的天数
         firstLineNum = 7-firstIndex;
         lastLineNum = 0;
-        int shengyu = dayOfMonth - firstLineNum;
-        while (shengyu > 7){
+        int surplus = dayOfMonth - firstLineNum;
+        while (surplus > 7){
             lineNum ++;
-            shengyu-=7;
+            surplus-=7;
         }
-        if(shengyu > 0){
+        if(surplus > 0){
             lineNum ++;
-            lastLineNum = shengyu;
+            lastLineNum = surplus;
         }
         LogUtil.i(TAG, getMonthStr(month)+"一共有"+dayOfMonth+"天,第一天的索引是："+
                 firstIndex+"   有"+lineNum+ "行，第一行"+firstLineNum+"个，最后一行"+lastLineNum+"个");

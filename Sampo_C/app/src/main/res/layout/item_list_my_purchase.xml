@@ -31,7 +31,7 @@
         <TextView
             android:id="@+id/my_purchase_item_tv_status"
             style="@style/common_text_bg_frame"
-            android:layout_marginLeft="@dimen/margin_padding_10"
+            android:layout_marginStart="@dimen/margin_padding_10"
             android:background="@drawable/shape_style_solid_06_04"
             android:textColor="@color/app_color_white"
             android:textSize="@dimen/app_text_size_small"
@@ -46,7 +46,7 @@
         <TextView
             android:id="@+id/my_purchase_item_tv_number"
             style="@style/list_item_text"
-            android:layout_marginRight="@dimen/margin_padding_5"
+            android:layout_marginEnd="@dimen/margin_padding_5"
             android:textColor="@color/app_color_gray_9"
             android:textSize="@dimen/app_text_size_small"
             app:layout_constraintRight_toLeftOf="@+id/my_purchase_item_tv_price_curr"
@@ -70,7 +70,7 @@
             android:id="@+id/my_purchase_item_tv_click_01"
             style="@style/common_text_bg_frame"
             android:layout_marginTop="@dimen/margin_padding_20"
-            android:layout_marginRight="@dimen/app_margin_screen"
+            android:layout_marginEnd="@dimen/app_margin_screen"
             android:paddingTop="@dimen/margin_padding_7"
             android:paddingBottom="@dimen/margin_padding_7"
             android:paddingLeft="@dimen/margin_padding_18"

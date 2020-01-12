@@ -14,7 +14,7 @@
         android:layout_width="@dimen/loading_small_size"
         android:layout_height="@dimen/loading_small_size"
         android:layout_marginTop="@dimen/margin_padding_1"
-        android:layout_marginRight="@dimen/margin_padding_5"
+        android:layout_marginEnd="@dimen/margin_padding_5"
         android:gravity="center"
         android:indeterminateDrawable="@anim/pull_loading_anim"
         android:visibility="visible" />

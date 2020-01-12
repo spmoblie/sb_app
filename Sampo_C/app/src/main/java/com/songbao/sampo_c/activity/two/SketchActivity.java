@@ -61,7 +61,6 @@ public class SketchActivity extends BaseActivity {
 		initWebView();
 	}
 
-	@SuppressWarnings("static-access")
 	@SuppressLint({ "JavascriptInterface", "SetJavaScriptEnabled" })
 	private void initWebView() {
 		if (myWebView != null){

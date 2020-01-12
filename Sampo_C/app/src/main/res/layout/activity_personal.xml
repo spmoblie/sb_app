@@ -8,7 +8,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
         <RelativeLayout
@@ -28,7 +28,7 @@
                 android:layout_width="@dimen/image_size_head"
                 android:layout_height="@dimen/image_size_head"
                 android:layout_centerVertical="true"
-                android:layout_toLeftOf="@+id/personal_tv_head_content"
+                android:layout_toStartOf="@+id/personal_tv_head_content"
                 android:contentDescription="@string/desc"
                 android:src="@mipmap/icon_default_head"
                 app:type="circle" />
@@ -95,7 +95,8 @@
 
         <RelativeLayout
             android:id="@+id/personal_rl_area"
-            style="@style/setting_lay_item">
+            style="@style/setting_lay_item"
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/personal_tv_area_title"
@@ -124,8 +125,8 @@
                 android:id="@+id/personal_tv_intro_content"
                 style="@style/setting_lay_text_content"
                 android:layout_width="match_parent"
-                android:layout_marginLeft="@dimen/margin_padding_10"
-                android:layout_toRightOf="@+id/personal_tv_intro_title"
+                android:layout_marginStart="@dimen/margin_padding_10"
+                android:layout_toEndOf="@+id/personal_tv_intro_title"
                 android:hint="@string/mine_intro_hint"
                 android:textColorHint="@color/input_hint_color"
                 android:ellipsize="marquee"

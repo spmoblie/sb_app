@@ -17,9 +17,9 @@
     <TextView
         android:id="@+id/order_logistics_tv_number_check"
         style="@style/order_text"
-        android:text="查看物流"
+        android:text="@string/order_logistics"
         android:textColor="@color/tv_color_status"
-        android:paddingLeft="@dimen/margin_padding_10"
+        android:layout_marginStart="@dimen/margin_padding_10"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toRightOf="@+id/order_logistics_tv_number"
         app:layout_constraintTop_toTopOf="@+id/order_logistics_tv_number"

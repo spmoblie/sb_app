@@ -70,7 +70,7 @@
         <TextView
             android:id="@+id/goods_list_item_tv_price_curr"
             style="@style/common_text_price_curr"
-            android:layout_marginLeft="@dimen/margin_padding_10"
+            android:layout_marginStart="@dimen/margin_padding_10"
             app:layout_constraintLeft_toRightOf="@+id/goods_list_item_iv_show"
             app:layout_constraintBottom_toBottomOf="@+id/goods_list_item_iv_show" />
 

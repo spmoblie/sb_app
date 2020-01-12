@@ -61,46 +61,43 @@ public class SketchActivity extends BaseActivity {
 		initWebView();
 	}
 
-	@SuppressWarnings("static-access")
 	@SuppressLint({ "JavascriptInterface", "SetJavaScriptEnabled" })
 	private void initWebView() {
-		if (myWebView != null){
-			//WebView属性设置
-			WebSettings webSettings = myWebView.getSettings();
-			webSettings.setDefaultTextEncodingName("UTF-8");
-			//String user_agent = webSettings.getUserAgentString();
-			//webSettings.setUserAgentString(user_agent+"_SP"); //设置UserAgent
-			webSettings.setJavaScriptEnabled(true); //设置支持javascript脚本
-			webSettings.setCacheMode(WebSettings.LOAD_DEFAULT); //设置缓冲的模式
-			webSettings.setBuiltInZoomControls(false); //设置是否支持缩放
-			webSettings.setBlockNetworkImage(false); //解决图片不显示
-			webSettings.setDomStorageEnabled(true); //是否允许使用Dom缓存
-			webSettings.setUseWideViewPort(true);  //设置推荐使用的窗口
-			webSettings.setLoadWithOverviewMode(true);  //设置加载页面的模式
+		//WebView属性设置
+		WebSettings webSettings = myWebView.getSettings();
+		webSettings.setDefaultTextEncodingName("UTF-8");
+		//String user_agent = webSettings.getUserAgentString();
+		//webSettings.setUserAgentString(user_agent+"_SP"); //设置UserAgent
+		webSettings.setJavaScriptEnabled(true); //设置支持javascript脚本
+		webSettings.setCacheMode(WebSettings.LOAD_DEFAULT); //设置缓冲的模式
+		webSettings.setBuiltInZoomControls(false); //设置是否支持缩放
+		webSettings.setBlockNetworkImage(false); //解决图片不显示
+		webSettings.setDomStorageEnabled(true); //是否允许使用Dom缓存
+		webSettings.setUseWideViewPort(true);  //设置推荐使用的窗口
+		webSettings.setLoadWithOverviewMode(true);  //设置加载页面的模式
 
-			//设置可同时加载Https、Http的混合模式（解决微信链文图片不显示的问题）
-			if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-				webSettings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+		//设置可同时加载Https、Http的混合模式（解决微信链文图片不显示的问题）
+		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+			webSettings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
 
-			//开启硬件加速(华为部分手机会出现卡顿)
-			myWebView.setLayerType(View.LAYER_TYPE_HARDWARE,null);
+		//开启硬件加速(华为部分手机会出现卡顿)
+		myWebView.setLayerType(View.LAYER_TYPE_HARDWARE,null);
 
-			//设置不允许外部浏览器打开
-			myWebView.setWebViewClient(new WebViewClient(){
+		//设置不允许外部浏览器打开
+		myWebView.setWebViewClient(new WebViewClient(){
 
-				@Override
-				public boolean shouldOverrideUrlLoading(WebView view, String url) {
-					if (url.contains("sampo")) {
-						view.loadUrl(url);
-						return true; //当加载重定向URL时，物理返回按键myWebView.canGoBack()判断为true。
-					}
-					return false;
+			@Override
+			public boolean shouldOverrideUrlLoading(WebView view, String url) {
+				if (url.contains("sampo")) {
+					view.loadUrl(url);
+					return true; //当加载重定向URL时，物理返回按键myWebView.canGoBack()判断为true。
 				}
-			});
+				return false;
+			}
+		});
 
-			//加载Url
-			myWebView.loadUrl(lodUrl);
-		}
+		//加载Url
+		myWebView.loadUrl(lodUrl);
 	}
 
 	@Override
@@ -140,9 +137,7 @@ public class SketchActivity extends BaseActivity {
 	@Override
 	protected void onDestroy() {
 		//清除缓存
-		if (myWebView != null) {
-			myWebView.clearCache(true);
-		}
+		myWebView.clearCache(true);
 		super.onDestroy();
 	}
 

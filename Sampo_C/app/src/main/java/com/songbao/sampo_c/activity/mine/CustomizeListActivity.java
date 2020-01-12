@@ -168,7 +168,7 @@ public class CustomizeListActivity extends BaseActivity implements View.OnClickL
         mRecyclerView.setLayoutManager(layoutManager);
 
         // 配置适配器
-        rvAdapter = new CustomizeAdapter(mContext, R.layout.item_list_my_customize);
+        rvAdapter = new CustomizeAdapter(mContext, R.layout.item_list_customize);
         rvAdapter.addData(al_show);
         rvAdapter.addCallback(new AdapterCallback() {
 

@@ -110,7 +110,6 @@ public class MyWebViewActivity extends BaseActivity {
 		}
 	}
 
-	@SuppressWarnings("static-access")
 	@SuppressLint({ "JavascriptInterface", "SetJavaScriptEnabled" })
 	private void initWebView() {
 		if (myWebView != null){

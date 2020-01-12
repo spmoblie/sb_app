@@ -35,37 +35,37 @@ public class LoginPhoneActivity extends BaseActivity implements OnClickListener 
 
     String TAG = LoginPhoneActivity.class.getSimpleName();
 
-    @BindView(R.id.login_phone_et_phone)
+    @BindView(R.id.login_account_et_phone)
     EditText et_phone;
 
-    @BindView(R.id.login_phone_et_code)
+    @BindView(R.id.login_account_et_code)
     EditText et_code;
 
-    @BindView(R.id.login_phone_et_password)
+    @BindView(R.id.login_account_et_password)
     EditText et_password;
 
     @BindView(R.id.login_iv_phone_clear)
     ImageView iv_phone_clear;
 
-    @BindView(R.id.login_phone_iv_password_check)
+    @BindView(R.id.login_account_iv_password_check)
     ImageView iv_password_check;
 
-    @BindView(R.id.login_phone_tv_phone_error)
+    @BindView(R.id.login_account_tv_phone_error)
     TextView tv_phone_error;
 
-    @BindView(R.id.login_phone_tv_verify_code)
+    @BindView(R.id.login_account_tv_verify_code)
     TextView tv_verify_code;
 
-    @BindView(R.id.login_phone_tv_password_change)
+    @BindView(R.id.login_account_tv_password_change)
     TextView tv_password_change;
 
-    @BindView(R.id.login_phone_tv_password_reset)
+    @BindView(R.id.login_account_tv_password_reset)
     TextView tv_password_reset;
 
-    @BindView(R.id.login_phone_tv_register)
+    @BindView(R.id.login_account_tv_register)
     TextView tv_register;
 
-    @BindView(R.id.login_phone_btn_login)
+    @BindView(R.id.login_account_btn_login)
     Button btn_login;
 
     private int send_number = 0;
@@ -293,7 +293,7 @@ public class LoginPhoneActivity extends BaseActivity implements OnClickListener 
             case R.id.login_iv_phone_clear:
                 editTextFocusAndClear(et_phone);
                 break;
-            case R.id.login_phone_tv_verify_code:
+            case R.id.login_account_tv_verify_code:
                 if (send_number >= 3) {
                     CommonTools.showToast(getString(R.string.login_verify_code_send_3));
                 }
@@ -302,7 +302,7 @@ public class LoginPhoneActivity extends BaseActivity implements OnClickListener 
                     sendMessageAuth();
                 }
                 break;
-            case R.id.login_phone_iv_password_check:
+            case R.id.login_account_iv_password_check:
                 if (!iv_password_check.isSelected()) {
                     iv_password_check.setSelected(true);
                     changeEditTextPassword(et_password, true);
@@ -311,17 +311,17 @@ public class LoginPhoneActivity extends BaseActivity implements OnClickListener 
                     changeEditTextPassword(et_password, false);
                 }
                 break;
-            case R.id.login_phone_tv_password_change:
+            case R.id.login_account_tv_password_change:
                 isPassword = !isPassword;
                 changeViewState();
                 break;
-            case R.id.login_phone_tv_password_reset:
+            case R.id.login_account_tv_password_reset:
                 openActivity(ResetPasswordActivity.class);
                 break;
-            case R.id.login_phone_tv_register:
+            case R.id.login_account_tv_register:
                 openActivity(RegisterActivity.class);
                 break;
-            case R.id.login_phone_btn_login:
+            case R.id.login_account_btn_login:
                 if (checkData() && isCanLogin) {
                     postLoginData();
                 }

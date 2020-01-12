@@ -21,8 +21,8 @@
         android:textColor="@color/app_color_white"
         android:textSize="@dimen/app_text_size_content"
         android:background="@drawable/shape_style_solid_04_08"
-        android:layout_marginLeft="@dimen/app_margin_screen"
-        android:layout_marginRight="@dimen/app_margin_screen"
+        android:layout_marginStart="@dimen/app_margin_screen"
+        android:layout_marginEnd="@dimen/app_margin_screen"
         android:layout_marginBottom="@dimen/margin_padding_30"
         app:layout_constraintBottom_toBottomOf="parent"/>
 

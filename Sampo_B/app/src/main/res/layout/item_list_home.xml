@@ -35,7 +35,7 @@
     <TextView
         android:id="@+id/fg_home_item_tv_series"
         style="@style/common_text_bg_frame"
-        android:layout_marginLeft="@dimen/margin_padding_10"
+        android:layout_marginStart="@dimen/margin_padding_10"
         android:background="@drawable/shape_style_empty_09_08"
         android:maxEms="9"
         android:textColor="@color/app_color_blue"
@@ -45,7 +45,7 @@
     <TextView
         android:id="@+id/fg_home_item_tv_time"
         style="@style/list_item_text"
-        android:drawableLeft="@mipmap/icon_time"
+        android:drawableStart="@mipmap/icon_time"
         android:drawablePadding="@dimen/margin_padding_5"
         android:textColor="@color/app_color_gray_9"
         android:textSize="@dimen/app_text_size_small"

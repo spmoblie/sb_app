@@ -14,7 +14,7 @@
         android:id="@+id/photo_select"
         android:layout_width="@dimen/photo_grid_tick_size"
         android:layout_height="@dimen/photo_grid_tick_size"
-        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
         android:background="@drawable/selector_checkbox_large"
         android:contentDescription="@string/desc"

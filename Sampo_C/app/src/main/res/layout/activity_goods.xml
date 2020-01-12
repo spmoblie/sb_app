@@ -43,8 +43,8 @@
                     android:id="@+id/goods_tv_goods_name"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/app_margin_screen"
-                    android:layout_marginRight="@dimen/app_margin_screen"
+                    android:layout_marginStart="@dimen/app_margin_screen"
+                    android:layout_marginEnd="@dimen/app_margin_screen"
                     android:layout_marginTop="@dimen/margin_padding_20"
                     android:textColor="@color/shows_text_color"
                     android:textSize="@dimen/app_text_size_content"
@@ -54,7 +54,7 @@
                 <TextView
                     android:id="@+id/goods_tv_price_curr"
                     style="@style/common_text_price_curr"
-                    android:layout_marginRight="@dimen/margin_padding_10"
+                    android:layout_marginEnd="@dimen/margin_padding_10"
                     android:textSize="@dimen/text_size_18"
                     app:layout_constraintBaseline_toBaselineOf="@+id/goods_tv_price"
                     app:layout_constraintBottom_toBottomOf="@+id/goods_tv_price"
@@ -63,7 +63,7 @@
                 <TextView
                     android:id="@+id/goods_tv_price"
                     style="@style/common_text_price"
-                    android:layout_marginLeft="@dimen/margin_padding_28"
+                    android:layout_marginStart="@dimen/margin_padding_28"
                     android:layout_marginTop="@dimen/margin_padding_20"
                     android:textSize="@dimen/text_size_30"
                     app:layout_constraintLeft_toLeftOf="@+id/goods_tv_goods_name"
@@ -72,7 +72,7 @@
                 <TextView
                     android:id="@+id/goods_tv_goods_attach_1"
                     style="@style/goods_text"
-                    android:layout_marginLeft="@dimen/margin_padding_12"
+                    android:layout_marginStart="@dimen/margin_padding_12"
                     android:layout_marginTop="@dimen/margin_padding_20"
                     android:text="@string/goods_attach_1"
                     app:layout_constraintLeft_toLeftOf="@+id/goods_tv_goods_name"
@@ -88,7 +88,7 @@
                 <TextView
                     android:id="@+id/goods_tv_goods_attach_2"
                     style="@style/goods_text"
-                    android:layout_marginLeft="@dimen/margin_padding_60"
+                    android:layout_marginStart="@dimen/margin_padding_60"
                     android:text="@string/goods_attach_2"
                     app:layout_constraintLeft_toRightOf="@+id/goods_tv_goods_attach_1"
                     app:layout_constraintTop_toTopOf="@+id/goods_tv_goods_attach_1" />
@@ -118,7 +118,7 @@
                 <TextView
                     android:id="@+id/goods_tv_goods_attach_4"
                     style="@style/goods_text"
-                    android:layout_marginLeft="@dimen/margin_padding_60"
+                    android:layout_marginStart="@dimen/margin_padding_60"
                     android:text="@string/goods_attach_4"
                     app:layout_constraintLeft_toRightOf="@+id/goods_tv_goods_attach_3"
                     app:layout_constraintTop_toTopOf="@+id/goods_tv_goods_attach_3" />
@@ -147,7 +147,7 @@
                     <TextView
                         android:id="@+id/goods_tv_spec_choice"
                         style="@style/goods_text"
-                        android:layout_marginLeft="@dimen/app_margin_screen"
+                        android:layout_marginStart="@dimen/app_margin_screen"
                         android:layout_marginTop="@dimen/margin_padding_20"
                         android:text="@string/goods_spec_choice"
                         android:textColor="@color/shows_text_color"
@@ -168,7 +168,7 @@
                         android:id="@+id/goods_tv_spec_choice_sign"
                         android:layout_width="@dimen/margin_padding_12"
                         android:layout_height="@dimen/margin_padding_12"
-                        android:layout_marginRight="@dimen/margin_padding_10"
+                        android:layout_marginEnd="@dimen/margin_padding_10"
                         android:background="@drawable/shape_style_app_status"
                         app:layout_constraintBottom_toBottomOf="@+id/goods_tv_spec_choice"
                         app:layout_constraintRight_toLeftOf="@+id/goods_tv_spec_choice"
@@ -188,14 +188,14 @@
                         android:id="@+id/goods_tv_selected_show"
                         style="@style/detail_lay_text_go"
                         android:layout_width="0dp"
-                        android:layout_marginLeft="@dimen/margin_padding_30"
+                        android:layout_marginStart="@dimen/margin_padding_30"
                         android:layout_marginTop="@dimen/margin_padding_5"
                         android:textColor="@color/tv_color_status"
                         android:textSize="@dimen/app_text_size_content"
                         android:textStyle="bold"
                         android:maxLines="1"
                         android:ellipsize="end"
-                        android:gravity="right"
+                        android:gravity="end"
                         app:layout_constraintHorizontal_weight="1"
                         app:layout_constraintLeft_toRightOf="@+id/goods_tv_selected"
                         app:layout_constraintRight_toRightOf="parent"
@@ -220,7 +220,7 @@
                     <TextView
                         android:id="@+id/goods_tv_good_comment"
                         style="@style/goods_text"
-                        android:layout_marginLeft="@dimen/app_margin_screen"
+                        android:layout_marginStart="@dimen/app_margin_screen"
                         android:layout_marginTop="@dimen/margin_padding_20"
                         android:text="@string/goods_good_comment"
                         android:textColor="@color/shows_text_color"
@@ -241,7 +241,7 @@
                         android:id="@+id/goods_tv_good_comment_sign"
                         android:layout_width="@dimen/margin_padding_12"
                         android:layout_height="@dimen/margin_padding_12"
-                        android:layout_marginRight="@dimen/margin_padding_10"
+                        android:layout_marginEnd="@dimen/margin_padding_10"
                         android:background="@drawable/shape_style_app_status"
                         app:layout_constraintBottom_toBottomOf="@+id/goods_tv_good_comment"
                         app:layout_constraintRight_toLeftOf="@+id/goods_tv_good_comment"
@@ -259,7 +259,7 @@
                     <TextView
                         android:id="@+id/goods_tv_good_comment_percentage"
                         style="@style/goods_text"
-                        android:layout_marginRight="@dimen/app_margin_screen"
+                        android:layout_marginEnd="@dimen/app_margin_screen"
                         android:gravity="center"
                         android:textColor="@color/app_color_yellow"
                         android:textSize="@dimen/app_text_size_small"
@@ -299,7 +299,7 @@
                 <TextView
                     android:id="@+id/goods_tv_good_detail"
                     style="@style/goods_text"
-                    android:layout_marginLeft="@dimen/app_margin_screen"
+                    android:layout_marginStart="@dimen/app_margin_screen"
                     android:layout_marginTop="@dimen/margin_padding_20"
                     android:text="@string/goods_good_detail"
                     android:textColor="@color/shows_text_color"
@@ -320,7 +320,7 @@
                     android:id="@+id/goods_tv_good_detail_sign"
                     android:layout_width="@dimen/margin_padding_12"
                     android:layout_height="@dimen/margin_padding_12"
-                    android:layout_marginRight="@dimen/margin_padding_10"
+                    android:layout_marginEnd="@dimen/margin_padding_10"
                     android:background="@drawable/shape_style_app_status"
                     app:layout_constraintBottom_toBottomOf="@+id/goods_tv_good_detail"
                     app:layout_constraintRight_toLeftOf="@+id/goods_tv_good_detail"
@@ -348,7 +348,7 @@
         style="@style/top_bar_icon"
         android:src="@mipmap/icon_share_white"
         android:contentDescription="@string/desc"
-        android:layout_gravity="right"/>
+        android:layout_gravity="end"/>
 
     <include layout="@layout/layout_top_common" />
 

@@ -363,7 +363,6 @@ public class ClipImageView extends AppCompatImageView implements View.OnTouchLis
 		getViewTreeObserver().addOnGlobalLayoutListener(this);
 	}
 
-	@SuppressWarnings("deprecation")
 	@Override
 	protected void onDetachedFromWindow() {
 		super.onDetachedFromWindow();

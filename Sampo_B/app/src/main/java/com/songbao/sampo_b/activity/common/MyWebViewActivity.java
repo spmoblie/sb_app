@@ -110,81 +110,76 @@ public class MyWebViewActivity extends BaseActivity {
 		}
 	}
 
-	@SuppressWarnings("static-access")
 	@SuppressLint({ "JavascriptInterface", "SetJavaScriptEnabled" })
 	private void initWebView() {
-		if (myWebView != null){
-			//WebView属性设置
-			WebSettings webSettings = myWebView.getSettings();
-			webSettings.setDefaultTextEncodingName("UTF-8");
-			//String user_agent = webSettings.getUserAgentString();
-			//webSettings.setUserAgentString(user_agent+"_SP"); //设置UserAgent
-			//webSettings.setUserAgentString(" "); //设置UserAgent
-			webSettings.setJavaScriptEnabled(true); //设置支持javascript脚本
-			//webSettings.setJavaScriptCanOpenWindowsAutomatically(true); //支持通过JS打开新窗口
-			webSettings.setCacheMode(WebSettings.LOAD_DEFAULT); //设置缓冲的模式
-			webSettings.setBuiltInZoomControls(false); //设置是否支持缩放
-			webSettings.setBlockNetworkImage(false); //解决图片不显示
-			//webSettings.setSupportZoom(true); //设置是否支持变焦
-			//webSettings.setDefaultFontSize(12); //设置默认的字体大小
-			//webSettings.setFixedFontFamily(""); //设置固定使用的字体
-			//webSettings.setAllowFileAccess(true); //是否允许访问文件
-			//webSettings.setDatabaseEnabled(true); //是否允许使用数据库api
-			webSettings.setDomStorageEnabled(true); //是否允许使用Dom缓存
-			//webSettings.setAppCacheEnabled(true); //有选择的缓存web浏览器中的东西
-			//webSettings.setAppCachePath(""); //设置缓存路径
-			//webSettings.setSavePassword(true); //是否允许保存密码
-			webSettings.setUseWideViewPort(true);  //设置推荐使用的窗口
-			webSettings.setLoadWithOverviewMode(true);  //设置加载页面的模式
-			//webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN); //支持内容重新布局
+		//WebView属性设置
+		WebSettings webSettings = myWebView.getSettings();
+		webSettings.setDefaultTextEncodingName("UTF-8");
+		//String user_agent = webSettings.getUserAgentString();
+		//webSettings.setUserAgentString(user_agent+"_SP"); //设置UserAgent
+		//webSettings.setUserAgentString(" "); //设置UserAgent
+		webSettings.setJavaScriptEnabled(true); //设置支持javascript脚本
+		//webSettings.setJavaScriptCanOpenWindowsAutomatically(true); //支持通过JS打开新窗口
+		webSettings.setCacheMode(WebSettings.LOAD_DEFAULT); //设置缓冲的模式
+		webSettings.setBuiltInZoomControls(false); //设置是否支持缩放
+		webSettings.setBlockNetworkImage(false); //解决图片不显示
+		//webSettings.setSupportZoom(true); //设置是否支持变焦
+		//webSettings.setDefaultFontSize(12); //设置默认的字体大小
+		//webSettings.setFixedFontFamily(""); //设置固定使用的字体
+		//webSettings.setAllowFileAccess(true); //是否允许访问文件
+		//webSettings.setDatabaseEnabled(true); //是否允许使用数据库api
+		webSettings.setDomStorageEnabled(true); //是否允许使用Dom缓存
+		//webSettings.setAppCacheEnabled(true); //有选择的缓存web浏览器中的东西
+		//webSettings.setAppCachePath(""); //设置缓存路径
+		//webSettings.setSavePassword(true); //是否允许保存密码
+		webSettings.setUseWideViewPort(true);  //设置推荐使用的窗口
+		webSettings.setLoadWithOverviewMode(true);  //设置加载页面的模式
+		//webSettings.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.SINGLE_COLUMN); //支持内容重新布局
 
-			//设置可同时加载Https、Http的混合模式（解决微信链文图片不显示的问题）
-			if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
-				webSettings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
+		//设置可同时加载Https、Http的混合模式（解决微信链文图片不显示的问题）
+		if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP)
+			webSettings.setMixedContentMode(WebSettings.MIXED_CONTENT_ALWAYS_ALLOW);
 
-			//开启硬件加速(华为部分手机会出现卡顿)
-			myWebView.setLayerType(View.LAYER_TYPE_HARDWARE,null);
+		//开启硬件加速(华为部分手机会出现卡顿)
+		myWebView.setLayerType(View.LAYER_TYPE_HARDWARE,null);
 
-			//设置不允许外部浏览器打开
-			myWebView.setWebViewClient(new WebViewClient(){
+		//设置不允许外部浏览器打开
+		myWebView.setWebViewClient(new WebViewClient(){
 
-				@Override
-				public boolean shouldOverrideUrlLoading(WebView view, String url) {
-					if (url.contains("sxb")) {
-						view.loadUrl(url);
-						return true; //当加载重定向URL时，物理返回按键myWebView.canGoBack()判断为true。
-					}
-					return false;
+			@Override
+			public boolean shouldOverrideUrlLoading(WebView view, String url) {
+				if (url.contains("sxb")) {
+					view.loadUrl(url);
+					return true; //当加载重定向URL时，物理返回按键myWebView.canGoBack()判断为true。
 				}
-			});
-
-			//设置加载动画
-			myWebView.setWebChromeClient(new WebChromeClient(){
-				@Override
-				public void onProgressChanged(WebView view, int newProgress) {
-					super.onProgressChanged(view, newProgress);
-					if(webViewLoadingBar != null) {
-						webViewLoadingBar.setProgress(newProgress);
-					}
-					if (newProgress == 100) {
-						mHandler.sendEmptyMessage(TYPE_LOAD_URL_SUCCESS);
-					}
-				}
-			});
-
-			//设置滚动监听
-			myWebView.setOnScrollChangedCallback(new ObservableWebView.OnScrollChangedCallback() {
-				@Override
-				public void onScroll(int x, int y, int oldx, int oldy) {
-					//currY = y;
-				}
-			});
-
-			//加载Url
-			if (!StringUtil.isNull(lodUrl)) {
-				//myWebView.addJavascriptInterface(new JsToJava(), "stub");
-				myLoadUrl(lodUrl);
+				return false;
 			}
+		});
+
+		//设置加载动画
+		myWebView.setWebChromeClient(new WebChromeClient(){
+			@Override
+			public void onProgressChanged(WebView view, int newProgress) {
+				super.onProgressChanged(view, newProgress);
+				webViewLoadingBar.setProgress(newProgress);
+				if (newProgress == 100) {
+					mHandler.sendEmptyMessage(TYPE_LOAD_URL_SUCCESS);
+				}
+			}
+		});
+
+		//设置滚动监听
+		myWebView.setOnScrollChangedCallback(new ObservableWebView.OnScrollChangedCallback() {
+			@Override
+			public void onScroll(int x, int y, int oldx, int oldy) {
+				//currY = y;
+			}
+		});
+
+		//加载Url
+		if (!StringUtil.isNull(lodUrl)) {
+			//myWebView.addJavascriptInterface(new JsToJava(), "stub");
+			myLoadUrl(lodUrl);
 		}
 	}
 
@@ -237,9 +232,7 @@ public class MyWebViewActivity extends BaseActivity {
 	@Override
 	protected void onDestroy() {
 		//清除缓存
-		if (myWebView != null) {
-			myWebView.clearCache(true);
-		}
+		myWebView.clearCache(true);
 		super.onDestroy();
 	}
 
@@ -247,7 +240,7 @@ public class MyWebViewActivity extends BaseActivity {
 		if (msg == null) return;
 		switch (msg.what) {
 			case TYPE_LOAD_URL_SUCCESS:
-				if (myWebView != null && isScroll && saveY > 0) {
+				if (isScroll && saveY > 0) {
 					myWebView.scrollTo(0, saveY);
 					saveY = 0;
 					isScroll = false;

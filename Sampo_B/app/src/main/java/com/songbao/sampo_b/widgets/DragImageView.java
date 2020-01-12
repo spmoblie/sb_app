@@ -18,7 +18,7 @@ import com.songbao.sampo_b.utils.LogUtil;
  * onLayout方法：是一个回调方法.该方法会在在View中的layout方法中执行，在执行layout方法前面会首先执行setFrame方法.
  * layout方法：
  * setFrame方法：判断我们的View是否发生变化，如果发生变化，那么将最新的l，t，r，b传递给View，然后刷新进行动态更新UI.
- * 并且返回ture.没有变化返回false.
+ * 并且返回true.没有变化返回false.
  * 
  * invalidate方法：用于刷新当前控件,
  */
@@ -30,7 +30,6 @@ public class DragImageView extends AppCompatImageView {
 
 	private int bitmap_W, bitmap_H;// 当前图片宽高
 
-	@SuppressWarnings("unused")
 	private int MAX_W, MAX_H, MIN_W, MIN_H;// 极限值
 
 	private int current_Top, current_Right, current_Bottom, current_Left;// 当前图片上下左右坐标
@@ -39,7 +38,7 @@ public class DragImageView extends AppCompatImageView {
 
 	private int start_x, start_y, current_x, current_y;// 触摸位置
 
-	private float beforeLenght, afterLenght;// 两触点距离
+	private float beforeLength, afterLength;// 两触点距离
 
 	private float scale_temp;// 缩放比例
 	
@@ -66,7 +65,6 @@ public class DragImageView extends AppCompatImageView {
 
 	private boolean isToLeftMove = false;// 是否向左滑动
 
-	@SuppressWarnings("unused")
 	private ScaleAnimation scaleAnimation;// 缩放动画
 
 	private boolean isScaleAnim = false;// 缩放动画
@@ -92,7 +90,7 @@ public class DragImageView extends AppCompatImageView {
 		super(context);
 	}
 
-	public void setmActivity(Activity mActivity) {
+	public void setMActivity(Activity mActivity) {
 		this.mActivity = mActivity;
 	}
 
@@ -132,7 +130,7 @@ public class DragImageView extends AppCompatImageView {
 	public void setImageBitmap(Bitmap bm) {
 		super.setImageBitmap(bm);
 		if (bm != null) {
-			/** 获取图片宽高 **/
+			// 获取图片宽高
 			bitmap_W = bm.getWidth();
 			bitmap_H = bm.getHeight();
 
@@ -161,7 +159,7 @@ public class DragImageView extends AppCompatImageView {
 	 */
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
-		/** 处理单点、多点触摸 **/
+		// 处理单点、多点触摸
 		switch (event.getAction() & MotionEvent.ACTION_MASK) {
 		case MotionEvent.ACTION_DOWN:
 			onTouchDown(event);
@@ -210,7 +208,7 @@ public class DragImageView extends AppCompatImageView {
 		// 多点松开
 		case MotionEvent.ACTION_POINTER_UP:
 			mode = MODE.NONE;
-			/** 执行缩放还原 **/
+			// 执行缩放还原
 			if (isScaleAnim) {
 				doScaleAnim();
 			}
@@ -235,19 +233,19 @@ public class DragImageView extends AppCompatImageView {
 	void onPointerDown(MotionEvent event) {
 		if (event.getPointerCount() == 2) {
 			mode = MODE.ZOOM;
-			beforeLenght = getDistance(event);// 获取两点的距离
+			beforeLength = getDistance(event);// 获取两点的距离
 		}
 	}
 
 	/** 移动的处理 **/
 	void onTouchMove(MotionEvent event) {
 		int left = 0, top = 0, right = 0, bottom = 0;
-		/** 处理拖动 **/
+		// 处理拖动
 		if (mode == MODE.DRAG) {
 
-			/** 在这里要进行判断处理，防止在drag时候越界 **/
+			// 在这里要进行判断处理，防止在drag时候越界
 
-			/** 获取相应的l，t,r ,b **/
+			// 获取相应的l，t,r ,b
 			left = current_x - start_x;
 			right = current_x + this.getWidth() - start_x;
 			top = current_y - start_y;
@@ -255,7 +253,7 @@ public class DragImageView extends AppCompatImageView {
 
 			LogUtil.i("DragImageView", "left=" + left + ", top=" + top + ", right=" + right + ", bottom=" + bottom);
 
-			/** 水平进行判断 **/
+			// 水平进行判断
 			if (isControl_H) {
 				isChange = false;
 				if (left >= 0) {
@@ -278,7 +276,7 @@ public class DragImageView extends AppCompatImageView {
 				isChange = true;
 			}
 
-			/** 垂直判断 **/
+			// 垂直判断
 			if (isControl_V) {
 				if (top >= 0) {
 					top = 0;
@@ -307,19 +305,19 @@ public class DragImageView extends AppCompatImageView {
 				mOnMoveListener.onMove(isToLeftMove, isChange);
 			}
 		}
-		/** 处理缩放 **/
+		// 处理缩放
 		else if (mode == MODE.ZOOM) {
 
-			afterLenght = getDistance(event);// 获取两点的距离
+			afterLength = getDistance(event);// 获取两点的距离
 
-			float gapLenght = afterLenght - beforeLenght;// 变化的长度
+			float gapLength = afterLength - beforeLength;// 变化的长度
 
-			if (Math.abs(gapLenght) > 5f) {
-				scale_temp = afterLenght / beforeLenght;// 求的缩放的比例
+			if (Math.abs(gapLength) > 5f) {
+				scale_temp = afterLength / beforeLength;// 求的缩放的比例
 
 				this.setScale(scale_temp);
 
-				beforeLenght = afterLenght;
+				beforeLength = afterLength;
 			}
 		}
 	}
@@ -351,11 +349,8 @@ public class DragImageView extends AppCompatImageView {
 
 			this.setFrame(current_Left, current_Top, current_Right,
 					current_Bottom);
-			/***
-			 * 此时因为考虑到对称，所以只做一遍判断就可以了。
-			 */
+			// 此时因为考虑到对称，所以只做一遍判断就可以了。
 			if (current_Top <= 0 && current_Bottom >= screen_H) {
-		//		Log.e("jj", "屏幕高度=" + this.getHeight());
 				isControl_V = true;// 开启垂直监控
 			} else {
 				isControl_V = false;
@@ -373,9 +368,7 @@ public class DragImageView extends AppCompatImageView {
 			current_Top = this.getTop() + disY;
 			current_Right = this.getRight() - disX;
 			current_Bottom = this.getBottom() - disY;
-			/***
-			 * 在这里要进行缩放处理
-			 */
+			// 在这里要进行缩放处理
 			// 上边越界
 			if (isControl_V && current_Top > 0) {
 				current_Top = 0;
@@ -438,7 +431,7 @@ public class DragImageView extends AppCompatImageView {
 	 * 回缩动画執行
 	 */
 	class MyAsyncTask extends AsyncTask<Void, Integer, Void> {
-		@SuppressWarnings("unused")
+
 		private int screen_W, current_Width, current_Height;
 
 		private int left, top, right, bottom;

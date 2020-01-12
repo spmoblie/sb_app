@@ -18,7 +18,7 @@ public class MyHorizontalScrollView extends HorizontalScrollView {
      * TOUCH_SCROLL=手指拖动滚动
      * FLING=滚动
      */
-    public enum ScrollType{IDLE,TOUCH_SCROLL,FLING};
+    public enum ScrollType{IDLE,TOUCH_SCROLL,FLING}
 
     /**
      * 记录当前滚动的距离

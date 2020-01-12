@@ -22,7 +22,8 @@
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"
                 android:scaleType="centerCrop"
-                android:src="@drawable/icon_default_show" />
+                android:src="@drawable/icon_default_show"
+                android:contentDescription="@string/desc"/>
 
             <TextView
                 style="@style/detail_text"
@@ -52,7 +53,7 @@
                     android:id="@+id/sign_et_name"
                     style="@style/sign_up_edit"
                     android:hint="@string/must_fill"
-                    android:layout_marginLeft="@dimen/margin_padding_20"
+                    android:layout_marginStart="@dimen/margin_padding_20"
                     app:layout_constraintLeft_toRightOf="@+id/sign_tv_name"
                     app:layout_constraintTop_toTopOf="@+id/sign_tv_name"
                     app:layout_constraintWidth_percent="0.8" />
@@ -72,7 +73,7 @@
                     android:id="@+id/sign_tv_gender_man"
                     style="@style/common_checkbox_min"
                     android:layout_width="wrap_content"
-                    android:layout_marginLeft="@dimen/margin_padding_30"
+                    android:layout_marginStart="@dimen/margin_padding_30"
                     android:paddingBottom="@dimen/margin_padding_10"
                     android:paddingTop="@dimen/margin_padding_10"
                     android:text="@string/mine_gender_male"
@@ -84,7 +85,7 @@
                     android:id="@+id/sign_tv_gender_woman"
                     style="@style/common_checkbox_min"
                     android:layout_width="wrap_content"
-                    android:layout_marginLeft="@dimen/margin_padding_30"
+                    android:layout_marginStart="@dimen/margin_padding_30"
                     android:paddingBottom="@dimen/margin_padding_10"
                     android:paddingTop="@dimen/margin_padding_10"
                     android:text="@string/mine_gender_female"
@@ -101,7 +102,7 @@
                 <EditText
                     android:id="@+id/sign_et_age"
                     style="@style/sign_up_edit"
-                    android:layout_marginLeft="@dimen/margin_padding_20"
+                    android:layout_marginStart="@dimen/margin_padding_20"
                     android:hint="@string/must_fill"
                     app:layout_constraintLeft_toRightOf="@+id/sign_tv_age"
                     app:layout_constraintTop_toTopOf="@+id/sign_tv_age"
@@ -109,8 +110,9 @@
 
                 <ImageView
                     style="@style/common_go_right"
-                    android:layout_marginRight="@dimen/app_margin_screen"
+                    android:layout_marginEnd="@dimen/app_margin_screen"
                     android:layout_marginTop="@dimen/app_margin_screen"
+                    android:contentDescription="@string/desc"
                     app:layout_constraintRight_toRightOf="@+id/sign_et_age"
                     app:layout_constraintTop_toTopOf="@+id/sign_et_age" />
 
@@ -123,7 +125,7 @@
                 <EditText
                     android:id="@+id/sign_et_phone"
                     style="@style/sign_up_edit"
-                    android:layout_marginLeft="@dimen/margin_padding_20"
+                    android:layout_marginStart="@dimen/margin_padding_20"
                     android:hint="@string/must_fill"
                     android:inputType="phone"
                     android:maxLength="13"
@@ -169,8 +171,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:layout_marginBottom="@dimen/margin_padding_50"
-        android:layout_marginLeft="@dimen/app_margin_screen"
-        android:layout_marginRight="@dimen/app_margin_screen"
+        android:layout_marginStart="@dimen/app_margin_screen"
+        android:layout_marginEnd="@dimen/app_margin_screen"
         android:background="@drawable/shape_style_solid_01_08"
         android:elevation="80dp"
         android:padding="@dimen/margin_padding_2">
@@ -178,7 +180,7 @@
         <TextView
             android:id="@+id/sign_tv_price_curr"
             style="@style/common_text_price_curr"
-            android:layout_marginLeft="@dimen/margin_padding_30"
+            android:layout_marginStart="@dimen/margin_padding_30"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent"

@@ -58,7 +58,7 @@
         <TextView
             android:id="@+id/attr_view_tv_price"
             style="@style/common_text_price"
-            android:layout_marginLeft="@dimen/margin_padding_10"
+            android:layout_marginStart="@dimen/margin_padding_10"
             app:layout_constraintBaseline_toBaselineOf="@+id/attr_view_tv_price_curr"
             app:layout_constraintBottom_toBottomOf="@+id/attr_view_tv_price_curr"
             app:layout_constraintLeft_toRightOf="@+id/attr_view_tv_price_curr" />
@@ -73,7 +73,7 @@
         <TextView
             android:id="@+id/attr_view_tv_selected"
             style="@style/goods_text"
-            android:layout_marginLeft="@dimen/app_margin_screen"
+            android:layout_marginStart="@dimen/app_margin_screen"
             app:layout_constraintBottom_toBottomOf="@+id/attr_view_iv_show"
             app:layout_constraintLeft_toRightOf="@+id/attr_view_iv_show" />
 

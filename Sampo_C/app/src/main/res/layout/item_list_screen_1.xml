@@ -31,6 +31,7 @@
         android:paddingRight="@dimen/margin_padding_20"
         android:paddingBottom="@dimen/app_margin_screen"
         android:src="@drawable/selector_icon_gone"
+        android:contentDescription="@string/desc"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintRight_toRightOf="parent"/>
 

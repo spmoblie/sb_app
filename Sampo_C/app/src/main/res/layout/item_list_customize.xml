@@ -37,7 +37,7 @@
             android:textSize="@dimen/app_text_size_small"
             app:layout_constraintLeft_toRightOf="@+id/customize_item_tv_time"/>
 
-        <com.songbao.sampo_b.widgets.RoundImageView
+        <com.songbao.sampo_c.widgets.RoundImageView
             android:id="@+id/customize_item_iv_show"
             android:layout_width="@dimen/image_size_other"
             android:layout_height="@dimen/image_size_other"
