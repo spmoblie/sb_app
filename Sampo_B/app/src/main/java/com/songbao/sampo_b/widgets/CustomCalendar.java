@@ -539,7 +539,7 @@ public class CustomCalendar extends View {
     /**焦点滑动*/
     public void touchFocusMove(final PointF point, boolean eventEnd) {
         LogUtil.i(TAG, "点击坐标：(" + point.x + " ，" + point.y + "),事件是否结束：" + eventEnd);
-        /**标题和星期只有在事件结束后才响应*/
+        // 标题和星期只有在事件结束后才响应
         if(point.y<=titleHeight){
             //事件在标题上
             if(eventEnd && listener!=null){
@@ -567,7 +567,7 @@ public class CustomCalendar extends View {
                 }
             }
         }else{
-            /**日期部分按下和滑动时重绘，只有在事件结束后才响应*/
+            // 日期部分按下和滑动时重绘，只有在事件结束后才响应
             touchDay(point, eventEnd);
         }
     }

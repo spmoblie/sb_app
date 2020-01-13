@@ -19,6 +19,7 @@ import com.songbao.sampo_b.R;
 
 
 public class RoundImageView extends AppCompatImageView {
+
     /**
      * 圆形模式
      */
@@ -94,7 +95,7 @@ public class RoundImageView extends AppCompatImageView {
             final int saveCount = canvas.getSaveCount();
             canvas.save();
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
                 if (getCropToPadding()) {
                     final int scrollX = getScrollX();
                     final int scrollY = getScrollY();
@@ -105,14 +106,14 @@ public class RoundImageView extends AppCompatImageView {
             }
             canvas.translate(getPaddingLeft(), getPaddingTop());
             if (currMode == MODE_CIRCLE) {//当为圆形模式的时候
-                Bitmap bitmap = drawable2Bitmap(mDrawable);
-                mPaint.setShader(new BitmapShader(bitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP));
+                BitmapShader bitmapShader = new BitmapShader(drawable2Bitmap(mDrawable), Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
+                mPaint.setShader(bitmapShader);
                 canvas.drawCircle(getWidth() / 2, getHeight() / 2, getWidth() / 2, mPaint);
             } else if (currMode == MODE_ROUND) {//当为圆角模式的时候
-                Bitmap bitmap = drawable2Bitmap(mDrawable);
-                mPaint.setShader(new BitmapShader(bitmap, Shader.TileMode.CLAMP, Shader.TileMode.CLAMP));
-                canvas.drawRoundRect(new RectF(getPaddingLeft(), getPaddingTop(), getWidth() - getPaddingRight(), getHeight() - getPaddingBottom()),
-                        currRound, currRound, mPaint);
+                BitmapShader bitmapShader = new BitmapShader(drawable2Bitmap(mDrawable), Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
+                mPaint.setShader(bitmapShader);
+                RectF rectF = new RectF(getPaddingLeft(), getPaddingTop(), getWidth() - getPaddingRight(), getHeight() - getPaddingBottom());
+                canvas.drawRoundRect(rectF, currRound, currRound, mPaint);
             } else {
                 if (mDrawMatrix != null) {
                     canvas.concat(mDrawMatrix);

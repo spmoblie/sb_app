@@ -369,9 +369,9 @@ public class UserManager {
 		saveUserBirthday("");
 		saveUserArea("");
 		saveUserMoney("0.00");
-		// 清除缓存的头像
+		// 清除用户缓存头像
 		CleanDataManager.cleanCustomCache(AppConfig.SAVE_USER_HEAD_PATH);
-		// 清除缓存的数据
+		// 清除用户缓存数据
 		CleanDataManager.cleanCustomCache(AppConfig.SAVE_USER_DATA_PATH);
 	}
 

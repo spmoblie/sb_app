@@ -12,7 +12,7 @@ import java.io.File;
  * 清除应用缓存数据控制器 
  */  
 @SuppressLint("SdCardPath")
-public class CleanDataManager {  
+public class CleanDataManager {
 	
     /** 
      * 清除本应用内部缓存(/data/data/com.xxx.xxx/cache) 
@@ -29,7 +29,7 @@ public class CleanDataManager {
      * @param context 
      */  
     public static void cleanDatabases(Context context) {  
-        deleteFilesByDirectory(new File("/data/data/"+ context.getPackageName() + "/databases"));  
+        deleteFilesByDirectory(new File("/data/data/"+ context.getPackageName() + "/databases"));
     }  
   
     /** 
@@ -37,8 +37,8 @@ public class CleanDataManager {
      *  
      * @param context 
      */  
-    public static void cleanSharedPreference(Context context) {  
-        deleteFilesByDirectory(new File("/data/data/"+ context.getPackageName() + "/shared_prefs"));  
+    public static void cleanSharedPreference(Context context) {
+        deleteFilesByDirectory(new File("/data/data/"+ context.getPackageName() + "/shared_prefs"));
     }  
   
     /** 
@@ -123,10 +123,10 @@ public class CleanDataManager {
      * @param filepath 
      */  
     public static void cleanApplicationData(Context context, String... filepath) {  
-        cleanInternalCache(context);  
-        cleanExternalCache(context);  
-        //cleanDatabases(context);  
-        //cleanDatabaseByName(context, "stylistpark.db");
+        cleanInternalCache(context);
+        cleanExternalCache(context);
+        //cleanDatabases(context);
+        //cleanDatabaseByName(context, "sampo.db");
         cleanSharedPreference(context);  
         cleanFiles(context);  
         /*for (String filePath : filepath) {  

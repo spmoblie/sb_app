@@ -1,6 +1,5 @@
 package com.songbao.sampo_b.activity;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -351,7 +350,6 @@ public class BaseActivity extends FragmentActivity {
     /**
      * 设置右边按钮背景图片资源对象
      */
-    @SuppressLint("NewApi")
     protected void setRightViewBackground(Drawable btnRight) {
         setRightViewGone(View.VISIBLE);
         bt_right.setBackground(btnRight);
@@ -736,7 +734,6 @@ public class BaseActivity extends FragmentActivity {
     /**
      * 切换View背景的状态
      */
-    @SuppressLint("NewApi")
     protected void changeViewState(View view, boolean isState) {
         if (view == null) return;
         if (isState) {
