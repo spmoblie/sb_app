@@ -167,12 +167,14 @@
                 android:text="@string/goods_go_customize"
                 android:textColor="@color/app_color_white"
                 android:textSize="@dimen/app_text_size_content"
-                android:textStyle="bold" />
+                android:textStyle="bold"
+                android:visibility="gone"/>
 
             <TextView
                 android:id="@+id/cart_item_tv_delete"
                 android:layout_width="60dp"
                 android:layout_height="match_parent"
+                android:layout_marginStart="@dimen/app_margin_screen"
                 android:background="@drawable/shape_style_solid_05_16"
                 android:gravity="center"
                 android:text="@string/delete"

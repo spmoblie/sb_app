@@ -462,9 +462,9 @@ public class BaseActivity extends FragmentActivity {
     /**
      * 打开商品详情页
      */
-    protected void openGoodsActivity(String goodsCode) {
+    protected void openGoodsActivity(String skuCode) {
         Intent intent = new Intent(mContext, GoodsActivity.class);
-        intent.putExtra("goodsCode", goodsCode);
+        intent.putExtra("skuCode", skuCode);
         startActivity(intent);
     }
 
@@ -1344,6 +1344,10 @@ public class BaseActivity extends FragmentActivity {
         } else {
             popupShowMain.startAnimation(popupAnimShow);
             cartPopupWindow.showAtLocation(cartPopupView, Gravity.BOTTOM, 0, 0);
+            if (rv_Adapter != null) {
+                rv_Adapter.updateData(attrEn, secEn);
+                updatePopupView();
+            }
         }
     }
 

@@ -192,6 +192,8 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 			tv_top_5.setOnClickListener(this);
 			tv_top_5.setVisibility(View.VISIBLE);
 			editTextFocusAndClear(et_search);
+		} else {
+			hideSoftInput(et_search);
 		}
 	}
 
@@ -781,6 +783,7 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 		map.put("isNews", String.valueOf(isNews));
 		map.put("isRecommend", String.valueOf(isRecommend));
 		map.put("orderByKey", String.valueOf(top_type));
+		map.put("sourceType", "1");
 		if (sort_type > 0) {
 			map.put("sortByNum", String.valueOf(sort_type));
 		}

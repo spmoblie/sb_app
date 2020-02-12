@@ -276,6 +276,7 @@ public class ChildFragmentTwo extends BaseFragment implements OnClickListener {
 		isLoadOk = false;
 		HashMap<String, String> map = new HashMap<>();
 		map.put("refCatCode", postSortCode);
+		map.put("sourceType", "1");
 		loadSVData(AppConfig.URL_SORT_GOODS, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_SORT_GOODS);
 	}
 

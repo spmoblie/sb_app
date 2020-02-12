@@ -21,8 +21,9 @@ public class AppConfig {
 	// Base域名
 	public final static String BASE_URL_1 = APP_HTTPS + "xiaobao.sbwg.cn/";
 	// Base域名
-	public final static String BASE_URL_2 = APP_HTTP + "192.168.1.110:8080/";
-	public final static String BASE_URL_3 = APP_HTTP + "192.168.1.100:8802/";
+	public final static String BASE_URL_2 = APP_HTTP + "xiaobao.sbwg.cn/";
+//	public final static String BASE_URL_2 = APP_HTTP + "192.168.1.110:8080/";
+	public final static String BASE_URL_3 = APP_HTTP + "172.16.189.198:8802/";
 	// 图片域名
 	public final static String IMAGE_URL = "file:///android_asset/";
 	// 推广域名
@@ -105,12 +106,16 @@ public class AppConfig {
 	public final static String URL_GOODS_ATTR = "app/shopping/goodsInfo/findAttrValueAll";
 	// 商品评价
 	public final static String URL_GOODS_COMMENT = "app/shopping/goodsInfo/goodsInfoEvaluation";
-	// 添加购物车
-	public final static String URL_CART_ADD = "app/cart/addCart";
-	// 购物车商品
-	public final static String URL_CART_GET = "app/cart/getCart";
+	// 添加购物车商品
+	public final static String URL_CART_ADD = "trade/app/cart/add";
+	// 获取购物车商品
+	public final static String URL_CART_GET = "trade/app/cart/index";
+	// 修改购物车商品
+	public final static String URL_CART_UPDATE = "trade/app/cart/update";
+	// 删除购物车商品
+	public final static String URL_CART_DELETE = "trade/app/cart/delete";
 	// 设计师列表
-	public final static String URL_DESIGN_ALL = "app/design/all";
+	public final static String URL_DESIGN_ALL = "trade/app/design/all";
 
 	// 我的地址
 	public final static String URL_ADDRESS_LIST = "trade/app/consignee/list";
@@ -241,6 +246,10 @@ public class AppConfig {
 	public static final int REQUEST_SV_CART_ADD = 0X4010;
 	// 获取购物车商品
 	public static final int REQUEST_SV_CART_GET = 0X4011;
+	// 修改购物车商品
+	public static final int REQUEST_SV_CART_UPDATE = 0X4012;
+	// 删除购物车商品
+	public static final int REQUEST_SV_CART_DELETE = 0X4013;
 
 	// 我的地址
 	public static final int REQUEST_SV_ADDRESS_LIST = 0X4101;

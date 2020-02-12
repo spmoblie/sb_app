@@ -327,9 +327,7 @@ public class UserManager {
 	 * 判定是否登录
 	 */
 	public boolean checkIsLogin(){
-		return !StringUtil.isNull(getXAppToken())
-			&& !StringUtil.isNull(getUserId())
-			&& !getUserId().equals("0");
+		return !StringUtil.isNull(getXAppToken());
 	}
 
 	/**
