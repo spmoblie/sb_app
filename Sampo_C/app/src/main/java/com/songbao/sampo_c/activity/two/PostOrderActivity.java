@@ -18,6 +18,7 @@ import com.songbao.sampo_c.adapter.AdapterCallback;
 import com.songbao.sampo_c.adapter.GoodsOrder2Adapter;
 import com.songbao.sampo_c.entity.AddressEntity;
 import com.songbao.sampo_c.entity.BaseEntity;
+import com.songbao.sampo_c.entity.CartEntity;
 import com.songbao.sampo_c.entity.GoodsEntity;
 import com.songbao.sampo_c.entity.OPurchaseEntity;
 import com.songbao.sampo_c.entity.ThemeEntity;
@@ -25,14 +26,18 @@ import com.songbao.sampo_c.utils.CommonTools;
 import com.songbao.sampo_c.utils.ExceptionUtil;
 import com.songbao.sampo_c.utils.JsonUtils;
 import com.songbao.sampo_c.utils.LogUtil;
+import com.songbao.sampo_c.utils.StringUtil;
 import com.songbao.sampo_c.utils.retrofit.HttpRequests;
 import com.songbao.sampo_c.widgets.ScrollViewListView;
 import com.songbao.sampo_c.wxapi.WXPayEntryActivity;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import butterknife.BindView;
 
@@ -82,7 +87,9 @@ public class PostOrderActivity extends BaseActivity implements View.OnClickListe
     GoodsOrder2Adapter lv_Adapter;
 
     private OPurchaseEntity opEn;
+    private AddressEntity addEn;
     private int addressId = 0;
+    private double payPrice = 0;
     private ArrayList<GoodsEntity> al_goods = new ArrayList<>();
 
     @Override
@@ -99,39 +106,43 @@ public class PostOrderActivity extends BaseActivity implements View.OnClickListe
         address_main.setOnClickListener(this);
         tv_confirm.setOnClickListener(this);
 
-        initDemoData();
+        loadOrderData();
+        loadAddressData();
     }
 
     private void initShowData() {
         if (opEn != null) {
-            AddressEntity addEn = opEn.getAddEn();
-            if (addEn != null) {
-                tv_address_district.setText(addEn.getDistrict());
-                tv_address_detail.setText(addEn.getAddress());
-                tv_address_name.setText(getString(R.string.address_name_phone, addEn.getName(), addEn.getPhone()));
-
-                addressId = addEn.getId();
-                if (userManager.getDefaultAddressId() == addressId) {
-                    tv_address_status.setVisibility(View.VISIBLE);
-                } else {
-                    tv_address_status.setVisibility(View.GONE);
-                }
-                tv_address_add.setVisibility(View.GONE);
-                tv_address_group.setVisibility(View.VISIBLE);
-            } else {
-                tv_address_add.setVisibility(View.VISIBLE);
-                tv_address_group.setVisibility(View.GONE);
-                tv_address_status.setVisibility(View.GONE);
-            }
-
             al_goods.clear();
             al_goods.addAll(opEn.getGoodsLists());
             initListView();
+            initAddressView();
 
+            payPrice = opEn.getTotalPrice();
             tv_price_goods.setText(getString(R.string.order_rmb, df.format(opEn.getGoodsPrice())));
             tv_price_freight.setText(getString(R.string.order_rmb_add, df.format(opEn.getFreightPrice())));
             tv_price_discount.setText(getString(R.string.order_rmb_minus, df.format(opEn.getDiscountPrice())));
-            tv_price_total.setText(df.format(opEn.getTotalPrice()));
+            tv_price_total.setText(df.format(payPrice));
+        }
+    }
+
+    private void initAddressView() {
+        if (addEn != null) {
+            tv_address_district.setText(addEn.getDistrict());
+            tv_address_detail.setText(addEn.getAddress());
+            tv_address_name.setText(getString(R.string.address_name_phone, addEn.getName(), addEn.getPhone()));
+
+            addressId = addEn.getId();
+            if (userManager.getDefaultAddressId() == addressId) {
+                tv_address_status.setVisibility(View.VISIBLE);
+            } else {
+                tv_address_status.setVisibility(View.GONE);
+            }
+            tv_address_add.setVisibility(View.GONE);
+            tv_address_group.setVisibility(View.VISIBLE);
+        } else {
+            tv_address_add.setVisibility(View.VISIBLE);
+            tv_address_group.setVisibility(View.GONE);
+            tv_address_status.setVisibility(View.GONE);
         }
     }
 
@@ -161,7 +172,9 @@ public class PostOrderActivity extends BaseActivity implements View.OnClickListe
                 startActivityForResult(intent, AppConfig.ACTIVITY_CODE_SELECT_ADDS);
                 break;
             case R.id.post_order_tv_confirm:
-                if (addressId <= 0) {
+                if (addressId > 0) {
+                    postOrderData();
+                } else {
                     CommonTools.showToast("您还没有填写收货地址");
                 }
                 break;
@@ -196,40 +209,98 @@ public class PostOrderActivity extends BaseActivity implements View.OnClickListe
      */
     private void dataErrorHandle() {
         showDataError();
-        loadServerData();
+        loadOrderData();
     }
 
     /**
      * 加载数据
      */
-    private void loadServerData() {
+    private void loadOrderData() {
         HashMap<String, String> map = new HashMap<>();
-        map.put("activityId", "");
-        loadSVData(AppConfig.URL_ACTIVITY_DETAIL, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_ACTIVITY_DETAIL);
+        loadSVData(AppConfig.BASE_URL_3, AppConfig.URL_ORDER_FILL, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_ORDER_FILL);
+    }
+
+    /**
+     * 加载地址列表
+     */
+    private void loadAddressData() {
+        HashMap<String, String> map = new HashMap<>();
+        loadSVData(AppConfig.BASE_URL_3, AppConfig.URL_ADDRESS_LIST, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_ADDRESS_LIST);
+    }
+
+    /**
+     * 提交订单
+     */
+    private void postOrderData() {
+        try {
+            JSONObject jsonObj = new JSONObject();
+            jsonObj.put("consigneeId", addressId);
+            postJsonData(AppConfig.BASE_URL_3, AppConfig.URL_ORDER_CREATE, jsonObj, AppConfig.REQUEST_SV_ORDER_CREATE);
+        } catch (JSONException e) {
+            ExceptionUtil.handle(e);
+        }
     }
 
     /**
      * 在线支付
      */
-    private void startPay() {
+    private void startPay(String orderNo) {
         Intent intent = new Intent(mContext, WXPayEntryActivity.class);
         intent.putExtra(AppConfig.PAGE_TYPE, 1);
-        intent.putExtra("orderSn", "");
-        intent.putExtra("orderTotal", df.format(0));
+        intent.putExtra("orderSn", orderNo);
+        intent.putExtra("orderTotal", df.format(payPrice));
         startActivityForResult(intent, AppConfig.ACTIVITY_CODE_PAY_DATA);
     }
 
     @Override
     protected void callbackData(JSONObject jsonObject, int dataType) {
-        BaseEntity<ThemeEntity> baseEn;
+        BaseEntity<OPurchaseEntity> baseEn;
         try {
             switch (dataType) {
-                case AppConfig.REQUEST_SV_ACTIVITY_DETAIL:
-                    baseEn = JsonUtils.getThemeDetail(jsonObject);
+                case AppConfig.REQUEST_SV_ORDER_FILL:
+                    baseEn = JsonUtils.getOrderFillData(jsonObject);
                     if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
-                        //setView(baseEn.getData());
+                        opEn = baseEn.getData();
+                        initShowData();
                     } else {
                         handleErrorCode(baseEn);
+                    }
+                    break;
+                case AppConfig.REQUEST_SV_ADDRESS_LIST:
+                    BaseEntity<AddressEntity> addList = JsonUtils.getAddressListData(jsonObject);
+                    if (addList.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
+                        List<AddressEntity> lists = addList.getLists();
+                        if (lists != null && lists.size() > 0) {
+                            AddressEntity item;
+                            for (int i = 0; i < lists.size(); i++) {
+                                item = lists.get(i);
+                                if (item != null && item.isDefault()) {
+                                    addEn = item;
+                                    break;
+                                }
+                            }
+                            initAddressView();
+                        }
+                    } else if (addList.getErrNo() == AppConfig.ERROR_CODE_TIMEOUT) {
+                        handleTimeOut();
+                        finish();
+                    } else {
+                        handleErrorCode(addList);
+                    }
+                    break;
+                case AppConfig.REQUEST_SV_ORDER_CREATE:
+                    BaseEntity resultEn = JsonUtils.getPayOrderOn(jsonObject);
+                    if (resultEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
+                        String orderNo = resultEn.getOthers();
+                        if (!StringUtil.isNull(orderNo)) {
+                            startPay(orderNo);
+                            AppApplication.updateCartData(true);
+                            finish();
+                        } else {
+                            loadFailHandle();
+                        }
+                    } else {
+                        showSuccessDialog(resultEn.getErrMsg(), false);
                     }
                     break;
             }
@@ -249,50 +320,11 @@ public class PostOrderActivity extends BaseActivity implements View.OnClickListe
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
             if (requestCode == AppConfig.ACTIVITY_CODE_SELECT_ADDS) {
-                AddressEntity selectEn = (AddressEntity) data.getSerializableExtra(AppConfig.PAGE_DATA);
-                opEn.setAddEn(selectEn);
-                initShowData();
+                addEn = (AddressEntity) data.getSerializableExtra(AppConfig.PAGE_DATA);
+                initAddressView();
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
-    }
-
-    private void initDemoData() {
-        opEn = new OPurchaseEntity();
-
-        // 地址
-        AddressEntity addEn = new AddressEntity();
-        addEn.setId(2);
-        addEn.setDistrict("广东省深圳市南山区");
-        addEn.setAddress("粤海街道科发路大冲城市花园5栋16B");
-        addEn.setName("张先生");
-        addEn.setPhone("15899771986");
-        opEn.setAddEn(addEn);
-
-        // 明细
-        opEn.setGoodsPrice(8997);
-        opEn.setFreightPrice(0);
-        opEn.setDiscountPrice(100);
-        opEn.setTotalPrice(8897);
-
-        // 商品
-        ArrayList<GoodsEntity> lists = new ArrayList<>();
-        GoodsEntity goodsEn;
-        for (int j = 0; j < 2; j++) {
-            goodsEn = new GoodsEntity();
-            int is = j + 1;
-            goodsEn.setId(is);
-            goodsEn.setPicUrl(AppConfig.IMAGE_URL + "design_001.png");
-            goodsEn.setName("松堡王国现代简约彩条双层床松堡王国现代简约彩条双层床");
-            goodsEn.setAttribute("天蓝色；1350*1900天蓝色；1350*1900");
-            goodsEn.setNumber(is);
-            goodsEn.setPrice(2999);
-
-            lists.add(goodsEn);
-        }
-        opEn.setGoodsLists(lists);
-
-        initShowData();
     }
 
 }

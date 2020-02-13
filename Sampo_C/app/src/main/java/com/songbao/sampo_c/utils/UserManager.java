@@ -150,13 +150,13 @@ public class UserManager {
 
 	public String getUserHead(){
 		if(StringUtil.isNull(mUserHead)){
-			mUserHead = sp.getString(AppConfig.KEY_USER_HEAD_URL, "");
+			mUserHead = sp.getString(AppConfig.KEY_USER_HEAD, "");
 		}
 		return mUserHead;
 	}
 
 	public void saveUserHead(String userHead){
-		editor.putString(AppConfig.KEY_USER_HEAD_URL, userHead).apply();
+		editor.putString(AppConfig.KEY_USER_HEAD, userHead).apply();
 		mUserHead = userHead;
 	}
 
@@ -243,11 +243,11 @@ public class UserManager {
 	}
 
 	public int getDefaultAddressId(){
-		return sp.getInt(AppConfig.KEY_USER_DEFAULT_ADDRESS_ID, 0);
+		return sp.getInt(AppConfig.KEY_USER_ADDRESS_ID, 0);
 	}
 
 	public void saveDefaultAddressId(int addressId){
-		editor.putInt(AppConfig.KEY_USER_DEFAULT_ADDRESS_ID, addressId).commit();
+		editor.putInt(AppConfig.KEY_USER_ADDRESS_ID, addressId).commit();
 		mDefaultAddressId= addressId;
 	}
 

@@ -69,7 +69,7 @@ public class CartActivity extends BaseActivity implements View.OnClickListener {
     private double totalPrice;
     private boolean isSelectAll;
     private boolean isManage;
-    private ArrayList<Integer> deleteIds = new ArrayList<>();
+    private ArrayList<Integer> selectIds = new ArrayList<>();
     private ArrayList<CartEntity> al_show = new ArrayList<>();
     private ArrayMap<String, Boolean> am_show = new ArrayMap<>();
 
@@ -77,6 +77,8 @@ public class CartActivity extends BaseActivity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
+
+        AppApplication.updateCartData(true);
 
         initView();
     }
@@ -90,7 +92,6 @@ public class CartActivity extends BaseActivity implements View.OnClickListener {
 
         initRecyclerView();
         updateListData();
-        loadMoreData();
     }
 
     private void initRecyclerView() {
@@ -168,21 +169,21 @@ public class CartActivity extends BaseActivity implements View.OnClickListener {
                         case 3: //减少
                             if (buyNumber > 1) {
                                 buyNumber--;
-                                updateCartGoods(cartEn.getId(), buyNumber, goodsEn.getSkuCode());
+                                updateGoodsNumber(cartEn.getId(), buyNumber, goodsEn.getSkuCode());
                             } else {
                                 CommonTools.showToast("不能再减少了哟~");
                             }
                             break;
                         case 4: //增加
                             buyNumber++;
-                            updateCartGoods(cartEn.getId(), buyNumber, goodsEn.getSkuCode());
+                            updateGoodsNumber(cartEn.getId(), buyNumber, goodsEn.getSkuCode());
                             break;
                         case 5: //定制
                             openDesignerActivity(goodsEn.getSkuCode());
                             break;
                         case 6: //删除
                             al_show.get(position).setSelect(true);
-                            deleteSelectItem();
+                            handleSelectItem(0);
                             break;
                         case 7: //滚动
                             rvAdapter.reset(mPosition);
@@ -205,19 +206,23 @@ public class CartActivity extends BaseActivity implements View.OnClickListener {
     }
 
     /**
-     * 删除选择的商品
+     * 对选择的商品进行处理
      */
-    private void deleteSelectItem() {
-        deleteIds.clear();
+    private void handleSelectItem(int type) {
+        selectIds.clear();
         CartEntity cartEn;
         for (int i = 0; i < al_show.size(); i++) {
             cartEn = al_show.get(i);
             if (cartEn.isSelect()) {
-                deleteIds.add(cartEn.getId());
+                selectIds.add(cartEn.getId());
             }
         }
-        if (deleteIds.size() > 0) {
-            deleteCartGoods();
+        if (selectIds.size() > 0) {
+            if (type == 1) { //结算
+                checkedCartGoods();
+            } else { //删除
+                deleteCartGoods();
+            }
         }
     }
 
@@ -288,7 +293,7 @@ public class CartActivity extends BaseActivity implements View.OnClickListener {
     @Override
     protected void updateSelectAttrStr(GoodsAttrEntity attrEn) {
         if (attrEn != null) {
-            updateCartGoods(al_show.get(mPosition).getId(), attrEn.getBuyNum(), attrEn.getSkuCode());
+            updateGoodsAttr(al_show.get(mPosition).getId(), al_show.get(mPosition).getGoodsEn().getGoodsCode(), attrEn);
         }
     }
 
@@ -309,10 +314,10 @@ public class CartActivity extends BaseActivity implements View.OnClickListener {
                 break;
             case R.id.cart_view_tv_confirm:
                 if (isManage) { //删除
-                    deleteSelectItem();
+                    handleSelectItem(0);
                 } else { //结算
                     if (totalNum > 0) {
-                        openActivity(PostOrderActivity.class);
+                        handleSelectItem(1);
                     } else {
                         CommonTools.showToast("请选择结算的商品");
                     }
@@ -326,6 +331,11 @@ public class CartActivity extends BaseActivity implements View.OnClickListener {
         LogUtil.i(LogUtil.LOG_TAG, TAG + ": onResume");
         // 页面开始
         AppApplication.onPageStart(this, TAG);
+
+        if (shared.getBoolean(AppConfig.KEY_UPDATE_CART_DATA, true)) {
+            updateAllData();
+            AppApplication.updateCartData(false);
+        }
 
         super.onResume();
     }
@@ -376,9 +386,9 @@ public class CartActivity extends BaseActivity implements View.OnClickListener {
     }
 
     /**
-     * 修改购物车商品数量、属性
+     * 修改购物车商品数量
      */
-    private void updateCartGoods(int cartId, int buyNum, String skuCode) {
+    private void updateGoodsNumber(int cartId, int buyNum, String skuCode) {
         try {
             JSONObject jsonObj = new JSONObject();
             jsonObj.put("id", cartId);
@@ -391,14 +401,45 @@ public class CartActivity extends BaseActivity implements View.OnClickListener {
     }
 
     /**
+     * 修改购物车商品属性
+     */
+    private void updateGoodsAttr(int cartId, String goodsCode, GoodsAttrEntity attrEn) {
+        try {
+            JSONObject jsonObj = new JSONObject();
+            jsonObj.put("id", cartId);
+            jsonObj.put("goodsCode", goodsCode);
+            jsonObj.put("skuCode", attrEn.getSkuCode());
+            jsonObj.put("buyNum", attrEn.getBuyNum());
+            postJsonData(AppConfig.BASE_URL_3, AppConfig.URL_CART_ADD, jsonObj, AppConfig.REQUEST_SV_CART_UPDATE);
+        } catch (JSONException e) {
+            ExceptionUtil.handle(e);
+        }
+    }
+
+    /**
      * 删除购物车商品
      */
     private void deleteCartGoods() {
         try {
-            JSONArray ids = new JSONArray(deleteIds);
+            JSONArray ids = new JSONArray(selectIds);
             JSONObject jsonObj = new JSONObject();
             jsonObj.put("ids", ids);
             postJsonData(AppConfig.BASE_URL_3, AppConfig.URL_CART_DELETE, jsonObj, AppConfig.REQUEST_SV_CART_DELETE);
+        } catch (JSONException e) {
+            ExceptionUtil.handle(e);
+        }
+    }
+
+    /**
+     * 结算购物车商品
+     */
+    private void checkedCartGoods() {
+        startAnimation();
+        try {
+            JSONArray ids = new JSONArray(selectIds);
+            JSONObject jsonObj = new JSONObject();
+            jsonObj.put("ids", ids);
+            postJsonData(AppConfig.BASE_URL_3, AppConfig.URL_CART_CHECKED, jsonObj, AppConfig.REQUEST_SV_CART_CHECKED);
         } catch (JSONException e) {
             ExceptionUtil.handle(e);
         }
@@ -432,6 +473,17 @@ public class CartActivity extends BaseActivity implements View.OnClickListener {
                     baseEn = JsonUtils.getBaseErrorData(jsonObject);
                     if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
                         updateAllData();
+                    } else if (baseEn.getErrNo() == AppConfig.ERROR_CODE_TIMEOUT) {
+                        handleTimeOut();
+                        finish();
+                    } else {
+                        handleErrorCode(baseEn);
+                    }
+                    break;
+                case AppConfig.REQUEST_SV_CART_CHECKED:
+                    baseEn = JsonUtils.getBaseErrorData(jsonObject);
+                    if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
+                        openActivity(PostOrderActivity.class);
                     } else if (baseEn.getErrNo() == AppConfig.ERROR_CODE_TIMEOUT) {
                         handleTimeOut();
                         finish();

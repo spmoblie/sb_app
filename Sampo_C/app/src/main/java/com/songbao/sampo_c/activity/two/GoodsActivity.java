@@ -184,7 +184,6 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
         indicatorsLP = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         indicatorsLP.setMargins(ind_margin, 0, 0, 0);
 
-        //initDemoData();
         initRadioGroup();
         initScrollView();
         loadGoodsData();
@@ -710,66 +709,6 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
     protected void loadFailHandle() {
         super.loadFailHandle();
         handleErrorCode(null);
-    }
-
-    private void initDemoData() {
-        goodsEn = new GoodsEntity();
-        goodsEn.setId(1);
-
-        GoodsAttrEntity attrEn = new GoodsAttrEntity();
-        attrEn.setBuyNum(1);
-        attrEn.setS_id_1(10);
-        attrEn.setS_id_2(20);
-        attrEn.setS_name_1("天蓝色");
-        attrEn.setS_name_2("1200*1900");
-        attrEn.setAttrNameStr("天蓝色; 1200*1900");
-        goodsEn.setAttrEn(attrEn);
-
-        al_image.add(AppConfig.IMAGE_URL + "design_001.png");
-        al_image.add(AppConfig.IMAGE_URL + "design_004.png");
-        al_image.add(AppConfig.IMAGE_URL + "design_006.png");
-
-        al_detail.add(AppConfig.IMAGE_URL + "design_001.png");
-        al_detail.add(AppConfig.IMAGE_URL + "design_004.png");
-        al_detail.add(AppConfig.IMAGE_URL + "design_001.png");
-        al_detail.add(AppConfig.IMAGE_URL + "design_004.png");
-        al_detail.add(AppConfig.IMAGE_URL + "design_001.png");
-        al_detail.add(AppConfig.IMAGE_URL + "design_004.png");
-
-        CommentEntity childEn;
-        for (int i = 0; i < 2; i++) {
-            childEn = new CommentEntity();
-            childEn.setId(i + 1);
-            childEn.setNick("草莓味的冰淇淋");
-            childEn.setGoodsAttr("天蓝色；1350*1900");
-            childEn.setAddTime("2019/12/25");
-            childEn.setContent("很不错，稳固，用料足，没有味道，安装师傅说质量很好，值得购买，还会回购");
-
-            if (i == 0) {
-                childEn.setStarNum(2);
-                ArrayList<String> imgList = new ArrayList<>();
-                imgList.add(AppConfig.IMAGE_URL + "design_001.png");
-                imgList.add(AppConfig.IMAGE_URL + "design_004.png");
-                imgList.add(AppConfig.IMAGE_URL + "design_006.png");
-                childEn.setImgList(imgList);
-                childEn.setImg(true);
-
-                childEn.setAddDay(26);
-                childEn.setAddContent("床垫搭配效果很不错，非常满意，床垫搭配效果很不错，非常满意。");
-            } else if (i == 1) {
-                childEn.setStarNum(3);
-                ArrayList<String> imgList = new ArrayList<>();
-                imgList.add(AppConfig.IMAGE_URL + "design_001.png");
-                imgList.add(AppConfig.IMAGE_URL + "design_004.png");
-                imgList.add(AppConfig.IMAGE_URL + "design_006.png");
-                imgList.add(AppConfig.IMAGE_URL + "design_001.png");
-                imgList.add(AppConfig.IMAGE_URL + "design_004.png");
-                childEn.setImgList(imgList);
-                childEn.setImg(true);
-            }
-
-            al_comment.add(childEn);
-        }
     }
 
 }

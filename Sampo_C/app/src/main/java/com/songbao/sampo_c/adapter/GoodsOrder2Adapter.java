@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.songbao.sampo_c.AppApplication;
 import com.songbao.sampo_c.R;
+import com.songbao.sampo_c.entity.GoodsAttrEntity;
 import com.songbao.sampo_c.entity.GoodsEntity;
 import com.songbao.sampo_c.widgets.RoundImageView;
 
@@ -59,9 +60,13 @@ public class GoodsOrder2Adapter extends AppBaseAdapter {
 				.into(holder.iv_show);
 
 		holder.tv_name.setText(data.getName());
-		holder.tv_attr.setText(data.getAttribute());
 		holder.tv_price.setText(df.format(data.getPrice()));
-		holder.tv_number.setText(context.getString(R.string.cart_goods_num, data.getNumber()));
+
+		GoodsAttrEntity attrEn = data.getAttrEn();
+		if (attrEn != null) {
+			holder.tv_attr.setText(attrEn.getAttrNameStr());
+			holder.tv_number.setText(context.getString(R.string.cart_goods_num, attrEn.getBuyNum()));
+		}
 
 		holder.item_main.setOnClickListener(new OnClickListener() {
 			

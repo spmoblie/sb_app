@@ -216,7 +216,7 @@ public class AddressActivity extends BaseActivity implements View.OnClickListene
             int addId = al_show.get(i).getId();
             if (addId == selectId) {
                 al_show.get(i).setSelect(true);
-                break; //匹配到默认项，结束循环
+                break; //匹配到选中项，结束循环
             } else {
                 al_show.get(i).setSelect(false);
             }

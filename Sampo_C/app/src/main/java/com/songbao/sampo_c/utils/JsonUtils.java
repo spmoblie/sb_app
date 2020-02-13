@@ -1079,6 +1079,83 @@ public class JsonUtils {
     }
 
     /**
+     * 解析填写订单数据
+     */
+    public static BaseEntity<OPurchaseEntity> getOrderFillData(JSONObject jsonObject) throws JSONException {
+        BaseEntity<OPurchaseEntity> mainEn = getCommonKeyValue(jsonObject);
+
+        if (StringUtil.notNull(jsonObject, "data")) {
+            JSONObject jsonData = jsonObject.getJSONObject("data");
+            OPurchaseEntity opEn = new OPurchaseEntity();
+
+            // 明细
+            opEn.setGoodsPrice(jsonData.getDouble("cartPrice"));
+            opEn.setFreightPrice(jsonData.getDouble("logisticsPrice"));
+            opEn.setDiscountPrice(jsonData.getDouble("favourablePrice"));
+            opEn.setTotalPrice(jsonData.getDouble("countprice"));
+
+            // 商品
+            if (StringUtil.notNull(jsonData, "cartItem")) {
+                JSONArray data = jsonData.getJSONArray("cartItem");
+                GoodsEntity goodsEn;
+                GoodsAttrEntity attrEn;
+                List<GoodsEntity> lists = new ArrayList<>();
+                for (int i = 0; i < data.length(); i++) {
+                    JSONObject item = data.getJSONObject(i);
+
+                    goodsEn = new GoodsEntity();
+                    goodsEn.setGoodsCode(item.getString("goodsCode"));
+                    goodsEn.setSkuCode(item.getString("skuCode"));
+                    goodsEn.setPicUrl(item.getString("goodsPic"));
+                    goodsEn.setName(item.getString("goodsName"));
+                    goodsEn.setPrice(item.getDouble("buyPrice"));
+
+                    // 商品已选属性
+                    String attrIds = item.getString("attrIds");
+                    attrEn = new GoodsAttrEntity();
+                    String[] ids = attrIds.split(",");
+                    for (int j = 0; j < ids.length; j++) {
+                        switch (j) {
+                            case 0:
+                                attrEn.setS_id_1(Integer.valueOf(ids[j]));
+                                break;
+                            case 1:
+                                attrEn.setS_id_2(Integer.valueOf(ids[j]));
+                                break;
+                            case 2:
+                                attrEn.setS_id_3(Integer.valueOf(ids[j]));
+                                break;
+                        }
+                    }
+                    String attrNames = item.getString("skuComboName");
+                    String[] names = attrNames.split(" ");
+                    for (int k = 0; k < names.length; k++) {
+                        switch (k) {
+                            case 0:
+                                attrEn.setS_name_1(names[k]);
+                                break;
+                            case 1:
+                                attrEn.setS_name_2(names[k]);
+                                break;
+                            case 2:
+                                attrEn.setS_name_3(names[k]);
+                                break;
+                        }
+                    }
+                    attrEn.setAttrNameStr(attrNames);
+                    attrEn.setBuyNum(item.getInt("buyNum"));
+                    goodsEn.setAttrEn(attrEn);
+
+                    lists.add(goodsEn);
+                }
+                opEn.setGoodsLists(lists);
+            }
+            mainEn.setData(opEn);
+        }
+        return mainEn;
+    }
+
+    /**
      * 解析地址列表数据
      */
     public static BaseEntity<AddressEntity> getAddressListData(JSONObject jsonObject) throws JSONException {
