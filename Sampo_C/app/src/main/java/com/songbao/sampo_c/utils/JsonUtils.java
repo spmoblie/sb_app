@@ -394,58 +394,106 @@ public class JsonUtils {
     }
 
     /**
-     * 解析我的购买数据
+     * 解析订单列表数据
      */
-    public static BaseEntity getMyPurchaseData(JSONObject jsonObject) throws JSONException {
-        BaseEntity mainEn = getCommonKeyValue(jsonObject);
+    public static BaseEntity<OPurchaseEntity> getOrderListData(JSONObject jsonObject) throws JSONException {
+        BaseEntity<OPurchaseEntity> mainEn = getCommonKeyValue(jsonObject);
 
         if (StringUtil.notNull(jsonObject, "data")) {
             JSONObject jsonData = jsonObject.getJSONObject("data");
             if (StringUtil.notNull(jsonData, "total")) {
                 mainEn.setDataTotal(jsonData.getInt("total"));
             }
-            if (StringUtil.notNull(jsonData, "activityList")) {
-                JSONArray data = jsonData.getJSONArray("activityList");
+            if (StringUtil.notNull(jsonData, "records")) {
+                JSONArray data = jsonData.getJSONArray("records");
                 OPurchaseEntity childEn;
                 GoodsEntity goodsEn;
-                GoodsSaleEntity saleEn;
                 List<OPurchaseEntity> lists = new ArrayList<>();
                 for (int i = 0; i < data.length(); i++) {
                     JSONObject item = data.getJSONObject(i);
                     childEn = new OPurchaseEntity();
-                    int id = i + 1;
-                    childEn.setId(id);
-                    childEn.setGoodsNum(id);
-                    childEn.setTotalPrice(5908);
-                    childEn.setAddTime("2019-11-18 18:18");
-                    childEn.setStatus(id);
+                    childEn.setId(item.getInt("id"));
+                    childEn.setOrderNo(item.getString("orderCode"));
+                    childEn.setGoodsNum(item.getInt("goodCount"));
+                    childEn.setTotalPrice(item.getDouble("orderPrice"));
+                    childEn.setAddTime(item.getString("createTime"));
+                    childEn.setStatus(item.getInt("orderStatus"));
 
-                    List<GoodsEntity> goods = new ArrayList<>();
-                    for (int j = 0; j < 2; j++) {
+                    JSONArray goodsAry = item.getJSONArray("orderGoods");
+                    List<GoodsEntity> goodsList = new ArrayList<>();
+                    for (int j = 0; j < goodsAry.length(); j++) {
+                        JSONObject goodsObj = goodsAry.getJSONObject(j);
                         goodsEn = new GoodsEntity();
-                        int is = id * 10 + j;
-                        goodsEn.setId(is);
-                        goodsEn.setSkuCode("10000000029345500001");
-                        goodsEn.setPicUrl(AppConfig.IMAGE_URL + "design_001.png");
-                        goodsEn.setName("松堡王国现代简约彩条双层床");
-                        goodsEn.setAttribute("天蓝色；1350*1900");
-                        goodsEn.setNumber(is);
-                        goodsEn.setPrice(2999);
-                        goodsEn.setSaleStatus(1);
-                        goodsEn.setCommentStatus(4);
-                        goods.add(goodsEn);
-
-                        if (j == 1) {
-                            goodsEn.setSaleStatus(2);
-                            goodsEn.setCommentStatus(3);
-                        }
+                        goodsEn.setGoodsCode(goodsObj.getString("goodsCode"));
+                        goodsEn.setSkuCode(goodsObj.getString("skuCode"));
+                        goodsEn.setPicUrl(goodsObj.getString("goodsPic"));
+                        goodsEn.setName(goodsObj.getString("goodsName"));
+                        goodsEn.setPrice(goodsObj.getDouble("buyPrice"));
+                        goodsEn.setNumber(goodsObj.getInt("buyNum"));
+                        goodsEn.setAttribute(goodsObj.getString("skuComboName"));
+                        goodsList.add(goodsEn);
                     }
-                    childEn.setGoodsLists(goods);
+                    childEn.setGoodsLists(goodsList);
 
                     lists.add(childEn);
                 }
                 mainEn.setLists(lists);
             }
+        }
+        return mainEn;
+    }
+
+    /**
+     * 解析订单详情数据
+     */
+    public static BaseEntity<OPurchaseEntity> getOrderInfoData(JSONObject jsonObject) throws JSONException {
+        BaseEntity<OPurchaseEntity> mainEn = getCommonKeyValue(jsonObject);
+
+        if (StringUtil.notNull(jsonObject, "data")) {
+            JSONObject data = jsonObject.getJSONObject("data");
+            OPurchaseEntity opEn = new OPurchaseEntity();
+
+            // 地址
+            AddressEntity addEn = new AddressEntity();
+            addEn.setId(data.getInt("recieverId"));
+            addEn.setDistrict(data.getString("recieverAddr"));
+            addEn.setAddress(data.getString("recieverAddr"));
+            addEn.setName(data.getString("recieverName"));
+            addEn.setPhone(data.getString("recieverPhone"));
+            opEn.setAddEn(addEn);
+
+            // 明细
+            opEn.setStatus(data.getInt("orderStatus"));
+            opEn.setOrderNo(data.getString("orderCode"));
+            opEn.setPayType(data.getString("orderCode"));
+            opEn.setPayNo(data.getString("orderCode"));
+            opEn.setAddTime(data.getString("createTime"));
+            opEn.setPayTime(data.getString("paymentTime"));
+            opEn.setSendTime(data.getString("deliverTime"));
+            opEn.setDoneTime(data.getString("finishTime"));
+            opEn.setGoodsPrice(data.getDouble("goodsPrice"));
+            opEn.setFreightPrice(data.getDouble("logisticsPrice"));
+            opEn.setDiscountPrice(data.getDouble("orderPrice"));
+            opEn.setTotalPrice(data.getDouble("orderPrice"));
+
+            // 商品
+            JSONArray goodsAry = data.getJSONArray("orderGoods");
+            List<GoodsEntity> goodsList = new ArrayList<>();
+            GoodsEntity goodsEn;
+            for (int j = 0; j < goodsAry.length(); j++) {
+                JSONObject goodsObj = goodsAry.getJSONObject(j);
+                goodsEn = new GoodsEntity();
+                goodsEn.setGoodsCode(goodsObj.getString("goodsCode"));
+                goodsEn.setSkuCode(goodsObj.getString("skuCode"));
+                goodsEn.setPicUrl(goodsObj.getString("goodsPic"));
+                goodsEn.setName(goodsObj.getString("goodsName"));
+                goodsEn.setPrice(goodsObj.getDouble("buyPrice"));
+                goodsEn.setNumber(goodsObj.getInt("buyNum"));
+                goodsEn.setAttribute(goodsObj.getString("skuComboName"));
+                goodsList.add(goodsEn);
+            }
+            opEn.setGoodsLists(goodsList);
+            mainEn.setData(opEn);
         }
         return mainEn;
     }
@@ -1098,54 +1146,17 @@ public class JsonUtils {
             if (StringUtil.notNull(jsonData, "cartItem")) {
                 JSONArray data = jsonData.getJSONArray("cartItem");
                 GoodsEntity goodsEn;
-                GoodsAttrEntity attrEn;
                 List<GoodsEntity> lists = new ArrayList<>();
                 for (int i = 0; i < data.length(); i++) {
                     JSONObject item = data.getJSONObject(i);
-
                     goodsEn = new GoodsEntity();
                     goodsEn.setGoodsCode(item.getString("goodsCode"));
                     goodsEn.setSkuCode(item.getString("skuCode"));
                     goodsEn.setPicUrl(item.getString("goodsPic"));
                     goodsEn.setName(item.getString("goodsName"));
                     goodsEn.setPrice(item.getDouble("buyPrice"));
-
-                    // 商品已选属性
-                    String attrIds = item.getString("attrIds");
-                    attrEn = new GoodsAttrEntity();
-                    String[] ids = attrIds.split(",");
-                    for (int j = 0; j < ids.length; j++) {
-                        switch (j) {
-                            case 0:
-                                attrEn.setS_id_1(Integer.valueOf(ids[j]));
-                                break;
-                            case 1:
-                                attrEn.setS_id_2(Integer.valueOf(ids[j]));
-                                break;
-                            case 2:
-                                attrEn.setS_id_3(Integer.valueOf(ids[j]));
-                                break;
-                        }
-                    }
-                    String attrNames = item.getString("skuComboName");
-                    String[] names = attrNames.split(" ");
-                    for (int k = 0; k < names.length; k++) {
-                        switch (k) {
-                            case 0:
-                                attrEn.setS_name_1(names[k]);
-                                break;
-                            case 1:
-                                attrEn.setS_name_2(names[k]);
-                                break;
-                            case 2:
-                                attrEn.setS_name_3(names[k]);
-                                break;
-                        }
-                    }
-                    attrEn.setAttrNameStr(attrNames);
-                    attrEn.setBuyNum(item.getInt("buyNum"));
-                    goodsEn.setAttrEn(attrEn);
-
+                    goodsEn.setNumber(item.getInt("buyNum"));
+                    goodsEn.setAttribute(item.getString("skuComboName"));
                     lists.add(goodsEn);
                 }
                 opEn.setGoodsLists(lists);

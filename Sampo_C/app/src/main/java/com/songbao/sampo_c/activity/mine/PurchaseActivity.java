@@ -123,7 +123,10 @@ public class PurchaseActivity extends BaseActivity implements View.OnClickListen
         tv_click_02.setOnClickListener(this);
         tv_click_03.setOnClickListener(this);
 
-        initDemoData();
+        //initDemoData();
+        if (opEn != null) {
+            loadServerData();
+        }
     }
 
     private void initShowData() {
@@ -320,8 +323,8 @@ public class PurchaseActivity extends BaseActivity implements View.OnClickListen
      */
     private void loadServerData() {
         HashMap<String, String> map = new HashMap<>();
-        map.put("activityId", "");
-        loadSVData(AppConfig.URL_ACTIVITY_DETAIL, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_ACTIVITY_DETAIL);
+        map.put("orderCode", opEn.getOrderNo());
+        loadSVData(AppConfig.BASE_URL_3, AppConfig.URL_ORDER_INFO, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_ORDER_INFO);
     }
 
     /**
@@ -337,13 +340,14 @@ public class PurchaseActivity extends BaseActivity implements View.OnClickListen
 
     @Override
     protected void callbackData(JSONObject jsonObject, int dataType) {
-        BaseEntity<ThemeEntity> baseEn;
+        BaseEntity<OPurchaseEntity> baseEn;
         try {
             switch (dataType) {
-                case AppConfig.REQUEST_SV_ACTIVITY_DETAIL:
-                    baseEn = JsonUtils.getThemeDetail(jsonObject);
+                case AppConfig.REQUEST_SV_ORDER_INFO:
+                    baseEn = JsonUtils.getOrderInfoData(jsonObject);
                     if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
-                        //setView(baseEn.getData());
+                        opEn = baseEn.getData();
+                        initShowData();
                     } else {
                         handleErrorCode(baseEn);
                     }

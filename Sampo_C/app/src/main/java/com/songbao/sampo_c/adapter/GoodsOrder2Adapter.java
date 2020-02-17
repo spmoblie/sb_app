@@ -61,12 +61,8 @@ public class GoodsOrder2Adapter extends AppBaseAdapter {
 
 		holder.tv_name.setText(data.getName());
 		holder.tv_price.setText(df.format(data.getPrice()));
-
-		GoodsAttrEntity attrEn = data.getAttrEn();
-		if (attrEn != null) {
-			holder.tv_attr.setText(attrEn.getAttrNameStr());
-			holder.tv_number.setText(context.getString(R.string.cart_goods_num, attrEn.getBuyNum()));
-		}
+		holder.tv_attr.setText(data.getAttribute());
+		holder.tv_number.setText(context.getString(R.string.cart_goods_num, data.getNumber()));
 
 		holder.item_main.setOnClickListener(new OnClickListener() {
 			

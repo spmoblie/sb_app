@@ -22,7 +22,7 @@ public class OCustomizeEntity extends BaseEntity {
 	private String nodeTime8;
 	private String nodeTime9;
 	private String statusDesc; //状态描述
-	private int status;
+	private int status; //订单状态
 	private int nodeNo;  //1:提交预约，2:上门量尺，3:效果图，4:支付信息，5:收货信息，6:生产进度，7:产品发货，8:产品安装，9:订单完成
 	private int cycle; //计划生产周期
 	private double price; //订单报价

@@ -550,9 +550,9 @@ public class CustomizeListActivity extends BaseActivity implements View.OnClickL
             page = "1";
         }
         HashMap<String, String> map = new HashMap<>();
-        map.put("orderStatus", String.valueOf(top_type));
         map.put("current", page);
         map.put("size", AppConfig.LOAD_SIZE);
+        map.put("orderStatus", String.valueOf(top_type));
         loadSVData(AppConfig.BASE_URL_3, AppConfig.URL_BOOKING_LIST, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_BOOKING_LIST);
     }
 

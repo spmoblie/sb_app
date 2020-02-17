@@ -170,13 +170,49 @@ public class MyPurchaseActivity extends BaseActivity implements View.OnClickList
 			@Override
 			public void setOnClick(Object data, int position, int type) {
 				if (position < 0 || position >= al_show.size()) return;
+				OPurchaseEntity opEn = al_show.get(position);
+				int status = opEn.getStatus();
 				switch (type) {
-					case 0:
+					case 1: //按键01
+						switch (status) {
+							case AppConfig.ORDER_STATUS_101: //待付款
+								// 取消订单
+								break;
+							case AppConfig.ORDER_STATUS_301: //待发货
+							case AppConfig.ORDER_STATUS_401: //待收货
+								// 查看物流
+								break;
+							case AppConfig.ORDER_STATUS_501: //待评价
+								// 我要评价
+								break;
+							case AppConfig.ORDER_STATUS_303: //已退款
+								// 退款详情
+								break;
+						}
+						break;
+					case 2: //按键02
+						switch (status) {
+							case AppConfig.ORDER_STATUS_101: //待付款
+								// 立即付款
+								break;
+							case AppConfig.ORDER_STATUS_301: //待发货
+							case AppConfig.ORDER_STATUS_401: //待收货
+								// 确认收货
+								break;
+							case AppConfig.ORDER_STATUS_302: //退款中
+								// 退款详情
+								break;
+							case AppConfig.ORDER_STATUS_303: //已退款
+							case AppConfig.ORDER_STATUS_501: //待评价
+							case AppConfig.ORDER_STATUS_801: //已完成
+							case AppConfig.ORDER_STATUS_102: //已取消
+							default:
+								// 删除订单
+								break;
+						}
+						break;
+					default:
 						openPurchaseActivity(al_show.get(position));
-						break;
-					case 1:
-						break;
-					case 2:
 						break;
 				}
 			}
@@ -442,20 +478,19 @@ public class MyPurchaseActivity extends BaseActivity implements View.OnClickList
 			page = "1";
 		}
 		HashMap<String, String> map = new HashMap<>();
-		map.put("type", String.valueOf(top_type));
-		map.put("page", page);
+		map.put("current", page);
 		map.put("size", AppConfig.LOAD_SIZE);
-		map.put("isReservation", "1");
-		loadSVData(AppConfig.URL_HOME_LIST, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_USER_PURCHASE);
+		map.put("orderStatus", String.valueOf(top_type));
+		loadSVData(AppConfig.BASE_URL_3, AppConfig.URL_ORDER_LIST, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_ORDER_LIST);
 	}
 
 	@Override
 	protected void callbackData(JSONObject jsonObject, int dataType) {
-		BaseEntity baseEn;
+		BaseEntity<OPurchaseEntity> baseEn;
 		try {
 			switch (dataType) {
-				case AppConfig.REQUEST_SV_USER_PURCHASE:
-					baseEn = JsonUtils.getMyPurchaseData(jsonObject);
+				case AppConfig.REQUEST_SV_ORDER_LIST:
+					baseEn = JsonUtils.getOrderListData(jsonObject);
 					if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
 						int newTotal = baseEn.getDataTotal();
 						List<OPurchaseEntity> lists = new ArrayList<>();

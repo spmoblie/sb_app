@@ -64,9 +64,9 @@ public class GoodsOrderAdapter extends AppBaseAdapter {
 				.into(holder.iv_show);
 
 		holder.tv_name.setText(data.getName());
+		holder.tv_price.setText(context.getString(R.string.pay_rmb, df.format(data.getPrice())));
 		holder.tv_attr.setText(data.getAttribute());
 		holder.tv_number.setText(context.getString(R.string.cart_goods_num, data.getNumber()));
-		holder.tv_price.setText(context.getString(R.string.pay_rmb, df.format(data.getPrice())));
 
 		if (isOnClick) {
 			holder.view_fill.setVisibility(View.GONE);

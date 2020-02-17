@@ -108,8 +108,6 @@ public class AppConfig {
 	public final static String URL_USER_MESSAGE = "app/user/message";
 	// 消息状态
 	public final static String URL_USER_MESSAGE_STATUS = "app/user/message/updateStatus";
-	// 我的购买
-	public final static String URL_USER_PURCHASE = "app/user/purchase";
 	// 我的门票
 	public final static String URL_USER_TICKETS = "app/user/tickets";
 	// 我的活动
@@ -136,6 +134,10 @@ public class AppConfig {
 	public final static String URL_ORDER_FILL = "trade/app/order/fillOrder";
 	// 提交订单
 	public final static String URL_ORDER_CREATE = "trade/app/order/create";
+	// 订单列表
+	public final static String URL_ORDER_LIST = "trade/app/order/list";
+	// 订单详情
+	public final static String URL_ORDER_INFO = "trade/app/order/info";
 
 	// 提交定制
 	public final static String URL_BOOKING_CREATE = "trade/app/booking/create";
@@ -231,12 +233,14 @@ public class AppConfig {
 	public static final int REQUEST_SV_CART_ADD = 0X2021;
 	// 购物获取
 	public static final int REQUEST_SV_CART_GET = 0X2022;
-	// 购物修改
-	public static final int REQUEST_SV_CART_UPDATE = 0X2023;
+	// 修改数量
+	public static final int REQUEST_SV_CART_UPDATE_NUM = 0X2023;
+	// 修改数量
+	public static final int REQUEST_SV_CART_UPDATE_ATTR = 0X2024;
 	// 购物删除
-	public static final int REQUEST_SV_CART_DELETE = 0X2024;
+	public static final int REQUEST_SV_CART_DELETE = 0X2025;
 	// 购物结算
-	public static final int REQUEST_SV_CART_CHECKED = 0X2025;
+	public static final int REQUEST_SV_CART_CHECKED = 0X2026;
 
 	// 上传头像
 	public static final int REQUEST_SV_UPLOAD_HEAD = 0X3001;
@@ -249,8 +253,6 @@ public class AppConfig {
 
 	// 我的消息
 	public static final int REQUEST_SV_USER_MESSAGE = 0X3101;
-	// 我的购买
-	public static final int REQUEST_SV_USER_PURCHASE = 0X3111;
 	// 我的门票
 	public static final int REQUEST_SV_USER_TICKETS = 0X3121;
 	// 我的活动
@@ -277,6 +279,10 @@ public class AppConfig {
 	public static final int REQUEST_SV_ORDER_FILL = 0X3302;
 	// 提交订单
 	public static final int REQUEST_SV_ORDER_CREATE = 0X3303;
+	// 订单列表
+	public static final int REQUEST_SV_ORDER_LIST = 0X3304;
+	// 订单详情
+	public static final int REQUEST_SV_ORDER_INFO = 0X3305;
 
 	// 提交定制
 	public static final int REQUEST_SV_BOOKING_CREATE = 0X3402;

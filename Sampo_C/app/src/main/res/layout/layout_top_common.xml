@@ -41,6 +41,7 @@
         style="@style/top_bar_icon"
         android:src="@mipmap/icon_share"
         android:contentDescription="@string/desc"
+        android:visibility="invisible"
         app:layout_constraintRight_toRightOf="parent"/>
 
 </android.support.constraint.ConstraintLayout>

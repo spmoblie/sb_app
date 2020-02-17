@@ -481,7 +481,11 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 			@Override
 			public void setOnClick(Object data, int position, int type) {
 				if (position < 0 || position >= al_show.size()) return;
-				openGoodsActivity(al_show.get(position).getSkuCode());
+				if (type == 1) {
+					openGoodsActivity(al_show.get(position).getSkuCode(), true);
+				} else {
+					openGoodsActivity(al_show.get(position).getSkuCode());
+				}
 			}
 		});
 		mRecyclerView.setAdapter(rv_Adapter);

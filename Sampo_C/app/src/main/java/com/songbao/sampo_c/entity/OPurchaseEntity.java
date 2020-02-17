@@ -22,7 +22,7 @@ public class OPurchaseEntity extends BaseEntity {
 	private double discountPrice; //活动优惠
 	private double totalPrice; //订单总计
 	private int goodsNum; //商品总数
-	private int status; //1:待付款，2:生产中，3:待收货，4:待评价，5:已完成，6:退换货
+	private int status; //订单状态
 	private AddressEntity addEn; //收货地址
 	private List<GoodsEntity> goodsLists; //数集
 

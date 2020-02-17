@@ -147,6 +147,7 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
     private String skuCode = "";
     private boolean isLoop = false;
     private boolean vprStop = false;
+    private boolean isOpenAttr = false;
     private int commentNum, goodStar;
     private int idsSize, idsPosition, vprPosition;
     private ImageView[] indicators = null;
@@ -161,6 +162,7 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
         setContentView(R.layout.activity_goods);
 
         skuCode = getIntent().getStringExtra("skuCode");
+        isOpenAttr = getIntent().getBooleanExtra("isOpenAttr", false);
 
         initView();
     }
@@ -192,6 +194,12 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
 
     private void initShowView() {
         if (goodsEn != null) {
+            //打开属性面板
+            if (isOpenAttr) {
+                openAttrView();
+                isOpenAttr = false;
+            }
+
             tv_name.setText(goodsEn.getName());
             tv_price.setText(df.format(goodsEn.getPrice()));
 
@@ -517,15 +525,14 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
                 openCommentActivity(skuCode);
                 break;
             case R.id.bottom_add_cart_tv_home:
+                returnHomeActivity();
                 break;
             case R.id.bottom_add_cart_tv_cart:
                 openActivity(CartActivity.class);
                 break;
             case R.id.goods_spec_choice_main:
             case R.id.bottom_add_cart_tv_cart_add:
-                if (goodsEn != null) {
-                    loadGoodsAttrData(goodsEn.getGoodsCode(), goodsEn.getAttrEn());
-                }
+                openAttrView();
                 break;
             case R.id.bottom_add_cart_tv_customize:
                 openDesignerActivity(skuCode);
@@ -578,6 +585,15 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
                 rb_3.setTextSize(18);
                 rb_3.setTypeface(Typeface.SANS_SERIF, Typeface.BOLD);
                 break;
+        }
+    }
+
+    /**
+     * 打开属性面板
+     */
+    private void openAttrView() {
+        if (goodsEn != null) {
+            loadGoodsAttrData(goodsEn.getGoodsCode(), goodsEn.getAttrEn());
         }
     }
 

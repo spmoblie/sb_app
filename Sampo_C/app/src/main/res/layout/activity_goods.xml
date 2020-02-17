@@ -348,7 +348,8 @@
         style="@style/top_bar_icon"
         android:src="@mipmap/icon_share_white"
         android:contentDescription="@string/desc"
-        android:layout_gravity="end"/>
+        android:layout_gravity="end"
+        android:visibility="invisible"/>
 
     <include layout="@layout/layout_top_common" />
 

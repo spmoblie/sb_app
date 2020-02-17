@@ -65,6 +65,7 @@ public class CartActivity extends BaseActivity implements View.OnClickListener {
     CartGoodsAdapter rvAdapter;
 
     private int mPosition = 0;
+    private int buyNumber = 0;
     private int totalNum;
     private double totalPrice;
     private boolean isSelectAll;
@@ -150,7 +151,7 @@ public class CartActivity extends BaseActivity implements View.OnClickListener {
                 GoodsEntity goodsEn = cartEn.getGoodsEn();
                 if (goodsEn != null) {
                     GoodsAttrEntity attrEn = goodsEn.getAttrEn();
-                    int buyNumber = 1;
+                    buyNumber = 1;
                     if (attrEn != null) {
                         buyNumber = attrEn.getBuyNum();
                     }
@@ -293,7 +294,16 @@ public class CartActivity extends BaseActivity implements View.OnClickListener {
     @Override
     protected void updateSelectAttrStr(GoodsAttrEntity attrEn) {
         if (attrEn != null) {
-            updateGoodsAttr(al_show.get(mPosition).getId(), al_show.get(mPosition).getGoodsEn().getGoodsCode(), attrEn);
+            GoodsEntity goodsEn = al_show.get(mPosition).getGoodsEn();
+            if (attrEn.getSkuCode().equals(goodsEn.getSkuCode())) {
+                if (attrEn.getBuyNum() == goodsEn.getAttrEn().getBuyNum()) return;
+                //修改数量
+                buyNumber = attrEn.getBuyNum();
+                updateGoodsNumber(al_show.get(mPosition).getId(), buyNumber, goodsEn.getSkuCode());
+            } else {
+                //修改属性
+                updateGoodsAttr(al_show.get(mPosition).getId(), goodsEn.getGoodsCode(), attrEn);
+            }
         }
     }
 
@@ -394,7 +404,7 @@ public class CartActivity extends BaseActivity implements View.OnClickListener {
             jsonObj.put("id", cartId);
             jsonObj.put("buyNum", buyNum);
             jsonObj.put("skuCode", skuCode);
-            postJsonData(AppConfig.BASE_URL_3, AppConfig.URL_CART_UPDATE, jsonObj, AppConfig.REQUEST_SV_CART_UPDATE);
+            postJsonData(AppConfig.BASE_URL_3, AppConfig.URL_CART_UPDATE, jsonObj, AppConfig.REQUEST_SV_CART_UPDATE_NUM);
         } catch (JSONException e) {
             ExceptionUtil.handle(e);
         }
@@ -410,7 +420,7 @@ public class CartActivity extends BaseActivity implements View.OnClickListener {
             jsonObj.put("goodsCode", goodsCode);
             jsonObj.put("skuCode", attrEn.getSkuCode());
             jsonObj.put("buyNum", attrEn.getBuyNum());
-            postJsonData(AppConfig.BASE_URL_3, AppConfig.URL_CART_ADD, jsonObj, AppConfig.REQUEST_SV_CART_UPDATE);
+            postJsonData(AppConfig.BASE_URL_3, AppConfig.URL_CART_ADD, jsonObj, AppConfig.REQUEST_SV_CART_UPDATE_ATTR);
         } catch (JSONException e) {
             ExceptionUtil.handle(e);
         }
@@ -468,7 +478,19 @@ public class CartActivity extends BaseActivity implements View.OnClickListener {
                         handleErrorCode(baseEn);
                     }
                     break;
-                case AppConfig.REQUEST_SV_CART_UPDATE:
+                case AppConfig.REQUEST_SV_CART_UPDATE_NUM:
+                    baseEn = JsonUtils.getBaseErrorData(jsonObject);
+                    if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
+                        al_show.get(mPosition).getGoodsEn().getAttrEn().setBuyNum(buyNumber);
+                        updateListData();
+                    } else if (baseEn.getErrNo() == AppConfig.ERROR_CODE_TIMEOUT) {
+                        handleTimeOut();
+                        finish();
+                    } else {
+                        handleErrorCode(baseEn);
+                    }
+                    break;
+                case AppConfig.REQUEST_SV_CART_UPDATE_ATTR:
                 case AppConfig.REQUEST_SV_CART_DELETE:
                     baseEn = JsonUtils.getBaseErrorData(jsonObject);
                     if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {

@@ -450,6 +450,15 @@ public class BaseActivity extends FragmentActivity {
     }
 
     /**
+     * 回退“首页”
+     */
+    protected void returnHomeActivity() {
+        shared.edit().putBoolean(AppConfig.KEY_JUMP_PAGE, true).apply();
+        shared.edit().putInt(AppConfig.KEY_MAIN_CURRENT_INDEX, 0).apply();
+        openActivity(MainActivity.class);
+    }
+
+    /**
      * 打开登录Activity
      */
     protected void openLoginActivity() {
@@ -463,8 +472,16 @@ public class BaseActivity extends FragmentActivity {
      * 打开商品详情页
      */
     protected void openGoodsActivity(String skuCode) {
+        openGoodsActivity(skuCode, false);
+    }
+
+    /**
+     * 打开商品详情页同时打开属性面板
+     */
+    protected void openGoodsActivity(String skuCode, boolean isOpenAttr) {
         Intent intent = new Intent(mContext, GoodsActivity.class);
         intent.putExtra("skuCode", skuCode);
+        intent.putExtra("isOpenAttr", isOpenAttr);
         startActivity(intent);
     }
 
@@ -1162,9 +1179,16 @@ public class BaseActivity extends FragmentActivity {
      * 加载商品属性数据
      */
     protected void loadGoodsAttrData(String code, GoodsAttrEntity gaEn) {
-        secEn = gaEn;
-        if (secEn != null) {
-            secEn.setAdd(false);
+        secEn = new GoodsAttrEntity();
+        if (gaEn != null) {
+            secEn.setBuyNum(gaEn.getBuyNum());
+            secEn.setS_id_1(gaEn.getS_id_1());
+            secEn.setS_id_2(gaEn.getS_id_2());
+            secEn.setS_id_3(gaEn.getS_id_3());
+            secEn.setS_name_1(gaEn.getS_name_1());
+            secEn.setS_name_2(gaEn.getS_name_2());
+            secEn.setS_name_3(gaEn.getS_name_3());
+
             buyNumber = secEn.getBuyNum();
             select_id_1 = secEn.getS_id_1();
             select_id_2 = secEn.getS_id_2();
@@ -1180,7 +1204,6 @@ public class BaseActivity extends FragmentActivity {
             select_name_1 = "";
             select_name_2 = "";
             select_name_3 = "";
-            secEn = new GoodsAttrEntity();
         }
         if (goodsCode.equals(code) && attrEn != null) {
             initAttrPopup();
@@ -1372,6 +1395,11 @@ public class BaseActivity extends FragmentActivity {
             if (buyNumber > skuNum) {
                 buyNumber = skuNum;
                 rv_Adapter.updateNumber(buyNumber);
+            } else {
+                if (buyNumber == 0 && skuNum > 0) {
+                    buyNumber = 1;
+                    rv_Adapter.updateNumber(buyNumber);
+                }
             }
             tv_popup_number.setText(getString(R.string.goods_attr_sku_num, skuNum));
             // 刷新价格
