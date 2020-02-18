@@ -432,7 +432,7 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
      */
     private void startPay() {
         Intent intent = new Intent(mContext, WXPayEntryActivity.class);
-        intent.putExtra(AppConfig.PAGE_TYPE, 1);
+        intent.putExtra("sourceType", WXPayEntryActivity.SOURCE_TYPE_1);
         intent.putExtra("orderSn", orderNo);
         intent.putExtra("orderTotal", df.format(payAmount));
         startActivityForResult(intent, AppConfig.ACTIVITY_CODE_PAY_DATA);

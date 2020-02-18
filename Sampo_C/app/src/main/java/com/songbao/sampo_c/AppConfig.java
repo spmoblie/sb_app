@@ -19,10 +19,11 @@ public class AppConfig {
 	// Base类型
 	public final static String BASE_TYPE = "base_2"; //base_1:发布Url、base_2:测试Url
 	// 发布Url
-	public final static String BASE_URL_1 = APP_HTTPS + "xiaobao.sbwg.cn/";
+	public final static String BASE_URL_1 = APP_HTTP + "xiaobao.sbwg.cn/";
 	// 测试Url
-	public final static String BASE_URL_2 = APP_HTTP + "xiaobao.sbwg.cn/";
-	public final static String BASE_URL_3 = APP_HTTP + "172.16.189.198:8802/";
+	public final static String BASE_URL_2 = APP_HTTP + "test.sbwg.cn/";
+	//public final static String BASE_URL_3 = APP_HTTP + "172.16.189.198:8802/";
+	public final static String BASE_URL_3 = BASE_URL_2;
 	// 图片域名
 	public final static String IMAGE_URL = "file:///android_asset/";
 	// 推广域名
@@ -91,6 +92,8 @@ public class AppConfig {
 	public final static String URL_CART_ADD = "trade/app/cart/add";
 	// 购物获取
 	public final static String URL_CART_GET = "trade/app/cart/index";
+	// 购物数量
+	public final static String URL_CART_COUNT = "trade/app/cart/goodscount";
 	// 购物修改
 	public final static String URL_CART_UPDATE = "trade/app/cart/update";
 	// 购物删除
@@ -233,14 +236,16 @@ public class AppConfig {
 	public static final int REQUEST_SV_CART_ADD = 0X2021;
 	// 购物获取
 	public static final int REQUEST_SV_CART_GET = 0X2022;
+	// 购物数量
+	public static final int REQUEST_SV_CART_COUNT = 0X2023;
 	// 修改数量
-	public static final int REQUEST_SV_CART_UPDATE_NUM = 0X2023;
+	public static final int REQUEST_SV_CART_UPDATE_NUM = 0X2024;
 	// 修改数量
-	public static final int REQUEST_SV_CART_UPDATE_ATTR = 0X2024;
+	public static final int REQUEST_SV_CART_UPDATE_ATTR = 0X2025;
 	// 购物删除
-	public static final int REQUEST_SV_CART_DELETE = 0X2025;
+	public static final int REQUEST_SV_CART_DELETE = 0X2026;
 	// 购物结算
-	public static final int REQUEST_SV_CART_CHECKED = 0X2026;
+	public static final int REQUEST_SV_CART_CHECKED = 0X2027;
 
 	// 上传头像
 	public static final int REQUEST_SV_UPLOAD_HEAD = 0X3001;

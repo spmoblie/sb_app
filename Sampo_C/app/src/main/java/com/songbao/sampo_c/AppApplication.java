@@ -196,6 +196,14 @@ public class AppApplication extends Application {
     }
 
     /**
+     * 回退至主页指定子界面
+     */
+    public static void jumpToHomePage(int index) {
+        shared.edit().putBoolean(AppConfig.KEY_JUMP_PAGE, true).apply();
+        shared.edit().putInt(AppConfig.KEY_MAIN_CURRENT_INDEX, index).apply();
+    }
+
+    /**
      * 设置App字体不随系统字体变化
      */
     public static void initDisplayMetrics() {

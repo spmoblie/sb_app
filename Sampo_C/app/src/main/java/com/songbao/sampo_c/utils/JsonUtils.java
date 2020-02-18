@@ -203,7 +203,13 @@ public class JsonUtils {
         BaseEntity mainEn = getCommonKeyValue(jsonObject);
 
         if (StringUtil.notNull(jsonObject, "data")) {
-            mainEn.setOthers(jsonObject.getString("data"));
+            String data = jsonObject.getString("data");
+            if (data.contains("orderCode")) {
+                JSONObject dataObj = jsonObject.getJSONObject("data");
+                mainEn.setOthers(dataObj.getString("orderCode"));
+            } else {
+                mainEn.setOthers(data);
+            }
         }
         return mainEn;
     }
@@ -414,7 +420,7 @@ public class JsonUtils {
                     childEn = new OPurchaseEntity();
                     childEn.setId(item.getInt("id"));
                     childEn.setOrderNo(item.getString("orderCode"));
-                    childEn.setGoodsNum(item.getInt("goodCount"));
+                    childEn.setGoodsNum(item.getInt("goodsCount"));
                     childEn.setTotalPrice(item.getDouble("orderPrice"));
                     childEn.setAddTime(item.getString("createTime"));
                     childEn.setStatus(item.getInt("orderStatus"));
@@ -456,24 +462,24 @@ public class JsonUtils {
             // 地址
             AddressEntity addEn = new AddressEntity();
             addEn.setId(data.getInt("recieverId"));
-            addEn.setDistrict(data.getString("recieverAddr"));
-            addEn.setAddress(data.getString("recieverAddr"));
             addEn.setName(data.getString("recieverName"));
             addEn.setPhone(data.getString("recieverPhone"));
+            addEn.setDistrict(data.getString("addrArea"));
+            addEn.setAddress(data.getString("recieverAddr"));
             opEn.setAddEn(addEn);
 
             // 明细
             opEn.setStatus(data.getInt("orderStatus"));
             opEn.setOrderNo(data.getString("orderCode"));
-            opEn.setPayType(data.getString("orderCode"));
-            opEn.setPayNo(data.getString("orderCode"));
+            opEn.setPayType(data.getString("payType"));
+            opEn.setPayNo(data.getString("payNo"));
             opEn.setAddTime(data.getString("createTime"));
             opEn.setPayTime(data.getString("paymentTime"));
             opEn.setSendTime(data.getString("deliverTime"));
             opEn.setDoneTime(data.getString("finishTime"));
             opEn.setGoodsPrice(data.getDouble("goodsPrice"));
             opEn.setFreightPrice(data.getDouble("logisticsPrice"));
-            opEn.setDiscountPrice(data.getDouble("orderPrice"));
+            opEn.setDiscountPrice(data.getDouble("discountAmount"));
             opEn.setTotalPrice(data.getDouble("orderPrice"));
 
             // 商品
@@ -980,8 +986,8 @@ public class JsonUtils {
     /**
      * 解析获取商品属性数据
      */
-    public static BaseEntity getGoodsAttrData(JSONObject jsonObject) throws JSONException {
-        BaseEntity mainEn = getCommonKeyValue(jsonObject);
+    public static BaseEntity<GoodsAttrEntity> getGoodsAttrData(JSONObject jsonObject) throws JSONException {
+        BaseEntity<GoodsAttrEntity> mainEn = getCommonKeyValue(jsonObject);
 
         if (StringUtil.notNull(jsonObject, "data")) {
             JSONObject jsonData = jsonObject.getJSONObject("data");
@@ -1053,6 +1059,21 @@ public class JsonUtils {
             }
         }
         return skuLists;
+    }
+
+    /**
+     * 解析购物车商品数量
+     */
+    public static BaseEntity getCartGoodsNum(JSONObject jsonObject) throws JSONException {
+        BaseEntity mainEn = getCommonKeyValue(jsonObject);
+
+        if (StringUtil.notNull(jsonObject, "data")) {
+            JSONObject jsonData = jsonObject.getJSONObject("data");
+            if (StringUtil.notNull(jsonData, "goodsCount")) {
+                mainEn.setDataTotal(jsonData.getInt("goodsCount"));
+            }
+        }
+        return mainEn;
     }
 
     /**

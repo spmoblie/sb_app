@@ -453,8 +453,7 @@ public class BaseActivity extends FragmentActivity {
      * 回退“首页”
      */
     protected void returnHomeActivity() {
-        shared.edit().putBoolean(AppConfig.KEY_JUMP_PAGE, true).apply();
-        shared.edit().putInt(AppConfig.KEY_MAIN_CURRENT_INDEX, 0).apply();
+        AppApplication.jumpToHomePage(0);
         openActivity(MainActivity.class);
     }
 
@@ -1129,10 +1128,19 @@ public class BaseActivity extends FragmentActivity {
     protected void callbackData(JSONObject jsonObject, int dataType) {
         try {
             switch (dataType) {
+                case AppConfig.REQUEST_SV_CART_COUNT: //获取购物数量
+                    BaseEntity numEn = JsonUtils.getCartGoodsNum(jsonObject);
+                    if (numEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
+                        userManager.saveUserCartNum(numEn.getDataTotal());
+                        updateCartGoodsNum();
+                    } else {
+                        handleErrorCode(numEn);
+                    }
+                    break;
                 case AppConfig.REQUEST_SV_GOODS_ATTR: //加载商品属性
-                    BaseEntity baseEn = JsonUtils.getGoodsAttrData(jsonObject);
+                    BaseEntity<GoodsAttrEntity> baseEn = JsonUtils.getGoodsAttrData(jsonObject);
                     if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
-                        attrEn = (GoodsAttrEntity) baseEn.getData();
+                        attrEn = baseEn.getData();
                         initAttrPopup();
                     } else {
                         handleErrorCode(baseEn);
@@ -1173,6 +1181,21 @@ public class BaseActivity extends FragmentActivity {
         HashMap<String, String> map = new HashMap<>();
         map.put("deviceToken", UserManager.getInstance().getDeviceToken());
         loadSVData(AppConfig.URL_AUTH_DEVICE, map, HttpRequests.HTTP_POST, 0);
+    }
+
+    /**
+     * 获取购物车商品数量
+     */
+    protected void loadCartGoodsNum() {
+        HashMap<String, String> map = new HashMap<>();
+        loadSVData(AppConfig.BASE_URL_3, AppConfig.URL_CART_COUNT, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_CART_COUNT);
+    }
+
+    /**
+     * 刷新购物车商品数量
+     */
+    protected void updateCartGoodsNum() {
+
     }
 
     /**

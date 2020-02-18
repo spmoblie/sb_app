@@ -299,6 +299,7 @@
     <string name="cart_post_order">提交订单</string>
 
     <!-- Order -->
+    <string name="order_info">订单详情</string>
     <string name="order_all">全部</string>
     <string name="order_wait_pay">待付款</string>
     <string name="order_producing">生产中</string>
@@ -371,7 +372,7 @@
     <string name="order_refund_details">退款详情</string>
     <string name="order_refund_apply">退款申请</string>
     <string name="order_refund_wait">退款中</string>
-    <string name="order_refund_done">退款完成</string>
+    <string name="order_refund_done">已退款</string>
     <string name="order_return_type">退换方式：\t\t自行寄回</string>
     <string name="order_express_no">快递单号：</string>
     <string name="order_express_no_hint">填写快递单号</string>

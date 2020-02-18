@@ -371,6 +371,7 @@ public class CartActivity extends BaseActivity implements View.OnClickListener {
         al_show.clear();
         am_show.clear();
         loadServerData();
+        loadCartGoodsNum();
     }
 
     /**
@@ -483,6 +484,7 @@ public class CartActivity extends BaseActivity implements View.OnClickListener {
                     if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
                         al_show.get(mPosition).getGoodsEn().getAttrEn().setBuyNum(buyNumber);
                         updateListData();
+                        loadCartGoodsNum();
                     } else if (baseEn.getErrNo() == AppConfig.ERROR_CODE_TIMEOUT) {
                         handleTimeOut();
                         finish();

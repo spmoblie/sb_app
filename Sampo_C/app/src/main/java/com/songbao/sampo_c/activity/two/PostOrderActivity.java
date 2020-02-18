@@ -246,9 +246,10 @@ public class PostOrderActivity extends BaseActivity implements View.OnClickListe
      */
     private void startPay(String orderNo) {
         Intent intent = new Intent(mContext, WXPayEntryActivity.class);
-        intent.putExtra(AppConfig.PAGE_TYPE, 1);
+        intent.putExtra("sourceType", WXPayEntryActivity.SOURCE_TYPE_3);
         intent.putExtra("orderSn", orderNo);
         intent.putExtra("orderTotal", df.format(payPrice));
+        intent.putExtra("isToOrder", true);
         startActivityForResult(intent, AppConfig.ACTIVITY_CODE_PAY_DATA);
     }
 

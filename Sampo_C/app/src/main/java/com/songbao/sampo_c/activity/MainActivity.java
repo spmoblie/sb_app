@@ -96,9 +96,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 		int save_index = shared.getInt(AppConfig.KEY_MAIN_CURRENT_INDEX, 0);
 		LogUtil.i(LogUtil.LOG_TAG, TAG + ": isJump = " + isJump + " save = " + save_index + " current = " + current_index);
 		// 非主动跳转且页面出现错误时
-		if (!isJump && save_index > 0 && current_index == -1) {
-			/*startFragment();
-			return;*/
+		if (current_index == -1 && !isJump && save_index > 0) {
 			save_index = 0;
 		}
 		// 设置默认初始化的界面
@@ -114,15 +112,6 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 			break;
 		}
 		shared.edit().putBoolean(AppConfig.KEY_JUMP_PAGE, false).apply();
-	}
-
-	/**
-	 * 重启MainActivity
-	 */
-	private void startFragment() {
-		shared.edit().putInt(AppConfig.KEY_MAIN_CURRENT_INDEX, 0).apply();
-		finish();
-		startActivity(new Intent(AppApplication.getAppContext(), MainActivity.class));
 	}
 
 	@Override
@@ -178,7 +167,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
 	protected void onDestroy() {
 		LogUtil.i(LogUtil.LOG_TAG, TAG + ": onDestroy");
 
-		AppApplication.getSharedPreferences().edit().putInt(AppConfig.KEY_MAIN_CURRENT_INDEX, 0).apply();
+		AppApplication.jumpToHomePage(0);
 		AppManager.getInstance().finishActivity(this);
 
 		super.onDestroy();

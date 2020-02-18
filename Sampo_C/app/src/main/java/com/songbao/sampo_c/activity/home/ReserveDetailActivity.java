@@ -481,7 +481,7 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
      */
     private void startPay(String orderNo) {
         Intent intent = new Intent(mContext, WXPayEntryActivity.class);
-        intent.putExtra(AppConfig.PAGE_TYPE, 2);
+        intent.putExtra("sourceType", WXPayEntryActivity.SOURCE_TYPE_2);
         intent.putExtra("orderSn", orderNo);
         intent.putExtra("orderTotal", df.format(payAmount));
         startActivityForResult(intent, AppConfig.ACTIVITY_CODE_PAY_DATA);

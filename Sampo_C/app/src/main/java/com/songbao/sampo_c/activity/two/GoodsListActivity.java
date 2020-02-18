@@ -40,6 +40,7 @@ import com.songbao.sampo_c.utils.ExceptionUtil;
 import com.songbao.sampo_c.utils.JsonUtils;
 import com.songbao.sampo_c.utils.LogUtil;
 import com.songbao.sampo_c.utils.StringUtil;
+import com.songbao.sampo_c.utils.UserManager;
 import com.songbao.sampo_c.utils.retrofit.HttpRequests;
 import com.songbao.sampo_c.widgets.pullrefresh.PullToRefreshBase;
 import com.songbao.sampo_c.widgets.pullrefresh.PullToRefreshRecyclerView;
@@ -715,10 +716,23 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 	}
 
 	@Override
+	protected void updateCartGoodsNum() {
+		int cartNum = UserManager.getInstance().getUserCartNum();
+		if (cartNum > 0) {
+			tv_cart_num.setText(String.valueOf(cartNum));
+			tv_cart_num.setVisibility(View.VISIBLE);
+		} else {
+			tv_cart_num.setVisibility(View.GONE);
+		}
+	}
+
+	@Override
 	protected void onResume() {
 		LogUtil.i(LogUtil.LOG_TAG, TAG + ": onResume");
 		// 页面开始
 		AppApplication.onPageStart(this, TAG);
+
+		updateCartGoodsNum();
 
 		super.onResume();
 	}

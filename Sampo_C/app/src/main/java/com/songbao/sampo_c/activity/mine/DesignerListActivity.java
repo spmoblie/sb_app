@@ -197,8 +197,7 @@ public class DesignerListActivity extends BaseActivity implements View.OnClickLi
                                 // 关闭之前的页面
                                 closeCustomizeActivity();
                                 // 回退至“我的”
-                                shared.edit().putBoolean(AppConfig.KEY_JUMP_PAGE, true).apply();
-                                shared.edit().putInt(AppConfig.KEY_MAIN_CURRENT_INDEX, 2).apply();
+                                AppApplication.jumpToHomePage(2);
                                 // 跳转至“我的订制”
                                 OCustomizeEntity ocEn = new OCustomizeEntity();
                                 ocEn.setOrderNo(orderNo);

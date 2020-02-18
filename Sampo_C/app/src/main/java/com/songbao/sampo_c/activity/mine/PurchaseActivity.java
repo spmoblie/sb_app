@@ -22,6 +22,7 @@ import com.songbao.sampo_c.entity.ThemeEntity;
 import com.songbao.sampo_c.utils.ExceptionUtil;
 import com.songbao.sampo_c.utils.JsonUtils;
 import com.songbao.sampo_c.utils.LogUtil;
+import com.songbao.sampo_c.utils.StringUtil;
 import com.songbao.sampo_c.utils.retrofit.HttpRequests;
 import com.songbao.sampo_c.widgets.ScrollViewListView;
 import com.songbao.sampo_c.wxapi.WXPayEntryActivity;
@@ -97,9 +98,6 @@ public class PurchaseActivity extends BaseActivity implements View.OnClickListen
     @BindView(R.id.purchase_tv_click_02)
     TextView tv_click_02;
 
-    @BindView(R.id.purchase_tv_click_03)
-    TextView tv_click_03;
-
     GoodsOrderAdapter lv_Adapter;
 
     private OPurchaseEntity opEn;
@@ -116,14 +114,12 @@ public class PurchaseActivity extends BaseActivity implements View.OnClickListen
     }
 
     private void initView() {
-        setTitle("订单详情");
+        setTitle(getString(R.string.order_info));
 
         tv_number_copy.setOnClickListener(this);
         tv_click_01.setOnClickListener(this);
         tv_click_02.setOnClickListener(this);
-        tv_click_03.setOnClickListener(this);
 
-        //initDemoData();
         if (opEn != null) {
             loadServerData();
         }
@@ -143,74 +139,61 @@ public class PurchaseActivity extends BaseActivity implements View.OnClickListen
             initListView();
 
             tv_time_order.setText(opEn.getAddTime());
+            tv_click_01.setVisibility(View.VISIBLE);
+            tv_click_02.setVisibility(View.VISIBLE);
             switch (opEn.getStatus()) {
-                case 1: //待付款
+                case AppConfig.ORDER_STATUS_101: //待付款
                     tv_status.setText(getString(R.string.order_wait_pay));
                     tv_status.setBackgroundResource(R.drawable.shape_style_solid_09_04);
-                    tv_click_01.setVisibility(View.VISIBLE);
                     tv_click_01.setText(getString(R.string.order_cancel));
                     tv_click_01.setTextColor(getResources().getColor(R.color.app_color_gray_5));
                     tv_click_01.setBackgroundResource(R.drawable.shape_style_empty_02_08);
-                    tv_click_02.setVisibility(View.VISIBLE);
                     tv_click_02.setText(getString(R.string.order_pay));
-                    tv_click_02.setTextColor(getResources().getColor(R.color.app_color_white));
                     tv_click_02.setBackgroundResource(R.drawable.shape_style_solid_04_08);
-                    tv_click_03.setVisibility(View.GONE);
                     break;
-                case 2: //生产中
-                    break;
-                case 3: //待收货
+                case AppConfig.ORDER_STATUS_301: //待发货
+                case AppConfig.ORDER_STATUS_401: //待收货
                     tv_status.setText(getString(R.string.order_wait_receive));
                     tv_status.setBackgroundResource(R.drawable.shape_style_solid_04_04);
-                    tv_click_01.setVisibility(View.VISIBLE);
                     tv_click_01.setText(getString(R.string.order_logistics));
                     tv_click_01.setTextColor(getResources().getColor(R.color.tv_color_status));
                     tv_click_01.setBackgroundResource(R.drawable.shape_style_empty_04_08);
-                    tv_click_02.setVisibility(View.VISIBLE);
                     tv_click_02.setText(getString(R.string.order_confirm_receipt));
-                    tv_click_02.setTextColor(getResources().getColor(R.color.app_color_white));
                     tv_click_02.setBackgroundResource(R.drawable.shape_style_solid_04_08);
-                    tv_click_03.setVisibility(View.GONE);
                     break;
-                case 4: //待评价
-                    tv_status.setText(getString(R.string.order_completed));
-                    tv_status.setBackgroundResource(R.drawable.shape_style_solid_03_04);
-                    tv_click_01.setVisibility(View.VISIBLE);
-                    tv_click_01.setText(getString(R.string.order_post_sale));
-                    tv_click_01.setTextColor(getResources().getColor(R.color.app_color_gray_5));
-                    tv_click_01.setBackgroundResource(R.drawable.shape_style_empty_02_08);
-                    tv_click_02.setVisibility(View.VISIBLE);
-                    tv_click_02.setText(getString(R.string.comment_me));
-                    tv_click_02.setTextColor(getResources().getColor(R.color.app_color_white));
-                    tv_click_02.setBackgroundResource(R.drawable.shape_style_solid_06_08);
-                    tv_click_03.setVisibility(View.GONE);
-                    break;
-                case 5: //已完成
-                default:
-                    tv_status.setText(getString(R.string.order_completed));
-                    tv_status.setBackgroundResource(R.drawable.shape_style_solid_03_04);
-                    tv_click_01.setVisibility(View.VISIBLE);
-                    tv_click_01.setText(getString(R.string.order_post_sale));
-                    tv_click_01.setTextColor(getResources().getColor(R.color.app_color_gray_5));
-                    tv_click_01.setBackgroundResource(R.drawable.shape_style_empty_02_08);
-                    tv_click_02.setVisibility(View.VISIBLE);
-                    tv_click_02.setText(getString(R.string.order_delete));
-                    tv_click_02.setTextColor(getResources().getColor(R.color.app_color_white));
-                    tv_click_02.setBackgroundResource(R.drawable.shape_style_solid_03_08);
-                    tv_click_03.setVisibility(View.GONE);
-                    break;
-                case 6: //退换货
-                    tv_status.setText(getString(R.string.order_repair_return));
+                case AppConfig.ORDER_STATUS_302: //退款中
+                    tv_status.setText(getString(R.string.order_refund_wait));
                     tv_status.setBackgroundResource(R.drawable.shape_style_solid_05_04);
-                    tv_click_01.setVisibility(View.VISIBLE);
                     tv_click_01.setText(getString(R.string.order_refund_details));
                     tv_click_01.setTextColor(getResources().getColor(R.color.app_color_gray_5));
                     tv_click_01.setBackgroundResource(R.drawable.shape_style_empty_02_08);
-                    tv_click_02.setVisibility(View.VISIBLE);
                     tv_click_02.setText(getString(R.string.order_revoke_refund));
-                    tv_click_02.setTextColor(getResources().getColor(R.color.app_color_white));
                     tv_click_02.setBackgroundResource(R.drawable.shape_style_solid_05_08);
-                    tv_click_03.setVisibility(View.GONE);
+                    break;
+                case AppConfig.ORDER_STATUS_303: //已退款
+                    tv_status.setText(getString(R.string.order_refund_done));
+                    tv_status.setBackgroundResource(R.drawable.shape_style_solid_03_04);
+                    tv_click_01.setText(getString(R.string.order_refund_details));
+                    tv_click_01.setTextColor(getResources().getColor(R.color.app_color_gray_5));
+                    tv_click_01.setBackgroundResource(R.drawable.shape_style_empty_02_08);
+                    tv_click_02.setText(getString(R.string.order_delete));
+                    tv_click_02.setBackgroundResource(R.drawable.shape_style_solid_03_08);
+                    break;
+                case AppConfig.ORDER_STATUS_501: //待评价
+                case AppConfig.ORDER_STATUS_801: //已完成
+                    tv_status.setText(getString(R.string.order_completed));
+                    tv_status.setBackgroundResource(R.drawable.shape_style_solid_03_04);
+                    tv_click_01.setVisibility(View.GONE);
+                    tv_click_02.setText(getString(R.string.order_delete));
+                    tv_click_02.setBackgroundResource(R.drawable.shape_style_solid_03_08);
+                    break;
+                case AppConfig.ORDER_STATUS_102: //已取消
+                default:
+                    tv_status.setText(getString(R.string.order_cancelled));
+                    tv_status.setBackgroundResource(R.drawable.shape_style_solid_03_04);
+                    tv_click_01.setVisibility(View.GONE);
+                    tv_click_02.setText(getString(R.string.order_delete));
+                    tv_click_02.setBackgroundResource(R.drawable.shape_style_solid_03_08);
                     break;
             }
 
@@ -277,12 +260,46 @@ public class PurchaseActivity extends BaseActivity implements View.OnClickListen
             case R.id.purchase_tv_order_number_copy:
                 break;
             case R.id.purchase_tv_click_01:
-
+                if (opEn == null) return;
+                switch (opEn.getStatus()) {
+                    case AppConfig.ORDER_STATUS_101: //待付款
+                        // 取消订单
+                        break;
+                    case AppConfig.ORDER_STATUS_301: //待发货
+                    case AppConfig.ORDER_STATUS_401: //待收货
+                        // 查看物流
+                        break;
+                    case AppConfig.ORDER_STATUS_302: //退款中
+                    case AppConfig.ORDER_STATUS_303: //已退款
+                        // 退款详情
+                        break;
+                    case AppConfig.ORDER_STATUS_501: //待评价
+                        // 我要评价
+                        break;
+                }
                 break;
             case R.id.purchase_tv_click_02:
-
-                break;
-            case R.id.purchase_tv_click_03:
+                if (opEn == null) return;
+                switch (opEn.getStatus()) {
+                    case AppConfig.ORDER_STATUS_101: //待付款
+                        // 立即付款
+                        startPay(opEn.getOrderNo(), opEn.getTotalPrice());
+                        break;
+                    case AppConfig.ORDER_STATUS_301: //待发货
+                    case AppConfig.ORDER_STATUS_401: //待收货
+                        // 确认收货
+                        break;
+                    case AppConfig.ORDER_STATUS_302: //退款中
+                        // 撤销退款
+                        break;
+                    case AppConfig.ORDER_STATUS_303: //已退款
+                    case AppConfig.ORDER_STATUS_501: //待评价
+                    case AppConfig.ORDER_STATUS_801: //已完成
+                    case AppConfig.ORDER_STATUS_102: //已取消
+                    default:
+                        // 删除订单
+                        break;
+                }
                 break;
         }
     }
@@ -330,11 +347,12 @@ public class PurchaseActivity extends BaseActivity implements View.OnClickListen
     /**
      * 在线支付
      */
-    private void startPay() {
+    private void startPay(String orderSn, double payPrice) {
+        if (StringUtil.isNull(orderSn) || payPrice <= 0) return;
         Intent intent = new Intent(mContext, WXPayEntryActivity.class);
-        intent.putExtra(AppConfig.PAGE_TYPE, 1);
-        intent.putExtra("orderSn", "");
-        intent.putExtra("orderTotal", df.format(0));
+        intent.putExtra("sourceType", WXPayEntryActivity.SOURCE_TYPE_3);
+        intent.putExtra("orderSn", orderSn);
+        intent.putExtra("orderTotal", df.format(payPrice));
         startActivityForResult(intent, AppConfig.ACTIVITY_CODE_PAY_DATA);
     }
 

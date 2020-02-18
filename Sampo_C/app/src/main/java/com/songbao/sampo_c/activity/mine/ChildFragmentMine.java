@@ -247,7 +247,6 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
         // 页面开始
         AppApplication.onPageStart(TAG);
 
-        AppApplication.updateMineData(true);
         // 用户信息
         if (isLogin()) {
             if (shared.getBoolean(AppConfig.KEY_OPEN_MESSAGE, false)) {

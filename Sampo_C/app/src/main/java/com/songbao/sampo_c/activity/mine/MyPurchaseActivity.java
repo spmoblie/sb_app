@@ -20,10 +20,12 @@ import com.songbao.sampo_c.entity.OPurchaseEntity;
 import com.songbao.sampo_c.utils.ExceptionUtil;
 import com.songbao.sampo_c.utils.JsonUtils;
 import com.songbao.sampo_c.utils.LogUtil;
+import com.songbao.sampo_c.utils.StringUtil;
 import com.songbao.sampo_c.utils.retrofit.HttpRequests;
 import com.songbao.sampo_c.widgets.pullrefresh.PullToRefreshBase;
 import com.songbao.sampo_c.widgets.pullrefresh.PullToRefreshRecyclerView;
 import com.songbao.sampo_c.widgets.recycler.MyRecyclerView;
+import com.songbao.sampo_c.wxapi.WXPayEntryActivity;
 
 import org.json.JSONObject;
 
@@ -93,6 +95,8 @@ public class MyPurchaseActivity extends BaseActivity implements View.OnClickList
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_recycler_view_top);
+
+		top_type = getIntent().getIntExtra("top_type", TYPE_1);
 
 		initView();
 	}
@@ -182,11 +186,12 @@ public class MyPurchaseActivity extends BaseActivity implements View.OnClickList
 							case AppConfig.ORDER_STATUS_401: //待收货
 								// 查看物流
 								break;
-							case AppConfig.ORDER_STATUS_501: //待评价
-								// 我要评价
-								break;
+							case AppConfig.ORDER_STATUS_302: //退款中
 							case AppConfig.ORDER_STATUS_303: //已退款
 								// 退款详情
+								break;
+							case AppConfig.ORDER_STATUS_501: //待评价
+								// 我要评价
 								break;
 						}
 						break;
@@ -194,13 +199,14 @@ public class MyPurchaseActivity extends BaseActivity implements View.OnClickList
 						switch (status) {
 							case AppConfig.ORDER_STATUS_101: //待付款
 								// 立即付款
+								startPay(opEn.getOrderNo(), opEn.getTotalPrice());
 								break;
 							case AppConfig.ORDER_STATUS_301: //待发货
 							case AppConfig.ORDER_STATUS_401: //待收货
 								// 确认收货
 								break;
 							case AppConfig.ORDER_STATUS_302: //退款中
-								// 退款详情
+								// 撤销退款
 								break;
 							case AppConfig.ORDER_STATUS_303: //已退款
 							case AppConfig.ORDER_STATUS_501: //待评价
@@ -482,6 +488,18 @@ public class MyPurchaseActivity extends BaseActivity implements View.OnClickList
 		map.put("size", AppConfig.LOAD_SIZE);
 		map.put("orderStatus", String.valueOf(top_type));
 		loadSVData(AppConfig.BASE_URL_3, AppConfig.URL_ORDER_LIST, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_ORDER_LIST);
+	}
+
+	/**
+	 * 在线支付
+	 */
+	private void startPay(String orderSn, double payPrice) {
+		if (StringUtil.isNull(orderSn) || payPrice <= 0) return;
+		Intent intent = new Intent(mContext, WXPayEntryActivity.class);
+		intent.putExtra("sourceType", WXPayEntryActivity.SOURCE_TYPE_3);
+		intent.putExtra("orderSn", orderSn);
+		intent.putExtra("orderTotal", df.format(payPrice));
+		startActivityForResult(intent, AppConfig.ACTIVITY_CODE_PAY_DATA);
 	}
 
 	@Override
