@@ -197,13 +197,15 @@ public class CartActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void updateListData() {
+        rvAdapter.updateData(al_show);
+        checkAllDataStatus();
         if (al_show.size() <= 0) {
             setNullVisibility(View.VISIBLE);
+            iv_select_all.setSelected(false);
+            tv_confirm.setBackgroundResource(R.drawable.shape_style_solid_03_08);
         } else {
             setNullVisibility(View.GONE);
         }
-        rvAdapter.updateData(al_show);
-        checkAllDataStatus();
     }
 
     /**
@@ -323,6 +325,7 @@ public class CartActivity extends BaseActivity implements View.OnClickListener {
                 updateSelectAllStatus();
                 break;
             case R.id.cart_view_tv_confirm:
+                if (al_show.size() <= 0) return;
                 if (isManage) { //删除
                     handleSelectItem(0);
                 } else { //结算

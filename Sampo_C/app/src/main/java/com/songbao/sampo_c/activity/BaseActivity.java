@@ -1133,8 +1133,6 @@ public class BaseActivity extends FragmentActivity {
                     if (numEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
                         userManager.saveUserCartNum(numEn.getDataTotal());
                         updateCartGoodsNum();
-                    } else {
-                        handleErrorCode(numEn);
                     }
                     break;
                 case AppConfig.REQUEST_SV_GOODS_ATTR: //加载商品属性

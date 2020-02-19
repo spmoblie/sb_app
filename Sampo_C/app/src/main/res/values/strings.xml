@@ -14,6 +14,7 @@
     <string name="reset">重置</string>
     <string name="retry">重试</string>
     <string name="back">返回</string>
+    <string name="call">拨打</string>
     <string name="copy">复制</string>
     <string name="save">保存</string>
     <string name="save_ok">保存成功</string>
@@ -288,6 +289,7 @@
     <string name="goods_attr_selected_3">%1$s %2$s %3$s</string>
     <string name="goods_cart">购物车</string>
     <string name="goods_cart_add">加入购物车</string>
+    <string name="goods_cart_add_success">加入购物车成功</string>
     <string name="goods_go_customize">我要定制</string>
 
     <!-- Cart -->
@@ -318,6 +320,7 @@
     <string name="order_rmb">￥ %1$s</string>
     <string name="order_rmb_add">+￥ %1$s</string>
     <string name="order_rmb_minus">-￥ %1$s</string>
+    <string name="order_order_no_copy">订单编号已复制</string>
     <string name="order_order_no">订单编号：\t\t%1$s</string>
     <string name="order_pay_type">支付方式：\t\t%1$s</string>
     <string name="order_pay_no">支付编号：\t\t%1$s</string>
@@ -346,6 +349,7 @@
     <string name="order_progress_check">查看进度</string>
     <string name="order_logistics">查看物流</string>
     <string name="order_logistics_no">%1$s：%2$s</string>
+    <string name="order_logistics_null">抱歉！暂无物流信息~</string>
     <string name="order_installed">已安装</string>
     <string name="order_confirmed">已确认</string>
     <string name="order_confirm_designs">确认效果图</string>
@@ -366,6 +370,7 @@
     <string name="order_change">换货</string>
     <string name="order_return">退货</string>
     <string name="order_post_sale">申请售后</string>
+    <string name="order_post_sale_call">申请售后服务请拨打售后电话400&#8211;880&#8211;6558</string>
     <string name="order_post_sale_hint">请描述您换货或退货原因</string>
     <string name="order_refund_price">退款金额</string>
     <string name="order_refund_price_num">退款金额：\t\t￥%1$s</string>
@@ -525,6 +530,7 @@
     <string name="address_rise">收货地址：</string>
     <string name="address_select">选择地址</string>
     <string name="address_change">修改地址</string>
+    <string name="address_change_ok">地址修改成功</string>
     <string name="address_area">所在地区</string>
     <string name="address_area_show">%1$s%2$s%3$s</string>
     <string name="address_area_hint">选择所在地区</string>

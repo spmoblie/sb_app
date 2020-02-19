@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.support.v4.util.ArrayMap;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
@@ -27,8 +28,11 @@ import com.songbao.sampo_c.widgets.pullrefresh.PullToRefreshRecyclerView;
 import com.songbao.sampo_c.widgets.recycler.MyRecyclerView;
 import com.songbao.sampo_c.wxapi.WXPayEntryActivity;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -78,6 +82,9 @@ public class MyPurchaseActivity extends BaseActivity implements View.OnClickList
 	private int top_type = TYPE_1; //Top标记
 	private int total_1, total_2, total_3, total_4, total_5;
 	private boolean isLoadOk = true; //加载控制
+	private boolean isToTop = false; //是否回顶
+	private int selectPosition = 0; //选择的订单索引
+	private String selectOrderNo = ""; //选择的订单编号
 
 	private ArrayList<OPurchaseEntity> al_show = new ArrayList<>();
 	private ArrayList<OPurchaseEntity> al_all_1 = new ArrayList<>();
@@ -175,23 +182,25 @@ public class MyPurchaseActivity extends BaseActivity implements View.OnClickList
 			public void setOnClick(Object data, int position, int type) {
 				if (position < 0 || position >= al_show.size()) return;
 				OPurchaseEntity opEn = al_show.get(position);
+				selectPosition = position;
+				selectOrderNo = opEn.getOrderNo();
 				int status = opEn.getStatus();
 				switch (type) {
 					case 1: //按键01
 						switch (status) {
 							case AppConfig.ORDER_STATUS_101: //待付款
 								// 取消订单
+								showConfirmDialog(getString(R.string.order_cancel_confirm), new MyHandler(MyPurchaseActivity.this), 101);
 								break;
 							case AppConfig.ORDER_STATUS_301: //待发货
 							case AppConfig.ORDER_STATUS_401: //待收货
 								// 查看物流
+								showErrorDialog(R.string.order_logistics_null);
 								break;
 							case AppConfig.ORDER_STATUS_302: //退款中
 							case AppConfig.ORDER_STATUS_303: //已退款
 								// 退款详情
-								break;
-							case AppConfig.ORDER_STATUS_501: //待评价
-								// 我要评价
+								openPurchaseActivity(opEn);
 								break;
 						}
 						break;
@@ -204,21 +213,23 @@ public class MyPurchaseActivity extends BaseActivity implements View.OnClickList
 							case AppConfig.ORDER_STATUS_301: //待发货
 							case AppConfig.ORDER_STATUS_401: //待收货
 								// 确认收货
+								showConfirmDialog(getString(R.string.order_confirm_receipt_hint), new MyHandler(MyPurchaseActivity.this), 103);
 								break;
-							case AppConfig.ORDER_STATUS_302: //退款中
-								// 撤销退款
+							case AppConfig.ORDER_STATUS_501: //待评价
+								// 我要评价
+								openPurchaseActivity(opEn);
 								break;
 							case AppConfig.ORDER_STATUS_303: //已退款
-							case AppConfig.ORDER_STATUS_501: //待评价
 							case AppConfig.ORDER_STATUS_801: //已完成
 							case AppConfig.ORDER_STATUS_102: //已取消
 							default:
 								// 删除订单
+								showConfirmDialog(getString(R.string.order_delete_confirm), new MyHandler(MyPurchaseActivity.this), 102);
 								break;
 						}
 						break;
 					default:
-						openPurchaseActivity(al_show.get(position));
+						openPurchaseActivity(opEn);
 						break;
 				}
 			}
@@ -233,7 +244,7 @@ public class MyPurchaseActivity extends BaseActivity implements View.OnClickList
 		if (opEn != null) {
 			Intent intent = new Intent(mContext, PurchaseActivity.class);
 			intent.putExtra(AppConfig.PAGE_DATA, opEn);
-			startActivity(intent);
+			startActivityForResult(intent, AppConfig.ACTIVITY_CODE_ORDER_UPDATE);
 		}
 	}
 
@@ -276,57 +287,57 @@ public class MyPurchaseActivity extends BaseActivity implements View.OnClickList
 			case R.id.top_bar_radio_rb_1:
 				if (top_type == TYPE_1) return;
 				top_type = TYPE_1;
+				changeItemStatus();
 				addOldListData(al_all_1, load_page_1, total_1);
 				if (al_all_1.size() <= 0) {
 					load_page_1 = 1;
 					total_1 = 0;
 					loadFirstPageData();
 				}
-				changeItemStatus();
 				break;
 			case R.id.top_bar_radio_rb_2:
 				if (top_type == TYPE_2) return;
 				top_type = TYPE_2;
+				changeItemStatus();
 				addOldListData(al_all_2, load_page_2, total_2);
 				if (al_all_2.size() <= 0) {
 					load_page_2 = 1;
 					total_2 = 0;
 					loadFirstPageData();
 				}
-				changeItemStatus();
 				break;
 			case R.id.top_bar_radio_rb_3:
 				if (top_type == TYPE_3) return;
 				top_type = TYPE_3;
+				changeItemStatus();
 				addOldListData(al_all_3, load_page_3, total_3);
 				if (al_all_3.size() <= 0) {
 					load_page_3 = 1;
 					total_3 = 0;
 					loadFirstPageData();
 				}
-				changeItemStatus();
 				break;
 			case R.id.top_bar_radio_rb_4:
 				if (top_type == TYPE_4) return;
 				top_type = TYPE_4;
+				changeItemStatus();
 				addOldListData(al_all_4, load_page_4, total_4);
 				if (al_all_4.size() <= 0) {
 					load_page_4 = 1;
 					total_4 = 0;
 					loadFirstPageData();
 				}
-				changeItemStatus();
 				break;
 			case R.id.top_bar_radio_rb_5:
 				if (top_type == TYPE_5) return;
 				top_type = TYPE_5;
+				changeItemStatus();
 				addOldListData(al_all_5, load_page_5, total_5);
 				if (al_all_5.size() <= 0) {
 					load_page_5 = 1;
 					total_5 = 0;
 					loadFirstPageData();
 				}
-				changeItemStatus();
 				break;
 		}
 	}
@@ -338,9 +349,6 @@ public class MyPurchaseActivity extends BaseActivity implements View.OnClickList
 		refreshAllShow(oldLists, oldTotal);
 		load_page = oldPage;
 		updateListData();
-		if (load_page != 1) {
-			toTop();
-		}
 		setLoadMoreState();
 	}
 
@@ -348,9 +356,7 @@ public class MyPurchaseActivity extends BaseActivity implements View.OnClickList
 	 * 更新列表数据
 	 */
 	private void updateListData() {
-		if (load_page == 1) {
-			toTop();
-		}
+		toTop();
 		if (al_show.size() <= 0) {
 			setNullVisibility(View.VISIBLE);
 		} else {
@@ -372,7 +378,10 @@ public class MyPurchaseActivity extends BaseActivity implements View.OnClickList
 	 * 滚动到顶部
 	 */
 	private void toTop() {
-		mRecyclerView.smoothScrollToPosition(0);
+		if (isToTop) {
+			isToTop = false;
+			mRecyclerView.smoothScrollToPosition(0);
+		}
 	}
 
 	/**
@@ -386,11 +395,12 @@ public class MyPurchaseActivity extends BaseActivity implements View.OnClickList
 	 * 自定义Top Item状态切换
 	 */
 	private void changeItemStatus() {
+		isToTop = true;
 		rb_1.setTypeface(Typeface.SANS_SERIF, Typeface.NORMAL);
 		rb_2.setTypeface(Typeface.SANS_SERIF, Typeface.NORMAL);
 		rb_3.setTypeface(Typeface.SANS_SERIF, Typeface.NORMAL);
 		rb_4.setTypeface(Typeface.SANS_SERIF, Typeface.NORMAL);
-		rb_4.setTypeface(Typeface.SANS_SERIF, Typeface.NORMAL);
+		rb_5.setTypeface(Typeface.SANS_SERIF, Typeface.NORMAL);
 		switch (top_type) {
 			case TYPE_1:
 				rb_1.setTypeface(Typeface.SANS_SERIF, Typeface.BOLD);
@@ -431,6 +441,29 @@ public class MyPurchaseActivity extends BaseActivity implements View.OnClickList
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
+	}
+
+	/**
+	 * 刷新所有数据
+	 */
+	private void updateAllData() {
+		al_show.clear();
+		al_all_1.clear();
+		al_all_2.clear();
+		al_all_3.clear();
+		al_all_4.clear();
+		al_all_5.clear();
+		am_all_1.clear();
+		am_all_2.clear();
+		am_all_3.clear();
+		am_all_4.clear();
+		am_all_5.clear();
+		load_page_1 = 1;
+		load_page_2 = 1;
+		load_page_3 = 1;
+		load_page_4 = 1;
+		load_page_5 = 1;
+		loadFirstPageData();
 	}
 
 	/**
@@ -488,6 +521,47 @@ public class MyPurchaseActivity extends BaseActivity implements View.OnClickList
 		map.put("size", AppConfig.LOAD_SIZE);
 		map.put("orderStatus", String.valueOf(top_type));
 		loadSVData(AppConfig.BASE_URL_3, AppConfig.URL_ORDER_LIST, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_ORDER_LIST);
+	}
+
+	/**
+	 * 取消订单
+	 */
+	private void postCancelOrder() {
+		try {
+			ArrayList<String> codeList = new ArrayList<>();
+			codeList.add(selectOrderNo);
+			JSONArray codes = new JSONArray(codeList);
+			JSONObject jsonObj = new JSONObject();
+			jsonObj.put("codeList", codes);
+			postJsonData(AppConfig.BASE_URL_3, AppConfig.URL_ORDER_CANCEL, jsonObj, AppConfig.REQUEST_SV_ORDER_CANCEL);
+		} catch (JSONException e) {
+			ExceptionUtil.handle(e);
+		}
+	}
+
+	/**
+	 * 删除订单
+	 */
+	private void postDeleteOrder() {
+		try {
+			ArrayList<String> codeList = new ArrayList<>();
+			codeList.add(selectOrderNo);
+			JSONArray codes = new JSONArray(codeList);
+			JSONObject jsonObj = new JSONObject();
+			jsonObj.put("codeList", codes);
+			postJsonData(AppConfig.BASE_URL_3, AppConfig.URL_ORDER_DELETE, jsonObj, AppConfig.REQUEST_SV_ORDER_DELETE);
+		} catch (JSONException e) {
+			ExceptionUtil.handle(e);
+		}
+	}
+
+	/**
+	 * 确认收货
+	 */
+	private void postConfirmReceipt() {
+		HashMap<String, String> map = new HashMap<>();
+		map.put("orderCode", selectOrderNo);
+		loadSVData(AppConfig.BASE_URL_3, AppConfig.URL_ORDER_CONFIRM, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_ORDER_CONFIRM);
 	}
 
 	/**
@@ -598,6 +672,19 @@ public class MyPurchaseActivity extends BaseActivity implements View.OnClickList
 						handleErrorCode(baseEn);
 					}
 					break;
+				case AppConfig.REQUEST_SV_ORDER_CANCEL:
+				case AppConfig.REQUEST_SV_ORDER_DELETE:
+				case AppConfig.REQUEST_SV_ORDER_CONFIRM:
+					baseEn = JsonUtils.getBaseErrorData(jsonObject);
+					if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
+						updateAllData();
+					} else if (baseEn.getErrNo() == AppConfig.ERROR_CODE_TIMEOUT) {
+						handleTimeOut();
+						finish();
+					} else {
+						handleErrorCode(baseEn);
+					}
+					break;
 			}
 		} catch (Exception e) {
 			loadFailHandle();
@@ -635,5 +722,43 @@ public class MyPurchaseActivity extends BaseActivity implements View.OnClickList
 		isLoadOk = true;
 		refresh_rv.onPullUpRefreshComplete();
 		refresh_rv.onPullDownRefreshComplete();
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (resultCode == RESULT_OK) {
+			if (requestCode == AppConfig.ACTIVITY_CODE_ORDER_UPDATE) {
+				boolean isUpdate = data.getBooleanExtra(AppConfig.PAGE_DATA, false);
+				if (isUpdate) {
+					updateAllData();
+				}
+			}
+		}
+		super.onActivityResult(requestCode, resultCode, data);
+	}
+
+	static class MyHandler extends Handler {
+
+		WeakReference<MyPurchaseActivity> mActivity;
+
+		MyHandler(MyPurchaseActivity activity) {
+			mActivity = new WeakReference<>(activity);
+		}
+
+		@Override
+		public void handleMessage(Message msg) {
+			MyPurchaseActivity theActivity = mActivity.get();
+			switch (msg.what) {
+				case 101: //取消订单
+					theActivity.postCancelOrder();
+					break;
+				case 102: //删除订单
+					theActivity.postDeleteOrder();
+					break;
+				case 103: //确认收货
+					theActivity.postConfirmReceipt();
+					break;
+			}
+		}
 	}
 }

@@ -436,7 +436,7 @@ public class JsonUtils {
                         goodsEn.setName(goodsObj.getString("goodsName"));
                         goodsEn.setPrice(goodsObj.getDouble("buyPrice"));
                         goodsEn.setNumber(goodsObj.getInt("buyNum"));
-                        goodsEn.setAttribute(goodsObj.getString("skuComboName"));
+                        goodsEn.setAttribute(goodsObj.getString("comboName"));
                         goodsList.add(goodsEn);
                     }
                     childEn.setGoodsLists(goodsList);
@@ -495,7 +495,9 @@ public class JsonUtils {
                 goodsEn.setName(goodsObj.getString("goodsName"));
                 goodsEn.setPrice(goodsObj.getDouble("buyPrice"));
                 goodsEn.setNumber(goodsObj.getInt("buyNum"));
-                goodsEn.setAttribute(goodsObj.getString("skuComboName"));
+                goodsEn.setAttribute(goodsObj.getString("comboName"));
+                goodsEn.setSaleStatus(AppConfig.GOODS_SALE_01);
+                //goodsEn.setCommentStatus(goodsObj.getInt("isEvaluate"));
                 goodsList.add(goodsEn);
             }
             opEn.setGoodsLists(goodsList);
@@ -1068,10 +1070,7 @@ public class JsonUtils {
         BaseEntity mainEn = getCommonKeyValue(jsonObject);
 
         if (StringUtil.notNull(jsonObject, "data")) {
-            JSONObject jsonData = jsonObject.getJSONObject("data");
-            if (StringUtil.notNull(jsonData, "goodsCount")) {
-                mainEn.setDataTotal(jsonData.getInt("goodsCount"));
-            }
+            mainEn.setDataTotal(jsonObject.getInt("data"));
         }
         return mainEn;
     }

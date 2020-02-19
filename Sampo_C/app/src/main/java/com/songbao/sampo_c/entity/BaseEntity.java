@@ -11,7 +11,7 @@ public class BaseEntity<T> implements Serializable {
 
     private static final long serialVersionUID = 2980439304361030908L;
 
-    private int errNo; //响应状态
+    private int errNo = -9999; //响应状态
     private String errMsg; //状态描述
     private String others; //其它内容
 

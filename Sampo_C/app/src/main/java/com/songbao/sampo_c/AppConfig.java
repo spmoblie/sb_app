@@ -141,6 +141,12 @@ public class AppConfig {
 	public final static String URL_ORDER_LIST = "trade/app/order/list";
 	// 订单详情
 	public final static String URL_ORDER_INFO = "trade/app/order/info";
+	// 取消订单
+	public final static String URL_ORDER_CANCEL = "trade/app/order/cancel";
+	// 删除订单
+	public final static String URL_ORDER_DELETE = "trade/app/order/delete";
+	// 确认订单
+	public final static String URL_ORDER_CONFIRM = "trade/app/order/confirm";
 
 	// 提交定制
 	public final static String URL_BOOKING_CREATE = "trade/app/booking/create";
@@ -288,6 +294,12 @@ public class AppConfig {
 	public static final int REQUEST_SV_ORDER_LIST = 0X3304;
 	// 订单详情
 	public static final int REQUEST_SV_ORDER_INFO = 0X3305;
+	// 取消订单
+	public static final int REQUEST_SV_ORDER_CANCEL = 0X3306;
+	// 删除订单
+	public static final int REQUEST_SV_ORDER_DELETE = 0X3307;
+	// 确认订单
+	public static final int REQUEST_SV_ORDER_CONFIRM  = 0X3308;
 
 	// 提交定制
 	public static final int REQUEST_SV_BOOKING_CREATE = 0X3402;
@@ -357,6 +369,15 @@ public class AppConfig {
 	public static final int ORDER_STATUS_501 = 501; //已签收
 	public static final int ORDER_STATUS_701 = 701; //待安装
 	public static final int ORDER_STATUS_801 = 800; //已完成
+	// 商品状态码
+	public static final int GOODS_SALE_01 = 1; //未售后
+	public static final int GOODS_SALE_02 = 2; //退款中
+	public static final int GOODS_SALE_03 = 3; //已退款
+	public static final int GOODS_SALE_04 = 4; //换货中
+	public static final int GOODS_SALE_05 = 5; //已换货
+	public static final int GOODS_COMM_01 = 6; //未评价
+	public static final int GOODS_COMM_02 = 7; //已评价
+	public static final int GOODS_COMM_03 = 8; //已追评
 
 	// 图片宽高比例
 	public static final int IMG_WIDTHS = 16;
@@ -369,6 +390,9 @@ public class AppConfig {
 	public static final int LOADING_TIME = 200;
 	// 验证码倒计时
 	public static final long SEND_TIME = 60000;
+
+	// 售后服务电话
+	public static final String SALE_PHONE = "4008806558";
 
 	// 动态授权-权限集
 	public static final String[] PERMISSIONS = new String[]{

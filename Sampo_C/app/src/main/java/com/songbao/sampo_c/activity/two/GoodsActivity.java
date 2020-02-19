@@ -724,7 +724,7 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
                     BaseEntity baseEn = JsonUtils.getBaseErrorData(jsonObject);
                     if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
                         loadCartGoodsNum();
-                        CommonTools.showToast("加入购物车成功");
+                        CommonTools.showToast(getString(R.string.goods_cart_add_success));
                     } else {
                         handleErrorCode(baseEn);
                     }
