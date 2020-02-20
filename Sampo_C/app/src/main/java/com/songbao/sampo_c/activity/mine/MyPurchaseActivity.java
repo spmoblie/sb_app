@@ -192,15 +192,9 @@ public class MyPurchaseActivity extends BaseActivity implements View.OnClickList
 								// 取消订单
 								showConfirmDialog(getString(R.string.order_cancel_confirm), new MyHandler(MyPurchaseActivity.this), 101);
 								break;
-							case AppConfig.ORDER_STATUS_301: //待发货
 							case AppConfig.ORDER_STATUS_401: //待收货
 								// 查看物流
 								showErrorDialog(R.string.order_logistics_null);
-								break;
-							case AppConfig.ORDER_STATUS_302: //退款中
-							case AppConfig.ORDER_STATUS_303: //已退款
-								// 退款详情
-								openPurchaseActivity(opEn);
 								break;
 						}
 						break;
@@ -210,7 +204,6 @@ public class MyPurchaseActivity extends BaseActivity implements View.OnClickList
 								// 立即付款
 								startPay(opEn.getOrderNo(), opEn.getTotalPrice());
 								break;
-							case AppConfig.ORDER_STATUS_301: //待发货
 							case AppConfig.ORDER_STATUS_401: //待收货
 								// 确认收货
 								showConfirmDialog(getString(R.string.order_confirm_receipt_hint), new MyHandler(MyPurchaseActivity.this), 103);
@@ -593,6 +586,9 @@ public class MyPurchaseActivity extends BaseActivity implements View.OnClickList
 									if (load_type == 0) {
 										lists.addAll(al_all_1);
 										al_all_1.clear();
+										if (load_page_1 <= 1) {
+											load_page_1 = 2;
+										}
 									}else {
 										load_page_1++;
 									}
@@ -607,6 +603,9 @@ public class MyPurchaseActivity extends BaseActivity implements View.OnClickList
 									if (load_type == 0) {
 										lists.addAll(al_all_2);
 										al_all_2.clear();
+										if (load_page_2 <= 1) {
+											load_page_2 = 2;
+										}
 									}else {
 										load_page_2++;
 									}
@@ -621,6 +620,9 @@ public class MyPurchaseActivity extends BaseActivity implements View.OnClickList
 									if (load_type == 0) {
 										lists.addAll(al_all_3);
 										al_all_3.clear();
+										if (load_page_3 <= 1) {
+											load_page_3 = 2;
+										}
 									}else {
 										load_page_3++;
 									}
@@ -635,6 +637,9 @@ public class MyPurchaseActivity extends BaseActivity implements View.OnClickList
 									if (load_type == 0) {
 										lists.addAll(al_all_4);
 										al_all_4.clear();
+										if (load_page_4 <= 1) {
+											load_page_4 = 2;
+										}
 									}else {
 										load_page_4++;
 									}
@@ -649,6 +654,9 @@ public class MyPurchaseActivity extends BaseActivity implements View.OnClickList
 									if (load_type == 0) {
 										lists.addAll(al_all_5);
 										al_all_5.clear();
+										if (load_page_5 <= 1) {
+											load_page_5 = 2;
+										}
 									}else {
 										load_page_5++;
 									}

@@ -428,6 +428,9 @@ public class AddressActivity extends BaseActivity implements View.OnClickListene
                                 LogUtil.i(LogUtil.LOG_HTTP, TAG + " 刷新数据 —> size = " + lists.size());
                                 lists.addAll(al_show);
                                 al_show.clear();
+                                if (load_page <= 1) {
+                                    load_page = 2;
+                                }
                             } else {
                                 //翻页
                                 LogUtil.i(LogUtil.LOG_HTTP, TAG + " 翻页数据 —> size = " + lists.size());

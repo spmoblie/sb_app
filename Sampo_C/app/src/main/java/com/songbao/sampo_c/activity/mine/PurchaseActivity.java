@@ -177,10 +177,10 @@ public class PurchaseActivity extends BaseActivity implements View.OnClickListen
                 case AppConfig.ORDER_STATUS_301: //待发货
                     tv_status.setText(getString(R.string.order_wait_send));
                     tv_status.setBackgroundResource(R.drawable.shape_style_solid_10_04);
-                    tv_click_01.setText(getString(R.string.order_logistics));
-                    tv_click_01.setTextColor(getResources().getColor(R.color.tv_color_status));
-                    tv_click_01.setBackgroundResource(R.drawable.shape_style_empty_04_08);
+                    tv_click_01.setVisibility(View.GONE);
                     tv_click_02.setVisibility(View.GONE);
+
+                    iv_address_go.setVisibility(View.VISIBLE);
                     break;
                 case AppConfig.ORDER_STATUS_401: //待收货
                     tv_status.setText(getString(R.string.order_wait_receive));
@@ -280,7 +280,7 @@ public class PurchaseActivity extends BaseActivity implements View.OnClickListen
                             break;
                         case AppConfig.GOODS_SALE_04: //换货中
                         case AppConfig.GOODS_SALE_05: //已换货
-                            // 售后详情
+                            // 退换详情
                             break;
                         case AppConfig.GOODS_COMM_01: //未评价
                             // 我要评价
@@ -308,8 +308,9 @@ public class PurchaseActivity extends BaseActivity implements View.OnClickListen
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.purchase_address_main:
-                if (opEn != null && opEn.getStatus() == AppConfig.ORDER_STATUS_101) {
+            case R.id.purchase_address_main: //修改地址
+                if (opEn != null && (opEn.getStatus() == AppConfig.ORDER_STATUS_101
+                || opEn.getStatus() == AppConfig.ORDER_STATUS_301)) { //待付款或者待发货
                     Intent intent = new Intent(mContext, AddressActivity.class);
                     intent.putExtra("isFinish", true);
                     intent.putExtra("selectId", addressId);
@@ -328,10 +329,9 @@ public class PurchaseActivity extends BaseActivity implements View.OnClickListen
                         // 取消订单
                         showConfirmDialog(getString(R.string.order_cancel_confirm), new MyHandler(PurchaseActivity.this), 101);
                         break;
-                    case AppConfig.ORDER_STATUS_301: //待发货
-                    case AppConfig.ORDER_STATUS_401: //待收货
                     case AppConfig.ORDER_STATUS_302: //退款中
                     case AppConfig.ORDER_STATUS_303: //已退款
+                    case AppConfig.ORDER_STATUS_401: //待收货
                     case AppConfig.ORDER_STATUS_501: //待评价
                     case AppConfig.ORDER_STATUS_801: //已完成
                         // 查看物流
@@ -346,7 +346,6 @@ public class PurchaseActivity extends BaseActivity implements View.OnClickListen
                         // 立即付款
                         startPay(opEn.getOrderNo(), opEn.getTotalPrice());
                         break;
-                    //case AppConfig.ORDER_STATUS_301: //待发货
                     case AppConfig.ORDER_STATUS_401: //待收货
                         // 确认收货
                         showConfirmDialog(getString(R.string.order_confirm_receipt_hint), new MyHandler(PurchaseActivity.this), 103);

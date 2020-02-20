@@ -16,6 +16,8 @@
         <EditText
             android:id="@+id/feed_back_et_content"
             style="@style/common_edit_text"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:padding="@dimen/margin_padding_10"
             android:gravity="top"
             android:hint="@string/setting_input_hint_feedback"

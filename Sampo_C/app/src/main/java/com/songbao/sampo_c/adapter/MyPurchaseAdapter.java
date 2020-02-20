@@ -70,9 +70,7 @@ public class MyPurchaseAdapter extends BaseRecyclerAdapter {
                 tv_status.setText(context.getString(R.string.order_wait_send));
                 tv_status.setBackgroundResource(R.drawable.shape_style_solid_10_04);
                 tv_click_01.setVisibility(View.GONE);
-                tv_click_02.setText(context.getString(R.string.order_logistics));
-                tv_click_02.setTextColor(context.getResources().getColor(R.color.tv_color_status));
-                tv_click_02.setBackgroundResource(R.drawable.shape_style_empty_04_08);
+                tv_click_02.setVisibility(View.GONE);
                 break;
             case AppConfig.ORDER_STATUS_401: //待收货
                 tv_status.setText(context.getString(R.string.order_wait_receive));
@@ -89,12 +87,6 @@ public class MyPurchaseAdapter extends BaseRecyclerAdapter {
                 tv_status.setBackgroundResource(R.drawable.shape_style_solid_05_04);
                 tv_click_01.setVisibility(View.GONE);
                 tv_click_02.setVisibility(View.GONE);
-                /*tv_click_01.setText(context.getString(R.string.order_refund_details));
-                tv_click_01.setTextColor(context.getResources().getColor(R.color.app_color_gray_5));
-                tv_click_01.setBackgroundResource(R.drawable.shape_style_empty_02_08);
-                tv_click_02.setText(context.getString(R.string.order_revoke_refund));
-                tv_click_02.setTextColor(context.getResources().getColor(R.color.app_color_white));
-                tv_click_02.setBackgroundResource(R.drawable.shape_style_solid_05_08);*/
                 break;
             case AppConfig.ORDER_STATUS_303: //已退款
                 tv_status.setText(context.getString(R.string.order_refund_done));

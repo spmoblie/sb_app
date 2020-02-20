@@ -497,7 +497,8 @@ public class JsonUtils {
                 goodsEn.setNumber(goodsObj.getInt("buyNum"));
                 goodsEn.setAttribute(goodsObj.getString("comboName"));
                 goodsEn.setSaleStatus(AppConfig.GOODS_SALE_01);
-                //goodsEn.setCommentStatus(goodsObj.getInt("isEvaluate"));
+                //goodsEn.setCommentStatus(AppConfig.GOODS_COMM_01);
+                goodsEn.setCommentStatus(goodsObj.getInt("isEvaluate"));
                 goodsList.add(goodsEn);
             }
             opEn.setGoodsLists(goodsList);

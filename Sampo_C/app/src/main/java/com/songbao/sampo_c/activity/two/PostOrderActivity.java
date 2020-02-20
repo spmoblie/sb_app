@@ -101,7 +101,7 @@ public class PostOrderActivity extends BaseActivity implements View.OnClickListe
     }
 
     private void initView() {
-        setTitle("填写订单");
+        setTitle(R.string.order_fill);
 
         address_main.setOnClickListener(this);
         tv_confirm.setOnClickListener(this);
@@ -175,7 +175,7 @@ public class PostOrderActivity extends BaseActivity implements View.OnClickListe
                 if (addressId > 0) {
                     postOrderData();
                 } else {
-                    CommonTools.showToast("您还没有填写收货地址");
+                    CommonTools.showToast(getString(R.string.order_address_null));
                 }
                 break;
         }

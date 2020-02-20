@@ -11,7 +11,7 @@ public class AppConfig {
 	 */
 
 	// 发布控制
-	public static final boolean IS_PUBLISH = false;
+	public static final boolean IS_PUBLISH = true;
 	// http协议
 	public final static String APP_HTTP = "http://";
 	// https协议
