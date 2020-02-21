@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="@dimen/margin_padding_20"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/screen_item_2_tv_attr_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/price"
+        android:textStyle="bold"
+        android:textColor="@color/shows_text_color"
+        android:textSize="@dimen/app_text_size_content" />
+
+    <EditText
+        android:id="@+id/screen_item_2_tv_attr_min"
+        style="@style/common_edit_text"
+        android:layout_width="0dp"
+        android:paddingTop="@dimen/margin_padding_7"
+        android:paddingBottom="@dimen/margin_padding_7"
+        android:paddingLeft="@dimen/margin_padding_18"
+        android:paddingRight="@dimen/margin_padding_18"
+        android:layout_marginTop="@dimen/app_margin_screen"
+        android:gravity="center"
+        android:hint="@string/goods_price_min"
+        android:inputType="number"
+        android:digits="0123456789"
+        android:imeOptions="actionDone"
+        app:layout_constraintWidth_percent="0.4"
+        app:layout_constraintLeft_toLeftOf="@+id/screen_item_2_tv_attr_name"
+        app:layout_constraintTop_toBottomOf="@+id/screen_item_2_tv_attr_name"/>
+
+    <TextView
+        android:id="@+id/screen_item_2_tv_attr_space"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/space"
+        android:textStyle="bold"
+        android:textColor="@color/app_color_gray_5"
+        android:textSize="@dimen/app_text_size_content"
+        android:layout_marginStart="@dimen/margin_padding_10"
+        app:layout_constraintTop_toTopOf="@+id/screen_item_2_tv_attr_min"
+        app:layout_constraintBottom_toBottomOf="@+id/screen_item_2_tv_attr_min"
+        app:layout_constraintLeft_toRightOf="@+id/screen_item_2_tv_attr_min"
+        app:layout_constraintRight_toLeftOf="@+id/screen_item_2_tv_attr_max"/>
+
+    <EditText
+        android:id="@+id/screen_item_2_tv_attr_max"
+        style="@style/common_edit_text"
+        android:layout_width="0dp"
+        android:paddingTop="@dimen/margin_padding_7"
+        android:paddingBottom="@dimen/margin_padding_7"
+        android:paddingLeft="@dimen/margin_padding_18"
+        android:paddingRight="@dimen/margin_padding_18"
+        android:layout_marginTop="@dimen/app_margin_screen"
+        android:layout_marginStart="@dimen/margin_padding_10"
+        android:gravity="center"
+        android:hint="@string/goods_price_max"
+        android:inputType="number"
+        android:digits="0123456789"
+        android:imeOptions="actionDone"
+        app:layout_constraintWidth_percent="0.4"
+        app:layout_constraintLeft_toRightOf="@+id/screen_item_2_tv_attr_space"
+        app:layout_constraintTop_toBottomOf="@+id/screen_item_2_tv_attr_name"/>
+
+    <TextView
+        android:id="@+id/screen_item_2_tv_attr_all"
+        style="@style/common_text_bg_frame"
+        android:paddingTop="@dimen/margin_padding_7"
+        android:paddingBottom="@dimen/margin_padding_7"
+        android:paddingLeft="@dimen/margin_padding_27"
+        android:paddingRight="@dimen/margin_padding_27"
+        android:background="@drawable/selector_item_goods_attr"
+        android:text="@string/all"
+        android:textColor="@color/app_color_white"
+        android:textSize="@dimen/app_text_size_label"
+        app:layout_constraintLeft_toLeftOf="@+id/screen_item_2_tv_attr_min"
+        app:layout_constraintTop_toBottomOf="@+id/screen_item_2_tv_attr_min"/>
+
+</android.support.constraint.ConstraintLayout>

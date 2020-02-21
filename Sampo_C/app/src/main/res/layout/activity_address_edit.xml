@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/ui_color_app_bg_02">
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/address_edit_show_main"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@drawable/shape_style_solid_01_16"
+        android:layout_marginStart="@dimen/app_margin_screen"
+        android:layout_marginEnd="@dimen/app_margin_screen"
+        android:layout_marginTop="@dimen/margin_padding_20"
+        android:layout_marginBottom="@dimen/margin_padding_36"
+        app:layout_constraintVertical_weight="1"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/address_edit_tv_save">
+
+        <TextView
+            android:id="@+id/address_edit_tv_name"
+            style="@style/address_text"
+            android:padding="@dimen/app_margin_screen"
+            android:text="@string/address_consignee"
+            android:textColor="@color/app_color_gray_5"/>
+
+        <EditText
+            android:id="@+id/address_edit_et_name"
+            style="@style/address_edit"
+            android:hint="@string/address_consignee_hint"
+            app:layout_constraintWidth_percent="0.75"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/address_edit_tv_name"/>
+
+        <TextView
+            android:id="@+id/address_edit_tv_phone"
+            style="@style/address_text"
+            android:padding="@dimen/app_margin_screen"
+            android:text="@string/address_phone_number"
+            android:textColor="@color/app_color_gray_5"
+            app:layout_constraintTop_toBottomOf="@+id/address_edit_tv_name"/>
+
+        <EditText
+            android:id="@+id/address_edit_et_phone"
+            style="@style/address_edit"
+            android:hint="@string/address_phone_number_hint"
+            android:inputType="phone"
+            android:maxLength="13"
+            app:layout_constraintWidth_percent="0.75"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/address_edit_tv_phone"/>
+
+        <TextView
+            android:id="@+id/address_edit_tv_area"
+            style="@style/address_text"
+            android:padding="@dimen/app_margin_screen"
+            android:text="@string/address_area"
+            android:textColor="@color/app_color_gray_5"
+            app:layout_constraintTop_toBottomOf="@+id/address_edit_tv_phone"/>
+
+        <TextView
+            android:id="@+id/address_edit_tv_area_show"
+            style="@style/address_edit"
+            android:hint="@string/address_area_hint"
+            android:drawableEnd="@mipmap/icon_go_right"
+            android:drawablePadding="@dimen/margin_padding_10"
+            app:layout_constraintWidth_percent="0.75"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/address_edit_tv_area"/>
+
+        <TextView
+            android:id="@+id/address_edit_tv_detail"
+            style="@style/address_text"
+            android:padding="@dimen/app_margin_screen"
+            android:text="@string/address_detail"
+            android:lines="3"
+            android:textColor="@color/app_color_gray_5"
+            app:layout_constraintTop_toBottomOf="@+id/address_edit_tv_area"/>
+
+        <EditText
+            android:id="@+id/address_edit_et_detail"
+            style="@style/address_edit"
+            android:hint="@string/address_detail_hint"
+            android:maxLines="3"
+            android:lines="3"
+            android:gravity="top"
+            app:layout_constraintWidth_percent="0.75"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/address_edit_tv_detail"/>
+
+        <TextView
+            android:id="@+id/address_edit_tv_default"
+            style="@style/address_text"
+            android:layout_width="0dp"
+            android:padding="@dimen/app_margin_screen"
+            android:text="@string/address_default_setting"
+            android:textColor="@color/app_color_gray_5"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/address_edit_iv_default"
+            app:layout_constraintTop_toBottomOf="@+id/address_edit_tv_detail"/>
+
+        <ImageView
+            android:id="@+id/address_edit_iv_default"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/app_margin_screen"
+            android:src="@drawable/selector_checkbox_large"
+            android:contentDescription="@string/desc"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/address_edit_tv_default"/>
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/icon_address_line"
+            android:contentDescription="@string/desc"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+    </android.support.constraint.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/address_edit_tv_save"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/app_height_button"
+        android:layout_marginStart="@dimen/app_margin_screen"
+        android:layout_marginEnd="@dimen/app_margin_screen"
+        android:layout_marginBottom="@dimen/margin_padding_30"
+        android:background="@drawable/shape_style_solid_04_08"
+        android:gravity="center"
+        android:text="@string/address_save_used"
+        android:textStyle="bold"
+        android:textColor="@color/app_color_white"
+        android:textSize="@dimen/app_text_size_content"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <LinearLayout
+        android:id="@+id/address_edit_wheel_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:animateLayoutChanges="true"
+        android:background="@color/ui_bg_color_percent_05"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <View
+            android:id="@+id/address_edit_wheel_finish"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"/>
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/address_edit_wheel_show"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="5"
+            android:background="@drawable/shape_style_solid_01_16">
+
+            <RelativeLayout
+                android:id="@+id/address_edit_wheel_dismiss"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:layout_width="26dp"
+                    android:layout_height="4dp"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/shape_style_solid_03_04" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/wheel_view_tv_title"
+                style="@style/address_text"
+                android:text="@string/address_area_hint"
+                android:textStyle="bold"
+                android:textSize="@dimen/app_text_size_title"
+                app:layout_constraintLeft_toLeftOf="parent"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/address_edit_wheel_dismiss" />
+
+            <LinearLayout
+                android:id="@+id/wheel_view_main"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:layout_marginTop="@dimen/app_margin_screen"
+                android:layout_marginBottom="@dimen/app_margin_screen"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintTop_toBottomOf="@+id/wheel_view_tv_title"
+                app:layout_constraintBottom_toTopOf="@+id/address_edit_wheel_tv_confirm">
+
+                <com.district.selector.wheel.widget.WheelView
+                    android:id="@+id/wheel_province"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
+
+                <com.district.selector.wheel.widget.WheelView
+                    android:id="@+id/wheel_city"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
+
+                <com.district.selector.wheel.widget.WheelView
+                    android:id="@+id/wheel_district"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"/>
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/address_edit_wheel_tv_confirm"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/app_height_button"
+                android:layout_marginStart="@dimen/app_margin_screen"
+                android:layout_marginEnd="@dimen/app_margin_screen"
+                android:layout_marginBottom="@dimen/margin_padding_30"
+                android:background="@drawable/shape_style_solid_04_08"
+                android:gravity="center"
+                android:text="@string/confirm"
+                android:textStyle="bold"
+                android:textColor="@color/app_color_white"
+                android:textSize="@dimen/app_text_size_content"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+        </android.support.constraint.ConstraintLayout>
+    </LinearLayout>
+
+</android.support.constraint.ConstraintLayout>

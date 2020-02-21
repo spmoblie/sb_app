@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/ui_color_app_bg_02"
+    android:orientation="vertical">
+
+    <include layout="@layout/layout_top_radio_group" />
+
+    <com.songbao.sampo_c.widgets.pullrefresh.PullToRefreshRecyclerView
+        android:id="@+id/refresh_view_rv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</LinearLayout>

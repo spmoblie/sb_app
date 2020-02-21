@@ -1,0 +1,348 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/ui_color_app_bg_01">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/reserve_detail_iv_show"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/icon_default_show"
+                android:contentDescription="@string/desc"/>
+
+            <TextView
+                android:id="@+id/reserve_detail_tv_title"
+                style="@style/detail_text"
+                android:textSize="@dimen/app_text_size_content" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/app_margin_screen"
+                android:paddingRight="@dimen/app_margin_screen">
+
+                <TextView
+                    android:id="@+id/reserve_detail_tv_name"
+                    style="@style/common_text_bg_frame" />
+
+                <TextView
+                    android:id="@+id/reserve_detail_tv_series"
+                    style="@style/common_text_bg_frame"
+                    android:layout_marginStart="@dimen/margin_padding_10"
+                    android:background="@drawable/shape_style_empty_06_08"
+                    android:textColor="@color/app_color_yellow" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_padding_10"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/detail_text"
+                    android:drawableStart="@mipmap/icon_time"
+                    android:drawablePadding="@dimen/margin_padding_5"
+                    android:text="@string/reserve_slot" />
+
+                <TextView
+                    android:id="@+id/reserve_detail_tv_slot"
+                    style="@style/detail_text"
+                    android:layout_marginStart="0dp"
+                    android:textColor="@color/app_color_gray_5" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/detail_text"
+                    android:drawableStart="@mipmap/icon_site"
+                    android:drawablePadding="@dimen/margin_padding_5"
+                    android:text="@string/reserve_place" />
+
+                <TextView
+                    android:id="@+id/reserve_detail_tv_place"
+                    style="@style/detail_text"
+                    android:layout_marginStart="0dp"
+                    android:textColor="@color/app_color_gray_5" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/detail_text"
+                    android:drawableStart="@mipmap/icon_people"
+                    android:drawablePadding="@dimen/margin_padding_5"
+                    android:text="@string/reserve_suit" />
+
+                <TextView
+                    android:id="@+id/reserve_detail_tv_suit"
+                    style="@style/detail_text"
+                    android:layout_marginStart="0dp"
+                    android:textColor="@color/app_color_gray_5" />
+            </LinearLayout>
+
+            <ImageView
+                style="@style/set_line_margin_10"
+                android:layout_marginTop="@dimen/margin_padding_25"
+                android:contentDescription="@string/desc" />
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/reserve_detail_date_main"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingBottom="@dimen/app_margin_screen"
+                android:paddingTop="@dimen/margin_padding_10">
+
+                <TextView
+                    style="@style/detail_text"
+                    android:text="@string/reserve_date"
+                    android:textSize="@dimen/app_text_size_content"
+                    android:textStyle="bold"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/reserve_detail_tv_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/app_color_red_p"
+                    android:textSize="@dimen/app_text_size_content"
+                    android:textStyle="bold"
+                    android:layout_marginTop="@dimen/app_margin_screen"
+                    android:layout_marginEnd="@dimen/margin_padding_50"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintRight_toRightOf="parent" />
+
+                <ImageView
+                    android:id="@+id/reserve_detail_iv_date_go"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/icon_go_right"
+                    android:layout_marginTop="@dimen/margin_padding_17"
+                    android:layout_marginEnd="@dimen/app_margin_screen"
+                    android:contentDescription="@string/desc"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintRight_toRightOf="parent" />
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/reserve_detail_time_main"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingBottom="@dimen/app_margin_screen"
+                android:paddingTop="@dimen/margin_padding_10">
+
+                <TextView
+                    style="@style/detail_text"
+                    android:text="@string/reserve_time"
+                    android:textSize="@dimen/app_text_size_content"
+                    android:textStyle="bold"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/reserve_detail_tv_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/app_color_red_p"
+                    android:textSize="@dimen/app_text_size_content"
+                    android:textStyle="bold"
+                    android:layout_marginTop="@dimen/app_margin_screen"
+                    android:layout_marginEnd="@dimen/margin_padding_50"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintRight_toRightOf="parent" />
+
+                <ImageView
+                    android:id="@+id/reserve_detail_iv_time_go"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/icon_go_right"
+                    android:layout_marginTop="@dimen/margin_padding_17"
+                    android:layout_marginEnd="@dimen/app_margin_screen"
+                    android:contentDescription="@string/desc"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintRight_toRightOf="parent" />
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/reserve_detail_code_main"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingBottom="@dimen/app_margin_screen"
+                android:paddingTop="@dimen/margin_padding_10"
+                android:visibility="gone">
+
+                <TextView
+                    style="@style/detail_text"
+                    android:text="@string/reserve_qr_code"
+                    android:textSize="@dimen/app_text_size_content"
+                    android:textStyle="bold"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/reserve_detail_iv_code"
+                    android:layout_width="@dimen/margin_padding_125"
+                    android:layout_height="@dimen/margin_padding_125"
+                    android:layout_marginEnd="@dimen/margin_padding_50"
+                    android:layout_marginTop="@dimen/app_margin_screen"
+                    android:scaleType="fitCenter"
+                    android:src="@mipmap/icon_default_head"
+                    android:contentDescription="@string/desc"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/reserve_detail_tv_cover"
+                    android:layout_width="@dimen/margin_padding_125"
+                    android:layout_height="@dimen/margin_padding_125"
+                    android:layout_marginEnd="@dimen/margin_padding_50"
+                    android:layout_marginTop="@dimen/app_margin_screen"
+                    android:background="@color/ui_bg_color_percent_03"
+                    android:gravity="center"
+                    android:text="@string/cancelled"
+                    android:textColor="@color/app_color_white"
+                    android:textSize="@dimen/app_text_size_title"
+                    android:textStyle="bold"
+                    android:visibility="gone"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/reserve_detail_tv_code"
+                    style="@style/detail_text"
+                    android:textColor="@color/app_color_red_p"
+                    android:textSize="@dimen/app_text_size_small"
+                    android:textStyle="bold"
+                    android:visibility="gone"
+                    app:layout_constraintLeft_toLeftOf="@+id/reserve_detail_iv_code"
+                    app:layout_constraintRight_toRightOf="@+id/reserve_detail_iv_code"
+                    app:layout_constraintTop_toBottomOf="@+id/reserve_detail_iv_code"/>
+            </android.support.constraint.ConstraintLayout>
+
+            <ImageView
+                style="@style/set_line_margin_10"
+                android:layout_marginTop="@dimen/margin_padding_10"
+                android:contentDescription="@string/desc" />
+
+            <TextView
+                style="@style/detail_text"
+                android:layout_marginTop="@dimen/margin_padding_20"
+                android:text="@string/reserve_desc"
+                android:textSize="@dimen/app_text_size_title"
+                android:textStyle="bold" />
+
+            <TextView
+                style="@style/detail_text"
+                android:layout_marginTop="0dp"
+                android:text="@string/reserve_desc_en"
+                android:textColor="@color/app_color_gray_9"
+                android:textSize="@dimen/app_text_size_small" />
+
+            <com.songbao.sampo_c.widgets.ObservableWebView
+                android:id="@+id/reserve_detail_web_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_padding_10"
+                android:layerType="software" />
+        </LinearLayout>
+
+    </ScrollView>
+
+    <TextView
+        android:id="@+id/reserve_detail_tv_success"
+        style="@style/common_text_button"
+        android:layout_width="match_parent"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="@dimen/margin_padding_50"
+        android:layout_marginStart="@dimen/app_margin_screen"
+        android:layout_marginEnd="@dimen/app_margin_screen"
+        android:padding="@dimen/app_margin_screen"
+        android:text="@string/reserve_success"
+        android:textSize="@dimen/app_text_size_title"
+        android:textStyle="bold"
+        android:visibility="gone" />
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/reserve_detail_click_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="@dimen/margin_padding_50"
+        android:layout_marginStart="@dimen/app_margin_screen"
+        android:layout_marginEnd="@dimen/app_margin_screen"
+        android:background="@drawable/shape_style_solid_01_08"
+        android:elevation="80dp"
+        android:padding="@dimen/margin_padding_2">
+
+        <TextView
+            android:id="@+id/reserve_detail_tv_price_curr"
+            style="@style/common_text_price_curr"
+            android:layout_marginStart="@dimen/margin_padding_30"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBaseline_toBaselineOf="@+id/reserve_detail_tv_price"/>
+
+        <TextView
+            android:id="@+id/reserve_detail_tv_price"
+            style="@style/common_text_price"
+            app:layout_constraintLeft_toRightOf="@+id/reserve_detail_tv_price_curr"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/reserve_detail_tv_click"
+            style="@style/common_text_button"
+            android:background="@drawable/shape_style_solid_04_08"
+            android:paddingBottom="@dimen/margin_padding_13"
+            android:paddingTop="@dimen/margin_padding_13"
+            android:text="@string/reserve_choice"
+            android:textSize="@dimen/app_text_size_title"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <ImageView
+        android:id="@+id/reserve_detail_iv_code_large"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:padding="@dimen/app_margin_screen"
+        android:background="@color/ui_bg_color_percent_08"
+        android:contentDescription="@string/desc"
+        android:src="@drawable/icon_default_show"
+        android:scaleType="fitCenter"
+        android:visibility="gone"/>
+
+</FrameLayout>

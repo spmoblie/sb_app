@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/ui_color_app_bg_02">
+
+    <com.songbao.sampo_b.widgets.pullrefresh.PullToRefreshRecyclerView
+        android:id="@+id/address_rv_address"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/ui_color_app_bg_02" />
+
+    <TextView
+        android:id="@+id/address_view_tv_address_add"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/app_height_button"
+        android:gravity="center"
+        android:text="@string/address_add"
+        android:textStyle="bold"
+        android:textColor="@color/app_color_white"
+        android:textSize="@dimen/app_text_size_content"
+        android:background="@drawable/shape_style_solid_04_08"
+        android:layout_marginStart="@dimen/app_margin_screen"
+        android:layout_marginEnd="@dimen/app_margin_screen"
+        android:layout_marginBottom="@dimen/margin_padding_30"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+</android.support.constraint.ConstraintLayout>

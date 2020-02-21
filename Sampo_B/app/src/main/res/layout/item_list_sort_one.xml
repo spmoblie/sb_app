@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/sort_one_item_main"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingStart="0dp"
+    android:paddingEnd="@dimen/app_margin_screen"
+    android:paddingTop="@dimen/app_margin_screen"
+    android:paddingBottom="@dimen/app_margin_screen">
+
+    <RelativeLayout
+        android:id="@+id/sort_one_item_rl_top"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/app_margin_screen"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/sort_one_item_tv_status"
+        android:layout_width="@dimen/margin_padding_12"
+        android:layout_height="@dimen/margin_padding_12"
+        android:background="@drawable/shape_style_app_status"
+        android:layout_marginEnd="@dimen/margin_padding_10"
+        app:layout_constraintRight_toLeftOf="@+id/sort_one_item_tv_name"
+        app:layout_constraintTop_toBottomOf="@+id/sort_one_item_rl_top"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <TextView
+        android:id="@+id/sort_one_item_tv_name"
+        style="@style/list_item_text"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:maxLines="2"
+        android:textSize="@dimen/app_text_size_label"
+        android:textColor="@color/selector_list_item_text"
+        android:layout_marginStart="@dimen/app_margin_screen"
+        app:layout_constraintTop_toBottomOf="@+id/sort_one_item_rl_top"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+</android.support.constraint.ConstraintLayout>

@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/comment_order_item_main"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/app_margin_screen"
+    android:background="@color/ui_color_app_bg_02"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/comment_order_item_tv_time"
+        style="@style/list_item_text"
+        android:layout_gravity="center"
+        android:textColor="@color/app_color_gray_9"
+        android:textSize="@dimen/app_text_size_small"/>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/comment_order_item_show_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_padding_10"
+        android:padding="@dimen/app_margin_screen"
+        android:background="@drawable/shape_style_solid_01_16">
+
+        <com.songbao.sampo_b.widgets.RoundImageView
+            android:id="@+id/comment_order_item_iv_goods"
+            android:layout_width="@dimen/image_size_goods"
+            android:layout_height="@dimen/image_size_goods"
+            android:scaleType="centerCrop"
+            android:src="@drawable/icon_default_show"
+            app:type="round" />
+
+        <TextView
+            android:id="@+id/comment_order_item_tv_name"
+            style="@style/goods_name_text"
+            app:layout_constraintHorizontal_weight="1"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/comment_order_item_iv_goods"
+            app:layout_constraintLeft_toRightOf="@+id/comment_order_item_iv_goods" />
+
+        <TextView
+            android:id="@+id/comment_order_item_tv_attr"
+            style="@style/goods_attr_text"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintLeft_toLeftOf="@+id/comment_order_item_tv_name"
+            app:layout_constraintTop_toBottomOf="@+id/comment_order_item_tv_name" />
+
+        <RatingBar
+            android:id="@+id/comment_order_item_rb_star"
+            style="@style/common_star_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:numStars="5"
+            android:rating="3"
+            android:stepSize="1"
+            android:isIndicator="true"
+            android:layout_marginStart="@dimen/margin_padding_8"
+            android:layout_marginTop="@dimen/margin_padding_10"
+            app:layout_constraintLeft_toRightOf="@+id/comment_order_item_iv_goods"
+            app:layout_constraintTop_toBottomOf="@+id/comment_order_item_tv_attr"/>
+
+        <TextView
+            android:id="@+id/comment_order_item_tv_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/shows_text_color"
+            android:textSize="@dimen/app_text_size_label"
+            android:layout_marginTop="@dimen/margin_padding_20"
+            app:layout_constraintTop_toBottomOf="@+id/comment_order_item_iv_goods" />
+
+        <HorizontalScrollView
+            android:id="@+id/comment_order_item_view_hsv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/margin_padding_10"
+            android:paddingTop="@dimen/margin_padding_10"
+            android:paddingBottom="@dimen/margin_padding_10"
+            android:scrollbars="none"
+            android:visibility="visible"
+            app:layout_constraintTop_toBottomOf="@+id/comment_order_item_tv_content">
+
+            <LinearLayout
+                android:id="@+id/comment_order_item_hsv_ll_main"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal" />
+        </HorizontalScrollView>
+
+        <TextView
+            android:id="@+id/comment_order_item_tv_content_add_to"
+            style="@style/common_text_bg_frame"
+            android:text="@string/comment_add"
+            android:textStyle="bold"
+            android:textColor="@color/app_color_gray_5"
+            android:paddingTop="@dimen/margin_padding_7"
+            android:paddingBottom="@dimen/margin_padding_7"
+            android:paddingLeft="@dimen/margin_padding_18"
+            android:paddingRight="@dimen/margin_padding_18"
+            android:background="@drawable/shape_style_empty_02_08"
+            android:layout_marginTop="@dimen/app_margin_screen"
+            android:visibility="visible"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/comment_order_item_view_hsv"/>
+
+        <TextView
+            android:id="@+id/comment_order_item_tv_content_add_day"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/tv_color_status"
+            android:textSize="@dimen/app_text_size_small"
+            android:layout_marginTop="@dimen/margin_padding_20"
+            app:layout_constraintTop_toBottomOf="@+id/comment_order_item_view_hsv"/>
+
+        <TextView
+            android:id="@+id/comment_order_item_tv_add_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/shows_text_color"
+            android:textSize="@dimen/app_text_size_label"
+            android:layout_marginTop="@dimen/margin_padding_10"
+            app:layout_constraintTop_toBottomOf="@+id/comment_order_item_tv_content_add_day" />
+
+        <android.support.constraint.Group
+            android:id="@+id/comment_order_item_tv_content_add_group"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="visible"
+            app:constraint_referenced_ids="comment_order_item_tv_content_add_day,comment_order_item_tv_add_content" />
+
+    </android.support.constraint.ConstraintLayout>
+
+</LinearLayout>

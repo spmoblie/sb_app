@@ -1,0 +1,626 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.songbao.sampo_b.widgets.ObservableScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/customize_sv_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/ui_color_app_bg_02"
+    android:padding="@dimen/app_margin_screen"
+    android:scrollbars="none">
+
+    <LinearLayout
+        android:id="@+id/customize_ll_main"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/shape_style_solid_01_16"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/margin_padding_20"
+        android:paddingLeft="@dimen/app_margin_screen"
+        android:paddingRight="@dimen/app_margin_screen"
+        android:paddingTop="@dimen/margin_padding_20">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <View
+                android:id="@+id/customize_view_line"
+                android:layout_width="1dp"
+                android:layout_height="0dp"
+                android:background="@drawable/shape_line_dotted"
+                app:layout_constraintBottom_toTopOf="@+id/customize_iv_module_9_title_sign"
+                app:layout_constraintLeft_toLeftOf="@+id/customize_iv_module_1_title_sign"
+                app:layout_constraintRight_toRightOf="@+id/customize_iv_module_1_title_sign"
+                app:layout_constraintTop_toBottomOf="@+id/customize_iv_module_1_title_sign"
+                app:layout_constraintVertical_weight="1" />
+
+            <TextView
+                android:id="@+id/customize_tv_order_number"
+                style="@style/order_text"
+                android:layout_marginTop="@dimen/margin_padding_2"
+                android:textColor="@color/app_color_gray_9"
+                android:textSize="@dimen/app_text_size_small"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/customize_tv_order_status"
+                style="@style/common_text_bg_frame"
+                android:layout_marginStart="@dimen/margin_padding_10"
+                android:textColor="@color/app_color_white"
+                android:textSize="@dimen/app_text_size_small"
+                app:layout_constraintLeft_toRightOf="@+id/customize_tv_order_number" />
+
+            <ImageView
+                android:id="@+id/customize_iv_module_1_title_sign"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_padding_30"
+                android:contentDescription="@string/desc"
+                android:src="@drawable/selector_checkbox_large"
+                app:layout_constraintTop_toBottomOf="@+id/customize_tv_order_number" />
+
+            <TextView
+                android:id="@+id/customize_tv_module_1_title"
+                style="@style/order_text"
+                android:layout_marginStart="@dimen/margin_padding_10"
+                android:text="@string/order_node_01"
+                android:textColor="@color/shows_text_color"
+                android:textSize="@dimen/app_text_size_content"
+                android:textStyle="bold"
+                app:layout_constraintLeft_toRightOf="@+id/customize_iv_module_1_title_sign"
+                app:layout_constraintTop_toTopOf="@+id/customize_iv_module_1_title_sign" />
+
+            <TextView
+                android:id="@+id/customize_tv_module_1_time"
+                style="@style/order_text"
+                android:textColor="@color/app_color_gray_9"
+                android:textSize="@dimen/app_text_size_small"
+                app:layout_constraintBottom_toBottomOf="@+id/customize_tv_module_1_title"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/customize_tv_module_1_title" />
+
+            <com.songbao.sampo_b.widgets.RoundImageView
+                android:id="@+id/customize_iv_module_1_goods_img"
+                android:layout_width="76dp"
+                android:layout_height="76dp"
+                android:layout_marginTop="@dimen/margin_padding_20"
+                android:scaleType="centerCrop"
+                android:src="@drawable/icon_default_show"
+                android:visibility="gone"
+                app:layout_constraintLeft_toLeftOf="@+id/customize_tv_module_1_title"
+                app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_1_title"
+                app:type="round" />
+
+            <TextView
+                android:id="@+id/customize_tv_module_1_goods_name"
+                style="@style/list_item_text"
+                android:layout_width="0dp"
+                android:layout_marginStart="@dimen/app_margin_screen"
+                android:textColor="@color/app_color_gray_5"
+                android:visibility="gone"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintLeft_toRightOf="@+id/customize_iv_module_1_goods_img"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/customize_iv_module_1_goods_img" />
+
+            <TextView
+                android:id="@+id/customize_tv_module_1_designer_name"
+                style="@style/list_item_text"
+                android:layout_width="0dp"
+                android:layout_marginTop="@dimen/margin_padding_10"
+                android:drawablePadding="@dimen/margin_padding_5"
+                android:drawableStart="@mipmap/icon_designer"
+                android:textColor="@color/app_color_gray_5"
+                android:visibility="gone"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintLeft_toLeftOf="@+id/customize_tv_module_1_goods_name"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_1_goods_name" />
+
+            <TextView
+                android:id="@+id/customize_tv_module_1_designer_phone"
+                style="@style/list_item_text"
+                android:layout_width="0dp"
+                android:layout_marginTop="@dimen/margin_padding_10"
+                android:drawablePadding="@dimen/margin_padding_5"
+                android:drawableStart="@mipmap/icon_phone"
+                android:textColor="@color/app_color_gray_5"
+                android:visibility="gone"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintLeft_toLeftOf="@+id/customize_tv_module_1_designer_name"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_1_designer_name" />
+
+            <TextView
+                android:id="@+id/customize_tv_module_1_check_goods"
+                style="@style/order_text_button"
+                android:text="@string/goods_good_detail"
+                android:visibility="gone"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_1_designer_phone"
+                app:layout_constraintWidth_percent="0.3" />
+
+            <ImageView
+                android:id="@+id/customize_iv_module_2_title_sign"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_padding_40"
+                android:background="@color/app_color_white"
+                android:contentDescription="@string/desc"
+                android:src="@drawable/selector_checkbox_large"
+                app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_1_check_goods" />
+
+            <TextView
+                android:id="@+id/customize_tv_module_2_title"
+                style="@style/order_text"
+                android:layout_marginStart="@dimen/margin_padding_10"
+                android:text="@string/order_node_02"
+                android:textColor="@color/shows_text_color"
+                android:textSize="@dimen/app_text_size_content"
+                android:textStyle="bold"
+                app:layout_constraintLeft_toRightOf="@+id/customize_iv_module_2_title_sign"
+                app:layout_constraintTop_toTopOf="@+id/customize_iv_module_2_title_sign" />
+
+            <TextView
+                android:id="@+id/customize_tv_module_2_time"
+                style="@style/order_text"
+                android:textColor="@color/app_color_gray_9"
+                android:textSize="@dimen/app_text_size_small"
+                app:layout_constraintBottom_toBottomOf="@+id/customize_tv_module_2_title"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/customize_tv_module_2_title" />
+
+            <TextView
+                android:id="@+id/customize_tv_module_2_goods_spec"
+                style="@style/order_text"
+                android:layout_marginTop="@dimen/margin_padding_20"
+                android:visibility="gone"
+                app:layout_constraintLeft_toLeftOf="@+id/customize_tv_module_2_title"
+                app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_2_title" />
+
+            <TextView
+                android:id="@+id/customize_tv_module_2_goods_color"
+                style="@style/order_text"
+                android:layout_marginTop="@dimen/margin_padding_5"
+                android:visibility="gone"
+                app:layout_constraintLeft_toLeftOf="@+id/customize_tv_module_2_goods_spec"
+                app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_2_goods_spec" />
+
+            <TextView
+                android:id="@+id/customize_tv_module_2_goods_material"
+                style="@style/order_text"
+                android:layout_marginTop="@dimen/margin_padding_5"
+                android:visibility="gone"
+                app:layout_constraintLeft_toLeftOf="@+id/customize_tv_module_2_goods_color"
+                app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_2_goods_color" />
+
+            <TextView
+                android:id="@+id/customize_tv_module_2_goods_veneer"
+                style="@style/order_text"
+                android:layout_marginTop="@dimen/margin_padding_5"
+                android:visibility="gone"
+                app:layout_constraintLeft_toLeftOf="@+id/customize_tv_module_2_goods_material"
+                app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_2_goods_material" />
+
+            <ImageView
+                android:id="@+id/customize_iv_module_3_title_sign"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_padding_40"
+                android:background="@color/app_color_white"
+                android:contentDescription="@string/desc"
+                android:src="@drawable/selector_checkbox_large"
+                app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_2_goods_veneer" />
+
+            <TextView
+                android:id="@+id/customize_tv_module_3_title"
+                style="@style/order_text"
+                android:layout_marginStart="@dimen/margin_padding_10"
+                android:text="@string/order_node_03"
+                android:textColor="@color/shows_text_color"
+                android:textSize="@dimen/app_text_size_content"
+                android:textStyle="bold"
+                app:layout_constraintLeft_toRightOf="@+id/customize_iv_module_3_title_sign"
+                app:layout_constraintTop_toTopOf="@+id/customize_iv_module_3_title_sign" />
+
+            <TextView
+                android:id="@+id/customize_tv_module_3_time"
+                style="@style/order_text"
+                android:textColor="@color/app_color_gray_9"
+                android:textSize="@dimen/app_text_size_small"
+                app:layout_constraintBottom_toBottomOf="@+id/customize_tv_module_3_title"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/customize_tv_module_3_title" />
+
+            <com.songbao.sampo_b.widgets.RoundImageView
+                android:id="@+id/customize_iv_module_3_show"
+                android:layout_width="160dp"
+                android:layout_height="90dp"
+                android:layout_marginTop="@dimen/margin_padding_20"
+                android:scaleType="centerCrop"
+                android:src="@drawable/icon_default_show"
+                android:visibility="gone"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_3_title"
+                app:type="round" />
+
+            <TextView
+                android:id="@+id/customize_tv_module_3_show"
+                android:layout_width="160dp"
+                android:layout_height="90dp"
+                android:layout_marginTop="@dimen/margin_padding_20"
+                android:background="@drawable/shape_style_solid_00_08"
+                android:gravity="center"
+                android:textColor="@color/app_color_white"
+                android:textSize="@dimen/app_text_size_content"
+                android:textStyle="bold"
+                android:visibility="gone"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_3_title" />
+
+            <TextView
+                android:id="@+id/customize_tv_module_3_confirm"
+                style="@style/order_text_button"
+                android:visibility="gone"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/customize_iv_module_3_show"
+                app:layout_constraintWidth_percent="0.3" />
+
+            <ImageView
+                android:id="@+id/customize_iv_module_4_title_sign"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_padding_40"
+                android:background="@color/app_color_white"
+                android:contentDescription="@string/desc"
+                android:src="@drawable/selector_checkbox_large"
+                app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_3_confirm" />
+
+            <TextView
+                android:id="@+id/customize_tv_module_4_title"
+                style="@style/order_text"
+                android:layout_marginStart="@dimen/margin_padding_10"
+                android:text="@string/order_node_04"
+                android:textColor="@color/shows_text_color"
+                android:textSize="@dimen/app_text_size_content"
+                android:textStyle="bold"
+                app:layout_constraintLeft_toRightOf="@+id/customize_iv_module_4_title_sign"
+                app:layout_constraintTop_toTopOf="@+id/customize_iv_module_4_title_sign" />
+
+            <TextView
+                android:id="@+id/customize_tv_module_4_time"
+                style="@style/order_text"
+                android:textColor="@color/app_color_gray_9"
+                android:textSize="@dimen/app_text_size_small"
+                app:layout_constraintBottom_toBottomOf="@+id/customize_tv_module_4_title"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/customize_tv_module_4_title" />
+
+            <TextView
+                android:id="@+id/customize_tv_module_4_order_price"
+                style="@style/order_text"
+                android:layout_marginTop="@dimen/margin_padding_20"
+                android:visibility="gone"
+                app:layout_constraintLeft_toLeftOf="@+id/customize_tv_module_4_title"
+                app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_4_title" />
+
+            <TextView
+                android:id="@+id/customize_tv_module_4_order_day"
+                style="@style/order_text"
+                android:layout_marginTop="@dimen/margin_padding_5"
+                android:visibility="gone"
+                app:layout_constraintLeft_toLeftOf="@+id/customize_tv_module_4_order_price"
+                app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_4_order_price" />
+
+            <TextView
+                android:id="@+id/customize_tv_module_4_order_pay"
+                style="@style/order_text"
+                android:layout_marginTop="@dimen/margin_padding_5"
+                android:visibility="gone"
+                app:layout_constraintLeft_toLeftOf="@+id/customize_tv_module_4_order_day"
+                app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_4_order_day" />
+
+            <TextView
+                android:id="@+id/customize_tv_module_4_confirm"
+                style="@style/order_text_button"
+                android:visibility="gone"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_4_order_day"
+                app:layout_constraintWidth_percent="0.3" />
+
+            <ImageView
+                android:id="@+id/customize_iv_module_5_title_sign"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_padding_40"
+                android:background="@color/app_color_white"
+                android:contentDescription="@string/desc"
+                android:src="@drawable/selector_checkbox_large"
+                app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_4_confirm" />
+
+            <TextView
+                android:id="@+id/customize_tv_module_5_title"
+                style="@style/order_text"
+                android:layout_marginStart="@dimen/margin_padding_10"
+                android:text="@string/order_node_05"
+                android:textColor="@color/shows_text_color"
+                android:textSize="@dimen/app_text_size_content"
+                android:textStyle="bold"
+                app:layout_constraintLeft_toRightOf="@+id/customize_iv_module_5_title_sign"
+                app:layout_constraintTop_toTopOf="@+id/customize_iv_module_5_title_sign" />
+
+            <TextView
+                android:id="@+id/customize_tv_module_5_time"
+                style="@style/order_text"
+                android:textColor="@color/app_color_gray_9"
+                android:textSize="@dimen/app_text_size_small"
+                app:layout_constraintBottom_toBottomOf="@+id/customize_tv_module_5_title"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/customize_tv_module_5_title" />
+
+            <TextView
+                android:id="@+id/customize_tv_module_5_addressee_name"
+                style="@style/order_text"
+                android:layout_marginTop="@dimen/margin_padding_20"
+                android:visibility="gone"
+                app:layout_constraintLeft_toLeftOf="@+id/customize_tv_module_5_title"
+                app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_5_title" />
+
+            <TextView
+                android:id="@+id/customize_tv_module_5_addressee_phone"
+                style="@style/order_text"
+                android:layout_marginTop="@dimen/margin_padding_5"
+                android:visibility="gone"
+                app:layout_constraintLeft_toLeftOf="@+id/customize_tv_module_5_addressee_name"
+                app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_5_addressee_name" />
+
+            <TextView
+                android:id="@+id/customize_tv_module_5_address_1"
+                style="@style/order_text"
+                android:layout_marginTop="@dimen/margin_padding_5"
+                android:text="@string/address_rise"
+                android:visibility="gone"
+                app:layout_constraintLeft_toLeftOf="@+id/customize_tv_module_5_addressee_phone"
+                app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_5_addressee_phone" />
+
+            <TextView
+                android:id="@+id/customize_tv_module_5_address_2"
+                style="@style/order_text"
+                android:layout_width="0dp"
+                android:visibility="gone"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintLeft_toRightOf="@+id/customize_tv_module_5_address_1"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/customize_tv_module_5_address_1" />
+
+            <TextView
+                android:id="@+id/customize_tv_module_5_select_address"
+                style="@style/order_text_button"
+                android:visibility="gone"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_5_address_2"
+                app:layout_constraintWidth_percent="0.3" />
+
+            <ImageView
+                android:id="@+id/customize_iv_module_6_title_sign"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_padding_40"
+                android:background="@color/app_color_white"
+                android:contentDescription="@string/desc"
+                android:src="@drawable/selector_checkbox_large"
+                app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_5_select_address" />
+
+            <TextView
+                android:id="@+id/customize_tv_module_6_title"
+                style="@style/order_text"
+                android:layout_marginStart="@dimen/margin_padding_10"
+                android:text="@string/order_node_06"
+                android:textColor="@color/shows_text_color"
+                android:textSize="@dimen/app_text_size_content"
+                android:textStyle="bold"
+                app:layout_constraintLeft_toRightOf="@+id/customize_iv_module_6_title_sign"
+                app:layout_constraintTop_toTopOf="@+id/customize_iv_module_6_title_sign" />
+
+            <TextView
+                android:id="@+id/customize_tv_module_6_time"
+                style="@style/order_text"
+                android:textColor="@color/app_color_gray_9"
+                android:textSize="@dimen/app_text_size_small"
+                app:layout_constraintBottom_toBottomOf="@+id/customize_tv_module_6_title"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/customize_tv_module_6_title" />
+
+            <com.songbao.sampo_b.widgets.ScrollViewListView
+                android:id="@+id/customize_module_6_lv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_padding_20"
+                android:visibility="gone"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintLeft_toLeftOf="@+id/customize_tv_module_6_title"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_6_title" />
+
+            <TextView
+                android:id="@+id/customize_tv_module_6_lv_open"
+                style="@style/order_text"
+                android:drawableEnd="@mipmap/icon_go_down"
+                android:drawablePadding="@dimen/margin_padding_5"
+                android:paddingTop="@dimen/margin_padding_5"
+                android:text="@string/unfold"
+                android:textColor="@color/shows_text_color"
+                android:textSize="@dimen/app_text_size_content"
+                android:visibility="gone"
+                app:layout_constraintLeft_toLeftOf="@+id/customize_module_6_lv"
+                app:layout_constraintTop_toBottomOf="@+id/customize_module_6_lv" />
+
+            <ImageView
+                android:id="@+id/customize_iv_module_7_title_sign"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_padding_40"
+                android:background="@color/app_color_white"
+                android:contentDescription="@string/desc"
+                android:src="@drawable/selector_checkbox_large"
+                app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_6_lv_open" />
+
+            <TextView
+                android:id="@+id/customize_tv_module_7_title"
+                style="@style/order_text"
+                android:layout_marginStart="@dimen/margin_padding_10"
+                android:text="@string/order_node_07"
+                android:textColor="@color/shows_text_color"
+                android:textSize="@dimen/app_text_size_content"
+                android:textStyle="bold"
+                app:layout_constraintLeft_toRightOf="@+id/customize_iv_module_7_title_sign"
+                app:layout_constraintTop_toTopOf="@+id/customize_iv_module_7_title_sign" />
+
+            <TextView
+                android:id="@+id/customize_tv_module_7_time"
+                style="@style/order_text"
+                android:textColor="@color/app_color_gray_9"
+                android:textSize="@dimen/app_text_size_small"
+                app:layout_constraintBottom_toBottomOf="@+id/customize_tv_module_7_title"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/customize_tv_module_7_title" />
+
+            <com.songbao.sampo_b.widgets.ScrollViewListView
+                android:id="@+id/customize_module_7_lv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_padding_20"
+                android:visibility="gone"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintLeft_toLeftOf="@+id/customize_tv_module_7_title"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_7_title" />
+
+            <TextView
+                android:id="@+id/customize_tv_module_7_confirm"
+                style="@style/order_text_button"
+                android:text="@string/order_confirm_receipt"
+                android:visibility="gone"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/customize_module_7_lv"
+                app:layout_constraintWidth_percent="0.3" />
+
+            <ImageView
+                android:id="@+id/customize_iv_module_8_title_sign"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_padding_40"
+                android:background="@color/app_color_white"
+                android:contentDescription="@string/desc"
+                android:src="@drawable/selector_checkbox_large"
+                app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_7_confirm" />
+
+            <TextView
+                android:id="@+id/customize_tv_module_8_title"
+                style="@style/order_text"
+                android:layout_marginStart="@dimen/margin_padding_10"
+                android:text="@string/order_node_08"
+                android:textColor="@color/shows_text_color"
+                android:textSize="@dimen/app_text_size_content"
+                android:textStyle="bold"
+                app:layout_constraintLeft_toRightOf="@+id/customize_iv_module_8_title_sign"
+                app:layout_constraintTop_toTopOf="@+id/customize_iv_module_8_title_sign" />
+
+            <TextView
+                android:id="@+id/customize_tv_module_8_time"
+                style="@style/order_text"
+                android:textColor="@color/app_color_gray_9"
+                android:textSize="@dimen/app_text_size_small"
+                app:layout_constraintBottom_toBottomOf="@+id/customize_tv_module_8_title"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/customize_tv_module_8_title" />
+
+            <TextView
+                android:id="@+id/customize_tv_module_8_remind"
+                style="@style/order_text"
+                android:layout_width="0dp"
+                android:layout_marginTop="@dimen/margin_padding_20"
+                android:visibility="gone"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintLeft_toLeftOf="@+id/customize_tv_module_8_title"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_8_title" />
+
+            <TextView
+                android:id="@+id/customize_tv_module_8_confirm"
+                style="@style/order_text_button"
+                android:visibility="gone"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_8_remind"
+                app:layout_constraintWidth_percent="0.3" />
+
+            <ImageView
+                android:id="@+id/customize_iv_module_9_title_sign"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_padding_40"
+                android:background="@color/app_color_white"
+                android:contentDescription="@string/desc"
+                android:src="@drawable/selector_checkbox_large"
+                app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_8_confirm" />
+
+            <TextView
+                android:id="@+id/customize_tv_module_9_title"
+                style="@style/order_text"
+                android:layout_marginStart="@dimen/margin_padding_10"
+                android:text="@string/order_node_09"
+                android:textColor="@color/shows_text_color"
+                android:textSize="@dimen/app_text_size_content"
+                android:textStyle="bold"
+                app:layout_constraintLeft_toRightOf="@+id/customize_iv_module_9_title_sign"
+                app:layout_constraintTop_toTopOf="@+id/customize_iv_module_9_title_sign" />
+
+            <TextView
+                android:id="@+id/customize_tv_module_9_time"
+                style="@style/order_text"
+                android:textColor="@color/app_color_gray_9"
+                android:textSize="@dimen/app_text_size_small"
+                app:layout_constraintBottom_toBottomOf="@+id/customize_tv_module_9_title"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/customize_tv_module_9_title" />
+
+            <TextView
+                android:id="@+id/customize_tv_module_9_remind"
+                style="@style/order_text"
+                android:layout_width="0dp"
+                android:layout_marginTop="@dimen/margin_padding_20"
+                android:text="@string/order_finish_hint"
+                android:visibility="gone"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintLeft_toLeftOf="@+id/customize_tv_module_9_title"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_9_title" />
+
+            <TextView
+                android:id="@+id/customize_tv_module_9_comment"
+                style="@style/order_text_button"
+                android:background="@drawable/shape_style_solid_06_08"
+                android:text="@string/comment_me"
+                android:textColor="@color/app_color_white"
+                android:visibility="gone"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_9_remind"
+                app:layout_constraintWidth_percent="0.3" />
+
+            <TextView
+                android:id="@+id/customize_tv_module_9_post_sale"
+                style="@style/order_text_button"
+                android:layout_marginEnd="@dimen/margin_padding_20"
+                android:background="@drawable/shape_style_empty_02_08"
+                android:text="@string/order_post_sale"
+                android:textColor="@color/app_color_gray_5"
+                android:visibility="gone"
+                app:layout_constraintRight_toLeftOf="@+id/customize_tv_module_9_comment"
+                app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_9_remind"
+                app:layout_constraintWidth_percent="0.3" />
+
+        </android.support.constraint.ConstraintLayout>
+
+    </LinearLayout>
+
+</com.songbao.sampo_b.widgets.ObservableScrollView>

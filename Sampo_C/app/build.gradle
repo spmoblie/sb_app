@@ -1,0 +1,81 @@
+apply plugin: 'com.android.application'
+
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
+android {
+    signingConfigs {
+        android_studio_app {
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
+        }
+    }
+    compileSdkVersion build_versions.target_sdk
+    defaultConfig {
+        applicationId "com.songbao.sampo_c"
+        minSdkVersion build_versions.min_sdk
+        targetSdkVersion build_versions.target_sdk
+        versionCode app_version.version_code
+        versionName app_version.version_name
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            signingConfig signingConfigs.android_studio_app
+        }
+    }
+}
+
+dependencies {
+    androidTestCompile(deps.support.app_compat) {
+        force = true
+    }
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
+    implementation deps.support.app_compat
+    implementation deps.support.recyclerview
+    implementation deps.support.constraint_layout
+    testImplementation deps.junit
+    androidTestImplementation deps.testrunner
+    androidTestImplementation deps.testespresso
+
+    // ButterKnife
+    implementation deps.butterknife
+    annotationProcessor deps.butterknife_compiler
+
+    // Retrofit
+    implementation deps.gson
+    implementation deps.retrofit
+    // RxJava
+    implementation deps.rxjava
+    implementation deps.rxandroid
+    implementation deps.converter_gson
+    implementation deps.adapter_rxjava
+    // OkHttp
+    implementation deps.okhttp
+    implementation deps.logging_interceptor
+
+    // Glide
+    implementation deps.glide
+
+    // QRCode
+    implementation 'cn.yipianfengye.android:zxing-library:2.2'
+
+    // WX
+    implementation deps.opensdk_wechat
+    // QQ
+    implementation files('libs/open_sdk_r6137_lite.jar')
+    // WB
+    implementation 'com.sina.weibo.sdk:core:4.1.3:openDefaultRelease@aar'
+    // UM
+    implementation deps.umeng_common
+    implementation deps.umeng_analytics
+    implementation deps.umeng_utdid
+    implementation deps.umeng_push
+}

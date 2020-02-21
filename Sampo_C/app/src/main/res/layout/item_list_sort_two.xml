@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/sort_two_item_main"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingBottom="@dimen/app_margin_screen"
+    android:paddingLeft="@dimen/margin_padding_10"
+    android:paddingRight="@dimen/margin_padding_10"
+    android:paddingTop="@dimen/app_margin_screen">
+
+    <TextView
+        android:id="@+id/sort_two_item_tv_title"
+        style="@style/list_item_text"
+        android:textSize="@dimen/app_text_size_title"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/sort_two_item_tv_title_en"
+        style="@style/list_item_text"
+        android:textColor="@color/app_color_gray_9"
+        android:textSize="@dimen/app_text_size_minis"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sort_two_item_tv_title" />
+
+    <ImageView
+        android:id="@+id/sort_two_item_iv_new"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="@dimen/margin_padding_5"
+        android:layout_marginTop="@dimen/margin_padding_4"
+        android:src="@mipmap/icon_new"
+        android:contentDescription="@string/desc"
+        app:layout_constraintLeft_toRightOf="@+id/sort_two_item_tv_title"
+        app:layout_constraintTop_toTopOf="@+id/sort_two_item_tv_title" />
+
+    <ImageView
+        android:id="@+id/sort_two_item_iv_go"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_padding_10"
+        android:src="@mipmap/icon_go_right"
+        android:contentDescription="@string/desc"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <com.songbao.sampo_c.widgets.RoundImageView
+        android:id="@+id/sort_two_item_iv_show_1"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="@dimen/margin_padding_18"
+        android:layout_gravity="center_horizontal"
+        android:scaleType="centerCrop"
+        android:src="@drawable/icon_default_show"
+        app:type="round"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintHorizontal_weight="0.5"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@+id/sort_two_item_iv_show_2"
+        app:layout_constraintTop_toBottomOf="@+id/sort_two_item_tv_title_en"/>
+
+    <TextView
+        android:id="@+id/sort_two_item_tv_name_1"
+        style="@style/goods_name_text"
+        android:layout_marginStart="@dimen/margin_padding_5"
+        android:layout_marginTop="@dimen/margin_padding_10"
+        app:layout_constraintWidth_percent="0.45"
+        app:layout_constraintLeft_toLeftOf="@+id/sort_two_item_iv_show_1"
+        app:layout_constraintTop_toBottomOf="@+id/sort_two_item_iv_show_1"/>
+
+    <TextView
+        android:id="@+id/sort_two_item_tv_attr_1"
+        style="@style/goods_attr_text"
+        android:layout_marginTop="@dimen/margin_padding_5"
+        app:layout_constraintWidth_percent="0.45"
+        app:layout_constraintLeft_toLeftOf="@+id/sort_two_item_tv_name_1"
+        app:layout_constraintTop_toBottomOf="@+id/sort_two_item_tv_name_1"/>
+
+    <TextView
+        android:id="@+id/sort_two_item_tv_price_curr_1"
+        style="@style/common_text_price_curr"
+        app:layout_constraintLeft_toLeftOf="@+id/sort_two_item_tv_name_1"
+        app:layout_constraintBottom_toBottomOf="@+id/sort_two_item_tv_price_1"
+        app:layout_constraintBaseline_toBaselineOf="@+id/sort_two_item_tv_price_1"/>
+
+    <TextView
+        android:id="@+id/sort_two_item_tv_price_1"
+        style="@style/common_text_price"
+        android:layout_width="0dp"
+        android:layout_marginTop="@dimen/margin_padding_5"
+        android:layout_marginStart="@dimen/app_margin_screen"
+        app:layout_constraintWidth_percent="0.41"
+        app:layout_constraintLeft_toLeftOf="@+id/sort_two_item_tv_attr_1"
+        app:layout_constraintTop_toBottomOf="@+id/sort_two_item_tv_attr_1" />
+
+    <android.support.constraint.Group
+        android:id="@+id/sort_two_item_group_goods_1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        app:constraint_referenced_ids="sort_two_item_iv_show_1, sort_two_item_tv_name_1, sort_two_item_tv_attr_1, sort_two_item_tv_price_curr_1, sort_two_item_tv_price_1"/>
+
+    <com.songbao.sampo_c.widgets.RoundImageView
+        android:id="@+id/sort_two_item_iv_show_2"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="@dimen/margin_padding_10"
+        android:layout_marginTop="@dimen/margin_padding_18"
+        android:layout_gravity="center_horizontal"
+        android:scaleType="centerCrop"
+        android:src="@drawable/icon_default_show"
+        app:type="round"
+        app:layout_constraintHorizontal_weight="0.5"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/sort_two_item_iv_show_1"
+        app:layout_constraintTop_toBottomOf="@+id/sort_two_item_tv_title_en"/>
+
+    <TextView
+        android:id="@+id/sort_two_item_tv_name_2"
+        style="@style/goods_name_text"
+        android:layout_marginStart="@dimen/margin_padding_5"
+        android:layout_marginTop="@dimen/margin_padding_10"
+        app:layout_constraintWidth_percent="0.45"
+        app:layout_constraintLeft_toLeftOf="@+id/sort_two_item_iv_show_2"
+        app:layout_constraintTop_toBottomOf="@+id/sort_two_item_iv_show_2"/>
+
+    <TextView
+        android:id="@+id/sort_two_item_tv_attr_2"
+        style="@style/goods_attr_text"
+        android:layout_marginTop="@dimen/margin_padding_5"
+        app:layout_constraintWidth_percent="0.45"
+        app:layout_constraintLeft_toLeftOf="@+id/sort_two_item_tv_name_2"
+        app:layout_constraintTop_toBottomOf="@+id/sort_two_item_tv_name_2"/>
+
+    <TextView
+        android:id="@+id/sort_two_item_tv_price_curr_2"
+        style="@style/common_text_price_curr"
+        app:layout_constraintLeft_toLeftOf="@+id/sort_two_item_tv_name_2"
+        app:layout_constraintBottom_toBottomOf="@+id/sort_two_item_tv_price_2"
+        app:layout_constraintBaseline_toBaselineOf="@+id/sort_two_item_tv_price_2"/>
+
+    <TextView
+        android:id="@+id/sort_two_item_tv_price_2"
+        style="@style/common_text_price"
+        android:layout_width="0dp"
+        android:layout_marginTop="@dimen/margin_padding_5"
+        android:layout_marginStart="@dimen/app_margin_screen"
+        app:layout_constraintWidth_percent="0.41"
+        app:layout_constraintLeft_toLeftOf="@+id/sort_two_item_tv_attr_2"
+        app:layout_constraintTop_toBottomOf="@+id/sort_two_item_tv_attr_2" />
+
+    <android.support.constraint.Group
+        android:id="@+id/sort_two_item_group_goods_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+        app:constraint_referenced_ids="sort_two_item_iv_show_2, sort_two_item_tv_name_2, sort_two_item_tv_attr_2, sort_two_item_tv_price_curr_2, sort_two_item_tv_price_2"/>
+
+</android.support.constraint.ConstraintLayout>

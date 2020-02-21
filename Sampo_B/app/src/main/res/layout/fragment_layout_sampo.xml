@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/ui_color_app_bg_02">
+
+        <com.songbao.sampo_b.widgets.pullrefresh.PullToRefreshRecyclerView
+            android:id="@+id/fg_two_rv_left"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/margin_padding_10"
+            android:background="@drawable/shape_style_solid_01_16"
+            app:layout_constraintVertical_weight="1"
+            app:layout_constraintHorizontal_weight="0.25"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintRight_toLeftOf="@+id/fg_two_gv_right"/>
+
+        <com.songbao.sampo_b.widgets.pullrefresh.PullToRefreshGridView
+            android:id="@+id/fg_two_gv_right"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/margin_padding_10"
+            android:layout_marginStart="@dimen/margin_padding_10"
+            android:layout_marginEnd="@dimen/margin_padding_10"
+            android:background="@drawable/shape_style_solid_01_16"
+            app:layout_constraintVertical_weight="1"
+            app:layout_constraintHorizontal_weight="0.7"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/fg_two_rv_left"/>
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/fg_two_data_null_main"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginTop="@dimen/margin_padding_10"
+            android:layout_marginStart="@dimen/margin_padding_10"
+            android:layout_marginEnd="@dimen/margin_padding_10"
+            android:background="@drawable/shape_style_solid_01_16"
+            android:visibility="gone"
+            app:layout_constraintVertical_weight="1"
+            app:layout_constraintHorizontal_weight="0.7"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toRightOf="@+id/fg_two_rv_left">
+
+                <ImageView
+                    android:id="@+id/fg_two_iv_data_null"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/icon_data_null"
+                    android:contentDescription="@string/desc"
+                    app:layout_constraintVertical_bias="0.35"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+                <TextView
+                    android:id="@+id/fg_two_tv_data_null"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/data_null"
+                    android:textColor="@color/app_color_gray_9"
+                    android:textSize="@dimen/app_text_size_content"
+                    android:layout_marginTop="@dimen/margin_padding_30"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/fg_two_iv_data_null"/>
+
+        </android.support.constraint.ConstraintLayout>
+
+        <ImageView
+            android:id="@+id/fg_two_iv_scan"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/icon_scan_large"
+            android:contentDescription="@string/desc"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"/>
+
+</android.support.constraint.ConstraintLayout>

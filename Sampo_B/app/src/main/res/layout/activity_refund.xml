@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/refund_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/ui_color_app_bg_02"
+    android:orientation="vertical">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:background="@color/warns_text_color">
+
+        <ImageView
+            android:id="@+id/refund_top_iv_face"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/margin_padding_30"
+            android:src="@mipmap/icon_face_succeed"
+            android:contentDescription="@string/desc"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/refund_tv_state_describe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/app_margin_screen"
+            android:textColor="@color/app_color_white"
+            android:textSize="@dimen/app_text_size_title"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toRightOf="@+id/refund_top_iv_face"
+            app:layout_constraintTop_toTopOf="@+id/refund_top_iv_face" />
+
+        <TextView
+            android:id="@+id/refund_tv_time_update"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/app_color_white"
+            android:textSize="@dimen/app_text_size_small"
+            app:layout_constraintLeft_toLeftOf="@+id/refund_tv_state_describe"
+            app:layout_constraintTop_toBottomOf="@+id/refund_tv_state_describe" />
+
+    </android.support.constraint.ConstraintLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/ui_color_app_bg_02"
+        android:fillViewport="true"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/app_margin_screen"
+            android:paddingRight="@dimen/app_margin_screen">
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/refund_show_main"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_padding_20"
+                android:background="@drawable/shape_style_solid_01_16"
+                android:padding="@dimen/app_margin_screen">
+
+                <com.songbao.sampo_b.widgets.RoundImageView
+                    android:id="@+id/refund_iv_goods"
+                    android:layout_width="@dimen/image_size_goods"
+                    android:layout_height="@dimen/image_size_goods"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/icon_default_show"
+                    app:type="round" />
+
+                <TextView
+                    android:id="@+id/refund_tv_name"
+                    style="@style/goods_name_text"
+                    app:layout_constraintHorizontal_weight="1"
+                    app:layout_constraintLeft_toRightOf="@+id/refund_iv_goods"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/refund_iv_goods" />
+
+                <TextView
+                    android:id="@+id/refund_tv_attr"
+                    style="@style/goods_attr_text"
+                    app:layout_constraintLeft_toLeftOf="@+id/refund_tv_name"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/refund_tv_name" />
+
+                <TextView
+                    style="@style/order_text"
+                    android:text="@string/order_refund_price"
+                    android:layout_marginEnd="@dimen/margin_padding_5"
+                    app:layout_constraintRight_toLeftOf="@+id/refund_tv_price_curr"
+                    app:layout_constraintBottom_toBottomOf="@+id/refund_tv_price_curr" />
+
+                <TextView
+                    android:id="@+id/refund_tv_price_curr"
+                    style="@style/common_text_price_curr"
+                    android:layout_marginStart="@dimen/margin_padding_10"
+                    android:layout_marginTop="@dimen/margin_padding_20"
+                    app:layout_constraintRight_toLeftOf="@+id/refund_tv_price"
+                    app:layout_constraintBottom_toBottomOf="@+id/refund_tv_price"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/refund_tv_price"/>
+
+                <TextView
+                    android:id="@+id/refund_tv_price"
+                    style="@style/common_text_price"
+                    android:layout_marginTop="@dimen/margin_padding_17"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/refund_iv_goods"/>
+
+                <ImageView
+                    android:id="@+id/refund_iv_state_01"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/sel_checkbox_large_ok"
+                    android:layout_marginTop="@dimen/margin_padding_36"
+                    android:layout_marginStart="@dimen/margin_padding_45"
+                    android:contentDescription="@string/desc"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/refund_tv_price"/>
+
+                <ImageView
+                    android:id="@+id/refund_iv_state_02"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/icon_waiting"
+                    android:contentDescription="@string/desc"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/refund_iv_state_01"/>
+
+                <ImageView
+                    android:id="@+id/refund_iv_state_03"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/sel_checkbox_large_no"
+                    android:layout_marginEnd="@dimen/margin_padding_45"
+                    android:contentDescription="@string/desc"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/refund_iv_state_02"/>
+
+                <TextView
+                    android:id="@+id/refund_tv_state_01_describe"
+                    style="@style/order_text"
+                    android:text="@string/order_refund_apply"
+                    android:layout_marginTop="@dimen/margin_padding_10"
+                    app:layout_constraintTop_toBottomOf="@+id/refund_iv_state_01"
+                    app:layout_constraintLeft_toLeftOf="@+id/refund_iv_state_01"
+                    app:layout_constraintRight_toRightOf="@+id/refund_iv_state_01" />
+
+                <TextView
+                    android:id="@+id/refund_tv_state_01_time"
+                    style="@style/order_text"
+                    android:textSize="@dimen/app_text_size_small"
+                    android:layout_marginTop="@dimen/margin_padding_5"
+                    app:layout_constraintTop_toBottomOf="@+id/refund_tv_state_01_describe"
+                    app:layout_constraintLeft_toLeftOf="@+id/refund_iv_state_01"
+                    app:layout_constraintRight_toRightOf="@+id/refund_iv_state_01" />
+
+                <TextView
+                    android:id="@+id/refund_tv_state_02_describe"
+                    style="@style/order_text"
+                    android:text="@string/order_refund_wait"
+                    android:layout_marginTop="@dimen/margin_padding_10"
+                    app:layout_constraintTop_toBottomOf="@+id/refund_iv_state_02"
+                    app:layout_constraintLeft_toLeftOf="@+id/refund_iv_state_02"
+                    app:layout_constraintRight_toRightOf="@+id/refund_iv_state_02" />
+
+                <TextView
+                    android:id="@+id/refund_tv_state_02_time"
+                    style="@style/order_text"
+                    android:textSize="@dimen/app_text_size_small"
+                    android:layout_marginTop="@dimen/margin_padding_5"
+                    app:layout_constraintTop_toBottomOf="@+id/refund_tv_state_02_describe"
+                    app:layout_constraintLeft_toLeftOf="@+id/refund_iv_state_02"
+                    app:layout_constraintRight_toRightOf="@+id/refund_iv_state_02" />
+
+                <TextView
+                    android:id="@+id/refund_tv_state_03_describe"
+                    style="@style/order_text"
+                    android:text="@string/order_refund_done"
+                    android:layout_marginTop="@dimen/margin_padding_10"
+                    app:layout_constraintTop_toBottomOf="@+id/refund_iv_state_03"
+                    app:layout_constraintLeft_toLeftOf="@+id/refund_iv_state_03"
+                    app:layout_constraintRight_toRightOf="@+id/refund_iv_state_03" />
+
+                <TextView
+                    android:id="@+id/refund_tv_state_03_time"
+                    style="@style/order_text"
+                    android:textSize="@dimen/app_text_size_small"
+                    android:layout_marginTop="@dimen/margin_padding_5"
+                    app:layout_constraintTop_toBottomOf="@+id/refund_tv_state_03_describe"
+                    app:layout_constraintLeft_toLeftOf="@+id/refund_iv_state_03"
+                    app:layout_constraintRight_toRightOf="@+id/refund_iv_state_03" />
+
+                <View
+                    android:id="@+id/refund_view_line"
+                    style="@style/set_line_horizontal_bg"
+                    android:layout_marginTop="@dimen/margin_padding_30"
+                    app:layout_constraintTop_toBottomOf="@+id/refund_tv_state_01_time"/>
+
+                <TextView
+                    android:id="@+id/refund_tv_refund_number"
+                    style="@style/order_text"
+                    android:maxLength="27"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:text="@string/order_refund_no"
+                    android:layout_marginTop="@dimen/margin_padding_20"
+                    app:layout_constraintTop_toBottomOf="@+id/refund_view_line"/>
+
+                <TextView
+                    android:id="@+id/refund_tv_number_copy"
+                    style="@style/common_text_bg_frame"
+                    android:layout_marginTop="@dimen/margin_padding_18"
+                    android:layout_marginStart="@dimen/margin_padding_20"
+                    android:background="@drawable/shape_style_empty_02_04"
+                    android:text="@string/copy"
+                    android:textColor="@color/app_color_gray_5"
+                    android:textSize="@dimen/app_text_size_small"
+                    app:layout_constraintTop_toBottomOf="@+id/refund_view_line"
+                    app:layout_constraintLeft_toRightOf="@+id/refund_tv_refund_number"/>
+
+                <TextView
+                    android:id="@+id/refund_tv_time_apply"
+                    style="@style/order_text"
+                    android:text="@string/order_time_apply"
+                    android:layout_marginTop="@dimen/margin_padding_10"
+                    app:layout_constraintTop_toBottomOf="@+id/refund_tv_refund_number"/>
+
+            </android.support.constraint.ConstraintLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <TextView
+        android:id="@+id/refund_tv_cancel"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/app_height_button"
+        android:layout_marginBottom="@dimen/margin_padding_20"
+        android:layout_marginStart="@dimen/app_margin_screen"
+        android:layout_marginEnd="@dimen/app_margin_screen"
+        android:layout_marginTop="@dimen/margin_padding_20"
+        android:background="@drawable/shape_style_solid_05_08"
+        android:gravity="center"
+        android:text="@string/order_cancel_apply"
+        android:textStyle="bold"
+        android:textColor="@color/app_color_white"
+        android:textSize="@dimen/app_text_size_content" />
+
+</LinearLayout>

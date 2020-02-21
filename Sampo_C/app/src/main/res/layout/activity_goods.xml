@@ -1,0 +1,357 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/goods_view_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/ui_color_app_bg_01">
+
+    <com.songbao.sampo_c.widgets.ObservableScrollView
+        android:id="@+id/goods_view_sv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingBottom="@dimen/app_height_events"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/goods_view_vp"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    app:layout_constraintDimensionRatio="3:2" />
+
+                <LinearLayout
+                    android:id="@+id/goods_vp_indicator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="@dimen/margin_padding_10"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toBottomOf="@+id/goods_view_vp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent" />
+
+                <TextView
+                    android:id="@+id/goods_tv_goods_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/app_margin_screen"
+                    android:layout_marginEnd="@dimen/app_margin_screen"
+                    android:layout_marginTop="@dimen/margin_padding_20"
+                    android:textColor="@color/shows_text_color"
+                    android:textSize="@dimen/app_text_size_content"
+                    android:textStyle="bold"
+                    app:layout_constraintTop_toBottomOf="@+id/goods_view_vp" />
+
+                <TextView
+                    android:id="@+id/goods_tv_price_curr"
+                    style="@style/common_text_price_curr"
+                    android:layout_marginEnd="@dimen/margin_padding_10"
+                    android:textSize="@dimen/text_size_18"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/goods_tv_price"
+                    app:layout_constraintBottom_toBottomOf="@+id/goods_tv_price"
+                    app:layout_constraintRight_toLeftOf="@+id/goods_tv_price" />
+
+                <TextView
+                    android:id="@+id/goods_tv_price"
+                    style="@style/common_text_price"
+                    android:layout_marginStart="@dimen/margin_padding_28"
+                    android:layout_marginTop="@dimen/margin_padding_20"
+                    android:textSize="@dimen/text_size_30"
+                    app:layout_constraintLeft_toLeftOf="@+id/goods_tv_goods_name"
+                    app:layout_constraintTop_toBottomOf="@+id/goods_tv_goods_name" />
+
+                <TextView
+                    android:id="@+id/goods_tv_goods_attach_1"
+                    style="@style/goods_text"
+                    android:layout_marginStart="@dimen/margin_padding_12"
+                    android:layout_marginTop="@dimen/margin_padding_20"
+                    android:text="@string/goods_attach_1"
+                    app:layout_constraintLeft_toLeftOf="@+id/goods_tv_goods_name"
+                    app:layout_constraintTop_toBottomOf="@+id/goods_tv_price" />
+
+                <TextView
+                    android:id="@+id/goods_tv_goods_attach_sign_1"
+                    style="@style/goods_attach_sign"
+                    app:layout_constraintBottom_toBottomOf="@+id/goods_tv_goods_attach_1"
+                    app:layout_constraintRight_toLeftOf="@+id/goods_tv_goods_attach_1"
+                    app:layout_constraintTop_toTopOf="@+id/goods_tv_goods_attach_1" />
+
+                <TextView
+                    android:id="@+id/goods_tv_goods_attach_2"
+                    style="@style/goods_text"
+                    android:layout_marginStart="@dimen/margin_padding_60"
+                    android:text="@string/goods_attach_2"
+                    app:layout_constraintLeft_toRightOf="@+id/goods_tv_goods_attach_1"
+                    app:layout_constraintTop_toTopOf="@+id/goods_tv_goods_attach_1" />
+
+                <TextView
+                    android:id="@+id/goods_tv_goods_attach_sign_2"
+                    style="@style/goods_attach_sign"
+                    app:layout_constraintBottom_toBottomOf="@+id/goods_tv_goods_attach_2"
+                    app:layout_constraintRight_toLeftOf="@+id/goods_tv_goods_attach_2"
+                    app:layout_constraintTop_toTopOf="@+id/goods_tv_goods_attach_2" />
+
+                <TextView
+                    android:id="@+id/goods_tv_goods_attach_3"
+                    style="@style/goods_text"
+                    android:layout_marginTop="@dimen/margin_padding_10"
+                    android:text="@string/goods_attach_3"
+                    app:layout_constraintLeft_toLeftOf="@+id/goods_tv_goods_attach_1"
+                    app:layout_constraintTop_toBottomOf="@+id/goods_tv_goods_attach_1" />
+
+                <TextView
+                    android:id="@+id/goods_tv_goods_attach_sign_3"
+                    style="@style/goods_attach_sign"
+                    app:layout_constraintBottom_toBottomOf="@+id/goods_tv_goods_attach_3"
+                    app:layout_constraintRight_toLeftOf="@+id/goods_tv_goods_attach_3"
+                    app:layout_constraintTop_toTopOf="@+id/goods_tv_goods_attach_3" />
+
+                <TextView
+                    android:id="@+id/goods_tv_goods_attach_4"
+                    style="@style/goods_text"
+                    android:layout_marginStart="@dimen/margin_padding_60"
+                    android:text="@string/goods_attach_4"
+                    app:layout_constraintLeft_toRightOf="@+id/goods_tv_goods_attach_3"
+                    app:layout_constraintTop_toTopOf="@+id/goods_tv_goods_attach_3" />
+
+                <TextView
+                    android:id="@+id/goods_tv_goods_attach_sign_4"
+                    style="@style/goods_attach_sign"
+                    app:layout_constraintBottom_toBottomOf="@+id/goods_tv_goods_attach_4"
+                    app:layout_constraintRight_toLeftOf="@+id/goods_tv_goods_attach_4"
+                    app:layout_constraintTop_toTopOf="@+id/goods_tv_goods_attach_4" />
+
+                <RelativeLayout
+                    android:id="@+id/goods_view_line_1"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/margin_padding_10"
+                    android:layout_marginTop="@dimen/margin_padding_30"
+                    android:background="@color/ui_color_app_bg_02"
+                    app:layout_constraintTop_toBottomOf="@+id/goods_tv_goods_attach_3" />
+
+                <android.support.constraint.ConstraintLayout
+                    android:id="@+id/goods_spec_choice_main"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@+id/goods_view_line_1">
+
+                    <TextView
+                        android:id="@+id/goods_tv_spec_choice"
+                        style="@style/goods_text"
+                        android:layout_marginStart="@dimen/app_margin_screen"
+                        android:layout_marginTop="@dimen/margin_padding_20"
+                        android:text="@string/goods_spec_choice"
+                        android:textColor="@color/shows_text_color"
+                        android:textSize="@dimen/app_text_size_title"
+                        android:textStyle="bold"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/goods_tv_spec_choice_en"
+                        style="@style/goods_text"
+                        android:text="@string/goods_spec_choice_en"
+                        android:textSize="@dimen/app_text_size_minis"
+                        app:layout_constraintLeft_toLeftOf="@+id/goods_tv_spec_choice"
+                        app:layout_constraintTop_toBottomOf="@+id/goods_tv_spec_choice" />
+
+                    <TextView
+                        android:id="@+id/goods_tv_spec_choice_sign"
+                        android:layout_width="@dimen/margin_padding_12"
+                        android:layout_height="@dimen/margin_padding_12"
+                        android:layout_marginEnd="@dimen/margin_padding_10"
+                        android:background="@drawable/shape_style_app_status"
+                        app:layout_constraintBottom_toBottomOf="@+id/goods_tv_spec_choice"
+                        app:layout_constraintRight_toLeftOf="@+id/goods_tv_spec_choice"
+                        app:layout_constraintTop_toTopOf="@+id/goods_tv_spec_choice" />
+
+                    <TextView
+                        android:id="@+id/goods_tv_selected"
+                        style="@style/goods_text"
+                        android:layout_marginTop="@dimen/margin_padding_20"
+                        android:text="@string/selected"
+                        android:textColor="@color/app_color_gray_5"
+                        android:textSize="@dimen/app_text_size_content"
+                        app:layout_constraintLeft_toLeftOf="@+id/goods_tv_spec_choice_en"
+                        app:layout_constraintTop_toBottomOf="@+id/goods_tv_spec_choice_en" />
+
+                    <TextView
+                        android:id="@+id/goods_tv_selected_show"
+                        style="@style/detail_lay_text_go"
+                        android:layout_width="0dp"
+                        android:layout_marginStart="@dimen/margin_padding_30"
+                        android:layout_marginTop="@dimen/margin_padding_5"
+                        android:textColor="@color/tv_color_status"
+                        android:textSize="@dimen/app_text_size_content"
+                        android:textStyle="bold"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:gravity="end"
+                        app:layout_constraintHorizontal_weight="1"
+                        app:layout_constraintLeft_toRightOf="@+id/goods_tv_selected"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/goods_tv_spec_choice_en" />
+
+                </android.support.constraint.ConstraintLayout>
+
+                <RelativeLayout
+                    android:id="@+id/goods_view_line_2"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/margin_padding_10"
+                    android:layout_marginTop="@dimen/margin_padding_30"
+                    android:background="@color/ui_color_app_bg_02"
+                    app:layout_constraintTop_toBottomOf="@+id/goods_spec_choice_main" />
+
+                <android.support.constraint.ConstraintLayout
+                    android:id="@+id/goods_good_comment_main"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintTop_toBottomOf="@+id/goods_view_line_2">
+
+                    <TextView
+                        android:id="@+id/goods_tv_good_comment"
+                        style="@style/goods_text"
+                        android:layout_marginStart="@dimen/app_margin_screen"
+                        android:layout_marginTop="@dimen/margin_padding_20"
+                        android:text="@string/goods_good_comment"
+                        android:textColor="@color/shows_text_color"
+                        android:textSize="@dimen/app_text_size_title"
+                        android:textStyle="bold"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/goods_tv_good_comment_en"
+                        style="@style/goods_text"
+                        android:text="@string/goods_good_comment_en"
+                        android:textSize="@dimen/app_text_size_minis"
+                        app:layout_constraintLeft_toLeftOf="@+id/goods_tv_good_comment"
+                        app:layout_constraintTop_toBottomOf="@+id/goods_tv_good_comment" />
+
+                    <TextView
+                        android:id="@+id/goods_tv_good_comment_sign"
+                        android:layout_width="@dimen/margin_padding_12"
+                        android:layout_height="@dimen/margin_padding_12"
+                        android:layout_marginEnd="@dimen/margin_padding_10"
+                        android:background="@drawable/shape_style_app_status"
+                        app:layout_constraintBottom_toBottomOf="@+id/goods_tv_good_comment"
+                        app:layout_constraintRight_toLeftOf="@+id/goods_tv_good_comment"
+                        app:layout_constraintTop_toTopOf="@+id/goods_tv_good_comment" />
+
+                    <TextView
+                        android:id="@+id/goods_tv_good_comment_num"
+                        style="@style/goods_text"
+                        android:textColor="@color/app_color_gray_9"
+                        android:textSize="@dimen/app_text_size_small"
+                        app:layout_constraintBottom_toBottomOf="@+id/goods_tv_good_comment"
+                        app:layout_constraintLeft_toRightOf="@+id/goods_tv_good_comment"
+                        app:layout_constraintTop_toTopOf="@+id/goods_tv_good_comment" />
+
+                    <TextView
+                        android:id="@+id/goods_tv_good_comment_percentage"
+                        style="@style/goods_text"
+                        android:layout_marginEnd="@dimen/app_margin_screen"
+                        android:gravity="center"
+                        android:textColor="@color/app_color_yellow"
+                        android:textSize="@dimen/app_text_size_small"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/goods_tv_good_comment" />
+
+                    <com.songbao.sampo_c.widgets.ScrollViewListView
+                        android:id="@+id/goods_lv_comment"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintTop_toBottomOf="@+id/goods_tv_good_comment_en"/>
+
+                    <TextView
+                        android:id="@+id/goods_tv_comment_all"
+                        style="@style/common_text_bg_frame"
+                        android:text="@string/see_all"
+                        android:textColor="@color/app_color_gray_5"
+                        android:background="@drawable/shape_style_empty_02_08"
+                        android:paddingTop="@dimen/margin_padding_7"
+                        android:paddingBottom="@dimen/margin_padding_7"
+                        android:paddingLeft="@dimen/margin_padding_18"
+                        android:paddingRight="@dimen/margin_padding_18"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/goods_lv_comment"/>
+
+                </android.support.constraint.ConstraintLayout>
+
+                <RelativeLayout
+                    android:id="@+id/goods_view_line_3"
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/margin_padding_10"
+                    android:layout_marginTop="@dimen/margin_padding_30"
+                    android:background="@color/ui_color_app_bg_02"
+                    app:layout_constraintTop_toBottomOf="@+id/goods_good_comment_main" />
+
+                <TextView
+                    android:id="@+id/goods_tv_good_detail"
+                    style="@style/goods_text"
+                    android:layout_marginStart="@dimen/app_margin_screen"
+                    android:layout_marginTop="@dimen/margin_padding_20"
+                    android:text="@string/goods_good_detail"
+                    android:textColor="@color/shows_text_color"
+                    android:textSize="@dimen/app_text_size_title"
+                    android:textStyle="bold"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/goods_view_line_3" />
+
+                <TextView
+                    android:id="@+id/goods_tv_good_detail_en"
+                    style="@style/goods_text"
+                    android:text="@string/goods_good_detail_en"
+                    android:textSize="@dimen/app_text_size_minis"
+                    app:layout_constraintLeft_toLeftOf="@+id/goods_tv_good_detail"
+                    app:layout_constraintTop_toBottomOf="@+id/goods_tv_good_detail" />
+
+                <TextView
+                    android:id="@+id/goods_tv_good_detail_sign"
+                    android:layout_width="@dimen/margin_padding_12"
+                    android:layout_height="@dimen/margin_padding_12"
+                    android:layout_marginEnd="@dimen/margin_padding_10"
+                    android:background="@drawable/shape_style_app_status"
+                    app:layout_constraintBottom_toBottomOf="@+id/goods_tv_good_detail"
+                    app:layout_constraintRight_toLeftOf="@+id/goods_tv_good_detail"
+                    app:layout_constraintTop_toTopOf="@+id/goods_tv_good_detail" />
+
+                <com.songbao.sampo_c.widgets.ScrollViewListView
+                    android:id="@+id/goods_lv_detail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_padding_20"
+                    app:layout_constraintTop_toBottomOf="@+id/goods_tv_good_detail_en"/>
+
+            </android.support.constraint.ConstraintLayout>
+        </LinearLayout>
+    </com.songbao.sampo_c.widgets.ObservableScrollView>
+
+    <ImageView
+        android:id="@+id/goods_iv_left"
+        style="@style/top_bar_icon"
+        android:contentDescription="@string/desc"
+        android:src="@mipmap/icon_back_white"/>
+
+    <ImageView
+        android:id="@+id/goods_iv_share"
+        style="@style/top_bar_icon"
+        android:src="@mipmap/icon_share_white"
+        android:contentDescription="@string/desc"
+        android:layout_gravity="end"/>
+
+    <include layout="@layout/layout_top_common" />
+
+    <include layout="@layout/layout_bottom_add_cart" />
+
+</FrameLayout>

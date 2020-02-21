@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/ui_color_app_bg_01"
+    android:orientation="vertical">
+
+        <com.songbao.sampo_b.widgets.ObservableWebView
+            android:id="@+id/sketch_web"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:layerType="software" />
+
+        <TextView
+            android:id="@+id/sketch_tv_click"
+            style="@style/common_text_button"
+            android:layout_width="match_parent"
+            android:layout_gravity="bottom"
+            android:layout_marginTop="@dimen/margin_padding_5"
+            android:layout_marginBottom="@dimen/margin_padding_5"
+            android:layout_marginStart="@dimen/app_margin_screen"
+            android:layout_marginEnd="@dimen/app_margin_screen"
+            android:background="@drawable/shape_style_solid_00_08"
+            android:padding="@dimen/app_margin_screen"
+            android:text="@string/goods_go_customize"
+            android:textSize="@dimen/app_text_size_title"
+            android:textStyle="bold" />
+
+</LinearLayout>
