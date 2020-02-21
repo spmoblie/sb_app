@@ -118,7 +118,7 @@ public class PurchaseActivity extends BaseActivity implements View.OnClickListen
 
     private OPurchaseEntity opEn;
     private int addressId = 0;
-    private boolean isUpdate = false;
+    private int updateType = 0;
     private ArrayList<GoodsEntity> al_goods = new ArrayList<>();
 
     @Override
@@ -388,7 +388,7 @@ public class PurchaseActivity extends BaseActivity implements View.OnClickListen
     @Override
     public void finish() {
         Intent returnIntent = new Intent();
-        returnIntent.putExtra(AppConfig.PAGE_DATA, isUpdate);
+        returnIntent.putExtra(AppConfig.PAGE_DATA, updateType);
         setResult(RESULT_OK, returnIntent);
         super.finish();
     }
@@ -501,10 +501,22 @@ public class PurchaseActivity extends BaseActivity implements View.OnClickListen
                         handleErrorCode(baseEn);
                     }
                     break;
+                case AppConfig.REQUEST_SV_ORDER_CANCEL:
+                    baseEn = JsonUtils.getBaseErrorData(jsonObject);
+                    if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
+                        updateType = AppConfig.ORDER_STATUS_102;
+                        loadServerData();
+                    } else if (baseEn.getErrNo() == AppConfig.ERROR_CODE_TIMEOUT) {
+                        handleTimeOut();
+                        finish();
+                    } else {
+                        handleErrorCode(baseEn);
+                    }
+                    break;
                 case AppConfig.REQUEST_SV_ORDER_DELETE:
                     baseEn = JsonUtils.getBaseErrorData(jsonObject);
                     if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
-                        isUpdate = true;
+                        updateType = -999;
                         finish();
                     } else if (baseEn.getErrNo() == AppConfig.ERROR_CODE_TIMEOUT) {
                         handleTimeOut();
@@ -513,11 +525,10 @@ public class PurchaseActivity extends BaseActivity implements View.OnClickListen
                         handleErrorCode(baseEn);
                     }
                     break;
-                case AppConfig.REQUEST_SV_ORDER_CANCEL:
                 case AppConfig.REQUEST_SV_ORDER_CONFIRM:
                     baseEn = JsonUtils.getBaseErrorData(jsonObject);
                     if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
-                        isUpdate = true;
+                        updateType = AppConfig.ORDER_STATUS_501;
                         loadServerData();
                     } else if (baseEn.getErrNo() == AppConfig.ERROR_CODE_TIMEOUT) {
                         handleTimeOut();

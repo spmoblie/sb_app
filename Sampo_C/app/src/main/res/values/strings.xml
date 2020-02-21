@@ -259,6 +259,7 @@
     <!-- Goods -->
     <string name="goods_num">x%1$d</string>
     <string name="goods_search_et_hint">输入商品关键字</string>
+    <string name="goods_search_null">抱歉，没有找到商品~</string>
     <string name="goods_new_line">新品上线</string>
     <string name="goods_new_line_en">NEW PRODUCT LAUNCH</string>
     <string name="goods_hot_single">热门单品</string>

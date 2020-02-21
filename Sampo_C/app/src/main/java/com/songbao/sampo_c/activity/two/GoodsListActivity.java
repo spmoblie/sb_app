@@ -92,6 +92,12 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 	@BindView(R.id.goods_list_tv_cart_num)
 	TextView tv_cart_num;
 
+	@BindView(R.id.goods_list_iv_data_null)
+	ImageView iv_data_null;
+
+	@BindView(R.id.goods_list_tv_data_null)
+	TextView tv_data_null;
+
 	@BindView(R.id.goods_list_screen_main)
 	LinearLayout screen_main;
 
@@ -402,6 +408,7 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 				searchStr = et_search.getText().toString();
 				mCdt.cancel();
 				if (StringUtil.isNull(searchStr)) {
+					handleKeywordClear();
 					iv_clear.setVisibility(View.GONE);
 				}else {
 					mCdt.start();
@@ -409,6 +416,14 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 				}
 			}
 		});
+	}
+
+	/**
+	 * 处理关键字清空事项
+	 */
+	private void handleKeywordClear() {
+		hideSoftInput(et_search);
+		loadFirstPageData();
 	}
 
 	/**
@@ -493,12 +508,18 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 	}
 
 	private void updateListData() {
-		/*if (al_show.size() <= 0) {
+		if (al_show.size() <= 0) {
 			setNullVisibility(View.VISIBLE);
 		} else {
 			setNullVisibility(View.GONE);
-		}*/
+		}
 		rv_Adapter.updateData(al_show);
+	}
+
+	@Override
+	protected void setNullVisibility(int visibility) {
+		iv_data_null.setVisibility(visibility);
+		tv_data_null.setVisibility(visibility);
 	}
 
 	@Override
@@ -797,9 +818,6 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 		HashMap<String, String> map = new HashMap<>();
 		map.put("page", page);
 		map.put("size", AppConfig.LOAD_SIZE);
-		map.put("isHot", String.valueOf(isHot));
-		map.put("isNews", String.valueOf(isNews));
-		map.put("isRecommend", String.valueOf(isRecommend));
 		map.put("orderByKey", String.valueOf(top_type));
 		map.put("sourceType", "1");
 		if (sort_type > 0) {
@@ -810,6 +828,9 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 		} else {
 			if (!StringUtil.isNull(sortCode)) {
 				map.put("refCatCode", sortCode);
+				map.put("isHot", String.valueOf(isHot));
+				map.put("isNews", String.valueOf(isNews));
+				map.put("isRecommend", String.valueOf(isRecommend));
 			}
 		}
 		if (!StringUtil.isNull(screenStr)) {

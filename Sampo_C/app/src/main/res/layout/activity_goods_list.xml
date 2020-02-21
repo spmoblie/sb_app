@@ -152,6 +152,32 @@
         app:layout_constraintRight_toRightOf="@+id/goods_list_iv_cart"
         app:layout_constraintTop_toTopOf="@+id/goods_list_iv_cart" />
 
+    <ImageView
+        android:id="@+id/goods_list_iv_data_null"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/margin_padding_50"
+        android:src="@mipmap/icon_data_null"
+        android:contentDescription="@string/desc"
+        android:visibility="gone"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+
+    <TextView
+        android:id="@+id/goods_list_tv_data_null"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_padding_30"
+        android:text="@string/goods_search_null"
+        android:textColor="@color/app_color_gray_9"
+        android:textSize="@dimen/app_text_size_content"
+        android:visibility="gone"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/goods_list_iv_data_null"/>
+
     <LinearLayout
         android:id="@+id/goods_list_screen_main"
         android:layout_width="match_parent"

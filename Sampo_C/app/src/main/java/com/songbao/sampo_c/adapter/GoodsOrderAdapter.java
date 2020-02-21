@@ -38,7 +38,7 @@ public class GoodsOrderAdapter extends AppBaseAdapter {
 	static class ViewHolder {
 		ConstraintLayout item_main;
 		RoundImageView iv_show;
-		TextView tv_name, tv_attr, tv_number, tv_price, tv_post_sale, tv_comment;
+		TextView tv_goods_name, tv_attr, tv_number, tv_price, tv_post_sale, tv_comment;
 		View view_fill;
 	}
 
@@ -52,7 +52,7 @@ public class GoodsOrderAdapter extends AppBaseAdapter {
 			holder = new ViewHolder();
 			holder.item_main = convertView.findViewById(R.id.goods_order_item_main);
 			holder.iv_show = convertView.findViewById(R.id.goods_order_item_iv_show);
-			holder.tv_name = convertView.findViewById(R.id.goods_order_item_tv_name);
+			holder.tv_goods_name = convertView.findViewById(R.id.goods_order_item_tv_goods_name);
 			holder.tv_attr = convertView.findViewById(R.id.goods_order_item_tv_attr);
 			holder.tv_number = convertView.findViewById(R.id.goods_order_item_tv_number);
 			holder.tv_price = convertView.findViewById(R.id.goods_order_item_tv_price);
@@ -70,7 +70,7 @@ public class GoodsOrderAdapter extends AppBaseAdapter {
 				.apply(AppApplication.getShowOptions())
 				.into(holder.iv_show);
 
-		holder.tv_name.setText(data.getName());
+		holder.tv_goods_name.setText(data.getName());
 		holder.tv_price.setText(context.getString(R.string.pay_rmb, df.format(data.getPrice())));
 		holder.tv_attr.setText(data.getAttribute());
 		holder.tv_number.setText(context.getString(R.string.cart_goods_num, data.getNumber()));

@@ -44,7 +44,7 @@ public class GoodsOrder2Adapter extends AppBaseAdapter {
 			holder = new ViewHolder();
 			holder.item_main = convertView.findViewById(R.id.goods_order_2_item_main);
 			holder.iv_show = convertView.findViewById(R.id.goods_order_2_item_iv_show);
-			holder.tv_name = convertView.findViewById(R.id.goods_order_2_item_tv_name);
+			holder.tv_name = convertView.findViewById(R.id.goods_order_2_item_tv_goods_name);
 			holder.tv_attr = convertView.findViewById(R.id.goods_order_2_item_tv_attr);
 			holder.tv_price = convertView.findViewById(R.id.goods_order_2_item_tv_price);
 			holder.tv_number = convertView.findViewById(R.id.goods_order_2_item_tv_number);

@@ -32,7 +32,7 @@
             app:type="round" />
 
         <TextView
-            android:id="@+id/goods_list_item_tv_name"
+            android:id="@+id/goods_list_item_tv_goods_name"
             style="@style/goods_name_text"
             android:maxLines="2"
             android:lines="2"
@@ -56,8 +56,8 @@
             app:layout_constraintHorizontal_bias="0"
             app:layout_constraintHorizontal_chainStyle="packed"
             app:layout_constraintRight_toLeftOf="@+id/goods_list_item_fill_attr"
-            app:layout_constraintLeft_toLeftOf="@+id/goods_list_item_tv_name"
-            app:layout_constraintTop_toBottomOf="@+id/goods_list_item_tv_name" />
+            app:layout_constraintLeft_toLeftOf="@+id/goods_list_item_tv_goods_name"
+            app:layout_constraintTop_toBottomOf="@+id/goods_list_item_tv_goods_name" />
 
         <View
             android:id="@+id/goods_list_item_fill_attr"

@@ -690,6 +690,7 @@ public class CustomizeListActivity extends BaseActivity implements View.OnClickL
                         handleTimeOut();
                         finish();
                     } else {
+                        updateListData();
                         handleErrorCode(baseEn);
                     }
                     break;

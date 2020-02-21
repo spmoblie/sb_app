@@ -11,7 +11,7 @@ public class AppConfig {
 	 */
 
 	// 发布控制
-	public static final boolean IS_PUBLISH = true;
+	public static final boolean IS_PUBLISH = false;
 	// http协议
 	public final static String APP_HTTP = "http://";
 	// https协议
@@ -427,24 +427,26 @@ public class AppConfig {
 	public static final String homeHeadFileName = "home_head";
 	// 首页列表数据文件名
 	public static final String homeListFileName = "home_list";
-	// 缓存路径应用名称
-	public static final String SAVE_APP_NAME = "SongBao";
+	// 应用偏好设置名称
+	public static final String APP_SP_NAME = "sp_sampo_c";
+	// 应用缓存路径名称
+	public static final String APP_ROOT_NAME = "Sampo_C";
 	// 内置SD卡路径
-	public static final String SD_PATH = Environment.getExternalStorageDirectory().toString() + "/" + SAVE_APP_NAME + "/";
+	public static final String SD_PATH = Environment.getExternalStorageDirectory().toString() + "/" + APP_ROOT_NAME + "/";
 	// Apk临时缓存路径（应用关闭时清除）
-	public static final String SAVE_PATH_APK_DICE = SD_PATH + "apk/" + SAVE_APP_NAME + "_AD/";
+	public static final String SAVE_PATH_APK_DICE = SD_PATH + "apk/" + APP_ROOT_NAME + "_AD/";
 	// 文本长久保存路径
-	public static final String SAVE_PATH_TXT_SAVE = SD_PATH + "txt/" + SAVE_APP_NAME + "_TS/";
+	public static final String SAVE_PATH_TXT_SAVE = SD_PATH + "txt/" + APP_ROOT_NAME + "_TS/";
 	// 文本临时缓存路径（应用关闭时清除）
-	public static final String SAVE_PATH_TXT_DICE = SD_PATH + "txt/" + SAVE_APP_NAME + "_TD/";
+	public static final String SAVE_PATH_TXT_DICE = SD_PATH + "txt/" + APP_ROOT_NAME + "_TD/";
 	// 图片长久保存路径
-	public static final String SAVE_PATH_IMAGE_SAVE = SD_PATH + "image/" + SAVE_APP_NAME + "_IS/";
+	public static final String SAVE_PATH_IMAGE_SAVE = SD_PATH + "image/" + APP_ROOT_NAME + "_IS/";
 	// 图片临时缓存路径（应用关闭时清除）
-	public static final String SAVE_PATH_IMAGE_DICE = SD_PATH + "image/" + SAVE_APP_NAME + "_ID/";
+	public static final String SAVE_PATH_IMAGE_DICE = SD_PATH + "image/" + APP_ROOT_NAME + "_ID/";
 	// 媒体长久保存路径
-	public static final String SAVE_PATH_MEDIA_SAVE = SD_PATH + "media/" + SAVE_APP_NAME + "_MS/";
+	public static final String SAVE_PATH_MEDIA_SAVE = SD_PATH + "media/" + APP_ROOT_NAME + "_MS/";
 	// 媒体临时缓存路径（应用关闭时清除）
-	public static final String SAVE_PATH_MEDIA_DICE = SD_PATH + "media/" + SAVE_APP_NAME + "_MD/";
+	public static final String SAVE_PATH_MEDIA_DICE = SD_PATH + "media/" + APP_ROOT_NAME + "_MD/";
 
 	// 用户数据存储路径
 	public static final String SAVE_USER_DATA_PATH = SD_PATH + "user/";

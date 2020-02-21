@@ -821,6 +821,7 @@ public class JsonUtils {
             if (StringUtil.notNull(data, "hot")) {
                 JSONArray hot = data.getJSONArray("hot");
                 childEn = new GoodsSortEntity();
+                childEn.setParentId(sortId);
                 childEn.setSortCode(sortCode);
 
                 ArrayList<GoodsEntity> hotList = new ArrayList<>();

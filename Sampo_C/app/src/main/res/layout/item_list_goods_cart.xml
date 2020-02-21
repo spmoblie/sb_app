@@ -58,16 +58,10 @@
                     app:type="round" />
 
                 <TextView
-                    android:id="@+id/cart_item_tv_name"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/margin_padding_10"
+                    android:id="@+id/cart_item_tv_goods_name"
+                    style="@style/goods_name_text"
                     android:layout_marginEnd="@dimen/app_margin_screen"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:textColor="@color/shows_text_color"
                     android:textSize="@dimen/app_text_size_content"
-                    android:textStyle="bold"
                     app:layout_constraintHorizontal_weight="1"
                     app:layout_constraintLeft_toRightOf="@+id/cart_item_iv_show"
                     app:layout_constraintRight_toRightOf="parent"
@@ -89,9 +83,9 @@
                     app:layout_constrainedWidth="true"
                     app:layout_constraintHorizontal_bias="0"
                     app:layout_constraintHorizontal_chainStyle="packed"
-                    app:layout_constraintLeft_toLeftOf="@+id/cart_item_tv_name"
+                    app:layout_constraintLeft_toLeftOf="@+id/cart_item_tv_goods_name"
                     app:layout_constraintRight_toLeftOf="@+id/cart_item_fill_attr"
-                    app:layout_constraintTop_toBottomOf="@+id/cart_item_tv_name" />
+                    app:layout_constraintTop_toBottomOf="@+id/cart_item_tv_goods_name" />
 
                 <View
                     android:id="@+id/cart_item_fill_attr"

@@ -206,8 +206,6 @@ public class BaseActivity extends FragmentActivity {
 
         inAnim = AnimationUtils.loadAnimation(mContext, R.anim.in_from_right);
         outAnim = AnimationUtils.loadAnimation(mContext, R.anim.out_to_left);
-
-        setNullVisibility(View.GONE);
     }
 
     @Override
