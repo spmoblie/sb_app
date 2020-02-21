@@ -1,0 +1,4 @@
+#Fri Feb 21 17:48:20 CST 2020
+base.0=D\:\\Android\\Git\\sb_app\\Sampo_B\\app\\build\\intermediates\\transforms\\dexMerger\\debug\\0
+path.0=classes.dex
+renamed.0=classes.dex
