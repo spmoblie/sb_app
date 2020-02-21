@@ -52,6 +52,24 @@
             </RelativeLayout>
 
             <RelativeLayout
+                android:id="@+id/setting_rl_address"
+                style="@style/setting_lay_item">
+
+                <TextView
+                    android:id="@+id/setting_tv_address_title"
+                    style="@style/setting_lay_text_title"
+                    android:text="@string/address_manage_me" />
+
+                <TextView
+                    android:id="@+id/setting_tv_address_content"
+                    style="@style/setting_lay_text_content" />
+
+                <View
+                    style="@style/set_line_horizontal_bg"
+                    android:layout_alignParentBottom="true" />
+            </RelativeLayout>
+
+            <RelativeLayout
                 android:id="@+id/setting_rl_push_control"
                 style="@style/setting_lay_item"
                 android:visibility="gone">

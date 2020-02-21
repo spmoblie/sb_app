@@ -219,6 +219,16 @@ public class ChildFragmentTwo extends BaseFragment implements OnClickListener {
 		startActivity(intent);
 	}
 
+	private void updateCartGoodsNum() {
+		int cartNum = UserManager.getInstance().getUserCartNum();
+		if (cartNum > 0) {
+			tv_cart_num.setText(String.valueOf(cartNum));
+			tv_cart_num.setVisibility(View.VISIBLE);
+		} else {
+			tv_cart_num.setVisibility(View.GONE);
+		}
+	}
+
 	@Override
 	public void onResume() {
 		LogUtil.i(LogUtil.LOG_TAG, TAG + ": onResume");
@@ -228,13 +238,7 @@ public class ChildFragmentTwo extends BaseFragment implements OnClickListener {
 		if (!isSortOk) {
 			loadSortData();
 		}
-		int cartNum = UserManager.getInstance().getUserCartNum();
-		if (cartNum > 0) {
-			tv_cart_num.setText(String.valueOf(cartNum));
-			tv_cart_num.setVisibility(View.VISIBLE);
-		} else {
-			tv_cart_num.setVisibility(View.GONE);
-		}
+		updateCartGoodsNum();
 
 		super.onResume();
 	}
@@ -276,6 +280,7 @@ public class ChildFragmentTwo extends BaseFragment implements OnClickListener {
 		isLoadOk = false;
 		HashMap<String, String> map = new HashMap<>();
 		map.put("refCatCode", postSortCode);
+		map.put("sourceType", "1");
 		loadSVData(AppConfig.URL_SORT_GOODS, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_SORT_GOODS);
 	}
 

@@ -55,7 +55,7 @@ public class CartGoodsAdapter extends BaseRecyclerAdapter<CartEntity> {
         ConstraintLayout item_left_main = holder.getView(R.id.cart_item_left_main);
         ImageView iv_select = holder.getView(R.id.cart_item_iv_select);
         RoundImageView iv_show = holder.getView(R.id.cart_item_iv_show);
-        TextView tv_name = holder.getView(R.id.cart_item_tv_name);
+        TextView tv_name = holder.getView(R.id.cart_item_tv_goods_name);
         TextView tv_attr = holder.getView(R.id.cart_item_tv_attr);
         TextView tv_price = holder.getView(R.id.cart_item_tv_price);
         ImageView iv_minus = holder.getView(R.id.cart_item_iv_num_minus);

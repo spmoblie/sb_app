@@ -17,7 +17,9 @@ import com.songbao.sampo_c.AppApplication;
 import com.songbao.sampo_c.AppConfig;
 import com.songbao.sampo_c.R;
 import com.songbao.sampo_c.activity.BaseActivity;
+import com.songbao.sampo_c.activity.mine.MyPurchaseActivity;
 import com.songbao.sampo_c.entity.BaseEntity;
+import com.songbao.sampo_c.entity.OCustomizeEntity;
 import com.songbao.sampo_c.entity.PayResult;
 import com.songbao.sampo_c.entity.PaymentEntity;
 import com.songbao.sampo_c.utils.CommonTools;
@@ -53,6 +55,10 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
     public static final int PAY_FAIL = -1;
     public static final int PAY_ERROR = -999;
 
+    public static final int SOURCE_TYPE_1 = 1; //活动报名
+    public static final int SOURCE_TYPE_2 = 2; //课程预约
+    public static final int SOURCE_TYPE_3 = 3; //商城订单
+
     // 微信
     private IWXAPI api;
     // 支付宝
@@ -70,16 +76,18 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
     private int payStatus = PAY_CANCEL; //支付状态
     private int payType = PAY_WX; //支付类型
     private int checkCount = 0; //查询支付结果的次数
-    private int pageType = 0; //1:报名支付、预约支付
+    private int sourceType = SOURCE_TYPE_3;
+    private boolean isToOrder = false;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wxpay_entry);
 
-        pageType = getIntent().getIntExtra(AppConfig.PAGE_TYPE, 0);
+        sourceType = getIntent().getIntExtra("sourceType", SOURCE_TYPE_3);
         orderSn = getIntent().getStringExtra("orderSn");
         orderTotal = getIntent().getStringExtra("orderTotal");
+        isToOrder = getIntent().getBooleanExtra("isToOrder", false);
 
         api = WXAPIFactory.createWXAPI(mContext, AppConfig.WX_APP_ID);
         api.registerApp(AppConfig.WX_APP_ID);
@@ -393,7 +401,7 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
         HashMap<String, String> map = new HashMap<>();
         map.put("paymentType", String.valueOf(payType));
         map.put("outTradeNo", orderSn);
-        map.put("sourceType", String.valueOf(pageType));
+        map.put("sourceType", String.valueOf(sourceType));
         map.put("tradeType", AppConfig.LOAD_TYPE);
         loadSVData(AppConfig.URL_PAY_PARAMETER, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_PAY_PARAMETER);
     }
@@ -404,7 +412,7 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
     private void postPayCheck() {
         HashMap<String, String> map = new HashMap<>();
         map.put("outTradeNo", orderSn);
-        map.put("sourceType", String.valueOf(pageType));
+        map.put("sourceType", String.valueOf(sourceType));
         map.put("tradeType", AppConfig.LOAD_TYPE);
         loadSVData(AppConfig.URL_PAY_CHECK_RESULT, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_PAY_CHECK_RESULT);
     }
@@ -496,7 +504,7 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
             WXPayEntryActivity theActivity = mActivity.get();
             switch (msg.what) {
                 case AppConfig.DIALOG_CLICK_NO:
-                    theActivity.finish();
+                    theActivity.handlerPayCancel();
                     break;
                 case SDK_ZFB_PAY_FLAG: {
                     theActivity.handlerZFBResult(msg);
@@ -504,6 +512,21 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
                 }
             }
         }
+    }
+
+    /**
+     * 取消支付处理
+     */
+    public void handlerPayCancel() {
+        if (isToOrder) {
+            // 回退至“我的”
+            AppApplication.jumpToHomePage(2);
+            // 跳转至“我的购买”
+            Intent intent = new Intent(mContext, MyPurchaseActivity.class);
+            intent.putExtra("top_type", MyPurchaseActivity.TYPE_2);
+            startActivity(intent);
+        }
+        finish();
     }
 
     /**

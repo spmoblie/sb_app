@@ -182,10 +182,25 @@ public class AppApplication extends Application {
     }
 
     /**
+     * 刷新购物车商品-状态标记
+     */
+    public static void updateCartData(boolean isState) {
+        shared.edit().putBoolean(AppConfig.KEY_UPDATE_CART_DATA, isState).apply();
+    }
+
+    /**
      * 刷新"我的"数据-状态标记
      */
     public static void updateMineData(boolean isState) {
         shared.edit().putBoolean(AppConfig.KEY_UPDATE_MINE_DATA, isState).apply();
+    }
+
+    /**
+     * 回退至主页指定子界面
+     */
+    public static void jumpToHomePage(int index) {
+        shared.edit().putBoolean(AppConfig.KEY_JUMP_PAGE, true).apply();
+        shared.edit().putInt(AppConfig.KEY_MAIN_CURRENT_INDEX, index).apply();
     }
 
     /**

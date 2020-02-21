@@ -25,9 +25,8 @@ public class SettingActivity extends BaseActivity implements OnClickListener {
 
     String TAG = SettingActivity.class.getSimpleName();
 
-    RelativeLayout rl_feedback, rl_version, rl_about_us, rl_logout;
-    TextView tv_feedback, tv_version_title, tv_version_no;
-    TextView tv_about_us, tv_push_title, tv_logout;
+    RelativeLayout rl_feedback, rl_address, rl_version, rl_about_us, rl_logout;
+    TextView tv_version_no, tv_logout;
     ImageView iv_push_status;
 
     private boolean pushStatus = true;
@@ -45,25 +44,20 @@ public class SettingActivity extends BaseActivity implements OnClickListener {
 
     private void findViewById() {
         rl_feedback = findViewById(R.id.setting_rl_feedback);
+        rl_address = findViewById(R.id.setting_rl_address);
         rl_version = findViewById(R.id.setting_rl_version);
         rl_about_us = findViewById(R.id.setting_rl_about_us);
         rl_logout = findViewById(R.id.setting_rl_logout);
-        tv_feedback = findViewById(R.id.setting_tv_feedback_title);
-        tv_version_title = findViewById(R.id.setting_tv_version_title);
         tv_version_no = findViewById(R.id.setting_tv_version_content);
-        tv_about_us = findViewById(R.id.setting_tv_about_us_title);
-        tv_push_title = findViewById(R.id.setting_tv_push_control_title);
         tv_logout = findViewById(R.id.setting_tv_logout);
         iv_push_status = findViewById(R.id.setting_iv_push_control_btn);
     }
 
     private void initView() {
         setTitle(R.string.setting);
-        tv_feedback.setText(getString(R.string.setting_feedback));
-        tv_about_us.setText(getString(R.string.setting_about_us));
-        tv_version_title.setText(getString(R.string.setting_version));
-        tv_push_title.setText(getString(R.string.setting_push));
+
         rl_feedback.setOnClickListener(this);
+        rl_address.setOnClickListener(this);
         rl_version.setOnClickListener(this);
         rl_about_us.setOnClickListener(this);
         rl_logout.setOnClickListener(this);
@@ -95,6 +89,13 @@ public class SettingActivity extends BaseActivity implements OnClickListener {
                 break;
             case R.id.setting_rl_feedback:
                 intent = new Intent(mContext, FeedBackActivity.class);
+                break;
+            case R.id.setting_rl_address:
+                if (isLogin()) {
+                    openActivity(AddressActivity.class);
+                } else {
+                    openLoginActivity();
+                }
                 break;
             case R.id.setting_iv_push_control_btn:
                 pushStatus = !pushStatus;

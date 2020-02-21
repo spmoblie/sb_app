@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.songbao.sampo_c.AppApplication;
 import com.songbao.sampo_c.R;
+import com.songbao.sampo_c.entity.GoodsAttrEntity;
 import com.songbao.sampo_c.entity.GoodsEntity;
 import com.songbao.sampo_c.widgets.RoundImageView;
 
@@ -43,7 +44,7 @@ public class GoodsOrder2Adapter extends AppBaseAdapter {
 			holder = new ViewHolder();
 			holder.item_main = convertView.findViewById(R.id.goods_order_2_item_main);
 			holder.iv_show = convertView.findViewById(R.id.goods_order_2_item_iv_show);
-			holder.tv_name = convertView.findViewById(R.id.goods_order_2_item_tv_name);
+			holder.tv_name = convertView.findViewById(R.id.goods_order_2_item_tv_goods_name);
 			holder.tv_attr = convertView.findViewById(R.id.goods_order_2_item_tv_attr);
 			holder.tv_price = convertView.findViewById(R.id.goods_order_2_item_tv_price);
 			holder.tv_number = convertView.findViewById(R.id.goods_order_2_item_tv_number);
@@ -59,8 +60,8 @@ public class GoodsOrder2Adapter extends AppBaseAdapter {
 				.into(holder.iv_show);
 
 		holder.tv_name.setText(data.getName());
-		holder.tv_attr.setText(data.getAttribute());
 		holder.tv_price.setText(df.format(data.getPrice()));
+		holder.tv_attr.setText(data.getAttribute());
 		holder.tv_number.setText(context.getString(R.string.cart_goods_num, data.getNumber()));
 
 		holder.item_main.setOnClickListener(new OnClickListener() {

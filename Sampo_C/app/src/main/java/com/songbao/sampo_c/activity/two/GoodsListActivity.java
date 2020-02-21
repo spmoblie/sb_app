@@ -40,6 +40,7 @@ import com.songbao.sampo_c.utils.ExceptionUtil;
 import com.songbao.sampo_c.utils.JsonUtils;
 import com.songbao.sampo_c.utils.LogUtil;
 import com.songbao.sampo_c.utils.StringUtil;
+import com.songbao.sampo_c.utils.UserManager;
 import com.songbao.sampo_c.utils.retrofit.HttpRequests;
 import com.songbao.sampo_c.widgets.pullrefresh.PullToRefreshBase;
 import com.songbao.sampo_c.widgets.pullrefresh.PullToRefreshRecyclerView;
@@ -90,6 +91,12 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 
 	@BindView(R.id.goods_list_tv_cart_num)
 	TextView tv_cart_num;
+
+	@BindView(R.id.goods_list_iv_data_null)
+	ImageView iv_data_null;
+
+	@BindView(R.id.goods_list_tv_data_null)
+	TextView tv_data_null;
 
 	@BindView(R.id.goods_list_screen_main)
 	LinearLayout screen_main;
@@ -192,6 +199,8 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 			tv_top_5.setOnClickListener(this);
 			tv_top_5.setVisibility(View.VISIBLE);
 			editTextFocusAndClear(et_search);
+		} else {
+			hideSoftInput(et_search);
 		}
 	}
 
@@ -399,6 +408,7 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 				searchStr = et_search.getText().toString();
 				mCdt.cancel();
 				if (StringUtil.isNull(searchStr)) {
+					handleKeywordClear();
 					iv_clear.setVisibility(View.GONE);
 				}else {
 					mCdt.start();
@@ -406,6 +416,14 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 				}
 			}
 		});
+	}
+
+	/**
+	 * 处理关键字清空事项
+	 */
+	private void handleKeywordClear() {
+		hideSoftInput(et_search);
+		loadFirstPageData();
 	}
 
 	/**
@@ -479,19 +497,29 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 			@Override
 			public void setOnClick(Object data, int position, int type) {
 				if (position < 0 || position >= al_show.size()) return;
-				openGoodsActivity(al_show.get(position).getSkuCode());
+				if (type == 1) {
+					openGoodsActivity(al_show.get(position).getSkuCode(), true);
+				} else {
+					openGoodsActivity(al_show.get(position).getSkuCode());
+				}
 			}
 		});
 		mRecyclerView.setAdapter(rv_Adapter);
 	}
 
 	private void updateListData() {
-		/*if (al_show.size() <= 0) {
+		if (al_show.size() <= 0) {
 			setNullVisibility(View.VISIBLE);
 		} else {
 			setNullVisibility(View.GONE);
-		}*/
+		}
 		rv_Adapter.updateData(al_show);
+	}
+
+	@Override
+	protected void setNullVisibility(int visibility) {
+		iv_data_null.setVisibility(visibility);
+		tv_data_null.setVisibility(visibility);
 	}
 
 	@Override
@@ -709,10 +737,23 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 	}
 
 	@Override
+	protected void updateCartGoodsNum() {
+		int cartNum = UserManager.getInstance().getUserCartNum();
+		if (cartNum > 0) {
+			tv_cart_num.setText(String.valueOf(cartNum));
+			tv_cart_num.setVisibility(View.VISIBLE);
+		} else {
+			tv_cart_num.setVisibility(View.GONE);
+		}
+	}
+
+	@Override
 	protected void onResume() {
 		LogUtil.i(LogUtil.LOG_TAG, TAG + ": onResume");
 		// 页面开始
 		AppApplication.onPageStart(this, TAG);
+
+		updateCartGoodsNum();
 
 		super.onResume();
 	}
@@ -777,10 +818,8 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 		HashMap<String, String> map = new HashMap<>();
 		map.put("page", page);
 		map.put("size", AppConfig.LOAD_SIZE);
-		map.put("isHot", String.valueOf(isHot));
-		map.put("isNews", String.valueOf(isNews));
-		map.put("isRecommend", String.valueOf(isRecommend));
 		map.put("orderByKey", String.valueOf(top_type));
+		map.put("sourceType", "1");
 		if (sort_type > 0) {
 			map.put("sortByNum", String.valueOf(sort_type));
 		}
@@ -789,6 +828,9 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 		} else {
 			if (!StringUtil.isNull(sortCode)) {
 				map.put("refCatCode", sortCode);
+				map.put("isHot", String.valueOf(isHot));
+				map.put("isNews", String.valueOf(isNews));
+				map.put("isRecommend", String.valueOf(isRecommend));
 			}
 		}
 		if (!StringUtil.isNull(screenStr)) {
@@ -825,6 +867,9 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 								LogUtil.i(LogUtil.LOG_HTTP, TAG + " 刷新数据 —> size = " + lists.size());
 								lists.addAll(al_show);
 								al_show.clear();
+								if (load_page <= 1) {
+									load_page = 2;
+								}
 							}else {
 								//翻页
 								LogUtil.i(LogUtil.LOG_HTTP, TAG + " 翻页数据 —> size = " + lists.size());

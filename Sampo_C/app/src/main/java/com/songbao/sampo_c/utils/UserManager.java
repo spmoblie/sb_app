@@ -150,13 +150,13 @@ public class UserManager {
 
 	public String getUserHead(){
 		if(StringUtil.isNull(mUserHead)){
-			mUserHead = sp.getString(AppConfig.KEY_USER_HEAD_URL, "");
+			mUserHead = sp.getString(AppConfig.KEY_USER_HEAD, "");
 		}
 		return mUserHead;
 	}
 
 	public void saveUserHead(String userHead){
-		editor.putString(AppConfig.KEY_USER_HEAD_URL, userHead).apply();
+		editor.putString(AppConfig.KEY_USER_HEAD, userHead).apply();
 		mUserHead = userHead;
 	}
 
@@ -243,11 +243,11 @@ public class UserManager {
 	}
 
 	public int getDefaultAddressId(){
-		return sp.getInt(AppConfig.KEY_USER_DEFAULT_ADDRESS_ID, 0);
+		return sp.getInt(AppConfig.KEY_USER_ADDRESS_ID, 0);
 	}
 
 	public void saveDefaultAddressId(int addressId){
-		editor.putInt(AppConfig.KEY_USER_DEFAULT_ADDRESS_ID, addressId).commit();
+		editor.putInt(AppConfig.KEY_USER_ADDRESS_ID, addressId).commit();
 		mDefaultAddressId= addressId;
 	}
 
@@ -327,9 +327,7 @@ public class UserManager {
 	 * 判定是否登录
 	 */
 	public boolean checkIsLogin(){
-		return !StringUtil.isNull(getXAppToken())
-			&& !StringUtil.isNull(getUserId())
-			&& !getUserId().equals("0");
+		return !StringUtil.isNull(getXAppToken());
 	}
 
 	/**
@@ -347,7 +345,7 @@ public class UserManager {
 			AppApplication.onPushRegister(true);
 			// 是否跳转子页至"我的"
 			if (sp.getBoolean(AppConfig.KEY_JUMP_PAGE, false)) {
-				editor.putInt(AppConfig.KEY_MAIN_CURRENT_INDEX, 2).apply();
+				AppApplication.jumpToHomePage(2);
 			}
 			// 清除短信验证码次数限制
 			editor.putInt(AppConfig.KEY_SEND_VERIFY_NUMBER, 0).apply();
@@ -376,8 +374,7 @@ public class UserManager {
 		// 刷新所有状态数据
 		updateAllDataStatus();
 		// 回退至"首页"
-		//editor.putBoolean(AppConfig.KEY_JUMP_PAGE, true).apply();
-		//editor.putInt(AppConfig.KEY_MAIN_CURRENT_INDEX, 0).apply();
+		//AppApplication.jumpToHomePage(0);
 	}
 
 	/**
@@ -397,6 +394,7 @@ public class UserManager {
 		saveUserBirthday("");
 		saveUserArea("");
 		saveUserMoney("0.00");
+		saveUserCartNum(0);
 		// 清除缓存的头像
 		CleanDataManager.cleanCustomCache(AppConfig.SAVE_USER_HEAD_PATH);
 		// 清除缓存的数据

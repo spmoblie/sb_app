@@ -33,7 +33,7 @@ public class GoodsListAdapter extends BaseRecyclerAdapter<GoodsEntity> {
         ConstraintLayout item_main = holder.getView(R.id.goods_list_item_main);
         RelativeLayout rl_top = holder.getView(R.id.goods_list_item_rl_top);
         RoundImageView iv_show = holder.getView(R.id.goods_list_item_iv_show);
-        TextView tv_name = holder.getView(R.id.goods_list_item_tv_name);
+        TextView tv_name = holder.getView(R.id.goods_list_item_tv_goods_name);
         TextView tv_attr = holder.getView(R.id.goods_list_item_tv_attr);
         TextView tv_price = holder.getView(R.id.goods_list_item_tv_price);
         ImageView iv_cart = holder.getView(R.id.goods_list_item_iv_cart);

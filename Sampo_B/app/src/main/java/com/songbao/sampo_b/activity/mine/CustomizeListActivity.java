@@ -600,7 +600,7 @@ public class CustomizeListActivity extends BaseActivity implements View.OnClickL
                                         lists.addAll(al_all_1);
                                         al_all_1.clear();
                                         if (load_page_1 <= 1) {
-                                            load_page_1++;
+                                            load_page_1 = 2;
                                         }
                                     } else {
                                         load_page_1++;
@@ -617,7 +617,7 @@ public class CustomizeListActivity extends BaseActivity implements View.OnClickL
                                         lists.addAll(al_all_2);
                                         al_all_2.clear();
                                         if (load_page_2 <= 1) {
-                                            load_page_2++;
+                                            load_page_2 = 2;
                                         }
                                     } else {
                                         load_page_2++;
@@ -634,7 +634,7 @@ public class CustomizeListActivity extends BaseActivity implements View.OnClickL
                                         lists.addAll(al_all_3);
                                         al_all_3.clear();
                                         if (load_page_3 <= 1) {
-                                            load_page_3++;
+                                            load_page_3 = 2;
                                         }
                                     } else {
                                         load_page_3++;
@@ -651,7 +651,7 @@ public class CustomizeListActivity extends BaseActivity implements View.OnClickL
                                         lists.addAll(al_all_4);
                                         al_all_4.clear();
                                         if (load_page_4 <= 1) {
-                                            load_page_4++;
+                                            load_page_4 = 2;
                                         }
                                     } else {
                                         load_page_4++;
@@ -668,7 +668,7 @@ public class CustomizeListActivity extends BaseActivity implements View.OnClickL
                                         lists.addAll(al_all_5);
                                         al_all_5.clear();
                                         if (load_page_5 <= 1) {
-                                            load_page_5++;
+                                            load_page_5 = 2;
                                         }
                                     } else {
                                         load_page_5++;
@@ -690,6 +690,7 @@ public class CustomizeListActivity extends BaseActivity implements View.OnClickL
                         handleTimeOut();
                         finish();
                     } else {
+                        updateListData();
                         handleErrorCode(baseEn);
                     }
                     break;

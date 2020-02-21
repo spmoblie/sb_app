@@ -312,9 +312,6 @@ public class ChildFragmentTwo extends BaseFragment implements OnClickListener {
 		HashMap<String, String> map = new HashMap<>();
 		map.put("page", page);
 		map.put("size", AppConfig.LOAD_SIZE);
-		map.put("isHot", "0");
-		map.put("isNews", "0");
-		map.put("isRecommend", "0");
 		map.put("refCatCode", postSortCode);
 		loadSVData(AppConfig.URL_GOODS_LIST, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_GOODS_LIST);
 	}

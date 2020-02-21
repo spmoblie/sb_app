@@ -131,7 +131,7 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
     private boolean isTimeOk = false;
     private boolean isLoadOk = false;
     private boolean isChange = false;
-    private String themeId, reserveId, imgUrl, webUrl, titleStr, dateStr, timeStr, timeId, orderNo;
+    private String themeId, reserveId, imgUrl, webUrl, titleStr, dateStr, timeStr, timeId;
     private ArrayList<String> al_head = new ArrayList<>();
 
     @Override
@@ -479,9 +479,9 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
     /**
      * 在线支付
      */
-    private void startPay() {
+    private void startPay(String orderNo) {
         Intent intent = new Intent(mContext, WXPayEntryActivity.class);
-        intent.putExtra(AppConfig.PAGE_TYPE, 2);
+        intent.putExtra("sourceType", WXPayEntryActivity.SOURCE_TYPE_2);
         intent.putExtra("orderSn", orderNo);
         intent.putExtra("orderTotal", df.format(payAmount));
         startActivityForResult(intent, AppConfig.ACTIVITY_CODE_PAY_DATA);
@@ -505,9 +505,9 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
                 case AppConfig.REQUEST_SV_RESERVATION_ADD:
                     BaseEntity resultEn = JsonUtils.getPayOrderOn(jsonObject);
                     if (resultEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
-                        orderNo = resultEn.getOthers();
+                        String orderNo = resultEn.getOthers();
                         if (!StringUtil.isNull(orderNo)) {
-                            startPay();
+                            startPay(orderNo);
                         } else {
                             //无需支付处理
                         }

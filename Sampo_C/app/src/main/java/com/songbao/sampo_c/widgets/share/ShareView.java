@@ -577,7 +577,7 @@ public class ShareView implements WbShareCallback, IWXAPIEventHandler {
 		if (mShareEn != null) {
 			ClipboardManager clip = (ClipboardManager)mContext.getSystemService(Context.CLIPBOARD_SERVICE);
 			clip.setText(mShareEn.getUrl()); // Copy link
-			CommonTools.showToast(mContext.getString(R.string.share_msg_copy_link_ok), Toast.LENGTH_SHORT);
+			CommonTools.showToast(mContext.getString(R.string.share_msg_copy_link_ok));
 		}else {
 			showEntityError();
 		}
@@ -587,7 +587,7 @@ public class ShareView implements WbShareCallback, IWXAPIEventHandler {
 	 * 分享成功提示
 	 */
 	private void showShareSuccess() {
-		CommonTools.showToast(mContext.getString(R.string.share_msg_success), Toast.LENGTH_SHORT);
+		CommonTools.showToast(mContext.getString(R.string.share_msg_success));
 		shareFeedback();
 	}
 
@@ -595,28 +595,28 @@ public class ShareView implements WbShareCallback, IWXAPIEventHandler {
 	 * 分享出错提示
 	 */
 	private void showShareError() {
-		CommonTools.showToast(mContext.getString(R.string.share_msg_error), Toast.LENGTH_SHORT);
+		CommonTools.showToast(mContext.getString(R.string.share_msg_error));
 	}
 
 	/**
 	 * 用户取消了分享操作
 	 */
 	private void showShareCancel() {
-		CommonTools.showToast(mContext.getString(R.string.share_msg_cancel), Toast.LENGTH_SHORT);
+		CommonTools.showToast(mContext.getString(R.string.share_msg_cancel));
 	}
 	
 	/**
 	 * 分享参数出错提示
 	 */
 	private void showEntityError() {
-		CommonTools.showToast(mContext.getString(R.string.share_msg_entity_error), Toast.LENGTH_SHORT);
+		CommonTools.showToast(mContext.getString(R.string.share_msg_entity_error));
 	}
 
 	/**
 	 * 提示授权失败
 	 */
 	private void showAuthFail() {
-		CommonTools.showToast(mContext.getString(R.string.share_msg_error_license), Toast.LENGTH_SHORT);
+		CommonTools.showToast(mContext.getString(R.string.share_msg_error_license));
 	}
 
 	private void shareFeedback() {

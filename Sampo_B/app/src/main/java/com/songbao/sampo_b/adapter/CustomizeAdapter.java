@@ -30,7 +30,7 @@ public class CustomizeAdapter extends BaseRecyclerAdapter<OCustomizeEntity> {
         TextView tv_time = holder.getView(R.id.customize_item_tv_time);
         TextView tv_status = holder.getView(R.id.customize_item_tv_status);
         RoundImageView iv_show = holder.getView(R.id.customize_item_iv_show);
-        TextView tv_title = holder.getView(R.id.customize_item_tv_title);
+        TextView tv_goods_name = holder.getView(R.id.customize_item_tv_goods_name);
         TextView tv_name = holder.getView(R.id.customize_item_tv_name);
         TextView tv_phone = holder.getView(R.id.customize_item_tv_phone);
         TextView tv_click_01 = holder.getView(R.id.customize_item_tv_click_01);
@@ -54,7 +54,7 @@ public class CustomizeAdapter extends BaseRecyclerAdapter<OCustomizeEntity> {
                     .apply(AppApplication.getShowOptions())
                     .into(iv_show);
 
-            tv_title.setText(gdEn.getName());
+            tv_goods_name.setText(gdEn.getName());
         }
 
         DesignerEntity dgEn = data.getDgEn();

@@ -37,6 +37,7 @@ import com.songbao.sampo_c.utils.ExceptionUtil;
 import com.songbao.sampo_c.utils.JsonUtils;
 import com.songbao.sampo_c.utils.LogUtil;
 import com.songbao.sampo_c.utils.StringUtil;
+import com.songbao.sampo_c.utils.UserManager;
 import com.songbao.sampo_c.utils.retrofit.HttpRequests;
 import com.songbao.sampo_c.widgets.ObservableScrollView;
 import com.songbao.sampo_c.widgets.ScrollViewListView;
@@ -147,6 +148,7 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
     private String skuCode = "";
     private boolean isLoop = false;
     private boolean vprStop = false;
+    private boolean isOpenAttr = false;
     private int commentNum, goodStar;
     private int idsSize, idsPosition, vprPosition;
     private ImageView[] indicators = null;
@@ -161,6 +163,7 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
         setContentView(R.layout.activity_goods);
 
         skuCode = getIntent().getStringExtra("skuCode");
+        isOpenAttr = getIntent().getBooleanExtra("isOpenAttr", false);
 
         initView();
     }
@@ -184,7 +187,6 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
         indicatorsLP = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         indicatorsLP.setMargins(ind_margin, 0, 0, 0);
 
-        //initDemoData();
         initRadioGroup();
         initScrollView();
         loadGoodsData();
@@ -193,6 +195,12 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
 
     private void initShowView() {
         if (goodsEn != null) {
+            //打开属性面板
+            if (isOpenAttr) {
+                openAttrView();
+                isOpenAttr = false;
+            }
+
             tv_name.setText(goodsEn.getName());
             tv_price.setText(df.format(goodsEn.getPrice()));
 
@@ -518,15 +526,14 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
                 openCommentActivity(skuCode);
                 break;
             case R.id.bottom_add_cart_tv_home:
+                returnHomeActivity();
                 break;
             case R.id.bottom_add_cart_tv_cart:
                 openActivity(CartActivity.class);
                 break;
             case R.id.goods_spec_choice_main:
             case R.id.bottom_add_cart_tv_cart_add:
-                if (goodsEn != null) {
-                    loadGoodsAttrData(goodsEn.getGoodsCode(), goodsEn.getAttrEn());
-                }
+                openAttrView();
                 break;
             case R.id.bottom_add_cart_tv_customize:
                 openDesignerActivity(skuCode);
@@ -583,6 +590,15 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
     }
 
     /**
+     * 打开属性面板
+     */
+    private void openAttrView() {
+        if (goodsEn != null) {
+            loadGoodsAttrData(goodsEn.getGoodsCode(), goodsEn.getAttrEn());
+        }
+    }
+
+    /**
      * 打开评价列表页
      */
     private void openCommentActivity(String goodsCode) {
@@ -599,10 +615,23 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
     }
 
     @Override
+    protected void updateCartGoodsNum() {
+        int cartNum = UserManager.getInstance().getUserCartNum();
+        if (cartNum > 0) {
+            tv_cart_num.setText(String.valueOf(cartNum));
+            tv_cart_num.setVisibility(View.VISIBLE);
+        } else {
+            tv_cart_num.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
     protected void onResume() {
         LogUtil.i(LogUtil.LOG_TAG, TAG + ": onResume");
         // 页面开始
         AppApplication.onPageStart(this, TAG);
+
+        updateCartGoodsNum();
 
         super.onResume();
     }
@@ -651,6 +680,7 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
     private void postCartData(GoodsAttrEntity attrEn) {
         try {
             JSONObject jsonObj = new JSONObject();
+            jsonObj.put("goodsCode", goodsEn.getGoodsCode());
             jsonObj.put("skuCode", attrEn.getSkuCode());
             jsonObj.put("buyNum", attrEn.getBuyNum());
             postJsonData(AppConfig.BASE_URL_3, AppConfig.URL_CART_ADD, jsonObj, AppConfig.REQUEST_SV_CART_ADD);
@@ -693,7 +723,8 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
                 case AppConfig.REQUEST_SV_CART_ADD:
                     BaseEntity baseEn = JsonUtils.getBaseErrorData(jsonObject);
                     if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
-                        CommonTools.showToast("加入购物车成功");
+                        loadCartGoodsNum();
+                        CommonTools.showToast(getString(R.string.goods_cart_add_success));
                     } else {
                         handleErrorCode(baseEn);
                     }
@@ -709,66 +740,6 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
     protected void loadFailHandle() {
         super.loadFailHandle();
         handleErrorCode(null);
-    }
-
-    private void initDemoData() {
-        goodsEn = new GoodsEntity();
-        goodsEn.setId(1);
-
-        GoodsAttrEntity attrEn = new GoodsAttrEntity();
-        attrEn.setBuyNum(1);
-        attrEn.setS_id_1(10);
-        attrEn.setS_id_2(20);
-        attrEn.setS_name_1("天蓝色");
-        attrEn.setS_name_2("1200*1900");
-        attrEn.setAttrNameStr("天蓝色; 1200*1900");
-        goodsEn.setAttrEn(attrEn);
-
-        al_image.add(AppConfig.IMAGE_URL + "design_001.png");
-        al_image.add(AppConfig.IMAGE_URL + "design_004.png");
-        al_image.add(AppConfig.IMAGE_URL + "design_006.png");
-
-        al_detail.add(AppConfig.IMAGE_URL + "design_001.png");
-        al_detail.add(AppConfig.IMAGE_URL + "design_004.png");
-        al_detail.add(AppConfig.IMAGE_URL + "design_001.png");
-        al_detail.add(AppConfig.IMAGE_URL + "design_004.png");
-        al_detail.add(AppConfig.IMAGE_URL + "design_001.png");
-        al_detail.add(AppConfig.IMAGE_URL + "design_004.png");
-
-        CommentEntity childEn;
-        for (int i = 0; i < 2; i++) {
-            childEn = new CommentEntity();
-            childEn.setId(i + 1);
-            childEn.setNick("草莓味的冰淇淋");
-            childEn.setGoodsAttr("天蓝色；1350*1900");
-            childEn.setAddTime("2019/12/25");
-            childEn.setContent("很不错，稳固，用料足，没有味道，安装师傅说质量很好，值得购买，还会回购");
-
-            if (i == 0) {
-                childEn.setStarNum(2);
-                ArrayList<String> imgList = new ArrayList<>();
-                imgList.add(AppConfig.IMAGE_URL + "design_001.png");
-                imgList.add(AppConfig.IMAGE_URL + "design_004.png");
-                imgList.add(AppConfig.IMAGE_URL + "design_006.png");
-                childEn.setImgList(imgList);
-                childEn.setImg(true);
-
-                childEn.setAddDay(26);
-                childEn.setAddContent("床垫搭配效果很不错，非常满意，床垫搭配效果很不错，非常满意。");
-            } else if (i == 1) {
-                childEn.setStarNum(3);
-                ArrayList<String> imgList = new ArrayList<>();
-                imgList.add(AppConfig.IMAGE_URL + "design_001.png");
-                imgList.add(AppConfig.IMAGE_URL + "design_004.png");
-                imgList.add(AppConfig.IMAGE_URL + "design_006.png");
-                imgList.add(AppConfig.IMAGE_URL + "design_001.png");
-                imgList.add(AppConfig.IMAGE_URL + "design_004.png");
-                childEn.setImgList(imgList);
-                childEn.setImg(true);
-            }
-
-            al_comment.add(childEn);
-        }
     }
 
 }

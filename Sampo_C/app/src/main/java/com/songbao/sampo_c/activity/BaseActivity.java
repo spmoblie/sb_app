@@ -206,8 +206,6 @@ public class BaseActivity extends FragmentActivity {
 
         inAnim = AnimationUtils.loadAnimation(mContext, R.anim.in_from_right);
         outAnim = AnimationUtils.loadAnimation(mContext, R.anim.out_to_left);
-
-        setNullVisibility(View.GONE);
     }
 
     @Override
@@ -450,6 +448,14 @@ public class BaseActivity extends FragmentActivity {
     }
 
     /**
+     * 回退“首页”
+     */
+    protected void returnHomeActivity() {
+        AppApplication.jumpToHomePage(0);
+        openActivity(MainActivity.class);
+    }
+
+    /**
      * 打开登录Activity
      */
     protected void openLoginActivity() {
@@ -462,9 +468,17 @@ public class BaseActivity extends FragmentActivity {
     /**
      * 打开商品详情页
      */
-    protected void openGoodsActivity(String goodsCode) {
+    protected void openGoodsActivity(String skuCode) {
+        openGoodsActivity(skuCode, false);
+    }
+
+    /**
+     * 打开商品详情页同时打开属性面板
+     */
+    protected void openGoodsActivity(String skuCode, boolean isOpenAttr) {
         Intent intent = new Intent(mContext, GoodsActivity.class);
-        intent.putExtra("goodsCode", goodsCode);
+        intent.putExtra("skuCode", skuCode);
+        intent.putExtra("isOpenAttr", isOpenAttr);
         startActivity(intent);
     }
 
@@ -1112,10 +1126,17 @@ public class BaseActivity extends FragmentActivity {
     protected void callbackData(JSONObject jsonObject, int dataType) {
         try {
             switch (dataType) {
+                case AppConfig.REQUEST_SV_CART_COUNT: //获取购物数量
+                    BaseEntity numEn = JsonUtils.getCartGoodsNum(jsonObject);
+                    if (numEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
+                        userManager.saveUserCartNum(numEn.getDataTotal());
+                        updateCartGoodsNum();
+                    }
+                    break;
                 case AppConfig.REQUEST_SV_GOODS_ATTR: //加载商品属性
-                    BaseEntity baseEn = JsonUtils.getGoodsAttrData(jsonObject);
+                    BaseEntity<GoodsAttrEntity> baseEn = JsonUtils.getGoodsAttrData(jsonObject);
                     if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
-                        attrEn = (GoodsAttrEntity) baseEn.getData();
+                        attrEn = baseEn.getData();
                         initAttrPopup();
                     } else {
                         handleErrorCode(baseEn);
@@ -1159,12 +1180,34 @@ public class BaseActivity extends FragmentActivity {
     }
 
     /**
+     * 获取购物车商品数量
+     */
+    protected void loadCartGoodsNum() {
+        HashMap<String, String> map = new HashMap<>();
+        loadSVData(AppConfig.BASE_URL_3, AppConfig.URL_CART_COUNT, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_CART_COUNT);
+    }
+
+    /**
+     * 刷新购物车商品数量
+     */
+    protected void updateCartGoodsNum() {
+
+    }
+
+    /**
      * 加载商品属性数据
      */
     protected void loadGoodsAttrData(String code, GoodsAttrEntity gaEn) {
-        secEn = gaEn;
-        if (secEn != null) {
-            secEn.setAdd(false);
+        secEn = new GoodsAttrEntity();
+        if (gaEn != null) {
+            secEn.setBuyNum(gaEn.getBuyNum());
+            secEn.setS_id_1(gaEn.getS_id_1());
+            secEn.setS_id_2(gaEn.getS_id_2());
+            secEn.setS_id_3(gaEn.getS_id_3());
+            secEn.setS_name_1(gaEn.getS_name_1());
+            secEn.setS_name_2(gaEn.getS_name_2());
+            secEn.setS_name_3(gaEn.getS_name_3());
+
             buyNumber = secEn.getBuyNum();
             select_id_1 = secEn.getS_id_1();
             select_id_2 = secEn.getS_id_2();
@@ -1180,7 +1223,6 @@ public class BaseActivity extends FragmentActivity {
             select_name_1 = "";
             select_name_2 = "";
             select_name_3 = "";
-            secEn = new GoodsAttrEntity();
         }
         if (goodsCode.equals(code) && attrEn != null) {
             initAttrPopup();
@@ -1344,6 +1386,10 @@ public class BaseActivity extends FragmentActivity {
         } else {
             popupShowMain.startAnimation(popupAnimShow);
             cartPopupWindow.showAtLocation(cartPopupView, Gravity.BOTTOM, 0, 0);
+            if (rv_Adapter != null) {
+                rv_Adapter.updateData(attrEn, secEn);
+                updatePopupView();
+            }
         }
     }
 
@@ -1368,6 +1414,11 @@ public class BaseActivity extends FragmentActivity {
             if (buyNumber > skuNum) {
                 buyNumber = skuNum;
                 rv_Adapter.updateNumber(buyNumber);
+            } else {
+                if (buyNumber == 0 && skuNum > 0) {
+                    buyNumber = 1;
+                    rv_Adapter.updateNumber(buyNumber);
+                }
             }
             tv_popup_number.setText(getString(R.string.goods_attr_sku_num, skuNum));
             // 刷新价格

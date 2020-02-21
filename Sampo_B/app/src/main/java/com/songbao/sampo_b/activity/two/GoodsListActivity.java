@@ -816,6 +816,9 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 								LogUtil.i(LogUtil.LOG_HTTP, TAG + " 刷新数据 —> size = " + lists.size());
 								lists.addAll(al_show);
 								al_show.clear();
+								if (load_page <= 1) {
+									load_page = 2;
+								}
 							}else {
 								//翻页
 								LogUtil.i(LogUtil.LOG_HTTP, TAG + " 翻页数据 —> size = " + lists.size());
@@ -823,10 +826,10 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 							}
 							al_show.addAll(lists);
 						}
-						updateListData();
 					} else {
 						handleErrorCode(baseEn);
 					}
+					updateListData();
 					break;
 				case AppConfig.REQUEST_SV_SCREEN_ATTR:
 					attrEn = JsonUtils.getScreenAttrData(jsonObject);

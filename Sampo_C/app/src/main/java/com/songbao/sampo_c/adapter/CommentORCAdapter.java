@@ -41,7 +41,7 @@ public class CommentORCAdapter extends BaseRecyclerAdapter<CommentEntity> {
         // 获取View
         LinearLayout item_main = holder.getView(R.id.comment_order_item_main);
         RoundImageView iv_goods = holder.getView(R.id.comment_order_item_iv_goods);
-        TextView tv_name = holder.getView(R.id.comment_order_item_tv_name);
+        TextView tv_name = holder.getView(R.id.comment_order_item_tv_goods_name);
         TextView tv_attr = holder.getView(R.id.comment_order_item_tv_attr);
         RatingBar rb_star = holder.getView(R.id.comment_order_item_rb_star);
         TextView tv_time = holder.getView(R.id.comment_order_item_tv_time);

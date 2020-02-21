@@ -23,6 +23,7 @@
             android:orientation="vertical" >
 
             <android.support.constraint.ConstraintLayout
+                android:id="@+id/purchase_address_main"
                 android:layout_width="match_parent"
                 android:layout_height="100dp"
                 android:layout_marginTop="@dimen/margin_padding_5"
@@ -52,7 +53,8 @@
                     app:layout_constraintTop_toTopOf="parent"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintLeft_toLeftOf="@+id/purchase_tv_address_district"/>
+                    app:layout_constraintLeft_toLeftOf="@+id/purchase_tv_address_district"
+                    app:layout_constraintRight_toLeftOf="@+id/purchase_tv_address_go"/>
 
                 <TextView
                     android:id="@+id/purchase_tv_address_name"
@@ -61,6 +63,18 @@
                     android:layout_marginTop="@dimen/margin_padding_10"
                     app:layout_constraintLeft_toLeftOf="@+id/purchase_tv_address_district"
                     app:layout_constraintTop_toBottomOf="@+id/purchase_tv_address_detail"/>
+
+                <ImageView
+                    android:id="@+id/purchase_tv_address_go"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/icon_go_right"
+                    android:layout_marginEnd="@dimen/app_margin_screen"
+                    android:contentDescription="@string/desc"
+                    android:visibility="gone"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
 
                 <ImageView
                     android:layout_width="match_parent"
@@ -163,9 +177,7 @@
 
                 <TextView
                     android:id="@+id/purchase_tv_total_price_show"
-                    style="@style/order_text"
-                    android:textStyle="bold"
-                    android:textColor="@color/price_text_color"
+                    style="@style/common_text_price"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/purchase_tv_total_price"/>
 
@@ -249,7 +261,7 @@
         <TextView
             android:id="@+id/purchase_tv_click_01"
             style="@style/common_text_bg_frame"
-            android:text="@string/comment_me"
+            android:text="@string/order_logistics"
             android:textStyle="bold"
             android:paddingTop="@dimen/margin_padding_7"
             android:paddingBottom="@dimen/margin_padding_7"
@@ -263,22 +275,10 @@
         <TextView
             android:id="@+id/purchase_tv_click_02"
             style="@style/common_text_bg_frame"
-            android:text="@string/comment_me"
+            android:text="@string/order_delete"
             android:textStyle="bold"
-            android:paddingTop="@dimen/margin_padding_7"
-            android:paddingBottom="@dimen/margin_padding_7"
-            android:paddingLeft="@dimen/margin_padding_18"
-            android:paddingRight="@dimen/margin_padding_18"
-            android:layout_marginEnd="@dimen/app_margin_screen"
-            android:visibility="gone"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintRight_toLeftOf="@+id/purchase_tv_click_03" />
-
-        <TextView
-            android:id="@+id/purchase_tv_click_03"
-            style="@style/common_text_bg_frame"
-            android:text="@string/comment_me"
-            android:textStyle="bold"
+            android:textColor="@color/app_color_white"
+            android:background="@drawable/shape_style_solid_03_08"
             android:paddingTop="@dimen/margin_padding_7"
             android:paddingBottom="@dimen/margin_padding_7"
             android:paddingLeft="@dimen/margin_padding_18"

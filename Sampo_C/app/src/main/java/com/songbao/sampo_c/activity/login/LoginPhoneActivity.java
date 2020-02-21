@@ -446,6 +446,7 @@ public class LoginPhoneActivity extends BaseActivity implements OnClickListener 
                 map.put("mobile", phoneStr);
                 map.put("code", codeStr);
                 map.put("password", passwordStr);
+                map.put("sourceType", "1");
                 loadSVData(AppConfig.URL_AUTH_LOGIN, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_AUTH_LOGIN);
             }
         }, AppConfig.LOADING_TIME);
