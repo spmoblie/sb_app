@@ -19,14 +19,23 @@ import com.songbao.sampo_c.AppApplication;
 import com.songbao.sampo_c.AppConfig;
 import com.songbao.sampo_c.R;
 import com.songbao.sampo_c.activity.BaseActivity;
+import com.songbao.sampo_c.entity.BaseEntity;
 import com.songbao.sampo_c.entity.CommentEntity;
 import com.songbao.sampo_c.entity.GoodsEntity;
 import com.songbao.sampo_c.utils.CommonTools;
+import com.songbao.sampo_c.utils.ExceptionUtil;
+import com.songbao.sampo_c.utils.JsonUtils;
 import com.songbao.sampo_c.utils.LogUtil;
 import com.songbao.sampo_c.utils.StringUtil;
+import com.songbao.sampo_c.utils.retrofit.HttpRequests;
 import com.songbao.sampo_c.widgets.RoundImageView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import butterknife.BindView;
 
@@ -67,8 +76,9 @@ public class CommentAddActivity extends BaseActivity implements OnClickListener 
 
 	RelativeLayout.LayoutParams goodsImgLP;
 
-	private String contentStr;
 	private CommentEntity data;
+	private boolean isPostOk = false;
+	private String orderNo, goodsCode, skuCode, skuComboName, contentStr;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -92,8 +102,13 @@ public class CommentAddActivity extends BaseActivity implements OnClickListener 
 		goodsImgLP.height = imageSize;
 
 		if (data != null) {
+			orderNo = data.getOrderNo();
 			GoodsEntity goodsEn = data.getGoodsEn();
 			if (goodsEn != null) {
+				goodsCode = goodsEn.getGoodsCode();
+				skuCode = goodsEn.getSkuCode();
+				skuComboName = goodsEn.getAttribute();
+
 				Glide.with(AppApplication.getAppContext())
 						.load(goodsEn.getPicUrl())
 						.apply(AppApplication.getShowOptions())
@@ -152,6 +167,7 @@ public class CommentAddActivity extends BaseActivity implements OnClickListener 
 	public void onClick(View v) {
 		switch (v.getId()) {
 			case R.id.comment_add_tv_post:
+				if (isPostOk) return;
 				if (checkData()) {
 					postData();
 				}
@@ -183,14 +199,53 @@ public class CommentAddActivity extends BaseActivity implements OnClickListener 
 	}
 
 	private void postData() {
-		startAnimation();
-		new Handler().postDelayed(new Runnable() {
-			@Override
-			public void run() {
-				CommonTools.showToast(contentStr + "发布成功，待审核~");
-				stopAnimation();
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("sourceType", AppConfig.DATA_TYPE);
+		map.put("orderNo", orderNo);
+		map.put("goodsCode", goodsCode);
+		if (!StringUtil.isNull(skuCode)) {
+			map.put("skuCode", skuCode);
+		}
+		if (!StringUtil.isNull(skuComboName)) {
+			map.put("skuComboName", skuComboName);
+		}
+		try {
+			JSONArray jsonAry = new JSONArray();
+			JSONObject jsonObj = new JSONObject();
+			jsonObj.put("content", contentStr);
+			jsonAry.put(0, jsonObj);
+			map.put("append", jsonObj);
+		} catch (JSONException e) {
+			ExceptionUtil.handle(e);
+		}
+		loadSVData(AppConfig.URL_COMMENT_ADD, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_COMMENT_ADD);
+	}
+
+	@Override
+	protected void callbackData(JSONObject jsonObject, int dataType) {
+		BaseEntity baseEn;
+		try {
+			switch (dataType) {
+				case AppConfig.REQUEST_SV_COMMENT_ADD:
+					baseEn = JsonUtils.getBaseErrorData(jsonObject);
+					if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
+						isPostOk = true;
+						CommonTools.showToast("发布成功，待审核~");
+					} else {
+						handleErrorCode(baseEn);
+					}
+					break;
 			}
-		}, AppConfig.LOADING_TIME);
+		} catch (Exception e) {
+			loadFailHandle();
+			ExceptionUtil.handle(e);
+		}
+	}
+
+	@Override
+	protected void loadFailHandle() {
+		super.loadFailHandle();
+		handleErrorCode(null);
 	}
 
 }

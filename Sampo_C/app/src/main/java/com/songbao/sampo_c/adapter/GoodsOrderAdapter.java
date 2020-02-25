@@ -92,14 +92,17 @@ public class GoodsOrderAdapter extends AppBaseAdapter {
 							holder.tv_post_sale.setVisibility(View.VISIBLE);
 							holder.view_fill.setVisibility(View.VISIBLE);
 							break;
-						case AppConfig.GOODS_SALE_02: //退款中
-						case AppConfig.GOODS_SALE_03: //已退款
+						case AppConfig.GOODS_SALE_02: //审核中
+							// 售后进度
+							break;
+						case AppConfig.GOODS_SALE_03: //退款中
+						case AppConfig.GOODS_SALE_04: //已退款
 							holder.tv_post_sale.setText(context.getString(R.string.order_refund_details));
 							holder.tv_post_sale.setVisibility(View.VISIBLE);
 							holder.view_fill.setVisibility(View.VISIBLE);
 							break;
-						case AppConfig.GOODS_SALE_04: //换货中
-						case AppConfig.GOODS_SALE_05: //已换货
+						case AppConfig.GOODS_SALE_05: //换货中
+						case AppConfig.GOODS_SALE_06: //已换货
 							holder.tv_post_sale.setText(context.getString(R.string.order_change_details));
 							holder.tv_post_sale.setVisibility(View.VISIBLE);
 							holder.view_fill.setVisibility(View.VISIBLE);
@@ -111,7 +114,7 @@ public class GoodsOrderAdapter extends AppBaseAdapter {
 							holder.tv_comment.setVisibility(View.VISIBLE);
 							holder.view_fill.setVisibility(View.VISIBLE);
 							break;
-						case AppConfig.GOODS_COMM_02: //已评价
+						case AppConfig.GOODS_COMM_03: //已评价
 							holder.tv_comment.setText(context.getString(R.string.comment_add));
 							holder.tv_comment.setVisibility(View.VISIBLE);
 							holder.view_fill.setVisibility(View.VISIBLE);

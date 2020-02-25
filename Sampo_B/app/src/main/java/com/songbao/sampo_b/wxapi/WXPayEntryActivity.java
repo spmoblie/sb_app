@@ -390,10 +390,10 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
      * 提交支付信息
      */
     private void postPayInfo() {
-        HashMap<String, String> map = new HashMap<>();
-        map.put("paymentType", String.valueOf(payType));
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("paymentType", payType);
         map.put("outTradeNo", orderSn);
-        map.put("sourceType", String.valueOf(pageType));
+        map.put("sourceType", pageType);
         map.put("tradeType", AppConfig.LOAD_TYPE);
         loadSVData(AppConfig.URL_PAY_PARAMETER, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_PAY_PARAMETER);
     }
@@ -402,9 +402,9 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
      * 发起支付校验
      */
     private void postPayCheck() {
-        HashMap<String, String> map = new HashMap<>();
+        HashMap<String, Object> map = new HashMap<>();
         map.put("outTradeNo", orderSn);
-        map.put("sourceType", String.valueOf(pageType));
+        map.put("sourceType", pageType);
         map.put("tradeType", AppConfig.LOAD_TYPE);
         loadSVData(AppConfig.URL_PAY_CHECK_RESULT, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_PAY_CHECK_RESULT);
     }

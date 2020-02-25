@@ -680,7 +680,7 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
 	 * 加载订单详情数据
 	 */
 	private void loadOrderData() {
-		HashMap<String, String> map = new HashMap<>();
+		HashMap<String, Object> map = new HashMap<>();
 		map.put("bookingCode", orderNo);
 		loadSVData(AppConfig.BASE_URL_3, AppConfig.URL_BOOKING_INFO, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_BOOKING_INFO);
 	}

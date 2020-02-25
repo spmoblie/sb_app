@@ -395,7 +395,7 @@ public class CartActivity extends BaseActivity implements View.OnClickListener {
      * 加载数据
      */
     private void loadServerData() {
-        HashMap<String, String> map = new HashMap<>();
+        HashMap<String, Object> map = new HashMap<>();
         loadSVData(AppConfig.BASE_URL_3, AppConfig.URL_CART_GET, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_CART_GET);
     }
 

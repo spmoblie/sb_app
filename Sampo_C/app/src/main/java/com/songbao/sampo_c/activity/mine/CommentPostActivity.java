@@ -23,12 +23,16 @@ import com.songbao.sampo_c.utils.ExceptionUtil;
 import com.songbao.sampo_c.utils.JsonUtils;
 import com.songbao.sampo_c.utils.LogUtil;
 import com.songbao.sampo_c.utils.StringUtil;
+import com.songbao.sampo_c.utils.retrofit.HttpRequests;
 import com.songbao.sampo_c.widgets.RoundImageView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import butterknife.BindView;
 
@@ -78,9 +82,11 @@ public class CommentPostActivity extends BaseActivity implements OnClickListener
 
 	private CommentEntity data;
 	private float starNum;
-	private String contentStr;
-	private ArrayList<String> al_photo_url = new ArrayList<>();
-	private ArrayList<String> al_image_url = new ArrayList<>();
+	private boolean isPostOk = false;
+	private String orderNo, goodsCode, skuCode, skuComboName, contentStr;
+	private ArrayList<String> al_photos_url = new ArrayList<>();
+	private ArrayList<String> al_upload_url = new ArrayList<>();
+	private ArrayList<String> al_images_url = new ArrayList<>();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -105,8 +111,13 @@ public class CommentPostActivity extends BaseActivity implements OnClickListener
 		tv_post.setOnClickListener(this);
 
 		if (data != null) {
+			orderNo = data.getOrderNo();
 			GoodsEntity goodsEn = data.getGoodsEn();
 			if (goodsEn != null) {
+				goodsCode = goodsEn.getGoodsCode();
+				skuCode = goodsEn.getSkuCode();
+				skuComboName = goodsEn.getAttribute();
+
 				Glide.with(AppApplication.getAppContext())
 						.load(goodsEn.getPicUrl())
 						.apply(AppApplication.getShowOptions())
@@ -136,9 +147,9 @@ public class CommentPostActivity extends BaseActivity implements OnClickListener
 		iv_photo_03_delete.setVisibility(View.GONE);
 		tv_add_photo.setVisibility(View.VISIBLE);
 
-		if (al_photo_url.size() > 0) {
+		if (al_photos_url.size() > 0) {
 			RoundImageView iv_show;
-			for (int i = 0; i < al_photo_url.size(); i++) {
+			for (int i = 0; i < al_photos_url.size(); i++) {
 				switch (i) {
 					case 0:
 					default:
@@ -159,7 +170,7 @@ public class CommentPostActivity extends BaseActivity implements OnClickListener
 						break;
 				}
 				Glide.with(AppApplication.getAppContext())
-						.load(al_photo_url.get(i))
+						.load(al_photos_url.get(i))
 						.apply(AppApplication.getShowOptions())
 						.into(iv_show);
 			}
@@ -182,22 +193,22 @@ public class CommentPostActivity extends BaseActivity implements OnClickListener
 		switch (v.getId()) {
 			case R.id.comment_post_iv_photo_01:
 			case R.id.comment_post_iv_photo_01_delete:
-				if (al_photo_url.size() > 0) {
-					al_photo_url.remove(0);
+				if (al_photos_url.size() > 0) {
+					al_photos_url.remove(0);
 					initPhotoView();
 				}
 				break;
 			case R.id.comment_post_iv_photo_02:
 			case R.id.comment_post_iv_photo_02_delete:
-				if (al_photo_url.size() > 1) {
-					al_photo_url.remove(1);
+				if (al_photos_url.size() > 1) {
+					al_photos_url.remove(1);
 					initPhotoView();
 				}
 				break;
 			case R.id.comment_post_iv_photo_03:
 			case R.id.comment_post_iv_photo_03_delete:
-				if (al_photo_url.size() > 2) {
-					al_photo_url.remove(2);
+				if (al_photos_url.size() > 2) {
+					al_photos_url.remove(2);
 					initPhotoView();
 				}
 				break;
@@ -205,8 +216,12 @@ public class CommentPostActivity extends BaseActivity implements OnClickListener
 				openActivity(ClipPhotoGridActivity.class);
 				break;
 			case R.id.comment_post_tv_post:
+				if (isPostOk) return;
 				if (checkData()) {
-					checkPhotoUrl();
+					al_images_url.clear();
+					al_upload_url.clear();
+					al_upload_url.addAll(al_photos_url);
+					checkUploadUrl();
 				}
 				break;
 		}
@@ -220,8 +235,8 @@ public class CommentPostActivity extends BaseActivity implements OnClickListener
 
 		String photoUrl = userManager.getPostPhotoUrl();
 		if (!StringUtil.isNull(photoUrl)) {
-			if (al_photo_url.size() < 3) {
-				al_photo_url.add(photoUrl);
+			if (al_photos_url.size() < 3) {
+				al_photos_url.add(photoUrl);
 			}
 			userManager.savePostPhotoUrl("");
 		}
@@ -244,10 +259,10 @@ public class CommentPostActivity extends BaseActivity implements OnClickListener
 		super.onDestroy();
 	}
 
-	private void checkPhotoUrl() {
-		if (al_photo_url.size() > 0) {
-			String photoUrl = al_photo_url.remove(0);
-			uploadPhoto(photoUrl);
+	private void checkUploadUrl() {
+		if (al_upload_url.size() > 0) {
+			String uploadUrl = al_upload_url.remove(0);
+			uploadPhoto(uploadUrl);
 		} else {
 			postData();
 		}
@@ -256,19 +271,31 @@ public class CommentPostActivity extends BaseActivity implements OnClickListener
 	/**
 	 * 上传照片
 	 */
-	private void uploadPhoto(String photoUrl) {
-		if (!StringUtil.isNull(photoUrl)) {
+	private void uploadPhoto(String uploadUrl) {
+		if (!StringUtil.isNull(uploadUrl)) {
 			startAnimation();
-			uploadPushFile(new File(photoUrl), 2, AppConfig.REQUEST_SV_UPLOAD_COMMENT_PHOTO);
+			uploadPushFile(new File(uploadUrl), 2, AppConfig.REQUEST_SV_UPLOAD_COMMENT_PHOTO);
 		}
 	}
 
 	private void postData() {
-		startAnimation();
-		/*if (al_image_url.size() > 0) {
-
-		}*/
-		CommonTools.showToast(starNum + contentStr + al_image_url.size());
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("sourceType", AppConfig.DATA_TYPE);
+		map.put("orderNo", orderNo);
+		map.put("goodsCode", goodsCode);
+		if (!StringUtil.isNull(skuCode)) {
+			map.put("skuCode", skuCode);
+		}
+		if (!StringUtil.isNull(skuComboName)) {
+			map.put("skuComboName", skuComboName);
+		}
+		map.put("levels", starNum);
+		map.put("evaluateContent", contentStr);
+		String images = StringUtil.listToSplitStr(al_images_url);
+		if (!StringUtil.isNull(images)) {
+			map.put("evaluateImagesStr", images);
+		}
+		loadSVData(AppConfig.URL_COMMENT_ADD, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_COMMENT_ADD);
 	}
 
 	@Override
@@ -279,8 +306,20 @@ public class CommentPostActivity extends BaseActivity implements OnClickListener
 				case AppConfig.REQUEST_SV_UPLOAD_COMMENT_PHOTO:
 					baseEn = JsonUtils.getUploadResult(jsonObject);
 					if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
-						al_image_url.add(baseEn.getOthers());
-						checkPhotoUrl();
+						al_images_url.add(baseEn.getOthers());
+						checkUploadUrl();
+					} else {
+						handleErrorCode(baseEn);
+					}
+					break;
+				case AppConfig.REQUEST_SV_COMMENT_ADD:
+					baseEn = JsonUtils.getBaseErrorData(jsonObject);
+					if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
+						isPostOk = true;
+						al_photos_url.clear();
+						al_upload_url.clear();
+						al_images_url.clear();
+						CommonTools.showToast("发布成功，待审核~");
 					} else {
 						handleErrorCode(baseEn);
 					}

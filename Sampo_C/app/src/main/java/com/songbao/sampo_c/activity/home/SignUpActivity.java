@@ -403,7 +403,7 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
      * 加载数据
      */
     private void loadServerData() {
-        HashMap<String, String> map = new HashMap<>();
+        HashMap<String, Object> map = new HashMap<>();
         map.put("activityId", themeId);
         loadSVData(AppConfig.URL_ACTIVITY_DETAIL, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_ACTIVITY_DETAIL);
     }
@@ -416,10 +416,10 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                HashMap<String, String> map = new HashMap<>();
+                HashMap<String, Object> map = new HashMap<>();
                 map.put("activityId", themeId);
                 map.put("name", nameStr);
-                map.put("gender", String.valueOf(genderCode));
+                map.put("gender", genderCode);
                 map.put("ageStage", ageStr);
                 map.put("mobile", phoneStr);
                 loadSVData(AppConfig.URL_SIGN_UP_ADD, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_SIGN_UP_ADD);

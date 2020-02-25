@@ -31,10 +31,9 @@ public class MyUmengNotificationClickHandler extends UmengNotificationClickHandl
 
     @Override
     public void launchApp(Context context, UMessage uMessage) {
+        AppApplication.jumpToHomePage(AppConfig.PAGE_MAIN_MINE);
         //页面跳转路径参数设置
         Editor editor = AppApplication.getSharedPreferences().edit();
-        editor.putBoolean(AppConfig.KEY_JUMP_PAGE, true);
-        editor.putInt(AppConfig.KEY_MAIN_CURRENT_INDEX, 2);
         editor.putBoolean(AppConfig.KEY_OPEN_MESSAGE, true);
         editor.apply();
         //判断app进程是否存活

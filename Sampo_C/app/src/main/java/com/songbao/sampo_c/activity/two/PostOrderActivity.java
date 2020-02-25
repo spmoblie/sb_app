@@ -216,7 +216,7 @@ public class PostOrderActivity extends BaseActivity implements View.OnClickListe
      * 加载数据
      */
     private void loadOrderData() {
-        HashMap<String, String> map = new HashMap<>();
+        HashMap<String, Object> map = new HashMap<>();
         loadSVData(AppConfig.BASE_URL_3, AppConfig.URL_ORDER_FILL, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_ORDER_FILL);
     }
 
@@ -224,7 +224,7 @@ public class PostOrderActivity extends BaseActivity implements View.OnClickListe
      * 加载地址列表
      */
     private void loadAddressData() {
-        HashMap<String, String> map = new HashMap<>();
+        HashMap<String, Object> map = new HashMap<>();
         loadSVData(AppConfig.BASE_URL_3, AppConfig.URL_ADDRESS_LIST, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_ADDRESS_LIST);
     }
 

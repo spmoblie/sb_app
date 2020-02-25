@@ -1,4 +1,4 @@
-package com.songbao.sampo_c.activity.mine;
+package com.songbao.sampo_c.activity.three;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +13,7 @@ import com.songbao.sampo_c.AppApplication;
 import com.songbao.sampo_c.AppConfig;
 import com.songbao.sampo_c.R;
 import com.songbao.sampo_c.activity.BaseActivity;
+import com.songbao.sampo_c.activity.mine.CustomizeActivity;
 import com.songbao.sampo_c.adapter.AdapterCallback;
 import com.songbao.sampo_c.adapter.DesignerAdapter;
 import com.songbao.sampo_c.entity.BaseEntity;
@@ -22,6 +23,7 @@ import com.songbao.sampo_c.utils.CommonTools;
 import com.songbao.sampo_c.utils.ExceptionUtil;
 import com.songbao.sampo_c.utils.JsonUtils;
 import com.songbao.sampo_c.utils.LogUtil;
+import com.songbao.sampo_c.utils.StringUtil;
 import com.songbao.sampo_c.utils.retrofit.HttpRequests;
 
 import org.json.JSONException;
@@ -117,6 +119,10 @@ public class DesignerListActivity extends BaseActivity implements View.OnClickLi
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.designer_tv_click:
+                if (StringUtil.isNull(dgName)) {
+                    dataErrorHandle();
+                    return;
+                }
                 showConfirmDialog(getString(R.string.designer_subscribe_tips, dgName), new MyHandler(this));
                 break;
         }
@@ -146,10 +152,17 @@ public class DesignerListActivity extends BaseActivity implements View.OnClickLi
     }
 
     /**
+     * 数据报错处理
+     */
+    private void dataErrorHandle() {
+        loadServerData();
+    }
+
+    /**
      * 加载数据
      */
     private void loadServerData() {
-        HashMap<String, String> map = new HashMap<>();
+        HashMap<String, Object> map = new HashMap<>();
         loadSVData(AppConfig.URL_USER_DESIGNER, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_USER_DESIGNER);
     }
 
@@ -197,7 +210,7 @@ public class DesignerListActivity extends BaseActivity implements View.OnClickLi
                                 // 关闭之前的页面
                                 closeCustomizeActivity();
                                 // 回退至“我的”
-                                AppApplication.jumpToHomePage(2);
+                                AppApplication.jumpToHomePage(AppConfig.PAGE_MAIN_MINE);
                                 // 跳转至“我的订制”
                                 OCustomizeEntity ocEn = new OCustomizeEntity();
                                 ocEn.setOrderNo(orderNo);

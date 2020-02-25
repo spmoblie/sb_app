@@ -432,7 +432,7 @@ public class LoginPhoneActivity extends BaseActivity implements OnClickListener 
     }
 
     private void sendMessageAuth() {
-        HashMap<String, String> map = new HashMap<>();
+        HashMap<String, Object> map = new HashMap<>();
         map.put("mobile", phoneStr);
         loadSVData(AppConfig.URL_AUTH_MESSAGE, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_AUTH_MESSAGE);
     }
@@ -442,11 +442,11 @@ public class LoginPhoneActivity extends BaseActivity implements OnClickListener 
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                HashMap<String, String> map = new HashMap<>();
+                HashMap<String, Object> map = new HashMap<>();
                 map.put("mobile", phoneStr);
                 map.put("code", codeStr);
                 map.put("password", passwordStr);
-                map.put("sourceType", "1");
+                map.put("sourceType", AppConfig.DATA_TYPE);
                 loadSVData(AppConfig.URL_AUTH_LOGIN, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_AUTH_LOGIN);
             }
         }, AppConfig.LOADING_TIME);

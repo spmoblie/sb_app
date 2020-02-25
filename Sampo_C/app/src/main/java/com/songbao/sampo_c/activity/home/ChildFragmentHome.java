@@ -563,11 +563,11 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
         if (isLoadHead) { //加载头部数据
             loadHeadData();
         }
-        String page = String.valueOf(load_page);
+        int page = load_page;
         if (load_type == 0) {
-            page = "1";
+            page = 1;
         }
-        HashMap<String, String> map = new HashMap<>();
+        HashMap<String, Object> map = new HashMap<>();
         map.put("page", page);
         map.put("size", AppConfig.LOAD_SIZE);
         loadSVData(AppConfig.URL_HOME_LIST, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_HOME_LIST);
@@ -577,7 +577,7 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
      * 加载头部展示数据
      */
     private void loadHeadData() {
-        HashMap<String, String> map = new HashMap<>();
+        HashMap<String, Object> map = new HashMap<>();
         loadSVData(AppConfig.URL_HOME_BANNER, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_HOME_HEAD);
     }
 

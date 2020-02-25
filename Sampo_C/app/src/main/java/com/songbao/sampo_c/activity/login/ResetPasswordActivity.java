@@ -387,7 +387,7 @@ public class ResetPasswordActivity extends BaseActivity implements OnClickListen
 	}
 
 	private void sendMessageAuth() {
-		HashMap<String, String> map = new HashMap<>();
+		HashMap<String, Object> map = new HashMap<>();
 		map.put("mobile", phoneStr);
 		loadSVData(AppConfig.URL_AUTH_MESSAGE, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_AUTH_MESSAGE);
 	}
@@ -397,7 +397,7 @@ public class ResetPasswordActivity extends BaseActivity implements OnClickListen
 		new Handler().postDelayed(new Runnable() {
 			@Override
 			public void run() {
-				HashMap<String, String> map = new HashMap<>();
+				HashMap<String, Object> map = new HashMap<>();
 				map.put("mobile", phoneStr);
 				map.put("code", codeStr);
 				map.put("password", passwordStr);

@@ -198,14 +198,14 @@ public class ReserveListActivity extends BaseActivity implements OnClickListener
 	private void loadServerData() {
 		if (!isLoadOk) return; //加载频率控制
 		isLoadOk = false;
-		String page = String.valueOf(load_page);
+		int page = load_page;
 		if (load_type == 0) {
-			page = "1";
+			page = 1;
 		}
-		HashMap<String, String> map = new HashMap<>();
+		HashMap<String, Object> map = new HashMap<>();
 		map.put("page", page);
 		map.put("size", AppConfig.LOAD_SIZE);
-		map.put("isReservation", "1");
+		map.put("isReservation", 1);
 		loadSVData(AppConfig.URL_HOME_LIST, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_HOME_LIST);
 	}
 

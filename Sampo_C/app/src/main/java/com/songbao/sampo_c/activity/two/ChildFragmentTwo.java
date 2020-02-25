@@ -268,7 +268,7 @@ public class ChildFragmentTwo extends BaseFragment implements OnClickListener {
 	 * 加载分类数据
 	 */
 	private void loadSortData() {
-		HashMap<String, String> map = new HashMap<>();
+		HashMap<String, Object> map = new HashMap<>();
 		loadSVData(AppConfig.URL_SORT_LIST, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_SORT_LIST);
 	}
 
@@ -278,9 +278,9 @@ public class ChildFragmentTwo extends BaseFragment implements OnClickListener {
 	private void loadSortGoods() {
 		if (!isLoadOk) return;
 		isLoadOk = false;
-		HashMap<String, String> map = new HashMap<>();
+		HashMap<String, Object> map = new HashMap<>();
 		map.put("refCatCode", postSortCode);
-		map.put("sourceType", "1");
+		map.put("sourceType", AppConfig.DATA_TYPE);
 		loadSVData(AppConfig.URL_SORT_GOODS, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_SORT_GOODS);
 	}
 

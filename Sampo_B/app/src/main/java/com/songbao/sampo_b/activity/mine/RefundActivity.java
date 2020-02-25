@@ -173,8 +173,8 @@ public class RefundActivity extends BaseActivity implements OnClickListener {
      * 加载退款详情数据
      */
     private void loadRefundData() {
-        HashMap<String, String> map = new HashMap<>();
-        map.put("page", "1");
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("page", 1);
         map.put("size", AppConfig.LOAD_SIZE);
         loadSVData(AppConfig.URL_USER_MESSAGE, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_REFUND_DETAIL);
     }

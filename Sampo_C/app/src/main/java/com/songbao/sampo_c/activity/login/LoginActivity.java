@@ -239,7 +239,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
      * 获取微信用户信息
      */
     private void getWXUserInfo() {
-        HashMap<String, String> map = new HashMap<>();
+        HashMap<String, Object> map = new HashMap<>();
         map.put("access_token", access_token);
         map.put("openid", openid);
         loadSVData("https://api.weixin.qq.com/", "sns/userinfo", map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_AUTH_WX_USER);
@@ -383,7 +383,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
      */
     private void getWBUserInfo() {
         if (mAccessToken != null) {
-            HashMap<String, String> map = new HashMap<>();
+            HashMap<String, Object> map = new HashMap<>();
             map.put("access_token", mAccessToken.getToken());
             map.put("uid", mAccessToken.getUid());
             loadSVData("https://api.weibo.com/2/", "users/show.json", map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_AUTH_WB_USER);
@@ -429,7 +429,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 
 			@Override
 			public void run() {
-                HashMap<String, String> map = new HashMap<>();
+                HashMap<String, Object> map = new HashMap<>();
                 map.put("type", loginType);
                 map.put("otherId", postUid);
                 loadSVData(AppConfig.URL_AUTH_OAUTH, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_AUTH_OAUTH);

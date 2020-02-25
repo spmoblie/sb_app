@@ -212,7 +212,7 @@ public class LoginAccountActivity extends BaseActivity implements OnClickListene
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                HashMap<String, String> map = new HashMap<>();
+                HashMap<String, Object> map = new HashMap<>();
                 map.put("mobile", accountStr);
                 map.put("password", passwordStr);
                 loadSVData(AppConfig.URL_AUTH_LOGIN, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_AUTH_LOGIN);

@@ -14,6 +14,7 @@ import com.songbao.sampo_c.AppApplication;
 import com.songbao.sampo_c.AppConfig;
 import com.songbao.sampo_c.activity.common.MyWebViewActivity;
 import com.songbao.sampo_c.activity.login.LoginActivity;
+import com.songbao.sampo_c.activity.three.GoodsOffActivity;
 import com.songbao.sampo_c.activity.two.GoodsActivity;
 import com.songbao.sampo_c.dialog.LoadDialog;
 import com.songbao.sampo_c.entity.BaseEntity;
@@ -96,8 +97,17 @@ public class BaseFragment extends Fragment {
 	/**
 	 * 打开商品详情页
 	 */
-	protected void openGoodsActivity(String goodsCode) {
+	protected void openGoodsActivity(String skuCode) {
 		Intent intent = new Intent(getActivity(), GoodsActivity.class);
+		intent.putExtra("skuCode", skuCode);
+		startActivity(intent);
+	}
+
+	/**
+	 * 打开线下商品详情页
+	 */
+	protected void openGoodsOffActivity(String goodsCode) {
+		Intent intent = new Intent(getActivity(), GoodsOffActivity.class);
 		intent.putExtra("goodsCode", goodsCode);
 		startActivity(intent);
 	}
@@ -193,30 +203,16 @@ public class BaseFragment extends Fragment {
 	}
 
 	/**
-	 * 提交标准Json格式数据
-	 */
-	protected void postJsonData(String path, HashMap<String, String> map, int httpType, final int dataType) {
-		loadSVData("", path, map, httpType, dataType);
-	}
-
-	/**
-	 * 提交标准Json格式数据
-	 */
-	protected void postJsonData(String head, String path, HashMap<String, String> map, int httpType, final int dataType) {
-		loadSVData(head, path, map, httpType, dataType);
-	}
-
-	/**
 	 * 加载网络数据
 	 */
-	protected void loadSVData(String path, HashMap<String, String> map, int httpType, final int dataType) {
+	protected void loadSVData(String path, HashMap<String, Object> map, int httpType, final int dataType) {
 		loadSVData("", path, map, httpType, dataType);
 	}
 
 	/**
 	 * 加载网络数据
 	 */
-	protected void loadSVData(String head, String path, HashMap<String, String> map, int httpType, final int dataType) {
+	protected void loadSVData(String head, String path, HashMap<String, Object> map, int httpType, final int dataType) {
 		if (StringUtil.isNull(head)) {
 			head = AppConfig.BASE_TYPE;
 		}

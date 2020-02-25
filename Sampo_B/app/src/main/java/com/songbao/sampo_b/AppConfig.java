@@ -209,6 +209,9 @@ public class AppConfig {
 	 ******************************************* 全局常量设置开始 ******************************************
 	 */
 
+	// 主页子页面“我的”下标索引值
+	public static final int PAGE_MAIN_MINE = 2;
+
 	// 全局对话框“确定”
 	public static final int DIALOG_CLICK_OK = 0X8666;
 	// 全局对话框“取消”
@@ -246,7 +249,7 @@ public class AppConfig {
 	// 网络请求标识
 	public static final String LOAD_TYPE = "APP";
 	// 加载数据数量
-	public static final String LOAD_SIZE = "10";
+	public static final int LOAD_SIZE = 10;
 	// 加载缓冲时间
 	public static final int LOADING_TIME = 200;
 	// 验证码倒计时

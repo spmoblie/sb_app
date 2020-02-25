@@ -193,7 +193,7 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
             payAmount = data.getFees();
             tv_price.setText(df.format(payAmount));
 
-            StringBuffer sb = new StringBuffer();
+            StringBuilder sb = new StringBuilder();
             String dateSlot = data.getDateSlot();
             if (!StringUtil.isNull(dateSlot)) {
                 String[] dates = dateSlot.split(",");
@@ -452,7 +452,7 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
      * 加载数据
      */
     private void loadServerData() {
-        HashMap<String, String> map = new HashMap<>();
+        HashMap<String, Object> map = new HashMap<>();
         map.put("activityId", themeId);
         if (pageType == 2) {
             map.put("reservationId", reserveId);
@@ -468,7 +468,7 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                HashMap<String, String> map = new HashMap<>();
+                HashMap<String, Object> map = new HashMap<>();
                 map.put("activityId", themeId);
                 map.put("reservationActivityId", timeId);
                 loadSVData(AppConfig.URL_RESERVATION_ADD, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_RESERVATION_ADD);

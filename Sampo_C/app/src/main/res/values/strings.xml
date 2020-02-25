@@ -131,7 +131,8 @@
     <!-- Main -->
     <string name="main_tab_text_1">首页</string>
     <string name="main_tab_text_2">商城</string>
-    <string name="main_tab_text_3">我的</string>
+    <string name="main_tab_text_3">定制</string>
+    <string name="main_tab_text_4">我的</string>
     <string name="main_head_tickets">门票购买</string>
     <string name="main_head_reserve">课程预订</string>
     <string name="main_head_title_cn">最新活动</string>
@@ -275,6 +276,8 @@
     <string name="goods_attach_2">正品保障，假一赔三</string>
     <string name="goods_attach_3">七天无理由退换货（拆封后不支持）</string>
     <string name="goods_attach_4">三年质保</string>
+    <string name="goods_code">商品编码</string>
+    <string name="goods_code_en">长按图片保存到手机相册</string>
     <string name="goods_spec_choice">规格选择</string>
     <string name="goods_spec_choice_en">SPECIFICATIONS CHOICES</string>
     <string name="goods_good_comment">精彩评价</string>

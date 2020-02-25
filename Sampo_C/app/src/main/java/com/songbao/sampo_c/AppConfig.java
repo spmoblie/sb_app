@@ -81,12 +81,16 @@ public class AppConfig {
 	public final static String URL_SCREEN_ATTR = "app/shopping/getAttrValues";
 	// 商品列表
 	public final static String URL_GOODS_LIST = "app/shopping/searchGoodsInfo";
-	// 商品详情
-	public final static String URL_GOODS_DETAIL = "app/shopping/goodsInfo/detail";
+	// 线上商品
+	public final static String URL_GOODS_INFO_UP = "app/shopping/goodsInfo/detail";
+	// 线下商品
+	public final static String URL_GOODS_INFO_OFF = "app/shopping/goodsInfo/offlineDetail";
 	// 商品属性
 	public final static String URL_GOODS_ATTR = "app/shopping/goodsInfo/findAttrValueAll";
 	// 商品评价
 	public final static String URL_GOODS_COMMENT = "app/shopping/goodsInfo/goodsInfoEvaluation";
+	// 发布评价
+	public final static String URL_COMMENT_ADD = "app/shopping/goodsInfo/addGoodsEvaluation";
 
 	// 购物添加
 	public final static String URL_CART_ADD = "trade/app/cart/add";
@@ -232,11 +236,13 @@ public class AppConfig {
 	// 筛选属性
 	public static final int REQUEST_SV_SCREEN_ATTR = 0X2012;
 	// 商品详情
-	public static final int REQUEST_SV_GOODS_DETAIL = 0X2013;
+	public static final int REQUEST_SV_GOODS_INFO = 0X2013;
 	// 商品属性
 	public static final int REQUEST_SV_GOODS_ATTR = 0X2014;
 	// 商品评价
 	public static final int REQUEST_SV_GOODS_COMMENT = 0X2015;
+	// 发布评价
+	public static final int REQUEST_SV_COMMENT_ADD = 0X2016;
 
 	// 购物添加
 	public static final int REQUEST_SV_CART_ADD = 0X2021;
@@ -333,6 +339,9 @@ public class AppConfig {
 	 ******************************************* 全局常量设置开始 ******************************************
 	 */
 
+	// 主页子页面“我的”下标索引值
+	public static final int PAGE_MAIN_MINE = 3;
+
 	// 全局对话框“确定”
 	public static final int DIALOG_CLICK_OK = 0X8666;
 	// 全局对话框“取消”
@@ -371,21 +380,25 @@ public class AppConfig {
 	public static final int ORDER_STATUS_801 = 800; //已完成
 	// 商品状态码
 	public static final int GOODS_SALE_01 = 1; //未售后
-	public static final int GOODS_SALE_02 = 2; //退款中
-	public static final int GOODS_SALE_03 = 3; //已退款
-	public static final int GOODS_SALE_04 = 4; //换货中
-	public static final int GOODS_SALE_05 = 5; //已换货
-	public static final int GOODS_COMM_01 = 6; //未评价
-	public static final int GOODS_COMM_02 = 7; //已评价
-	public static final int GOODS_COMM_03 = 8; //已追评
+	public static final int GOODS_SALE_02 = 2; //审核中
+	public static final int GOODS_SALE_03 = 3; //退款中
+	public static final int GOODS_SALE_04 = 4; //已退款
+	public static final int GOODS_SALE_05 = 5; //换货中
+	public static final int GOODS_SALE_06 = 6; //已换货
+	public static final int GOODS_COMM_01 = 901; //未评价
+	public static final int GOODS_COMM_02 = 904; //审核中
+	public static final int GOODS_COMM_03 = 902; //已评价
+	public static final int GOODS_COMM_04 = 903; //已追评
 
 	// 图片宽高比例
 	public static final int IMG_WIDTHS = 16;
 	public static final int IMG_HEIGHT = 9;
 	// 网络请求标识
 	public static final String LOAD_TYPE = "APP";
+	// 加载数据标识
+	public static final int DATA_TYPE = 1;
 	// 加载数据数量
-	public static final String LOAD_SIZE = "10";
+	public static final int LOAD_SIZE = 10;
 	// 加载缓冲时间
 	public static final int LOADING_TIME = 200;
 	// 验证码倒计时

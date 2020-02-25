@@ -300,6 +300,10 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
         switch (v.getId()) {
             case R.id.goods_tv_click:
                 if (ClickUtils.isDoubleClick()) return;
+                if (goodsEn == null) {
+                    dataErrorHandle();
+                    return;
+                }
                 openDesignerActivity(goodsCode);
                 break;
         }
@@ -332,10 +336,17 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
     }
 
     /**
+     * 数据报错处理
+     */
+    private void dataErrorHandle() {
+        loadGoodsData();
+    }
+
+    /**
      * 加载商品详情数据
      */
     private void loadGoodsData() {
-        HashMap<String, String> map = new HashMap<>();
+        HashMap<String, Object> map = new HashMap<>();
         map.put("goodsCode", goodsCode);
         loadSVData(AppConfig.URL_GOODS_DETAIL, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_GOODS_DETAIL);
     }

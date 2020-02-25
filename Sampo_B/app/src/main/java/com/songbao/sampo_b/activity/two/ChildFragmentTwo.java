@@ -305,11 +305,11 @@ public class ChildFragmentTwo extends BaseFragment implements OnClickListener {
 	private void loadSortGoods() {
 		if (!isLoadOk) return; //加载频率控制
 		isLoadOk = false;
-		String page = String.valueOf(load_page);
+		int page = load_page;
 		if (load_type == 0) {
-			page = "1";
+			page = 1;
 		}
-		HashMap<String, String> map = new HashMap<>();
+		HashMap<String, Object> map = new HashMap<>();
 		map.put("page", page);
 		map.put("size", AppConfig.LOAD_SIZE);
 		map.put("refCatCode", postSortCode);
@@ -320,7 +320,7 @@ public class ChildFragmentTwo extends BaseFragment implements OnClickListener {
 	 * 加载分类数据
 	 */
 	private void loadSortData() {
-		HashMap<String, String> map = new HashMap<>();
+		HashMap<String, Object> map = new HashMap<>();
 		loadSVData(AppConfig.URL_SORT_LIST, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_SORT_LIST);
 	}
 

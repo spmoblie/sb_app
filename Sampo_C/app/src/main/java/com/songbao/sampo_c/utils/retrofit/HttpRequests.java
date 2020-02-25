@@ -51,7 +51,7 @@ public class HttpRequests extends ObjectLoader {
     /**
      * 加载数据
      */
-    public Observable<ResponseBody> loadData(String head, String paths, Map<String, String> map, int httpType) {
+    public Observable<ResponseBody> loadData(String head, String paths, Map<String, Object> map, int httpType) {
         Observable<ResponseBody> observable = null;
         try {
             String[] roots = paths.split("/");
@@ -160,26 +160,26 @@ public class HttpRequests extends ObjectLoader {
         @GET("{path}")
         Observable<ResponseBody> get(@Header("url_head") String head, @Path("path") String path);
         @GET("{path}")
-        Observable<ResponseBody> get(@Header("url_head") String head, @Path("path") String path, @QueryMap Map<String, String> map);
+        Observable<ResponseBody> get(@Header("url_head") String head, @Path("path") String path, @QueryMap Map<String, Object> map);
         @GET("{root}/{path}")
-        Observable<ResponseBody> get(@Header("url_head") String head, @Path("root") String root, @Path("path") String path, @QueryMap Map<String, String> map);
+        Observable<ResponseBody> get(@Header("url_head") String head, @Path("root") String root, @Path("path") String path, @QueryMap Map<String, Object> map);
         @GET("{root1}/{root2}/{path}")
-        Observable<ResponseBody> get(@Header("url_head") String head, @Path("root1") String root1, @Path("root2") String root2, @Path("path") String path, @QueryMap Map<String, String> map);
+        Observable<ResponseBody> get(@Header("url_head") String head, @Path("root1") String root1, @Path("root2") String root2, @Path("path") String path, @QueryMap Map<String, Object> map);
         @GET("{root1}/{root2}/{root3}/{path}")
-        Observable<ResponseBody> get(@Header("url_head") String head, @Path("root1") String root1, @Path("root2") String root2, @Path("root3") String root3, @Path("path") String path, @QueryMap Map<String, String> map);
+        Observable<ResponseBody> get(@Header("url_head") String head, @Path("root1") String root1, @Path("root2") String root2, @Path("root3") String root3, @Path("path") String path, @QueryMap Map<String, Object> map);
 
         @FormUrlEncoded
         @POST("{path}")
-        Observable<ResponseBody> post(@Header("url_head") String head, @Path("path") String path, @FieldMap Map<String, String> map);
+        Observable<ResponseBody> post(@Header("url_head") String head, @Path("path") String path, @FieldMap Map<String, Object> map);
         @FormUrlEncoded
         @POST("{root}/{path}")
-        Observable<ResponseBody> post(@Header("url_head") String head, @Path("root") String root, @Path("path") String path, @FieldMap Map<String, String> map);
+        Observable<ResponseBody> post(@Header("url_head") String head, @Path("root") String root, @Path("path") String path, @FieldMap Map<String, Object> map);
         @FormUrlEncoded
         @POST("{root1}/{root2}/{path}")
-        Observable<ResponseBody> post(@Header("url_head") String head, @Path("root1") String root1, @Path("root2") String root2, @Path("path") String path, @FieldMap Map<String, String> map);
+        Observable<ResponseBody> post(@Header("url_head") String head, @Path("root1") String root1, @Path("root2") String root2, @Path("path") String path, @FieldMap Map<String, Object> map);
         @FormUrlEncoded
         @POST("{root1}/{root2}/{root3}/{path}")
-        Observable<ResponseBody> post(@Header("url_head") String head, @Path("root1") String root1, @Path("root2") String root2, @Path("root3") String root3, @Path("path") String path, @FieldMap Map<String, String> map);
+        Observable<ResponseBody> post(@Header("url_head") String head, @Path("root1") String root1, @Path("root2") String root2, @Path("root3") String root3, @Path("path") String path, @FieldMap Map<String, Object> map);
 
         @POST("{path}")
         @Headers({ "Content-Type: application/json;charset=UTF-8"})

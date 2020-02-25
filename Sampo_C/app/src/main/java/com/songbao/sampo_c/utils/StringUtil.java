@@ -5,6 +5,7 @@ import android.text.TextUtils;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -42,6 +43,46 @@ public class StringUtil {
 			return 0;
 		}
 		return Long.parseLong(str);
+	}
+
+	/**
+	 * 将字符串集合转换成数组字符串
+	 * @param list
+	 * @return
+	 */
+	public static String listToArrayStr(List<String> list) {
+		if (list == null || list.size() <= 0) return "";
+		StringBuilder sb = new StringBuilder();
+		sb.append("[\"");
+		for (int i = 0; i < list.size(); i++) {
+			sb.append(list.get(i));
+			sb.append("\",\"");
+		}
+		if (sb.toString().contains("\",\"")) {
+			sb.delete(sb.length()-3, sb.length());
+			sb.append("\"]");
+			return sb.toString();
+		}
+		return "";
+	}
+
+	/**
+	 * 将字符串集合转换成逗号分隔字符串
+	 * @param list
+	 * @return
+	 */
+	public static String listToSplitStr(List<String> list) {
+		if (list == null || list.size() <= 0) return "";
+		StringBuilder sb = new StringBuilder();
+		for (int i = 0; i < list.size(); i++) {
+			sb.append(list.get(i));
+			sb.append(",");
+		}
+		if (sb.toString().contains(",")) {
+			sb.delete(sb.length()-1, sb.length());
+			return sb.toString();
+		}
+		return "";
 	}
 
 	/***

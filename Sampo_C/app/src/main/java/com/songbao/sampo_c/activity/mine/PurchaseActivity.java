@@ -271,28 +271,37 @@ public class PurchaseActivity extends BaseActivity implements View.OnClickListen
                                     getString(R.string.cancel), getString(R.string.call),
                                     new MyHandler(PurchaseActivity.this), 104);
                             break;
-                        case AppConfig.GOODS_SALE_02: //退款中
-                        case AppConfig.GOODS_SALE_03: //已退款
+                        case AppConfig.GOODS_SALE_02: //审核中
+                            // 售后进度
+                            break;
+                        case AppConfig.GOODS_SALE_03: //退款中
+                        case AppConfig.GOODS_SALE_04: //已退款
                             // 退款详情
                             intent = new Intent(mContext, RefundActivity.class);
                             intent.putExtra(AppConfig.PAGE_DATA, al_goods.get(position));
                             startActivity(intent);
                             break;
-                        case AppConfig.GOODS_SALE_04: //换货中
-                        case AppConfig.GOODS_SALE_05: //已换货
+                        case AppConfig.GOODS_SALE_05: //换货中
+                        case AppConfig.GOODS_SALE_06: //已换货
                             // 退换详情
                             break;
                         case AppConfig.GOODS_COMM_01: //未评价
+                        case AppConfig.GOODS_COMM_02: //审核中
                             // 我要评价
                             CommentEntity cEn1 = new CommentEntity();
+                            cEn1.setOrderNo(opEn.getOrderNo());
                             cEn1.setGoodsEn(al_goods.get(position));
                             openCommentPostActivity(cEn1);
                             break;
-                        case AppConfig.GOODS_COMM_02: //已评价
+                        case AppConfig.GOODS_COMM_03: //已评价
                             // 追加评价
                             CommentEntity cEn2 = new CommentEntity();
+                            cEn2.setOrderNo(opEn.getOrderNo());
                             cEn2.setGoodsEn(al_goods.get(position));
                             openCommentAddActivity(cEn2);
+                            break;
+                        case AppConfig.GOODS_COMM_04: //已追评
+                            // 查看评价
                             break;
                     }
                 }
@@ -405,7 +414,7 @@ public class PurchaseActivity extends BaseActivity implements View.OnClickListen
      * 加载数据
      */
     private void loadServerData() {
-        HashMap<String, String> map = new HashMap<>();
+        HashMap<String, Object> map = new HashMap<>();
         map.put("orderCode", opEn.getOrderNo());
         loadSVData(AppConfig.BASE_URL_3, AppConfig.URL_ORDER_INFO, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_ORDER_INFO);
     }
@@ -446,7 +455,7 @@ public class PurchaseActivity extends BaseActivity implements View.OnClickListen
      * 确认收货
      */
     private void postConfirmReceipt() {
-        HashMap<String, String> map = new HashMap<>();
+        HashMap<String, Object> map = new HashMap<>();
         map.put("orderCode", opEn.getOrderNo());
         loadSVData(AppConfig.BASE_URL_3, AppConfig.URL_ORDER_CONFIRM, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_ORDER_CONFIRM);
     }

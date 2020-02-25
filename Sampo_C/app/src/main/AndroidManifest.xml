@@ -208,6 +208,16 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
 
+        <!-- three -->
+        <activity
+            android:name=".activity.three.DesignerListActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.three.GoodsOffActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"/>
+
         <!-- mine -->
         <activity
             android:name=".activity.mine.AddressActivity"
@@ -239,10 +249,6 @@
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.mine.CustomizeListActivity"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name=".activity.mine.DesignerListActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
         <activity

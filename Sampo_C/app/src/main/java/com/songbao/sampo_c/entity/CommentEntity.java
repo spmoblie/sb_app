@@ -12,6 +12,7 @@ public class CommentEntity extends BaseEntity {
 	private String addTime; //创建时间
 	private String content; //评论内容
 	private String addContent; //追加内容
+	private String orderNo; //关联订单
 	private String goodsAttr; //商品属性
 	private int number; //评论数量
 	private int goodStar; //好评率
@@ -77,6 +78,14 @@ public class CommentEntity extends BaseEntity {
 
 	public void setAddContent(String addContent) {
 		this.addContent = addContent;
+	}
+
+	public String getOrderNo() {
+		return orderNo;
+	}
+
+	public void setOrderNo(String orderNo) {
+		this.orderNo = orderNo;
 	}
 
 	public String getGoodsAttr() {

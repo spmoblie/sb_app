@@ -545,14 +545,14 @@ public class CustomizeListActivity extends BaseActivity implements View.OnClickL
     private void loadServerData() {
         if (!isLoadOk) return; //加载频率控制
         isLoadOk = false;
-        String page = String.valueOf(load_page);
+        int page = load_page;
         if (load_type == 0) {
-            page = "1";
+            page = 1;
         }
-        HashMap<String, String> map = new HashMap<>();
+        HashMap<String, Object> map = new HashMap<>();
         map.put("current", page);
         map.put("size", AppConfig.LOAD_SIZE);
-        map.put("orderStatus", String.valueOf(top_type));
+        map.put("orderStatus", top_type);
         loadSVData(AppConfig.BASE_URL_3, AppConfig.URL_BOOKING_LIST, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_BOOKING_LIST);
     }
 

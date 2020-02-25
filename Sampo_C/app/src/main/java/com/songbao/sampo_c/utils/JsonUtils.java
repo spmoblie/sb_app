@@ -497,8 +497,8 @@ public class JsonUtils {
                 goodsEn.setNumber(goodsObj.getInt("buyNum"));
                 goodsEn.setAttribute(goodsObj.getString("comboName"));
                 goodsEn.setSaleStatus(AppConfig.GOODS_SALE_01);
-                //goodsEn.setCommentStatus(AppConfig.GOODS_COMM_01);
-                goodsEn.setCommentStatus(goodsObj.getInt("isEvaluate"));
+                goodsEn.setCommentStatus(AppConfig.GOODS_COMM_03);
+                //goodsEn.setCommentStatus(goodsObj.getInt("isEvaluate"));
                 goodsList.add(goodsEn);
             }
             opEn.setGoodsLists(goodsList);
@@ -869,6 +869,10 @@ public class JsonUtils {
                     childEn.setAttribute(item.getString("skuComboName"));
                     childEn.setPrice(item.getDouble("price"));
 
+                    if (StringUtil.notNull(item, "goodsCode")) {
+                        childEn.setGoodsCode(item.getString("goodsCode"));
+                    }
+
                     lists.add(childEn);
                 }
                 mainEn.setLists(lists);
@@ -920,6 +924,32 @@ public class JsonUtils {
 
                 mainEn.setAttrLists(lists);
             }
+        }
+        return mainEn;
+    }
+
+    /**
+     * 解析获取线下商品数据
+     */
+    public static BaseEntity<GoodsEntity> getGoodsDownData(JSONObject jsonObject) throws JSONException {
+        BaseEntity<GoodsEntity> mainEn = getCommonKeyValue(jsonObject);
+
+        if (StringUtil.notNull(jsonObject, "data")) {
+            JSONObject jsonData = jsonObject.getJSONObject("data");
+            GoodsEntity goodsEn = new GoodsEntity();
+            goodsEn.setName(jsonData.getString("goodsName"));
+
+            // 商品图片集
+            if (StringUtil.notNull(jsonData, "goodsPics")) {
+                JSONArray images = jsonData.getJSONArray("goodsPics");
+                ArrayList<String> urls = new ArrayList<>();
+                for (int i = 0; i < images.length(); i++) {
+                    JSONObject item = images.getJSONObject(i);
+                    urls.add(item.getString("goodsPic"));
+                }
+                goodsEn.setImageList(urls);
+            }
+            mainEn.setData(goodsEn);
         }
         return mainEn;
     }

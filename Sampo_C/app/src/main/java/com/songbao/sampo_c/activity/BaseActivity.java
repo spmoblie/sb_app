@@ -57,7 +57,8 @@ import com.songbao.sampo_c.activity.login.RegisterOauthActivity;
 import com.songbao.sampo_c.activity.login.ResetPasswordActivity;
 import com.songbao.sampo_c.activity.mine.CommentAddActivity;
 import com.songbao.sampo_c.activity.mine.CommentPostActivity;
-import com.songbao.sampo_c.activity.mine.DesignerListActivity;
+import com.songbao.sampo_c.activity.three.DesignerListActivity;
+import com.songbao.sampo_c.activity.three.GoodsOffActivity;
 import com.songbao.sampo_c.activity.two.GoodsActivity;
 import com.songbao.sampo_c.activity.two.GoodsListActivity;
 import com.songbao.sampo_c.activity.two.SketchActivity;
@@ -479,6 +480,15 @@ public class BaseActivity extends FragmentActivity {
         Intent intent = new Intent(mContext, GoodsActivity.class);
         intent.putExtra("skuCode", skuCode);
         intent.putExtra("isOpenAttr", isOpenAttr);
+        startActivity(intent);
+    }
+
+    /**
+     * 打开线下商品详情页
+     */
+    protected void openGoodsOffActivity(String goodsCode) {
+        Intent intent = new Intent(mContext, GoodsOffActivity.class);
+        intent.putExtra("goodsCode", goodsCode);
         startActivity(intent);
     }
 
@@ -1015,14 +1025,14 @@ public class BaseActivity extends FragmentActivity {
     /**
      * 加载网络数据
      */
-    protected void loadSVData(String path, HashMap<String, String> map, int httpType, final int dataType) {
+    protected void loadSVData(String path, HashMap<String, Object> map, int httpType, final int dataType) {
         loadSVData("", path, map, httpType, dataType);
     }
 
     /**
      * 加载网络数据
      */
-    protected void loadSVData(String head, String path, HashMap<String, String> map, int httpType, final int dataType) {
+    protected void loadSVData(String head, String path, HashMap<String, Object> map, int httpType, final int dataType) {
         if (StringUtil.isNull(head)) {
             head = AppConfig.BASE_TYPE;
         }
@@ -1076,6 +1086,7 @@ public class BaseActivity extends FragmentActivity {
 
         //2.获取图片，创建请求体
         RequestBody body = RequestBody.create(MediaType.parse("multipart/form-data"), fileName);//表单类型
+        LogUtil.i(LogUtil.LOG_HTTP, "fileName = " + fileName);
 
         //3.调用MultipartBody.Builder的addFormDataPart()方法添加表单数据
         builder.addFormDataPart("file", fileName.getName(), body); //添加图片数据，body创建的请求体
@@ -1174,7 +1185,7 @@ public class BaseActivity extends FragmentActivity {
      * 上传设备号至服务端
      */
     protected void postDeviceToken() {
-        HashMap<String, String> map = new HashMap<>();
+        HashMap<String, Object> map = new HashMap<>();
         map.put("deviceToken", UserManager.getInstance().getDeviceToken());
         loadSVData(AppConfig.URL_AUTH_DEVICE, map, HttpRequests.HTTP_POST, 0);
     }
@@ -1183,7 +1194,7 @@ public class BaseActivity extends FragmentActivity {
      * 获取购物车商品数量
      */
     protected void loadCartGoodsNum() {
-        HashMap<String, String> map = new HashMap<>();
+        HashMap<String, Object> map = new HashMap<>();
         loadSVData(AppConfig.BASE_URL_3, AppConfig.URL_CART_COUNT, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_CART_COUNT);
     }
 
@@ -1231,7 +1242,7 @@ public class BaseActivity extends FragmentActivity {
             attrEn = null;
             cartPopupWindow = null;
 
-            HashMap<String, String> map = new HashMap<>();
+            HashMap<String, Object> map = new HashMap<>();
             map.put("goodsCode", goodsCode);
             loadSVData(AppConfig.URL_GOODS_ATTR, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_GOODS_ATTR);
         }

@@ -657,18 +657,18 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
      * 加载商品详情数据
      */
     private void loadGoodsData() {
-        HashMap<String, String> map = new HashMap<>();
+        HashMap<String, Object> map = new HashMap<>();
         map.put("sourceType", AppConfig.LOAD_TYPE);
         map.put("skuCode", skuCode);
-        loadSVData(AppConfig.URL_GOODS_DETAIL, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_GOODS_DETAIL);
+        loadSVData(AppConfig.URL_GOODS_INFO_UP, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_GOODS_INFO);
     }
 
     /**
      * 加载精彩评价数据
      */
     private void loadCommentData() {
-        HashMap<String, String> map = new HashMap<>();
-        map.put("page", "1");
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("page", 1);
         map.put("size", AppConfig.LOAD_SIZE);
         map.put("skuCode", skuCode);
         loadSVData(AppConfig.URL_GOODS_COMMENT, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_GOODS_COMMENT);
@@ -694,7 +694,7 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
         super.callbackData(jsonObject, dataType);
         try {
             switch (dataType) {
-                case AppConfig.REQUEST_SV_GOODS_DETAIL:
+                case AppConfig.REQUEST_SV_GOODS_INFO:
                     BaseEntity<GoodsEntity> GoodsEn = JsonUtils.getGoodsDetailData(jsonObject);
                     if (GoodsEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
                         goodsEn = GoodsEn.getData();

@@ -122,6 +122,10 @@ public class DesignerListActivity extends BaseActivity implements View.OnClickLi
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.designer_tv_click:
+                if (StringUtil.isNull(dgName)) {
+                    dataErrorHandle();
+                    return;
+                }
                 showConfirmDialog(getString(R.string.designer_subscribe_tips, dgName), new MyHandler(this));
                 break;
         }
@@ -151,10 +155,17 @@ public class DesignerListActivity extends BaseActivity implements View.OnClickLi
     }
 
     /**
+     * 数据报错处理
+     */
+    private void dataErrorHandle() {
+        loadServerData();
+    }
+
+    /**
      * 加载数据
      */
     private void loadServerData() {
-        HashMap<String, String> map = new HashMap<>();
+        HashMap<String, Object> map = new HashMap<>();
         loadSVData(AppConfig.URL_USER_DESIGNER, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_USER_DESIGNER);
     }
 
@@ -202,8 +213,7 @@ public class DesignerListActivity extends BaseActivity implements View.OnClickLi
                                 // 关闭之前的页面
                                 closeCustomizeActivity();
                                 // 回退至“我的”
-                                shared.edit().putBoolean(AppConfig.KEY_JUMP_PAGE, true).apply();
-                                shared.edit().putInt(AppConfig.KEY_MAIN_CURRENT_INDEX, 2).apply();
+                                AppApplication.jumpToHomePage(AppConfig.PAGE_MAIN_MINE);
                                 // 跳转至“我的订制”
                                 OCustomizeEntity ocEn = new OCustomizeEntity();
                                 ocEn.setOrderNo(orderNo);
