@@ -286,22 +286,22 @@ public class PurchaseActivity extends BaseActivity implements View.OnClickListen
                             // 退换详情
                             break;
                         case AppConfig.GOODS_COMM_01: //未评价
-                        case AppConfig.GOODS_COMM_02: //审核中
                             // 我要评价
                             CommentEntity cEn1 = new CommentEntity();
                             cEn1.setOrderNo(opEn.getOrderNo());
                             cEn1.setGoodsEn(al_goods.get(position));
                             openCommentPostActivity(cEn1);
                             break;
-                        case AppConfig.GOODS_COMM_03: //已评价
+                        case AppConfig.GOODS_COMM_02: //已评价
                             // 追加评价
                             CommentEntity cEn2 = new CommentEntity();
                             cEn2.setOrderNo(opEn.getOrderNo());
                             cEn2.setGoodsEn(al_goods.get(position));
                             openCommentAddActivity(cEn2);
                             break;
-                        case AppConfig.GOODS_COMM_04: //已追评
-                            // 查看评价
+                        case AppConfig.GOODS_COMM_03: //已追评
+                            // 我的评价
+                            openActivity(CommentOrderActivity.class);
                             break;
                     }
                 }

@@ -145,7 +145,7 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
     private int top_type = TYPE_1; //Top标记
 
     private GoodsEntity goodsEn;
-    private String skuCode = "";
+    private String skuCode, goodsCode;
     private boolean isLoop = false;
     private boolean vprStop = false;
     private boolean isOpenAttr = false;
@@ -190,11 +190,11 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
         initRadioGroup();
         initScrollView();
         loadGoodsData();
-        loadCommentData();
     }
 
     private void initShowView() {
         if (goodsEn != null) {
+            goodsCode = goodsEn.getGoodsCode();
             //打开属性面板
             if (isOpenAttr) {
                 openAttrView();
@@ -455,7 +455,7 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
             lv_comment_Adapter.addCallback(new AdapterCallback() {
                 @Override
                 public void setOnClick(Object data, int position, int type) {
-                    openCommentActivity(skuCode);
+                    openCommentActivity(goodsCode);
                 }
             });
         }
@@ -523,7 +523,7 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
                 scrollTo(title_detail.getTop() - 150);
                 break;
             case R.id.goods_good_comment_main:
-                openCommentActivity(skuCode);
+                openCommentActivity(goodsCode);
                 break;
             case R.id.bottom_add_cart_tv_home:
                 returnHomeActivity();
@@ -667,10 +667,11 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
      * 加载精彩评价数据
      */
     private void loadCommentData() {
+        if (goodsEn == null) return;
         HashMap<String, Object> map = new HashMap<>();
         map.put("page", 1);
         map.put("size", AppConfig.LOAD_SIZE);
-        map.put("skuCode", skuCode);
+        map.put("goodsCode", goodsCode);
         loadSVData(AppConfig.URL_GOODS_COMMENT, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_GOODS_COMMENT);
     }
 
@@ -680,7 +681,7 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
     private void postCartData(GoodsAttrEntity attrEn) {
         try {
             JSONObject jsonObj = new JSONObject();
-            jsonObj.put("goodsCode", goodsEn.getGoodsCode());
+            jsonObj.put("goodsCode", goodsCode);
             jsonObj.put("skuCode", attrEn.getSkuCode());
             jsonObj.put("buyNum", attrEn.getBuyNum());
             postJsonData(AppConfig.BASE_URL_3, AppConfig.URL_CART_ADD, jsonObj, AppConfig.REQUEST_SV_CART_ADD);
@@ -699,6 +700,7 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
                     if (GoodsEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
                         goodsEn = GoodsEn.getData();
                         initShowView();
+                        loadCommentData();
                     } else {
                         handleErrorCode(GoodsEn);
                     }

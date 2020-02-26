@@ -118,10 +118,6 @@ public class CommentAddActivity extends BaseActivity implements OnClickListener 
 				tv_attr.setText(goodsEn.getAttribute());
 			}
 
-			tv_time.setText(data.getAddTime());
-			rb_star.setRating(data.getStarNum());
-			tv_content.setText(data.getContent());
-
 			// 评论图片
 			if (data.isImg()) {
 				sv_main.setVisibility(View.VISIBLE);
@@ -129,6 +125,14 @@ public class CommentAddActivity extends BaseActivity implements OnClickListener 
 			} else {
 				ll_main.removeAllViews();
 				sv_main.setVisibility(View.GONE);
+			}
+
+			tv_time.setText(data.getAddTime());
+			rb_star.setRating(data.getStarNum());
+			tv_content.setText(data.getContent());
+
+			if (StringUtil.isNull(data.getContent())) {
+				loadServerData();
 			}
 		}
 	}
@@ -198,39 +202,67 @@ public class CommentAddActivity extends BaseActivity implements OnClickListener 
 		super.onDestroy();
 	}
 
-	private void postData() {
+	/**
+	 * 加载数据
+	 */
+	private void loadServerData() {
 		HashMap<String, Object> map = new HashMap<>();
 		map.put("sourceType", AppConfig.DATA_TYPE);
 		map.put("orderNo", orderNo);
-		map.put("goodsCode", goodsCode);
 		if (!StringUtil.isNull(skuCode)) {
 			map.put("skuCode", skuCode);
+		} else {
+			map.put("goodsCode", goodsCode);
 		}
-		if (!StringUtil.isNull(skuComboName)) {
-			map.put("skuComboName", skuComboName);
-		}
-		try {
-			JSONArray jsonAry = new JSONArray();
-			JSONObject jsonObj = new JSONObject();
-			jsonObj.put("content", contentStr);
-			jsonAry.put(0, jsonObj);
-			map.put("append", jsonObj);
-		} catch (JSONException e) {
-			ExceptionUtil.handle(e);
-		}
-		loadSVData(AppConfig.URL_COMMENT_ADD, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_COMMENT_ADD);
+		loadSVData(AppConfig.URL_COMMENT_GET, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_COMMENT_GET);
+	}
+
+	/**
+	 * 发布追评
+	 */
+	private void postData() {
+		if (data == null || data.getId() <= 0) return;
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("goodsReviewsId", data.getId());
+		map.put("content", contentStr);
+		loadSVData(AppConfig.URL_COMMENT_APPEND, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_COMMENT_APPEND);
 	}
 
 	@Override
 	protected void callbackData(JSONObject jsonObject, int dataType) {
-		BaseEntity baseEn;
+		BaseEntity<CommentEntity> baseEn;
 		try {
 			switch (dataType) {
-				case AppConfig.REQUEST_SV_COMMENT_ADD:
+				case AppConfig.REQUEST_SV_COMMENT_GET:
+					baseEn = JsonUtils.getCommentInfoData(jsonObject);
+					if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
+						CommentEntity loadData = baseEn.getData();
+						if (loadData != null) {
+							data.setId(loadData.getId());
+							data.setContent(loadData.getContent());
+							data.setAddTime(loadData.getAddTime());
+							data.setStarNum(loadData.getStarNum());
+							data.setImg(loadData.isImg());
+							data.setImgList(loadData.getImgList());
+							data.setAddDay(loadData.getAddDay());
+							data.setAddContent(loadData.getAddContent());
+						}
+						initView();
+					} else {
+						handleErrorCode(baseEn);
+					}
+					break;
+				case AppConfig.REQUEST_SV_COMMENT_APPEND:
 					baseEn = JsonUtils.getBaseErrorData(jsonObject);
 					if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
 						isPostOk = true;
-						CommonTools.showToast("发布成功，待审核~");
+						CommonTools.showToast(getString(R.string.comment_success));
+						new Handler().postDelayed(new Runnable() {
+							@Override
+							public void run() {
+								finish();
+							}
+						}, 500);
 					} else {
 						handleErrorCode(baseEn);
 					}

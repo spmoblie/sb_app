@@ -57,7 +57,7 @@ public class CommentOrderActivity extends BaseActivity {
 	}
 
 	private void initView() {
-		setTitle("我的评价");
+		setTitle(R.string.comment_mine);
 
 		initRecyclerView();
 		loadMoreData();
@@ -115,7 +115,8 @@ public class CommentOrderActivity extends BaseActivity {
 
 			@Override
 			public void setOnClick(Object data, int position, int type) {
-				//if (position < 0 || position >= al_show.size()) return;
+				if (position < 0 || position >= al_show.size()) return;
+				openCommentAddActivity(al_show.get(position));
 			}
 		});
 		mRecyclerView.setAdapter(rvAdapter);
@@ -182,7 +183,7 @@ public class CommentOrderActivity extends BaseActivity {
 		HashMap<String, Object> map = new HashMap<>();
 		map.put("page", page);
 		map.put("size", AppConfig.LOAD_SIZE);
-		loadSVData(AppConfig.URL_USER_MESSAGE, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_USER_MESSAGE);
+		loadSVData(AppConfig.URL_USER_COMMENT, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_USER_COMMENT);
 	}
 
 	@Override
@@ -190,7 +191,7 @@ public class CommentOrderActivity extends BaseActivity {
 		BaseEntity<CommentEntity> baseEn;
 		try {
 			switch (dataType) {
-				case AppConfig.REQUEST_SV_USER_MESSAGE:
+				case AppConfig.REQUEST_SV_USER_COMMENT:
 					baseEn = JsonUtils.getCommentOrderListData(jsonObject);
 					if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
 						data_total = baseEn.getDataTotal();

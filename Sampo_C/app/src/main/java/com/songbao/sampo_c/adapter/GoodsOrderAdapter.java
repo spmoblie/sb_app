@@ -110,12 +110,17 @@ public class GoodsOrderAdapter extends AppBaseAdapter {
 					}
 					switch (data.getCommentStatus()) {
 						case AppConfig.GOODS_COMM_01: //未评价
-							holder.tv_comment.setText(context.getString(R.string.comment_me));
+							holder.tv_comment.setText(context.getString(R.string.comment_want));
 							holder.tv_comment.setVisibility(View.VISIBLE);
 							holder.view_fill.setVisibility(View.VISIBLE);
 							break;
-						case AppConfig.GOODS_COMM_03: //已评价
+						case AppConfig.GOODS_COMM_02: //已评价
 							holder.tv_comment.setText(context.getString(R.string.comment_add));
+							holder.tv_comment.setVisibility(View.VISIBLE);
+							holder.view_fill.setVisibility(View.VISIBLE);
+							break;
+						case AppConfig.GOODS_COMM_03: //已追评
+							holder.tv_comment.setText(context.getString(R.string.comment_mine));
 							holder.tv_comment.setVisibility(View.VISIBLE);
 							holder.view_fill.setVisibility(View.VISIBLE);
 							break;

@@ -89,8 +89,12 @@ public class AppConfig {
 	public final static String URL_GOODS_ATTR = "app/shopping/goodsInfo/findAttrValueAll";
 	// 商品评价
 	public final static String URL_GOODS_COMMENT = "app/shopping/goodsInfo/goodsInfoEvaluation";
-	// 发布评价
-	public final static String URL_COMMENT_ADD = "app/shopping/goodsInfo/addGoodsEvaluation";
+	// 首次评价
+	public final static String URL_COMMENT_FIRST = "app/shopping/goodsInfo/addGoodsEvaluation";
+	// 追加评价
+	public final static String URL_COMMENT_APPEND = "app/shopping/goodsInfo/addAppendEvaluation";
+	// 查询评价
+	public final static String URL_COMMENT_GET = "app/shopping/goodsInfo/getEvaluation";
 
 	// 购物添加
 	public final static String URL_CART_ADD = "trade/app/cart/add";
@@ -115,6 +119,8 @@ public class AppConfig {
 	public final static String URL_USER_MESSAGE = "app/user/message";
 	// 消息状态
 	public final static String URL_USER_MESSAGE_STATUS = "app/user/message/updateStatus";
+	// 我的评价
+	public final static String URL_USER_COMMENT = "app/user/evaluateList";
 	// 我的门票
 	public final static String URL_USER_TICKETS = "app/user/tickets";
 	// 我的活动
@@ -241,8 +247,12 @@ public class AppConfig {
 	public static final int REQUEST_SV_GOODS_ATTR = 0X2014;
 	// 商品评价
 	public static final int REQUEST_SV_GOODS_COMMENT = 0X2015;
-	// 发布评价
-	public static final int REQUEST_SV_COMMENT_ADD = 0X2016;
+	// 首次评价
+	public static final int REQUEST_SV_COMMENT_FIRST = 0X2016;
+	// 追加评价
+	public static final int REQUEST_SV_COMMENT_APPEND = 0X2017;
+	// 查询评价
+	public static final int REQUEST_SV_COMMENT_GET = 0X2018;
 
 	// 购物添加
 	public static final int REQUEST_SV_CART_ADD = 0X2021;
@@ -270,6 +280,8 @@ public class AppConfig {
 
 	// 我的消息
 	public static final int REQUEST_SV_USER_MESSAGE = 0X3101;
+	// 我的评价
+	public static final int REQUEST_SV_USER_COMMENT = 0X3111;
 	// 我的门票
 	public static final int REQUEST_SV_USER_TICKETS = 0X3121;
 	// 我的活动
@@ -386,9 +398,9 @@ public class AppConfig {
 	public static final int GOODS_SALE_05 = 5; //换货中
 	public static final int GOODS_SALE_06 = 6; //已换货
 	public static final int GOODS_COMM_01 = 901; //未评价
-	public static final int GOODS_COMM_02 = 904; //审核中
-	public static final int GOODS_COMM_03 = 902; //已评价
-	public static final int GOODS_COMM_04 = 903; //已追评
+	public static final int GOODS_COMM_02 = 902; //已评价
+	public static final int GOODS_COMM_03 = 903; //已追评
+	public static final int GOODS_COMM_04 = 904; //已过期
 
 	// 图片宽高比例
 	public static final int IMG_WIDTHS = 16;

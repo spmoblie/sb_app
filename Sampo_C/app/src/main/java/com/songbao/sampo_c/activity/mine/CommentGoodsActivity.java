@@ -74,7 +74,7 @@ public class CommentGoodsActivity extends BaseActivity implements View.OnClickLi
 	}
 
 	private void initView() {
-		setTitle("精彩评价");
+		setTitle(R.string.comment_good);
 
 		tv_all.setOnClickListener(this);
 		tv_new.setOnClickListener(this);
@@ -133,7 +133,6 @@ public class CommentGoodsActivity extends BaseActivity implements View.OnClickLi
 			@Override
 			public void setOnClick(Object data, int position, int type) {
 				if (position < 0 || position >= al_show.size()) return;
-				CommentEntity msgEn = al_show.get(position);
 			}
 		});
 		mRecyclerView.setAdapter(rvAdapter);
@@ -266,7 +265,7 @@ public class CommentGoodsActivity extends BaseActivity implements View.OnClickLi
 		HashMap<String, Object> map = new HashMap<>();
 		map.put("page", page);
 		map.put("size", AppConfig.LOAD_SIZE);
-		map.put("skuCode", goodsCode);
+		map.put("goodsCode", goodsCode);
 		map.put("types", dataType);
 		loadSVData(AppConfig.URL_GOODS_COMMENT, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_GOODS_COMMENT);
 	}

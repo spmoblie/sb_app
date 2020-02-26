@@ -1,6 +1,7 @@
 package com.songbao.sampo_c.activity.mine;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
@@ -18,6 +19,7 @@ import com.songbao.sampo_c.activity.common.clip.ClipPhotoGridActivity;
 import com.songbao.sampo_c.entity.BaseEntity;
 import com.songbao.sampo_c.entity.CommentEntity;
 import com.songbao.sampo_c.entity.GoodsEntity;
+import com.songbao.sampo_c.entity.OCustomizeEntity;
 import com.songbao.sampo_c.utils.CommonTools;
 import com.songbao.sampo_c.utils.ExceptionUtil;
 import com.songbao.sampo_c.utils.JsonUtils;
@@ -99,7 +101,7 @@ public class CommentPostActivity extends BaseActivity implements OnClickListener
 	}
 
 	private void initView() {
-		setTitle(R.string.comment_me);
+		setTitle(R.string.comment_want);
 
 		iv_photo_01.setOnClickListener(this);
 		iv_photo_02.setOnClickListener(this);
@@ -295,7 +297,7 @@ public class CommentPostActivity extends BaseActivity implements OnClickListener
 		if (!StringUtil.isNull(images)) {
 			map.put("evaluateImagesStr", images);
 		}
-		loadSVData(AppConfig.URL_COMMENT_ADD, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_COMMENT_ADD);
+		loadSVData(AppConfig.URL_COMMENT_FIRST, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_COMMENT_FIRST);
 	}
 
 	@Override
@@ -312,14 +314,20 @@ public class CommentPostActivity extends BaseActivity implements OnClickListener
 						handleErrorCode(baseEn);
 					}
 					break;
-				case AppConfig.REQUEST_SV_COMMENT_ADD:
+				case AppConfig.REQUEST_SV_COMMENT_FIRST:
 					baseEn = JsonUtils.getBaseErrorData(jsonObject);
 					if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
 						isPostOk = true;
 						al_photos_url.clear();
 						al_upload_url.clear();
 						al_images_url.clear();
-						CommonTools.showToast("发布成功，待审核~");
+						CommonTools.showToast(getString(R.string.comment_success));
+						new Handler().postDelayed(new Runnable() {
+							@Override
+							public void run() {
+								finish();
+							}
+						}, 500);
 					} else {
 						handleErrorCode(baseEn);
 					}

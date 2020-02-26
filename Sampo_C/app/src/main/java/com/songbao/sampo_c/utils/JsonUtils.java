@@ -497,8 +497,8 @@ public class JsonUtils {
                 goodsEn.setNumber(goodsObj.getInt("buyNum"));
                 goodsEn.setAttribute(goodsObj.getString("comboName"));
                 goodsEn.setSaleStatus(AppConfig.GOODS_SALE_01);
-                goodsEn.setCommentStatus(AppConfig.GOODS_COMM_03);
-                //goodsEn.setCommentStatus(goodsObj.getInt("isEvaluate"));
+                //goodsEn.setCommentStatus(AppConfig.GOODS_COMM_03);
+                goodsEn.setCommentStatus(goodsObj.getInt("isEvaluate"));
                 goodsList.add(goodsEn);
             }
             opEn.setGoodsLists(goodsList);
@@ -1268,15 +1268,17 @@ public class JsonUtils {
                     childEn.setGoodsAttr(item.getString("skuComboName"));
                     childEn.setAddTime(item.getString("evaluateTime"));
                     childEn.setContent(item.getString("evaluateContent"));
-                    childEn.setStarNum((float) item.getInt("levels"));
+                    childEn.setStarNum((float) item.getDouble("levels"));
+                    // 是否有图
                     childEn.setImg(item.getBoolean("isImg"));
-
-                    if (childEn.isImg()) { //有图
+                    if (childEn.isImg()) {
                         childEn.setImgList(getStringList(item.getString("evaluateImages")));
                     }
-                    if (StringUtil.notNull(item, "content")) {
-                        childEn.setAddContent(item.getString("content"));
-                    }
+                    // 是否追评
+                    /*if (StringUtil.notNull(item, "childrenStr")) {
+                        JSONObject addObj = item.getJSONObject("childrenStr");
+                        childEn.setAddContent(addObj.getString("content"));
+                    }*/
                     if (StringUtil.notNull(item, "days")) {
                         childEn.setAddDay(item.getInt("days"));
                     }
@@ -1296,56 +1298,68 @@ public class JsonUtils {
 
         if (StringUtil.notNull(jsonObject, "data")) {
             JSONObject jsonData = jsonObject.getJSONObject("data");
-            if (StringUtil.notNull(jsonData, "dataList")) {
+            if (StringUtil.notNull(jsonData, "list")) {
+                JSONArray data = jsonData.getJSONArray("list");
                 CommentEntity childEn;
                 GoodsEntity goodsEn;
                 List<CommentEntity> lists = new ArrayList<>();
-                for (int i = 0; i < 5; i++) {
+                for (int i = 0; i < data.length(); i++) {
+                    JSONObject item = data.getJSONObject(i);
                     childEn = new CommentEntity();
-                    childEn.setId(i + 1);
+                    childEn.setId(item.getInt("id"));
 
                     goodsEn = new GoodsEntity();
-                    goodsEn.setId(10*i);
-                    goodsEn.setPicUrl(AppConfig.IMAGE_URL + "design_001.png");
-                    goodsEn.setName("松堡王国现代简约彩条双层床");
-                    goodsEn.setAttribute("天蓝色；1350*1900");
+                    goodsEn.setPicUrl(item.getString("mainImg"));
+                    goodsEn.setName(item.getString("goodsName"));
+                    goodsEn.setAttribute(item.getString("skuComboName"));
                     childEn.setGoodsEn(goodsEn);
 
-                    childEn.setStarNum(5);
-                    childEn.setAddTime("2019/12/25 15:27");
-                    childEn.setContent("全实木的床很结实，款式很简约，整体很满意，安装师傅也很负责，半个小时安装好，床垫搭配效果很不错，非常满意。");
-
-                    if (i == 0) {
-                        childEn.setStarNum(0);
-                        ArrayList<String> imgList = new ArrayList<>();
-                        imgList.add(AppConfig.IMAGE_URL + "design_001.png");
-                        childEn.setImgList(imgList);
-                        childEn.setImg(true);
-
-                        childEn.setAddDay(26);
-                        childEn.setAddContent("床垫搭配效果很不错，非常满意，床垫搭配效果很不错，非常满意。");
-                    } else if (i == 1) {
-                        childEn.setAdd(true);
-                        childEn.setStarNum(1);
-                        ArrayList<String> imgList = new ArrayList<>();
-                        imgList.add(AppConfig.IMAGE_URL + "design_001.png");
-                        imgList.add(AppConfig.IMAGE_URL + "design_004.png");
-                        childEn.setImgList(imgList);
-                        childEn.setImg(true);
-                    } else if (i == 2) {
-                        childEn.setStarNum(2);
-                        ArrayList<String> imgList = new ArrayList<>();
-                        imgList.add(AppConfig.IMAGE_URL + "design_001.png");
-                        imgList.add(AppConfig.IMAGE_URL + "design_004.png");
-                        imgList.add(AppConfig.IMAGE_URL + "design_006.png");
-                        childEn.setImgList(imgList);
-                        childEn.setImg(true);
+                    childEn.setStarNum((float) item.getDouble("levels"));
+                    childEn.setAddTime(item.getString("evaluateTime"));
+                    childEn.setContent(item.getString("evaluateContent"));
+                    // 是否有图
+                    childEn.setImg(item.getBoolean("isImg"));
+                    if (childEn.isImg()) { //有图
+                        childEn.setImgList(getStringList(item.getString("evaluateImages")));
                     }
-
+                    // 可否追评
+                    childEn.setAdd(!item.getBoolean("isEvaluate"));
+                    /*if (StringUtil.notNull(item, "childrenStr")) {
+                        JSONObject addObj = item.getJSONObject("childrenStr");
+                        childEn.setAddContent(addObj.getString("content"));
+                    }*/
+                    if (StringUtil.notNull(item, "days")) {
+                        childEn.setAddDay(item.getInt("days"));
+                    }
                     lists.add(childEn);
                 }
                 mainEn.setLists(lists);
             }
+        }
+        return mainEn;
+    }
+
+    /**
+     * 解析查询评价数据
+     */
+    public static BaseEntity<CommentEntity> getCommentInfoData(JSONObject jsonObject) throws JSONException {
+        BaseEntity<CommentEntity> mainEn = getCommonKeyValue(jsonObject);
+
+        if (StringUtil.notNull(jsonObject, "data")) {
+            JSONObject jsonData = jsonObject.getJSONObject("data");
+            CommentEntity childEn = new CommentEntity();
+            childEn.setId(jsonData.getInt("id"));
+            childEn.setOrderNo(jsonData.getString("orderNo"));
+            childEn.setGoodsAttr(jsonData.getString("skuComboName"));
+            childEn.setAddTime(jsonData.getString("evaluateTime"));
+            childEn.setContent(jsonData.getString("evaluateContent"));
+            childEn.setStarNum((float) jsonData.getDouble("levels"));
+            // 是否有图
+            childEn.setImg(jsonData.getBoolean("isImg"));
+            if (childEn.isImg()) {
+                childEn.setImgList(getStringList(jsonData.getString("evaluateImages")));
+            }
+            mainEn.setData(childEn);
         }
         return mainEn;
     }

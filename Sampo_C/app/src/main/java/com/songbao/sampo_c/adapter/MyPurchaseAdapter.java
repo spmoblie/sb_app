@@ -100,7 +100,7 @@ public class MyPurchaseAdapter extends BaseRecyclerAdapter {
                 tv_status.setText(context.getString(R.string.order_wait_opinion));
                 tv_status.setBackgroundResource(R.drawable.shape_style_solid_03_04);
                 tv_click_01.setVisibility(View.GONE);
-                tv_click_02.setText(context.getString(R.string.comment_me));
+                tv_click_02.setText(context.getString(R.string.comment_want));
                 tv_click_02.setTextColor(context.getResources().getColor(R.color.app_color_gray_5));
                 tv_click_02.setBackgroundResource(R.drawable.shape_style_empty_02_08);
                 break;
