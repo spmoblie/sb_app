@@ -1,5 +1,6 @@
 package com.songbao.sampo_c.activity.mine;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.util.ArrayMap;
@@ -12,6 +13,7 @@ import com.songbao.sampo_c.R;
 import com.songbao.sampo_c.activity.BaseActivity;
 import com.songbao.sampo_c.adapter.AdapterCallback;
 import com.songbao.sampo_c.adapter.CommentORCAdapter;
+import com.songbao.sampo_c.entity.AddressEntity;
 import com.songbao.sampo_c.entity.BaseEntity;
 import com.songbao.sampo_c.entity.CommentEntity;
 import com.songbao.sampo_c.utils.ExceptionUtil;
@@ -131,6 +133,27 @@ public class CommentOrderActivity extends BaseActivity {
 		rvAdapter.updateData(al_show);
 	}
 
+	/**
+	 * 刷新所有数据
+	 */
+	private void updateAllData() {
+		al_show.clear();
+		am_show.clear();
+		load_page = 1;
+		loadMoreData();
+	}
+
+	/**
+	 * 打开追加评论页
+	 */
+	protected void openCommentAddActivity(CommentEntity commentEn) {
+		if (commentEn != null) {
+			Intent intent = new Intent(mContext, CommentAddActivity.class);
+			intent.putExtra(AppConfig.PAGE_DATA, commentEn);
+			startActivityForResult(intent, AppConfig.ACTIVITY_CODE_COMMENT_STATE);
+		}
+	}
+
 	@Override
 	protected void onResume() {
 		LogUtil.i(LogUtil.LOG_TAG, TAG + ": onResume");
@@ -236,6 +259,16 @@ public class CommentOrderActivity extends BaseActivity {
 		isLoadOk = true;
 		refresh_rv.onPullUpRefreshComplete();
 		refresh_rv.onPullDownRefreshComplete();
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (resultCode == RESULT_OK) {
+			if (requestCode == AppConfig.ACTIVITY_CODE_COMMENT_STATE) {
+				updateAllData();
+			}
+		}
+		super.onActivityResult(requestCode, resultCode, data);
 	}
 
 }

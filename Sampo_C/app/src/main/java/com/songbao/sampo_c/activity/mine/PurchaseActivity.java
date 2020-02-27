@@ -313,6 +313,27 @@ public class PurchaseActivity extends BaseActivity implements View.OnClickListen
         lv_goods.setOverScrollMode(ListView.OVER_SCROLL_NEVER);
     }
 
+    /**
+     * 打开我要评论页
+     */
+    protected void openCommentPostActivity(CommentEntity commentEn) {
+        if (commentEn != null) {
+            Intent intent = new Intent(mContext, CommentPostActivity.class);
+            intent.putExtra(AppConfig.PAGE_DATA, commentEn);
+            startActivityForResult(intent, AppConfig.ACTIVITY_CODE_COMMENT_STATE);
+        }
+    }
+
+    /**
+     * 打开追加评论页
+     */
+    protected void openCommentAddActivity(CommentEntity commentEn) {
+        if (commentEn != null) {
+            Intent intent = new Intent(mContext, CommentAddActivity.class);
+            intent.putExtra(AppConfig.PAGE_DATA, commentEn);
+            startActivityForResult(intent, AppConfig.ACTIVITY_CODE_COMMENT_STATE);
+        }
+    }
 
     @Override
     public void onClick(View v) {
@@ -565,6 +586,8 @@ public class PurchaseActivity extends BaseActivity implements View.OnClickListen
             if (requestCode == AppConfig.ACTIVITY_CODE_SELECT_ADDS) {
                 AddressEntity selectEn = (AddressEntity) data.getSerializableExtra(AppConfig.PAGE_DATA);
                 postAddressData(selectEn);
+            } else if (requestCode == AppConfig.ACTIVITY_CODE_COMMENT_STATE) {
+                loadServerData();
             }
         }
         super.onActivityResult(requestCode, resultCode, data);

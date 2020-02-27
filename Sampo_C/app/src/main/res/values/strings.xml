@@ -256,7 +256,7 @@
     <string name="comment_img">有图</string>
     <string name="comment_star">整体评价</string>
     <string name="comment_ok">评论已发布</string>
-    <string name="comment_success">发布成功，待审核~</string>
+    <string name="comment_success">发布成功，审核通过后可查看~</string>
     <string name="comment_content_null">评价内容不能为空</string>
     <string name="comment_content_hint">说说它的优点和美中不足的地方吧~</string>
 
@@ -275,6 +275,7 @@
     <string name="goods_top_item_5">筛选</string>
     <string name="goods_price_min">最低价格</string>
     <string name="goods_price_max">最高价格</string>
+    <string name="goods_price_max_error">最高价格必须大于最低价格</string>
     <string name="goods_attach_1">免费送货入户并安装</string>
     <string name="goods_attach_2">正品保障，假一赔三</string>
     <string name="goods_attach_3">七天无理由退换货（拆封后不支持）</string>

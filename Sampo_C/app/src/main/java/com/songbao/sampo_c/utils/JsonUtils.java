@@ -497,7 +497,7 @@ public class JsonUtils {
                 goodsEn.setNumber(goodsObj.getInt("buyNum"));
                 goodsEn.setAttribute(goodsObj.getString("comboName"));
                 goodsEn.setSaleStatus(AppConfig.GOODS_SALE_01);
-                //goodsEn.setCommentStatus(AppConfig.GOODS_COMM_03);
+                //goodsEn.setCommentStatus(AppConfig.GOODS_COMM_01);
                 goodsEn.setCommentStatus(goodsObj.getInt("isEvaluate"));
                 goodsList.add(goodsEn);
             }
@@ -1264,7 +1264,7 @@ public class JsonUtils {
 
                     childEn.setId(item.getInt("id"));
                     childEn.setNick(item.getString("customerName"));
-                    childEn.setHeadUrl(item.getString("customerName"));
+                    childEn.setHeadUrl(item.getString("avatar"));
                     childEn.setGoodsAttr(item.getString("skuComboName"));
                     childEn.setAddTime(item.getString("evaluateTime"));
                     childEn.setContent(item.getString("evaluateContent"));
@@ -1275,10 +1275,13 @@ public class JsonUtils {
                         childEn.setImgList(getStringList(item.getString("evaluateImages")));
                     }
                     // 是否追评
-                    /*if (StringUtil.notNull(item, "childrenStr")) {
-                        JSONObject addObj = item.getJSONObject("childrenStr");
-                        childEn.setAddContent(addObj.getString("content"));
-                    }*/
+                    if (StringUtil.notNull(item, "children")) {
+                        JSONArray addAry = item.getJSONArray("children");
+                        if (addAry.length() > 0) {
+                            JSONObject addObj = addAry.getJSONObject(0);
+                            childEn.setAddContent(addObj.getString("content"));
+                        }
+                    }
                     if (StringUtil.notNull(item, "days")) {
                         childEn.setAddDay(item.getInt("days"));
                     }
@@ -1324,10 +1327,13 @@ public class JsonUtils {
                     }
                     // 可否追评
                     childEn.setAdd(!item.getBoolean("isEvaluate"));
-                    /*if (StringUtil.notNull(item, "childrenStr")) {
-                        JSONObject addObj = item.getJSONObject("childrenStr");
-                        childEn.setAddContent(addObj.getString("content"));
-                    }*/
+                    if (StringUtil.notNull(item, "children")) {
+                        JSONArray addAry = item.getJSONArray("children");
+                        if (addAry.length() > 0) {
+                            JSONObject addObj = addAry.getJSONObject(0);
+                            childEn.setAddContent(addObj.getString("content"));
+                        }
+                    }
                     if (StringUtil.notNull(item, "days")) {
                         childEn.setAddDay(item.getInt("days"));
                     }
@@ -1377,11 +1383,6 @@ public class JsonUtils {
             saleEn.setSaleStatus(7);
             saleEn.setSaleReason("买的太大了，需要换小的一款");
             //saleEn.setExpressNo("NS56468416489456");
-
-            ArrayList<String> imgList = new ArrayList<>();
-            imgList.add(AppConfig.IMAGE_URL + "design_001.png");
-            imgList.add(AppConfig.IMAGE_URL + "design_004.png");
-            saleEn.setImgList(imgList);
             mainEn.setData(saleEn);
         }
         return mainEn;

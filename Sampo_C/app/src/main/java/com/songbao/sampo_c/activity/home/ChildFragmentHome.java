@@ -715,20 +715,10 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
      * 初始化缓存数据
      */
     private void initData(ThemeEntity baseEn) {
-        ThemeEntity demoData = getDemoData();
-        if (baseEn == null) {
-            baseEn = demoData;
-        } else {
-            if (baseEn.getHeadLists() == null) {
-                baseEn.setHeadLists(demoData.getHeadLists());
-            }
-            if (baseEn.getMainLists() == null) {
-                baseEn.setMainLists(demoData.getMainLists());
-            }
+        if (baseEn != null) {
+            al_head.addAll(baseEn.getHeadLists());
+            al_show.addAll(baseEn.getMainLists());
         }
-        al_head.addAll(baseEn.getHeadLists());
-        al_show.addAll(baseEn.getMainLists());
-
         if (al_show.size() > 0) {
             initHeadView();
             updateListData();
@@ -736,94 +726,6 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
         } else {
             resetData();
         }
-    }
-
-    /**
-     * 构建Demo数据
-     */
-    private ThemeEntity getDemoData() {
-        ThemeEntity baseEn = new ThemeEntity();
-        ThemeEntity chEn_1 = new ThemeEntity();
-        ThemeEntity chEn_2 = new ThemeEntity();
-        ThemeEntity chEn_3 = new ThemeEntity();
-        ThemeEntity chEn_4 = new ThemeEntity();
-        ThemeEntity chEn_5 = new ThemeEntity();
-        List<ThemeEntity> headLists = new ArrayList<>();
-
-        chEn_1.setPicUrl(AppConfig.IMAGE_URL+ "banner_001.png");
-        chEn_1.setTitle("松小堡绘画设计大赛");
-        chEn_1.setLinkUrl("https://mp.weixin.qq.com/s/uhg0hWDZCvtkyFQUs5FguQ");
-        headLists.add(chEn_1);
-        chEn_2.setPicUrl(AppConfig.IMAGE_URL+ "banner_002.png");
-        chEn_2.setTitle("松堡王国儿童房间，你值得拥有！");
-        chEn_2.setLinkUrl("https://mp.weixin.qq.com/s/uhg0hWDZCvtkyFQUs5FguQ");
-        headLists.add(chEn_2);
-        chEn_3.setPicUrl(AppConfig.IMAGE_URL+ "banner_003.png");
-        chEn_3.setTitle("现场直击 |松堡王国2019深圳家具展，给你好看");
-        chEn_3.setLinkUrl("https://mp.weixin.qq.com/s/OgWdS8oSZZlSWZWRgeONow");
-        headLists.add(chEn_3);
-        chEn_4.setPicUrl(AppConfig.IMAGE_URL+ "banner_004.png");
-        chEn_4.setTitle("松堡王国来博白了，尽情上演属于自己的公主王子梦⋯⋯快来耍");
-        chEn_4.setLinkUrl("https://mp.weixin.qq.com/s/iasaC_yR8_SxvwKstEfnKg");
-        headLists.add(chEn_4);
-        chEn_5.setPicUrl(AppConfig.IMAGE_URL+ "banner_005.png");
-        chEn_5.setTitle("厉害了！我的松堡王国");
-        chEn_5.setLinkUrl("https://mp.weixin.qq.com/s/1YJ_sqhekFTTS23G9ZCfiA");
-        headLists.add(chEn_5);
-
-        baseEn.setHeadLists(headLists);
-
-        ThemeEntity isEn_1 = new ThemeEntity();
-        ThemeEntity isEn_2 = new ThemeEntity();
-        ThemeEntity isEn_3 = new ThemeEntity();
-        ThemeEntity isEn_4 = new ThemeEntity();
-        ThemeEntity isEn_5 = new ThemeEntity();
-        List<ThemeEntity> mainLists = new ArrayList<>();
-
-        isEn_1.setPicUrl(AppConfig.IMAGE_URL+ "items_001.png");
-        isEn_1.setLinkUrl("https://mp.weixin.qq.com/s/tMi8j08jb7oEHKtmYqdl0g");
-        isEn_1.setTitle("北欧教育 | 比NOKIA更震惊世界的芬兰品牌");
-        isEn_1.setUserName("松堡王国设计部");
-        isEn_1.setSeries("美学培养系列");
-        isEn_1.setAddTime("2019-10-18 10:30");
-        isEn_1.setThemeType(1);
-        mainLists.add(isEn_1);
-        isEn_2.setPicUrl(AppConfig.IMAGE_URL+ "items_002.png");
-        isEn_2.setLinkUrl("https://mp.weixin.qq.com/s/p1j-Mv0yAW45tkVvjqLBTA");
-        isEn_2.setTitle("全球都在追捧的北欧教育，到底有哪些秘密？");
-        isEn_2.setUserName("松小堡线下运营");
-        isEn_2.setSeries("益智系列");
-        isEn_2.setAddTime("2019-10-10 15:30");
-        isEn_2.setThemeType(1);
-        mainLists.add(isEn_2);
-        isEn_3.setPicUrl(AppConfig.IMAGE_URL+ "items_003.png");
-        isEn_3.setLinkUrl("https://mp.weixin.qq.com/s/Ln0z3fqwBxT9dUP_dJL1uQ");
-        isEn_3.setTitle("上海妈妈在挪威，享受北欧式教育的幸福");
-        isEn_3.setUserName("安安和全全");
-        isEn_3.setSeries("手工积木系列");
-        isEn_3.setAddTime("2019-10-08 10:30");
-        isEn_3.setThemeType(2);
-        mainLists.add(isEn_3);
-        isEn_4.setPicUrl(AppConfig.IMAGE_URL+ "items_004.png");
-        isEn_4.setLinkUrl("https://mp.weixin.qq.com/s/7wPFWTCMn850gxgGqaOchw");
-        isEn_4.setTitle("芬兰：北欧小国的大教育观");
-        isEn_4.setUserName("Sampo");
-        isEn_4.setSeries("益智系列");
-        isEn_4.setAddTime("2019-09-26 14:00");
-        isEn_4.setThemeType(1);
-        mainLists.add(isEn_4);
-        isEn_5.setPicUrl(AppConfig.IMAGE_URL+ "items_005.png");
-        isEn_5.setLinkUrl("http://www.sohu.com/a/195309958_100007192");
-        isEn_5.setTitle("走进北欧教育——每个孩子都是独一无二的天使");
-        isEn_5.setUserName("松堡王国设计部");
-        isEn_5.setSeries("动手动脑系列");
-        isEn_5.setAddTime("2019-09-18 13:30");
-        isEn_5.setThemeType(2);
-        mainLists.add(isEn_5);
-
-        baseEn.setMainLists(mainLists);
-
-        return baseEn;
     }
 
 }

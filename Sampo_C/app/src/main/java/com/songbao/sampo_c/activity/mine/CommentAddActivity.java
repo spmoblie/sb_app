@@ -1,5 +1,6 @@
 package com.songbao.sampo_c.activity.mine;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -202,6 +203,14 @@ public class CommentAddActivity extends BaseActivity implements OnClickListener 
 		super.onDestroy();
 	}
 
+	@Override
+	public void finish() {
+		if (isPostOk) {
+			setResult(RESULT_OK, new Intent());
+		}
+		super.finish();
+	}
+
 	/**
 	 * 加载数据
 	 */
@@ -223,9 +232,9 @@ public class CommentAddActivity extends BaseActivity implements OnClickListener 
 	private void postData() {
 		if (data == null || data.getId() <= 0) return;
 		HashMap<String, Object> map = new HashMap<>();
-		map.put("goodsReviewsId", data.getId());
-		map.put("content", contentStr);
-		loadSVData(AppConfig.URL_COMMENT_APPEND, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_COMMENT_APPEND);
+		map.put("appendId", data.getId());
+		map.put("appendContext", contentStr);
+		loadSVData(AppConfig.URL_COMMENT_POST, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_COMMENT_POST);
 	}
 
 	@Override
@@ -252,7 +261,7 @@ public class CommentAddActivity extends BaseActivity implements OnClickListener 
 						handleErrorCode(baseEn);
 					}
 					break;
-				case AppConfig.REQUEST_SV_COMMENT_APPEND:
+				case AppConfig.REQUEST_SV_COMMENT_POST:
 					baseEn = JsonUtils.getBaseErrorData(jsonObject);
 					if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
 						isPostOk = true;

@@ -22,8 +22,7 @@ public class AppConfig {
 	public final static String BASE_URL_1 = APP_HTTP + "xiaobao.sbwg.cn/";
 	// 测试Url
 	public final static String BASE_URL_2 = APP_HTTP + "test.sbwg.cn/";
-	//public final static String BASE_URL_3 = APP_HTTP + "172.16.189.198:8802/";
-	public final static String BASE_URL_3 = BASE_URL_2;
+	public final static String BASE_URL_3 = APP_HTTP + "test.sbwg.cn/";
 	// 图片域名
 	public final static String IMAGE_URL = "file:///android_asset/";
 	// 推广域名
@@ -89,10 +88,8 @@ public class AppConfig {
 	public final static String URL_GOODS_ATTR = "app/shopping/goodsInfo/findAttrValueAll";
 	// 商品评价
 	public final static String URL_GOODS_COMMENT = "app/shopping/goodsInfo/goodsInfoEvaluation";
-	// 首次评价
-	public final static String URL_COMMENT_FIRST = "app/shopping/goodsInfo/addGoodsEvaluation";
-	// 追加评价
-	public final static String URL_COMMENT_APPEND = "app/shopping/goodsInfo/addAppendEvaluation";
+	// 发布评价
+	public final static String URL_COMMENT_POST = "app/shopping/goodsInfo/addGoodsEvaluation";
 	// 查询评价
 	public final static String URL_COMMENT_GET = "app/shopping/goodsInfo/getEvaluation";
 
@@ -247,12 +244,10 @@ public class AppConfig {
 	public static final int REQUEST_SV_GOODS_ATTR = 0X2014;
 	// 商品评价
 	public static final int REQUEST_SV_GOODS_COMMENT = 0X2015;
-	// 首次评价
-	public static final int REQUEST_SV_COMMENT_FIRST = 0X2016;
-	// 追加评价
-	public static final int REQUEST_SV_COMMENT_APPEND = 0X2017;
+	// 发布评价
+	public static final int REQUEST_SV_COMMENT_POST = 0X2016;
 	// 查询评价
-	public static final int REQUEST_SV_COMMENT_GET = 0X2018;
+	public static final int REQUEST_SV_COMMENT_GET = 0X2017;
 
 	// 购物添加
 	public static final int REQUEST_SV_CART_ADD = 0X2021;
@@ -589,6 +584,7 @@ public class AppConfig {
 	public static final int ACTIVITY_CODE_SELECT_ADDS = 0X9101;
 	public static final int ACTIVITY_CODE_EDIT_ADDRESS = 0X9102;
 	public static final int ACTIVITY_CODE_ORDER_UPDATE = 0X9111;
+	public static final int ACTIVITY_CODE_COMMENT_STATE = 0X9112;
 
 	/**
 	 ******************************************* Activity协议结束 ******************************************

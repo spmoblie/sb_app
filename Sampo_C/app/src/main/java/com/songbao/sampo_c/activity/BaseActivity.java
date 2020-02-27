@@ -502,28 +502,6 @@ public class BaseActivity extends FragmentActivity {
     }
 
     /**
-     * 打开我要评论页
-     */
-    protected void openCommentPostActivity(CommentEntity commentEn) {
-        if (commentEn != null) {
-            Intent intent = new Intent(mContext, CommentPostActivity.class);
-            intent.putExtra(AppConfig.PAGE_DATA, commentEn);
-            startActivity(intent);
-        }
-    }
-
-    /**
-     * 打开追加评论页
-     */
-    protected void openCommentAddActivity(CommentEntity commentEn) {
-        if (commentEn != null) {
-            Intent intent = new Intent(mContext, CommentAddActivity.class);
-            intent.putExtra(AppConfig.PAGE_DATA, commentEn);
-            startActivity(intent);
-        }
-    }
-
-    /**
      * 打开图片查看器
      *
      * @param urlLists

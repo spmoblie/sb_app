@@ -1,5 +1,6 @@
 package com.songbao.sampo_c.activity.mine;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -261,6 +262,14 @@ public class CommentPostActivity extends BaseActivity implements OnClickListener
 		super.onDestroy();
 	}
 
+	@Override
+	public void finish() {
+		if (isPostOk) {
+			setResult(RESULT_OK, new Intent());
+		}
+		super.finish();
+	}
+
 	private void checkUploadUrl() {
 		if (al_upload_url.size() > 0) {
 			String uploadUrl = al_upload_url.remove(0);
@@ -297,7 +306,7 @@ public class CommentPostActivity extends BaseActivity implements OnClickListener
 		if (!StringUtil.isNull(images)) {
 			map.put("evaluateImagesStr", images);
 		}
-		loadSVData(AppConfig.URL_COMMENT_FIRST, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_COMMENT_FIRST);
+		loadSVData(AppConfig.URL_COMMENT_POST, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_COMMENT_POST);
 	}
 
 	@Override
@@ -314,7 +323,7 @@ public class CommentPostActivity extends BaseActivity implements OnClickListener
 						handleErrorCode(baseEn);
 					}
 					break;
-				case AppConfig.REQUEST_SV_COMMENT_FIRST:
+				case AppConfig.REQUEST_SV_COMMENT_POST:
 					baseEn = JsonUtils.getBaseErrorData(jsonObject);
 					if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
 						isPostOk = true;
