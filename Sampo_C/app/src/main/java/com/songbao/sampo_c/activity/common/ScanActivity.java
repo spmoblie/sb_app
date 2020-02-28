@@ -41,7 +41,7 @@ public class ScanActivity extends BaseActivity {
             resultIntent.putExtras(bundle);
             setResult(RESULT_OK, resultIntent);*/
 
-			openGoodsActivity(result);
+			openGoodsOffActivity(result);
 			finish();
 		}
 

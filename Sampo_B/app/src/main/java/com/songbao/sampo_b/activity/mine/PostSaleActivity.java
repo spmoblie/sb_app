@@ -381,7 +381,7 @@ public class PostSaleActivity extends BaseActivity implements OnClickListener {
 	}
 
 	private void loadSaleData() {
-		HashMap<String, String> map = new HashMap<>();
+		HashMap<String, Object> map = new HashMap<>();
 		map.put("skuCode", skuCode);
 		loadSVData(AppConfig.URL_USER_MESSAGE, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_GOODS_SALE);
 	}

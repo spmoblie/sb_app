@@ -1,5 +1,6 @@
 package com.songbao.sampo_c.activity.mine;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.util.ArrayMap;
@@ -12,6 +13,7 @@ import com.songbao.sampo_c.R;
 import com.songbao.sampo_c.activity.BaseActivity;
 import com.songbao.sampo_c.adapter.AdapterCallback;
 import com.songbao.sampo_c.adapter.CommentORCAdapter;
+import com.songbao.sampo_c.entity.AddressEntity;
 import com.songbao.sampo_c.entity.BaseEntity;
 import com.songbao.sampo_c.entity.CommentEntity;
 import com.songbao.sampo_c.utils.ExceptionUtil;
@@ -57,7 +59,7 @@ public class CommentOrderActivity extends BaseActivity {
 	}
 
 	private void initView() {
-		setTitle("我的评价");
+		setTitle(R.string.comment_mine);
 
 		initRecyclerView();
 		loadMoreData();
@@ -115,7 +117,8 @@ public class CommentOrderActivity extends BaseActivity {
 
 			@Override
 			public void setOnClick(Object data, int position, int type) {
-				//if (position < 0 || position >= al_show.size()) return;
+				if (position < 0 || position >= al_show.size()) return;
+				openCommentAddActivity(al_show.get(position));
 			}
 		});
 		mRecyclerView.setAdapter(rvAdapter);
@@ -128,6 +131,27 @@ public class CommentOrderActivity extends BaseActivity {
 			setNullVisibility(View.GONE);
 		}
 		rvAdapter.updateData(al_show);
+	}
+
+	/**
+	 * 刷新所有数据
+	 */
+	private void updateAllData() {
+		al_show.clear();
+		am_show.clear();
+		load_page = 1;
+		loadMoreData();
+	}
+
+	/**
+	 * 打开追加评论页
+	 */
+	protected void openCommentAddActivity(CommentEntity commentEn) {
+		if (commentEn != null) {
+			Intent intent = new Intent(mContext, CommentAddActivity.class);
+			intent.putExtra(AppConfig.PAGE_DATA, commentEn);
+			startActivityForResult(intent, AppConfig.ACTIVITY_CODE_COMMENT_STATE);
+		}
 	}
 
 	@Override
@@ -175,14 +199,14 @@ public class CommentOrderActivity extends BaseActivity {
 	private void loadServerData() {
 		if (!isLoadOk) return; //加载频率控制
 		isLoadOk = false;
-		String page = String.valueOf(load_page);
+		int page = load_page;
 		if (load_type == 0) {
-			page = "1";
+			page = 1;
 		}
-		HashMap<String, String> map = new HashMap<>();
+		HashMap<String, Object> map = new HashMap<>();
 		map.put("page", page);
 		map.put("size", AppConfig.LOAD_SIZE);
-		loadSVData(AppConfig.URL_USER_MESSAGE, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_USER_MESSAGE);
+		loadSVData(AppConfig.URL_USER_COMMENT, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_USER_COMMENT);
 	}
 
 	@Override
@@ -190,7 +214,7 @@ public class CommentOrderActivity extends BaseActivity {
 		BaseEntity<CommentEntity> baseEn;
 		try {
 			switch (dataType) {
-				case AppConfig.REQUEST_SV_USER_MESSAGE:
+				case AppConfig.REQUEST_SV_USER_COMMENT:
 					baseEn = JsonUtils.getCommentOrderListData(jsonObject);
 					if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
 						data_total = baseEn.getDataTotal();
@@ -235,6 +259,16 @@ public class CommentOrderActivity extends BaseActivity {
 		isLoadOk = true;
 		refresh_rv.onPullUpRefreshComplete();
 		refresh_rv.onPullDownRefreshComplete();
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (resultCode == RESULT_OK) {
+			if (requestCode == AppConfig.ACTIVITY_CODE_COMMENT_STATE) {
+				updateAllData();
+			}
+		}
+		super.onActivityResult(requestCode, resultCode, data);
 	}
 
 }

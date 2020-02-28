@@ -131,7 +131,8 @@
     <!-- Main -->
     <string name="main_tab_text_1">首页</string>
     <string name="main_tab_text_2">商城</string>
-    <string name="main_tab_text_3">我的</string>
+    <string name="main_tab_text_3">定制</string>
+    <string name="main_tab_text_4">我的</string>
     <string name="main_head_tickets">门票购买</string>
     <string name="main_head_reserve">课程预订</string>
     <string name="main_head_title_cn">最新活动</string>
@@ -244,15 +245,18 @@
     <string name="designer_subscribe_tips">确认选择%1$s么?</string>
 
     <!-- comment -->
-    <string name="comment_me">我要评价</string>
+    <string name="comment_mine">我的评价</string>
+    <string name="comment_want">我要评价</string>
+    <string name="comment_good">精彩评价</string>
     <string name="comment_add">追加评价</string>
     <string name="comment_add_hint">追加一下你的使用体验吧~</string>
     <string name="comment_add_day">"购买%1$d天后追加评论"</string>
-    <string name="comment_all">全部</string>
+    <string name="comment_all">精彩</string>
     <string name="comment_new">最新</string>
     <string name="comment_img">有图</string>
     <string name="comment_star">整体评价</string>
     <string name="comment_ok">评论已发布</string>
+    <string name="comment_success">发布成功，审核通过后可查看~</string>
     <string name="comment_content_null">评价内容不能为空</string>
     <string name="comment_content_hint">说说它的优点和美中不足的地方吧~</string>
 
@@ -271,10 +275,13 @@
     <string name="goods_top_item_5">筛选</string>
     <string name="goods_price_min">最低价格</string>
     <string name="goods_price_max">最高价格</string>
+    <string name="goods_price_max_error">最高价格必须大于最低价格</string>
     <string name="goods_attach_1">免费送货入户并安装</string>
     <string name="goods_attach_2">正品保障，假一赔三</string>
     <string name="goods_attach_3">七天无理由退换货（拆封后不支持）</string>
     <string name="goods_attach_4">三年质保</string>
+    <string name="goods_code">商品编码</string>
+    <string name="goods_code_en">长按图片保存到手机相册</string>
     <string name="goods_spec_choice">规格选择</string>
     <string name="goods_spec_choice_en">SPECIFICATIONS CHOICES</string>
     <string name="goods_good_comment">精彩评价</string>

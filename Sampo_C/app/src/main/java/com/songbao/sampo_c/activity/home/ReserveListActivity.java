@@ -189,7 +189,6 @@ public class ReserveListActivity extends BaseActivity implements OnClickListener
 	private void loadMoreData() {
 		load_type = 1;
 		loadServerData();
-		//loadDemoData();
 	}
 
 	/**
@@ -198,14 +197,14 @@ public class ReserveListActivity extends BaseActivity implements OnClickListener
 	private void loadServerData() {
 		if (!isLoadOk) return; //加载频率控制
 		isLoadOk = false;
-		String page = String.valueOf(load_page);
+		int page = load_page;
 		if (load_type == 0) {
-			page = "1";
+			page = 1;
 		}
-		HashMap<String, String> map = new HashMap<>();
+		HashMap<String, Object> map = new HashMap<>();
 		map.put("page", page);
 		map.put("size", AppConfig.LOAD_SIZE);
-		map.put("isReservation", "1");
+		map.put("isReservation", 1);
 		loadSVData(AppConfig.URL_HOME_LIST, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_HOME_LIST);
 	}
 
@@ -259,42 +258,6 @@ public class ReserveListActivity extends BaseActivity implements OnClickListener
 		isLoadOk = true;
 		refresh_rv.onPullUpRefreshComplete();
 		refresh_rv.onPullDownRefreshComplete();
-	}
-
-	/**
-	 * 构建Demo数据
-	 */
-	private void loadDemoData() {
-		al_show.clear();
-
-		ThemeEntity chEn_1 = new ThemeEntity();
-		ThemeEntity chEn_2 = new ThemeEntity();
-		ThemeEntity chEn_3 = new ThemeEntity();
-
-		chEn_1.setPicUrl(AppConfig.IMAGE_URL+ "items_001.png");
-		chEn_1.setTitle("北欧教育 | 比NOKIA更震惊世界的芬兰品牌");
-		chEn_1.setUserName("松堡王国设计部");
-		chEn_1.setSeries("美学培养系列");
-		chEn_1.setAddTime("2019-10-18 10:30");
-		chEn_1.setThemeType(1);
-		al_show.add(chEn_1);
-		chEn_2.setPicUrl(AppConfig.IMAGE_URL+ "items_002.png");
-		chEn_2.setTitle("全球都在追捧的北欧教育，到底有哪些秘密？");
-		chEn_2.setUserName("松小堡线下运营");
-		chEn_2.setSeries("益智系列");
-		chEn_2.setAddTime("2019-10-10 15:30");
-		chEn_2.setThemeType(1);
-		al_show.add(chEn_2);
-		chEn_3.setPicUrl(AppConfig.IMAGE_URL+ "items_004.png");
-		chEn_3.setTitle("芬兰：北欧小国的大教育观");
-		chEn_3.setUserName("Sampo");
-		chEn_3.setSeries("益智系列");
-		chEn_3.setAddTime("2019-09-26 14:00");
-		chEn_3.setThemeType(1);
-		al_show.add(chEn_3);
-
-		updateListData();
-		stopAnimation();
 	}
 
 }

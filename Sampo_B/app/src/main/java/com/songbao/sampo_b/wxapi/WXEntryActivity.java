@@ -90,7 +90,7 @@ public class WXEntryActivity extends BaseActivity {
 	}
 
 	private void getWXAccessToken(String code) {
-		HashMap<String, String> map = new HashMap<>();
+		HashMap<String, Object> map = new HashMap<>();
 		map.put("appid", APP_ID);
 		map.put("secret", SECRET);
 		map.put("code", code);

@@ -761,33 +761,33 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 		if (StringUtil.isNull(sortCode) && attrEn == null) {
 			loadScreenAttrData();
 		}
-		String page = String.valueOf(load_page);
+		int page = load_page;
 		if (load_type == 0) {
-			page = "1";
+			page = 1;
 		}
-		HashMap<String, String> map = new HashMap<>();
+		HashMap<String, Object> map = new HashMap<>();
 		map.put("page", page);
 		map.put("size", AppConfig.LOAD_SIZE);
-		map.put("isHot", String.valueOf(isHot));
-		map.put("isNews", String.valueOf(isNews));
-		map.put("isRecommend", String.valueOf(isRecommend));
-		map.put("orderByKey", String.valueOf(top_type));
+		map.put("orderByKey", top_type);
 		if (sort_type > 0) {
-			map.put("sortByNum", String.valueOf(sort_type));
+			map.put("sortByNum", sort_type);
 		}
 		if (!StringUtil.isNull(searchStr)) {
 			map.put("txt", searchStr);
 		} else {
 			if (!StringUtil.isNull(sortCode)) {
 				map.put("refCatCode", sortCode);
+				map.put("isHot", isHot);
+				map.put("isNews", isNews);
+				map.put("isRecommend", isRecommend);
 			}
 		}
 		if (!StringUtil.isNull(screenStr)) {
 			map.put("selecteds", screenStr);
 		}
 		if (min_price > 0 || max_price > 0) {
-			map.put("startPrice", String.valueOf(min_price));
-			map.put("endPrice", String.valueOf(max_price));
+			map.put("startPrice", min_price);
+			map.put("endPrice", max_price);
 		}
 		loadSVData(AppConfig.URL_GOODS_LIST, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_GOODS_LIST);
 	}
@@ -796,7 +796,7 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 	 * 加载筛选属性数据
 	 */
 	private void loadScreenAttrData() {
-		HashMap<String, String> map = new HashMap<>();
+		HashMap<String, Object> map = new HashMap<>();
 		loadSVData(AppConfig.URL_SCREEN_ATTR, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_SCREEN_ATTR);
 	}
 

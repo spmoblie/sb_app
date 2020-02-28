@@ -381,7 +381,7 @@ public class AddressActivity extends BaseActivity implements View.OnClickListene
     private void loadServerData() {
         if (!isLoadOk) return; //加载频率控制
         isLoadOk = false;
-        HashMap<String, String> map = new HashMap<>();
+        HashMap<String, Object> map = new HashMap<>();
         loadSVData(AppConfig.BASE_URL_3, AppConfig.URL_ADDRESS_LIST, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_ADDRESS_LIST);
     }
 

@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/goods_off_view_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/ui_color_app_bg_01">
+
+    <com.songbao.sampo_c.widgets.ObservableScrollView
+        android:id="@+id/goods_off_view_sv"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <android.support.v4.view.ViewPager
+                    android:id="@+id/goods_off_view_vp"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    app:layout_constraintDimensionRatio="3:2" />
+
+                <LinearLayout
+                    android:id="@+id/goods_off_vp_indicator"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="@dimen/margin_padding_20"
+                    android:orientation="horizontal"
+                    app:layout_constraintBottom_toBottomOf="@+id/goods_off_view_vp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent" />
+
+                <android.support.constraint.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/margin_padding_10"
+                    android:background="@drawable/shape_style_solid_01_16"
+                    app:layout_constraintTop_toBottomOf="@+id/goods_off_vp_indicator">
+
+                    <TextView
+                        android:id="@+id/goods_off_tv_goods_name"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="@dimen/app_margin_screen"
+                        android:layout_marginEnd="@dimen/app_margin_screen"
+                        android:layout_marginTop="@dimen/margin_padding_20"
+                        android:textColor="@color/shows_text_color"
+                        android:textSize="@dimen/app_text_size_title"
+                        android:textStyle="bold"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/goods_off_tv_code"
+                        style="@style/goods_text"
+                        android:layout_marginStart="@dimen/app_margin_screen"
+                        android:layout_marginTop="@dimen/margin_padding_40"
+                        android:text="@string/goods_code"
+                        android:textColor="@color/shows_text_color"
+                        android:textSize="@dimen/app_text_size_title"
+                        android:textStyle="bold"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/goods_off_tv_goods_name" />
+
+                    <TextView
+                        android:id="@+id/goods_off_tv_code_en"
+                        style="@style/goods_text"
+                        android:text="@string/goods_code_en"
+                        android:textSize="@dimen/app_text_size_minis"
+                        app:layout_constraintLeft_toLeftOf="@+id/goods_off_tv_code"
+                        app:layout_constraintTop_toBottomOf="@+id/goods_off_tv_code" />
+
+                    <TextView
+                        android:id="@+id/goods_off_tv_code_sign"
+                        android:layout_width="@dimen/margin_padding_12"
+                        android:layout_height="@dimen/margin_padding_12"
+                        android:layout_marginEnd="@dimen/margin_padding_10"
+                        android:background="@drawable/shape_style_app_status"
+                        app:layout_constraintBottom_toBottomOf="@+id/goods_off_tv_code"
+                        app:layout_constraintRight_toLeftOf="@+id/goods_off_tv_code"
+                        app:layout_constraintTop_toTopOf="@+id/goods_off_tv_code" />
+
+                    <ImageView
+                        android:id="@+id/goods_off_iv_code"
+                        android:layout_width="215dp"
+                        android:layout_height="215dp"
+                        android:layout_marginTop="@dimen/margin_padding_30"
+                        android:contentDescription="@string/desc"
+                        android:scaleType="fitCenter"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/goods_off_tv_code_en" />
+
+                    <TextView
+                        android:id="@+id/goods_off_tv_code_show"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/app_color_red_p"
+                        android:textSize="@dimen/app_text_size_content"
+                        android:textStyle="bold"
+                        app:layout_constraintLeft_toLeftOf="@+id/goods_off_iv_code"
+                        app:layout_constraintRight_toRightOf="@+id/goods_off_iv_code"
+                        app:layout_constraintTop_toBottomOf="@+id/goods_off_iv_code"/>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/margin_padding_120"
+                        app:layout_constraintTop_toBottomOf="@+id/goods_off_tv_code_show"/>
+
+                </android.support.constraint.ConstraintLayout>
+
+            </android.support.constraint.ConstraintLayout>
+        </LinearLayout>
+    </com.songbao.sampo_c.widgets.ObservableScrollView>
+
+    <TextView
+        android:id="@+id/goods_off_tv_click"
+        style="@style/common_text_button"
+        android:layout_width="match_parent"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="@dimen/margin_padding_30"
+        android:layout_marginStart="@dimen/app_margin_screen"
+        android:layout_marginEnd="@dimen/app_margin_screen"
+        android:padding="@dimen/app_margin_screen"
+        android:text="@string/goods_go_customize"
+        android:textSize="@dimen/app_text_size_title"
+        android:textStyle="bold" />
+
+</FrameLayout>

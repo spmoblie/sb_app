@@ -318,7 +318,7 @@ public class AppApplication extends Application {
      */
     public static void AppLogout() {
         // 远程退出
-        HashMap<String, String> map = new HashMap<>();
+        HashMap<String, Object> map = new HashMap<>();
         HttpRequests.getInstance()
                 .loadData(AppConfig.BASE_TYPE, AppConfig.URL_AUTH_LOGOUT, map, HttpRequests.HTTP_POST)
                 .subscribe(new Observer<ResponseBody>() {

@@ -321,7 +321,7 @@ public class UserManager {
 			AppApplication.onPushRegister(true);
 			// 是否跳转子页至"我的"
 			if (sp.getBoolean(AppConfig.KEY_JUMP_PAGE, false)) {
-				editor.putInt(AppConfig.KEY_MAIN_CURRENT_INDEX, 2).apply();
+				AppApplication.jumpToHomePage(AppConfig.PAGE_MAIN_MINE);
 			}
 		}
 	}
@@ -348,8 +348,7 @@ public class UserManager {
 		// 刷新所有状态数据
 		updateAllDataStatus();
 		// 回退至"首页"
-		//editor.putBoolean(AppConfig.KEY_JUMP_PAGE, true).apply();
-		//editor.putInt(AppConfig.KEY_MAIN_CURRENT_INDEX, 0).apply();
+		//AppApplication.jumpToHomePage(0);
 	}
 
 	/**

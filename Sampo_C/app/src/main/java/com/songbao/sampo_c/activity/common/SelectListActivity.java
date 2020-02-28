@@ -152,7 +152,7 @@ public class SelectListActivity extends BaseActivity {
 	 * 修改用户资料
 	 */
 	private void saveUserInfo() {
-		HashMap<String, String> map = new HashMap<>();
+		HashMap<String, Object> map = new HashMap<>();
 		map.put(userKey, userValue);
 		loadSVData(AppConfig.URL_USER_SAVE, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_USER_SAVE);
 	}

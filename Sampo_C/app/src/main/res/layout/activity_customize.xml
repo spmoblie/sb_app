@@ -600,7 +600,7 @@
                 android:id="@+id/customize_tv_module_9_comment"
                 style="@style/order_text_button"
                 android:background="@drawable/shape_style_solid_06_08"
-                android:text="@string/comment_me"
+                android:text="@string/comment_want"
                 android:textColor="@color/app_color_white"
                 android:visibility="gone"
                 app:layout_constraintRight_toRightOf="parent"

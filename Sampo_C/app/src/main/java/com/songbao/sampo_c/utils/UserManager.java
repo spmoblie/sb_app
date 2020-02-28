@@ -345,7 +345,7 @@ public class UserManager {
 			AppApplication.onPushRegister(true);
 			// 是否跳转子页至"我的"
 			if (sp.getBoolean(AppConfig.KEY_JUMP_PAGE, false)) {
-				AppApplication.jumpToHomePage(2);
+				AppApplication.jumpToHomePage(AppConfig.PAGE_MAIN_MINE);
 			}
 			// 清除短信验证码次数限制
 			editor.putInt(AppConfig.KEY_SEND_VERIFY_NUMBER, 0).apply();

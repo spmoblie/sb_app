@@ -398,10 +398,10 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
      * 提交支付信息
      */
     private void postPayInfo() {
-        HashMap<String, String> map = new HashMap<>();
-        map.put("paymentType", String.valueOf(payType));
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("paymentType", payType);
         map.put("outTradeNo", orderSn);
-        map.put("sourceType", String.valueOf(sourceType));
+        map.put("sourceType", sourceType);
         map.put("tradeType", AppConfig.LOAD_TYPE);
         loadSVData(AppConfig.URL_PAY_PARAMETER, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_PAY_PARAMETER);
     }
@@ -410,9 +410,9 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
      * 发起支付校验
      */
     private void postPayCheck() {
-        HashMap<String, String> map = new HashMap<>();
+        HashMap<String, Object> map = new HashMap<>();
         map.put("outTradeNo", orderSn);
-        map.put("sourceType", String.valueOf(sourceType));
+        map.put("sourceType", sourceType);
         map.put("tradeType", AppConfig.LOAD_TYPE);
         loadSVData(AppConfig.URL_PAY_CHECK_RESULT, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_PAY_CHECK_RESULT);
     }
@@ -520,7 +520,7 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
     public void handlerPayCancel() {
         if (isToOrder) {
             // 回退至“我的”
-            AppApplication.jumpToHomePage(2);
+            AppApplication.jumpToHomePage(AppConfig.PAGE_MAIN_MINE);
             // 跳转至“我的购买”
             Intent intent = new Intent(mContext, MyPurchaseActivity.class);
             intent.putExtra("top_type", MyPurchaseActivity.TYPE_2);

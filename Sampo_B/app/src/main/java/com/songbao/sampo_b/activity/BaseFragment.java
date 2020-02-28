@@ -195,28 +195,28 @@ public class BaseFragment extends Fragment {
 	/**
 	 * 提交标准Json格式数据
 	 */
-	protected void postJsonData(String path, HashMap<String, String> map, int httpType, final int dataType) {
+	protected void postJsonData(String path, HashMap<String, Object> map, int httpType, final int dataType) {
 		loadSVData("", path, map, httpType, dataType);
 	}
 
 	/**
 	 * 提交标准Json格式数据
 	 */
-	protected void postJsonData(String head, String path, HashMap<String, String> map, int httpType, final int dataType) {
+	protected void postJsonData(String head, String path, HashMap<String, Object> map, int httpType, final int dataType) {
 		loadSVData(head, path, map, httpType, dataType);
 	}
 
 	/**
 	 * 加载网络数据
 	 */
-	protected void loadSVData(String path, HashMap<String, String> map, int httpType, final int dataType) {
+	protected void loadSVData(String path, HashMap<String, Object> map, int httpType, final int dataType) {
 		loadSVData("", path, map, httpType, dataType);
 	}
 
 	/**
 	 * 加载网络数据
 	 */
-	protected void loadSVData(String head, String path, HashMap<String, String> map, int httpType, final int dataType) {
+	protected void loadSVData(String head, String path, HashMap<String, Object> map, int httpType, final int dataType) {
 		if (StringUtil.isNull(head)) {
 			head = AppConfig.BASE_TYPE;
 		}

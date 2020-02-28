@@ -12,13 +12,14 @@ public class CommentEntity extends BaseEntity {
 	private String addTime; //创建时间
 	private String content; //评论内容
 	private String addContent; //追加内容
+	private String orderNo; //关联订单
 	private String goodsAttr; //商品属性
 	private int number; //评论数量
 	private int goodStar; //好评率
 	private int addDay; //多少天后追加
 	private float starNum; //评论星级
 	private boolean isAdd; //是否可追加
-	private boolean isImg; //是否待图片
+	private boolean isImg; //是否有图片
 	private GoodsEntity goodsEn; //关联商品
 	private ArrayList<String> imgList; //评论图片
 
@@ -79,6 +80,14 @@ public class CommentEntity extends BaseEntity {
 		this.addContent = addContent;
 	}
 
+	public String getOrderNo() {
+		return orderNo;
+	}
+
+	public void setOrderNo(String orderNo) {
+		this.orderNo = orderNo;
+	}
+
 	public String getGoodsAttr() {
 		return goodsAttr;
 	}
@@ -113,7 +122,7 @@ public class CommentEntity extends BaseEntity {
 
 	public float getStarNum() {
 		if (starNum < 1) {
-			return 1;
+			return 5;
 		}
 		return starNum;
 	}

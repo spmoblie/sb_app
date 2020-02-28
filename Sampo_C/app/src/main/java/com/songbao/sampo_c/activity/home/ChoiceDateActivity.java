@@ -338,7 +338,7 @@ public class ChoiceDateActivity extends BaseActivity implements View.OnClickList
      * 加载日期数据
      */
     private void loadDateData() {
-        HashMap<String, String> map = new HashMap<>();
+        HashMap<String, Object> map = new HashMap<>();
         map.put("activityId", themeId);
         loadSVData(AppConfig.URL_RESERVATION_DATE, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_RESERVATION_DATE);
     }
@@ -347,7 +347,7 @@ public class ChoiceDateActivity extends BaseActivity implements View.OnClickList
      * 加载时段数据
      */
     private void loadTimeData() {
-        HashMap<String, String> map = new HashMap<>();
+        HashMap<String, Object> map = new HashMap<>();
         map.put("activityId", themeId);
         map.put("raStartTime", selectDay + " 00:00:00");
         loadSVData(AppConfig.URL_RESERVATION_TIME, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_RESERVATION_TIME);
@@ -357,7 +357,7 @@ public class ChoiceDateActivity extends BaseActivity implements View.OnClickList
      * 提交校验时段数据
      */
     private void postCheckData() {
-        HashMap<String, String> map = new HashMap<>();
+        HashMap<String, Object> map = new HashMap<>();
         map.put("activityId", themeId);
         map.put("reservationActivityId", selectTimeId);
         loadSVData(AppConfig.URL_RESERVATION_IS, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_RESERVATION_IS);

@@ -248,7 +248,7 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
      * 获取用户信息
      */
     private void loadUserInfo() {
-        HashMap<String, String> map = new HashMap<>();
+        HashMap<String, Object> map = new HashMap<>();
         loadSVData(AppConfig.URL_USER_GET, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_USER_GET);
     }
 
@@ -256,7 +256,7 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
      * 刷新“我的”数据
      */
     private void refreshMineData() {
-        HashMap<String, String> map = new HashMap<>();
+        HashMap<String, Object> map = new HashMap<>();
         loadSVData(AppConfig.URL_USER_DYNAMIC, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_USER_DYNAMIC);
     }
 

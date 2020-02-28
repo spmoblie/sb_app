@@ -22,8 +22,7 @@ public class AppConfig {
 	public final static String BASE_URL_1 = APP_HTTP + "xiaobao.sbwg.cn/";
 	// 测试Url
 	public final static String BASE_URL_2 = APP_HTTP + "test.sbwg.cn/";
-	//public final static String BASE_URL_3 = APP_HTTP + "172.16.189.198:8802/";
-	public final static String BASE_URL_3 = BASE_URL_2;
+	public final static String BASE_URL_3 = APP_HTTP + "test.sbwg.cn/";
 	// 图片域名
 	public final static String IMAGE_URL = "file:///android_asset/";
 	// 推广域名
@@ -81,12 +80,18 @@ public class AppConfig {
 	public final static String URL_SCREEN_ATTR = "app/shopping/getAttrValues";
 	// 商品列表
 	public final static String URL_GOODS_LIST = "app/shopping/searchGoodsInfo";
-	// 商品详情
-	public final static String URL_GOODS_DETAIL = "app/shopping/goodsInfo/detail";
+	// 线上商品
+	public final static String URL_GOODS_INFO_UP = "app/shopping/goodsInfo/detail";
+	// 线下商品
+	public final static String URL_GOODS_INFO_OFF = "app/shopping/goodsInfo/offlineDetail";
 	// 商品属性
 	public final static String URL_GOODS_ATTR = "app/shopping/goodsInfo/findAttrValueAll";
 	// 商品评价
 	public final static String URL_GOODS_COMMENT = "app/shopping/goodsInfo/goodsInfoEvaluation";
+	// 发布评价
+	public final static String URL_COMMENT_POST = "app/shopping/goodsInfo/addGoodsEvaluation";
+	// 查询评价
+	public final static String URL_COMMENT_GET = "app/shopping/goodsInfo/getEvaluation";
 
 	// 购物添加
 	public final static String URL_CART_ADD = "trade/app/cart/add";
@@ -111,6 +116,8 @@ public class AppConfig {
 	public final static String URL_USER_MESSAGE = "app/user/message";
 	// 消息状态
 	public final static String URL_USER_MESSAGE_STATUS = "app/user/message/updateStatus";
+	// 我的评价
+	public final static String URL_USER_COMMENT = "app/user/evaluateList";
 	// 我的门票
 	public final static String URL_USER_TICKETS = "app/user/tickets";
 	// 我的活动
@@ -232,11 +239,15 @@ public class AppConfig {
 	// 筛选属性
 	public static final int REQUEST_SV_SCREEN_ATTR = 0X2012;
 	// 商品详情
-	public static final int REQUEST_SV_GOODS_DETAIL = 0X2013;
+	public static final int REQUEST_SV_GOODS_INFO = 0X2013;
 	// 商品属性
 	public static final int REQUEST_SV_GOODS_ATTR = 0X2014;
 	// 商品评价
 	public static final int REQUEST_SV_GOODS_COMMENT = 0X2015;
+	// 发布评价
+	public static final int REQUEST_SV_COMMENT_POST = 0X2016;
+	// 查询评价
+	public static final int REQUEST_SV_COMMENT_GET = 0X2017;
 
 	// 购物添加
 	public static final int REQUEST_SV_CART_ADD = 0X2021;
@@ -264,6 +275,8 @@ public class AppConfig {
 
 	// 我的消息
 	public static final int REQUEST_SV_USER_MESSAGE = 0X3101;
+	// 我的评价
+	public static final int REQUEST_SV_USER_COMMENT = 0X3111;
 	// 我的门票
 	public static final int REQUEST_SV_USER_TICKETS = 0X3121;
 	// 我的活动
@@ -333,6 +346,9 @@ public class AppConfig {
 	 ******************************************* 全局常量设置开始 ******************************************
 	 */
 
+	// 主页子页面“我的”下标索引值
+	public static final int PAGE_MAIN_MINE = 3;
+
 	// 全局对话框“确定”
 	public static final int DIALOG_CLICK_OK = 0X8666;
 	// 全局对话框“取消”
@@ -371,21 +387,25 @@ public class AppConfig {
 	public static final int ORDER_STATUS_801 = 800; //已完成
 	// 商品状态码
 	public static final int GOODS_SALE_01 = 1; //未售后
-	public static final int GOODS_SALE_02 = 2; //退款中
-	public static final int GOODS_SALE_03 = 3; //已退款
-	public static final int GOODS_SALE_04 = 4; //换货中
-	public static final int GOODS_SALE_05 = 5; //已换货
-	public static final int GOODS_COMM_01 = 6; //未评价
-	public static final int GOODS_COMM_02 = 7; //已评价
-	public static final int GOODS_COMM_03 = 8; //已追评
+	public static final int GOODS_SALE_02 = 2; //审核中
+	public static final int GOODS_SALE_03 = 3; //退款中
+	public static final int GOODS_SALE_04 = 4; //已退款
+	public static final int GOODS_SALE_05 = 5; //换货中
+	public static final int GOODS_SALE_06 = 6; //已换货
+	public static final int GOODS_COMM_01 = 901; //未评价
+	public static final int GOODS_COMM_02 = 902; //已评价
+	public static final int GOODS_COMM_03 = 903; //已追评
+	public static final int GOODS_COMM_04 = 904; //已过期
 
 	// 图片宽高比例
 	public static final int IMG_WIDTHS = 16;
 	public static final int IMG_HEIGHT = 9;
 	// 网络请求标识
 	public static final String LOAD_TYPE = "APP";
+	// 加载数据标识
+	public static final int DATA_TYPE = 1;
 	// 加载数据数量
-	public static final String LOAD_SIZE = "10";
+	public static final int LOAD_SIZE = 10;
 	// 加载缓冲时间
 	public static final int LOADING_TIME = 200;
 	// 验证码倒计时
@@ -408,11 +428,11 @@ public class AppConfig {
 	// QQ授权接口参数：Scope权限
 	public static final String QQ_SCOPE = "all";
 	// 微信AppID
-	public static final String WX_APP_ID = "wx3752761ec2277f9a";
+	public static final String WX_APP_ID = "wx1202dda899b1358e";
 	// 微信AppSecret
-	public static final String WX_APP_SECRET = "84221323948ca7853d110a3b1b7c5aa3";
+	public static final String WX_APP_SECRET = "5a9dd284d8b3976f123c9937f1568b70";
 	// 微信商户号
-	public static final String WX_MCH_ID = "1519773011";
+	public static final String WX_MCH_ID = "1571075271";
 	// 微博AppID
 	public static final String WB_APP_ID = "2435385654";
 	// 微博授权回调Url
@@ -564,6 +584,7 @@ public class AppConfig {
 	public static final int ACTIVITY_CODE_SELECT_ADDS = 0X9101;
 	public static final int ACTIVITY_CODE_EDIT_ADDRESS = 0X9102;
 	public static final int ACTIVITY_CODE_ORDER_UPDATE = 0X9111;
+	public static final int ACTIVITY_CODE_COMMENT_STATE = 0X9112;
 
 	/**
 	 ******************************************* Activity协议结束 ******************************************

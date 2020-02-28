@@ -111,8 +111,8 @@ public class CommentGLVAdapter extends AppBaseAdapter<CommentEntity> {
 		holder.tv_add_content.setVisibility(View.GONE);
 		if (!StringUtil.isNull(data.getAddContent())) {
 			holder.tv_add_day.setVisibility(View.VISIBLE);
-			holder.tv_add_content.setVisibility(View.VISIBLE);
 			holder.tv_add_day.setText(context.getString(R.string.comment_add_day, data.getAddDay()));
+			holder.tv_add_content.setVisibility(View.VISIBLE);
 			holder.tv_add_content.setText(data.getAddContent());
 		}
 

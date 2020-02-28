@@ -1,5 +1,6 @@
 package com.songbao.sampo_c.activity.mine;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -19,14 +20,23 @@ import com.songbao.sampo_c.AppApplication;
 import com.songbao.sampo_c.AppConfig;
 import com.songbao.sampo_c.R;
 import com.songbao.sampo_c.activity.BaseActivity;
+import com.songbao.sampo_c.entity.BaseEntity;
 import com.songbao.sampo_c.entity.CommentEntity;
 import com.songbao.sampo_c.entity.GoodsEntity;
 import com.songbao.sampo_c.utils.CommonTools;
+import com.songbao.sampo_c.utils.ExceptionUtil;
+import com.songbao.sampo_c.utils.JsonUtils;
 import com.songbao.sampo_c.utils.LogUtil;
 import com.songbao.sampo_c.utils.StringUtil;
+import com.songbao.sampo_c.utils.retrofit.HttpRequests;
 import com.songbao.sampo_c.widgets.RoundImageView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import butterknife.BindView;
 
@@ -67,8 +77,9 @@ public class CommentAddActivity extends BaseActivity implements OnClickListener 
 
 	RelativeLayout.LayoutParams goodsImgLP;
 
-	private String contentStr;
 	private CommentEntity data;
+	private boolean isPostOk = false;
+	private String orderNo, goodsCode, skuCode, skuComboName, contentStr;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -92,8 +103,13 @@ public class CommentAddActivity extends BaseActivity implements OnClickListener 
 		goodsImgLP.height = imageSize;
 
 		if (data != null) {
+			orderNo = data.getOrderNo();
 			GoodsEntity goodsEn = data.getGoodsEn();
 			if (goodsEn != null) {
+				goodsCode = goodsEn.getGoodsCode();
+				skuCode = goodsEn.getSkuCode();
+				skuComboName = goodsEn.getAttribute();
+
 				Glide.with(AppApplication.getAppContext())
 						.load(goodsEn.getPicUrl())
 						.apply(AppApplication.getShowOptions())
@@ -103,10 +119,6 @@ public class CommentAddActivity extends BaseActivity implements OnClickListener 
 				tv_attr.setText(goodsEn.getAttribute());
 			}
 
-			tv_time.setText(data.getAddTime());
-			rb_star.setRating(data.getStarNum());
-			tv_content.setText(data.getContent());
-
 			// 评论图片
 			if (data.isImg()) {
 				sv_main.setVisibility(View.VISIBLE);
@@ -114,6 +126,14 @@ public class CommentAddActivity extends BaseActivity implements OnClickListener 
 			} else {
 				ll_main.removeAllViews();
 				sv_main.setVisibility(View.GONE);
+			}
+
+			tv_time.setText(data.getAddTime());
+			rb_star.setRating(data.getStarNum());
+			tv_content.setText(data.getContent());
+
+			if (StringUtil.isNull(data.getContent())) {
+				loadServerData();
 			}
 		}
 	}
@@ -152,6 +172,7 @@ public class CommentAddActivity extends BaseActivity implements OnClickListener 
 	public void onClick(View v) {
 		switch (v.getId()) {
 			case R.id.comment_add_tv_post:
+				if (isPostOk) return;
 				if (checkData()) {
 					postData();
 				}
@@ -182,15 +203,90 @@ public class CommentAddActivity extends BaseActivity implements OnClickListener 
 		super.onDestroy();
 	}
 
+	@Override
+	public void finish() {
+		if (isPostOk) {
+			setResult(RESULT_OK, new Intent());
+		}
+		super.finish();
+	}
+
+	/**
+	 * 加载数据
+	 */
+	private void loadServerData() {
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("sourceType", AppConfig.DATA_TYPE);
+		map.put("orderNo", orderNo);
+		if (!StringUtil.isNull(skuCode)) {
+			map.put("skuCode", skuCode);
+		} else {
+			map.put("goodsCode", goodsCode);
+		}
+		loadSVData(AppConfig.URL_COMMENT_GET, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_COMMENT_GET);
+	}
+
+	/**
+	 * 发布追评
+	 */
 	private void postData() {
-		startAnimation();
-		new Handler().postDelayed(new Runnable() {
-			@Override
-			public void run() {
-				CommonTools.showToast(contentStr + "发布成功，待审核~");
-				stopAnimation();
+		if (data == null || data.getId() <= 0) return;
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("appendId", data.getId());
+		map.put("appendContext", contentStr);
+		loadSVData(AppConfig.URL_COMMENT_POST, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_COMMENT_POST);
+	}
+
+	@Override
+	protected void callbackData(JSONObject jsonObject, int dataType) {
+		BaseEntity<CommentEntity> baseEn;
+		try {
+			switch (dataType) {
+				case AppConfig.REQUEST_SV_COMMENT_GET:
+					baseEn = JsonUtils.getCommentInfoData(jsonObject);
+					if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
+						CommentEntity loadData = baseEn.getData();
+						if (loadData != null) {
+							data.setId(loadData.getId());
+							data.setContent(loadData.getContent());
+							data.setAddTime(loadData.getAddTime());
+							data.setStarNum(loadData.getStarNum());
+							data.setImg(loadData.isImg());
+							data.setImgList(loadData.getImgList());
+							data.setAddDay(loadData.getAddDay());
+							data.setAddContent(loadData.getAddContent());
+						}
+						initView();
+					} else {
+						handleErrorCode(baseEn);
+					}
+					break;
+				case AppConfig.REQUEST_SV_COMMENT_POST:
+					baseEn = JsonUtils.getBaseErrorData(jsonObject);
+					if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
+						isPostOk = true;
+						CommonTools.showToast(getString(R.string.comment_success));
+						new Handler().postDelayed(new Runnable() {
+							@Override
+							public void run() {
+								finish();
+							}
+						}, 500);
+					} else {
+						handleErrorCode(baseEn);
+					}
+					break;
 			}
-		}, AppConfig.LOADING_TIME);
+		} catch (Exception e) {
+			loadFailHandle();
+			ExceptionUtil.handle(e);
+		}
+	}
+
+	@Override
+	protected void loadFailHandle() {
+		super.loadFailHandle();
+		handleErrorCode(null);
 	}
 
 }

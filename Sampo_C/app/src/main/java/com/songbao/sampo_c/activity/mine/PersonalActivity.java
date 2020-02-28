@@ -384,7 +384,7 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
      */
     private void saveUserInfo() {
         if (!StringUtil.isNull(changeStr) && !StringUtil.isNull(userKey)) {
-            HashMap<String, String> map = new HashMap<>();
+            HashMap<String, Object> map = new HashMap<>();
             map.put(userKey, changeStr);
             loadSVData(AppConfig.URL_USER_SAVE, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_USER_SAVE);
         }

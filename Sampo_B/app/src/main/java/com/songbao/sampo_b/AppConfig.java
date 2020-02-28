@@ -22,7 +22,7 @@ public class AppConfig {
 	public final static String BASE_URL_1 = APP_HTTPS + "xiaobao.sbwg.cn/";
 	// 测试Url
 	public final static String BASE_URL_2 = APP_HTTP + "192.168.1.110:8080/";
-	public final static String BASE_URL_3 = BASE_URL_1;
+	public final static String BASE_URL_3 = "";
 	// 推广域名
 	public final static String SHARE_URL = BASE_URL_1;
 	// 图片域名
@@ -209,6 +209,9 @@ public class AppConfig {
 	 ******************************************* 全局常量设置开始 ******************************************
 	 */
 
+	// 主页子页面“我的”下标索引值
+	public static final int PAGE_MAIN_MINE = 2;
+
 	// 全局对话框“确定”
 	public static final int DIALOG_CLICK_OK = 0X8666;
 	// 全局对话框“取消”
@@ -246,7 +249,7 @@ public class AppConfig {
 	// 网络请求标识
 	public static final String LOAD_TYPE = "APP";
 	// 加载数据数量
-	public static final String LOAD_SIZE = "10";
+	public static final int LOAD_SIZE = 10;
 	// 加载缓冲时间
 	public static final int LOADING_TIME = 200;
 	// 验证码倒计时
@@ -266,11 +269,11 @@ public class AppConfig {
 	// QQ授权接口参数：Scope权限
 	public static final String QQ_SCOPE = "all";
 	// 微信AppID
-	public static final String WX_APP_ID = "wx3752761ec2277f9a";
+	public static final String WX_APP_ID = "wx1202dda899b1358e";
 	// 微信AppSecret
-	public static final String WX_APP_SECRET = "84221323948ca7853d110a3b1b7c5aa3";
+	public static final String WX_APP_SECRET = "5a9dd284d8b3976f123c9937f1568b70";
 	// 微信商户号
-	public static final String WX_MCH_ID = "1519773011";
+	public static final String WX_MCH_ID = "1571075271";
 	// 微博AppID
 	public static final String WB_APP_ID = "2435385654";
 	// 微博授权回调Url

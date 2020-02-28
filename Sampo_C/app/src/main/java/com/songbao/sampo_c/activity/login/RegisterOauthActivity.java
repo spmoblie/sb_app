@@ -321,7 +321,7 @@ public class RegisterOauthActivity extends BaseActivity implements OnClickListen
 	}
 
 	private void sendMessageAuth() {
-		HashMap<String, String> map = new HashMap<>();
+		HashMap<String, Object> map = new HashMap<>();
 		map.put("mobile", phoneStr);
 		map.put("type", "2020611");
 		loadSVData(AppConfig.URL_AUTH_MESSAGE, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_AUTH_MESSAGE);
@@ -338,7 +338,7 @@ public class RegisterOauthActivity extends BaseActivity implements OnClickListen
 					jsonObj.put("avatarUrl", avatar);
 					jsonObj.put("gender", gender);
 
-					HashMap<String, String> map = new HashMap<>();
+					HashMap<String, Object> map = new HashMap<>();
 					map.put("mobile", phoneStr);
 					map.put("code", codeStr);
 					map.put("codeType", "2020611");
