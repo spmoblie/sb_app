@@ -51,7 +51,7 @@ public class CommentGoodsActivity extends BaseActivity implements View.OnClickLi
 	CommentGRCAdapter rvAdapter;
 	MyRecyclerView mRecyclerView;
 
-	private final int DATA_TYPE_01 = 100; //全部
+	private final int DATA_TYPE_01 = 100; //精彩
 	private final int DATA_TYPE_02 = 101; //最新
 	private final int DATA_TYPE_03 = 102; //有图
 	private int dataType = DATA_TYPE_01; //数据类型

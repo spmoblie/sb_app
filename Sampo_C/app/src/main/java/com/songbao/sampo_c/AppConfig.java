@@ -428,11 +428,11 @@ public class AppConfig {
 	// QQ授权接口参数：Scope权限
 	public static final String QQ_SCOPE = "all";
 	// 微信AppID
-	public static final String WX_APP_ID = "wx3752761ec2277f9a";
+	public static final String WX_APP_ID = "wx1202dda899b1358e";
 	// 微信AppSecret
-	public static final String WX_APP_SECRET = "84221323948ca7853d110a3b1b7c5aa3";
+	public static final String WX_APP_SECRET = "5a9dd284d8b3976f123c9937f1568b70";
 	// 微信商户号
-	public static final String WX_MCH_ID = "1519773011";
+	public static final String WX_MCH_ID = "1571075271";
 	// 微博AppID
 	public static final String WB_APP_ID = "2435385654";
 	// 微博授权回调Url
