@@ -17,12 +17,12 @@ public class AppConfig {
 	// https协议
 	public final static String APP_HTTPS = "https://";
 	// Base类型
-	public final static String BASE_TYPE = "base_2"; //base_1:发布Url、base_2:测试Url
+	public final static String BASE_TYPE = "base_1"; //base_1:发布Url、base_2:测试Url
 	// 发布Url
 	public final static String BASE_URL_1 = APP_HTTP + "xiaobao.sbwg.cn/";
 	// 测试Url
 	public final static String BASE_URL_2 = APP_HTTP + "test.sbwg.cn/";
-	public final static String BASE_URL_3 = APP_HTTP + "test.sbwg.cn/";
+	public final static String BASE_URL_3 = "";
 	// 图片域名
 	public final static String IMAGE_URL = "file:///android_asset/";
 	// 推广域名
@@ -428,9 +428,9 @@ public class AppConfig {
 	// QQ授权接口参数：Scope权限
 	public static final String QQ_SCOPE = "all";
 	// 微信AppID
-	public static final String WX_APP_ID = "wx1202dda899b1358e";
+	public static final String WX_APP_ID = "wx5e4577157ba8676b";
 	// 微信AppSecret
-	public static final String WX_APP_SECRET = "5a9dd284d8b3976f123c9937f1568b70";
+	public static final String WX_APP_SECRET = "b98957d915449589b1f1bae993af5848";
 	// 微信商户号
 	public static final String WX_MCH_ID = "1571075271";
 	// 微博AppID
