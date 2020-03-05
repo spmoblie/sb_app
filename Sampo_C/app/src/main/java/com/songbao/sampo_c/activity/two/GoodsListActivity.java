@@ -120,7 +120,7 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 	GoodsListAdapter rv_Adapter;
 	GoodsScreenAdapter lv_Adapter;
 
-	private CountDownTimer mCdt;
+	//private CountDownTimer mCdt;
 	private GoodsAttrEntity attrEn;
 	private Animation mainShow, mainHide, viewShow, viewHide;
 
@@ -368,7 +368,7 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 
 	private void initEditText() {
 		// 创建定时器
-		mCdt = new CountDownTimer(3000, 1000) {
+		/*mCdt = new CountDownTimer(3000, 1000) {
 			@Override
 			public void onTick(long millisUntilFinished) {
 
@@ -378,7 +378,7 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 			public void onFinish() {
 				handleKeywordData();
 			}
-		};
+		};*/
 		// 添加键盘监听器
 		et_search.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 			@Override
@@ -406,12 +406,12 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 			@Override
 			public void afterTextChanged(Editable s) {
 				searchStr = et_search.getText().toString();
-				mCdt.cancel();
+				//mCdt.cancel();
 				if (StringUtil.isNull(searchStr)) {
 					handleKeywordClear();
 					iv_clear.setVisibility(View.GONE);
 				}else {
-					mCdt.start();
+					//mCdt.start();
 					iv_clear.setVisibility(View.VISIBLE);
 				}
 			}
@@ -430,9 +430,9 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 	 * 处理关键字搜索事项
 	 */
 	private void handleKeywordData() {
-		if (mCdt != null) {
+		/*if (mCdt != null) {
 			mCdt.cancel();
-		}
+		}*/
 		hideSoftInput(et_search);
 		if (!StringUtil.isNull(searchStr)) {
 			loadKeywordData();
