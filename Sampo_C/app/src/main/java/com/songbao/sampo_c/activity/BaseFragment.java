@@ -15,6 +15,7 @@ import com.songbao.sampo_c.AppConfig;
 import com.songbao.sampo_c.activity.common.MyWebViewActivity;
 import com.songbao.sampo_c.activity.login.LoginActivity;
 import com.songbao.sampo_c.activity.three.GoodsOffActivity;
+import com.songbao.sampo_c.activity.two.CartActivity;
 import com.songbao.sampo_c.activity.two.GoodsActivity;
 import com.songbao.sampo_c.dialog.LoadDialog;
 import com.songbao.sampo_c.entity.BaseEntity;
@@ -110,6 +111,17 @@ public class BaseFragment extends Fragment {
 		Intent intent = new Intent(getActivity(), GoodsOffActivity.class);
 		intent.putExtra("goodsCode", goodsCode);
 		startActivity(intent);
+	}
+
+	/**
+	 * 打开购物车
+	 */
+	protected void openCartActivity() {
+		if (isLogin()) {
+			startActivity(new Intent(getActivity(), CartActivity.class));
+		} else {
+			openLoginActivity();
+		}
 	}
 
 	/**

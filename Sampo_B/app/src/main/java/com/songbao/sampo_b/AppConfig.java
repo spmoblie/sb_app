@@ -19,7 +19,7 @@ public class AppConfig {
 	// Base类型
 	public final static String BASE_TYPE = "base_1"; //base_1:发布、base_2:测试
 	// 发布Url
-	public final static String BASE_URL_1 = APP_HTTPS + "xiaobao.sbwg.cn/";
+	public final static String BASE_URL_1 = APP_HTTP + "xiaobao.sbwg.cn/";
 	// 测试Url
 	public final static String BASE_URL_2 = APP_HTTP + "192.168.1.110:8080/";
 	public final static String BASE_URL_3 = "";
@@ -248,6 +248,8 @@ public class AppConfig {
 	public static final int IMG_HEIGHT = 9;
 	// 网络请求标识
 	public static final String LOAD_TYPE = "APP";
+	// 加载数据标识
+	public static final int DATA_TYPE = 2;
 	// 加载数据数量
 	public static final int LOAD_SIZE = 10;
 	// 加载缓冲时间

@@ -261,6 +261,9 @@
     <string name="comment_content_hint">说说它的优点和美中不足的地方吧~</string>
 
     <!-- Goods -->
+    <string name="goods_top_1">商品</string>
+    <string name="goods_top_2">评价</string>
+    <string name="goods_top_3">详情</string>
     <string name="goods_num">x%1$d</string>
     <string name="goods_search_et_hint">输入商品关键字</string>
     <string name="goods_search_null">抱歉，没有找到商品~</string>
@@ -286,6 +289,8 @@
     <string name="goods_spec_choice_en">SPECIFICATIONS CHOICES</string>
     <string name="goods_good_comment">精彩评价</string>
     <string name="goods_good_comment_en">GOOD EVALUATION</string>
+    <string name="goods_good_comment_num">（%1$d）</string>
+    <string name="goods_good_comment_pct">好评率\n%1$d%2$s</string>
     <string name="goods_good_detail">商品详情</string>
     <string name="goods_good_detail_en">COMMODITY DETAILS</string>
     <string name="goods_attr_sku_0">暂时缺货</string>

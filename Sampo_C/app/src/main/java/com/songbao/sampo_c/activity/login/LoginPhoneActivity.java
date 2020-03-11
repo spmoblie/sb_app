@@ -443,10 +443,10 @@ public class LoginPhoneActivity extends BaseActivity implements OnClickListener 
             @Override
             public void run() {
                 HashMap<String, Object> map = new HashMap<>();
+                map.put("sourceType", AppConfig.DATA_TYPE);
                 map.put("mobile", phoneStr);
                 map.put("code", codeStr);
                 map.put("password", passwordStr);
-                map.put("sourceType", AppConfig.DATA_TYPE);
                 loadSVData(AppConfig.URL_AUTH_LOGIN, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_AUTH_LOGIN);
             }
         }, AppConfig.LOADING_TIME);

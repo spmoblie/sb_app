@@ -537,7 +537,7 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 			startActivity(intent);
 			break;
 		case R.id.goods_list_iv_cart:
-			startActivity(new Intent(mContext, CartActivity.class));
+			openCartActivity();
 			break;
 		case R.id.goods_list_tv_top_item_1:
 			if (!isLoadOk) return; //加载频率控制
