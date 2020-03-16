@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingStart="0dp"
-    android:paddingEnd="@dimen/app_margin_screen"
+    android:paddingEnd="@dimen/margin_padding_5"
     android:paddingTop="@dimen/app_margin_screen"
     android:paddingBottom="@dimen/app_margin_screen">
 
@@ -21,7 +21,6 @@
         android:layout_width="@dimen/margin_padding_12"
         android:layout_height="@dimen/margin_padding_12"
         android:background="@drawable/shape_style_app_status"
-        android:layout_marginEnd="@dimen/margin_padding_10"
         app:layout_constraintRight_toLeftOf="@+id/sort_one_item_tv_name"
         app:layout_constraintTop_toBottomOf="@+id/sort_one_item_rl_top"
         app:layout_constraintBottom_toBottomOf="parent"/>
@@ -34,7 +33,7 @@
         android:maxLines="2"
         android:textSize="@dimen/app_text_size_label"
         android:textColor="@color/selector_list_item_text"
-        android:layout_marginStart="@dimen/app_margin_screen"
+        android:layout_marginStart="@dimen/margin_padding_5"
         app:layout_constraintTop_toBottomOf="@+id/sort_one_item_rl_top"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

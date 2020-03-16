@@ -222,8 +222,8 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
                 commentNum = 0;
                 goodStar = 0;
             }
-            tv_comment_num.setText("（" + commentNum + "）");
-            tv_percentage.setText("好评率\n" + goodStar + "%");
+            tv_comment_num.setText(getString(R.string.goods_good_comment_num, commentNum));
+            tv_percentage.setText(getString(R.string.goods_good_comment_pct, goodStar, "%"));
 
             //详情图片
             if (goodsEn.getDetailList() != null) {
@@ -235,9 +235,9 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
     }
 
     private void initRadioGroup() {
-        rb_1.setText("商品");
-        rb_2.setText("评价");
-        rb_3.setText("详情");
+        rb_1.setText(R.string.goods_top_1);
+        rb_2.setText(R.string.goods_top_2);
+        rb_3.setText(R.string.goods_top_3);
         rb_1.setOnClickListener(this);
         rb_2.setOnClickListener(this);
         rb_3.setOnClickListener(this);
@@ -529,7 +529,7 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
                 returnHomeActivity();
                 break;
             case R.id.bottom_add_cart_tv_cart:
-                openActivity(CartActivity.class);
+                openCartActivity();
                 break;
             case R.id.goods_spec_choice_main:
             case R.id.bottom_add_cart_tv_cart_add:

@@ -18,7 +18,7 @@ import java.text.DecimalFormat;
 /**
  * 订单商品适配器
  */
-public class GoodsOrderAdapter extends AppBaseAdapter {
+public class GoodsOrderAdapter extends AppBaseAdapter<GoodsEntity> {
 
 	private DecimalFormat df;
 	private int orderStatus;
@@ -63,7 +63,7 @@ public class GoodsOrderAdapter extends AppBaseAdapter {
 		}else{
 			holder = (ViewHolder)convertView.getTag();
 		}
-		final GoodsEntity data = (GoodsEntity) mDataList.get(position);
+		final GoodsEntity data = mDataList.get(position);
 
 		Glide.with(AppApplication.getAppContext())
 				.load(data.getPicUrl())

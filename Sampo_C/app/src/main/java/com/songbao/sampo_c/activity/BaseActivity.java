@@ -59,6 +59,7 @@ import com.songbao.sampo_c.activity.mine.CommentAddActivity;
 import com.songbao.sampo_c.activity.mine.CommentPostActivity;
 import com.songbao.sampo_c.activity.three.DesignerListActivity;
 import com.songbao.sampo_c.activity.three.GoodsOffActivity;
+import com.songbao.sampo_c.activity.two.CartActivity;
 import com.songbao.sampo_c.activity.two.GoodsActivity;
 import com.songbao.sampo_c.activity.two.GoodsListActivity;
 import com.songbao.sampo_c.activity.two.SketchActivity;
@@ -69,6 +70,7 @@ import com.songbao.sampo_c.entity.BaseEntity;
 import com.songbao.sampo_c.entity.CommentEntity;
 import com.songbao.sampo_c.entity.GoodsAttrEntity;
 import com.songbao.sampo_c.entity.ShareEntity;
+import com.songbao.sampo_c.utils.ClickUtils;
 import com.songbao.sampo_c.utils.CommonTools;
 import com.songbao.sampo_c.utils.ExceptionUtil;
 import com.songbao.sampo_c.utils.JsonUtils;
@@ -134,6 +136,7 @@ public class BaseActivity extends FragmentActivity {
     private String select_name_2 = "";
     private String select_name_3 = "";
     private String goodsCode = "";
+    private ArrayList<String> al_attrImg = new ArrayList<>();
     private GoodsAttrEntity attrEn, secEn;
     private GoodsAttrAdapter rv_Adapter;
     private View cartPopupView;
@@ -493,12 +496,27 @@ public class BaseActivity extends FragmentActivity {
     }
 
     /**
+     * 打开购物车
+     */
+    protected void openCartActivity() {
+        if (isLogin()) {
+            startActivity(new Intent(mContext, CartActivity.class));
+        } else {
+            openLoginActivity();
+        }
+    }
+
+    /**
      * 打开设计师列表页
      */
     protected void openDesignerActivity(String skuCode) {
-        Intent intent = new Intent(mContext, DesignerListActivity.class);
-        intent.putExtra("skuCode", skuCode);
-        startActivity(intent);
+        if (isLogin()) {
+            Intent intent = new Intent(mContext, DesignerListActivity.class);
+            intent.putExtra("skuCode", skuCode);
+            startActivity(intent);
+        } else {
+            openLoginActivity();
+        }
     }
 
     /**
@@ -1289,11 +1307,23 @@ public class BaseActivity extends FragmentActivity {
             tv_popup_number = cartPopupView.findViewById(R.id.attr_view_tv_sku_num);
             tv_popup_select = cartPopupView.findViewById(R.id.attr_view_tv_selected);
 
+            iv_goods_img.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (ClickUtils.isDoubleClick()) return;
+                    openViewPagerActivity(al_attrImg, 0);
+                }
+            });
+
             TextView tv_popup_confirm = cartPopupView.findViewById(R.id.attr_view_tv_confirm);
             tv_popup_confirm.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (rv_Adapter == null) return;
+                    if (!isLogin()) {
+                        openLoginActivity();
+                        return;
+                    }
                     GoodsAttrEntity selectAttr = rv_Adapter.initSelectAttrValue(attrEn);
                     String attrsIdStr = selectAttr.getAttrIdStr();
                     String attrsNameStr = selectAttr.getAttrNameStr();
@@ -1394,8 +1424,11 @@ public class BaseActivity extends FragmentActivity {
             // 已选属性
             tv_popup_select.setText(getString(R.string.goods_attr_selected_1, attrsNameStr));
             // 刷新图片
+            String attrImg = rv_Adapter.getSkuImage(attrsIdStr);
+            al_attrImg.clear();
+            al_attrImg.add(attrImg);
             Glide.with(AppApplication.getAppContext())
-                    .load(rv_Adapter.getSkuImage(attrsIdStr))
+                    .load(attrImg)
                     .apply(AppApplication.getShowOptions())
                     .into(iv_goods_img);
             // 刷新库存

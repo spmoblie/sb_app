@@ -1006,7 +1006,13 @@ public class JsonUtils {
 
             // 商品图片集
             if (StringUtil.notNull(jsonData, "goodsPics")) {
-                goodsEn.setImageList(getStringList(jsonData.getString("goodsPics")));
+                JSONArray images = jsonData.getJSONArray("goodsPics");
+                ArrayList<String> urls = new ArrayList<>();
+                for (int i = 0; i < images.length(); i++) {
+                    JSONObject item = images.getJSONObject(i);
+                    urls.add(item.getString("goodsPic"));
+                }
+                goodsEn.setImageList(urls);
             }
             // 详情图片集
             if (StringUtil.notNull(jsonData, "goodsDetailImgs")) {

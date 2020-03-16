@@ -213,6 +213,7 @@ public class LoginAccountActivity extends BaseActivity implements OnClickListene
             @Override
             public void run() {
                 HashMap<String, Object> map = new HashMap<>();
+                map.put("sourceType", AppConfig.DATA_TYPE);
                 map.put("mobile", accountStr);
                 map.put("password", passwordStr);
                 loadSVData(AppConfig.URL_AUTH_LOGIN, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_AUTH_LOGIN);
