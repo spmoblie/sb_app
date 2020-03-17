@@ -79,7 +79,7 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
     private boolean isPhone_Ok = false;
     private boolean isLoadOk = false;
     private boolean isOnClick = false;
-    private String themeId, imgUrl, nameStr, ageStr, phoneStr, orderNo;
+    private String themeId, imgUrl, nameStr, ageStr, phoneStr;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -430,7 +430,8 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
     /**
      * 在线支付
      */
-    private void startPay() {
+    private void startPay(String orderNo) {
+        if (StringUtil.isNull(orderNo) || payAmount <= 0) return;
         Intent intent = new Intent(mContext, WXPayEntryActivity.class);
         intent.putExtra("sourceType", WXPayEntryActivity.SOURCE_TYPE_1);
         intent.putExtra("orderSn", orderNo);
@@ -454,13 +455,10 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
                 case AppConfig.REQUEST_SV_SIGN_UP_ADD:
                     BaseEntity resultEn = JsonUtils.getPayOrderOn(jsonObject);
                     if (resultEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
-                        orderNo = resultEn.getOthers();
-                        if (!StringUtil.isNull(orderNo)) {
-                            startPay();
-                        } else {
-                            //无需支付处理
-                        }
-                    } else {
+                        startPay(resultEn.getOthers());
+                    } else if (resultEn.getErrNo() == AppConfig.ERROR_CODE_NO_PAY) {
+                        signUpSuccess();
+                    }else {
                         showSuccessDialog(resultEn.getErrMsg(), false);
                     }
                     break;
@@ -483,14 +481,18 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
             if (requestCode == AppConfig.ACTIVITY_CODE_PAY_DATA) {
                 boolean isPayOk = data.getBooleanExtra(AppConfig.ACTIVITY_KEY_PAY_RESULT, false);
                 if (isPayOk) {
-                    clearData();
-                    setClickState("", false);
-                    loadServerData();
-                    handleSignUpResult(1);
+                    signUpSuccess();
                 }
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void signUpSuccess() {
+        clearData();
+        setClickState("", false);
+        loadServerData();
+        handleSignUpResult(1);
     }
 
     private void handleSignUpResult(int resultCode) {

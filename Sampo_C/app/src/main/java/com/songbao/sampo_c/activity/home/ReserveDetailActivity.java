@@ -18,6 +18,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -25,6 +26,8 @@ import com.songbao.sampo_c.AppApplication;
 import com.songbao.sampo_c.AppConfig;
 import com.songbao.sampo_c.R;
 import com.songbao.sampo_c.activity.BaseActivity;
+import com.songbao.sampo_c.adapter.AdapterCallback;
+import com.songbao.sampo_c.adapter.ImageListAdapter;
 import com.songbao.sampo_c.entity.BaseEntity;
 import com.songbao.sampo_c.entity.OptionEntity;
 import com.songbao.sampo_c.entity.ThemeEntity;
@@ -36,6 +39,7 @@ import com.songbao.sampo_c.utils.QRCodeUtil;
 import com.songbao.sampo_c.utils.StringUtil;
 import com.songbao.sampo_c.utils.retrofit.HttpRequests;
 import com.songbao.sampo_c.widgets.ObservableWebView;
+import com.songbao.sampo_c.widgets.ScrollViewListView;
 import com.songbao.sampo_c.wxapi.WXPayEntryActivity;
 
 import org.json.JSONObject;
@@ -115,10 +119,13 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
     @BindView(R.id.reserve_detail_tv_success)
     TextView tv_success;
 
-    @BindView(R.id.reserve_detail_web_view)
-    ObservableWebView myWebView;
+    /*@BindView(R.id.reserve_detail_web_view)
+    ObservableWebView myWebView;*/
 
-    private LinearLayout.LayoutParams showImgLP;
+    @BindView(R.id.reserve_lv_detail)
+    ScrollViewListView lv_detail;
+
+    private ImageListAdapter lv_detail_Adapter;
 
     private MyBroadcastReceiver myReceiver;
     private ThemeEntity data;
@@ -131,8 +138,9 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
     private boolean isTimeOk = false;
     private boolean isLoadOk = false;
     private boolean isChange = false;
-    private String themeId, reserveId, imgUrl, webUrl, titleStr, dateStr, timeStr, timeId;
+    private String themeId, reserveId, titleStr, dateStr, timeStr, timeId;
     private ArrayList<String> al_head = new ArrayList<>();
+    private ArrayList<String> al_detail = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -169,7 +177,7 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
         iv_code_large.setOnClickListener(this);
         tv_click.setOnClickListener(this);
 
-        showImgLP = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        LinearLayout.LayoutParams showImgLP = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         showImgLP.width = AppApplication.screen_width;
         showImgLP.height = AppApplication.screen_width * AppConfig.IMG_HEIGHT / AppConfig.IMG_WIDTHS;
         iv_show.setLayoutParams(showImgLP);
@@ -180,9 +188,8 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
             if (data.getPicUrls() != null && data.getPicUrls().size() > 0) {
                 al_head.clear();
                 al_head.addAll(data.getPicUrls());
-                imgUrl = al_head.get(0);
                 Glide.with(AppApplication.getAppContext())
-                        .load(imgUrl)
+                        .load(al_head.get(0))
                         .apply(AppApplication.getShowOptions())
                         .into(iv_show);
             }
@@ -249,13 +256,20 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
                 iv_code.setImageBitmap(BitmapUtil.getBitmap(qrImage, 360, 360));
             }
 
-            webUrl = data.getLinkUrl();
-            initWebView();
+            //网页详情
+            //initWebView(data.getLinkUrl());
+
+            //图片详情
+            if (data.getDesUrls() != null) {
+                al_detail.clear();
+                al_detail.addAll(data.getDesUrls());
+            }
+            initListView();
         }
     }
 
-    @SuppressLint({ "JavascriptInterface", "SetJavaScriptEnabled" })
-    private void initWebView() {
+    /*@SuppressLint({ "JavascriptInterface", "SetJavaScriptEnabled" })
+    private void initWebView(String webUrl) {
         if (myWebView != null){
             //WebView属性设置
             WebSettings webSettings = myWebView.getSettings();
@@ -296,6 +310,22 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
             //加载Url
             myWebView.loadUrl(webUrl);
         }
+    }*/
+
+    private void initListView() {
+        //商品详情
+        if (lv_detail_Adapter == null) {
+            lv_detail_Adapter = new ImageListAdapter(mContext);
+            lv_detail_Adapter.addCallback(new AdapterCallback() {
+                @Override
+                public void setOnClick(Object data, int position, int type) {
+
+                }
+            });
+        }
+        lv_detail_Adapter.updateData(al_detail);
+        lv_detail.setAdapter(lv_detail_Adapter);
+        lv_detail.setOverScrollMode(ListView.OVER_SCROLL_NEVER);
     }
 
     @Override
@@ -424,9 +454,9 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
             unregisterReceiver(myReceiver);
         }
         // 清除缓存
-        if (myWebView != null) {
+        /*if (myWebView != null) {
             myWebView.clearCache(true);
-        }
+        }*/
         super.onDestroy();
     }
 
@@ -480,6 +510,7 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
      * 在线支付
      */
     private void startPay(String orderNo) {
+        if (StringUtil.isNull(orderNo) || payAmount <= 0) return;
         Intent intent = new Intent(mContext, WXPayEntryActivity.class);
         intent.putExtra("sourceType", WXPayEntryActivity.SOURCE_TYPE_2);
         intent.putExtra("orderSn", orderNo);
@@ -505,12 +536,9 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
                 case AppConfig.REQUEST_SV_RESERVATION_ADD:
                     BaseEntity resultEn = JsonUtils.getPayOrderOn(jsonObject);
                     if (resultEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
-                        String orderNo = resultEn.getOthers();
-                        if (!StringUtil.isNull(orderNo)) {
-                            startPay(orderNo);
-                        } else {
-                            //无需支付处理
-                        }
+                        startPay(resultEn.getOthers());
+                    } else if (resultEn.getErrNo() == AppConfig.ERROR_CODE_NO_PAY) {
+                        reserveSuccess();
                     } else {
                         showSuccessDialog(resultEn.getErrMsg(), false);
                     }
@@ -543,16 +571,20 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
             if (requestCode == AppConfig.ACTIVITY_CODE_PAY_DATA) {
                 boolean isPayOk = data.getBooleanExtra(AppConfig.ACTIVITY_KEY_PAY_RESULT, false);
                 if (isPayOk) {
-                    pageType = 2;
-                    iv_date_go.setVisibility(View.GONE);
-                    iv_time_go.setVisibility(View.GONE);
-                    click_main.setVisibility(View.GONE);
-
-                    handleReserveResult(1);
+                    reserveSuccess();
                 }
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void reserveSuccess() {
+        pageType = 2;
+        iv_date_go.setVisibility(View.GONE);
+        iv_time_go.setVisibility(View.GONE);
+        click_main.setVisibility(View.GONE);
+
+        handleReserveResult(1);
     }
 
     private void handleReserveResult(int resultCode) {

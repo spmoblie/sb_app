@@ -147,10 +147,8 @@ public class JsonUtils {
                 childEn.setId(item.getInt("id"));
                 childEn.setThemeId(String.valueOf(item.getInt("id")));
                 childEn.setTitle(item.getString("title"));
-                //childEn.setPicUrl(item.getString("picUrl"));
                 //childEn.setLinkUrl(item.getString("linkUrl"));
-                //childEn.setLinkUrl("http://xiaobao.sbwg.cn:8080/description/description.html?activityId=21");
-                childEn.setLinkUrl("https://baijiahao.baidu.com/s?id=1626134258413691915&wfr=spider&for=pc");
+                //childEn.setLinkUrl("https://baijiahao.baidu.com/s?id=1626134258413691915&wfr=spider&for=pc");
                 childEn.setUserId(item.getString("adminId"));
                 childEn.setSuit(item.getString("crowd"));
                 childEn.setUserName(item.getString("userName"));
@@ -162,9 +160,6 @@ public class JsonUtils {
                 childEn.setThemeType(item.getInt("isReservation"));
                 childEn.setFees(item.getDouble("fee"));
 
-                if (StringUtil.notNull(item, "description")) {
-                    childEn.setDescription(item.getString("description"));
-                }
                 if (StringUtil.notNull(item, "timeStr")) {
                     childEn.setDateSlot(item.getString("timeStr"));
                 }
@@ -188,6 +183,15 @@ public class JsonUtils {
                 }
                 if (StringUtil.notNull(item, "picUrl")) {
                     childEn.setPicUrls(getStringList(item.getString("picUrl")));
+                }
+                if (StringUtil.notNull(item, "description")) {
+                    childEn.setDescription(item.getString("description"));
+                }
+                if (StringUtil.notNull(item, "descriptionImg")) {
+                    ArrayList<String> imgList = new ArrayList<>();
+                    imgList.add(item.getString("descriptionImg"));
+                    childEn.setDesUrls(imgList);
+                    //childEn.setDesUrls(getStringList(item.getString("descriptionImg")));
                 }
 
                 mainEn.setData(childEn);

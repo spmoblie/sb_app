@@ -194,12 +194,12 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
                 loginWX();
                 break;
             case R.id.login_tv_qq:
-                loginQQ();
-                //CommonTools.showToast("当前版本仅支持手机号登录");
+                //loginQQ();
+                CommonTools.showToast(getString(R.string.toast_no_open));
                 break;
             case R.id.login_tv_wb:
-                loginWB();
-                //CommonTools.showToast("当前版本仅支持手机号登录");
+                //loginWB();
+                CommonTools.showToast(getString(R.string.toast_no_open));
                 break;
         }
     }
@@ -526,7 +526,12 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
                     BaseEntity baseEn = JsonLogin.getLoginData(jsonObject);
                     if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) { //校验通过
                         userManager.saveUserLoginSuccess((UserInfoEntity) baseEn.getData());
-                        closeLoginActivity();
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                closeLoginActivity();
+                            }
+                        }, 500);
                     } else if (baseEn.getErrNo() == 99990) { //校验不通过
                         switch (loginType) {
                             case LOGIN_TYPE_WX:

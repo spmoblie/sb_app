@@ -12,6 +12,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -19,6 +20,9 @@ import com.songbao.sampo_c.AppApplication;
 import com.songbao.sampo_c.AppConfig;
 import com.songbao.sampo_c.R;
 import com.songbao.sampo_c.activity.BaseActivity;
+import com.songbao.sampo_c.adapter.AdapterCallback;
+import com.songbao.sampo_c.adapter.CommentGLVAdapter;
+import com.songbao.sampo_c.adapter.ImageListAdapter;
 import com.songbao.sampo_c.entity.BaseEntity;
 import com.songbao.sampo_c.entity.ThemeEntity;
 import com.songbao.sampo_c.utils.ExceptionUtil;
@@ -27,6 +31,7 @@ import com.songbao.sampo_c.utils.LogUtil;
 import com.songbao.sampo_c.utils.StringUtil;
 import com.songbao.sampo_c.utils.retrofit.HttpRequests;
 import com.songbao.sampo_c.widgets.ObservableWebView;
+import com.songbao.sampo_c.widgets.ScrollViewListView;
 
 import org.json.JSONObject;
 
@@ -66,18 +71,23 @@ public class SignUpDetailActivity extends BaseActivity implements View.OnClickLi
     @BindView(R.id.sign_up_detail_tv_click)
     TextView tv_click;
 
-    @BindView(R.id.sign_up_detail_web_view)
-    ObservableWebView myWebView;
+    /*@BindView(R.id.sign_up_detail_web_view)
+    ObservableWebView myWebView;*/
+
+    @BindView(R.id.sign_up_lv_detail)
+    ScrollViewListView lv_detail;
 
     private LinearLayout.LayoutParams showImgLP;
+    private ImageListAdapter lv_detail_Adapter;
 
     private ThemeEntity data;
     private int pageType = 0; //1:我的报名
     private int status; //1:报名中, 2:已截止
     private boolean isLoadOk = false;
     private boolean isOnClick = true;
-    private String themeId, imgUrl, webUrl, titleStr;
+    private String themeId, titleStr;
     private ArrayList<String> al_head = new ArrayList<>();
+    private ArrayList<String> al_detail = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,9 +124,8 @@ public class SignUpDetailActivity extends BaseActivity implements View.OnClickLi
             if (data.getPicUrls() != null && data.getPicUrls().size() > 0) {
                 al_head.clear();
                 al_head.addAll(data.getPicUrls());
-                imgUrl = al_head.get(0);
                 Glide.with(AppApplication.getAppContext())
-                        .load(imgUrl)
+                        .load(al_head.get(0))
                         .apply(AppApplication.getShowOptions())
                         .into(iv_show);
             }
@@ -131,13 +140,20 @@ public class SignUpDetailActivity extends BaseActivity implements View.OnClickLi
             status = data.getStatus();
             checkState();
 
-            webUrl = data.getLinkUrl();
-            initWebView();
+            //网页详情
+            //initWebView(data.getLinkUrl());
+
+            //图片详情
+            if (data.getDesUrls() != null) {
+                al_detail.clear();
+                al_detail.addAll(data.getDesUrls());
+            }
+            initListView();
         }
     }
 
-    @SuppressLint({ "JavascriptInterface", "SetJavaScriptEnabled" })
-    private void initWebView() {
+    /*@SuppressLint({ "JavascriptInterface", "SetJavaScriptEnabled" })
+    private void initWebView(String webUrl) {
         if (myWebView != null){
             //WebView属性设置
             WebSettings webSettings = myWebView.getSettings();
@@ -175,6 +191,22 @@ public class SignUpDetailActivity extends BaseActivity implements View.OnClickLi
             //加载Url
             myWebView.loadUrl(webUrl);
         }
+    }*/
+
+    private void initListView() {
+        //商品详情
+        if (lv_detail_Adapter == null) {
+            lv_detail_Adapter = new ImageListAdapter(mContext);
+            lv_detail_Adapter.addCallback(new AdapterCallback() {
+                @Override
+                public void setOnClick(Object data, int position, int type) {
+
+                }
+            });
+        }
+        lv_detail_Adapter.updateData(al_detail);
+        lv_detail.setAdapter(lv_detail_Adapter);
+        lv_detail.setOverScrollMode(ListView.OVER_SCROLL_NEVER);
     }
 
     private void setClickState(String text, boolean isState) {
@@ -261,9 +293,9 @@ public class SignUpDetailActivity extends BaseActivity implements View.OnClickLi
     @Override
     protected void onDestroy() {
         //清除缓存
-        if (myWebView != null) {
+        /*if (myWebView != null) {
             myWebView.clearCache(true);
-        }
+        }*/
         super.onDestroy();
     }
 

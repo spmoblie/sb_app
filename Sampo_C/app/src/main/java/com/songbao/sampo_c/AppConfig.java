@@ -11,7 +11,7 @@ public class AppConfig {
 	 */
 
 	// 发布控制
-	public static final boolean IS_PUBLISH = true;
+	public static final boolean IS_PUBLISH = false;
 	// http协议
 	public final static String APP_HTTP = "http://";
 	// https协议
@@ -367,6 +367,8 @@ public class AppConfig {
 	public static final int ERROR_CODE_SUCCESS = 0;
 	// Error状态码：登录超时
 	public static final int ERROR_CODE_TIMEOUT = 501;
+	// Error状态码：无需支付
+	public static final int ERROR_CODE_NO_PAY = 507;
 	// Error状态码：课程时段已约满
 	public static final int ERROR_CODE_FULL = 503;
 	// Error状态码：手机号已注册
@@ -413,9 +415,12 @@ public class AppConfig {
 
 	// 售后服务电话
 	public static final String SALE_PHONE = "4008806558";
+	// 联系客服网址-吐个槽
+	public static final String SALE_HELP = "https://support.qq.com/product/135418";
 
 	// 动态授权-权限集
 	public static final String[] PERMISSIONS = new String[]{
+			Manifest.permission.CALL_PHONE,
 			Manifest.permission.CAMERA,
 			Manifest.permission.VIBRATE,
 			Manifest.permission.READ_EXTERNAL_STORAGE,

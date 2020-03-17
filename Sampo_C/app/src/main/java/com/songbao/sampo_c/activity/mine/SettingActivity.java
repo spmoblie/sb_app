@@ -88,7 +88,7 @@ public class SettingActivity extends BaseActivity implements OnClickListener {
                 intent.putExtra("lodUrl", AppConfig.ABOUT_US);
                 break;
             case R.id.setting_rl_feedback:
-                intent = new Intent(mContext, FeedBackActivity.class);
+                openWebViewActivity(getString(R.string.setting_feedback), AppConfig.SALE_HELP);
                 break;
             case R.id.setting_rl_address:
                 if (isLogin()) {

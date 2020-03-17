@@ -266,12 +266,18 @@
                 android:textColor="@color/app_color_gray_9"
                 android:textSize="@dimen/app_text_size_small" />
 
-            <com.songbao.sampo_c.widgets.ObservableWebView
+            <!--<com.songbao.sampo_c.widgets.ObservableWebView
                 android:id="@+id/reserve_detail_web_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/margin_padding_10"
-                android:layerType="software" />
+                android:layerType="software" />-->
+
+            <com.songbao.sampo_c.widgets.ScrollViewListView
+                android:id="@+id/reserve_lv_detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_padding_10"/>
         </LinearLayout>
 
     </ScrollView>

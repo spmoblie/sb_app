@@ -2,6 +2,7 @@ package com.songbao.sampo_c.activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -133,6 +134,19 @@ public class BaseFragment extends Fragment {
 		Intent intent = new Intent(getActivity(), MyWebViewActivity.class);
 		intent.putExtra("title", title);
 		intent.putExtra("lodUrl", url);
+		startActivity(intent);
+	}
+
+	/**
+	 * 拨打电话
+	 *
+	 * @param phoneNum 电话号码
+	 */
+	public void callPhone(String phoneNum) {
+		Intent intent = new Intent(Intent.ACTION_CALL); //直接拨打
+		//Intent intent = new Intent(Intent.ACTION_DIAL); //手动拨打
+		Uri data = Uri.parse("tel:" + phoneNum);
+		intent.setData(data);
 		startActivity(intent);
 	}
 

@@ -125,8 +125,10 @@ public class ChoiceDateActivity extends BaseActivity implements View.OnClickList
             // 设置可选日期
             calendar.setActiveDateList(al_date);
 
+            int now_yea = Calendar.getInstance().get(Calendar.YEAR);
             int now_mon = Calendar.getInstance().get(Calendar.MONTH) + 1;
             int now_day = Calendar.getInstance().get(Calendar.DAY_OF_MONTH);
+            int ass_yea = 0;
             int ass_mon = 0;
             int ass_day = 0;
             int i = 0;
@@ -142,17 +144,20 @@ public class ChoiceDateActivity extends BaseActivity implements View.OnClickList
                         String[] dates = dateStr.split("-");
                         if (dates.length > 2) {
                             date = dates[0] + "年" + dates[1] + "月";
+                            ass_yea = Integer.valueOf(dates[0]);
                             ass_mon = Integer.valueOf(dates[1]);
                             ass_day = Integer.valueOf(dates[2]);
                         }
                     }
                 } else {
                     date = "";
+                    ass_yea = 0;
                     ass_mon = 0;
                     ass_day = 0;
                 }
                 i++;
-            } while (i <= al_date.size() && (ass_mon < now_mon || (ass_mon == now_mon && ass_day < now_day)));
+            } while (i <= al_date.size() && (ass_yea < now_yea || (ass_mon < now_mon || (ass_mon == now_mon && ass_day < now_day))));
+            //} while (i <= al_date.size() && (ass_mon < now_mon || (ass_mon == now_mon && ass_day < now_day)));
 
             calendar.setSelectDate(date, ass_day); //指定日期
         }

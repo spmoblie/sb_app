@@ -45,6 +45,7 @@ import com.songbao.sampo_c.AppApplication;
 import com.songbao.sampo_c.AppConfig;
 import com.songbao.sampo_c.AppManager;
 import com.songbao.sampo_c.R;
+import com.songbao.sampo_c.activity.common.MyWebViewActivity;
 import com.songbao.sampo_c.activity.common.ViewPagerActivity;
 import com.songbao.sampo_c.activity.common.clip.ClipImageCircularActivity;
 import com.songbao.sampo_c.activity.common.clip.ClipImageSquareActivity;
@@ -239,11 +240,12 @@ public class BaseActivity extends FragmentActivity {
     @Override
     protected void onPause() {
         LogUtil.i(LogUtil.LOG_TAG, TAG + ": onPause()");
+        // 销毁对话框对象
+        DialogManager.clearInstance();
         // 缓存标题View高度
         if (AppApplication.title_height <= 0) {
             AppApplication.title_height = top_main.getHeight();
         }
-        DialogManager.clearInstance();
         super.onPause();
     }
 
@@ -504,6 +506,18 @@ public class BaseActivity extends FragmentActivity {
         } else {
             openLoginActivity();
         }
+    }
+
+    /**
+     * 跳转至WebView
+     * @param title
+     * @param url
+     */
+    protected void openWebViewActivity(String title, String url) {
+        Intent intent = new Intent(mContext, MyWebViewActivity.class);
+        intent.putExtra("title", title);
+        intent.putExtra("lodUrl", url);
+        startActivity(intent);
     }
 
     /**

@@ -33,6 +33,7 @@ public class ThemeEntity extends BaseEntity {
 	private double fees; //费用
 	private OptionEntity option; //课程场次
 	private List<String> picUrls; //头部轮播图片集
+	private List<String> desUrls; //活动详情图片集
 	private List<ThemeEntity> headLists; //首页头部数集
 	private List<ThemeEntity> mainLists; //首页列表数集
 
@@ -263,6 +264,14 @@ public class ThemeEntity extends BaseEntity {
 
 	public void setPicUrls(List<String> picUrls) {
 		this.picUrls = picUrls;
+	}
+
+	public List<String> getDesUrls() {
+		return desUrls;
+	}
+
+	public void setDesUrls(List<String> desUrls) {
+		this.desUrls = desUrls;
 	}
 
 	public List<ThemeEntity> getHeadLists() {

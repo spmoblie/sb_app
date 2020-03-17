@@ -245,6 +245,7 @@ public class PostOrderActivity extends BaseActivity implements View.OnClickListe
      * 在线支付
      */
     private void startPay(String orderNo) {
+        if (StringUtil.isNull(orderNo) || payPrice <= 0) return;
         Intent intent = new Intent(mContext, WXPayEntryActivity.class);
         intent.putExtra("sourceType", WXPayEntryActivity.SOURCE_TYPE_3);
         intent.putExtra("orderSn", orderNo);
