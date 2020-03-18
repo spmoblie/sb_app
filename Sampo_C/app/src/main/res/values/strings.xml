@@ -223,6 +223,7 @@
     <string name="sign_up_time">活动时间：</string>
     <string name="sign_up_address">活动地点：</string>
     <string name="sign_up_people">报名情况：</string>
+    <string name="sign_up_qr_code">核销券码</string>
     <string name="sign_up_info">活动信息</string>
     <string name="sign_up_info_time">%1$s 至 %2$s</string>
     <string name="sign_up_info_number">"已报名%1$d人/限%2$d人报名"</string>
@@ -238,6 +239,9 @@
     <string name="coupon_discount">立省%1$s元</string>
     <string name="coupon_buy_now">立即购买</string>
     <string name="coupon_expired_time">过期日：%1$s</string>
+
+    <!-- store -->
+    <string name="store_title">选择门店</string>
 
     <!-- designer -->
     <string name="designer_shop">驻店设计师</string>

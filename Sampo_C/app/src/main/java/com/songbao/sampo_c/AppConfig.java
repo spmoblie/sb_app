@@ -126,8 +126,10 @@ public class AppConfig {
 	public final static String URL_USER_RESERVATION = "app/user/reservation";
 	// 我的定制
 	public final static String URL_USER_ORDER = "app/user/order";
-	// 定制设计
+	// 驻店设计
 	public final static String URL_USER_DESIGNER = "app/user/designer/getList";
+	// 门店列表
+	public final static String URL_STORE_LIST = "app/gcstore/list";
 
 	// 我的地址
 	public final static String URL_ADDRESS_LIST = "trade/app/consignee/list";
@@ -285,8 +287,10 @@ public class AppConfig {
 	public static final int REQUEST_SV_USER_RESERVATION = 0X3141;
 	// 我的定制
 	public static final int REQUEST_SV_USER_CUSTOMIZE = 0X3151;
-	// 定制设计
+	// 驻店设计
 	public static final int REQUEST_SV_USER_DESIGNER = 0X3161;
+	// 门店列表
+	public static final int REQUEST_SV_STORE_LIST = 0X3171;
 
 	// 我的地址
 	public static final int REQUEST_SV_ADDRESS_LIST = 0X3201;
@@ -599,7 +603,7 @@ public class AppConfig {
 	 ******************************************* 推送协议开始 ******************************************
 	 */
 
-	// 刷新预约核销码
+	// 刷新核销码
 	public static final int PUSH_MSG_TYPE_001 = 8001;
 
 	/**

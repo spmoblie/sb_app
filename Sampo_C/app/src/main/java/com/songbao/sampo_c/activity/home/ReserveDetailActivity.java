@@ -613,7 +613,7 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
             int msgType = intent.getIntExtra(AppConfig.RA_PAGE_RESERVE_KEY, 0);
             LogUtil.i("PushManager", TAG + " onReceive msgType = " + msgType);
             switch (msgType) {
-                case AppConfig.PUSH_MSG_TYPE_001: //刷新预约核销码
+                case AppConfig.PUSH_MSG_TYPE_001: //刷新核销码
                     isChange = true;
                     loadServerData();
                     break;

@@ -97,7 +97,7 @@ public class CommentORCAdapter extends BaseRecyclerAdapter<CommentEntity> {
         tv_add_to.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (ClickUtils.isDoubleClick()) return;
+                if (ClickUtils.isDoubleClick(v.getId())) return;
                 if (data.isAdd()) {
                     if (apCallback != null) {
                         apCallback.setOnClick(data, pos, 0);

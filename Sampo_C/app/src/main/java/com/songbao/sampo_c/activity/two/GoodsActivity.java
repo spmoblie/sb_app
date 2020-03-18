@@ -306,7 +306,7 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
 
                     @Override
                     public void onClick(View v) {
-                        if (ClickUtils.isDoubleClick()) return;
+                        if (ClickUtils.isDoubleClick(v.getId())) return;
                         openViewPagerActivity(al_image, position);
                     }
                 });
@@ -536,7 +536,6 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
                 openAttrView();
                 break;
             case R.id.bottom_add_cart_tv_customize:
-                openDesignerActivity(skuCode);
                 break;
         }
     }

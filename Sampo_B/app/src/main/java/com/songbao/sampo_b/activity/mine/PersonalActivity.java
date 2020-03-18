@@ -144,7 +144,7 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
 
     @Override
     public void onClick(View v) {
-        if (ClickUtils.isDoubleClick()) return;
+        if (ClickUtils.isDoubleClick(v.getId())) return;
         Intent intent;
         switch (v.getId()) {
             case R.id.personal_rl_head:

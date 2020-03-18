@@ -129,7 +129,7 @@ public class CustomizeAdapter extends BaseRecyclerAdapter<OCustomizeEntity> {
         tv_click_01.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (ClickUtils.isDoubleClick()) return;
+                if (ClickUtils.isDoubleClick(v.getId())) return;
                 if (apCallback != null) {
                     apCallback.setOnClick(data, pos, 1);
                 }
@@ -139,7 +139,7 @@ public class CustomizeAdapter extends BaseRecyclerAdapter<OCustomizeEntity> {
         tv_click_02.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (ClickUtils.isDoubleClick()) return;
+                if (ClickUtils.isDoubleClick(v.getId())) return;
                 if (apCallback != null) {
                     apCallback.setOnClick(data, pos, 2);
                 }
@@ -150,7 +150,7 @@ public class CustomizeAdapter extends BaseRecyclerAdapter<OCustomizeEntity> {
 
             @Override
             public void onClick(View v) {
-                if (ClickUtils.isDoubleClick()) return;
+                if (ClickUtils.isDoubleClick(v.getId())) return;
                 if (apCallback != null) {
                     apCallback.setOnClick(data, pos, 0);
                 }

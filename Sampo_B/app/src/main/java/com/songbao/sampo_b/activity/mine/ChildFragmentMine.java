@@ -139,7 +139,7 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
 
     @Override
     public void onClick(View v) {
-        if (ClickUtils.isDoubleClick()) return;
+        if (ClickUtils.isDoubleClick(v.getId())) return;
         switch (v.getId()) {
             case R.id.fg_mine_iv_scan:
                 Intent intent = new Intent(mContext, ScanActivity.class);

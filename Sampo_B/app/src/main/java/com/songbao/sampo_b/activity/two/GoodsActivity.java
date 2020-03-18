@@ -159,7 +159,7 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
 
                     @Override
                     public void onClick(View v) {
-                        if (ClickUtils.isDoubleClick()) return;
+                        if (ClickUtils.isDoubleClick(v.getId())) return;
                         openViewPagerActivity(al_image, position);
                     }
                 });
@@ -299,7 +299,7 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.goods_tv_click:
-                if (ClickUtils.isDoubleClick()) return;
+                if (ClickUtils.isDoubleClick(v.getId())) return;
                 if (goodsEn == null) {
                     dataErrorHandle();
                     return;

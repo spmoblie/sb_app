@@ -180,7 +180,6 @@ public class CartActivity extends BaseActivity implements View.OnClickListener {
                             updateGoodsNumber(cartEn.getId(), buyNumber, goodsEn.getSkuCode());
                             break;
                         case 5: //定制
-                            openDesignerActivity(goodsEn.getSkuCode());
                             break;
                         case 6: //删除
                             al_show.get(position).setSelect(true);

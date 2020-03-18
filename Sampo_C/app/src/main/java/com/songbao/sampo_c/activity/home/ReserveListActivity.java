@@ -67,6 +67,7 @@ public class ReserveListActivity extends BaseActivity implements OnClickListener
 	}
 
 	private void initRecyclerView() {
+		refresh_rv.setBackgroundResource(R.color.ui_color_app_bg_01);
 		refresh_rv.setPullRefreshEnabled(true); //下拉刷新
 		refresh_rv.setPullLoadEnabled(true); //上拉加载
 		refresh_rv.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<MyRecyclerView>() {

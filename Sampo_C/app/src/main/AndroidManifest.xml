@@ -211,11 +211,15 @@
 
         <!-- three -->
         <activity
-            android:name=".activity.three.DesignerListActivity"
+            android:name=".activity.three.DesignerActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.three.GoodsOffActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.three.StoreActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
 

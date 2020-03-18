@@ -115,7 +115,7 @@ public class AddressAdapter extends BaseRecyclerAdapter<AddressEntity> {
         iv_edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (ClickUtils.isDoubleClick()) return;
+                if (ClickUtils.isDoubleClick(v.getId())) return;
                 if (apCallback != null) {
                     apCallback.setOnClick(data, pos, 1);
                 }
@@ -124,7 +124,7 @@ public class AddressAdapter extends BaseRecyclerAdapter<AddressEntity> {
         tv_default.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (ClickUtils.isDoubleClick()) return;
+                if (ClickUtils.isDoubleClick(v.getId())) return;
                 if (apCallback != null) {
                     apCallback.setOnClick(data, pos, 5);
                 }
@@ -133,7 +133,7 @@ public class AddressAdapter extends BaseRecyclerAdapter<AddressEntity> {
         tv_delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (ClickUtils.isDoubleClick()) return;
+                if (ClickUtils.isDoubleClick(v.getId())) return;
                 if (apCallback != null) {
                     apCallback.setOnClick(data, pos, 6);
                 }

@@ -110,7 +110,7 @@ public class ThemeListAdapter extends RecyclerView.Adapter<ThemeListAdapter.View
         viewHolder.tv_sign.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (ClickUtils.isDoubleClick()) return;
+                if (ClickUtils.isDoubleClick(v.getId())) return;
                 if (apCallback != null) {
                     apCallback.setOnClick(data, pos, 1);
                 }
@@ -121,7 +121,7 @@ public class ThemeListAdapter extends RecyclerView.Adapter<ThemeListAdapter.View
 
             @Override
             public void onClick(View v) {
-                if (ClickUtils.isDoubleClick()) return;
+                if (ClickUtils.isDoubleClick(v.getId())) return;
                 if (apCallback != null) {
                     apCallback.setOnClick(data, pos, 0);
                 }

@@ -56,9 +56,7 @@ import com.songbao.sampo_c.activity.login.LoginPhoneActivity;
 import com.songbao.sampo_c.activity.login.RegisterActivity;
 import com.songbao.sampo_c.activity.login.RegisterOauthActivity;
 import com.songbao.sampo_c.activity.login.ResetPasswordActivity;
-import com.songbao.sampo_c.activity.mine.CommentAddActivity;
-import com.songbao.sampo_c.activity.mine.CommentPostActivity;
-import com.songbao.sampo_c.activity.three.DesignerListActivity;
+import com.songbao.sampo_c.activity.three.DesignerActivity;
 import com.songbao.sampo_c.activity.three.GoodsOffActivity;
 import com.songbao.sampo_c.activity.two.CartActivity;
 import com.songbao.sampo_c.activity.two.GoodsActivity;
@@ -68,7 +66,6 @@ import com.songbao.sampo_c.adapter.GoodsAttrAdapter;
 import com.songbao.sampo_c.dialog.DialogManager;
 import com.songbao.sampo_c.dialog.LoadDialog;
 import com.songbao.sampo_c.entity.BaseEntity;
-import com.songbao.sampo_c.entity.CommentEntity;
 import com.songbao.sampo_c.entity.GoodsAttrEntity;
 import com.songbao.sampo_c.entity.ShareEntity;
 import com.songbao.sampo_c.utils.ClickUtils;
@@ -450,7 +447,7 @@ public class BaseActivity extends FragmentActivity {
         AppManager.getInstance().finishActivity(GoodsActivity.class);
         AppManager.getInstance().finishActivity(GoodsListActivity.class);
         AppManager.getInstance().finishActivity(SketchActivity.class);
-        AppManager.getInstance().finishActivity(DesignerListActivity.class);
+        AppManager.getInstance().finishActivity(DesignerActivity.class);
     }
 
     /**
@@ -518,19 +515,6 @@ public class BaseActivity extends FragmentActivity {
         intent.putExtra("title", title);
         intent.putExtra("lodUrl", url);
         startActivity(intent);
-    }
-
-    /**
-     * 打开设计师列表页
-     */
-    protected void openDesignerActivity(String skuCode) {
-        if (isLogin()) {
-            Intent intent = new Intent(mContext, DesignerListActivity.class);
-            intent.putExtra("skuCode", skuCode);
-            startActivity(intent);
-        } else {
-            openLoginActivity();
-        }
     }
 
     /**
@@ -1324,7 +1308,7 @@ public class BaseActivity extends FragmentActivity {
             iv_goods_img.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (ClickUtils.isDoubleClick()) return;
+                    if (ClickUtils.isDoubleClick(v.getId())) return;
                     openViewPagerActivity(al_attrImg, 0);
                 }
             });

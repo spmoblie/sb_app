@@ -59,7 +59,7 @@ public class GoodsListAdapter extends BaseRecyclerAdapter<GoodsEntity> {
 
             @Override
             public void onClick(View v) {
-                if (ClickUtils.isDoubleClick()) return;
+                if (ClickUtils.isDoubleClick(v.getId())) return;
                 if (apCallback != null) {
                     apCallback.setOnClick(data, pos, 0);
                 }

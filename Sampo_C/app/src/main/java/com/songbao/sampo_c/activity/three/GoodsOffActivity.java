@@ -1,5 +1,6 @@
 package com.songbao.sampo_c.activity.three;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -159,7 +160,7 @@ public class GoodsOffActivity extends BaseActivity implements OnClickListener {
 
                     @Override
                     public void onClick(View v) {
-                        if (ClickUtils.isDoubleClick()) return;
+                        if (ClickUtils.isDoubleClick(v.getId())) return;
                         openViewPagerActivity(al_image, position);
                     }
                 });
@@ -299,13 +300,26 @@ public class GoodsOffActivity extends BaseActivity implements OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.goods_off_tv_click:
-                if (ClickUtils.isDoubleClick()) return;
+                if (ClickUtils.isDoubleClick(v.getId())) return;
                 if (goodsEn == null) {
                     dataErrorHandle();
                     return;
                 }
-                openDesignerActivity(goodsCode);
+                openStoreActivity(goodsCode);
                 break;
+        }
+    }
+
+    /**
+     * 打开门店列表
+     */
+    protected void openStoreActivity(String skuCode) {
+        if (isLogin()) {
+            Intent intent = new Intent(mContext, StoreActivity.class);
+            intent.putExtra("skuCode", skuCode);
+            startActivity(intent);
+        } else {
+            openLoginActivity();
         }
     }
 

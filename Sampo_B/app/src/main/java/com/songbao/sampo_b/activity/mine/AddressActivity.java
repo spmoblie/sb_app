@@ -308,7 +308,7 @@ public class AddressActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     public void onClick(View v) {
-        if (ClickUtils.isDoubleClick()) return;
+        if (ClickUtils.isDoubleClick(v.getId())) return;
         switch (v.getId()) {
             case R.id.address_view_tv_address_add:
                 if (isManage) { //删除

@@ -18,6 +18,7 @@ import com.songbao.sampo_c.entity.OProgressEntity;
 import com.songbao.sampo_c.entity.OPurchaseEntity;
 import com.songbao.sampo_c.entity.OptionEntity;
 import com.songbao.sampo_c.entity.PaymentEntity;
+import com.songbao.sampo_c.entity.StoreEntity;
 import com.songbao.sampo_c.entity.ThemeEntity;
 import com.songbao.sampo_c.entity.UserInfoEntity;
 import com.songbao.sampo_c.wxapi.WXPayEntryActivity;
@@ -187,11 +188,8 @@ public class JsonUtils {
                 if (StringUtil.notNull(item, "description")) {
                     childEn.setDescription(item.getString("description"));
                 }
-                if (StringUtil.notNull(item, "descriptionImg")) {
-                    ArrayList<String> imgList = new ArrayList<>();
-                    imgList.add(item.getString("descriptionImg"));
-                    childEn.setDesUrls(imgList);
-                    //childEn.setDesUrls(getStringList(item.getString("descriptionImg")));
+                if (StringUtil.notNull(item, "descriptionImgList")) {
+                    childEn.setDesUrls(getStringList(item.getString("descriptionImgList")));
                 }
 
                 mainEn.setData(childEn);
@@ -368,25 +366,51 @@ public class JsonUtils {
     }
 
     /**
+     * 解析门店数据
+     */
+    public static BaseEntity<StoreEntity> getStoreData(JSONObject jsonObject) throws JSONException {
+        BaseEntity<StoreEntity> mainEn = getCommonKeyValue(jsonObject);
+
+        if (StringUtil.notNull(jsonObject, "data")) {
+            JSONArray jsonData = jsonObject.getJSONArray("data");
+            StoreEntity childEn;
+            List<StoreEntity> lists = new ArrayList<>();
+            for (int j = 0; j < jsonData.length(); j++) {
+                JSONObject item = jsonData.getJSONObject(j);
+                childEn = new StoreEntity();
+                childEn.setId(item.getInt("id"));
+                childEn.setImgUrl(item.getString("storePic"));
+                childEn.setName(item.getString("storeName"));
+                childEn.setArea(item.getString("storeAddress"));
+                //childEn.setInfo(item.getString("description"));
+                lists.add(childEn);
+            }
+            mainEn.setLists(lists);
+        }
+        return mainEn;
+    }
+
+    /**
      * 解析设计师数据
      */
     public static BaseEntity<DesignerEntity> getDesignData(JSONObject jsonObject) throws JSONException {
         BaseEntity<DesignerEntity> mainEn = getCommonKeyValue(jsonObject);
 
         if (StringUtil.notNull(jsonObject, "data")) {
-            JSONObject jsonData = jsonObject.getJSONObject("data");
-            if (StringUtil.notNull(jsonData, "values")) {
-                JSONArray data = jsonData.getJSONArray("values");
-                DesignerEntity childEn;
-                List<DesignerEntity> lists = new ArrayList<>();
-                for (int j = 0; j < data.length(); j++) {
-                    JSONObject item = data.getJSONObject(j);
-                    childEn = new DesignerEntity();
-                    childEn.setImgUrl(item.getString("url"));
-                    lists.add(childEn);
-                }
-                mainEn.setLists(lists);
+            JSONArray jsonData = jsonObject.getJSONArray("data");
+            DesignerEntity childEn;
+            List<DesignerEntity> lists = new ArrayList<>();
+            for (int j = 0; j < jsonData.length(); j++) {
+                JSONObject item = jsonData.getJSONObject(j);
+                childEn = new DesignerEntity();
+                childEn.setId(item.getInt("id"));
+                childEn.setImgUrl(item.getString("avatar"));
+                childEn.setName(item.getString("nickname"));
+                childEn.setPhone(item.getString("mobile"));
+                childEn.setInfo(item.getString("description"));
+                lists.add(childEn);
             }
+            mainEn.setLists(lists);
         }
         return mainEn;
     }

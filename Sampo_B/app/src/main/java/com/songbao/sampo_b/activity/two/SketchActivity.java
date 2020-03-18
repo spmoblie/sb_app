@@ -53,7 +53,7 @@ public class SketchActivity extends BaseActivity {
 		tv_click.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if (ClickUtils.isDoubleClick()) return;
+				if (ClickUtils.isDoubleClick(v.getId())) return;
 				openDesignerActivity("goodsId");
 			}
 		});

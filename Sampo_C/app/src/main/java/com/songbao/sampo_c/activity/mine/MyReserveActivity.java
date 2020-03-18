@@ -65,6 +65,8 @@ public class MyReserveActivity extends BaseActivity {
 	}
 
 	private void initRecyclerView() {
+		refresh_rv.setHeaderLayoutBackground(R.color.ui_color_app_bg_02);
+		refresh_rv.setFooterLayoutBackground(R.color.ui_color_app_bg_02);
 		refresh_rv.setPullRefreshEnabled(true); //下拉刷新
 		refresh_rv.setPullLoadEnabled(true); //上拉加载
 		refresh_rv.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<MyRecyclerView>() {
