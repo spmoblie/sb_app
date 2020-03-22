@@ -34,6 +34,7 @@ import com.songbao.sampo_c.utils.retrofit.HttpRequests;
 import com.songbao.sampo_c.widgets.ObservableScrollView;
 import com.songbao.sampo_c.widgets.RoundImageView;
 import com.songbao.sampo_c.widgets.ScrollViewListView;
+import com.songbao.sampo_c.wxapi.WXPayEntryActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -391,9 +392,13 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
 					tv_4_confirm.setBackgroundResource(R.drawable.shape_style_empty_03_08);
 				} else {
 					tv_4_confirm.setOnClickListener(this);
-					tv_4_confirm.setText(getString(R.string.order_confirm_payment));
+					tv_4_confirm.setText(getString(R.string.pay_title));
+					if (ocEn.getPrice() > 0) {
+						tv_4_confirm.setBackgroundResource(R.drawable.shape_style_solid_04_08);
+					} else {
+						tv_4_confirm.setBackgroundResource(R.drawable.shape_style_solid_03_08);
+					}
 					tv_4_confirm.setTextColor(getResources().getColor(R.color.app_color_white));
-					tv_4_confirm.setBackgroundResource(R.drawable.shape_style_solid_04_08);
 				}
 				tv_4_confirm.setVisibility(View.VISIBLE);
 			}
@@ -546,7 +551,8 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
 			lv_7_Adapter.addCallback(new AdapterCallback() {
 				@Override
 				public void setOnClick(Object data, int position, int type) {
-
+					// 查看物流
+					showErrorDialog(R.string.order_logistics_null);
 				}
 			});
 		}
@@ -567,7 +573,7 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
 		switch (v.getId()) {
 			case R.id.customize_tv_module_1_check_goods:
 				//商品详情
-				openGoodsActivity(goodsCode);
+				openGoodsOffActivity(goodsCode);
 				break;
 			case R.id.customize_tv_module_3_show:
 				//查看效果图
@@ -582,7 +588,8 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
 			case R.id.customize_tv_module_4_confirm:
 				//确认支付
 				if (!isPayment) {
-					showConfirmDialog(getString(R.string.order_confirm_payment_hint), new MyHandler(this), 4);
+					startPay(ocEn.getOrderNo(), ocEn.getPrice());
+					//showConfirmDialog(getString(R.string.order_confirm_payment_hint), new MyHandler(this), 4);
 				}
 				break;
 			case R.id.customize_tv_module_5_select_address:
@@ -696,6 +703,18 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
 		} catch (JSONException e) {
 			ExceptionUtil.handle(e);
 		}
+	}
+
+	/**
+	 * 在线支付
+	 */
+	private void startPay(String orderSn, double payPrice) {
+		if (StringUtil.isNull(orderSn) || payPrice <= 0) return;
+		Intent intent = new Intent(mContext, WXPayEntryActivity.class);
+		intent.putExtra("sourceType", WXPayEntryActivity.SOURCE_TYPE_3);
+		intent.putExtra("orderSn", orderSn);
+		intent.putExtra("orderTotal", df.format(payPrice));
+		startActivityForResult(intent, AppConfig.ACTIVITY_CODE_PAY_DATA);
 	}
 
 	/**
@@ -870,7 +889,13 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (resultCode == RESULT_OK) {
-			if (requestCode == AppConfig.ACTIVITY_CODE_SELECT_ADDS) {
+			if (requestCode == AppConfig.ACTIVITY_CODE_PAY_DATA) {
+				boolean isPayOk = data.getBooleanExtra(AppConfig.ACTIVITY_KEY_PAY_RESULT, false);
+				if (isPayOk) {
+					updateCode = AppConfig.ORDER_STATUS_201;
+					loadOrderData();
+				}
+			} else if (requestCode == AppConfig.ACTIVITY_CODE_SELECT_ADDS) {
 				AddressEntity selectAddEn = (AddressEntity) data.getSerializableExtra(AppConfig.PAGE_DATA);
 				if (selectAddEn != null) {
 					postAddressData(selectAddEn);
@@ -896,7 +921,7 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
 					theActivity.postConfirmDesigns();
 					break;
 				case 4: //确认支付
-					theActivity.postConfirmPayment();
+					//theActivity.postConfirmPayment();
 					break;
 				case 7: //确认收货
 					theActivity.postConfirmReceipt();

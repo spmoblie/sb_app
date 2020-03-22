@@ -11,7 +11,7 @@ public class AppConfig {
 	 */
 
 	// 发布控制
-	public static final boolean IS_PUBLISH = false;
+	public static final boolean IS_PUBLISH = true;
 	// http协议
 	public final static String APP_HTTP = "http://";
 	// https协议
@@ -30,6 +30,8 @@ public class AppConfig {
 	// 关于我们
 	public final static String ABOUT_US = "https://www.sbwg.cn/";
 
+	// 校验版本
+	public final static String URL_AUTH_VERSION = "/app/index/version";
 	// 校验设备
 	public final static String URL_AUTH_DEVICE = "/app/auth/deviceToken";
 	// 短信验证
@@ -126,8 +128,8 @@ public class AppConfig {
 	public final static String URL_USER_RESERVATION = "app/user/reservation";
 	// 我的定制
 	public final static String URL_USER_ORDER = "app/user/order";
-	// 驻店设计
-	public final static String URL_USER_DESIGNER = "app/user/designer/getList";
+	// 门店设计
+	public final static String URL_USER_DESIGNER = "app/user/designer/list";
 	// 门店列表
 	public final static String URL_STORE_LIST = "app/gcstore/list";
 
@@ -287,7 +289,7 @@ public class AppConfig {
 	public static final int REQUEST_SV_USER_RESERVATION = 0X3141;
 	// 我的定制
 	public static final int REQUEST_SV_USER_CUSTOMIZE = 0X3151;
-	// 驻店设计
+	// 门店设计
 	public static final int REQUEST_SV_USER_DESIGNER = 0X3161;
 	// 门店列表
 	public static final int REQUEST_SV_STORE_LIST = 0X3171;
@@ -477,6 +479,8 @@ public class AppConfig {
 	// 媒体临时缓存路径（应用关闭时清除）
 	public static final String SAVE_PATH_MEDIA_DICE = SD_PATH + "media/" + APP_ROOT_NAME + "_MD/";
 
+	// Apk存储路径
+	public static final String SAVE_APK_PATH = SAVE_PATH_APK_DICE + "/" + APP_ROOT_NAME + "_008.apk";
 	// 用户数据存储路径
 	public static final String SAVE_USER_DATA_PATH = SD_PATH + "user/";
 	// 用户头像存储路径

@@ -375,7 +375,18 @@ public class MyPurchaseActivity extends BaseActivity implements View.OnClickList
             al_show.get(selectPosition).setStatus(AppConfig.ORDER_STATUS_102);
             al_all_1.get(selectPosition).setStatus(AppConfig.ORDER_STATUS_102);
         }
-        updateAllData();
+        updateLimitData();
+    }
+
+    /**
+     * 支付订单刷新
+     */
+    private void payOrderUpdate() {
+        if (top_type == TYPE_1) {
+            al_show.get(selectPosition).setStatus(AppConfig.ORDER_STATUS_301);
+            al_all_1.get(selectPosition).setStatus(AppConfig.ORDER_STATUS_301);
+        }
+        updateLimitData();
     }
 
     /**
@@ -386,7 +397,7 @@ public class MyPurchaseActivity extends BaseActivity implements View.OnClickList
             al_show.remove(selectPosition);
             al_all_1.remove(selectPosition);
         }
-        updateAllData();
+        updateLimitData();
     }
 
     /**
@@ -397,13 +408,13 @@ public class MyPurchaseActivity extends BaseActivity implements View.OnClickList
             al_show.get(selectPosition).setStatus(AppConfig.ORDER_STATUS_501);
             al_all_1.get(selectPosition).setStatus(AppConfig.ORDER_STATUS_501);
         }
-        updateAllData();
+        updateLimitData();
     }
 
     /**
-     * 刷新所有数据
+     * 限制刷新数据
      */
-    private void updateAllData() {
+    private void updateLimitData() {
         al_all_2.clear();
         al_all_3.clear();
         al_all_4.clear();
@@ -794,11 +805,19 @@ public class MyPurchaseActivity extends BaseActivity implements View.OnClickList
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
-            if (requestCode == AppConfig.ACTIVITY_CODE_ORDER_UPDATE) {
+            if (requestCode == AppConfig.ACTIVITY_CODE_PAY_DATA) {
+                boolean isPayOk = data.getBooleanExtra(AppConfig.ACTIVITY_KEY_PAY_RESULT, false);
+                if (isPayOk) {
+                    payOrderUpdate();
+                }
+            } else if (requestCode == AppConfig.ACTIVITY_CODE_ORDER_UPDATE) {
                 int updateType = data.getIntExtra(AppConfig.PAGE_DATA, 0);
                 switch (updateType) {
                     case AppConfig.ORDER_STATUS_102: //取消订单
                         cancelOrderUpdate();
+                        break;
+                    case AppConfig.ORDER_STATUS_301: //支付订单
+                        payOrderUpdate();
                         break;
                     case -999: //删除订单
                         deleteOrderUpdate();

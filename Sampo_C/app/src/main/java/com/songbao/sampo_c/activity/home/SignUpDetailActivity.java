@@ -317,7 +317,7 @@ public class SignUpDetailActivity extends BaseActivity implements View.OnClickLi
             dataErrorHandle();
             return false;
         }
-        if (pageType == 1 || status == 2)
+        if (pageType == 1 || status != 1)
             return false;
         return true;
     }

@@ -149,6 +149,38 @@ public class FileManager {
 	}
 
 	/**
+	 * 写入数据（Object）
+	 *
+	 * @param path 写入文件名
+	 * @param obj 写入对象
+	 */
+	public static void writeFileSaveObject(String path, Object obj) {
+		if (StringUtil.isNull(path) || obj == null) return;
+		ObjectOutputStream objOut = null;
+		FileOutputStream fos = null;
+		try {
+			checkFilePath(path);
+			fos = new FileOutputStream(new File(path));
+			objOut = new ObjectOutputStream(fos);
+			objOut.writeObject(obj);
+			objOut.flush();
+		} catch (IOException e) {
+			ExceptionUtil.handle(e);
+		}finally{
+			try {
+				if (fos != null) {
+					fos.close();
+				}
+				if (objOut != null) {
+					objOut.close();
+				}
+			} catch (IOException e) {
+				ExceptionUtil.handle(e);
+			}
+		}
+	}
+
+	/**
 	 * 读取数据（Object）
 	 *
 	 * @param fileName 文件名
@@ -200,7 +232,7 @@ public class FileManager {
 	/**
 	 * 校验文件路径，不存在则创建
 	 */
-	static void checkFilePath(String path) throws IOException {
+	public static void checkFilePath(String path) throws IOException {
 		File file = new File(path);
 		//判定文件所在的目录是否存在，不存在则创建
 		File parentFile = file.getParentFile();

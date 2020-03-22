@@ -586,6 +586,12 @@ public class PurchaseActivity extends BaseActivity implements View.OnClickListen
             if (requestCode == AppConfig.ACTIVITY_CODE_SELECT_ADDS) {
                 AddressEntity selectEn = (AddressEntity) data.getSerializableExtra(AppConfig.PAGE_DATA);
                 postAddressData(selectEn);
+            } else if (requestCode == AppConfig.ACTIVITY_CODE_PAY_DATA) {
+                boolean isPayOk = data.getBooleanExtra(AppConfig.ACTIVITY_KEY_PAY_RESULT, false);
+                if (isPayOk) {
+                    updateType = AppConfig.ORDER_STATUS_301;
+                    loadServerData();
+                }
             } else if (requestCode == AppConfig.ACTIVITY_CODE_COMMENT_STATE) {
                 loadServerData();
             }

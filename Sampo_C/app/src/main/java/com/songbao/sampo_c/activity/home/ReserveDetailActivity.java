@@ -132,6 +132,7 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
     private Bitmap qrImage;
     private int dataPos = 0; //列表定位器
     private int pageType = 0; //2:我的预约
+    private int status = 0;
     private int writeOffStatus = 0;
     private double payAmount = 0.00;
     private boolean isDateOk = false;
@@ -217,6 +218,9 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
             tv_slot.setText(sb.toString());
             tv_place.setText(data.getAddress());
             tv_suit.setText(data.getSuit());
+
+            status = data.getStatus();
+            checkDateState();
 
             if (pageType == 2) { //我的预约
                 tv_date.setText(data.getReserveDate());
@@ -364,7 +368,7 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
             dataErrorHandle();
             return false;
         }
-        if (pageType == 2)
+        if (pageType == 2 || status != 1)
             return false;
         if (!isLogin()) { //未登录
             openLoginActivity();
@@ -387,26 +391,36 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
     }
 
     private void checkDateState() {
-        if (StringUtil.isNull(dateStr)) {
-            dateStr = "";
-            isDateOk = false;
-        } else {
-            isDateOk = true;
-        }
-        tv_date.setText(dateStr);
+        switch (status) {
+            case 1: //已上架
+                if (StringUtil.isNull(dateStr)) {
+                    dateStr = "";
+                    isDateOk = false;
+                } else {
+                    isDateOk = true;
+                }
+                tv_date.setText(dateStr);
 
-        if (StringUtil.isNull(timeStr)) {
-            timeStr = "";
-            isTimeOk = false;
-        } else {
-            isTimeOk = true;
-        }
-        tv_time.setText(timeStr);
+                if (StringUtil.isNull(timeStr)) {
+                    timeStr = "";
+                    isTimeOk = false;
+                } else {
+                    isTimeOk = true;
+                }
+                tv_time.setText(timeStr);
 
-        if (isDateOk && isTimeOk) {
-            setClickState(getString(R.string.pay_now), true);
-        } else {
-            setClickState(getString(R.string.reserve_choice), true);
+                if (isDateOk && isTimeOk) {
+                    setClickState(getString(R.string.pay_now), true);
+                } else {
+                    setClickState(getString(R.string.reserve_choice), true);
+                }
+                break;
+            case 2: //已截止
+                setClickState(getString(R.string.reserve_stop), false);
+                break;
+            default: //已下架
+                setClickState(getString(R.string.reserve_lower), false);
+                break;
         }
     }
 

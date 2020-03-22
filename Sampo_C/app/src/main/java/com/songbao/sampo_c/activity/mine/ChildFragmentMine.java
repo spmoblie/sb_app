@@ -25,6 +25,7 @@ import com.songbao.sampo_c.R;
 import com.songbao.sampo_c.activity.BaseFragment;
 import com.songbao.sampo_c.dialog.DialogManager;
 import com.songbao.sampo_c.entity.BaseEntity;
+import com.songbao.sampo_c.entity.UserDataEntity;
 import com.songbao.sampo_c.entity.UserInfoEntity;
 import com.songbao.sampo_c.utils.ExceptionUtil;
 import com.songbao.sampo_c.utils.JsonUtils;
@@ -333,12 +334,16 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
                     handleErrorCode(baseEn);
                     break;
                 case AppConfig.REQUEST_SV_USER_DYNAMIC:
-                    BaseEntity numEn = JsonUtils.getUserDynamic(jsonObject);
-                    if (numEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
-                        userManager.saveUserMsgNum(numEn.getDataTotal());
+                    BaseEntity<UserDataEntity> dataEn = JsonUtils.getUserDynamic(jsonObject);
+                    if (dataEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
+                        UserDataEntity data = dataEn.getData();
+                        userManager.saveUserMsgNum(data.getMessageNum());
+                        if (data.getCartGoodsNum() > 0) {
+                            userManager.saveUserCartNum(data.getCartGoodsNum());
+                        }
                         initUserView();
                     }
-                    handleErrorCode(numEn);
+                    handleErrorCode(dataEn);
                     break;
             }
         } catch (Exception e) {

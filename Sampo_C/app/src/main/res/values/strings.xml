@@ -191,6 +191,8 @@
     <string name="reserve_success_show">恭喜您！预约成功</string>
     <string name="reserve_fail">预约失败\tT_T</string>
     <string name="reserve_error">预约结果未知~</string>
+    <string name="reserve_stop">已截止</string>
+    <string name="reserve_lower">已下架</string>
 
     <!-- Choice -->
     <string name="choice_date">选择场次</string>
@@ -245,8 +247,8 @@
 
     <!-- designer -->
     <string name="designer_shop">驻店设计师</string>
-    <string name="designer_subscribe">下单定制</string>
-    <string name="designer_subscribe_ok">下单成功</string>
+    <string name="designer_subscribe">预约定制</string>
+    <string name="designer_subscribe_ok">预约成功</string>
     <string name="designer_subscribe_tips">确认选择%1$s么?</string>
 
     <!-- comment -->

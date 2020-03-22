@@ -5,8 +5,8 @@ public class UpdateVersionEntity extends BaseEntity {
 	private static final long serialVersionUID = 1L;
 
 	private String description; //版本更新描绘
-	private String version; //版本号
-	private String url;
+	private String version; //最新版本号
+	private String url; //下载新版地址
 	private boolean force; //是否强制更新
 
 	

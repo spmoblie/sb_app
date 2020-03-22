@@ -142,7 +142,7 @@ ext.deps = deps
 
 def build_versions = [:]
 build_versions.min_sdk = 19
-build_versions.target_sdk = 28
+build_versions.target_sdk = 29
 ext.build_versions = build_versions
 
 def app_version = [:]

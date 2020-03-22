@@ -198,7 +198,9 @@ public class RetrofitServiceManager {
             //打印Body信息
             String body = response.body().string();
             LogUtil.i(LogUtil.LOG_HTTP, "Body : " + body);
-            return response.newBuilder().body(ResponseBody.create(mediaType, body)).build();
+
+            return chain.proceed(request); //使用下面一行代码会导致下载的文件大小被复制了一倍
+            //return response.newBuilder().body(ResponseBody.create(mediaType, body)).build();
         }
     };
 

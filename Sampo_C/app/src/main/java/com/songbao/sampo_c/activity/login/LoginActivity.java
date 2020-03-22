@@ -50,6 +50,7 @@ import com.tencent.tauth.IUiListener;
 import com.tencent.tauth.Tencent;
 import com.tencent.tauth.UiError;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.HashMap;
@@ -429,10 +430,19 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 
 			@Override
 			public void run() {
-                HashMap<String, Object> map = new HashMap<>();
-                map.put("type", loginType);
-                map.put("otherId", postUid);
-                loadSVData(AppConfig.URL_AUTH_OAUTH, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_AUTH_OAUTH);
+                try {
+                    JSONObject jsonObj = new JSONObject();
+                    jsonObj.put("unionid", postUid);
+                    if (!StringUtil.isNull(openid)) {
+                        jsonObj.put("openid", openid);
+                    }
+                    HashMap<String, Object> map = new HashMap<>();
+                    map.put("type", loginType);
+                    map.put("json", jsonObj);
+                    loadSVData(AppConfig.URL_AUTH_OAUTH, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_AUTH_OAUTH);
+                } catch (JSONException e) {
+                    ExceptionUtil.handle(e);
+                }
 			}
 		}, AppConfig.LOADING_TIME);
     }

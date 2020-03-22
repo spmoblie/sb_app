@@ -20,6 +20,8 @@ import com.songbao.sampo_c.entity.OptionEntity;
 import com.songbao.sampo_c.entity.PaymentEntity;
 import com.songbao.sampo_c.entity.StoreEntity;
 import com.songbao.sampo_c.entity.ThemeEntity;
+import com.songbao.sampo_c.entity.UpdateVersionEntity;
+import com.songbao.sampo_c.entity.UserDataEntity;
 import com.songbao.sampo_c.entity.UserInfoEntity;
 import com.songbao.sampo_c.wxapi.WXPayEntryActivity;
 
@@ -64,6 +66,24 @@ public class JsonUtils {
             urls.add(param.get(i).toString());
         }
         return urls;
+    }
+
+    /**
+     * 检查版本更新
+     */
+    public static BaseEntity<UpdateVersionEntity> checkVersionUpdate(JSONObject jsonObject) throws JSONException {
+        BaseEntity<UpdateVersionEntity> mainEn = getCommonKeyValue(jsonObject);
+
+        if (StringUtil.notNull(jsonObject, "data")) {
+            JSONObject jsonData = jsonObject.getJSONObject("data");
+            UpdateVersionEntity uvEn = new UpdateVersionEntity();
+            uvEn.setDescription(jsonData.getString("description"));
+            uvEn.setVersion(jsonData.getString("verison"));
+            uvEn.setUrl(jsonData.getString("url"));
+            uvEn.setForce(jsonData.getBoolean("forces"));
+            mainEn.setData(uvEn);
+        }
+        return mainEn;
     }
 
     /**
@@ -319,14 +339,19 @@ public class JsonUtils {
     /**
      * 解析用户动态数据
      */
-    public static BaseEntity getUserDynamic(JSONObject jsonObject) throws JSONException {
-        BaseEntity mainEn = getCommonKeyValue(jsonObject);
+    public static BaseEntity<UserDataEntity> getUserDynamic(JSONObject jsonObject) throws JSONException {
+        BaseEntity<UserDataEntity> mainEn = getCommonKeyValue(jsonObject);
 
         if (StringUtil.notNull(jsonObject, "data")) {
             JSONObject jsonData = jsonObject.getJSONObject("data");
+            UserDataEntity dataEn = new UserDataEntity();
             if (StringUtil.notNull(jsonData, "messageCount")) {
-                mainEn.setDataTotal(jsonData.getInt("messageCount"));
+                dataEn.setMessageNum(jsonData.getInt("messageCount"));
             }
+            if (StringUtil.notNull(jsonData, "getCartNum")) {
+                dataEn.setCartGoodsNum(jsonData.getInt("getCartNum"));
+            }
+            mainEn.setData(dataEn);
         }
         return mainEn;
     }
@@ -382,7 +407,7 @@ public class JsonUtils {
                 childEn.setImgUrl(item.getString("storePic"));
                 childEn.setName(item.getString("storeName"));
                 childEn.setArea(item.getString("storeAddress"));
-                //childEn.setInfo(item.getString("description"));
+                childEn.setInfo(item.getString("storeDetails"));
                 lists.add(childEn);
             }
             mainEn.setLists(lists);
