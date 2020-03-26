@@ -1,13 +1,16 @@
 package com.songbao.sampo_c.activity.two;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -16,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -95,6 +99,9 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
     @BindView(R.id.goods_tv_price)
     TextView tv_price;
 
+    @BindView(R.id.goods_rl_label_main)
+    RelativeLayout label_main;
+
     @BindView(R.id.goods_spec_choice_main)
     ConstraintLayout spec_main;
 
@@ -145,11 +152,11 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
     private int top_type = TYPE_1; //Top标记
 
     private GoodsEntity goodsEn;
+    private Drawable label_img;
     private String skuCode, goodsCode;
     private boolean isLoop = false;
     private boolean vprStop = false;
     private boolean isOpenAttr = false;
-    private int commentNum, goodStar;
     private int idsSize, idsPosition, vprPosition;
     private ImageView[] indicators = null;
     private ArrayList<ImageView> viewLists = new ArrayList<>();
@@ -187,6 +194,9 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
         indicatorsLP = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
         indicatorsLP.setMargins(ind_margin, 0, 0, 0);
 
+        label_img = getResources().getDrawable(R.mipmap.icon_label);
+        label_img.setBounds(0, 0, label_img.getMinimumWidth(), label_img.getMinimumHeight());
+
         initRadioGroup();
         initScrollView();
         loadGoodsData();
@@ -204,6 +214,9 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
             tv_name.setText(goodsEn.getName());
             tv_price.setText(df.format(goodsEn.getPrice()));
 
+            //商品标签
+            initLabelView(label_main, goodsEn.getLabelList());
+
             //已选属性
             updateSelectAttrStr(goodsEn.getAttrEn());
 
@@ -215,12 +228,11 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
             initViewPager();
 
             //精彩评论
+            int commentNum = 0;
+            int goodStar = 0;
             if (al_comment.size() > 0) {
                 commentNum = al_comment.get(0).getNumber();
                 goodStar = al_comment.get(0).getGoodStar();
-            } else {
-                commentNum = 0;
-                goodStar = 0;
             }
             tv_comment_num.setText(getString(R.string.goods_good_comment_num, commentNum));
             tv_percentage.setText(getString(R.string.goods_good_comment_pct, goodStar, "%"));
@@ -445,6 +457,69 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
         }
         if (vp_indicator != null) {
             vp_indicator.removeAllViews();
+        }
+    }
+
+    /**
+     * 动态添加标签View
+     */
+    private void initLabelView(RelativeLayout rl_main, ArrayList<String> nameLists) {
+        if (rl_main == null || nameLists == null || nameLists.size() == 0) return;
+        Context context = rl_main.getContext();
+        rl_main.removeAllViews();
+
+        int mgLeft = CommonTools.dpToPx(context, 30);
+        int mgDps = CommonTools.dpToPx(context, 0);
+        int tvSpec = View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED);
+        int viewWidth = AppApplication.screen_width - CommonTools.dpToPx(context, 15);
+
+        int widthTotal = mgDps;
+        int tvWidth;
+        int viewId;
+        int firstId = 0;
+        int beforeId = 0;
+        String str;
+
+        // 循环添加属性View
+        for (int i = 0; i < nameLists.size(); i++) {
+            str = nameLists.get(i);
+            viewId = i + 1;
+            if (i > 0) {
+                beforeId = viewId - 1;
+            }
+
+            TextView tv = new TextView(context);
+            tv.setTextColor(context.getResources().getColor(R.color.app_color_gray_9));
+            tv.setCompoundDrawables(label_img, null, null, null);
+            tv.setCompoundDrawablePadding(10);
+            tv.setPadding(0, 30, 0, 0);
+            tv.setGravity(Gravity.CENTER);
+            tv.setSingleLine();
+            tv.setText(str);
+            tv.setTextSize(12);
+            tv.setId(viewId);
+
+            // 计算TextView的宽度
+            tv.measure(tvSpec, tvSpec);
+            tvWidth = tv.getMeasuredWidth() + 2 + mgLeft; //view宽+边框+左外边距
+            widthTotal += tvWidth;
+
+            RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+            if (i == 0) {
+                params.addRule(RelativeLayout.BELOW, viewId); //在此id控件的下边
+                firstId = viewId;
+            } else {
+                if (widthTotal < viewWidth) {
+                    params.addRule(RelativeLayout.RIGHT_OF, beforeId); //在控件的右边
+                    params.addRule(RelativeLayout.ALIGN_BOTTOM, beforeId); //与控件底部对齐
+                    params.setMargins(mgLeft, 0, 0, 0);
+                } else {
+                    params.addRule(RelativeLayout.BELOW, firstId); //在控件的下边
+                    firstId = viewId;
+                    widthTotal = mgDps + tvWidth;
+                }
+            }
+            rl_main.addView(tv, params);
         }
     }
 

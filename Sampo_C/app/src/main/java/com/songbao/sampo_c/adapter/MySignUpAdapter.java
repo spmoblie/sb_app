@@ -12,7 +12,7 @@ import com.songbao.sampo_c.entity.ThemeEntity;
 import com.songbao.sampo_c.utils.TimeUtil;
 import com.songbao.sampo_c.widgets.RoundImageView;
 
-public class MySignUpAdapter extends BaseRecyclerAdapter {
+public class MySignUpAdapter extends BaseRecyclerAdapter<ThemeEntity> {
 
     public MySignUpAdapter(Context context, int resLayout) {
         super(context, resLayout);
@@ -30,7 +30,7 @@ public class MySignUpAdapter extends BaseRecyclerAdapter {
         TextView tv_address = holder.getView(R.id.my_sign_up_item_tv_address);
 
         // 绑定View
-        final ThemeEntity data = (ThemeEntity) mDataList.get(pos);
+        final ThemeEntity data = mDataList.get(pos);
         Glide.with(AppApplication.getAppContext())
                 .load(data.getPicUrl())
                 .apply(AppApplication.getShowOptions())

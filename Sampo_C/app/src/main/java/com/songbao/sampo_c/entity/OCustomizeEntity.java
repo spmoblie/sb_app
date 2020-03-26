@@ -22,6 +22,8 @@ public class OCustomizeEntity extends BaseEntity {
 	private String nodeTime8;
 	private String nodeTime9;
 	private String statusDesc; //状态描述
+	private String installName; //安装师傅姓名
+	private String installCall; //安装师傅电话
 	private int status; //订单状态
 	private int nodeNo;  //1:提交预约，2:上门量尺，3:效果图，4:支付信息，5:收货信息，6:生产进度，7:产品发货，8:产品安装，9:订单完成
 	private int cycle; //计划生产周期
@@ -34,7 +36,9 @@ public class OCustomizeEntity extends BaseEntity {
 	private GoodsEntity gdEn; //定制商品信息
 	private DesignerEntity dgEn; //设计师信息
 
-	private ArrayList<String> imgList; //效果图图片地址集
+	private ArrayList<String> sizeImgList; //尺寸图图片地址集
+	private ArrayList<String> layoutImgList; //布局图图片地址集
+	private ArrayList<String> effectImgList; //效果图图片地址集
 	private ArrayList<OProgressEntity> opList; //生产进度数集
 	private ArrayList<OLogisticsEntity> olList; //物流单号数集
 
@@ -151,6 +155,22 @@ public class OCustomizeEntity extends BaseEntity {
 		this.statusDesc = statusDesc;
 	}
 
+	public String getInstallName() {
+		return installName;
+	}
+
+	public void setInstallName(String installName) {
+		this.installName = installName;
+	}
+
+	public String getInstallCall() {
+		return installCall;
+	}
+
+	public void setInstallCall(String installCall) {
+		this.installCall = installCall;
+	}
+
 	public int getNodeNo() {
 		return nodeNo;
 	}
@@ -239,12 +259,28 @@ public class OCustomizeEntity extends BaseEntity {
 		this.dgEn = dgEn;
 	}
 
-	public ArrayList<String> getImgList() {
-		return imgList;
+	public ArrayList<String> getSizeImgList() {
+		return sizeImgList;
 	}
 
-	public void setImgList(ArrayList<String> imgList) {
-		this.imgList = imgList;
+	public void setSizeImgList(ArrayList<String> sizeImgList) {
+		this.sizeImgList = sizeImgList;
+	}
+
+	public ArrayList<String> getLayoutImgList() {
+		return layoutImgList;
+	}
+
+	public void setLayoutImgList(ArrayList<String> layoutImgList) {
+		this.layoutImgList = layoutImgList;
+	}
+
+	public ArrayList<String> getEffectImgList() {
+		return effectImgList;
+	}
+
+	public void setEffectImgList(ArrayList<String> effectImgList) {
+		this.effectImgList = effectImgList;
 	}
 
 	public ArrayList<OProgressEntity> getOpList() {

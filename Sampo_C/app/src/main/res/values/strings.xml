@@ -242,14 +242,13 @@
     <string name="coupon_buy_now">立即购买</string>
     <string name="coupon_expired_time">过期日：%1$s</string>
 
-    <!-- store -->
-    <string name="store_title">选择门店</string>
-
-    <!-- designer -->
-    <string name="designer_shop">驻店设计师</string>
-    <string name="designer_subscribe">预约定制</string>
-    <string name="designer_subscribe_ok">预约成功</string>
-    <string name="designer_subscribe_tips">确认选择%1$s么?</string>
+    <!-- customize -->
+    <string name="customize_title_house">全屋案例</string>
+    <string name="customize_title_store">选择门店</string>
+    <string name="customize_designer_store">驻店设计师</string>
+    <string name="customize_subscribe">预约定制</string>
+    <string name="customize_subscribe_ok">预约成功</string>
+    <string name="customize_subscribe_tips">确认选择%1$s么?</string>
 
     <!-- comment -->
     <string name="comment_mine">我的评价</string>
@@ -286,10 +285,6 @@
     <string name="goods_price_min">最低价格</string>
     <string name="goods_price_max">最高价格</string>
     <string name="goods_price_max_error">最高价格必须大于最低价格</string>
-    <string name="goods_attach_1">免费送货入户并安装</string>
-    <string name="goods_attach_2">正品保障，假一赔三</string>
-    <string name="goods_attach_3">七天无理由退换货（拆封后不支持）</string>
-    <string name="goods_attach_4">三年质保</string>
     <string name="goods_code">商品编码</string>
     <string name="goods_code_en">长按图片保存到手机相册</string>
     <string name="goods_spec_choice">规格选择</string>
@@ -351,8 +346,8 @@
     <string name="order_time_done">完成时间：\t\t%1$s</string>
     <string name="order_booking_no">定制编号：%1$s</string>
     <string name="order_attr_show">产品规格：%1$s</string>
+    <string name="order_size_show">产品尺寸：%1$s</string>
     <string name="order_color_show">产品颜色：%1$s</string>
-    <string name="order_material_show">产品用料：%1$s</string>
     <string name="order_veneer_show">产品饰面：%1$s</string>
     <string name="order_image_number">点击查看%1$d张效果图</string>
     <string name="order_price_offer">定制产品报价：￥%1$s</string>
@@ -366,11 +361,14 @@
     <string name="order_node_07">产品发货</string>
     <string name="order_node_08">产品安装</string>
     <string name="order_node_09">订单完成</string>
+    <string name="order_goods_style">产品款式：</string>
+    <string name="order_goods_remarks">产品备注：</string>
     <string name="order_progress">定制进度</string>
     <string name="order_progress_check">查看进度</string>
     <string name="order_logistics">查看物流</string>
     <string name="order_logistics_no">%1$s：%2$s</string>
     <string name="order_logistics_null">抱歉！暂无物流信息~</string>
+    <string name="order_install_call">联系安装</string>
     <string name="order_installed">已安装</string>
     <string name="order_confirmed">已确认</string>
     <string name="order_confirm_designs">确认效果图</string>
@@ -383,7 +381,7 @@
     <string name="order_confirm_install_hint">确认安装完成即\n代表订单已完成</string>
     <string name="order_receipt_hint">产品签收后，请确认收货并尽快上门安装。</string>
     <string name="order_install_hint">安装完成后请确认安装完成，如未确认系统会自签收日起7个自然日后自动确认安装完成。</string>
-    <string name="order_finish_hint">您的定制订单已完成，如有任何产品相关问题请联系售后服务或拨打400&#8211;880&#8211;6558咨询。</string>
+    <string name="order_finish_hint">您的定制订单已完成，如有任何产品相关问题请售后服务电话400&#8211;880&#8211;6558咨询。</string>
     <string name="order_delete">删除订单</string>
     <string name="order_delete_confirm">确认删除订单么？</string>
     <string name="order_cancel">取消订单</string>
@@ -439,6 +437,10 @@
     <string name="setting_feedback">问题反馈</string>
     <string name="setting_question">联系客服</string>
     <string name="setting_version">检查更新</string>
+    <string name="setting_version_show">当前版本：V%1$s</string>
+    <string name="setting_user_agreement">用户协议</string>
+    <string name="setting_privacy_policy">隐私政策</string>
+    <string name="setting_copyright">Copyright ©2019-%1$d 松堡王国版权所有</string>
     <string name="setting_push">消息推送</string>
     <string name="setting_logout">退出帐户</string>
     <string name="setting_logout_confirm">&#160;确定要退出帐户么？</string>

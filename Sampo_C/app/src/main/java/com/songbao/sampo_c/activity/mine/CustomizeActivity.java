@@ -5,10 +5,15 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.constraint.Group;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -26,6 +31,7 @@ import com.songbao.sampo_c.entity.GoodsEntity;
 import com.songbao.sampo_c.entity.OCustomizeEntity;
 import com.songbao.sampo_c.entity.OLogisticsEntity;
 import com.songbao.sampo_c.entity.OProgressEntity;
+import com.songbao.sampo_c.utils.CommonTools;
 import com.songbao.sampo_c.utils.ExceptionUtil;
 import com.songbao.sampo_c.utils.JsonUtils;
 import com.songbao.sampo_c.utils.LogUtil;
@@ -86,17 +92,35 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
 	@BindView(R.id.customize_tv_module_2_time)
 	TextView tv_2_time;
 
-	@BindView(R.id.customize_tv_module_2_goods_spec)
-	TextView tv_2_goods_spec;
+	@BindView(R.id.customize_view_module_2_hsv_1)
+	HorizontalScrollView module_2_hsv_1;
+
+	@BindView(R.id.customize_view_module_2_hsv_1_ll_main)
+	LinearLayout hsv_1_ll_main;
+
+	@BindView(R.id.customize_view_module_2_hsv_2)
+	HorizontalScrollView module_2_hsv_2;
+
+	@BindView(R.id.customize_view_module_2_hsv_2_ll_main)
+	LinearLayout hsv_2_ll_main;
+
+	@BindView(R.id.customize_tv_module_2_goods_style)
+	TextView tv_2_goods_style;
+
+	@BindView(R.id.customize_tv_module_2_goods_size)
+	TextView tv_2_goods_size;
 
 	@BindView(R.id.customize_tv_module_2_goods_color)
 	TextView tv_2_goods_color;
 
-	@BindView(R.id.customize_tv_module_2_goods_material)
-	TextView tv_2_goods_material;
+	@BindView(R.id.customize_tv_module_2_goods_remarks)
+	TextView tv_2_goods_remarks;
 
-	@BindView(R.id.customize_tv_module_2_goods_veneer)
-	TextView tv_2_goods_veneer;
+	@BindView(R.id.customize_tv_module_2_group)
+	Group module_2_group;
+
+	@BindView(R.id.customize_tv_module_2_tv_open)
+	TextView tv_2_open;
 
 	@BindView(R.id.customize_iv_module_3_title_sign)
 	ImageView iv_3_sign;
@@ -185,6 +209,15 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
 	@BindView(R.id.customize_tv_module_8_remind)
 	TextView tv_8_remind;
 
+	@BindView(R.id.customize_tv_module_8_designer_name)
+	TextView tv_8_designer_name;
+
+	@BindView(R.id.customize_tv_module_8_designer_phone)
+	TextView tv_8_designer_phone;
+
+	@BindView(R.id.customize_tv_module_8_call)
+	TextView tv_8_call;
+
 	@BindView(R.id.customize_tv_module_8_confirm)
 	TextView tv_8_confirm;
 
@@ -208,12 +241,15 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
 
 	private OCustomizeEntity ocEn;
 	private Drawable open_up, open_down;
+	private int imageTotalWidth;
+	private RelativeLayout.LayoutParams goodsImgLP;
 
 	private boolean isDesigns; //是否确认图片
 	private boolean isPayment; //是否确认支付
 	private boolean isReceipt; //是否确认收货
 	private boolean isInstall; //是否确认安装
 	private boolean isOpenAll; //是否展开进度
+	private boolean isOpenTwo; //是否展开量尺
 
 	private int nodeNo = 0;
 	private int status = 0;
@@ -223,7 +259,7 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
 	private String orderNo; //订单编号
 	private String goodsCode; //商品编号
 
-	private ArrayList<String> al_img = new ArrayList<>();
+	private ArrayList<String> al_img_effect = new ArrayList<>();
 	private ArrayList<OProgressEntity> al_6 = new ArrayList<>();
 	private ArrayList<OProgressEntity> al_6_1 = new ArrayList<>();
 	private ArrayList<OProgressEntity> al_6_all = new ArrayList<>();
@@ -242,6 +278,9 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
 
 	private void initView() {
 		setTitle(getString(R.string.order_progress));
+
+		imageTotalWidth = AppApplication.screen_width - CommonTools.dpToPx(mContext, 95);
+		goodsImgLP = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
 
 		open_up = getResources().getDrawable(R.mipmap.icon_go_up);
 		open_down = getResources().getDrawable(R.mipmap.icon_go_down);
@@ -325,41 +364,48 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
 				tv_2_time.setText(ocEn.getNodeTime2());
 				GoodsEntity gdEn = ocEn.getGdEn();
 				if (gdEn != null) {
-					if (!StringUtil.isNull(gdEn.getAttribute())) {
-						tv_2_goods_spec.setVisibility(View.VISIBLE);
-						tv_2_goods_spec.setText(getString(R.string.order_attr_show, gdEn.getAttribute()));
+					module_2_hsv_1.setVisibility(View.VISIBLE);
+					module_2_hsv_2.setVisibility(View.VISIBLE);
+					initImageView(hsv_1_ll_main, ocEn.getSizeImgList());
+					initImageView(hsv_2_ll_main, ocEn.getLayoutImgList());
+
+					if (!StringUtil.isNull(gdEn.getSize())) {
+						tv_2_goods_size.setVisibility(View.VISIBLE);
+						tv_2_goods_size.setText(getString(R.string.order_size_show, gdEn.getSize()));
 					}
 					if (!StringUtil.isNull(gdEn.getColor())) {
 						tv_2_goods_color.setVisibility(View.VISIBLE);
 						tv_2_goods_color.setText(getString(R.string.order_color_show, gdEn.getColor()));
 					}
-					if (!StringUtil.isNull(gdEn.getMaterial())) {
-						tv_2_goods_material.setVisibility(View.VISIBLE);
-						tv_2_goods_material.setText(getString(R.string.order_material_show, gdEn.getMaterial()));
+					if (!StringUtil.isNull(gdEn.getStyle())) {
+						tv_2_goods_style.setVisibility(View.VISIBLE);
+						tv_2_goods_style.setText(gdEn.getStyle());
 					}
-					if (!StringUtil.isNull(gdEn.getVeneer())) {
-						tv_2_goods_veneer.setVisibility(View.VISIBLE);
-						tv_2_goods_veneer.setText(getString(R.string.order_veneer_show, gdEn.getVeneer()));
+					if (!StringUtil.isNull(gdEn.getRemarks())) {
+						tv_2_goods_remarks.setVisibility(View.VISIBLE);
+						tv_2_goods_remarks.setText(gdEn.getRemarks());
 					}
+					tv_2_open.setOnClickListener(this);
+					tv_2_open.setVisibility(View.VISIBLE);
 				}
 			}
 
 			if (nodeNo > 2) { //设计效果图
 				iv_3_sign.setSelected(true);
 				tv_3_time.setText(ocEn.getNodeTime3());
-				al_img.clear();
-				if (ocEn.getImgList() != null) {
-					al_img.addAll(ocEn.getImgList());
+				al_img_effect.clear();
+				if (ocEn.getEffectImgList() != null) {
+					al_img_effect.addAll(ocEn.getEffectImgList());
 				}
-				if (al_img.size() > 0) {
+				if (al_img_effect.size() > 0) {
 					iv_3_show.setVisibility(View.VISIBLE);
 					Glide.with(AppApplication.getAppContext())
-							.load(al_img.get(0))
+							.load(al_img_effect.get(0))
 							.apply(AppApplication.getShowOptions())
 							.into(iv_3_show);
 
 					tv_3_show.setVisibility(View.VISIBLE);
-					tv_3_show.setText(getString(R.string.order_image_number, al_img.size()));
+					tv_3_show.setText(getString(R.string.order_image_number, al_img_effect.size()));
 					tv_3_show.setOnClickListener(this);
 
 					isDesigns = ocEn.isDesigns();
@@ -480,6 +526,18 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
 
 					tv_8_remind.setText(getString(R.string.order_receipt_hint));
 				}
+
+				if (!StringUtil.isNull(ocEn.getInstallName())) {
+					tv_8_designer_name.setVisibility(View.VISIBLE);
+					tv_8_designer_name.setText(ocEn.getInstallName());
+				}
+				if (!StringUtil.isNull(ocEn.getInstallCall())) {
+					tv_8_designer_phone.setVisibility(View.VISIBLE);
+					tv_8_designer_phone.setText(ocEn.getInstallCall());
+					tv_8_call.setOnClickListener(this);
+					tv_8_call.setVisibility(View.VISIBLE);
+				}
+
 				tv_5_select_address.setVisibility(View.GONE);
 				tv_7_confirm.setVisibility(View.VISIBLE);
 				tv_8_remind.setVisibility(View.VISIBLE);
@@ -500,6 +558,8 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
 				iv_9_sign.setSelected(true);
 				tv_9_time.setText(ocEn.getNodeTime9());
 				tv_9_remind.setVisibility(View.VISIBLE);
+				tv_9_post_sale.setOnClickListener(this);
+				tv_9_post_sale.setVisibility(View.VISIBLE);
 			}
 		}
 		initListView();
@@ -522,6 +582,42 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
 					nodePosition = 0;
 				}
 			}, 200);
+		}
+	}
+
+	private void initImageView(LinearLayout ll_main, final ArrayList<String> imgList) {
+		if (ll_main == null || imgList == null || imgList.size() <= 0) return;
+		ll_main.removeAllViews();
+
+		int imgCount = imgList.size();
+		int imageSize = imageTotalWidth / 3;
+		goodsImgLP.width = imageSize;
+		goodsImgLP.height = imageSize;
+		goodsImgLP.setMargins(0, 0, 10, 0);
+		for (int i = 0; i < imgCount; i++) {
+			final int pos = i;
+			String imgUrl = imgList.get(i);
+			RoundImageView iv_img = new RoundImageView(mContext);
+			iv_img.setScaleType(ImageView.ScaleType.CENTER_CROP);
+
+			if (i == imgCount - 1) {
+				goodsImgLP.setMargins(0, 0, 0, 0);
+			}
+			iv_img.setLayoutParams(goodsImgLP);
+
+			iv_img.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					openViewPagerActivity(imgList, pos);
+				}
+			});
+
+			Glide.with(AppApplication.getAppContext())
+					.load(imgUrl)
+					.apply(AppApplication.getShowOptions())
+					.into(iv_img);
+
+			ll_main.addView(iv_img);
 		}
 	}
 
@@ -575,9 +671,22 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
 				//商品详情
 				openGoodsOffActivity(goodsCode);
 				break;
+			case R.id.customize_tv_module_2_tv_open:
+				//展开量尺
+				isOpenTwo = !isOpenTwo;
+				if (isOpenTwo) {
+					module_2_group.setVisibility(View.VISIBLE);
+					tv_2_open.setText(getString(R.string.put_away));
+					tv_2_open.setCompoundDrawables(null, null, open_up, null);
+				} else {
+					module_2_group.setVisibility(View.GONE);
+					tv_2_open.setText(getString(R.string.unfold));
+					tv_2_open.setCompoundDrawables(null, null, open_down, null);
+				}
+				break;
 			case R.id.customize_tv_module_3_show:
 				//查看效果图
-				openViewPagerActivity(al_img, 0);
+				openViewPagerActivity(al_img_effect, 0);
 				break;
 			case R.id.customize_tv_module_3_confirm:
 				//确认效果图
@@ -627,6 +736,16 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
 				if (!isInstall) {
 					showConfirmDialog(getString(R.string.order_confirm_install_hint), new MyHandler(this), 8);
 				}
+				break;
+			case R.id.customize_tv_module_8_call:
+				//联系安装
+				if (ocEn != null && !StringUtil.isNull(ocEn.getInstallCall())) {
+					callPhone(ocEn.getInstallCall());
+				}
+				break;
+			case R.id.customize_tv_module_9_post_sale:
+				//申请售后
+				callPhone(AppConfig.SALE_PHONE);
 				break;
 		}
 	}
@@ -711,7 +830,7 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
 	private void startPay(String orderSn, double payPrice) {
 		if (StringUtil.isNull(orderSn) || payPrice <= 0) return;
 		Intent intent = new Intent(mContext, WXPayEntryActivity.class);
-		intent.putExtra("sourceType", WXPayEntryActivity.SOURCE_TYPE_3);
+		intent.putExtra("sourceType", WXPayEntryActivity.SOURCE_TYPE_4);
 		intent.putExtra("orderSn", orderSn);
 		intent.putExtra("orderTotal", df.format(payPrice));
 		startActivityForResult(intent, AppConfig.ACTIVITY_CODE_PAY_DATA);

@@ -4,16 +4,16 @@
     android:id="@+id/fg_home_item_main"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="@dimen/app_margin_screen"
-    android:background="@color/ui_color_app_bg_01">
+    android:background="@color/ui_color_app_bg_01"
+    android:padding="@dimen/app_margin_screen">
 
     <com.songbao.sampo_c.widgets.RoundImageView
         android:id="@+id/fg_home_item_iv"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layout_constraintDimensionRatio="16:9"
         android:scaleType="centerCrop"
         android:src="@drawable/icon_default_show"
+        app:layout_constraintDimensionRatio="16:9"
         app:type="round" />
 
     <TextView
@@ -45,8 +45,8 @@
     <TextView
         android:id="@+id/fg_home_item_tv_time"
         style="@style/list_item_text"
-        android:drawableStart="@mipmap/icon_time"
         android:drawablePadding="@dimen/margin_padding_5"
+        android:drawableStart="@mipmap/icon_time"
         android:textColor="@color/app_color_gray_9"
         android:textSize="@dimen/app_text_size_small"
         app:layout_constraintBottom_toBottomOf="parent"

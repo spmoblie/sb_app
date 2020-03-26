@@ -119,8 +119,8 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
     @BindView(R.id.reserve_detail_tv_success)
     TextView tv_success;
 
-    /*@BindView(R.id.reserve_detail_web_view)
-    ObservableWebView myWebView;*/
+    @BindView(R.id.reserve_detail_web_view)
+    ObservableWebView myWebView;
 
     @BindView(R.id.reserve_lv_detail)
     ScrollViewListView lv_detail;
@@ -260,19 +260,25 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
                 iv_code.setImageBitmap(BitmapUtil.getBitmap(qrImage, 360, 360));
             }
 
-            //网页详情
-            //initWebView(data.getLinkUrl());
-
-            //图片详情
-            if (data.getDesUrls() != null) {
-                al_detail.clear();
-                al_detail.addAll(data.getDesUrls());
+            if (!StringUtil.isNull(data.getLinkUrl())) {
+                //网页详情
+                lv_detail.setVisibility(View.GONE);
+                myWebView.setVisibility(View.VISIBLE);
+                initWebView(data.getLinkUrl());
+            } else {
+                //图片详情
+                myWebView.setVisibility(View.GONE);
+                lv_detail.setVisibility(View.VISIBLE);
+                if (data.getDesUrls() != null) {
+                    al_detail.clear();
+                    al_detail.addAll(data.getDesUrls());
+                }
+                initListView();
             }
-            initListView();
         }
     }
 
-    /*@SuppressLint({ "JavascriptInterface", "SetJavaScriptEnabled" })
+    @SuppressLint({ "JavascriptInterface", "SetJavaScriptEnabled" })
     private void initWebView(String webUrl) {
         if (myWebView != null){
             //WebView属性设置
@@ -314,7 +320,7 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
             //加载Url
             myWebView.loadUrl(webUrl);
         }
-    }*/
+    }
 
     private void initListView() {
         //商品详情

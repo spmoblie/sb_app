@@ -58,6 +58,7 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
     public static final int SOURCE_TYPE_1 = 1; //活动报名
     public static final int SOURCE_TYPE_2 = 2; //课程预约
     public static final int SOURCE_TYPE_3 = 3; //商城订单
+    public static final int SOURCE_TYPE_4 = 4; //定制订单
 
     // 微信
     private IWXAPI api;

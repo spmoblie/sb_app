@@ -201,8 +201,8 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
 
         // 添加头部View
         ll_head_main = (LinearLayout) FrameLayout.inflate(mContext, R.layout.layout_list_head_home, null);
-        iv_buy = ll_head_main.findViewById(R.id.fg_home_head_iv_buy);
-        iv_reserve = ll_head_main.findViewById(R.id.fg_home_head_iv_reserve);
+        iv_buy = ll_head_main.findViewById(R.id.fg_home_head_iv_house);
+        iv_reserve = ll_head_main.findViewById(R.id.fg_home_head_iv_product);
         fg_home_vp = ll_head_main.findViewById(R.id.fg_home_head_viewPager);
         vp_indicator = ll_head_main.findViewById(R.id.fg_home_head_indicator);
 
@@ -482,12 +482,13 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.fg_home_head_iv_buy:
-                CommonTools.showToast(getString(R.string.toast_no_open));
-                //startActivity(new Intent(getActivity(), TicketsActivity.class));
+            case R.id.fg_home_head_iv_house:
+                startActivity(new Intent(getActivity(), HouseListActivity.class));
                 break;
-            case R.id.fg_home_head_iv_reserve:
-                startActivity(new Intent(getActivity(), ReserveListActivity.class));
+            case R.id.fg_home_head_iv_product:
+                if (onViewClick != null) {
+                    onViewClick.onClick(v);
+                }
                 break;
         }
     }

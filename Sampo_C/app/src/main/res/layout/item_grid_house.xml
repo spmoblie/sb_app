@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/list_item_house_main"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="@dimen/app_margin_screen">
+
+    <com.songbao.sampo_c.widgets.RoundImageView
+        android:id="@+id/list_item_house_iv_show"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:src="@drawable/icon_default_show"
+        android:scaleType="centerCrop"
+        app:type="round"
+        app:layout_constraintDimensionRatio="1:1"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <TextView
+        android:id="@+id/list_item_house_tv_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_padding_5"
+        android:textStyle="bold"
+        android:textColor="@color/shows_text_color"
+        android:textSize="@dimen/app_text_size_content"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/list_item_house_iv_show"/>
+
+    <TextView
+        android:id="@+id/list_item_house_tv_info"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_padding_10"
+        android:maxLines="5"
+        android:ellipsize="end"
+        android:textColor="@color/app_color_gray_5"
+        android:textSize="@dimen/app_text_size_small"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/list_item_house_tv_name"/>
+
+</android.support.constraint.ConstraintLayout>

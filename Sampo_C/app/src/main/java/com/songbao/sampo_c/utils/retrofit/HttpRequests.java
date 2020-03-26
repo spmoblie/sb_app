@@ -165,10 +165,10 @@ public class HttpRequests extends ObjectLoader {
     /**
      * 下载文件
      */
-    public Observable<ResponseBody> downloadFile(String fileUrl) {
+    public Observable<ResponseBody> downloadFile(String head, String fileUrl) {
         Observable<ResponseBody> observable = null;
         try {
-            observable = observe(httpService.downloadFileUrl(fileUrl));
+            observable = observe(httpService.downloadFileUrl(head, fileUrl));
         } catch (Exception e) {
             ExceptionUtil.handle(e);
         }
@@ -243,7 +243,7 @@ public class HttpRequests extends ObjectLoader {
         //Download File
         @Streaming //添加这个注解用来下载大文件
         @GET()
-        Observable<ResponseBody> downloadFileUrl(@Url String fileUrl);
+        Observable<ResponseBody> downloadFileUrl(@Header("url_head") String head, @Url String fileUrl);
     }
 
 }

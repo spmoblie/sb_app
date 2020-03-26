@@ -11,6 +11,7 @@ import com.songbao.sampo_c.entity.GoodsAttrEntity;
 import com.songbao.sampo_c.entity.GoodsEntity;
 import com.songbao.sampo_c.entity.GoodsSaleEntity;
 import com.songbao.sampo_c.entity.GoodsSortEntity;
+import com.songbao.sampo_c.entity.HouseEntity;
 import com.songbao.sampo_c.entity.MessageEntity;
 import com.songbao.sampo_c.entity.OCustomizeEntity;
 import com.songbao.sampo_c.entity.OLogisticsEntity;
@@ -30,6 +31,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -168,7 +170,7 @@ public class JsonUtils {
                 childEn.setId(item.getInt("id"));
                 childEn.setThemeId(String.valueOf(item.getInt("id")));
                 childEn.setTitle(item.getString("title"));
-                //childEn.setLinkUrl(item.getString("linkUrl"));
+                childEn.setLinkUrl(item.getString("linkUrl"));
                 //childEn.setLinkUrl("https://baijiahao.baidu.com/s?id=1626134258413691915&wfr=spider&for=pc");
                 childEn.setUserId(item.getString("adminId"));
                 childEn.setSuit(item.getString("crowd"));
@@ -386,6 +388,34 @@ public class JsonUtils {
                 }
                 mainEn.setLists(lists);
             }
+        }
+        return mainEn;
+    }
+
+    /**
+     * 解析全屋案例数据
+     */
+    public static BaseEntity<HouseEntity> getHouseData(JSONObject jsonObject) throws JSONException {
+        BaseEntity<HouseEntity> mainEn = getCommonKeyValue(jsonObject);
+
+        if (StringUtil.notNull(jsonObject, "data")) {
+            JSONArray jsonData = jsonObject.getJSONArray("data");
+            HouseEntity childEn;
+            List<HouseEntity> lists = new ArrayList<>();
+            for (int j = 0; j < jsonData.length(); j++) {
+                JSONObject item = jsonData.getJSONObject(j);
+                childEn = new HouseEntity();
+                childEn.setId(item.getInt("id"));
+                childEn.setImgUrl(item.getString("storePic"));
+                //childEn.setWebUrl(item.getString("storePic"));
+                //childEn.setName(item.getString("storeName"));
+                //childEn.setInfo(item.getString("storeDetails"));
+                childEn.setWebUrl("https://yun.kujiale.com/design/3FO4B5NB7E2L/airoaming");
+                childEn.setName("案例标题案例标题案例标题案例标题");
+                childEn.setInfo("案例简介内容案例简介内容案例简介内容案例简介内容案例简介内容案例简介内容案例简介内容");
+                lists.add(childEn);
+            }
+            mainEn.setLists(lists);
         }
         return mainEn;
     }
@@ -648,10 +678,32 @@ public class JsonUtils {
                 if (gdEn == null) {
                     gdEn = new GoodsEntity();
                 }
-                gdEn.setAttribute(note_02.getString("productSpec"));
-                gdEn.setColor(note_02.getString("productColor"));
-                gdEn.setMaterial(note_02.getString("productMaterials"));
-                gdEn.setVeneer(note_02.getString("productFacing"));
+                if (StringUtil.notNull(note_02, "measurePic")) {
+                    String picStr = note_02.getString("measurePic");
+                    String[] pics = picStr.split(",");
+                    ArrayList<String> picList = new ArrayList<>(pics.length);
+                    Collections.addAll(picList, pics);
+                    ocEn.setSizeImgList(picList);
+                }
+                if (StringUtil.notNull(note_02, "layoutPic")) {
+                    String picStr = note_02.getString("layoutPic");
+                    String[] pics = picStr.split(",");
+                    ArrayList<String> picList = new ArrayList<>(pics.length);
+                    Collections.addAll(picList, pics);
+                    ocEn.setLayoutImgList(picList);
+                }
+                if (StringUtil.notNull(note_02, "productSpec")) {
+                    gdEn.setSize(note_02.getString("productSpec"));
+                }
+                if (StringUtil.notNull(note_02, "productColor")) {
+                    gdEn.setColor(note_02.getString("productColor"));
+                }
+                if (StringUtil.notNull(note_02, "productStyle")) {
+                    gdEn.setStyle(note_02.getString("productStyle"));
+                }
+                if (StringUtil.notNull(note_02, "remark")) {
+                    gdEn.setRemarks(note_02.getString("remark"));
+                }
                 ocEn.setGdEn(gdEn);
             }
             // 效果图
@@ -665,7 +717,7 @@ public class JsonUtils {
                         JSONObject items = jsonImg.getJSONObject(i);
                         imgLists.add(items.getString("designPic"));
                     }
-                    ocEn.setImgList(imgLists);
+                    ocEn.setEffectImgList(imgLists);
                 }
                 ocEn.setDesigns(note_03.getBoolean("confirm"));
             }
@@ -737,6 +789,8 @@ public class JsonUtils {
                 JSONObject note_08 = jsonData.getJSONObject("installing");
                 ocEn.setNodeTime8(note_08.getString("installTime"));
                 ocEn.setInstall(note_08.getBoolean("confirm"));
+                ocEn.setInstallName("罗师傅");
+                ocEn.setInstallCall("16879898978");
             }
             // 订单完成
             if (noteNo > 8 && StringUtil.notNull(jsonData, "finish")) {
@@ -751,8 +805,8 @@ public class JsonUtils {
     /**
      * 解析我的门票数据
      */
-    public static BaseEntity getMyTicketsData(JSONObject jsonObject) throws JSONException {
-        BaseEntity mainEn = getCommonKeyValue(jsonObject);
+    public static BaseEntity<CouponEntity> getMyTicketsData(JSONObject jsonObject) throws JSONException {
+        BaseEntity<CouponEntity> mainEn = getCommonKeyValue(jsonObject);
 
         if (StringUtil.notNull(jsonObject, "data")) {
             JSONObject jsonData = jsonObject.getJSONObject("data");
@@ -774,8 +828,8 @@ public class JsonUtils {
     /**
      * 解析我的活动、预约列表数据
      */
-    public static BaseEntity getMyThemeList(JSONObject jsonObject) throws JSONException {
-        BaseEntity mainEn = getCommonKeyValue(jsonObject);
+    public static BaseEntity<ThemeEntity> getMyThemeList(JSONObject jsonObject) throws JSONException {
+        BaseEntity<ThemeEntity> mainEn = getCommonKeyValue(jsonObject);
 
         if (StringUtil.notNull(jsonObject, "data")) {
             JSONObject jsonData = jsonObject.getJSONObject("data");
@@ -1020,6 +1074,11 @@ public class JsonUtils {
             goodsEn.setGoodsCode(jsonData.getString("goodsCode"));
             goodsEn.setName(jsonData.getString("goodsName"));
             goodsEn.setPrice(jsonData.getDouble("price"));
+
+            // 商品标签集
+            if (StringUtil.notNull(jsonData, "afterServices")) {
+                goodsEn.setLabelList(getStringList(jsonData.getString("afterServices")));
+            }
 
             // 商品已选属性
             String attrIds = jsonData.getString("attrIds");
@@ -1432,8 +1491,8 @@ public class JsonUtils {
     /**
      * 解析商品售后数据
      */
-    public static BaseEntity getGoodsSaleData(JSONObject jsonObject) throws JSONException {
-        BaseEntity mainEn = getCommonKeyValue(jsonObject);
+    public static BaseEntity<GoodsSaleEntity> getGoodsSaleData(JSONObject jsonObject) throws JSONException {
+        BaseEntity<GoodsSaleEntity> mainEn = getCommonKeyValue(jsonObject);
 
         if (StringUtil.notNull(jsonObject, "data")) {
             JSONObject jsonData = jsonObject.getJSONObject("data");
@@ -1451,8 +1510,8 @@ public class JsonUtils {
     /**
      * 解析商品退款详情
      */
-    public static BaseEntity getRefundDetailData(JSONObject jsonObject) throws JSONException {
-        BaseEntity mainEn = getCommonKeyValue(jsonObject);
+    public static BaseEntity<GoodsSaleEntity> getRefundDetailData(JSONObject jsonObject) throws JSONException {
+        BaseEntity<GoodsSaleEntity> mainEn = getCommonKeyValue(jsonObject);
 
         if (StringUtil.notNull(jsonObject, "data")) {
             JSONObject jsonData = jsonObject.getJSONObject("data");

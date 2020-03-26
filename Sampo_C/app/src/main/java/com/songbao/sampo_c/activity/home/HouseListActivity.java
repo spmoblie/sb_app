@@ -1,81 +1,70 @@
-package com.songbao.sampo_c.activity.three;
+package com.songbao.sampo_c.activity.home;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
-import android.widget.TextView;
 
 import com.songbao.sampo_c.AppApplication;
 import com.songbao.sampo_c.AppConfig;
 import com.songbao.sampo_c.R;
 import com.songbao.sampo_c.activity.BaseActivity;
-import com.songbao.sampo_c.activity.mine.CustomizeActivity;
+import com.songbao.sampo_c.activity.three.DesignerActivity;
 import com.songbao.sampo_c.adapter.AdapterCallback;
-import com.songbao.sampo_c.adapter.DesignerAdapter;
+import com.songbao.sampo_c.adapter.HouseAdapter;
 import com.songbao.sampo_c.adapter.StoreAdapter;
 import com.songbao.sampo_c.entity.BaseEntity;
-import com.songbao.sampo_c.entity.DesignerEntity;
-import com.songbao.sampo_c.entity.OCustomizeEntity;
+import com.songbao.sampo_c.entity.HouseEntity;
 import com.songbao.sampo_c.entity.StoreEntity;
-import com.songbao.sampo_c.utils.CommonTools;
 import com.songbao.sampo_c.utils.ExceptionUtil;
 import com.songbao.sampo_c.utils.JsonUtils;
 import com.songbao.sampo_c.utils.LogUtil;
-import com.songbao.sampo_c.utils.StringUtil;
 import com.songbao.sampo_c.utils.retrofit.HttpRequests;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import butterknife.BindView;
 
 
-public class StoreActivity extends BaseActivity implements View.OnClickListener {
+public class HouseListActivity extends BaseActivity implements View.OnClickListener {
 
-    String TAG = StoreActivity.class.getSimpleName();
+    String TAG = HouseListActivity.class.getSimpleName();
 
     @BindView(R.id.refresh_view_rv)
     RecyclerView refresh_rv;
 
-    StoreAdapter rvAdapter;
+    HouseAdapter rvAdapter;
 
-    private String skuCode = "";
-    private ArrayList<StoreEntity> al_show = new ArrayList<>();
+    private ArrayList<HouseEntity> al_show = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_store);
-
-        skuCode = getIntent().getStringExtra("skuCode");
+        setContentView(R.layout.activity_house_list);
 
         initView();
     }
 
     private void initView() {
-        setTitle(getString(R.string.customize_title_store));
+        setTitle(getString(R.string.customize_title_house));
 
         initRecyclerView();
         loadServerData();
     }
 
     private void initRecyclerView() {
-        rvAdapter = new StoreAdapter(mContext, R.layout.item_grid_store);
+        rvAdapter = new HouseAdapter(mContext, R.layout.item_grid_house);
         rvAdapter.addData(al_show);
         rvAdapter.addCallback(new AdapterCallback() {
             @Override
             public void setOnClick(Object data, int position, int type) {
                 if (position < 0 || position >= al_show.size()) return;
-                StoreEntity storeEn = al_show.get(position);
-                openDesignerActivity(skuCode, storeEn.getId());
+                HouseEntity houseEn = al_show.get(position);
+                openWebViewActivity(houseEn.getName(), houseEn.getWebUrl());
             }
         });
         refresh_rv.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
@@ -89,20 +78,6 @@ public class StoreActivity extends BaseActivity implements View.OnClickListener 
             setNullVisibility(View.GONE);
         }
         rvAdapter.updateData(al_show);
-    }
-
-    /**
-     * 打开设计师列表
-     */
-    protected void openDesignerActivity(String skuCode, int storeId) {
-        if (isLogin()) {
-            Intent intent = new Intent(mContext, DesignerActivity.class);
-            intent.putExtra("skuCode", skuCode);
-            intent.putExtra("storeId", storeId);
-            startActivity(intent);
-        } else {
-            openLoginActivity();
-        }
     }
 
     @Override
@@ -151,11 +126,11 @@ public class StoreActivity extends BaseActivity implements View.OnClickListener 
 
     @Override
     protected void callbackData(JSONObject jsonObject, int dataType) {
-        BaseEntity<StoreEntity> baseEn;
+        BaseEntity<HouseEntity> baseEn;
         try {
             switch (dataType) {
                 case AppConfig.REQUEST_SV_STORE_LIST:
-                    baseEn = JsonUtils.getStoreData(jsonObject);
+                    baseEn = JsonUtils.getHouseData(jsonObject);
                     if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
                         al_show.clear();
                         al_show.addAll(baseEn.getLists());

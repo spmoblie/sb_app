@@ -146,11 +146,6 @@ public class ReserveListActivity extends BaseActivity implements OnClickListener
 
 	@Override
 	public void onClick(View v) {
-		switch (v.getId()) {
-		case R.id.feed_back_btn_submit:
-
-			break;
-		}
 	}
 
 	@Override

@@ -1,5 +1,6 @@
 package com.songbao.sampo_c.utils.download;
 
+import com.songbao.sampo_c.AppConfig;
 import com.songbao.sampo_c.utils.FileManager;
 import com.songbao.sampo_c.utils.LogUtil;
 import com.songbao.sampo_c.utils.retrofit.HttpRequests;
@@ -41,7 +42,7 @@ public class DownloadUtil {
      */
     public void downloadFile(final String fileUrl, final String savePath, final DownloadListener downloadListener) {
         HttpRequests.getInstance()
-                .downloadFile(fileUrl)
+                .downloadFile(AppConfig.URL_TYPE_DOWNLOAD, fileUrl)
                 .subscribe(new Observer<ResponseBody>() {
                     @Override
                     public void onNext(ResponseBody body) {

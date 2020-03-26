@@ -115,7 +115,7 @@ public class UpdateAppVersion {
 							if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
 								handlerVersionAnalyse(baseEn.getData());
 							} else {
-
+								CommonTools.showToast(baseEn.getErrMsg());
 							}
 						} catch (Exception e) {
 							loadFailHandle();
@@ -144,6 +144,7 @@ public class UpdateAppVersion {
 	 */
 	private void loadFailHandle() {
 		stopAnimation();
+		CommonTools.showToast(AppApplication.getAppContext().getString(R.string.toast_server_busy));
 	}
 
 	/**

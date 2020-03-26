@@ -19,7 +19,7 @@
         android:layout_marginStart="@dimen/app_margin_screen"
         android:layout_marginEnd="@dimen/app_margin_screen"
         android:padding="@dimen/app_margin_screen"
-        android:text="@string/designer_subscribe"
+        android:text="@string/customize_subscribe"
         android:textSize="@dimen/app_text_size_title"
         android:textStyle="bold" />
 

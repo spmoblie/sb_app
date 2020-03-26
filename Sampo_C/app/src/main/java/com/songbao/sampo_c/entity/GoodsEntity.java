@@ -15,15 +15,17 @@ public class GoodsEntity extends BaseEntity {
 	private String picUrl; //商品图片
 	private String name; //商品名称
 	private String attribute; //商品规格
-	private String color; //商品颜色
-	private String material; //商品用料
-	private String veneer; //商品饰面
+	private String size; //产品尺寸
+	private String color; //产品颜色
+	private String style; //产品款式
+	private String remarks; //产品备注
 	private int number; //商品数量
 	private int saleStatus; //0:未售后/1:退款中/2:已退款/3:换货中/4:已换货
 	private int commentStatus; //0:未评价/1:已评价/2:已追评
 	private double price; //销售价格
 	private GoodsAttrEntity attrEn; //已选属性值
 	private GoodsSaleEntity saleEn; //商品售后信息
+	private ArrayList<String> labelList; //商品标签集
 	private ArrayList<String> imageList; //商品图片集
 	private ArrayList<String> detailList; //详情图片集
 
@@ -80,6 +82,14 @@ public class GoodsEntity extends BaseEntity {
 		this.attribute = attribute;
 	}
 
+	public String getSize() {
+		return size;
+	}
+
+	public void setSize(String size) {
+		this.size = size;
+	}
+
 	public String getColor() {
 		return color;
 	}
@@ -88,20 +98,20 @@ public class GoodsEntity extends BaseEntity {
 		this.color = color;
 	}
 
-	public String getMaterial() {
-		return material;
+	public String getStyle() {
+		return style;
 	}
 
-	public void setMaterial(String material) {
-		this.material = material;
+	public void setStyle(String style) {
+		this.style = style;
 	}
 
-	public String getVeneer() {
-		return veneer;
+	public String getRemarks() {
+		return remarks;
 	}
 
-	public void setVeneer(String veneer) {
-		this.veneer = veneer;
+	public void setRemarks(String remarks) {
+		this.remarks = remarks;
 	}
 
 	public int getNumber() {
@@ -150,6 +160,14 @@ public class GoodsEntity extends BaseEntity {
 
 	public void setSaleEn(GoodsSaleEntity saleEn) {
 		this.saleEn = saleEn;
+	}
+
+	public ArrayList<String> getLabelList() {
+		return labelList;
+	}
+
+	public void setLabelList(ArrayList<String> labelList) {
+		this.labelList = labelList;
 	}
 
 	public ArrayList<String> getImageList() {

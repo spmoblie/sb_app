@@ -83,9 +83,7 @@ public class SettingActivity extends BaseActivity implements OnClickListener {
         Intent intent = null;
         switch (v.getId()) {
             case R.id.setting_rl_about_us:
-                intent = new Intent(mContext, MyWebViewActivity.class);
-                intent.putExtra("title", getString(R.string.setting_about_us));
-                intent.putExtra("lodUrl", AppConfig.ABOUT_US);
+                openActivity(AboutActivity.class);
                 break;
             case R.id.setting_rl_feedback:
                 openWebViewActivity(getString(R.string.setting_feedback), AppConfig.SALE_HELP);

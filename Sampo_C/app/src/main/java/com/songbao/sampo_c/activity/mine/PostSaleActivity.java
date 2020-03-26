@@ -388,22 +388,21 @@ public class PostSaleActivity extends BaseActivity implements OnClickListener {
 
 	@Override
 	protected void callbackData(JSONObject jsonObject, int dataType) {
-		BaseEntity baseEn;
 		try {
 			switch (dataType) {
 				case AppConfig.REQUEST_SV_UPLOAD_COMMENT_PHOTO:
-					baseEn = JsonUtils.getUploadResult(jsonObject);
-					if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
-						al_image_url.add(baseEn.getOthers());
+					BaseEntity resultEn = JsonUtils.getUploadResult(jsonObject);
+					if (resultEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
+						al_image_url.add(resultEn.getOthers());
 						checkPhotoUrl();
 					} else {
-						handleErrorCode(baseEn);
+						handleErrorCode(resultEn);
 					}
 					break;
 				case AppConfig.REQUEST_SV_GOODS_SALE:
-					baseEn = JsonUtils.getGoodsSaleData(jsonObject);
+					BaseEntity<GoodsSaleEntity> baseEn = JsonUtils.getGoodsSaleData(jsonObject);
 					if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
-						saleEn = (GoodsSaleEntity) baseEn.getData();
+						saleEn = baseEn.getData();
 						initShowView();
 					} else {
 						handleErrorCode(baseEn);

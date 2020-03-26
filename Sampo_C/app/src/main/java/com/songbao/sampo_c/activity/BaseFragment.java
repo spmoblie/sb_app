@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import com.songbao.sampo_c.AppApplication;
 import com.songbao.sampo_c.AppConfig;
 import com.songbao.sampo_c.activity.common.MyWebViewActivity;
+import com.songbao.sampo_c.activity.home.ChildFragmentHome;
 import com.songbao.sampo_c.activity.login.LoginActivity;
 import com.songbao.sampo_c.activity.three.GoodsOffActivity;
 import com.songbao.sampo_c.activity.two.CartActivity;
@@ -42,6 +43,7 @@ public class BaseFragment extends Fragment {
 	String TAG = BaseFragment.class.getSimpleName();
 
 	protected SharedPreferences shared;
+	protected OnViewClick onViewClick;
 
 	@Override
 	public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -310,6 +312,18 @@ public class BaseFragment extends Fragment {
 					break;
 			}
 		}
+	}
+
+	public ChildFragmentHome.OnViewClick getOnViewClick() {
+		return onViewClick;
+	}
+
+	public void setOnViewClick(ChildFragmentHome.OnViewClick onViewClick) {
+		this.onViewClick = onViewClick;
+	}
+
+	public interface OnViewClick{
+		void onClick(View view);
 	}
 
 }

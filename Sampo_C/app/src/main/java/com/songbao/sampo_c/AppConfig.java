@@ -11,7 +11,7 @@ public class AppConfig {
 	 */
 
 	// 发布控制
-	public static final boolean IS_PUBLISH = true;
+	public static final boolean IS_PUBLISH = false;
 	// http协议
 	public final static String APP_HTTP = "http://";
 	// https协议
@@ -408,6 +408,8 @@ public class AppConfig {
 	// 图片宽高比例
 	public static final int IMG_WIDTHS = 16;
 	public static final int IMG_HEIGHT = 9;
+	// Retrofit Url头部标识
+	public static final String URL_TYPE_DOWNLOAD = "download";
 	// 网络请求标识
 	public static final String LOAD_TYPE = "APP";
 	// 加载数据标识
@@ -433,7 +435,7 @@ public class AppConfig {
 			Manifest.permission.WRITE_EXTERNAL_STORAGE };
 
 	// UM
-	public static final String UM_MESSAGE_SECRET = "bd15bd03b6f410f2b5c0bfb5e7d470cb";
+	public static final String UM_MESSAGE_SECRET = "91f2dbb2d7f3c63d663cead167391580";
 	// QQ AppID
 	public static final String QQ_APP_ID = "1104891333";
 	// QQ授权接口参数：Scope权限

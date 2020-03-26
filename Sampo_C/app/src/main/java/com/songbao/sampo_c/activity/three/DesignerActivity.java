@@ -67,7 +67,7 @@ public class DesignerActivity extends BaseActivity implements View.OnClickListen
     }
 
     private void initView() {
-        setTitle(getString(R.string.designer_shop));
+        setTitle(getString(R.string.customize_designer_store));
 
         tv_click.setOnClickListener(this);
 
@@ -125,7 +125,7 @@ public class DesignerActivity extends BaseActivity implements View.OnClickListen
                     dataErrorHandle();
                     return;
                 }
-                showConfirmDialog(getString(R.string.designer_subscribe_tips, dgName), new MyHandler(this));
+                showConfirmDialog(getString(R.string.customize_subscribe_tips, dgName), new MyHandler(this));
                 break;
         }
     }
@@ -206,7 +206,7 @@ public class DesignerActivity extends BaseActivity implements View.OnClickListen
                     baseEn = JsonUtils.getCustomizeResult(jsonObject);
                     if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
                         final String orderNo = baseEn.getOthers();
-                        CommonTools.showToast(getString(R.string.designer_subscribe_ok));
+                        CommonTools.showToast(getString(R.string.customize_subscribe_ok));
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
