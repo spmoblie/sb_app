@@ -785,12 +785,12 @@ public class JsonUtils {
                 ocEn.setReceipt(note_07.getBoolean("confirm"));
             }
             // 产品安装
-            if (noteNo > 7 && StringUtil.notNull(jsonData, "installing")) {
+            if (noteNo > 6 && StringUtil.notNull(jsonData, "installing")) {
                 JSONObject note_08 = jsonData.getJSONObject("installing");
                 ocEn.setNodeTime8(note_08.getString("installTime"));
                 ocEn.setInstall(note_08.getBoolean("confirm"));
-                ocEn.setInstallName("罗师傅");
-                ocEn.setInstallCall("16879898978");
+                ocEn.setInstallName(note_08.getString("installName"));
+                ocEn.setInstallCall(note_08.getString("installPhone"));
             }
             // 订单完成
             if (noteNo > 8 && StringUtil.notNull(jsonData, "finish")) {

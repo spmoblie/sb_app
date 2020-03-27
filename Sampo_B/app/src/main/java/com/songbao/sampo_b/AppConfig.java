@@ -257,6 +257,11 @@ public class AppConfig {
 	// 验证码倒计时
 	public static final long SEND_TIME = 60000;
 
+	// 售后服务电话
+	public static final String SALE_PHONE = "4008806558";
+	// 联系客服网址-吐个槽
+	public static final String SALE_HELP = "https://support.qq.com/product/135418";
+
 	// 动态授权-权限集
 	public static final String[] PERMISSIONS = new String[]{
 			Manifest.permission.CAMERA,

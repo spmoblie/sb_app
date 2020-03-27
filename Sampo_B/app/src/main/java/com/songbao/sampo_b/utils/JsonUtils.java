@@ -21,6 +21,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 
@@ -376,10 +377,32 @@ public class JsonUtils {
                 if (gdEn == null) {
                     gdEn = new GoodsEntity();
                 }
-                gdEn.setAttribute(note_02.getString("productSpec"));
-                gdEn.setColor(note_02.getString("productColor"));
-                gdEn.setMaterial(note_02.getString("productMaterials"));
-                gdEn.setVeneer(note_02.getString("productFacing"));
+                if (StringUtil.notNull(note_02, "measurePic")) {
+                    String picStr = note_02.getString("measurePic");
+                    String[] pics = picStr.split(",");
+                    ArrayList<String> picList = new ArrayList<>(pics.length);
+                    Collections.addAll(picList, pics);
+                    ocEn.setSizeImgList(picList);
+                }
+                if (StringUtil.notNull(note_02, "layoutPic")) {
+                    String picStr = note_02.getString("layoutPic");
+                    String[] pics = picStr.split(",");
+                    ArrayList<String> picList = new ArrayList<>(pics.length);
+                    Collections.addAll(picList, pics);
+                    ocEn.setLayoutImgList(picList);
+                }
+                if (StringUtil.notNull(note_02, "productSpec")) {
+                    gdEn.setSize(note_02.getString("productSpec"));
+                }
+                if (StringUtil.notNull(note_02, "productColor")) {
+                    gdEn.setColor(note_02.getString("productColor"));
+                }
+                if (StringUtil.notNull(note_02, "productStyle")) {
+                    gdEn.setStyle(note_02.getString("productStyle"));
+                }
+                if (StringUtil.notNull(note_02, "remark")) {
+                    gdEn.setRemarks(note_02.getString("remark"));
+                }
                 ocEn.setGdEn(gdEn);
             }
             // 效果图
@@ -393,7 +416,7 @@ public class JsonUtils {
                         JSONObject items = jsonImg.getJSONObject(i);
                         imgLists.add(items.getString("designPic"));
                     }
-                    ocEn.setImgList(imgLists);
+                    ocEn.setEffectImgList(imgLists);
                 }
                 ocEn.setDesigns(note_03.getBoolean("confirm"));
             }
@@ -461,10 +484,12 @@ public class JsonUtils {
                 ocEn.setReceipt(note_07.getBoolean("confirm"));
             }
             // 产品安装
-            if (noteNo > 7 && StringUtil.notNull(jsonData, "installing")) {
+            if (noteNo > 6 && StringUtil.notNull(jsonData, "installing")) {
                 JSONObject note_08 = jsonData.getJSONObject("installing");
                 ocEn.setNodeTime8(note_08.getString("installTime"));
                 ocEn.setInstall(note_08.getBoolean("confirm"));
+                ocEn.setInstallName(note_08.getString("installName"));
+                ocEn.setInstallCall(note_08.getString("installPhone"));
             }
             // 订单完成
             if (noteNo > 8 && StringUtil.notNull(jsonData, "finish")) {

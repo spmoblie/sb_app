@@ -169,7 +169,8 @@
     <string name="designer_subscribe_tips">确认选择%1$s么?</string>
 
     <!-- comment -->
-    <string name="comment_me">我要评价</string>
+    <string name="comment_mine">我的评价</string>
+    <string name="comment_want">我要评价</string>
     <string name="comment_add">追加评价</string>
     <string name="comment_add_hint">追加一下你的使用体验吧~</string>
     <string name="comment_add_day">"购买%1$d天后追加评论"</string>
@@ -246,8 +247,8 @@
     <string name="order_time_done">完成时间：\t\t%1$s</string>
     <string name="order_booking_no">定制编号：%1$s</string>
     <string name="order_attr_show">产品规格：%1$s</string>
+    <string name="order_size_show">产品尺寸：%1$s</string>
     <string name="order_color_show">产品颜色：%1$s</string>
-    <string name="order_material_show">产品用料：%1$s</string>
     <string name="order_veneer_show">产品饰面：%1$s</string>
     <string name="order_image_number">点击查看%1$d张效果图</string>
     <string name="order_price_offer">定制产品报价：￥%1$s</string>
@@ -261,10 +262,14 @@
     <string name="order_node_07">产品发货</string>
     <string name="order_node_08">产品安装</string>
     <string name="order_node_09">订单完成</string>
+    <string name="order_goods_style">产品款式：</string>
+    <string name="order_goods_remarks">产品备注：</string>
     <string name="order_progress">定制进度</string>
     <string name="order_progress_check">查看进度</string>
     <string name="order_logistics">查看物流</string>
     <string name="order_logistics_no">%1$s：%2$s</string>
+    <string name="order_logistics_null">抱歉！暂无物流信息~</string>
+    <string name="order_install_call">联系安装</string>
     <string name="order_installed">已安装</string>
     <string name="order_confirmed">已确认</string>
     <string name="order_confirm_designs">确认效果图</string>

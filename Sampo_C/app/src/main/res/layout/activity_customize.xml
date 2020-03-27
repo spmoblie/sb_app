@@ -661,9 +661,10 @@
                 style="@style/order_text_button"
                 android:text="@string/order_install_call"
                 android:visibility="gone"
-                android:layout_marginBottom="@dimen/app_margin_screen"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintBottom_toTopOf="@+id/customize_tv_module_8_confirm"
+                android:layout_marginTop="0dp"
+                android:layout_marginEnd="@dimen/app_margin_screen"
+                app:layout_constraintRight_toLeftOf="@+id/customize_tv_module_8_confirm"
+                app:layout_constraintTop_toTopOf="@+id/customize_tv_module_8_confirm"
                 app:layout_constraintWidth_percent="0.3" />
 
             <TextView
