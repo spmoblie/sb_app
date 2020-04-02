@@ -553,7 +553,7 @@ public class CustomizeListActivity extends BaseActivity implements View.OnClickL
         map.put("orderStatus", top_type);
         map.put("current", page);
         map.put("size", AppConfig.LOAD_SIZE);
-        loadSVData(AppConfig.BASE_URL_3, AppConfig.URL_BOOKING_LIST, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_BOOKING_LIST);
+        loadSVData(AppConfig.URL_BOOKING_LIST, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_BOOKING_LIST);
     }
 
     /**
@@ -563,7 +563,7 @@ public class CustomizeListActivity extends BaseActivity implements View.OnClickL
         try {
             JSONObject jsonObj = new JSONObject();
             jsonObj.put("code", selectOrderNo);
-            postJsonData(AppConfig.BASE_URL_3, AppConfig.URL_BOOKING_CANCEL, jsonObj, AppConfig.REQUEST_SV_BOOKING_CANCEL);
+            postJsonData(AppConfig.URL_BOOKING_CANCEL, jsonObj, AppConfig.REQUEST_SV_BOOKING_CANCEL);
         } catch (JSONException e) {
             ExceptionUtil.handle(e);
         }
@@ -576,7 +576,7 @@ public class CustomizeListActivity extends BaseActivity implements View.OnClickL
         try {
             JSONObject jsonObj = new JSONObject();
             jsonObj.put("code", selectOrderNo);
-            postJsonData(AppConfig.BASE_URL_3, AppConfig.URL_BOOKING_DELETE, jsonObj, AppConfig.REQUEST_SV_BOOKING_DELETE);
+            postJsonData(AppConfig.URL_BOOKING_DELETE, jsonObj, AppConfig.REQUEST_SV_BOOKING_DELETE);
         } catch (JSONException e) {
             ExceptionUtil.handle(e);
         }

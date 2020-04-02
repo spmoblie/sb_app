@@ -21,8 +21,7 @@ public class AppConfig {
 	// 发布Url
 	public final static String BASE_URL_1 = APP_HTTP + "xiaobao.sbwg.cn/";
 	// 测试Url
-	public final static String BASE_URL_2 = APP_HTTP + "192.168.1.110:8080/";
-	public final static String BASE_URL_3 = "";
+	public final static String BASE_URL_2 = APP_HTTP + "test.sbwg.cn/";
 	// 推广域名
 	public final static String SHARE_URL = BASE_URL_1;
 	// 图片域名

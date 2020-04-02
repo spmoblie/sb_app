@@ -395,7 +395,7 @@ public class CartActivity extends BaseActivity implements View.OnClickListener {
      */
     private void loadServerData() {
         HashMap<String, Object> map = new HashMap<>();
-        loadSVData(AppConfig.BASE_URL_3, AppConfig.URL_CART_GET, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_CART_GET);
+        loadSVData(AppConfig.URL_CART_GET, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_CART_GET);
     }
 
     /**
@@ -407,7 +407,7 @@ public class CartActivity extends BaseActivity implements View.OnClickListener {
             jsonObj.put("id", cartId);
             jsonObj.put("buyNum", buyNum);
             jsonObj.put("skuCode", skuCode);
-            postJsonData(AppConfig.BASE_URL_3, AppConfig.URL_CART_UPDATE, jsonObj, AppConfig.REQUEST_SV_CART_UPDATE_NUM);
+            postJsonData(AppConfig.URL_CART_UPDATE, jsonObj, AppConfig.REQUEST_SV_CART_UPDATE_NUM);
         } catch (JSONException e) {
             ExceptionUtil.handle(e);
         }
@@ -423,7 +423,7 @@ public class CartActivity extends BaseActivity implements View.OnClickListener {
             jsonObj.put("goodsCode", goodsCode);
             jsonObj.put("skuCode", attrEn.getSkuCode());
             jsonObj.put("buyNum", attrEn.getBuyNum());
-            postJsonData(AppConfig.BASE_URL_3, AppConfig.URL_CART_ADD, jsonObj, AppConfig.REQUEST_SV_CART_UPDATE_ATTR);
+            postJsonData(AppConfig.URL_CART_ADD, jsonObj, AppConfig.REQUEST_SV_CART_UPDATE_ATTR);
         } catch (JSONException e) {
             ExceptionUtil.handle(e);
         }
@@ -437,7 +437,7 @@ public class CartActivity extends BaseActivity implements View.OnClickListener {
             JSONArray ids = new JSONArray(selectIds);
             JSONObject jsonObj = new JSONObject();
             jsonObj.put("ids", ids);
-            postJsonData(AppConfig.BASE_URL_3, AppConfig.URL_CART_DELETE, jsonObj, AppConfig.REQUEST_SV_CART_DELETE);
+            postJsonData(AppConfig.URL_CART_DELETE, jsonObj, AppConfig.REQUEST_SV_CART_DELETE);
         } catch (JSONException e) {
             ExceptionUtil.handle(e);
         }
@@ -452,7 +452,7 @@ public class CartActivity extends BaseActivity implements View.OnClickListener {
             JSONArray ids = new JSONArray(selectIds);
             JSONObject jsonObj = new JSONObject();
             jsonObj.put("ids", ids);
-            postJsonData(AppConfig.BASE_URL_3, AppConfig.URL_CART_CHECKED, jsonObj, AppConfig.REQUEST_SV_CART_CHECKED);
+            postJsonData(AppConfig.URL_CART_CHECKED, jsonObj, AppConfig.REQUEST_SV_CART_CHECKED);
         } catch (JSONException e) {
             ExceptionUtil.handle(e);
         }

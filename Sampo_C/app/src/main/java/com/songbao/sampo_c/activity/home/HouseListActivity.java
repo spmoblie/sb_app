@@ -73,7 +73,7 @@ public class HouseListActivity extends BaseActivity implements View.OnClickListe
 
     private void updateListData() {
         if (al_show.size() <= 0) {
-            setNullVisibility(View.VISIBLE);
+             setNullVisibility(View.VISIBLE);
         } else {
             setNullVisibility(View.GONE);
         }

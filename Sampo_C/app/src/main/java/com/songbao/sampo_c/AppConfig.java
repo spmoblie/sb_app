@@ -17,12 +17,11 @@ public class AppConfig {
 	// https协议
 	public final static String APP_HTTPS = "https://";
 	// Base类型
-	public final static String BASE_TYPE = "base_1"; //base_1:发布Url、base_2:测试Url
+	public final static String BASE_TYPE = "base_2"; //base_1:发布Url、base_2:测试Url
 	// 发布Url
 	public final static String BASE_URL_1 = APP_HTTP + "xiaobao.sbwg.cn/";
 	// 测试Url
 	public final static String BASE_URL_2 = APP_HTTP + "test.sbwg.cn/";
-	public final static String BASE_URL_3 = "";
 	// 图片域名
 	public final static String IMAGE_URL = "file:///android_asset/";
 	// 推广域名

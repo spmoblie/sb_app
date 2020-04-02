@@ -437,7 +437,7 @@ public class PurchaseActivity extends BaseActivity implements View.OnClickListen
     private void loadServerData() {
         HashMap<String, Object> map = new HashMap<>();
         map.put("orderCode", opEn.getOrderNo());
-        loadSVData(AppConfig.BASE_URL_3, AppConfig.URL_ORDER_INFO, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_ORDER_INFO);
+        loadSVData(AppConfig.URL_ORDER_INFO, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_ORDER_INFO);
     }
 
     /**
@@ -450,7 +450,7 @@ public class PurchaseActivity extends BaseActivity implements View.OnClickListen
             JSONArray codes = new JSONArray(codeList);
             JSONObject jsonObj = new JSONObject();
             jsonObj.put("codeList", codes);
-            postJsonData(AppConfig.BASE_URL_3, AppConfig.URL_ORDER_CANCEL, jsonObj, AppConfig.REQUEST_SV_ORDER_CANCEL);
+            postJsonData(AppConfig.URL_ORDER_CANCEL, jsonObj, AppConfig.REQUEST_SV_ORDER_CANCEL);
         } catch (JSONException e) {
             ExceptionUtil.handle(e);
         }
@@ -466,7 +466,7 @@ public class PurchaseActivity extends BaseActivity implements View.OnClickListen
             JSONArray codes = new JSONArray(codeList);
             JSONObject jsonObj = new JSONObject();
             jsonObj.put("codeList", codes);
-            postJsonData(AppConfig.BASE_URL_3, AppConfig.URL_ORDER_DELETE, jsonObj, AppConfig.REQUEST_SV_ORDER_DELETE);
+            postJsonData(AppConfig.URL_ORDER_DELETE, jsonObj, AppConfig.REQUEST_SV_ORDER_DELETE);
         } catch (JSONException e) {
             ExceptionUtil.handle(e);
         }
@@ -478,7 +478,7 @@ public class PurchaseActivity extends BaseActivity implements View.OnClickListen
     private void postConfirmReceipt() {
         HashMap<String, Object> map = new HashMap<>();
         map.put("orderCode", opEn.getOrderNo());
-        loadSVData(AppConfig.BASE_URL_3, AppConfig.URL_ORDER_CONFIRM, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_ORDER_CONFIRM);
+        loadSVData(AppConfig.URL_ORDER_CONFIRM, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_ORDER_CONFIRM);
     }
 
     /**
@@ -490,7 +490,7 @@ public class PurchaseActivity extends BaseActivity implements View.OnClickListen
             JSONObject jsonObj = new JSONObject();
             jsonObj.put("orderCode", opEn.getOrderNo());
             jsonObj.put("recieverId", addEn.getId());
-            postJsonData(AppConfig.BASE_URL_3, AppConfig.URL_ORDER_UPDATE, jsonObj, AppConfig.REQUEST_SV_ORDER_UPDATE);
+            postJsonData(AppConfig.URL_ORDER_UPDATE, jsonObj, AppConfig.REQUEST_SV_ORDER_UPDATE);
         } catch (JSONException e) {
             ExceptionUtil.handle(e);
         }

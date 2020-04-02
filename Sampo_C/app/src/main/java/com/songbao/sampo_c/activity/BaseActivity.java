@@ -1189,7 +1189,7 @@ public class BaseActivity extends FragmentActivity {
      */
     protected void loadCartGoodsNum() {
         HashMap<String, Object> map = new HashMap<>();
-        loadSVData(AppConfig.BASE_URL_3, AppConfig.URL_CART_COUNT, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_CART_COUNT);
+        loadSVData(AppConfig.URL_CART_COUNT, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_CART_COUNT);
     }
 
     /**

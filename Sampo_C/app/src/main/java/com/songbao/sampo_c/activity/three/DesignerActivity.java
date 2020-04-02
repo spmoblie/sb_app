@@ -178,7 +178,7 @@ public class DesignerActivity extends BaseActivity implements View.OnClickListen
             JSONObject jsonObj = new JSONObject();
             jsonObj.put("designerId", dgId);
             jsonObj.put("skuCode", skuCode);
-            postJsonData(AppConfig.BASE_URL_3, AppConfig.URL_BOOKING_CREATE, jsonObj, AppConfig.REQUEST_SV_BOOKING_CREATE);
+            postJsonData(AppConfig.URL_BOOKING_CREATE, jsonObj, AppConfig.REQUEST_SV_BOOKING_CREATE);
         } catch (JSONException e) {
             ExceptionUtil.handle(e);
         }

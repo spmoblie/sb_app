@@ -758,7 +758,7 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
             jsonObj.put("goodsCode", goodsCode);
             jsonObj.put("skuCode", attrEn.getSkuCode());
             jsonObj.put("buyNum", attrEn.getBuyNum());
-            postJsonData(AppConfig.BASE_URL_3, AppConfig.URL_CART_ADD, jsonObj, AppConfig.REQUEST_SV_CART_ADD);
+            postJsonData(AppConfig.URL_CART_ADD, jsonObj, AppConfig.REQUEST_SV_CART_ADD);
         } catch (JSONException e) {
             ExceptionUtil.handle(e);
         }

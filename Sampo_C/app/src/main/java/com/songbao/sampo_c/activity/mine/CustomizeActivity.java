@@ -808,7 +808,7 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
 	private void loadOrderData() {
 		HashMap<String, Object> map = new HashMap<>();
 		map.put("bookingCode", orderNo);
-		loadSVData(AppConfig.BASE_URL_3, AppConfig.URL_BOOKING_INFO, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_BOOKING_INFO);
+		loadSVData(AppConfig.URL_BOOKING_INFO, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_BOOKING_INFO);
 	}
 
 	/**
@@ -818,7 +818,7 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
 		try {
 			JSONObject jsonObj = new JSONObject();
 			jsonObj.put("bookingCode", orderNo);
-			postJsonData(AppConfig.BASE_URL_3, AppConfig.URL_BOOKING_DESIGNS, jsonObj, AppConfig.REQUEST_SV_BOOKING_DESIGNS);
+			postJsonData(AppConfig.URL_BOOKING_DESIGNS, jsonObj, AppConfig.REQUEST_SV_BOOKING_DESIGNS);
 		} catch (JSONException e) {
 			ExceptionUtil.handle(e);
 		}
@@ -843,7 +843,7 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
 		try {
 			JSONObject jsonObj = new JSONObject();
 			jsonObj.put("bookingCode", orderNo);
-			postJsonData(AppConfig.BASE_URL_3, AppConfig.URL_BOOKING_PAYMENT, jsonObj, AppConfig.REQUEST_SV_BOOKING_PAYMENT);
+			postJsonData(AppConfig.URL_BOOKING_PAYMENT, jsonObj, AppConfig.REQUEST_SV_BOOKING_PAYMENT);
 		} catch (JSONException e) {
 			ExceptionUtil.handle(e);
 		}
@@ -856,7 +856,7 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
 		try {
 			JSONObject jsonObj = new JSONObject();
 			jsonObj.put("bookingCode", orderNo);
-			postJsonData(AppConfig.BASE_URL_3, AppConfig.URL_BOOKING_RECEIPT, jsonObj, AppConfig.REQUEST_SV_BOOKING_RECEIPT);
+			postJsonData(AppConfig.URL_BOOKING_RECEIPT, jsonObj, AppConfig.REQUEST_SV_BOOKING_RECEIPT);
 		} catch (JSONException e) {
 			ExceptionUtil.handle(e);
 		}
@@ -869,7 +869,7 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
 		try {
 			JSONObject jsonObj = new JSONObject();
 			jsonObj.put("bookingCode", orderNo);
-			postJsonData(AppConfig.BASE_URL_3, AppConfig.URL_BOOKING_INSTALL, jsonObj, AppConfig.REQUEST_SV_BOOKING_INSTALL);
+			postJsonData(AppConfig.URL_BOOKING_INSTALL, jsonObj, AppConfig.REQUEST_SV_BOOKING_INSTALL);
 		} catch (JSONException e) {
 			ExceptionUtil.handle(e);
 		}
@@ -884,7 +884,7 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
 			JSONObject jsonObj = new JSONObject();
 			jsonObj.put("orderCode", orderNo);
 			jsonObj.put("recieverId", addEn.getId());
-			postJsonData(AppConfig.BASE_URL_3, AppConfig.URL_ORDER_UPDATE, jsonObj, AppConfig.REQUEST_SV_ORDER_UPDATE);
+			postJsonData(AppConfig.URL_ORDER_UPDATE, jsonObj, AppConfig.REQUEST_SV_ORDER_UPDATE);
 		} catch (JSONException e) {
 			ExceptionUtil.handle(e);
 		}
@@ -897,7 +897,7 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
 		try {
 			JSONObject jsonObj = new JSONObject();
 			jsonObj.put("code", orderNo);
-			postJsonData(AppConfig.BASE_URL_3, AppConfig.URL_BOOKING_CANCEL, jsonObj, AppConfig.REQUEST_SV_BOOKING_CANCEL);
+			postJsonData(AppConfig.URL_BOOKING_CANCEL, jsonObj, AppConfig.REQUEST_SV_BOOKING_CANCEL);
 		} catch (JSONException e) {
 			ExceptionUtil.handle(e);
 		}
@@ -910,7 +910,7 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
 		try {
 			JSONObject jsonObj = new JSONObject();
 			jsonObj.put("code", orderNo);
-			postJsonData(AppConfig.BASE_URL_3, AppConfig.URL_BOOKING_DELETE, jsonObj, AppConfig.REQUEST_SV_BOOKING_DELETE);
+			postJsonData(AppConfig.URL_BOOKING_DELETE, jsonObj, AppConfig.REQUEST_SV_BOOKING_DELETE);
 		} catch (JSONException e) {
 			ExceptionUtil.handle(e);
 		}

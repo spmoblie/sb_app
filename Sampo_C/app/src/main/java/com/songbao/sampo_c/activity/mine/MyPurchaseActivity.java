@@ -562,7 +562,7 @@ public class MyPurchaseActivity extends BaseActivity implements View.OnClickList
         map.put("current", page);
         map.put("size", AppConfig.LOAD_SIZE);
         map.put("orderStatus", top_type);
-        loadSVData(AppConfig.BASE_URL_3, AppConfig.URL_ORDER_LIST, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_ORDER_LIST);
+        loadSVData(AppConfig.URL_ORDER_LIST, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_ORDER_LIST);
     }
 
     /**
@@ -575,7 +575,7 @@ public class MyPurchaseActivity extends BaseActivity implements View.OnClickList
             JSONArray codes = new JSONArray(codeList);
             JSONObject jsonObj = new JSONObject();
             jsonObj.put("codeList", codes);
-            postJsonData(AppConfig.BASE_URL_3, AppConfig.URL_ORDER_CANCEL, jsonObj, AppConfig.REQUEST_SV_ORDER_CANCEL);
+            postJsonData(AppConfig.URL_ORDER_CANCEL, jsonObj, AppConfig.REQUEST_SV_ORDER_CANCEL);
         } catch (JSONException e) {
             ExceptionUtil.handle(e);
         }
@@ -591,7 +591,7 @@ public class MyPurchaseActivity extends BaseActivity implements View.OnClickList
             JSONArray codes = new JSONArray(codeList);
             JSONObject jsonObj = new JSONObject();
             jsonObj.put("codeList", codes);
-            postJsonData(AppConfig.BASE_URL_3, AppConfig.URL_ORDER_DELETE, jsonObj, AppConfig.REQUEST_SV_ORDER_DELETE);
+            postJsonData(AppConfig.URL_ORDER_DELETE, jsonObj, AppConfig.REQUEST_SV_ORDER_DELETE);
         } catch (JSONException e) {
             ExceptionUtil.handle(e);
         }
@@ -603,7 +603,7 @@ public class MyPurchaseActivity extends BaseActivity implements View.OnClickList
     private void postConfirmReceipt() {
         HashMap<String, Object> map = new HashMap<>();
         map.put("orderCode", selectOrderNo);
-        loadSVData(AppConfig.BASE_URL_3, AppConfig.URL_ORDER_CONFIRM, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_ORDER_CONFIRM);
+        loadSVData(AppConfig.URL_ORDER_CONFIRM, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_ORDER_CONFIRM);
     }
 
     /**
