@@ -4,4 +4,4 @@
     android:id="@+id/refresh_view_rv"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/ui_color_app_bg_01" />
+    android:background="@color/ui_color_app_bg_02" />

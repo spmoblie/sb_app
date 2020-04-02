@@ -223,7 +223,7 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
 
                     @Override
                     public void onClick(View v) {
-                        if (ClickUtils.isDoubleClick()) return;
+                        if (ClickUtils.isDoubleClick(v.getId())) return;
                         openWebviewActivity(items);
                     }
                 });

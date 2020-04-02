@@ -58,7 +58,7 @@ public class GoodsGridAdapter extends AppBaseAdapter<GoodsEntity> {
 			
 			@Override
 			public void onClick(View v) {
-				if (ClickUtils.isDoubleClick()) return;
+				if (ClickUtils.isDoubleClick(v.getId())) return;
 				if (apCallback != null) {
 					apCallback.setOnClick(data, position, 0);
 				}

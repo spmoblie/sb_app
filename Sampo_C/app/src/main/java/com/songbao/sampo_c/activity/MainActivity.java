@@ -64,7 +64,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
     private SharedPreferences shared;
     private FragmentManager manager;
     private FragmentPagerAdapter mFragmentPagerAdapter;
-    private static Fragment fragment = null;
+    private static BaseFragment fragment = null;
     private static String current_fragment; //当前要显示的Fragment
     private static final String[] FRAGMENT_CONTAINER = {"fragment_1", "fragment_2", "fragment_3", "fragment_4"};
     private int current_index = -1; //当前显示的Fragment下标索引
@@ -206,13 +206,33 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
                 current_index = 3;
                 break;
         }
-        fragment = (Fragment) mFragmentPagerAdapter.instantiateItem(fl_show, v.getId());
+        fragment = (BaseFragment) mFragmentPagerAdapter.instantiateItem(fl_show, v.getId());
         mFragmentPagerAdapter.setPrimaryItem(fl_show, 0, fragment);
         mFragmentPagerAdapter.finishUpdate(fl_show);
         current_fragment = FRAGMENT_CONTAINER[current_index];
         shared.edit().putInt(AppConfig.KEY_MAIN_CURRENT_INDEX, current_index).apply();
         changeState();
         exit = Boolean.FALSE;
+    }
+
+    /**
+     * 跳转到Fragment子界面
+     */
+    public void changeFragment(int index) {
+        switch (index) {
+            case 0:
+                tab_text_1.performClick();
+                break;
+            case 1:
+                tab_text_2.performClick();
+                break;
+            case 2:
+                tab_text_3.performClick();
+                break;
+            case 3:
+                tab_text_4.performClick();
+                break;
+        }
     }
 
     /**
@@ -269,34 +289,39 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
         @Override
         public Fragment getItem(int position) {
             switch (position) {
+                default:
                 case R.id.main_fragment_tab_tv_1:
-                    fragment = manager.findFragmentByTag(current_fragment);
+                    fragment = (BaseFragment) manager.findFragmentByTag(current_fragment);
                     if (fragment == null) {
                         fragment = new ChildFragmentHome();
+                        fragment.setOnViewClick(new BaseFragment.OnViewClick() {
+                            @Override
+                            public void onClick(View view) {
+                                switch (view.getId()) {
+                                    case R.id.fg_home_head_iv_product:
+                                        changeFragment(2);
+                                        break;
+                                }
+                            }
+                        });
                     }
                     return fragment;
                 case R.id.main_fragment_tab_tv_2:
-                    fragment = manager.findFragmentByTag(current_fragment);
+                    fragment = (BaseFragment) manager.findFragmentByTag(current_fragment);
                     if (fragment == null) {
                         fragment = new ChildFragmentTwo();
                     }
                     return fragment;
                 case R.id.main_fragment_tab_tv_3:
-                    fragment = manager.findFragmentByTag(current_fragment);
+                    fragment = (BaseFragment) manager.findFragmentByTag(current_fragment);
                     if (fragment == null) {
                         fragment = new ChildFragmentThree();
                     }
                     return fragment;
                 case R.id.main_fragment_tab_tv_4:
-                    fragment = manager.findFragmentByTag(current_fragment);
+                    fragment = (BaseFragment) manager.findFragmentByTag(current_fragment);
                     if (fragment == null) {
                         fragment = new ChildFragmentMine();
-                    }
-                    return fragment;
-                default:
-                    fragment = manager.findFragmentByTag(FRAGMENT_CONTAINER[0]);
-                    if (fragment == null) {
-                        fragment = new ChildFragmentHome();
                     }
                     return fragment;
             }

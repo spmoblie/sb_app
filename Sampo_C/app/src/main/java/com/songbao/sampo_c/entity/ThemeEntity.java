@@ -28,11 +28,12 @@ public class ThemeEntity extends BaseEntity {
 	private int people; //报名人数
 	private int quantity; //限制报名数量
 	private int themeType; //活动类型:0:报名/1:预约
-	private int status; //1:报名中,2:已截止
+	private int status; //1:报名中(已上架), 2:已截止, 4:发布中, 6:已下架
 	private int writeOffStatus; //0:创建, 1:未付款, 2:已付款, 3:已核销, 10:已过期
 	private double fees; //费用
 	private OptionEntity option; //课程场次
 	private List<String> picUrls; //头部轮播图片集
+	private List<String> desUrls; //活动详情图片集
 	private List<ThemeEntity> headLists; //首页头部数集
 	private List<ThemeEntity> mainLists; //首页列表数集
 
@@ -263,6 +264,14 @@ public class ThemeEntity extends BaseEntity {
 
 	public void setPicUrls(List<String> picUrls) {
 		this.picUrls = picUrls;
+	}
+
+	public List<String> getDesUrls() {
+		return desUrls;
+	}
+
+	public void setDesUrls(List<String> desUrls) {
+		this.desUrls = desUrls;
 	}
 
 	public List<ThemeEntity> getHeadLists() {

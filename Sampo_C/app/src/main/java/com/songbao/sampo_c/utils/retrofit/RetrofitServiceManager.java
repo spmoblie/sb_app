@@ -146,7 +146,8 @@ public class RetrofitServiceManager {
                 //匹配获得新的BaseUrl
                 String headerValue = headerValues.get(0);
                 HttpUrl newBaseUrl;
-                if ("base_1".equals(headerValue)) {
+                if (AppConfig.URL_TYPE_DOWNLOAD.equals(headerValue)
+                        || "base_1".equals(headerValue)) {
                     return chain.proceed(request);
                 } else
                 if ("base_2".equals(headerValue)) {
@@ -198,6 +199,18 @@ public class RetrofitServiceManager {
             //打印Body信息
             String body = response.body().string();
             LogUtil.i(LogUtil.LOG_HTTP, "Body : " + body);
+
+            //从request中获取headers，通过给定的键url_name
+            List<String> headerValues = request.headers("url_head");
+            if (headerValues != null && headerValues.size() > 0) {
+                //匹配获得新的BaseUrl
+                String headerValue = headerValues.get(0);
+                //下载文件时
+                if (AppConfig.URL_TYPE_DOWNLOAD.equals(headerValue)) {
+                    return chain.proceed(request);
+                }
+            }
+            //使用下面一行代码会导致下载的文件大小被复制了一倍
             return response.newBuilder().body(ResponseBody.create(mediaType, body)).build();
         }
     };

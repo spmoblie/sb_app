@@ -5,23 +5,26 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/ui_color_app_bg_02"
-    android:padding="@dimen/app_margin_screen"
+    android:paddingStart="@dimen/app_margin_screen"
+    android:paddingEnd="@dimen/app_margin_screen"
     android:scrollbars="none">
 
     <LinearLayout
         android:id="@+id/customize_ll_main"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@drawable/shape_style_solid_01_16"
-        android:orientation="vertical"
-        android:paddingBottom="@dimen/margin_padding_20"
-        android:paddingLeft="@dimen/app_margin_screen"
-        android:paddingRight="@dimen/app_margin_screen"
-        android:paddingTop="@dimen/margin_padding_20">
+        android:paddingTop="@dimen/app_margin_screen"
+        android:paddingBottom="@dimen/app_margin_screen"
+        android:orientation="vertical">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/app_margin_screen"
+            android:paddingRight="@dimen/app_margin_screen"
+            android:paddingTop="@dimen/margin_padding_20"
+            android:paddingBottom="@dimen/margin_padding_20"
+            android:background="@drawable/shape_style_solid_01_16">
 
             <View
                 android:id="@+id/customize_view_line"
@@ -170,37 +173,116 @@
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/customize_tv_module_2_title" />
 
+            <HorizontalScrollView
+                android:id="@+id/customize_view_module_2_hsv_1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_padding_20"
+                android:scrollbars="none"
+                android:visibility="gone"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toLeftOf="@+id/customize_tv_module_2_title"
+                app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_2_title">
+
+                <LinearLayout
+                    android:id="@+id/customize_view_module_2_hsv_1_ll_main"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal" />
+            </HorizontalScrollView>
+
+            <HorizontalScrollView
+                android:id="@+id/customize_view_module_2_hsv_2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_padding_20"
+                android:scrollbars="none"
+                android:visibility="gone"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toLeftOf="@+id/customize_tv_module_2_title"
+                app:layout_constraintTop_toBottomOf="@+id/customize_view_module_2_hsv_1">
+
+                <LinearLayout
+                    android:id="@+id/customize_view_module_2_hsv_2_ll_main"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal" />
+            </HorizontalScrollView>
+
             <TextView
-                android:id="@+id/customize_tv_module_2_goods_spec"
+                android:id="@+id/customize_tv_module_2_goods_size"
                 style="@style/order_text"
                 android:layout_marginTop="@dimen/margin_padding_20"
                 android:visibility="gone"
                 app:layout_constraintLeft_toLeftOf="@+id/customize_tv_module_2_title"
-                app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_2_title" />
+                app:layout_constraintTop_toBottomOf="@+id/customize_view_module_2_hsv_2" />
 
             <TextView
                 android:id="@+id/customize_tv_module_2_goods_color"
                 style="@style/order_text"
-                android:layout_marginTop="@dimen/margin_padding_5"
+                android:layout_marginTop="@dimen/margin_padding_20"
                 android:visibility="gone"
-                app:layout_constraintLeft_toLeftOf="@+id/customize_tv_module_2_goods_spec"
-                app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_2_goods_spec" />
+                app:layout_constraintLeft_toLeftOf="@+id/customize_tv_module_2_title"
+                app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_2_goods_size" />
 
             <TextView
-                android:id="@+id/customize_tv_module_2_goods_material"
+                android:id="@+id/customize_tv_module_2_goods_style_title"
                 style="@style/order_text"
-                android:layout_marginTop="@dimen/margin_padding_5"
-                android:visibility="gone"
-                app:layout_constraintLeft_toLeftOf="@+id/customize_tv_module_2_goods_color"
+                android:text="@string/order_goods_style"
+                android:layout_marginTop="@dimen/margin_padding_20"
+                app:layout_constraintLeft_toLeftOf="@+id/customize_tv_module_2_title"
                 app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_2_goods_color" />
 
             <TextView
-                android:id="@+id/customize_tv_module_2_goods_veneer"
+                android:id="@+id/customize_tv_module_2_goods_style"
                 style="@style/order_text"
+                android:layout_width="0dp"
                 android:layout_marginTop="@dimen/margin_padding_5"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toLeftOf="@+id/customize_tv_module_2_title"
+                app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_2_goods_style_title" />
+
+            <TextView
+                android:id="@+id/customize_tv_module_2_goods_remarks_title"
+                style="@style/order_text"
+                android:text="@string/order_goods_remarks"
+                android:layout_marginTop="@dimen/margin_padding_20"
+                app:layout_constraintLeft_toLeftOf="@+id/customize_tv_module_2_title"
+                app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_2_goods_style" />
+
+            <TextView
+                android:id="@+id/customize_tv_module_2_goods_remarks"
+                style="@style/order_text"
+                android:layout_width="0dp"
+                android:layout_marginTop="@dimen/margin_padding_5"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintLeft_toLeftOf="@+id/customize_tv_module_2_title"
+                app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_2_goods_remarks_title" />
+
+            <android.support.constraint.Group
+                android:id="@+id/customize_tv_module_2_group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:visibility="gone"
-                app:layout_constraintLeft_toLeftOf="@+id/customize_tv_module_2_goods_material"
-                app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_2_goods_material" />
+                app:constraint_referenced_ids="customize_tv_module_2_goods_style_title, customize_tv_module_2_goods_style, customize_tv_module_2_goods_remarks_title, customize_tv_module_2_goods_remarks"/>
+
+            <TextView
+                android:id="@+id/customize_tv_module_2_tv_open"
+                style="@style/order_text"
+                android:drawableEnd="@mipmap/icon_go_down"
+                android:drawablePadding="@dimen/margin_padding_5"
+                android:paddingTop="@dimen/margin_padding_5"
+                android:text="@string/unfold"
+                android:textColor="@color/shows_text_color"
+                android:textSize="@dimen/app_text_size_content"
+                android:layout_marginTop="@dimen/margin_padding_20"
+                android:visibility="gone"
+                app:layout_constraintLeft_toLeftOf="@+id/customize_tv_module_2_title"
+                app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_2_goods_remarks" />
 
             <ImageView
                 android:id="@+id/customize_iv_module_3_title_sign"
@@ -210,7 +292,7 @@
                 android:background="@color/app_color_white"
                 android:contentDescription="@string/desc"
                 android:src="@drawable/selector_checkbox_large"
-                app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_2_goods_veneer" />
+                app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_2_tv_open" />
 
             <TextView
                 android:id="@+id/customize_tv_module_3_title"
@@ -547,11 +629,50 @@
                 app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_8_title" />
 
             <TextView
+                android:id="@+id/customize_tv_module_8_designer_name"
+                style="@style/list_item_text"
+                android:layout_width="0dp"
+                android:layout_marginTop="@dimen/margin_padding_20"
+                android:drawablePadding="@dimen/margin_padding_5"
+                android:drawableStart="@mipmap/icon_designer"
+                android:textColor="@color/app_color_gray_5"
+                android:visibility="gone"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintLeft_toLeftOf="@+id/customize_tv_module_8_title"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_8_remind" />
+
+            <TextView
+                android:id="@+id/customize_tv_module_8_designer_phone"
+                style="@style/list_item_text"
+                android:layout_width="0dp"
+                android:layout_marginTop="@dimen/margin_padding_10"
+                android:drawablePadding="@dimen/margin_padding_5"
+                android:drawableStart="@mipmap/icon_phone"
+                android:textColor="@color/app_color_gray_5"
+                android:visibility="gone"
+                app:layout_constraintHorizontal_weight="1"
+                app:layout_constraintLeft_toLeftOf="@+id/customize_tv_module_8_title"
+                app:layout_constraintRight_toRightOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_8_designer_name" />
+
+            <TextView
+                android:id="@+id/customize_tv_module_8_call"
+                style="@style/order_text_button"
+                android:text="@string/order_install_call"
+                android:visibility="gone"
+                android:layout_marginTop="0dp"
+                android:layout_marginEnd="@dimen/app_margin_screen"
+                app:layout_constraintRight_toLeftOf="@+id/customize_tv_module_8_confirm"
+                app:layout_constraintTop_toTopOf="@+id/customize_tv_module_8_confirm"
+                app:layout_constraintWidth_percent="0.3" />
+
+            <TextView
                 android:id="@+id/customize_tv_module_8_confirm"
                 style="@style/order_text_button"
                 android:visibility="gone"
                 app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_8_remind"
+                app:layout_constraintTop_toBottomOf="@+id/customize_tv_module_8_designer_phone"
                 app:layout_constraintWidth_percent="0.3" />
 
             <ImageView
@@ -610,7 +731,6 @@
             <TextView
                 android:id="@+id/customize_tv_module_9_post_sale"
                 style="@style/order_text_button"
-                android:layout_marginEnd="@dimen/margin_padding_20"
                 android:background="@drawable/shape_style_empty_02_08"
                 android:text="@string/order_post_sale"
                 android:textColor="@color/app_color_gray_5"

@@ -15,9 +15,17 @@ import com.songbao.sampo_c.R;
 import com.songbao.sampo_c.dialog.AppVersionDialog;
 import com.songbao.sampo_c.dialog.DialogManager;
 import com.songbao.sampo_c.dialog.LoadDialog;
+import com.songbao.sampo_c.entity.BaseEntity;
 import com.songbao.sampo_c.entity.UpdateVersionEntity;
+import com.songbao.sampo_c.utils.retrofit.HttpRequests;
+
+import org.json.JSONObject;
 
 import java.lang.ref.WeakReference;
+import java.util.HashMap;
+
+import okhttp3.ResponseBody;
+import rx.Observer;
 
 
 public class UpdateAppVersion {
@@ -58,10 +66,7 @@ public class UpdateAppVersion {
 		getAppVersionInfo();
 		// 检测网络状态
 		if (NetworkUtil.networkStateTips()) {
-			if (!isHomeIndex) { //非首页
-				LoadDialog.show(weakContext.get());
-			}
-			new HttpTask().execute(); //异步检查版本信息
+			startCheckVersion();
 		} else {
 			CommonTools.showToast(weakContext.get().getString(R.string.network_fault));
 			new Handler().postDelayed(new Runnable() {
@@ -80,12 +85,12 @@ public class UpdateAppVersion {
 		try {
 			PackageManager pm = weakContext.get().getPackageManager();
 			PackageInfo packageInfo = pm.getPackageInfo(weakContext.get().getPackageName(), PackageManager.GET_CONFIGURATIONS);
-			curVersionName = packageInfo.versionName;
-			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-				curVersionCode = packageInfo.getLongVersionCode();
-			} else {
+			if (Build.VERSION.SDK_INT < Build.VERSION_CODES.P) {
 				curVersionCode = packageInfo.versionCode;
+			} else {
+				curVersionCode = packageInfo.getLongVersionCode();
 			}
+			curVersionName = packageInfo.versionName;
 			AppApplication.version_name = curVersionName;
 		} catch (NameNotFoundException e) {
 			ExceptionUtil.handle(e);
@@ -94,74 +99,113 @@ public class UpdateAppVersion {
 	}
 
 	/**
-	 * 检测版本的异步任务
+	 * 开启版本校验任务
 	 */
-	class HttpTask extends AsyncTask<String, Void, Object> {
-
-		protected UpdateVersionEntity doInBackground(String... url) {
-			UpdateVersionEntity versionEn = null;
-			try {
-				String uri = "";
-//				List<MyNameValuePair> params = new ArrayList<MyNameValuePair>();
-//				params.add(new MyNameValuePair("id", "1"));
-//				params.add(new MyNameValuePair("version", curVersionName));
-//				BaseEntity baseEn = ServiceContext.getServiceContext().loadServerDatas(
-//						"UpdateAppVersion", AppConfig.REQUEST_SV_VERSION_CODE, uri, params, HttpUtil.METHOD_POST);
-//				if (baseEn != null) {
-//					versionEn = (UpdateVersionEntity) baseEn;
-//				}
-				versionEn = new UpdateVersionEntity();
-				versionEn.setVersion(curVersionName);
-			} catch (Exception e) {
-				ExceptionUtil.handle(e);
-				clearInstance();
-			}
-			return versionEn;
-		}
-
-		protected void onPostExecute(Object result) {
-			AppVersionDialog appDialog = new AppVersionDialog(dm);
-			if (!isHomeIndex) {
-				LoadDialog.hidden();
-			}
-			if (result != null) {
-				UpdateVersionEntity entity = (UpdateVersionEntity) result;
-				String version = entity.getVersion();
-				String description = entity.getDescription();
-				String address = entity.getUrl();
-				boolean isForce = entity.isForce();
-				boolean isUpdate;
-				if (version.contains(".")) { //检查是否需要更新
-					isUpdate = compareVersion(version);
-				} else {
-					isUpdate = compareVersionCode(version);
-				}
-				if (isUpdate) { //检测到新版本
-					if (isForce) { //是否强制更新
-						appDialog.forceUpdateVersion(address, description);
-					} else {
-						long newTime = System.currentTimeMillis();
-						long oldTime = shared.getLong(AppConfig.KEY_UPDATE_VERSION_LAST_TIME, 0);
-						if (newTime - oldTime > 86400000) { //设置首页检测版本的频率为一天
-							appDialog.foundNewVersion(address, description);
-							shared.edit().putLong(AppConfig.KEY_UPDATE_VERSION_LAST_TIME, newTime).apply();
-						} else {
-							if (!isHomeIndex) {
-								appDialog.foundNewVersion(address, description);
+	private void startCheckVersion() {
+		startAnimation();
+		HashMap<String, Object> map = new HashMap<>();
+		map.put("version", curVersionName);
+		HttpRequests.getInstance()
+				.loadData(AppConfig.BASE_TYPE, AppConfig.URL_AUTH_VERSION, map, HttpRequests.HTTP_GET)
+				.subscribe(new Observer<ResponseBody>() {
+					@Override
+					public void onNext(ResponseBody body) {
+						try {
+							BaseEntity<UpdateVersionEntity> baseEn = JsonUtils.checkVersionUpdate(new JSONObject(body.string()));
+							if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
+								handlerVersionAnalyse(baseEn.getData());
+							} else {
+								CommonTools.showToast(baseEn.getErrMsg());
 							}
+						} catch (Exception e) {
+							loadFailHandle();
+							ExceptionUtil.handle(e);
 						}
+						LogUtil.i(LogUtil.LOG_HTTP, "onNext");
 					}
+
+					@Override
+					public void onError(Throwable throwable) {
+						loadFailHandle();
+						LogUtil.i(LogUtil.LOG_HTTP, "error message : " + throwable.getMessage());
+					}
+
+					@Override
+					public void onCompleted() {
+						// 结束处理
+						stopAnimation();
+						LogUtil.i(LogUtil.LOG_HTTP, "onCompleted");
+					}
+				});
+	}
+
+	/**
+	 * 网络加载失败
+	 */
+	private void loadFailHandle() {
+		stopAnimation();
+		CommonTools.showToast(AppApplication.getAppContext().getString(R.string.toast_server_busy));
+	}
+
+	/**
+	 * 显示缓冲动画
+	 */
+	protected void startAnimation() {
+		if (!isHomeIndex) { //非首页
+			LoadDialog.show(weakContext.get());
+		}
+	}
+
+	/**
+	 * 停止缓冲动画
+	 */
+	private void stopAnimation() {
+		if (!isHomeIndex) {
+			LoadDialog.hidden();
+		}
+		clearInstance();
+	}
+
+	/**
+	 * 版本分析处理
+	 */
+	private void handlerVersionAnalyse(UpdateVersionEntity uvEn) {
+		AppVersionDialog appDialog = new AppVersionDialog(weakContext.get(), dm);
+		if (uvEn != null) {
+			String version = uvEn.getVersion();
+			String description = uvEn.getDescription();
+			String address = uvEn.getUrl();
+			boolean isForce = uvEn.isForce();
+			boolean isUpdate;
+			if (version.contains(".")) { //检查是否需要更新
+				isUpdate = compareVersion(version);
+			} else {
+				isUpdate = compareVersionCode(version);
+			}
+			if (isUpdate) { //检测到新版本
+				if (isForce) { //是否强制更新
+					appDialog.updateNewVersion(address, description, true);
 				} else {
-					if (!isHomeIndex) {
-						appDialog.showStatus(weakContext.get().getString(R.string.dialog_version_new)); //提示已是最新版本
+					long newTime = System.currentTimeMillis();
+					long oldTime = shared.getLong(AppConfig.KEY_UPDATE_VERSION_LAST_TIME, 0);
+					if (newTime - oldTime > 86400000) { //设置首页检测版本的频率为一天
+						appDialog.updateNewVersion(address, description, false);
+						shared.edit().putLong(AppConfig.KEY_UPDATE_VERSION_LAST_TIME, newTime).apply();
+					} else {
+						if (!isHomeIndex) {
+							appDialog.updateNewVersion(address, description, false);
+						}
 					}
 				}
 			} else {
 				if (!isHomeIndex) {
-					appDialog.showStatus(weakContext.get().getString(R.string.toast_server_busy));
+					appDialog.showStatusDialog(weakContext.get().getString(R.string.dialog_version_new), false); //提示已是最新版本
 				}
 			}
-			clearInstance();
+		} else {
+			if (!isHomeIndex) {
+				appDialog.showStatusDialog(weakContext.get().getString(R.string.toast_server_busy), false);
+			}
 		}
 	}
 

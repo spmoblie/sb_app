@@ -21,8 +21,7 @@ public class AppConfig {
 	// 发布Url
 	public final static String BASE_URL_1 = APP_HTTP + "xiaobao.sbwg.cn/";
 	// 测试Url
-	public final static String BASE_URL_2 = APP_HTTP + "192.168.1.110:8080/";
-	public final static String BASE_URL_3 = "";
+	public final static String BASE_URL_2 = APP_HTTP + "test.sbwg.cn/";
 	// 推广域名
 	public final static String SHARE_URL = BASE_URL_1;
 	// 图片域名
@@ -256,6 +255,11 @@ public class AppConfig {
 	public static final int LOADING_TIME = 200;
 	// 验证码倒计时
 	public static final long SEND_TIME = 60000;
+
+	// 售后服务电话
+	public static final String SALE_PHONE = "4008806558";
+	// 联系客服网址-吐个槽
+	public static final String SALE_HELP = "https://support.qq.com/product/135418";
 
 	// 动态授权-权限集
 	public static final String[] PERMISSIONS = new String[]{

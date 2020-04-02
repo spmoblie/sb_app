@@ -217,7 +217,7 @@ public class PostOrderActivity extends BaseActivity implements View.OnClickListe
      */
     private void loadOrderData() {
         HashMap<String, Object> map = new HashMap<>();
-        loadSVData(AppConfig.BASE_URL_3, AppConfig.URL_ORDER_FILL, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_ORDER_FILL);
+        loadSVData(AppConfig.URL_ORDER_FILL, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_ORDER_FILL);
     }
 
     /**
@@ -225,7 +225,7 @@ public class PostOrderActivity extends BaseActivity implements View.OnClickListe
      */
     private void loadAddressData() {
         HashMap<String, Object> map = new HashMap<>();
-        loadSVData(AppConfig.BASE_URL_3, AppConfig.URL_ADDRESS_LIST, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_ADDRESS_LIST);
+        loadSVData(AppConfig.URL_ADDRESS_LIST, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_ADDRESS_LIST);
     }
 
     /**
@@ -235,7 +235,7 @@ public class PostOrderActivity extends BaseActivity implements View.OnClickListe
         try {
             JSONObject jsonObj = new JSONObject();
             jsonObj.put("consigneeId", addressId);
-            postJsonData(AppConfig.BASE_URL_3, AppConfig.URL_ORDER_CREATE, jsonObj, AppConfig.REQUEST_SV_ORDER_CREATE);
+            postJsonData(AppConfig.URL_ORDER_CREATE, jsonObj, AppConfig.REQUEST_SV_ORDER_CREATE);
         } catch (JSONException e) {
             ExceptionUtil.handle(e);
         }
@@ -245,6 +245,7 @@ public class PostOrderActivity extends BaseActivity implements View.OnClickListe
      * 在线支付
      */
     private void startPay(String orderNo) {
+        if (StringUtil.isNull(orderNo) || payPrice <= 0) return;
         Intent intent = new Intent(mContext, WXPayEntryActivity.class);
         intent.putExtra("sourceType", WXPayEntryActivity.SOURCE_TYPE_3);
         intent.putExtra("orderSn", orderNo);

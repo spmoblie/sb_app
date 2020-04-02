@@ -25,23 +25,24 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/margin_padding_25"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:visibility="visible">
 
         <ImageView
-            android:id="@+id/fg_home_head_iv_buy"
+            android:id="@+id/fg_home_head_iv_house"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:src="@mipmap/icon_home_tickets"
+            android:src="@mipmap/icon_home_house"
             android:contentDescription="@string/desc"/>
 
         <ImageView
-            android:id="@+id/fg_home_head_iv_reserve"
+            android:id="@+id/fg_home_head_iv_product"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:layout_marginStart="@dimen/app_margin_screen"
-            android:src="@mipmap/icon_home_reserve"
+            android:src="@mipmap/icon_home_product"
             android:contentDescription="@string/desc"/>
     </LinearLayout>
 

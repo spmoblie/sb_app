@@ -226,7 +226,7 @@ public class ChildFragmentThree extends BaseFragment implements OnClickListener 
 	public void onClick(View v) {
 		switch (v.getId()) {
 			case R.id.fg_three_iv_scan:
-				if (ClickUtils.isDoubleClick()) return;
+				if (ClickUtils.isDoubleClick(v.getId())) return;
 				Intent intent = new Intent(mContext, ScanActivity.class);
 				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(intent);

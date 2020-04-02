@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.songbao.sampo_c.AppConfig;
@@ -32,6 +33,7 @@ public class DialogManager {
 
 	private WeakReference<Context> weakContext;
 	private Dialog mDialog;
+	private ProgressBar pBar;
 	private static DialogManager instance;
 
 	private DialogManager(Context context) {
@@ -61,33 +63,41 @@ public class DialogManager {
 			mDialog.dismiss();
 			mDialog = null;
 		}
+		pBar = null;
 	}
 
 	/**
 	 * 弹出下载缓冲对话框
 	 * 
+	 * @param length 加载进度
 	 * @param width 对话框宽度
 	 * @param keyListener 物理键盘监听器
 	 */
-	public void showLoadDialog(int width, OnKeyListener keyListener){
-		// 销毁旧对话框
-		dismiss();
-		// 创建新对话框
-		mDialog = new Dialog(weakContext.get(), R.style.MyDialog);
-		mDialog.setCanceledOnTouchOutside(false);
-		if (keyListener != null) {
-			mDialog.setOnKeyListener(keyListener);
+	public void showLoadDialog(int length, int width, OnKeyListener keyListener){
+		if (mDialog != null && mDialog.isShowing() && pBar != null) {
+			pBar.setProgress(length);
+		} else {
+			// 销毁旧对话框
+			dismiss();
+			// 创建新对话框
+			mDialog = new Dialog(weakContext.get(), R.style.MyDialog);
+			mDialog.setCanceledOnTouchOutside(false);
+			if (keyListener != null) {
+				mDialog.setOnKeyListener(keyListener);
+			}
+			mDialog.setContentView(R.layout.dialog_download);
+			// 设置对话框的坐标及宽高
+			Window window = mDialog.getWindow();
+			if (window != null) {
+				LayoutParams lp = window.getAttributes();
+				lp.width = width;
+				window.setAttributes(lp);
+			}
+			pBar = mDialog.findViewById(R.id.dialog_progress_bar);
+			pBar.setProgress(length);
+			// 显示对话框
+			mDialog.show();
 		}
-		mDialog.setContentView(R.layout.dialog_download);
-		// 设置对话框的坐标及宽高
-		Window window = mDialog.getWindow();
-		if (window != null) {
-			LayoutParams lp = window.getAttributes();
-			lp.width = width;
-			window.setAttributes(lp);
-		}
-		// 显示对话框
-		mDialog.show();
 	}
 
 	/**

@@ -90,6 +90,27 @@
         android:orientation="vertical">
 
         <RelativeLayout
+            android:id="@+id/fg_mine_customize_main"
+            style="@style/setting_lay_item"
+            android:padding="@dimen/app_margin_screen"
+            android:background="@drawable/selector_item_change_1">
+
+            <TextView
+                style="@style/setting_lay_text_title"
+                android:paddingTop="0dp"
+                android:paddingBottom="0dp"
+                android:drawableStart="@mipmap/icon_me_customize"
+                android:text="@string/mine_my_customize"
+                android:textStyle="bold"
+                android:textColor="@color/app_color_gray_5" />
+
+            <TextView
+                android:id="@+id/fg_mine_tv_customize"
+                style="@style/setting_lay_text_content"
+                android:textSize="@dimen/app_text_size_label" />
+        </RelativeLayout>
+
+        <RelativeLayout
             android:id="@+id/fg_mine_purchase_main"
             style="@style/setting_lay_item"
             android:padding="@dimen/app_margin_screen"
@@ -157,7 +178,8 @@
             android:id="@+id/fg_mine_reserve_main"
             style="@style/setting_lay_item"
             android:padding="@dimen/app_margin_screen"
-            android:background="@drawable/selector_item_change_1">
+            android:background="@drawable/selector_item_change_1"
+            android:visibility="gone">
 
             <TextView
                 style="@style/setting_lay_text_title"
@@ -170,27 +192,6 @@
 
             <TextView
                 android:id="@+id/fg_mine_tv_reserve"
-                style="@style/setting_lay_text_content"
-                android:textSize="@dimen/app_text_size_label" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/fg_mine_customize_main"
-            style="@style/setting_lay_item"
-            android:padding="@dimen/app_margin_screen"
-            android:background="@drawable/selector_item_change_1">
-
-            <TextView
-                style="@style/setting_lay_text_title"
-                android:paddingTop="0dp"
-                android:paddingBottom="0dp"
-                android:drawableStart="@mipmap/icon_me_customize"
-                android:text="@string/mine_my_customize"
-                android:textStyle="bold"
-                android:textColor="@color/app_color_gray_5" />
-
-            <TextView
-                android:id="@+id/fg_mine_tv_customize"
                 style="@style/setting_lay_text_content"
                 android:textSize="@dimen/app_text_size_label" />
         </RelativeLayout>

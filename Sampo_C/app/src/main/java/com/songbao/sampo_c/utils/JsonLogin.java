@@ -54,6 +54,7 @@ public class JsonLogin {
 				JSONObject data = jsonData.getJSONObject("userInfo");
 				userInfo.setUserNick(data.getString("nickName"));
 				userInfo.setUserHead(data.getString("avatarUrl"));
+				userInfo.setUserId(data.getString("songbaoId"));
 			}
 			if (StringUtil.notNull(jsonData, "token")) {
 				userInfo.setAppToken(jsonData.getString("token"));

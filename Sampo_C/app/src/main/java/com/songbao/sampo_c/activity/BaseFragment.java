@@ -2,6 +2,7 @@ package com.songbao.sampo_c.activity;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,6 +14,7 @@ import android.view.ViewGroup;
 import com.songbao.sampo_c.AppApplication;
 import com.songbao.sampo_c.AppConfig;
 import com.songbao.sampo_c.activity.common.MyWebViewActivity;
+import com.songbao.sampo_c.activity.home.ChildFragmentHome;
 import com.songbao.sampo_c.activity.login.LoginActivity;
 import com.songbao.sampo_c.activity.three.GoodsOffActivity;
 import com.songbao.sampo_c.activity.two.CartActivity;
@@ -41,6 +43,7 @@ public class BaseFragment extends Fragment {
 	String TAG = BaseFragment.class.getSimpleName();
 
 	protected SharedPreferences shared;
+	protected OnViewClick onViewClick;
 
 	@Override
 	public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -133,6 +136,19 @@ public class BaseFragment extends Fragment {
 		Intent intent = new Intent(getActivity(), MyWebViewActivity.class);
 		intent.putExtra("title", title);
 		intent.putExtra("lodUrl", url);
+		startActivity(intent);
+	}
+
+	/**
+	 * 拨打电话
+	 *
+	 * @param phoneNum 电话号码
+	 */
+	public void callPhone(String phoneNum) {
+		Intent intent = new Intent(Intent.ACTION_CALL); //直接拨打
+		//Intent intent = new Intent(Intent.ACTION_DIAL); //手动拨打
+		Uri data = Uri.parse("tel:" + phoneNum);
+		intent.setData(data);
 		startActivity(intent);
 	}
 
@@ -296,6 +312,18 @@ public class BaseFragment extends Fragment {
 					break;
 			}
 		}
+	}
+
+	public ChildFragmentHome.OnViewClick getOnViewClick() {
+		return onViewClick;
+	}
+
+	public void setOnViewClick(ChildFragmentHome.OnViewClick onViewClick) {
+		this.onViewClick = onViewClick;
+	}
+
+	public interface OnViewClick{
+		void onClick(View view);
 	}
 
 }

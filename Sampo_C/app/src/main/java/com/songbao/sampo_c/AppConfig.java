@@ -11,18 +11,17 @@ public class AppConfig {
 	 */
 
 	// 发布控制
-	public static final boolean IS_PUBLISH = true;
+	public static final boolean IS_PUBLISH = false;
 	// http协议
 	public final static String APP_HTTP = "http://";
 	// https协议
 	public final static String APP_HTTPS = "https://";
 	// Base类型
-	public final static String BASE_TYPE = "base_1"; //base_1:发布Url、base_2:测试Url
+	public final static String BASE_TYPE = "base_2"; //base_1:发布Url、base_2:测试Url
 	// 发布Url
 	public final static String BASE_URL_1 = APP_HTTP + "xiaobao.sbwg.cn/";
 	// 测试Url
 	public final static String BASE_URL_2 = APP_HTTP + "test.sbwg.cn/";
-	public final static String BASE_URL_3 = "";
 	// 图片域名
 	public final static String IMAGE_URL = "file:///android_asset/";
 	// 推广域名
@@ -30,6 +29,8 @@ public class AppConfig {
 	// 关于我们
 	public final static String ABOUT_US = "https://www.sbwg.cn/";
 
+	// 校验版本
+	public final static String URL_AUTH_VERSION = "/app/index/version";
 	// 校验设备
 	public final static String URL_AUTH_DEVICE = "/app/auth/deviceToken";
 	// 短信验证
@@ -126,8 +127,10 @@ public class AppConfig {
 	public final static String URL_USER_RESERVATION = "app/user/reservation";
 	// 我的定制
 	public final static String URL_USER_ORDER = "app/user/order";
-	// 定制设计
-	public final static String URL_USER_DESIGNER = "app/user/designer/getList";
+	// 门店设计
+	public final static String URL_USER_DESIGNER = "app/user/designer/list";
+	// 门店列表
+	public final static String URL_STORE_LIST = "app/gcstore/list";
 
 	// 我的地址
 	public final static String URL_ADDRESS_LIST = "trade/app/consignee/list";
@@ -285,8 +288,10 @@ public class AppConfig {
 	public static final int REQUEST_SV_USER_RESERVATION = 0X3141;
 	// 我的定制
 	public static final int REQUEST_SV_USER_CUSTOMIZE = 0X3151;
-	// 定制设计
+	// 门店设计
 	public static final int REQUEST_SV_USER_DESIGNER = 0X3161;
+	// 门店列表
+	public static final int REQUEST_SV_STORE_LIST = 0X3171;
 
 	// 我的地址
 	public static final int REQUEST_SV_ADDRESS_LIST = 0X3201;
@@ -367,6 +372,8 @@ public class AppConfig {
 	public static final int ERROR_CODE_SUCCESS = 0;
 	// Error状态码：登录超时
 	public static final int ERROR_CODE_TIMEOUT = 501;
+	// Error状态码：无需支付
+	public static final int ERROR_CODE_NO_PAY = 507;
 	// Error状态码：课程时段已约满
 	public static final int ERROR_CODE_FULL = 503;
 	// Error状态码：手机号已注册
@@ -400,6 +407,8 @@ public class AppConfig {
 	// 图片宽高比例
 	public static final int IMG_WIDTHS = 16;
 	public static final int IMG_HEIGHT = 9;
+	// Retrofit Url头部标识
+	public static final String URL_TYPE_DOWNLOAD = "download";
 	// 网络请求标识
 	public static final String LOAD_TYPE = "APP";
 	// 加载数据标识
@@ -413,16 +422,19 @@ public class AppConfig {
 
 	// 售后服务电话
 	public static final String SALE_PHONE = "4008806558";
+	// 联系客服网址-吐个槽
+	public static final String SALE_HELP = "https://support.qq.com/product/135418";
 
 	// 动态授权-权限集
 	public static final String[] PERMISSIONS = new String[]{
+			Manifest.permission.CALL_PHONE,
 			Manifest.permission.CAMERA,
 			Manifest.permission.VIBRATE,
 			Manifest.permission.READ_EXTERNAL_STORAGE,
 			Manifest.permission.WRITE_EXTERNAL_STORAGE };
 
 	// UM
-	public static final String UM_MESSAGE_SECRET = "bd15bd03b6f410f2b5c0bfb5e7d470cb";
+	public static final String UM_MESSAGE_SECRET = "91f2dbb2d7f3c63d663cead167391580";
 	// QQ AppID
 	public static final String QQ_APP_ID = "1104891333";
 	// QQ授权接口参数：Scope权限
@@ -468,6 +480,8 @@ public class AppConfig {
 	// 媒体临时缓存路径（应用关闭时清除）
 	public static final String SAVE_PATH_MEDIA_DICE = SD_PATH + "media/" + APP_ROOT_NAME + "_MD/";
 
+	// Apk存储路径
+	public static final String SAVE_APK_PATH = SAVE_PATH_APK_DICE + "/" + APP_ROOT_NAME + "_008.apk";
 	// 用户数据存储路径
 	public static final String SAVE_USER_DATA_PATH = SD_PATH + "user/";
 	// 用户头像存储路径
@@ -594,7 +608,7 @@ public class AppConfig {
 	 ******************************************* 推送协议开始 ******************************************
 	 */
 
-	// 刷新预约核销码
+	// 刷新核销码
 	public static final int PUSH_MSG_TYPE_001 = 8001;
 
 	/**

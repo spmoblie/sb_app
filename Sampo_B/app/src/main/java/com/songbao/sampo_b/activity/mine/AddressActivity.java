@@ -308,7 +308,7 @@ public class AddressActivity extends BaseActivity implements View.OnClickListene
 
     @Override
     public void onClick(View v) {
-        if (ClickUtils.isDoubleClick()) return;
+        if (ClickUtils.isDoubleClick(v.getId())) return;
         switch (v.getId()) {
             case R.id.address_view_tv_address_add:
                 if (isManage) { //删除
@@ -382,7 +382,7 @@ public class AddressActivity extends BaseActivity implements View.OnClickListene
         if (!isLoadOk) return; //加载频率控制
         isLoadOk = false;
         HashMap<String, Object> map = new HashMap<>();
-        loadSVData(AppConfig.BASE_URL_3, AppConfig.URL_ADDRESS_LIST, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_ADDRESS_LIST);
+        loadSVData(AppConfig.URL_ADDRESS_LIST, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_ADDRESS_LIST);
     }
 
     /**
@@ -392,7 +392,7 @@ public class AddressActivity extends BaseActivity implements View.OnClickListene
         try {
             JSONObject jsonObj = new JSONObject();
             jsonObj.put("consigneeIds", selectIdStr);
-            postJsonData(AppConfig.BASE_URL_3, AppConfig.URL_ADDRESS_DELETE, jsonObj, AppConfig.REQUEST_SV_ADDRESS_DELETE);
+            postJsonData(AppConfig.URL_ADDRESS_DELETE, jsonObj, AppConfig.REQUEST_SV_ADDRESS_DELETE);
         } catch (JSONException e) {
             ExceptionUtil.handle(e);
         }
@@ -405,7 +405,7 @@ public class AddressActivity extends BaseActivity implements View.OnClickListene
         try {
             JSONObject jsonObj = new JSONObject();
             jsonObj.put("consigneeId", selectIdStr);
-            postJsonData(AppConfig.BASE_URL_3, AppConfig.URL_ADDRESS_DEFAULT, jsonObj, AppConfig.REQUEST_SV_ADDRESS_DEFAULT);
+            postJsonData(AppConfig.URL_ADDRESS_DEFAULT, jsonObj, AppConfig.REQUEST_SV_ADDRESS_DEFAULT);
         } catch (JSONException e) {
             ExceptionUtil.handle(e);
         }

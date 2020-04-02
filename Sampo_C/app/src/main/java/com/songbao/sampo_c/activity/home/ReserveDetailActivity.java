@@ -18,6 +18,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -25,6 +26,8 @@ import com.songbao.sampo_c.AppApplication;
 import com.songbao.sampo_c.AppConfig;
 import com.songbao.sampo_c.R;
 import com.songbao.sampo_c.activity.BaseActivity;
+import com.songbao.sampo_c.adapter.AdapterCallback;
+import com.songbao.sampo_c.adapter.ImageListAdapter;
 import com.songbao.sampo_c.entity.BaseEntity;
 import com.songbao.sampo_c.entity.OptionEntity;
 import com.songbao.sampo_c.entity.ThemeEntity;
@@ -36,6 +39,7 @@ import com.songbao.sampo_c.utils.QRCodeUtil;
 import com.songbao.sampo_c.utils.StringUtil;
 import com.songbao.sampo_c.utils.retrofit.HttpRequests;
 import com.songbao.sampo_c.widgets.ObservableWebView;
+import com.songbao.sampo_c.widgets.ScrollViewListView;
 import com.songbao.sampo_c.wxapi.WXPayEntryActivity;
 
 import org.json.JSONObject;
@@ -118,21 +122,26 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
     @BindView(R.id.reserve_detail_web_view)
     ObservableWebView myWebView;
 
-    private LinearLayout.LayoutParams showImgLP;
+    @BindView(R.id.reserve_lv_detail)
+    ScrollViewListView lv_detail;
+
+    private ImageListAdapter lv_detail_Adapter;
 
     private MyBroadcastReceiver myReceiver;
     private ThemeEntity data;
     private Bitmap qrImage;
     private int dataPos = 0; //列表定位器
     private int pageType = 0; //2:我的预约
+    private int status = 0;
     private int writeOffStatus = 0;
     private double payAmount = 0.00;
     private boolean isDateOk = false;
     private boolean isTimeOk = false;
     private boolean isLoadOk = false;
     private boolean isChange = false;
-    private String themeId, reserveId, imgUrl, webUrl, titleStr, dateStr, timeStr, timeId;
+    private String themeId, reserveId, titleStr, dateStr, timeStr, timeId;
     private ArrayList<String> al_head = new ArrayList<>();
+    private ArrayList<String> al_detail = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -169,7 +178,7 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
         iv_code_large.setOnClickListener(this);
         tv_click.setOnClickListener(this);
 
-        showImgLP = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        LinearLayout.LayoutParams showImgLP = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         showImgLP.width = AppApplication.screen_width;
         showImgLP.height = AppApplication.screen_width * AppConfig.IMG_HEIGHT / AppConfig.IMG_WIDTHS;
         iv_show.setLayoutParams(showImgLP);
@@ -180,9 +189,8 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
             if (data.getPicUrls() != null && data.getPicUrls().size() > 0) {
                 al_head.clear();
                 al_head.addAll(data.getPicUrls());
-                imgUrl = al_head.get(0);
                 Glide.with(AppApplication.getAppContext())
-                        .load(imgUrl)
+                        .load(al_head.get(0))
                         .apply(AppApplication.getShowOptions())
                         .into(iv_show);
             }
@@ -210,6 +218,9 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
             tv_slot.setText(sb.toString());
             tv_place.setText(data.getAddress());
             tv_suit.setText(data.getSuit());
+
+            status = data.getStatus();
+            checkDateState();
 
             if (pageType == 2) { //我的预约
                 tv_date.setText(data.getReserveDate());
@@ -249,13 +260,26 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
                 iv_code.setImageBitmap(BitmapUtil.getBitmap(qrImage, 360, 360));
             }
 
-            webUrl = data.getLinkUrl();
-            initWebView();
+            if (!StringUtil.isNull(data.getLinkUrl())) {
+                //网页详情
+                lv_detail.setVisibility(View.GONE);
+                myWebView.setVisibility(View.VISIBLE);
+                initWebView(data.getLinkUrl());
+            } else {
+                //图片详情
+                myWebView.setVisibility(View.GONE);
+                lv_detail.setVisibility(View.VISIBLE);
+                if (data.getDesUrls() != null) {
+                    al_detail.clear();
+                    al_detail.addAll(data.getDesUrls());
+                }
+                initListView();
+            }
         }
     }
 
     @SuppressLint({ "JavascriptInterface", "SetJavaScriptEnabled" })
-    private void initWebView() {
+    private void initWebView(String webUrl) {
         if (myWebView != null){
             //WebView属性设置
             WebSettings webSettings = myWebView.getSettings();
@@ -298,6 +322,22 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
         }
     }
 
+    private void initListView() {
+        //商品详情
+        if (lv_detail_Adapter == null) {
+            lv_detail_Adapter = new ImageListAdapter(mContext);
+            lv_detail_Adapter.addCallback(new AdapterCallback() {
+                @Override
+                public void setOnClick(Object data, int position, int type) {
+
+                }
+            });
+        }
+        lv_detail_Adapter.updateData(al_detail);
+        lv_detail.setAdapter(lv_detail_Adapter);
+        lv_detail.setOverScrollMode(ListView.OVER_SCROLL_NEVER);
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -334,7 +374,7 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
             dataErrorHandle();
             return false;
         }
-        if (pageType == 2)
+        if (pageType == 2 || status != 1)
             return false;
         if (!isLogin()) { //未登录
             openLoginActivity();
@@ -357,26 +397,36 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
     }
 
     private void checkDateState() {
-        if (StringUtil.isNull(dateStr)) {
-            dateStr = "";
-            isDateOk = false;
-        } else {
-            isDateOk = true;
-        }
-        tv_date.setText(dateStr);
+        switch (status) {
+            case 1: //已上架
+                if (StringUtil.isNull(dateStr)) {
+                    dateStr = "";
+                    isDateOk = false;
+                } else {
+                    isDateOk = true;
+                }
+                tv_date.setText(dateStr);
 
-        if (StringUtil.isNull(timeStr)) {
-            timeStr = "";
-            isTimeOk = false;
-        } else {
-            isTimeOk = true;
-        }
-        tv_time.setText(timeStr);
+                if (StringUtil.isNull(timeStr)) {
+                    timeStr = "";
+                    isTimeOk = false;
+                } else {
+                    isTimeOk = true;
+                }
+                tv_time.setText(timeStr);
 
-        if (isDateOk && isTimeOk) {
-            setClickState(getString(R.string.pay_now), true);
-        } else {
-            setClickState(getString(R.string.reserve_choice), true);
+                if (isDateOk && isTimeOk) {
+                    setClickState(getString(R.string.pay_now), true);
+                } else {
+                    setClickState(getString(R.string.reserve_choice), true);
+                }
+                break;
+            case 2: //已截止
+                setClickState(getString(R.string.reserve_stop), false);
+                break;
+            default: //已下架
+                setClickState(getString(R.string.reserve_lower), false);
+                break;
         }
     }
 
@@ -424,9 +474,9 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
             unregisterReceiver(myReceiver);
         }
         // 清除缓存
-        if (myWebView != null) {
+        /*if (myWebView != null) {
             myWebView.clearCache(true);
-        }
+        }*/
         super.onDestroy();
     }
 
@@ -480,6 +530,7 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
      * 在线支付
      */
     private void startPay(String orderNo) {
+        if (StringUtil.isNull(orderNo) || payAmount <= 0) return;
         Intent intent = new Intent(mContext, WXPayEntryActivity.class);
         intent.putExtra("sourceType", WXPayEntryActivity.SOURCE_TYPE_2);
         intent.putExtra("orderSn", orderNo);
@@ -505,12 +556,9 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
                 case AppConfig.REQUEST_SV_RESERVATION_ADD:
                     BaseEntity resultEn = JsonUtils.getPayOrderOn(jsonObject);
                     if (resultEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
-                        String orderNo = resultEn.getOthers();
-                        if (!StringUtil.isNull(orderNo)) {
-                            startPay(orderNo);
-                        } else {
-                            //无需支付处理
-                        }
+                        startPay(resultEn.getOthers());
+                    } else if (resultEn.getErrNo() == AppConfig.ERROR_CODE_NO_PAY) {
+                        reserveSuccess();
                     } else {
                         showSuccessDialog(resultEn.getErrMsg(), false);
                     }
@@ -543,16 +591,20 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
             if (requestCode == AppConfig.ACTIVITY_CODE_PAY_DATA) {
                 boolean isPayOk = data.getBooleanExtra(AppConfig.ACTIVITY_KEY_PAY_RESULT, false);
                 if (isPayOk) {
-                    pageType = 2;
-                    iv_date_go.setVisibility(View.GONE);
-                    iv_time_go.setVisibility(View.GONE);
-                    click_main.setVisibility(View.GONE);
-
-                    handleReserveResult(1);
+                    reserveSuccess();
                 }
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    private void reserveSuccess() {
+        pageType = 2;
+        iv_date_go.setVisibility(View.GONE);
+        iv_time_go.setVisibility(View.GONE);
+        click_main.setVisibility(View.GONE);
+
+        handleReserveResult(1);
     }
 
     private void handleReserveResult(int resultCode) {
@@ -581,7 +633,7 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
             int msgType = intent.getIntExtra(AppConfig.RA_PAGE_RESERVE_KEY, 0);
             LogUtil.i("PushManager", TAG + " onReceive msgType = " + msgType);
             switch (msgType) {
-                case AppConfig.PUSH_MSG_TYPE_001: //刷新预约核销码
+                case AppConfig.PUSH_MSG_TYPE_001: //刷新核销码
                     isChange = true;
                     loadServerData();
                     break;

@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.view.LayoutInflater;
@@ -21,7 +23,9 @@ import com.songbao.sampo_c.AppApplication;
 import com.songbao.sampo_c.AppConfig;
 import com.songbao.sampo_c.R;
 import com.songbao.sampo_c.activity.BaseFragment;
+import com.songbao.sampo_c.dialog.DialogManager;
 import com.songbao.sampo_c.entity.BaseEntity;
+import com.songbao.sampo_c.entity.UserDataEntity;
 import com.songbao.sampo_c.entity.UserInfoEntity;
 import com.songbao.sampo_c.utils.ExceptionUtil;
 import com.songbao.sampo_c.utils.JsonUtils;
@@ -33,6 +37,7 @@ import com.songbao.sampo_c.widgets.RoundImageView;
 import org.json.JSONObject;
 
 import java.io.File;
+import java.lang.ref.WeakReference;
 import java.util.HashMap;
 
 import butterknife.ButterKnife;
@@ -216,7 +221,9 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
                 startActivity(new Intent(mContext, MyReserveActivity.class));
                 break;
             case R.id.fg_mine_help_main:
-                openWebViewActivity(getString(R.string.setting_question), "https://support.qq.com/product/100041");
+                DialogManager.getInstance(mContext).showTwoBtnDialog(null, getString(R.string.mine_call_sale),
+                        getString(R.string.cancel), getString(R.string.call), AppApplication.screen_width * 2 / 3,
+                        true, true, new MyHandler(ChildFragmentMine.this), 101);
                 break;
         }
     }
@@ -276,6 +283,9 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
         LogUtil.i(LogUtil.LOG_TAG, TAG + ": onPause");
         // 页面结束
         AppApplication.onPageEnd(getActivity(), TAG);
+        // 销毁对话框对象
+        DialogManager.clearInstance();
+
         super.onPause();
     }
 
@@ -324,12 +334,16 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
                     handleErrorCode(baseEn);
                     break;
                 case AppConfig.REQUEST_SV_USER_DYNAMIC:
-                    BaseEntity numEn = JsonUtils.getUserDynamic(jsonObject);
-                    if (numEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
-                        userManager.saveUserMsgNum(numEn.getDataTotal());
+                    BaseEntity<UserDataEntity> dataEn = JsonUtils.getUserDynamic(jsonObject);
+                    if (dataEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
+                        UserDataEntity data = dataEn.getData();
+                        userManager.saveUserMsgNum(data.getMessageNum());
+                        if (data.getCartGoodsNum() > 0) {
+                            userManager.saveUserCartNum(data.getCartGoodsNum());
+                        }
                         initUserView();
                     }
-                    handleErrorCode(numEn);
+                    handleErrorCode(dataEn);
                     break;
             }
         } catch (Exception e) {
@@ -399,6 +413,25 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
         userEn.setUserIntro(userManager.getUserIntro());
         userEn.setUserEmail(userManager.getUserEmail());
         return userEn;
+    }
+
+    static class MyHandler extends Handler {
+
+        WeakReference<ChildFragmentMine> mActivity;
+
+        MyHandler(ChildFragmentMine activity) {
+            mActivity = new WeakReference<>(activity);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            ChildFragmentMine theActivity = mActivity.get();
+            switch (msg.what) {
+                case 101: //联系客服
+                    theActivity.callPhone(AppConfig.SALE_PHONE);
+                    break;
+            }
+        }
     }
 
 }

@@ -36,9 +36,9 @@ import java.util.HashMap;
 import butterknife.BindView;
 
 
-public class DesignerListActivity extends BaseActivity implements View.OnClickListener {
+public class DesignerActivity extends BaseActivity implements View.OnClickListener {
 
-    String TAG = DesignerListActivity.class.getSimpleName();
+    String TAG = DesignerActivity.class.getSimpleName();
 
     @BindView(R.id.refresh_view_rv)
     RecyclerView refresh_rv;
@@ -50,6 +50,7 @@ public class DesignerListActivity extends BaseActivity implements View.OnClickLi
 
     private int currentPos = -1; //当前下标
     private int dgId = 0; //选择的设计师
+    private int storeId = 0; //门店ID
     private String dgName; //选择的设计师姓名
     private String skuCode = "";
     private ArrayList<DesignerEntity> al_show = new ArrayList<>();
@@ -60,12 +61,13 @@ public class DesignerListActivity extends BaseActivity implements View.OnClickLi
         setContentView(R.layout.activity_designer);
 
         skuCode = getIntent().getStringExtra("skuCode");
+        storeId = getIntent().getIntExtra("storeId", 0);
 
         initView();
     }
 
     private void initView() {
-        setTitle(getString(R.string.designer_shop));
+        setTitle(getString(R.string.customize_designer_store));
 
         tv_click.setOnClickListener(this);
 
@@ -123,7 +125,7 @@ public class DesignerListActivity extends BaseActivity implements View.OnClickLi
                     dataErrorHandle();
                     return;
                 }
-                showConfirmDialog(getString(R.string.designer_subscribe_tips, dgName), new MyHandler(this));
+                showConfirmDialog(getString(R.string.customize_subscribe_tips, dgName), new MyHandler(this));
                 break;
         }
     }
@@ -163,6 +165,7 @@ public class DesignerListActivity extends BaseActivity implements View.OnClickLi
      */
     private void loadServerData() {
         HashMap<String, Object> map = new HashMap<>();
+        map.put("storeId", storeId);
         loadSVData(AppConfig.URL_USER_DESIGNER, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_USER_DESIGNER);
     }
 
@@ -175,7 +178,7 @@ public class DesignerListActivity extends BaseActivity implements View.OnClickLi
             JSONObject jsonObj = new JSONObject();
             jsonObj.put("designerId", dgId);
             jsonObj.put("skuCode", skuCode);
-            postJsonData(AppConfig.BASE_URL_3, AppConfig.URL_BOOKING_CREATE, jsonObj, AppConfig.REQUEST_SV_BOOKING_CREATE);
+            postJsonData(AppConfig.URL_BOOKING_CREATE, jsonObj, AppConfig.REQUEST_SV_BOOKING_CREATE);
         } catch (JSONException e) {
             ExceptionUtil.handle(e);
         }
@@ -203,7 +206,7 @@ public class DesignerListActivity extends BaseActivity implements View.OnClickLi
                     baseEn = JsonUtils.getCustomizeResult(jsonObject);
                     if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
                         final String orderNo = baseEn.getOthers();
-                        CommonTools.showToast(getString(R.string.designer_subscribe_ok));
+                        CommonTools.showToast(getString(R.string.customize_subscribe_ok));
                         new Handler().postDelayed(new Runnable() {
                             @Override
                             public void run() {
@@ -241,15 +244,15 @@ public class DesignerListActivity extends BaseActivity implements View.OnClickLi
 
     static class MyHandler extends Handler {
 
-        WeakReference<DesignerListActivity> mActivity;
+        WeakReference<DesignerActivity> mActivity;
 
-        MyHandler(DesignerListActivity activity) {
+        MyHandler(DesignerActivity activity) {
             mActivity = new WeakReference<>(activity);
         }
 
         @Override
         public void handleMessage(Message msg) {
-            DesignerListActivity theActivity = mActivity.get();
+            DesignerActivity theActivity = mActivity.get();
             switch (msg.what) {
                 case AppConfig.DIALOG_CLICK_OK:
                     theActivity.postCustomizeData();

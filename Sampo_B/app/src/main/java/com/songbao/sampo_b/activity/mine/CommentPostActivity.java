@@ -93,7 +93,7 @@ public class CommentPostActivity extends BaseActivity implements OnClickListener
 	}
 
 	private void initView() {
-		setTitle(R.string.comment_me);
+		setTitle(R.string.comment_mine);
 
 		iv_photo_01.setOnClickListener(this);
 		iv_photo_02.setOnClickListener(this);

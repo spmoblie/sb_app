@@ -181,13 +181,13 @@ public class RefundActivity extends BaseActivity implements OnClickListener {
 
     @Override
     protected void callbackData(JSONObject jsonObject, int dataType) {
-        BaseEntity baseEn;
+        BaseEntity<GoodsSaleEntity> baseEn;
         try {
             switch (dataType) {
                 case AppConfig.REQUEST_SV_REFUND_DETAIL:
                     baseEn = JsonUtils.getRefundDetailData(jsonObject);
                     if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
-                        saleEn = (GoodsSaleEntity) baseEn.getData();
+                        saleEn = baseEn.getData();
                         initShowView();
                     } else {
                         handleErrorCode(baseEn);

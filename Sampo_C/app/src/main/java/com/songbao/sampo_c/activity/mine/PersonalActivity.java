@@ -144,7 +144,7 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
 
     @Override
     public void onClick(View v) {
-        if (ClickUtils.isDoubleClick()) return;
+        if (ClickUtils.isDoubleClick(v.getId())) return;
         Intent intent;
         switch (v.getId()) {
             case R.id.personal_rl_head:
@@ -464,8 +464,8 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
         if (status.equals(Environment.MEDIA_MOUNTED)) { //先验证手机是否有sdcard
             try {
                 saveFile = BitmapUtil.createPath("IMG_" + System.currentTimeMillis() + ".jpg", true);
-                //注意：AndroidManifest.xml处的android:authorities必须跟getPackageName() + ".fileprovider"一样
-                Uri uri = FileProvider.getUriForFile(mContext, getPackageName() + ".fileprovider", saveFile);
+                //注意：AndroidManifest.xml处的android:authorities必须跟getPackageName() + ".fileProvider"一样
+                Uri uri = FileProvider.getUriForFile(mContext, getPackageName() + ".fileProvider", saveFile);
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
                 intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);

@@ -67,66 +67,13 @@
                     app:layout_constraintLeft_toLeftOf="@+id/goods_tv_goods_name"
                     app:layout_constraintTop_toBottomOf="@+id/goods_tv_goods_name" />
 
-                <TextView
-                    android:id="@+id/goods_tv_goods_attach_1"
-                    style="@style/goods_text"
-                    android:layout_marginStart="@dimen/margin_padding_12"
-                    android:layout_marginTop="@dimen/margin_padding_20"
-                    android:text="@string/goods_attach_1"
-                    app:layout_constraintLeft_toLeftOf="@+id/goods_tv_goods_name"
-                    app:layout_constraintTop_toBottomOf="@+id/goods_tv_price" />
-
-                <TextView
-                    android:id="@+id/goods_tv_goods_attach_sign_1"
-                    style="@style/goods_attach_sign"
-                    app:layout_constraintBottom_toBottomOf="@+id/goods_tv_goods_attach_1"
-                    app:layout_constraintRight_toLeftOf="@+id/goods_tv_goods_attach_1"
-                    app:layout_constraintTop_toTopOf="@+id/goods_tv_goods_attach_1" />
-
-                <TextView
-                    android:id="@+id/goods_tv_goods_attach_2"
-                    style="@style/goods_text"
-                    android:layout_marginStart="@dimen/margin_padding_60"
-                    android:text="@string/goods_attach_2"
-                    app:layout_constraintLeft_toRightOf="@+id/goods_tv_goods_attach_1"
-                    app:layout_constraintTop_toTopOf="@+id/goods_tv_goods_attach_1" />
-
-                <TextView
-                    android:id="@+id/goods_tv_goods_attach_sign_2"
-                    style="@style/goods_attach_sign"
-                    app:layout_constraintBottom_toBottomOf="@+id/goods_tv_goods_attach_2"
-                    app:layout_constraintRight_toLeftOf="@+id/goods_tv_goods_attach_2"
-                    app:layout_constraintTop_toTopOf="@+id/goods_tv_goods_attach_2" />
-
-                <TextView
-                    android:id="@+id/goods_tv_goods_attach_3"
-                    style="@style/goods_text"
-                    android:layout_marginTop="@dimen/margin_padding_10"
-                    android:text="@string/goods_attach_3"
-                    app:layout_constraintLeft_toLeftOf="@+id/goods_tv_goods_attach_1"
-                    app:layout_constraintTop_toBottomOf="@+id/goods_tv_goods_attach_1" />
-
-                <TextView
-                    android:id="@+id/goods_tv_goods_attach_sign_3"
-                    style="@style/goods_attach_sign"
-                    app:layout_constraintBottom_toBottomOf="@+id/goods_tv_goods_attach_3"
-                    app:layout_constraintRight_toLeftOf="@+id/goods_tv_goods_attach_3"
-                    app:layout_constraintTop_toTopOf="@+id/goods_tv_goods_attach_3" />
-
-                <TextView
-                    android:id="@+id/goods_tv_goods_attach_4"
-                    style="@style/goods_text"
-                    android:layout_marginStart="@dimen/margin_padding_60"
-                    android:text="@string/goods_attach_4"
-                    app:layout_constraintLeft_toRightOf="@+id/goods_tv_goods_attach_3"
-                    app:layout_constraintTop_toTopOf="@+id/goods_tv_goods_attach_3" />
-
-                <TextView
-                    android:id="@+id/goods_tv_goods_attach_sign_4"
-                    style="@style/goods_attach_sign"
-                    app:layout_constraintBottom_toBottomOf="@+id/goods_tv_goods_attach_4"
-                    app:layout_constraintRight_toLeftOf="@+id/goods_tv_goods_attach_4"
-                    app:layout_constraintTop_toTopOf="@+id/goods_tv_goods_attach_4" />
+                <RelativeLayout
+                    android:id="@+id/goods_rl_label_main"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="@dimen/app_margin_screen"
+                    android:paddingEnd="@dimen/app_margin_screen"
+                    app:layout_constraintTop_toBottomOf="@+id/goods_tv_price"/>
 
                 <RelativeLayout
                     android:id="@+id/goods_view_line_1"
@@ -134,7 +81,7 @@
                     android:layout_height="@dimen/margin_padding_10"
                     android:layout_marginTop="@dimen/margin_padding_30"
                     android:background="@color/ui_color_app_bg_02"
-                    app:layout_constraintTop_toBottomOf="@+id/goods_tv_goods_attach_3" />
+                    app:layout_constraintTop_toBottomOf="@+id/goods_rl_label_main" />
 
                 <android.support.constraint.ConstraintLayout
                     android:id="@+id/goods_spec_choice_main"

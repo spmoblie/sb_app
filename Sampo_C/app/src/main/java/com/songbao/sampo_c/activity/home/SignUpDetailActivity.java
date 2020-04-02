@@ -2,9 +2,14 @@ package com.songbao.sampo_c.activity.home;
 
 
 import android.annotation.SuppressLint;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.constraint.ConstraintLayout;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebSettings;
@@ -12,6 +17,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -19,14 +25,19 @@ import com.songbao.sampo_c.AppApplication;
 import com.songbao.sampo_c.AppConfig;
 import com.songbao.sampo_c.R;
 import com.songbao.sampo_c.activity.BaseActivity;
+import com.songbao.sampo_c.adapter.AdapterCallback;
+import com.songbao.sampo_c.adapter.ImageListAdapter;
 import com.songbao.sampo_c.entity.BaseEntity;
 import com.songbao.sampo_c.entity.ThemeEntity;
+import com.songbao.sampo_c.utils.BitmapUtil;
 import com.songbao.sampo_c.utils.ExceptionUtil;
 import com.songbao.sampo_c.utils.JsonUtils;
 import com.songbao.sampo_c.utils.LogUtil;
+import com.songbao.sampo_c.utils.QRCodeUtil;
 import com.songbao.sampo_c.utils.StringUtil;
 import com.songbao.sampo_c.utils.retrofit.HttpRequests;
 import com.songbao.sampo_c.widgets.ObservableWebView;
+import com.songbao.sampo_c.widgets.ScrollViewListView;
 
 import org.json.JSONObject;
 
@@ -62,6 +73,21 @@ public class SignUpDetailActivity extends BaseActivity implements View.OnClickLi
 
     @BindView(R.id.sign_up_detail_tv_suit)
     TextView tv_suit;
+    
+    @BindView(R.id.sign_up_detail_code_main)
+    ConstraintLayout code_main;
+
+    @BindView(R.id.sign_up_detail_tv_code)
+    TextView tv_code;
+
+    @BindView(R.id.sign_up_detail_iv_code)
+    ImageView iv_code;
+
+    @BindView(R.id.sign_up_detail_iv_code_large)
+    ImageView iv_code_large;
+
+    @BindView(R.id.sign_up_detail_tv_cover)
+    TextView tv_cover;
 
     @BindView(R.id.sign_up_detail_tv_click)
     TextView tv_click;
@@ -69,15 +95,23 @@ public class SignUpDetailActivity extends BaseActivity implements View.OnClickLi
     @BindView(R.id.sign_up_detail_web_view)
     ObservableWebView myWebView;
 
-    private LinearLayout.LayoutParams showImgLP;
+    @BindView(R.id.sign_up_lv_detail)
+    ScrollViewListView lv_detail;
 
+    private LinearLayout.LayoutParams showImgLP;
+    private ImageListAdapter lv_detail_Adapter;
+
+    private MyBroadcastReceiver myReceiver;
     private ThemeEntity data;
+    private Bitmap qrImage;
     private int pageType = 0; //1:我的报名
     private int status; //1:报名中, 2:已截止
+    private int writeOffStatus = 0;
     private boolean isLoadOk = false;
     private boolean isOnClick = true;
-    private String themeId, imgUrl, webUrl, titleStr;
+    private String themeId, titleStr;
     private ArrayList<String> al_head = new ArrayList<>();
+    private ArrayList<String> al_detail = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,6 +126,12 @@ public class SignUpDetailActivity extends BaseActivity implements View.OnClickLi
             titleStr = data.getTitle();
         }
 
+        // 注册广播
+        myReceiver = new MyBroadcastReceiver();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(AppConfig.RA_PAGE_RESERVE);
+        registerReceiver(myReceiver, filter);
+
         initView();
         loadServerData();
     }
@@ -99,6 +139,7 @@ public class SignUpDetailActivity extends BaseActivity implements View.OnClickLi
     private void initView() {
         setTitle(titleStr);
 
+        iv_code_large.setOnClickListener(this);
         tv_click.setOnClickListener(this);
 
         showImgLP = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -114,9 +155,8 @@ public class SignUpDetailActivity extends BaseActivity implements View.OnClickLi
             if (data.getPicUrls() != null && data.getPicUrls().size() > 0) {
                 al_head.clear();
                 al_head.addAll(data.getPicUrls());
-                imgUrl = al_head.get(0);
                 Glide.with(AppApplication.getAppContext())
-                        .load(imgUrl)
+                        .load(al_head.get(0))
                         .apply(AppApplication.getShowOptions())
                         .into(iv_show);
             }
@@ -128,16 +168,58 @@ public class SignUpDetailActivity extends BaseActivity implements View.OnClickLi
             tv_people.setText(getString(R.string.sign_up_info_number, data.getPeople(), data.getQuantity()));
             tv_suit.setText(data.getSuit());
 
+            if (pageType == 1) { //我的报名
+                code_main.setVisibility(View.VISIBLE);
+                tv_code.setVisibility(View.GONE);
+
+                writeOffStatus = data.getWriteOffStatus();
+                switch (writeOffStatus) {
+                    case 3: //已核销
+                        tv_cover.setText(mContext.getString(R.string.cancelled));
+                        tv_cover.setVisibility(View.VISIBLE);
+                        break;
+                    case 10: //已过期
+                        tv_cover.setText(mContext.getString(R.string.expired));
+                        tv_cover.setVisibility(View.VISIBLE);
+                        break;
+                    default:
+                        tv_cover.setVisibility(View.GONE);
+                        tv_code.setText(data.getCheckValue());
+                        tv_code.setVisibility(View.VISIBLE);
+                        iv_code.setOnClickListener(this);
+                        break;
+                }
+
+                //Bitmap logoImg = BitmapFactory.decodeResource(getResources(), R.mipmap.icon_logo);
+                int imgSize = AppApplication.screen_width;
+                qrImage = QRCodeUtil.createQRImage(data.getCheckValue(), imgSize, imgSize, 0, null);
+                iv_code.setImageBitmap(BitmapUtil.getBitmap(qrImage, 360, 360));
+            }
+
             status = data.getStatus();
             checkState();
 
-            webUrl = data.getLinkUrl();
-            initWebView();
+            if (!StringUtil.isNull(data.getLinkUrl())) {
+                //网页详情
+                lv_detail.setVisibility(View.GONE);
+                myWebView.setVisibility(View.VISIBLE);
+                initWebView(data.getLinkUrl());
+            } else {
+                //图片详情
+                myWebView.setVisibility(View.GONE);
+                lv_detail.setVisibility(View.VISIBLE);
+                if (data.getDesUrls() != null) {
+                    al_detail.clear();
+                    al_detail.addAll(data.getDesUrls());
+                }
+                initListView();
+            }
+
         }
     }
 
     @SuppressLint({ "JavascriptInterface", "SetJavaScriptEnabled" })
-    private void initWebView() {
+    private void initWebView(String webUrl) {
         if (myWebView != null){
             //WebView属性设置
             WebSettings webSettings = myWebView.getSettings();
@@ -177,6 +259,22 @@ public class SignUpDetailActivity extends BaseActivity implements View.OnClickLi
         }
     }
 
+    private void initListView() {
+        //商品详情
+        if (lv_detail_Adapter == null) {
+            lv_detail_Adapter = new ImageListAdapter(mContext);
+            lv_detail_Adapter.addCallback(new AdapterCallback() {
+                @Override
+                public void setOnClick(Object data, int position, int type) {
+
+                }
+            });
+        }
+        lv_detail_Adapter.updateData(al_detail);
+        lv_detail.setAdapter(lv_detail_Adapter);
+        lv_detail.setOverScrollMode(ListView.OVER_SCROLL_NEVER);
+    }
+
     private void setClickState(String text, boolean isState) {
         if (!StringUtil.isNull(text)) {
             tv_click.setText(text);
@@ -199,6 +297,15 @@ public class SignUpDetailActivity extends BaseActivity implements View.OnClickLi
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.sign_up_detail_iv_code:
+                if (writeOffStatus == 2 && qrImage != null) {
+                    iv_code_large.setVisibility(View.VISIBLE);
+                    iv_code_large.setImageBitmap(qrImage);
+                }
+                break;
+            case R.id.sign_up_detail_iv_code_large:
+                iv_code_large.setVisibility(View.GONE);
+                break;
             case R.id.sign_up_detail_tv_click:
                 if (!checkClick()) return;
                 if (isOnClick) {
@@ -216,7 +323,7 @@ public class SignUpDetailActivity extends BaseActivity implements View.OnClickLi
             dataErrorHandle();
             return false;
         }
-        if (pageType == 1 || status == 2)
+        if (pageType == 1 || status != 1)
             return false;
         return true;
     }
@@ -260,10 +367,14 @@ public class SignUpDetailActivity extends BaseActivity implements View.OnClickLi
 
     @Override
     protected void onDestroy() {
-        //清除缓存
-        if (myWebView != null) {
-            myWebView.clearCache(true);
+        // 注销广播
+        if (myReceiver != null) {
+            unregisterReceiver(myReceiver);
         }
+        //清除缓存
+        /*if (myWebView != null) {
+            myWebView.clearCache(true);
+        }*/
         super.onDestroy();
     }
 
@@ -303,6 +414,19 @@ public class SignUpDetailActivity extends BaseActivity implements View.OnClickLi
         } catch (Exception e) {
             loadFailHandle();
             ExceptionUtil.handle(e);
+        }
+    }
+
+    class MyBroadcastReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            int msgType = intent.getIntExtra(AppConfig.RA_PAGE_RESERVE_KEY, 0);
+            LogUtil.i("PushManager", TAG + " onReceive msgType = " + msgType);
+            switch (msgType) {
+                case AppConfig.PUSH_MSG_TYPE_001: //刷新核销码
+                    loadServerData();
+                    break;
+            }
         }
     }
 

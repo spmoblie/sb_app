@@ -45,6 +45,7 @@ import com.songbao.sampo_c.AppApplication;
 import com.songbao.sampo_c.AppConfig;
 import com.songbao.sampo_c.AppManager;
 import com.songbao.sampo_c.R;
+import com.songbao.sampo_c.activity.common.MyWebViewActivity;
 import com.songbao.sampo_c.activity.common.ViewPagerActivity;
 import com.songbao.sampo_c.activity.common.clip.ClipImageCircularActivity;
 import com.songbao.sampo_c.activity.common.clip.ClipImageSquareActivity;
@@ -55,9 +56,7 @@ import com.songbao.sampo_c.activity.login.LoginPhoneActivity;
 import com.songbao.sampo_c.activity.login.RegisterActivity;
 import com.songbao.sampo_c.activity.login.RegisterOauthActivity;
 import com.songbao.sampo_c.activity.login.ResetPasswordActivity;
-import com.songbao.sampo_c.activity.mine.CommentAddActivity;
-import com.songbao.sampo_c.activity.mine.CommentPostActivity;
-import com.songbao.sampo_c.activity.three.DesignerListActivity;
+import com.songbao.sampo_c.activity.three.DesignerActivity;
 import com.songbao.sampo_c.activity.three.GoodsOffActivity;
 import com.songbao.sampo_c.activity.two.CartActivity;
 import com.songbao.sampo_c.activity.two.GoodsActivity;
@@ -67,7 +66,6 @@ import com.songbao.sampo_c.adapter.GoodsAttrAdapter;
 import com.songbao.sampo_c.dialog.DialogManager;
 import com.songbao.sampo_c.dialog.LoadDialog;
 import com.songbao.sampo_c.entity.BaseEntity;
-import com.songbao.sampo_c.entity.CommentEntity;
 import com.songbao.sampo_c.entity.GoodsAttrEntity;
 import com.songbao.sampo_c.entity.ShareEntity;
 import com.songbao.sampo_c.utils.ClickUtils;
@@ -239,11 +237,12 @@ public class BaseActivity extends FragmentActivity {
     @Override
     protected void onPause() {
         LogUtil.i(LogUtil.LOG_TAG, TAG + ": onPause()");
+        // 销毁对话框对象
+        DialogManager.clearInstance();
         // 缓存标题View高度
         if (AppApplication.title_height <= 0) {
             AppApplication.title_height = top_main.getHeight();
         }
-        DialogManager.clearInstance();
         super.onPause();
     }
 
@@ -448,7 +447,7 @@ public class BaseActivity extends FragmentActivity {
         AppManager.getInstance().finishActivity(GoodsActivity.class);
         AppManager.getInstance().finishActivity(GoodsListActivity.class);
         AppManager.getInstance().finishActivity(SketchActivity.class);
-        AppManager.getInstance().finishActivity(DesignerListActivity.class);
+        AppManager.getInstance().finishActivity(DesignerActivity.class);
     }
 
     /**
@@ -507,16 +506,15 @@ public class BaseActivity extends FragmentActivity {
     }
 
     /**
-     * 打开设计师列表页
+     * 跳转至WebView
+     * @param title
+     * @param url
      */
-    protected void openDesignerActivity(String skuCode) {
-        if (isLogin()) {
-            Intent intent = new Intent(mContext, DesignerListActivity.class);
-            intent.putExtra("skuCode", skuCode);
-            startActivity(intent);
-        } else {
-            openLoginActivity();
-        }
+    protected void openWebViewActivity(String title, String url) {
+        Intent intent = new Intent(mContext, MyWebViewActivity.class);
+        intent.putExtra("title", title);
+        intent.putExtra("lodUrl", url);
+        startActivity(intent);
     }
 
     /**
@@ -1191,7 +1189,7 @@ public class BaseActivity extends FragmentActivity {
      */
     protected void loadCartGoodsNum() {
         HashMap<String, Object> map = new HashMap<>();
-        loadSVData(AppConfig.BASE_URL_3, AppConfig.URL_CART_COUNT, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_CART_COUNT);
+        loadSVData(AppConfig.URL_CART_COUNT, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_CART_COUNT);
     }
 
     /**
@@ -1310,7 +1308,7 @@ public class BaseActivity extends FragmentActivity {
             iv_goods_img.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (ClickUtils.isDoubleClick()) return;
+                    if (ClickUtils.isDoubleClick(v.getId())) return;
                     openViewPagerActivity(al_attrImg, 0);
                 }
             });

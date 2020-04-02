@@ -6,6 +6,8 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.songbao.sampo_c.AppApplication;
@@ -15,52 +17,57 @@ import com.songbao.sampo_c.activity.BaseActivity;
 import com.songbao.sampo_c.utils.CommonTools;
 import com.songbao.sampo_c.utils.LogUtil;
 import com.songbao.sampo_c.utils.StringUtil;
+import com.songbao.sampo_c.utils.TimeUtil;
+
+import java.util.Calendar;
 
 import butterknife.BindView;
 
 
-public class FeedBackActivity extends BaseActivity implements OnClickListener {
+public class AboutActivity extends BaseActivity implements OnClickListener {
 
-	String TAG = FeedBackActivity.class.getSimpleName();
+	String TAG = AboutActivity.class.getSimpleName();
 
-	@BindView(R.id.feed_back_et_content)
-	EditText et_content;
+	@BindView(R.id.about_rl_user_agreement)
+	RelativeLayout rl_user_agreement;
 
-	@BindView(R.id.feed_back_btn_submit)
-	Button btn_submit;
+	@BindView(R.id.about_rl_privacy_policy)
+	RelativeLayout rl_privacy_policy;
+
+	@BindView(R.id.about_tv_version)
+	TextView tv_version;
+
+	@BindView(R.id.about_tv_copyright)
+	TextView tv_copyright;
 
 	private String contentStr;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_feed_back);
+		setContentView(R.layout.activity_about);
 
 		initView();
 	}
 
 	private void initView() {
-		setTitle(R.string.setting_feedback);
-		btn_submit.setOnClickListener(this);
-	}
+		setTitle(R.string.setting_about_us);
 
-	private boolean checkData() {
-		contentStr = et_content.getText().toString();
-		// 校验非空
-		if (StringUtil.isNull(contentStr)) {
-			CommonTools.showToast(getString(R.string.setting_input_error_feedback), Toast.LENGTH_SHORT);
-			return false;
-		}
-		return true;
+		rl_user_agreement.setOnClickListener(this);
+		rl_privacy_policy.setOnClickListener(this);
+
+		tv_version.setText(getString(R.string.setting_version_show, AppApplication.version_name));
+		tv_copyright.setText(getString(R.string.setting_copyright, Calendar.getInstance().get(Calendar.YEAR)));
 	}
 
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-			case R.id.feed_back_btn_submit:
-				if (checkData()) {
-					postData();
-				}
+			case R.id.about_rl_user_agreement:
+				openWebViewActivity(getString(R.string.setting_user_agreement), AppConfig.SALE_HELP);
+				break;
+			case R.id.about_rl_privacy_policy:
+				openWebViewActivity(getString(R.string.setting_privacy_policy), AppConfig.SALE_HELP);
 				break;
 		}
 	}
@@ -86,18 +93,6 @@ public class FeedBackActivity extends BaseActivity implements OnClickListener {
 	@Override
 	protected void onDestroy() {
 		super.onDestroy();
-	}
-
-	private void postData() {
-		startAnimation();
-		new Handler().postDelayed(new Runnable() {
-			@Override
-			public void run() {
-				CommonTools.showToast(contentStr);
-				CommonTools.showToast(getString(R.string.setting_feedback_post_ok));
-				stopAnimation();
-			}
-		}, AppConfig.LOADING_TIME);
 	}
 
 }

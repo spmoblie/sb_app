@@ -19,7 +19,7 @@ public class MyUmengMessageHandler extends UmengMessageHandler {
         int msgType = Integer.valueOf(uMessage.custom);
         Intent intent = new Intent();
         switch (msgType) {
-            case AppConfig.PUSH_MSG_TYPE_001: //刷新预约核销码
+            case AppConfig.PUSH_MSG_TYPE_001: //刷新核销码
                 intent.setAction(AppConfig.RA_PAGE_RESERVE);
                 intent.putExtra(AppConfig.RA_PAGE_RESERVE_KEY, AppConfig.PUSH_MSG_TYPE_001);
                 context.sendBroadcast(intent);

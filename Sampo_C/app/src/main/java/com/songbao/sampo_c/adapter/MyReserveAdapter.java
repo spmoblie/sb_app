@@ -12,7 +12,7 @@ import com.songbao.sampo_c.entity.ThemeEntity;
 import com.songbao.sampo_c.utils.TimeUtil;
 import com.songbao.sampo_c.widgets.RoundImageView;
 
-public class MyReserveAdapter extends BaseRecyclerAdapter {
+public class MyReserveAdapter extends BaseRecyclerAdapter<ThemeEntity> {
 
     public MyReserveAdapter(Context context, int resLayout) {
         super(context, resLayout);
@@ -30,7 +30,7 @@ public class MyReserveAdapter extends BaseRecyclerAdapter {
         TextView tv_time = holder.getView(R.id.my_reserve_item_tv_time);
 
         // 绑定View
-        final ThemeEntity data = (ThemeEntity) mDataList.get(pos);
+        final ThemeEntity data = mDataList.get(pos);
         Glide.with(AppApplication.getAppContext())
                 .load(data.getPicUrl())
                 .apply(AppApplication.getShowOptions())
