@@ -1,8 +1,9 @@
 package com.songbao.sampo_c.activity.home;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
+import android.os.Handler;
+import android.support.v4.util.ArrayMap;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 
@@ -10,22 +11,23 @@ import com.songbao.sampo_c.AppApplication;
 import com.songbao.sampo_c.AppConfig;
 import com.songbao.sampo_c.R;
 import com.songbao.sampo_c.activity.BaseActivity;
-import com.songbao.sampo_c.activity.three.DesignerActivity;
 import com.songbao.sampo_c.adapter.AdapterCallback;
 import com.songbao.sampo_c.adapter.HouseAdapter;
-import com.songbao.sampo_c.adapter.StoreAdapter;
 import com.songbao.sampo_c.entity.BaseEntity;
 import com.songbao.sampo_c.entity.HouseEntity;
-import com.songbao.sampo_c.entity.StoreEntity;
 import com.songbao.sampo_c.utils.ExceptionUtil;
 import com.songbao.sampo_c.utils.JsonUtils;
 import com.songbao.sampo_c.utils.LogUtil;
 import com.songbao.sampo_c.utils.retrofit.HttpRequests;
+import com.songbao.sampo_c.widgets.pullrefresh.PullToRefreshBase;
+import com.songbao.sampo_c.widgets.pullrefresh.PullToRefreshRecyclerView;
+import com.songbao.sampo_c.widgets.recycler.MyRecyclerView;
 
 import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import butterknife.BindView;
 
@@ -35,11 +37,17 @@ public class HouseListActivity extends BaseActivity implements View.OnClickListe
     String TAG = HouseListActivity.class.getSimpleName();
 
     @BindView(R.id.refresh_view_rv)
-    RecyclerView refresh_rv;
+    PullToRefreshRecyclerView refresh_rv;
 
     HouseAdapter rvAdapter;
+    MyRecyclerView mRecyclerView;
 
+    private int data_total = -1; //数据总量
+    private int load_page = 1; //加载页数
+    private int load_type = 1; //加载类型(0:下拉刷新/1:翻页加载)
+    private boolean isLoadOk = true; //加载控制
     private ArrayList<HouseEntity> al_show = new ArrayList<>();
+    private ArrayMap<String, Boolean> am_show = new ArrayMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,10 +61,49 @@ public class HouseListActivity extends BaseActivity implements View.OnClickListe
         setTitle(getString(R.string.customize_title_house));
 
         initRecyclerView();
-        loadServerData();
+        loadMoreData();
     }
 
     private void initRecyclerView() {
+        refresh_rv.setPullRefreshEnabled(true); //下拉刷新
+        refresh_rv.setPullLoadEnabled(true); //上拉加载
+        refresh_rv.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<MyRecyclerView>() {
+            @Override
+            public void onPullDownToRefresh(PullToRefreshBase<MyRecyclerView> refreshView) {
+                // 下拉刷新
+                new Handler().postDelayed(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        refreshData();
+                    }
+                }, AppConfig.LOADING_TIME);
+            }
+
+            @Override
+            public void onPullUpToRefresh(PullToRefreshBase<MyRecyclerView> refreshView) {
+                // 加载更多
+                new Handler().postDelayed(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        if (!isStopLoadMore(al_show.size(), data_total, 0)) {
+                            loadMoreData();
+                        } else {
+                            refresh_rv.onPullUpRefreshComplete();
+                            refresh_rv.setHasMoreData(false);
+                        }
+                    }
+                }, AppConfig.LOADING_TIME);
+            }
+        });
+
+        // 设置布局管理器
+        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        mRecyclerView = refresh_rv.getRefreshableView();
+        mRecyclerView.setLayoutManager(layoutManager);
+
+        // 配置内容适配器
         rvAdapter = new HouseAdapter(mContext, R.layout.item_grid_house);
         rvAdapter.addData(al_show);
         rvAdapter.addCallback(new AdapterCallback() {
@@ -67,8 +114,7 @@ public class HouseListActivity extends BaseActivity implements View.OnClickListe
                 openWebViewActivity(houseEn.getName(), houseEn.getWebUrl());
             }
         });
-        refresh_rv.setLayoutManager(new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL));
-        refresh_rv.setAdapter(rvAdapter);
+        mRecyclerView.setAdapter(rvAdapter);
     }
 
     private void updateListData() {
@@ -117,11 +163,35 @@ public class HouseListActivity extends BaseActivity implements View.OnClickListe
     }
 
     /**
+     *下拉刷新
+     */
+    private void refreshData() {
+        load_type = 0;
+        loadServerData();
+    }
+
+    /**
+     * 翻页加载
+     */
+    private void loadMoreData() {
+        load_type = 1;
+        loadServerData();
+    }
+
+    /**
      * 加载数据
      */
     private void loadServerData() {
+        if (!isLoadOk) return; //加载频率控制
+        isLoadOk = false;
+        int page = load_page;
+        if (load_type == 0) {
+            page = 1;
+        }
         HashMap<String, Object> map = new HashMap<>();
-        loadSVData(AppConfig.URL_STORE_LIST, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_STORE_LIST);
+        map.put("page", page);
+        map.put("size", AppConfig.LOAD_SIZE);
+        loadSVData(AppConfig.URL_HOUSE_LIST, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_HOUSE_LIST);
     }
 
     @Override
@@ -129,11 +199,24 @@ public class HouseListActivity extends BaseActivity implements View.OnClickListe
         BaseEntity<HouseEntity> baseEn;
         try {
             switch (dataType) {
-                case AppConfig.REQUEST_SV_STORE_LIST:
+                case AppConfig.REQUEST_SV_HOUSE_LIST:
                     baseEn = JsonUtils.getHouseData(jsonObject);
                     if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
-                        al_show.clear();
-                        al_show.addAll(baseEn.getLists());
+                        data_total = baseEn.getDataTotal();
+                        List<HouseEntity> lists = filterData(baseEn.getLists(), am_show);
+                        if (lists != null && lists.size() > 0) {
+                            if (load_type == 0) {
+                                //下拉
+                                LogUtil.i(LogUtil.LOG_HTTP, TAG + " 刷新数据 —> size = " + lists.size());
+                                lists.addAll(al_show);
+                                al_show.clear();
+                            }else {
+                                //翻页
+                                LogUtil.i(LogUtil.LOG_HTTP, TAG + " 翻页数据 —> size = " + lists.size());
+                                load_page++;
+                            }
+                            al_show.addAll(lists);
+                        }
                         updateListData();
                     } else if (baseEn.getErrNo() == AppConfig.ERROR_CODE_TIMEOUT) {
                         handleTimeOut();
@@ -158,6 +241,9 @@ public class HouseListActivity extends BaseActivity implements View.OnClickListe
     @Override
     protected void stopAnimation() {
         super.stopAnimation();
+        isLoadOk = true;
+        refresh_rv.onPullUpRefreshComplete();
+        refresh_rv.onPullDownRefreshComplete();
     }
 
 }

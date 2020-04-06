@@ -107,6 +107,9 @@ public class AppConfig {
 	// 购物结算
 	public final static String URL_CART_CHECKED = "trade/app/cart/resetchecked";
 
+	// 全屋案例
+	public final static String URL_HOUSE_LIST = "app/rendering/list";
+
 	// 获取资料
 	public final static String URL_USER_GET = "app/user/get";
 	// 修改资料
@@ -267,83 +270,86 @@ public class AppConfig {
 	// 购物结算
 	public static final int REQUEST_SV_CART_CHECKED = 0X2027;
 
+	// 全屋案例
+	public static final int REQUEST_SV_HOUSE_LIST = 0X3001;
+
 	// 上传头像
-	public static final int REQUEST_SV_UPLOAD_HEAD = 0X3001;
+	public static final int REQUEST_SV_UPLOAD_HEAD = 0X5001;
 	// 获取资料
-	public static final int REQUEST_SV_USER_GET = 0X3002;
+	public static final int REQUEST_SV_USER_GET = 0X5002;
 	// 修改资料
-	public static final int REQUEST_SV_USER_SAVE = 0X3003;
+	public static final int REQUEST_SV_USER_SAVE = 0X5003;
 	// 动态数据
-	public static final int REQUEST_SV_USER_DYNAMIC = 0X3004;
+	public static final int REQUEST_SV_USER_DYNAMIC = 0X5004;
 
 	// 我的消息
-	public static final int REQUEST_SV_USER_MESSAGE = 0X3101;
+	public static final int REQUEST_SV_USER_MESSAGE = 0X5101;
 	// 我的评价
-	public static final int REQUEST_SV_USER_COMMENT = 0X3111;
+	public static final int REQUEST_SV_USER_COMMENT = 0X5111;
 	// 我的门票
-	public static final int REQUEST_SV_USER_TICKETS = 0X3121;
+	public static final int REQUEST_SV_USER_TICKETS = 0X5121;
 	// 我的活动
-	public static final int REQUEST_SV_USER_ACTIVITY = 0X3131;
+	public static final int REQUEST_SV_USER_ACTIVITY = 0X5131;
 	// 我的预约
-	public static final int REQUEST_SV_USER_RESERVATION = 0X3141;
+	public static final int REQUEST_SV_USER_RESERVATION = 0X5141;
 	// 我的定制
-	public static final int REQUEST_SV_USER_CUSTOMIZE = 0X3151;
+	public static final int REQUEST_SV_USER_CUSTOMIZE = 0X5151;
 	// 门店设计
-	public static final int REQUEST_SV_USER_DESIGNER = 0X3161;
+	public static final int REQUEST_SV_USER_DESIGNER = 0X5161;
 	// 门店列表
-	public static final int REQUEST_SV_STORE_LIST = 0X3171;
+	public static final int REQUEST_SV_STORE_LIST = 0X5171;
 
 	// 我的地址
-	public static final int REQUEST_SV_ADDRESS_LIST = 0X3201;
+	public static final int REQUEST_SV_ADDRESS_LIST = 0X5201;
 	// 修改地址
-	public static final int REQUEST_SV_ADDRESS_EDIT = 0X3202;
+	public static final int REQUEST_SV_ADDRESS_EDIT = 0X5202;
 	// 删除地址
-	public static final int REQUEST_SV_ADDRESS_DELETE = 0X3203;
+	public static final int REQUEST_SV_ADDRESS_DELETE = 0X5203;
 	// 默认地址
-	public static final int REQUEST_SV_ADDRESS_DEFAULT = 0X3204;
+	public static final int REQUEST_SV_ADDRESS_DEFAULT = 0X5204;
 
 	// 订单地址
-	public static final int REQUEST_SV_ORDER_UPDATE = 0X3301;
+	public static final int REQUEST_SV_ORDER_UPDATE = 0X5301;
 	// 填写订单
-	public static final int REQUEST_SV_ORDER_FILL = 0X3302;
+	public static final int REQUEST_SV_ORDER_FILL = 0X5302;
 	// 提交订单
-	public static final int REQUEST_SV_ORDER_CREATE = 0X3303;
+	public static final int REQUEST_SV_ORDER_CREATE = 0X5303;
 	// 订单列表
-	public static final int REQUEST_SV_ORDER_LIST = 0X3304;
+	public static final int REQUEST_SV_ORDER_LIST = 0X5304;
 	// 订单详情
-	public static final int REQUEST_SV_ORDER_INFO = 0X3305;
+	public static final int REQUEST_SV_ORDER_INFO = 0X5305;
 	// 取消订单
-	public static final int REQUEST_SV_ORDER_CANCEL = 0X3306;
+	public static final int REQUEST_SV_ORDER_CANCEL = 0X5306;
 	// 删除订单
-	public static final int REQUEST_SV_ORDER_DELETE = 0X3307;
+	public static final int REQUEST_SV_ORDER_DELETE = 0X5307;
 	// 确认订单
-	public static final int REQUEST_SV_ORDER_CONFIRM  = 0X3308;
+	public static final int REQUEST_SV_ORDER_CONFIRM  = 0X5308;
 
 	// 提交定制
-	public static final int REQUEST_SV_BOOKING_CREATE = 0X3402;
+	public static final int REQUEST_SV_BOOKING_CREATE = 0X5402;
 	// 取消定制
-	public static final int REQUEST_SV_BOOKING_CANCEL = 0X3403;
+	public static final int REQUEST_SV_BOOKING_CANCEL = 0X5403;
 	// 删除定制
-	public static final int REQUEST_SV_BOOKING_DELETE = 0X3404;
+	public static final int REQUEST_SV_BOOKING_DELETE = 0X5404;
 	// 定制列表
-	public static final int REQUEST_SV_BOOKING_LIST= 0X3411;
+	public static final int REQUEST_SV_BOOKING_LIST= 0X5411;
 	// 定制详情
-	public static final int REQUEST_SV_BOOKING_INFO = 0X3412;
+	public static final int REQUEST_SV_BOOKING_INFO = 0X5412;
 	// 确认设计
-	public static final int REQUEST_SV_BOOKING_DESIGNS = 0X3413;
+	public static final int REQUEST_SV_BOOKING_DESIGNS = 0X5413;
 	// 确认支付
-	public static final int REQUEST_SV_BOOKING_PAYMENT = 0X3414;
+	public static final int REQUEST_SV_BOOKING_PAYMENT = 0X5414;
 	// 确认收货
-	public static final int REQUEST_SV_BOOKING_RECEIPT = 0X3415;
+	public static final int REQUEST_SV_BOOKING_RECEIPT = 0X5415;
 	// 确认安装
-	public static final int REQUEST_SV_BOOKING_INSTALL = 0X3416;
+	public static final int REQUEST_SV_BOOKING_INSTALL = 0X5416;
 
 	// 商品售后
-	public static final int REQUEST_SV_GOODS_SALE = 0X3501;
+	public static final int REQUEST_SV_GOODS_SALE = 0X5501;
 	// 退款详情
-	public static final int REQUEST_SV_REFUND_DETAIL = 0X3511;
+	public static final int REQUEST_SV_REFUND_DETAIL = 0X5511;
 	// 评论照片
-	public static final int REQUEST_SV_UPLOAD_COMMENT_PHOTO = 0X3521;
+	public static final int REQUEST_SV_UPLOAD_COMMENT_PHOTO = 0X5521;
 
 	/**
 	 ******************************************* RequestCode协议结束 ******************************************
@@ -424,6 +430,10 @@ public class AppConfig {
 	public static final String SALE_PHONE = "4008806558";
 	// 联系客服网址-吐个槽
 	public static final String SALE_HELP = "https://support.qq.com/product/135418";
+	// 《隐私政策》
+	public static final String PRIVACY_POLICY = "http://test.sbwg.cn/otherH5/SBWGINFO.html?type=1";
+	// 《用户协议》
+	public static final String USER_AGREEMENT = "http://test.sbwg.cn/otherH5/SBWGINFO.html?type=2";
 
 	// 动态授权-权限集
 	public static final String[] PERMISSIONS = new String[]{

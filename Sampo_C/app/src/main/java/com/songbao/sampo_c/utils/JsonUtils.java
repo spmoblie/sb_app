@@ -399,23 +399,24 @@ public class JsonUtils {
         BaseEntity<HouseEntity> mainEn = getCommonKeyValue(jsonObject);
 
         if (StringUtil.notNull(jsonObject, "data")) {
-            JSONArray jsonData = jsonObject.getJSONArray("data");
-            HouseEntity childEn;
-            List<HouseEntity> lists = new ArrayList<>();
-            for (int j = 0; j < jsonData.length(); j++) {
-                JSONObject item = jsonData.getJSONObject(j);
-                childEn = new HouseEntity();
-                childEn.setId(item.getInt("id"));
-                childEn.setImgUrl(item.getString("storePic"));
-                //childEn.setWebUrl(item.getString("storePic"));
-                //childEn.setName(item.getString("storeName"));
-                //childEn.setInfo(item.getString("storeDetails"));
-                childEn.setWebUrl("https://yun.kujiale.com/design/3FO4B5NB7E2L/airoaming");
-                childEn.setName("案例标题案例标题案例标题案例标题");
-                childEn.setInfo("案例简介内容案例简介内容案例简介内容案例简介内容案例简介内容案例简介内容案例简介内容");
-                lists.add(childEn);
+            JSONObject jsonData = jsonObject.getJSONObject("data");
+            if (StringUtil.notNull(jsonData, "list")) {
+                JSONArray jsonList = jsonData.getJSONArray("list");
+                HouseEntity childEn;
+                List<HouseEntity> lists = new ArrayList<>();
+                for (int j = 0; j < jsonList.length(); j++) {
+                    JSONObject item = jsonList.getJSONObject(j);
+                    childEn = new HouseEntity();
+                    childEn.setId(item.getInt("id"));
+                    childEn.setImgUrl(item.getString("renderingUrl"));
+                    childEn.setName(item.getString("renderingTitle"));
+                    childEn.setInfo(item.getString("renderingIntroduction"));
+                    childEn.setWebUrl(item.getString("renderingVcrUrl"));
+                    //childEn.setWebUrl("https://yun.kujiale.com/design/3FO4B5NB7E2L/airoaming");
+                    lists.add(childEn);
+                }
+                mainEn.setLists(lists);
             }
-            mainEn.setLists(lists);
         }
         return mainEn;
     }

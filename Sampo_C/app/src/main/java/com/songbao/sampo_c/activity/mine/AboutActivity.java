@@ -64,10 +64,10 @@ public class AboutActivity extends BaseActivity implements OnClickListener {
 	public void onClick(View v) {
 		switch (v.getId()) {
 			case R.id.about_rl_user_agreement:
-				openWebViewActivity(getString(R.string.setting_user_agreement), AppConfig.SALE_HELP);
+				openWebViewActivity(getString(R.string.setting_user_agreement), AppConfig.USER_AGREEMENT);
 				break;
 			case R.id.about_rl_privacy_policy:
-				openWebViewActivity(getString(R.string.setting_privacy_policy), AppConfig.SALE_HELP);
+				openWebViewActivity(getString(R.string.setting_privacy_policy), AppConfig.PRIVACY_POLICY);
 				break;
 		}
 	}

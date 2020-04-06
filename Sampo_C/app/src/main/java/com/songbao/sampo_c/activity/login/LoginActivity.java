@@ -137,6 +137,7 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
         login_tv_wx.setOnClickListener(this);
         login_tv_qq.setOnClickListener(this);
         login_tv_wb.setOnClickListener(this);
+        tv_agreement.setOnClickListener(this);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) { //API 24
             setTextUrl();
@@ -145,8 +146,9 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
 
     @SuppressLint("NewApi")
     private void setTextUrl() {
-        String s1 = "<font  color='#222222'>登录即同意</font>";
-        s1 += "<a href = 'http://www.baidu.com'>《松小堡用户协议》</a>";
+        String s1 = "<font color='#222222'>登录即同意</font>";
+        s1 += "<font color='#3FBDFF'>《松小堡用户协议》</font>";
+        //s1 += "<a href = '" + AppConfig.USER_AGREEMENT + "'>《松小堡用户协议》</a>";
         //<font>：设置颜色和字体。
         //<big>：设置字体大号
         //<small>：设置字体小号
@@ -158,10 +160,11 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
         //FROM_HTML_MODE_LEGACY：html块元素之间使用两个换行符分隔
         CharSequence charSequence = Html.fromHtml(s1, Html.FROM_HTML_MODE_COMPACT);
         tv_agreement.setText(charSequence);
-        tv_agreement.setLinkTextColor(getResources().getColor(R.color.tv_color_status));
-        //为TextView添加链接
+
+        //为TextView添加外部链接
+        /*tv_agreement.setLinkTextColor(getResources().getColor(R.color.tv_color_status));
         tv_agreement.setMovementMethod(LinkMovementMethod.getInstance());
-        stripUnderlines(tv_agreement);
+        stripUnderlines(tv_agreement);*/
     }
 
     private void stripUnderlines(TextView textView) {
@@ -201,6 +204,9 @@ public class LoginActivity extends BaseActivity implements OnClickListener {
             case R.id.login_tv_wb:
                 //loginWB();
                 CommonTools.showToast(getString(R.string.toast_no_open));
+                break;
+            case R.id.login_tv_agreement:
+                openWebViewActivity(getString(R.string.setting_user_agreement), AppConfig.USER_AGREEMENT);
                 break;
         }
     }
