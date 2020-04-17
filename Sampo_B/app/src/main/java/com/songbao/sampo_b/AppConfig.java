@@ -11,13 +11,13 @@ public class AppConfig {
 	 */
 
 	// 发布控制
-	public static final boolean IS_PUBLISH = true;
+	public static final boolean IS_PUBLISH = false;
 	// http协议
 	private final static String APP_HTTP = "http://";
 	// https协议
 	private final static String APP_HTTPS = "https://";
 	// Base类型
-	public final static String BASE_TYPE = "base_1"; //base_1:发布、base_2:测试
+	public final static String BASE_TYPE = "base_2"; //base_1:发布、base_2:测试
 	// 发布Url
 	public final static String BASE_URL_1 = APP_HTTP + "xiaobao.sbwg.cn/";
 	// 测试Url

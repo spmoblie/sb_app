@@ -1,23 +1,16 @@
 package com.songbao.sampo_c.activity.mine;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.songbao.sampo_c.AppApplication;
 import com.songbao.sampo_c.AppConfig;
 import com.songbao.sampo_c.R;
 import com.songbao.sampo_c.activity.BaseActivity;
-import com.songbao.sampo_c.utils.CommonTools;
 import com.songbao.sampo_c.utils.LogUtil;
-import com.songbao.sampo_c.utils.StringUtil;
-import com.songbao.sampo_c.utils.TimeUtil;
 
 import java.util.Calendar;
 
