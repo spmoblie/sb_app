@@ -625,6 +625,7 @@ public class JsonUtils {
                 }
                 goodsEn.setImageList(urls);
             }
+            goodsEn.setEffectUrl("https://yun.kujiale.com/design/3FO4B5NB7E2L/airoaming");
             mainEn.setData(goodsEn);
         }
         return mainEn;

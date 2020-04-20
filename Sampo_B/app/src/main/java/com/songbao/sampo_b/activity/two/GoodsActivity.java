@@ -55,6 +55,12 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
     @BindView(R.id.goods_tv_goods_name)
     TextView tv_name;
 
+    @BindView(R.id.goods_tv_effect_url)
+    TextView tv_url;
+
+    @BindView(R.id.goods_tv_effect_check)
+    TextView tv_check;
+
     @BindView(R.id.goods_iv_code)
     ImageView iv_code;
 
@@ -90,6 +96,7 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
     private void initView() {
         setTitle(getString(R.string.goods_good_detail));
 
+        tv_check.setOnClickListener(this);
         tv_click.setOnClickListener(this);
 
         // 动态调整宽高
@@ -103,6 +110,7 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
     private void initShowView() {
         if (goodsEn != null) {
             tv_name.setText(goodsEn.getName());
+            tv_url.setText(goodsEn.getEffectUrl());
 
             //商品编码
             final String imgName = "QR_" + goodsCode + ".png";
@@ -298,6 +306,11 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.goods_tv_effect_check:
+                if (goodsEn != null) {
+                    openWebViewActivity(getString(R.string.goods_effect), goodsEn.getEffectUrl(), null);
+                }
+                break;
             case R.id.goods_tv_click:
                 if (ClickUtils.isDoubleClick(v.getId())) return;
                 if (goodsEn == null) {

@@ -49,8 +49,8 @@
                         android:id="@+id/goods_tv_goods_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/app_margin_screen"
                         android:layout_marginEnd="@dimen/app_margin_screen"
+                        android:layout_marginStart="@dimen/app_margin_screen"
                         android:layout_marginTop="@dimen/margin_padding_20"
                         android:textColor="@color/shows_text_color"
                         android:textSize="@dimen/app_text_size_title"
@@ -58,16 +58,56 @@
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                        android:id="@+id/goods_tv_code"
-                        style="@style/goods_text"
+                        android:id="@+id/goods_tv_effect"
+                        style="@style/block_title_text"
+                        android:text="@string/goods_effect"
                         android:layout_marginStart="@dimen/app_margin_screen"
                         android:layout_marginTop="@dimen/margin_padding_40"
-                        android:text="@string/goods_code"
-                        android:textColor="@color/shows_text_color"
-                        android:textSize="@dimen/app_text_size_title"
-                        android:textStyle="bold"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/goods_tv_goods_name" />
+
+                    <TextView
+                        android:id="@+id/goods_tv_effect_sign"
+                        android:layout_width="@dimen/margin_padding_12"
+                        android:layout_height="@dimen/margin_padding_12"
+                        android:layout_marginEnd="@dimen/margin_padding_10"
+                        android:background="@drawable/shape_style_app_status"
+                        app:layout_constraintBottom_toBottomOf="@+id/goods_tv_effect"
+                        app:layout_constraintRight_toLeftOf="@+id/goods_tv_effect"
+                        app:layout_constraintTop_toTopOf="@+id/goods_tv_effect" />
+
+                    <TextView
+                        android:id="@+id/goods_tv_effect_url"
+                        style="@style/goods_text"
+                        android:layout_width="0dp"
+                        android:layout_marginTop="@dimen/margin_padding_10"
+                        android:layout_marginEnd="@dimen/margin_padding_10"
+                        android:textColor="@color/shows_text_color"
+                        android:textSize="@dimen/app_text_size_content"
+                        app:layout_constraintHorizontal_weight="1"
+                        app:layout_constraintLeft_toLeftOf="@+id/goods_tv_effect"
+                        app:layout_constraintRight_toLeftOf="@+id/goods_tv_effect_check"
+                        app:layout_constraintTop_toBottomOf="@+id/goods_tv_effect" />
+
+                    <TextView
+                        android:id="@+id/goods_tv_effect_check"
+                        style="@style/common_text_button"
+                        android:layout_marginEnd="@dimen/app_margin_screen"
+                        android:background="@drawable/shape_style_empty_04_08"
+                        android:text="@string/see"
+                        android:textColor="@color/app_color_style"
+                        app:layout_constraintBottom_toBottomOf="@+id/goods_tv_effect_url"
+                        app:layout_constraintRight_toRightOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/goods_tv_effect_url" />
+
+                    <TextView
+                        android:id="@+id/goods_tv_code"
+                        style="@style/block_title_text"
+                        android:text="@string/goods_code"
+                        android:layout_marginStart="@dimen/app_margin_screen"
+                        android:layout_marginTop="@dimen/margin_padding_40"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/goods_tv_effect_url" />
 
                     <TextView
                         android:id="@+id/goods_tv_code_en"
@@ -100,19 +140,16 @@
 
                     <TextView
                         android:id="@+id/goods_tv_code_show"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="@color/app_color_red_p"
+                        style="@style/goods_text"
                         android:textSize="@dimen/app_text_size_content"
-                        android:textStyle="bold"
                         app:layout_constraintLeft_toLeftOf="@+id/goods_iv_code"
                         app:layout_constraintRight_toRightOf="@+id/goods_iv_code"
-                        app:layout_constraintTop_toBottomOf="@+id/goods_iv_code"/>
+                        app:layout_constraintTop_toBottomOf="@+id/goods_iv_code" />
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/margin_padding_120"
-                        app:layout_constraintTop_toBottomOf="@+id/goods_tv_code_show"/>
+                        app:layout_constraintTop_toBottomOf="@+id/goods_tv_code_show" />
 
                 </android.support.constraint.ConstraintLayout>
 
@@ -126,8 +163,8 @@
         android:layout_width="match_parent"
         android:layout_gravity="bottom"
         android:layout_marginBottom="@dimen/margin_padding_30"
-        android:layout_marginStart="@dimen/app_margin_screen"
         android:layout_marginEnd="@dimen/app_margin_screen"
+        android:layout_marginStart="@dimen/app_margin_screen"
         android:padding="@dimen/app_margin_screen"
         android:text="@string/goods_go_customize"
         android:textSize="@dimen/app_text_size_title"

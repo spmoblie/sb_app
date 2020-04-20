@@ -228,6 +228,16 @@
         <item name="android:background">@drawable/shape_style_app_status</item>
     </style>
 
+    <!-- 商品效果图图片编辑样式 -->
+    <style name="goods_photo_edit">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_marginTop">@dimen/margin_padding_10</item>
+        <item name="android:layout_marginEnd">@dimen/margin_padding_10</item>
+        <item name="android:scaleType">centerCrop</item>
+        <item name="android:src">@drawable/icon_default_show</item>
+    </style>
+
     <!-- 订单页面TextView样式 -->
     <style name="order_text">
         <item name="android:layout_width">wrap_content</item>

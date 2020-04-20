@@ -19,6 +19,7 @@ public class GoodsEntity extends BaseEntity {
 	private String color; //产品颜色
 	private String style; //产品款式
 	private String remarks; //产品备注
+	private String effectUrl; //3D效果Url
 	private int number; //商品数量
 	private int saleStatus; //0:未售后/1:退款中/2:已退款/3:换货中/4:已换货
 	private int commentStatus; //0:未评价/1:已评价/2:已追评
@@ -112,6 +113,14 @@ public class GoodsEntity extends BaseEntity {
 
 	public void setRemarks(String remarks) {
 		this.remarks = remarks;
+	}
+
+	public String getEffectUrl() {
+		return effectUrl;
+	}
+
+	public void setEffectUrl(String effectUrl) {
+		this.effectUrl = effectUrl;
 	}
 
 	public int getNumber() {

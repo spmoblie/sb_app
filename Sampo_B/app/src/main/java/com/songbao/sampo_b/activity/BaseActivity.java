@@ -38,6 +38,7 @@ import com.songbao.sampo_b.AppApplication;
 import com.songbao.sampo_b.AppConfig;
 import com.songbao.sampo_b.AppManager;
 import com.songbao.sampo_b.R;
+import com.songbao.sampo_b.activity.common.MyWebViewActivity;
 import com.songbao.sampo_b.activity.common.ViewPagerActivity;
 import com.songbao.sampo_b.activity.common.clip.ClipImageCircularActivity;
 import com.songbao.sampo_b.activity.common.clip.ClipImageSquareActivity;
@@ -430,6 +431,22 @@ public class BaseActivity extends FragmentActivity {
     protected void openDesignerActivity(String skuCode) {
         Intent intent = new Intent(mContext, DesignerListActivity.class);
         intent.putExtra("skuCode", skuCode);
+        startActivity(intent);
+    }
+
+    /**
+     * 跳转至WebView
+     * @param title
+     * @param url
+     * @param shareEn
+     */
+    protected void openWebViewActivity(String title, String url, ShareEntity shareEn) {
+        Intent intent = new Intent(mContext, MyWebViewActivity.class);
+        intent.putExtra("title", title);
+        intent.putExtra("lodUrl", url);
+        if (shareEn != null) {
+            intent.putExtra(AppConfig.PAGE_DATA, shareEn);
+        }
         startActivity(intent);
     }
 

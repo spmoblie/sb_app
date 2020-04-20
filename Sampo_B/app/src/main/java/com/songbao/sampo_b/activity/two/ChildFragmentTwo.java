@@ -19,7 +19,6 @@ import com.songbao.sampo_b.AppApplication;
 import com.songbao.sampo_b.AppConfig;
 import com.songbao.sampo_b.R;
 import com.songbao.sampo_b.activity.BaseFragment;
-import com.songbao.sampo_b.activity.common.ScanActivity;
 import com.songbao.sampo_b.adapter.AdapterCallback;
 import com.songbao.sampo_b.adapter.GoodsGridAdapter;
 import com.songbao.sampo_b.adapter.SortOneAdapter;
@@ -226,7 +225,8 @@ public class ChildFragmentTwo extends BaseFragment implements OnClickListener {
 		switch (v.getId()) {
 			case R.id.fg_two_iv_scan:
 				if (ClickUtils.isDoubleClick(v.getId())) return;
-				Intent intent = new Intent(mContext, ScanActivity.class);
+				//Intent intent = new Intent(mContext, ScanActivity.class);
+				Intent intent = new Intent(mContext, GoodsEditActivity.class);
 				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(intent);
 				break;

@@ -144,6 +144,10 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
         <activity
+            android:name=".activity.two.GoodsEditActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"/>
+        <activity
             android:name=".activity.two.GoodsListActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
