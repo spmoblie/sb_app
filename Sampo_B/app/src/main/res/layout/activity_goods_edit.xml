@@ -31,9 +31,10 @@
                 android:padding="@dimen/app_margin_screen">
 
                 <TextView
-                    android:id="@+id/goods_edit_tv_photo_title"
+                    android:id="@+id/goods_edit_tv_effect_img"
                     style="@style/block_title_text"
                     android:text="@string/goods_effect_img"
+                    android:textSize="@dimen/app_text_size_content"
                     app:layout_constraintLeft_toLeftOf="parent" />
 
                 <com.songbao.sampo_b.widgets.ScrollViewGridView
@@ -45,14 +46,118 @@
                     android:layout_marginTop="@dimen/margin_padding_10"
                     android:horizontalSpacing="@dimen/photo_grid_item_spacing"
                     android:verticalSpacing="@dimen/photo_grid_item_spacing"
-                    app:layout_constraintTop_toBottomOf="@+id/goods_edit_tv_photo_title"/>
+                    app:layout_constraintTop_toBottomOf="@+id/goods_edit_tv_effect_img"/>
+
+                <TextView
+                    android:id="@+id/goods_edit_tv_effect_link"
+                    style="@style/block_title_text"
+                    android:text="@string/goods_effect_link"
+                    android:textSize="@dimen/app_text_size_content"
+                    android:layout_marginTop="@dimen/margin_padding_20"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/goods_edit_gv_photo"/>
+
+                <EditText
+                    android:id="@+id/goods_edit_et_effect_link"
+                    style="@style/goods_edit_text"
+                    android:hint="@string/goods_effect_link_hint"
+                    app:layout_constraintHorizontal_weight="1"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/goods_edit_tv_effect_link" />
+
+                <TextView
+                    android:id="@+id/goods_edit_tv_goods_name"
+                    style="@style/block_title_text"
+                    android:text="@string/goods_name"
+                    android:textSize="@dimen/app_text_size_content"
+                    android:layout_marginTop="@dimen/margin_padding_20"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/goods_edit_et_effect_link"/>
+
+                <EditText
+                    android:id="@+id/goods_edit_et_goods_name"
+                    style="@style/goods_edit_text"
+                    android:hint="@string/goods_name_hint"
+                    app:layout_constraintHorizontal_weight="1"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/goods_edit_tv_goods_name" />
+
+                <TextView
+                    android:id="@+id/goods_edit_tv_goods_number"
+                    style="@style/block_title_text"
+                    android:text="@string/goods_number"
+                    android:textSize="@dimen/app_text_size_content"
+                    android:layout_marginTop="@dimen/margin_padding_20"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/goods_edit_et_goods_name"/>
+
+                <EditText
+                    android:id="@+id/goods_edit_et_goods_number"
+                    style="@style/goods_edit_text"
+                    android:inputType="number"
+                    android:hint="@string/goods_number_hint"
+                    app:layout_constraintHorizontal_weight="1"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/goods_edit_tv_goods_number" />
+
+                <TextView
+                    android:id="@+id/goods_edit_tv_goods_price"
+                    style="@style/block_title_text"
+                    android:text="@string/goods_price"
+                    android:textSize="@dimen/app_text_size_content"
+                    android:layout_marginTop="@dimen/margin_padding_20"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/goods_edit_et_goods_number"/>
+
+                <EditText
+                    android:id="@+id/goods_edit_et_goods_price"
+                    style="@style/goods_edit_text"
+                    android:inputType="number"
+                    android:digits=".0123456789"
+                    android:hint="@string/goods_price_hint"
+                    app:layout_constraintHorizontal_weight="1"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/goods_edit_tv_goods_price" />
+
+                <TextView
+                    android:id="@+id/goods_edit_tv_goods_remarks"
+                    style="@style/block_title_text"
+                    android:text="@string/goods_remarks"
+                    android:textSize="@dimen/app_text_size_content"
+                    android:layout_marginTop="@dimen/margin_padding_20"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/goods_edit_et_goods_price"/>
+
+                <EditText
+                    android:id="@+id/goods_edit_et_goods_remarks"
+                    style="@style/goods_edit_text"
+                    android:layout_height="128dp"
+                    android:gravity="top"
+                    android:singleLine="false"
+                    android:hint="@string/goods_remarks_hint"
+                    app:layout_constraintHorizontal_weight="1"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/goods_edit_tv_goods_remarks" />
+
+                <TextView
+                    android:id="@+id/goods_edit_tv_goods_remarks_byte"
+                    style="@style/goods_text"
+                    android:textSize="@dimen/app_text_size_small"
+                    android:layout_margin="@dimen/margin_padding_10"
+                    app:layout_constraintRight_toRightOf="@+id/goods_edit_et_goods_remarks"
+                    app:layout_constraintBottom_toBottomOf="@+id/goods_edit_et_goods_remarks"/>
 
             </android.support.constraint.ConstraintLayout>
         </LinearLayout>
     </ScrollView>
 
     <TextView
-        android:id="@+id/goods_edit_tv_post"
+        android:id="@+id/goods_edit_tv_confirm"
         android:layout_width="match_parent"
         android:layout_height="@dimen/app_height_button"
         android:layout_marginStart="@dimen/app_margin_screen"
@@ -61,7 +166,7 @@
         android:layout_marginTop="@dimen/margin_padding_20"
         android:background="@drawable/shape_style_solid_04_08"
         android:gravity="center"
-        android:text="@string/post"
+        android:text="@string/confirm"
         android:textStyle="bold"
         android:textColor="@color/app_color_white"
         android:textSize="@dimen/app_text_size_content" />

@@ -30,7 +30,7 @@ public class ClipPhotoOneActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_clip_photo_one);
+        setContentView(R.layout.activity_clip_photo_grid);
 
         isClip = getIntent().getBooleanExtra("isClip", false);
         album = (ClipPhotoEntity) getIntent().getSerializableExtra("album");

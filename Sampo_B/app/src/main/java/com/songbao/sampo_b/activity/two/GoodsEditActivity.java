@@ -4,6 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -11,6 +14,7 @@ import com.songbao.sampo_b.AppApplication;
 import com.songbao.sampo_b.AppConfig;
 import com.songbao.sampo_b.R;
 import com.songbao.sampo_b.activity.BaseActivity;
+import com.songbao.sampo_b.activity.common.clip.ClipPhotoAllActivity;
 import com.songbao.sampo_b.activity.mine.CommentPostActivity;
 import com.songbao.sampo_b.adapter.PhotoGridAdapter;
 import com.songbao.sampo_b.entity.BaseEntity;
@@ -36,10 +40,28 @@ public class GoodsEditActivity extends BaseActivity implements OnClickListener {
 	String TAG = CommentPostActivity.class.getSimpleName();
 
 	@BindView(R.id.goods_edit_gv_photo)
-	ScrollViewGridView tv_add_photo;
+	ScrollViewGridView gv_add_photo;
 
-	@BindView(R.id.goods_edit_tv_post)
-    TextView tv_post;
+	@BindView(R.id.goods_edit_et_effect_link)
+	EditText et_link;
+
+	@BindView(R.id.goods_edit_et_goods_name)
+	EditText et_name;
+
+	@BindView(R.id.goods_edit_et_goods_number)
+	EditText et_number;
+
+	@BindView(R.id.goods_edit_et_goods_price)
+	EditText et_price;
+
+	@BindView(R.id.goods_edit_et_goods_remarks)
+	EditText et_remarks;
+
+	@BindView(R.id.goods_edit_tv_goods_remarks_byte)
+    TextView tv_remarks_byte;
+
+	@BindView(R.id.goods_edit_tv_confirm)
+    TextView tv_confirm;
 
 	private CommentEntity data;
 	private boolean isPostOk = false;
@@ -59,9 +81,9 @@ public class GoodsEditActivity extends BaseActivity implements OnClickListener {
 	}
 
 	private void initView() {
-		setTitle(R.string.comment_want);
+		setTitle(R.string.goods_edit);
 
-		tv_post.setOnClickListener(this);
+		tv_confirm.setOnClickListener(this);
 	}
 
 	private void initPhotoView() {
@@ -71,9 +93,13 @@ public class GoodsEditActivity extends BaseActivity implements OnClickListener {
 		al_photos_url.add("/storage/emulated/0/Huawei/MagazineUnlock/magazine-unlock-01-2.3.1401-67985a0f46c54c09af83849a7c0870e6.jpg");
 		al_photos_url.add("/storage/emulated/0/Huawei/MagazineUnlock/magazine-unlock-01-2.3.1401-67985a0f46c54c09af83849a7c0870e6.jpg");
 		al_photos_url.add("/storage/emulated/0/Huawei/MagazineUnlock/magazine-unlock-01-2.3.1401-67985a0f46c54c09af83849a7c0870e6.jpg");
+		al_photos_url.add("/storage/emulated/0/Huawei/MagazineUnlock/magazine-unlock-01-2.3.1401-67985a0f46c54c09af83849a7c0870e6.jpg");
+		al_photos_url.add("/storage/emulated/0/Huawei/MagazineUnlock/magazine-unlock-01-2.3.1401-67985a0f46c54c09af83849a7c0870e6.jpg");
+		al_photos_url.add("/storage/emulated/0/Huawei/MagazineUnlock/magazine-unlock-01-2.3.1401-67985a0f46c54c09af83849a7c0870e6.jpg");
 		al_photos_url.add("add");
-		tv_add_photo.setAdapter(new PhotoGridAdapter(mContext, al_photos_url));
-		tv_add_photo.setSelector(R.color.ui_color_app_bg_01);
+		gv_add_photo.setAdapter(new PhotoGridAdapter(mContext, al_photos_url));
+		gv_add_photo.setSelector(R.color.ui_color_app_bg_01);
+		gv_add_photo.setOnItemClickListener(gvItemClickListener);
 	}
 
 	private boolean checkData() {
@@ -88,7 +114,7 @@ public class GoodsEditActivity extends BaseActivity implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-			case R.id.goods_edit_tv_post:
+			case R.id.goods_edit_tv_confirm:
 				if (isPostOk) return;
 				if (checkData()) {
 					al_images_url.clear();
@@ -132,6 +158,14 @@ public class GoodsEditActivity extends BaseActivity implements OnClickListener {
 		}
 		super.finish();
 	}
+
+	private OnItemClickListener gvItemClickListener = new OnItemClickListener() {
+
+		@Override
+		public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+			openActivity(ClipPhotoAllActivity.class);
+		}
+	};
 
 	private void checkUploadUrl() {
 		if (al_upload_url.size() > 0) {

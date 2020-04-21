@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.songbao.sampo_b.AppApplication;
 import com.songbao.sampo_b.R;
 import com.songbao.sampo_b.utils.CommonTools;
@@ -15,25 +14,21 @@ import com.songbao.sampo_b.widgets.RoundImageView;
 import java.util.List;
 
 
-public class PhotoGridAdapter extends AppBaseAdapter<String> {
+/**
+ * 选择相片适配器
+ */
+public class ClipPhotoAllAdapter extends AppBaseAdapter<String> {
 
 	private ConstraintLayout.LayoutParams imageLP;
-	private RequestOptions showOptions;
 
-	public PhotoGridAdapter(Context context, List<String> data) {
+	public ClipPhotoAllAdapter(Context context, List<String> pathList) {
 		super(context);
+		addData(pathList);
 
-		addData(data);
-
-		int imageSize = (AppApplication.screen_width - CommonTools.dpToPx(context, 70)) / 3;
+		int imageSize = (AppApplication.screen_width - CommonTools.dpToPx(context, 40)) / 3;
 		this.imageLP = new ConstraintLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 		this.imageLP.width = imageSize;
 		this.imageLP.height = imageSize;
-
-		showOptions = new RequestOptions()
-				.placeholder(R.drawable.icon_photo_add)
-				.fallback(R.drawable.icon_photo_add)
-				.error(R.drawable.icon_photo_add);
 	}
 
 	static class ViewHolder {
@@ -42,6 +37,7 @@ public class PhotoGridAdapter extends AppBaseAdapter<String> {
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
+
 		ViewHolder holder;
 		if (convertView == null) {
 			convertView = View.inflate(context, R.layout.item_grid_photo_goods, null);
@@ -56,7 +52,7 @@ public class PhotoGridAdapter extends AppBaseAdapter<String> {
 
 		Glide.with(AppApplication.getAppContext())
 				.load(imgUrl)
-				.apply(showOptions)
+				.apply(AppApplication.getShowOptions())
 				.into(holder.iv_show);
 
 		return convertView;

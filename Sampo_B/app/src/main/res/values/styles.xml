@@ -238,6 +238,23 @@
         <item name="android:src">@drawable/icon_default_show</item>
     </style>
 
+    <!-- 商品编辑EditText样式 -->
+    <style name="goods_edit_text">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingTop">@dimen/margin_padding_12</item>
+        <item name="android:paddingBottom">@dimen/margin_padding_12</item>
+        <item name="android:paddingStart">@dimen/margin_padding_10</item>
+        <item name="android:paddingEnd">@dimen/margin_padding_10</item>
+        <item name="android:layout_marginTop">@dimen/margin_padding_10</item>
+        <item name="android:background">@drawable/shape_style_app_input</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textSize">@dimen/app_text_size_label</item>
+        <item name="android:textColor">@color/input_text_color</item>
+        <item name="android:textColorHint">@color/input_hint_color</item>
+    </style>
+
     <!-- 订单页面TextView样式 -->
     <style name="order_text">
         <item name="android:layout_width">wrap_content</item>
@@ -307,8 +324,8 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:paddingTop">@dimen/margin_padding_9</item>
         <item name="android:paddingBottom">@dimen/margin_padding_9</item>
-        <item name="android:paddingLeft">@dimen/app_margin_screen</item>
-        <item name="android:paddingRight">@dimen/app_margin_screen</item>
+        <item name="android:paddingStart">@dimen/app_margin_screen</item>
+        <item name="android:paddingEnd">@dimen/app_margin_screen</item>
         <item name="android:background">@drawable/shape_style_app_input</item>
         <item name="android:ellipsize">end</item>
         <item name="android:singleLine">true</item>
