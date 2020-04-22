@@ -414,6 +414,8 @@ public class AppConfig {
 	public static final int ACTIVITY_CODE_SELECT_ADDS = 0X9101;
 	public static final int ACTIVITY_CODE_EDIT_ADDRESS = 0X9102;
 	public static final int ACTIVITY_CODE_ORDER_UPDATE = 0X9111;
+	public static final int ACTIVITY_CODE_PHOTO_SELECT = 0X9121;
+	public static final int ACTIVITY_CODE_PHOTO_DELETE = 0X9122;
 
 	/**
 	 ******************************************* Activity协议结束 ******************************************

@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.songbao.sampo_b.AppApplication;
 import com.songbao.sampo_b.R;
-import com.songbao.sampo_b.entity.ClipPhotoEntity;
+import com.songbao.sampo_b.entity.PhotoEntity;
 import com.songbao.sampo_b.utils.CommonTools;
 
 import java.util.List;
@@ -22,12 +22,12 @@ import java.util.List;
 /**
  * 选择相册适配器
  */
-public class ClipPhotoGridAdapter extends AppBaseAdapter<ClipPhotoEntity> {
+public class PhotoAlbumAdapter extends AppBaseAdapter<PhotoEntity> {
 
 	private BitmapFactory.Options options;
 	private LinearLayout.LayoutParams imageLP;
 
-	public ClipPhotoGridAdapter(Context context, List<ClipPhotoEntity> data) {
+	public PhotoAlbumAdapter(Context context, List<PhotoEntity> data) {
 		super(context);
 
 		addData(data);
@@ -51,17 +51,17 @@ public class ClipPhotoGridAdapter extends AppBaseAdapter<ClipPhotoEntity> {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		ViewHolder holder;
 		if (convertView == null) {
-			convertView = View.inflate(context, R.layout.item_list_photo_select, null);
+			convertView = View.inflate(context, R.layout.item_grid_photo_album, null);
 			holder = new ViewHolder();
-			holder.tv =  convertView.findViewById(R.id.photo_item_name);
-			holder.iv = convertView.findViewById(R.id.photo_item_image);
+			holder.tv =  convertView.findViewById(R.id.photo_item_tv_name);
+			holder.iv = convertView.findViewById(R.id.photo_item_iv_img);
 			holder.iv.setLayoutParams(imageLP);
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
 		// 通过ID 获取缩略图
-		ClipPhotoEntity data = mDataList.get(position);
+		PhotoEntity data = mDataList.get(position);
 
 		Bitmap bitmap = MediaStore.Images.Thumbnails.getThumbnail(context .getContentResolver(),
 				data.getFirstId(), Thumbnails.MINI_KIND, options);

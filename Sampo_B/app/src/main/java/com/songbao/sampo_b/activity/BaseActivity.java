@@ -40,10 +40,10 @@ import com.songbao.sampo_b.AppManager;
 import com.songbao.sampo_b.R;
 import com.songbao.sampo_b.activity.common.MyWebViewActivity;
 import com.songbao.sampo_b.activity.common.ViewPagerActivity;
-import com.songbao.sampo_b.activity.common.clip.ClipImageCircularActivity;
-import com.songbao.sampo_b.activity.common.clip.ClipImageSquareActivity;
-import com.songbao.sampo_b.activity.common.clip.ClipPhotoGridActivity;
-import com.songbao.sampo_b.activity.common.clip.ClipPhotoOneActivity;
+import com.songbao.sampo_b.activity.common.photo.ClipImageCircularActivity;
+import com.songbao.sampo_b.activity.common.photo.ClipImageSquareActivity;
+import com.songbao.sampo_b.activity.common.photo.PhotoAlbumActivity;
+import com.songbao.sampo_b.activity.common.photo.PhotoOneActivity;
 import com.songbao.sampo_b.activity.login.LoginAccountActivity;
 import com.songbao.sampo_b.activity.mine.DesignerListActivity;
 import com.songbao.sampo_b.activity.two.GoodsActivity;
@@ -339,6 +339,13 @@ public class BaseActivity extends FragmentActivity {
     }
 
     /**
+     * 设置右边按钮显示文本颜色
+     */
+    protected void setRightViewTextColor(int colorId) {
+        bt_right.setTextColor(getResources().getColor(colorId));
+    }
+
+    /**
      * 设置右边按钮背景图片资源Id
      */
     protected void setRightViewBackground(int drawableId) {
@@ -382,8 +389,8 @@ public class BaseActivity extends FragmentActivity {
      * 关闭相册相关Activity
      */
     protected void closePhotoActivity() {
-        AppManager.getInstance().finishActivity(ClipPhotoGridActivity.class);
-        AppManager.getInstance().finishActivity(ClipPhotoOneActivity.class);
+        AppManager.getInstance().finishActivity(PhotoAlbumActivity.class);
+        AppManager.getInstance().finishActivity(PhotoOneActivity.class);
         AppManager.getInstance().finishActivity(ClipImageSquareActivity.class);
         AppManager.getInstance().finishActivity(ClipImageCircularActivity.class);
     }

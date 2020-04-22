@@ -98,23 +98,27 @@
 
         <!-- common -->
         <activity
-            android:name=".activity.common.clip.ClipImageCircularActivity"
+            android:name=".activity.common.photo.ClipImageCircularActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.common.clip.ClipImageSquareActivity"
+            android:name=".activity.common.photo.ClipImageSquareActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.common.clip.ClipPhotoGridActivity"
+            android:name=".activity.common.photo.PhotoAlbumActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.common.clip.ClipPhotoAllActivity"
+            android:name=".activity.common.photo.PhotoAllActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.common.clip.ClipPhotoOneActivity"
+            android:name=".activity.common.photo.PhotoOneActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.common.photo.PhotoEditActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
         <activity

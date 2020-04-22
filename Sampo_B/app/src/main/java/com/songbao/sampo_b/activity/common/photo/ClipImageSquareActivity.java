@@ -1,4 +1,4 @@
-package com.songbao.sampo_b.activity.common.clip;
+package com.songbao.sampo_b.activity.common.photo;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -16,9 +16,9 @@ import com.songbao.sampo_b.widgets.photo.ClipImageView;
 import java.io.File;
 
 
-public class ClipImageCircularActivity extends BaseActivity {
+public class ClipImageSquareActivity extends BaseActivity {
 
-	String TAG = ClipImageCircularActivity.class.getSimpleName();
+	String TAG = ClipImageSquareActivity.class.getSimpleName();
 
 	private String photoPath;
 	private ClipImageView imageView;
@@ -26,8 +26,8 @@ public class ClipImageCircularActivity extends BaseActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_clip_image_circular);
-
+		setContentView(R.layout.activity_clip_image_square);
+		
 		photoPath = getIntent().getStringExtra(AppConfig.ACTIVITY_KEY_PHOTO_PATH);
 		
 		findViewById();
@@ -35,11 +35,11 @@ public class ClipImageCircularActivity extends BaseActivity {
 	}
 	
 	private void findViewById() {
-		imageView = findViewById(R.id.clip_image_circular_src_pic);
+		imageView = findViewById(R.id.clip_image_square_src_pic);
 	}
 	
 	private void initView() {
-		setTitle(R.string.photo_clip_head_title);
+		setTitle(R.string.photo_clip_card_title);
 		setRightViewText(getString(R.string.confirm));
 		// 设置需要裁剪的图片
 		Bitmap bm = BitmapFactory.decodeFile(photoPath);
@@ -57,13 +57,13 @@ public class ClipImageCircularActivity extends BaseActivity {
 		// 此处获取剪裁后的bitmap
 		Bitmap bm = imageView.clip();
 		if (bm != null) {
-			File file = BitmapUtil.createPath("clip_head.png", false);
+			File file = BitmapUtil.createPath("ID_Card.png", false);
 			if (file == null) {
             	showErrorDialog(R.string.photo_show_save_fail);
     			return;
 			}
 			AppApplication.saveBitmapFile(bm, file, 100);
-			shared.edit().putString(AppConfig.KEY_CLIP_HEAD_PATH, file.getAbsolutePath()).apply();
+			shared.edit().putString(AppConfig.KEY_CLIP_CARD_PATH, file.getAbsolutePath()).apply();
 		}else {
 			CommonTools.showToast(getString(R.string.photo_clip_error));
 		}

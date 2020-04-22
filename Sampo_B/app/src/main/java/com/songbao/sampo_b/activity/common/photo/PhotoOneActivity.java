@@ -1,4 +1,4 @@
-package com.songbao.sampo_b.activity.common.clip;
+package com.songbao.sampo_b.activity.common.photo;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,61 +11,60 @@ import com.songbao.sampo_b.AppApplication;
 import com.songbao.sampo_b.AppConfig;
 import com.songbao.sampo_b.R;
 import com.songbao.sampo_b.activity.BaseActivity;
-import com.songbao.sampo_b.adapter.ClipPhotoOneAdapter;
-import com.songbao.sampo_b.entity.ClipPhotoEntity;
+import com.songbao.sampo_b.adapter.PhotoItemAdapter;
+import com.songbao.sampo_b.entity.PhotoEntity;
 import com.songbao.sampo_b.utils.LogUtil;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.BindView;
 
 /**
  * "选择一张相片"Activity
  */
-public class ClipPhotoOneActivity extends BaseActivity {
+public class PhotoOneActivity extends BaseActivity {
 
-    String TAG = ClipPhotoOneActivity.class.getSimpleName();
+    String TAG = PhotoOneActivity.class.getSimpleName();
 
-    private GridView gv;
-    private int sizeNub;
+    @BindView(R.id.photo_grid_gv)
+    GridView gv;
+
     private boolean isClip;
-    private ClipPhotoEntity album, photoItem;
+    private PhotoEntity albumItem, photoItem;
+    private List<PhotoEntity> al_photos = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_clip_photo_grid);
+        setContentView(R.layout.activity_photo_grid);
 
         isClip = getIntent().getBooleanExtra("isClip", false);
-        album = (ClipPhotoEntity) getIntent().getSerializableExtra("album");
+        albumItem = (PhotoEntity) getIntent().getSerializableExtra("album");
 
-        findViewById();
         initView();
-    }
-
-    private void findViewById() {
-        gv = findViewById(R.id.clip_photo_one_gv);
     }
 
     private void initView() {
         setTitle(R.string.photo_select_one_title);
 
-        sizeNub = album.getBitList().size();
-        gv.setAdapter(new ClipPhotoOneAdapter(mContext, album));
+        initData();
+        initGridView();
+    }
+
+    private void initData() {
+        if (albumItem != null) {
+            int size = albumItem.getBitList().size();
+            for (int i = size - 1; i >= 0; i--) {
+                al_photos.add(albumItem.getBitList().get(i));
+            }
+        }
+    }
+
+    private void initGridView() {
+        gv.setAdapter(new PhotoItemAdapter(mContext, al_photos));
         gv.setSelector(R.color.ui_color_app_bg_01);
         gv.setOnItemClickListener(gvItemClickListener);
-    }
-
-    @Override
-    public void OnListenerRight() {
-        photoItem = album.getBitList().get(sizeNub - 1);
-        selectDone();
-        super.OnListenerRight();
-    }
-
-    private void selectDone() {
-        if (isClip) {
-            startClipImageActivity();
-        } else {
-            userManager.savePostPhotoUrl(photoItem.getPhotoUrl());
-            closePhotoActivity();
-        }
     }
 
     /**
@@ -114,11 +113,21 @@ public class ClipPhotoOneActivity extends BaseActivity {
 
         @Override
         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            if (sizeNub - 1 - position >= 0) {
-                photoItem = album.getBitList().get(sizeNub - 1 - position);
+            if (position >= 0 && position < al_photos.size()) {
+                photoItem = al_photos.get(position);
                 selectDone();
             }
         }
     };
+
+    private void selectDone() {
+        if (photoItem == null) return;
+        if (isClip) {
+            startClipImageActivity();
+        } else {
+            userManager.savePostPhotoUrl(photoItem.getPhotoUrl());
+            closePhotoActivity();
+        }
+    }
 
 }

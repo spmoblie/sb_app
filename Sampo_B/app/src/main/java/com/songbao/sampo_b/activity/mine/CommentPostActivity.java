@@ -14,7 +14,7 @@ import com.songbao.sampo_b.AppApplication;
 import com.songbao.sampo_b.AppConfig;
 import com.songbao.sampo_b.R;
 import com.songbao.sampo_b.activity.BaseActivity;
-import com.songbao.sampo_b.activity.common.clip.ClipPhotoGridActivity;
+import com.songbao.sampo_b.activity.common.photo.PhotoAlbumActivity;
 import com.songbao.sampo_b.entity.BaseEntity;
 import com.songbao.sampo_b.entity.CommentEntity;
 import com.songbao.sampo_b.entity.GoodsEntity;
@@ -202,7 +202,7 @@ public class CommentPostActivity extends BaseActivity implements OnClickListener
 			}
 			break;
 		case R.id.comment_post_tv_add_photo:
-			openActivity(ClipPhotoGridActivity.class);
+			openActivity(PhotoAlbumActivity.class);
 			break;
 		case R.id.comment_post_tv_post:
 			if (checkData()) {

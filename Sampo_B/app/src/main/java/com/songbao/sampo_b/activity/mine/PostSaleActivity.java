@@ -15,7 +15,7 @@ import com.songbao.sampo_b.AppApplication;
 import com.songbao.sampo_b.AppConfig;
 import com.songbao.sampo_b.R;
 import com.songbao.sampo_b.activity.BaseActivity;
-import com.songbao.sampo_b.activity.common.clip.ClipPhotoGridActivity;
+import com.songbao.sampo_b.activity.common.photo.PhotoAlbumActivity;
 import com.songbao.sampo_b.entity.BaseEntity;
 import com.songbao.sampo_b.entity.GoodsEntity;
 import com.songbao.sampo_b.entity.GoodsSaleEntity;
@@ -311,7 +311,7 @@ public class PostSaleActivity extends BaseActivity implements OnClickListener {
 			}
 			break;
 		case R.id.post_sale_tv_add_photo:
-			openActivity(ClipPhotoGridActivity.class);
+			openActivity(PhotoAlbumActivity.class);
 			break;
 		case R.id.post_sale_tv_submit:
 			/*if (checkData()) {

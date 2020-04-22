@@ -82,8 +82,8 @@
     <style name="top_bar_icon">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:paddingTop">@dimen/margin_padding_10</item>
-        <item name="android:paddingBottom">@dimen/margin_padding_10</item>
+        <item name="android:paddingTop">@dimen/margin_padding_8</item>
+        <item name="android:paddingBottom">@dimen/margin_padding_8</item>
         <item name="android:paddingLeft">@dimen/app_margin_screen</item>
         <item name="android:paddingRight">@dimen/app_margin_screen</item>
         <item name="android:background">@color/ui_bg_color_percent_10</item>
@@ -232,8 +232,7 @@
     <style name="goods_photo_edit">
         <item name="android:layout_width">0dp</item>
         <item name="android:layout_height">0dp</item>
-        <item name="android:layout_marginTop">@dimen/margin_padding_10</item>
-        <item name="android:layout_marginEnd">@dimen/margin_padding_10</item>
+        <item name="android:layout_marginStart">@dimen/margin_padding_6</item>
         <item name="android:scaleType">centerCrop</item>
         <item name="android:src">@drawable/icon_default_show</item>
     </style>
