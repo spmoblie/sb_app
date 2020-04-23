@@ -15,10 +15,11 @@ import com.songbao.sampo_b.AppConfig;
 import com.songbao.sampo_b.R;
 import com.songbao.sampo_b.activity.BaseActivity;
 import com.songbao.sampo_b.activity.common.photo.PhotoAllActivity;
-import com.songbao.sampo_b.activity.common.photo.PhotoEditActivity;
+import com.songbao.sampo_b.activity.common.photo.PhotoShowActivity;
 import com.songbao.sampo_b.activity.mine.CommentPostActivity;
 import com.songbao.sampo_b.entity.BaseEntity;
 import com.songbao.sampo_b.entity.CommentEntity;
+import com.songbao.sampo_b.utils.ClickUtils;
 import com.songbao.sampo_b.utils.CommonTools;
 import com.songbao.sampo_b.utils.ExceptionUtil;
 import com.songbao.sampo_b.utils.JsonUtils;
@@ -201,6 +202,7 @@ public class GoodsEditActivity extends BaseActivity implements OnClickListener {
 
     @Override
     public void onClick(View v) {
+        if (ClickUtils.isDoubleClick(v.getId())) return;
         switch (v.getId()) {
             case R.id.goods_edit_iv_photo_01:
                 handlePhotoClick(0);
@@ -250,9 +252,9 @@ public class GoodsEditActivity extends BaseActivity implements OnClickListener {
             intent.putExtra("totalNum", 9 - photoNum);
             startActivityForResult(intent, AppConfig.ACTIVITY_CODE_PHOTO_SELECT);
         } else { //删除相片
-            Intent intent = new Intent(mContext, PhotoEditActivity.class);
-            intent.putExtra(PhotoEditActivity.EXTRA_IMAGE_URLS, al_photos_url);
-            intent.putExtra(PhotoEditActivity.EXTRA_IMAGE_INDEX, position);
+            Intent intent = new Intent(mContext, PhotoShowActivity.class);
+            intent.putExtra(PhotoShowActivity.EXTRA_IMAGE_URLS, al_photos_url);
+            intent.putExtra(PhotoShowActivity.EXTRA_IMAGE_INDEX, position);
             startActivityForResult(intent, AppConfig.ACTIVITY_CODE_PHOTO_DELETE);
         }
     }

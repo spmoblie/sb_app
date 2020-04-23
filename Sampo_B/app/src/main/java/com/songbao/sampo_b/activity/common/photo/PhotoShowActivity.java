@@ -1,5 +1,6 @@
 package com.songbao.sampo_b.activity.common.photo;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
@@ -10,7 +11,6 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.Gravity;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -22,22 +22,20 @@ import com.songbao.sampo_b.AppConfig;
 import com.songbao.sampo_b.R;
 import com.songbao.sampo_b.activity.BaseActivity;
 import com.songbao.sampo_b.utils.AsyncImageLoader;
-import com.songbao.sampo_b.utils.BitmapUtil;
 import com.songbao.sampo_b.utils.CommonTools;
 import com.songbao.sampo_b.utils.LogUtil;
 import com.songbao.sampo_b.widgets.DragImageView;
 import com.songbao.sampo_b.widgets.IViewPager;
 
-import java.io.File;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
 /**
  * 相片编辑器
  */
-public class PhotoEditActivity extends BaseActivity {
+public class PhotoShowActivity extends BaseActivity implements View.OnClickListener{
 
-	String TAG = PhotoEditActivity.class.getSimpleName();
+	String TAG = PhotoShowActivity.class.getSimpleName();
 
 	public static final String EXTRA_IMAGE_INDEX = "image_index";
 	public static final String EXTRA_IMAGE_URLS = "image_urls";
@@ -45,7 +43,8 @@ public class PhotoEditActivity extends BaseActivity {
 	public static final String HASH_MAP_KEY_BAR = "bar";
 	public static final String HASH_MAP_KEY_BTM = "btm";
 
-	private TextView tv_save, tv_page;
+	private TextView tv_page;
+	private ImageView iv_back, iv_delete;
 	private IViewPager viewPager;
 	private DragImageView showView;
 	private AsyncImageLoader asyncImageLoader;
@@ -56,33 +55,42 @@ public class PhotoEditActivity extends BaseActivity {
 	private ArrayList<DragImageView> imgLists = new ArrayList<>();
 	private ArrayMap<String, DragImageView> am_img = new ArrayMap<>();
 	private ArrayMap<String, ProgressBar> am_bar = new ArrayMap<>();
-	private ArrayMap<String, Bitmap> am_btm = new ArrayMap<>();
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_viewpager);
+		setContentView(R.layout.activity_photo_show);
 
 		mCurrentItem = getIntent().getIntExtra(EXTRA_IMAGE_INDEX, 0);
 		urlLists = getIntent().getStringArrayListExtra(EXTRA_IMAGE_URLS);
 
 		findViewById();
-		initViewPager();
+		initView();
 	}
 
-
 	private void findViewById() {
-		viewPager = findViewById(R.id.my_viewpager);
-		tv_save = findViewById(R.id.my_image_save);
-		tv_page = findViewById(R.id.my_viewpager_tv_page);
+		tv_page = findViewById(R.id.photo_show_tv_page);
+		iv_back = findViewById(R.id.photo_show_iv_back);
+		iv_delete = findViewById(R.id.photo_show_iv_delete);
+		viewPager = findViewById(R.id.photo_show_viewpager);
+	}
+
+	private void initView() {
+		setHeadVisibility(View.GONE);
+
+		iv_back.setOnClickListener(this);
+		iv_delete.setOnClickListener(this);
+
+		initViewPager();
 	}
 	
 	private void initViewPager() {
-		setHeadVisibility(View.GONE);
+		if (viewPager == null) return;
 		if (urlLists == null) {
 			showErrorDialog(null, false, new MyHandler(this));
 			return;
 		}
+		clearViewPagerData();
 		setPageNum(urlLists.size());
 		// 创建网络图片加载器
 		asyncImageLoader = AsyncImageLoader.getInstance(new AsyncImageLoader.AsyncImageLoaderCallback() {
@@ -91,7 +99,6 @@ public class PhotoEditActivity extends BaseActivity {
 			public void imageLoaded(String path, String cachePath, Bitmap bm) {
 				DragImageView imgView = am_img.get(HASH_MAP_KEY_IMG + path);
 				if (imgView != null && bm != null) {
-					am_btm.put(HASH_MAP_KEY_BTM + path, bm); //记录图片
 					imgView.setImageBitmap(bm);
 				}
 				ProgressBar progress = am_bar.get(HASH_MAP_KEY_BAR + path);
@@ -119,7 +126,7 @@ public class PhotoEditActivity extends BaseActivity {
 			DragImageView imageView = new DragImageView(getApplicationContext());
 			imageView.setLayoutParams(lp_m);
 			imageView.setMActivity(this);
-			imageView.setScreen_H(screenHeight - statusHeight);
+			imageView.setScreen_H(screenHeight - statusHeight - CommonTools.dpToPx(mContext, 52));
 			imageView.setScreen_W(screenWidth);
 			imageView.setScaleType(ImageView.ScaleType.FIT_CENTER);
 			// 加载图片对象
@@ -127,7 +134,6 @@ public class PhotoEditActivity extends BaseActivity {
 			if (task != null) {
 				if (task.getBitmap() != null) {
 					imageView.setImageBitmap(task.getBitmap());
-					am_btm.put(HASH_MAP_KEY_BTM + imgUrl, task.getBitmap()); //记录图片
 				}else {
 					imageView.setImageResource(R.drawable.icon_default_show);
 					progress.setVisibility(View.VISIBLE);
@@ -146,19 +152,7 @@ public class PhotoEditActivity extends BaseActivity {
 			imageView.setImgOnClickListener(new DragImageView.ImgOnClickListener() {
 				@Override
 				public void onClick() {
-					if (tv_save.getVisibility() == View.VISIBLE) {
-						tv_save.setVisibility(View.GONE);
-					}else {
-						finish();
-					}
-				}
-			});
-			imageView.setImgOnLongClickListener(new DragImageView.ImgOnLongClickListener() {
-				@Override
-				public void onLongClick() {
-					if (tv_save.getVisibility() == View.GONE) {
-						tv_save.setVisibility(View.VISIBLE);
-					}
+					finish();
 				}
 			});
 			frameLayout.addView(imageView);
@@ -181,6 +175,7 @@ public class PhotoEditActivity extends BaseActivity {
             // 销毁
             @Override
 			public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
+				if (viewLists.size() <= 0) return;
                 View layout = viewLists.get(position % viewLists.size());
                 viewPager.removeView(layout);
             }
@@ -200,7 +195,6 @@ public class PhotoEditActivity extends BaseActivity {
             
             @Override
             public void onPageSelected(final int position){
-            	tv_save.setVisibility(View.GONE);
             	mCurrentItem = position % viewLists.size();
 				initShowView();
 				setPageNum(viewLists.size());
@@ -217,22 +211,6 @@ public class PhotoEditActivity extends BaseActivity {
             }
         });
 		viewPager.setCurrentItem(mCurrentItem);
-
-		tv_save.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				Bitmap bm = am_btm.get(HASH_MAP_KEY_BTM + urlLists.get(mCurrentItem));
-				File file = BitmapUtil.createPath(BitmapUtil.filterPath(urlLists.get(mCurrentItem)), true);
-				if (file == null) {
-	            	showErrorDialog(R.string.photo_show_save_fail);
-	    			return;
-				}
-				AppApplication.saveBitmapFile(bm, file, 100);
-				CommonTools.showToast(getString(R.string.photo_show_save_ok));
-				tv_save.setVisibility(View.GONE);
-			}
-		});
 	}
 
 	private void initShowView() {
@@ -245,7 +223,51 @@ public class PhotoEditActivity extends BaseActivity {
 	}
 
 	private void setPageNum(int totalNum) {
-		tv_page.setText(getString(R.string.viewpager_indicator, mCurrentItem + 1, totalNum));
+		int currPage = mCurrentItem + 1;
+		if (totalNum == 0) {
+			currPage = 0;
+		}
+		tv_page.setText(getString(R.string.viewpager_indicator, currPage, totalNum));
+	}
+
+	private void clearViewPagerData() {
+		am_img.clear();
+		am_bar.clear();
+		imgLists.clear();
+		viewLists.clear();
+		if (viewPager != null) {
+			viewPager.removeAllViews();
+		}
+	}
+
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+			case R.id.photo_show_iv_back:
+				finish();
+				break;
+			case R.id.photo_show_iv_delete:
+				if (mCurrentItem >= 0 && mCurrentItem < urlLists.size()) {
+					urlLists.remove(mCurrentItem);
+					if (urlLists.size() == 0) {
+						finish();
+						return;
+					} else
+					if (urlLists.size() == 1) {
+						mCurrentItem = 0;
+					}
+					initViewPager();
+				}
+				break;
+		}
+	}
+
+	@Override
+	public void finish() {
+		Intent returnIntent = new Intent();
+		returnIntent.putStringArrayListExtra(AppConfig.PAGE_DATA, urlLists);
+		setResult(RESULT_OK, returnIntent);
+		super.finish();
 	}
 
 	@Override
@@ -272,18 +294,15 @@ public class PhotoEditActivity extends BaseActivity {
 
 	@Override
 	protected void onDestroy() {
-		am_img.clear();
-		am_bar.clear();
-		am_btm.clear();
-
+		clearViewPagerData();
 		super.onDestroy();
 	}
 
 	static class MyHandler extends Handler {
 
-		WeakReference<PhotoEditActivity> mActivity;
+		WeakReference<PhotoShowActivity> mActivity;
 
-		MyHandler(PhotoEditActivity activity) {
+		MyHandler(PhotoShowActivity activity) {
 			mActivity = new WeakReference<>(activity);
 		}
 

@@ -118,7 +118,7 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.common.photo.PhotoEditActivity"
+            android:name=".activity.common.photo.PhotoShowActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
         <activity
