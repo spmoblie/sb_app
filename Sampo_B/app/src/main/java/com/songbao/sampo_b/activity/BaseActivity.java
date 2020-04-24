@@ -47,11 +47,13 @@ import com.songbao.sampo_b.activity.common.photo.PhotoOneActivity;
 import com.songbao.sampo_b.activity.login.LoginAccountActivity;
 import com.songbao.sampo_b.activity.mine.DesignerListActivity;
 import com.songbao.sampo_b.activity.two.GoodsActivity;
-import com.songbao.sampo_b.activity.two.GoodsListActivity;
+import com.songbao.sampo_b.activity.two.GoodsEditActivity;
+import com.songbao.sampo_b.activity.two.GoodsSortActivity;
 import com.songbao.sampo_b.activity.two.SketchActivity;
 import com.songbao.sampo_b.dialog.DialogManager;
 import com.songbao.sampo_b.dialog.LoadDialog;
 import com.songbao.sampo_b.entity.BaseEntity;
+import com.songbao.sampo_b.entity.GoodsEntity;
 import com.songbao.sampo_b.entity.ShareEntity;
 import com.songbao.sampo_b.utils.CommonTools;
 import com.songbao.sampo_b.utils.ExceptionUtil;
@@ -408,7 +410,7 @@ public class BaseActivity extends FragmentActivity {
      */
     protected void closeCustomizeActivity() {
         AppManager.getInstance().finishActivity(GoodsActivity.class);
-        AppManager.getInstance().finishActivity(GoodsListActivity.class);
+        AppManager.getInstance().finishActivity(GoodsSortActivity.class);
         AppManager.getInstance().finishActivity(SketchActivity.class);
         AppManager.getInstance().finishActivity(DesignerListActivity.class);
     }
@@ -433,11 +435,13 @@ public class BaseActivity extends FragmentActivity {
     }
 
     /**
-     * 打开设计师列表页
+     * 打开商品编辑页
      */
-    protected void openDesignerActivity(String skuCode) {
-        Intent intent = new Intent(mContext, DesignerListActivity.class);
-        intent.putExtra("skuCode", skuCode);
+    protected void openGoodsEditActivity(GoodsEntity goodsEn) {
+        Intent intent = new Intent(mContext, GoodsEditActivity.class);
+        if (goodsEn != null) {
+            intent.putExtra(AppConfig.PAGE_DATA, goodsEn);
+        }
         startActivity(intent);
     }
 

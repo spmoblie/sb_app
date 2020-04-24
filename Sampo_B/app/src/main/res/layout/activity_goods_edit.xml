@@ -18,17 +18,17 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingLeft="@dimen/app_margin_screen"
-            android:paddingRight="@dimen/app_margin_screen"
+            android:paddingStart="@dimen/app_margin_screen"
+            android:paddingEnd="@dimen/app_margin_screen"
+            android:paddingTop="@dimen/app_margin_screen"
             android:orientation="vertical">
 
             <android.support.constraint.ConstraintLayout
                 android:id="@+id/goods_edit_show_main"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_padding_20"
-                android:background="@drawable/shape_style_solid_01_16"
-                android:padding="@dimen/app_margin_screen">
+                android:padding="@dimen/app_margin_screen"
+                android:background="@drawable/shape_style_solid_01_16">
 
                 <TextView
                     android:id="@+id/goods_edit_tv_effect_img"
@@ -228,17 +228,12 @@
 
     <TextView
         android:id="@+id/goods_edit_tv_confirm"
+        style="@style/common_text_button"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/app_height_button"
-        android:layout_marginStart="@dimen/app_margin_screen"
-        android:layout_marginEnd="@dimen/app_margin_screen"
-        android:layout_marginBottom="@dimen/margin_padding_20"
-        android:layout_marginTop="@dimen/margin_padding_20"
-        android:background="@drawable/shape_style_solid_04_08"
-        android:gravity="center"
+        android:layout_margin="@dimen/app_margin_screen"
+        android:padding="@dimen/app_margin_screen"
         android:text="@string/confirm"
         android:textStyle="bold"
-        android:textColor="@color/app_color_white"
-        android:textSize="@dimen/app_text_size_content" />
+        android:textSize="@dimen/app_text_size_title" />
 
 </LinearLayout>

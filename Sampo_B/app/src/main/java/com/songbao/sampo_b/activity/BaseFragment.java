@@ -14,9 +14,12 @@ import com.songbao.sampo_b.AppApplication;
 import com.songbao.sampo_b.AppConfig;
 import com.songbao.sampo_b.activity.common.MyWebViewActivity;
 import com.songbao.sampo_b.activity.login.LoginAccountActivity;
+import com.songbao.sampo_b.activity.mine.DesignerListActivity;
 import com.songbao.sampo_b.activity.two.GoodsActivity;
+import com.songbao.sampo_b.activity.two.GoodsEditActivity;
 import com.songbao.sampo_b.dialog.LoadDialog;
 import com.songbao.sampo_b.entity.BaseEntity;
+import com.songbao.sampo_b.entity.GoodsEntity;
 import com.songbao.sampo_b.entity.ShareEntity;
 import com.songbao.sampo_b.utils.CommonTools;
 import com.songbao.sampo_b.utils.ExceptionUtil;
@@ -101,6 +104,13 @@ public class BaseFragment extends Fragment {
 		Intent intent = new Intent(getActivity(), GoodsActivity.class);
 		intent.putExtra("goodsCode", goodsCode);
 		startActivity(intent);
+	}
+
+	/**
+	 * 打开商品编辑页
+	 */
+	protected void openGoodsEditActivity() {
+		startActivity(new Intent(getActivity(), GoodsEditActivity.class));
 	}
 
 	/**

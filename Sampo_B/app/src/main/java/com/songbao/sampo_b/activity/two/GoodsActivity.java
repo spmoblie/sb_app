@@ -317,7 +317,7 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
                     dataErrorHandle();
                     return;
                 }
-                openDesignerActivity(goodsCode);
+                openGoodsEditActivity(goodsEn);
                 break;
         }
     }

@@ -48,7 +48,7 @@ public class MyHorizontalScrollView extends HorizontalScrollView {
             if (getScrollX()==currentX) {
                 //滚动停止,取消监听线程
                 scrollType = ScrollType.IDLE;
-                if (mScrollViewListener!=null) {
+                if (mScrollViewListener != null) {
                     mScrollViewListener.onScrollChanged(scrollType);
                 }
                 mHandler.removeCallbacks(this);
@@ -56,7 +56,7 @@ public class MyHorizontalScrollView extends HorizontalScrollView {
             } else {
                 //手指离开屏幕,但是view还在滚动
                 scrollType = ScrollType.FLING;
-                if(mScrollViewListener!=null){
+                if(mScrollViewListener != null){
                     mScrollViewListener.onScrollChanged(scrollType);
                 }
             }
@@ -71,7 +71,9 @@ public class MyHorizontalScrollView extends HorizontalScrollView {
         switch (ev.getAction()) {
             case MotionEvent.ACTION_MOVE:
                 this.scrollType = ScrollType.TOUCH_SCROLL;
-                mScrollViewListener.onScrollChanged(scrollType);
+                if (mScrollViewListener != null) {
+                    mScrollViewListener.onScrollChanged(scrollType);
+                }
                 mHandler.removeCallbacks(scrollRunnable);
                 break;
             case MotionEvent.ACTION_UP:

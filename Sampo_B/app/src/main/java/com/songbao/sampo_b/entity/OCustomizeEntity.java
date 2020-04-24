@@ -36,6 +36,7 @@ public class OCustomizeEntity extends BaseEntity {
 	private GoodsEntity gdEn; //定制商品信息
 	private DesignerEntity dgEn; //设计师信息
 
+	private ArrayList<GoodsEntity> goodsList; //定制商品集
 	private ArrayList<String> sizeImgList; //尺寸图图片地址集
 	private ArrayList<String> layoutImgList; //布局图图片地址集
 	private ArrayList<String> effectImgList; //效果图图片地址集
@@ -257,6 +258,14 @@ public class OCustomizeEntity extends BaseEntity {
 
 	public void setDgEn(DesignerEntity dgEn) {
 		this.dgEn = dgEn;
+	}
+
+	public ArrayList<GoodsEntity> getGoodsList() {
+		return goodsList;
+	}
+
+	public void setGoodsList(ArrayList<GoodsEntity> goodsList) {
+		this.goodsList = goodsList;
 	}
 
 	public ArrayList<String> getSizeImgList() {

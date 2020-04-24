@@ -1,35 +1,49 @@
 package com.songbao.sampo_b.activity.two;
 
-import android.content.Context;
 import android.content.Intent;
+import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
-import android.support.annotation.Nullable;
 import android.support.constraint.ConstraintLayout;
 import android.support.v4.util.ArrayMap;
 import android.support.v7.widget.LinearLayoutManager;
-import android.view.LayoutInflater;
+import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.songbao.sampo_b.AppApplication;
 import com.songbao.sampo_b.AppConfig;
 import com.songbao.sampo_b.R;
-import com.songbao.sampo_b.activity.BaseFragment;
+import com.songbao.sampo_b.activity.BaseActivity;
+import com.songbao.sampo_b.activity.common.ScanActivity;
 import com.songbao.sampo_b.adapter.AdapterCallback;
 import com.songbao.sampo_b.adapter.GoodsGridAdapter;
+import com.songbao.sampo_b.adapter.GoodsListAdapter;
+import com.songbao.sampo_b.adapter.GoodsScreenAdapter;
 import com.songbao.sampo_b.adapter.SortOneAdapter;
 import com.songbao.sampo_b.entity.BaseEntity;
+import com.songbao.sampo_b.entity.GoodsAttrEntity;
 import com.songbao.sampo_b.entity.GoodsEntity;
 import com.songbao.sampo_b.entity.GoodsSortEntity;
-import com.songbao.sampo_b.utils.ClickUtils;
 import com.songbao.sampo_b.utils.CommonTools;
 import com.songbao.sampo_b.utils.ExceptionUtil;
 import com.songbao.sampo_b.utils.JsonUtils;
 import com.songbao.sampo_b.utils.LogUtil;
+import com.songbao.sampo_b.utils.StringUtil;
 import com.songbao.sampo_b.utils.retrofit.HttpRequests;
 import com.songbao.sampo_b.widgets.pullrefresh.PullToRefreshBase;
 import com.songbao.sampo_b.widgets.pullrefresh.PullToRefreshGridView;
@@ -43,25 +57,24 @@ import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
-public class ChildFragmentTwo extends BaseFragment implements OnClickListener {
 
-	String TAG = ChildFragmentTwo.class.getSimpleName();
+public class GoodsSortActivity extends BaseActivity implements OnClickListener {
 
-	@BindView(R.id.fg_two_rv_left)
+	String TAG = GoodsSortActivity.class.getSimpleName();
+
+	@BindView(R.id.goods_sort_rv_left)
 	PullToRefreshRecyclerView rv_left;
 
-	@BindView(R.id.fg_two_gv_right)
+	@BindView(R.id.goods_sort_gv_right)
 	PullToRefreshGridView gv_right;
 
-	@BindView(R.id.fg_two_data_null_main)
+	@BindView(R.id.goods_sort_data_null_main)
 	ConstraintLayout view_null;
 
-	@BindView(R.id.fg_two_iv_scan)
-	ImageView iv_scan;
+	@BindView(R.id.goods_sort_tv_go_edit)
+	TextView tv_go_edit;
 
-	private Context mContext;
 	private GridView mGridView;
 	private SortOneAdapter rv_adapter;
 	private GoodsGridAdapter gv_Adapter;
@@ -71,37 +84,25 @@ public class ChildFragmentTwo extends BaseFragment implements OnClickListener {
 	private int load_type = 1; //加载类型(0:下拉刷新/1:翻页加载)
 	private int load_page = 1; //加载页数
 	private boolean isLoadOk = true;
-	private boolean isSortOk = false;
 
 	private ArrayList<GoodsSortEntity> al_left = new ArrayList<>();
 	private ArrayList<GoodsEntity> al_right = new ArrayList<>();
 	private ArrayMap<String, Boolean> am_right = new ArrayMap<>();
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
+	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-	}
-
-	/**
-	 * 与Activity不一样
-	 */
-	@Override
-	public View onCreateView(@Nullable LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View view = View.inflate(getActivity(), R.layout.fragment_layout_sampo, null);
-		//Butter Knife初始化
-		ButterKnife.bind(this, view);
-
-		mContext = getActivity();
-		LogUtil.i(LogUtil.LOG_TAG, TAG + ": onCreate");
+		setContentView(R.layout.activity_goods_sort);
 
 		initView();
-		return view;
 	}
 
 	private void initView() {
-		iv_scan.setOnClickListener(this);
+		setTitle(R.string.goods_choice);
+		tv_go_edit.setOnClickListener(this);
 
 		initRecyclerView();
+		loadSortData();
 	}
 
 	private void initRecyclerView() {
@@ -209,7 +210,8 @@ public class ChildFragmentTwo extends BaseFragment implements OnClickListener {
 	/**
 	 * 设置内容为空是否可见
 	 */
-	private void setNullVisibility(int visibility) {
+	@Override
+	protected void setNullVisibility(int visibility) {
 		view_null.setVisibility(visibility);
 	}
 
@@ -223,45 +225,33 @@ public class ChildFragmentTwo extends BaseFragment implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-			case R.id.fg_two_iv_scan:
-				if (ClickUtils.isDoubleClick(v.getId())) return;
-				//Intent intent = new Intent(mContext, ScanActivity.class);
-				openGoodsEditActivity();
-				break;
+		case R.id.goods_sort_tv_go_edit:
+			openGoodsEditActivity(null);
+			break;
 		}
 	}
 
 	@Override
-	public void onResume() {
+	protected void onResume() {
 		LogUtil.i(LogUtil.LOG_TAG, TAG + ": onResume");
 		// 页面开始
-		AppApplication.onPageStart(TAG);
+		AppApplication.onPageStart(this, TAG);
 
-		if (!isSortOk) {
-			loadSortData();
-		}
 		super.onResume();
 	}
 
 	@Override
-	public void onPause() {
+	protected void onPause() {
 		LogUtil.i(LogUtil.LOG_TAG, TAG + ": onPause");
 		// 页面结束
-		AppApplication.onPageEnd(getActivity(), TAG);
+		AppApplication.onPageEnd(this, TAG);
+
 		super.onPause();
 	}
 
 	@Override
-	public void onDestroy() {
-		LogUtil.i(LogUtil.LOG_TAG, TAG + ": onDestroy");
+	protected void onDestroy() {
 		super.onDestroy();
-	}
-
-	@Override
-	public void setMenuVisibility(boolean menuVisible) {
-		super.setMenuVisibility(menuVisible);
-		if (this.getView() != null)
-			this.getView().setVisibility(menuVisible ? View.VISIBLE : View.GONE);
 	}
 
 	/**
@@ -331,7 +321,6 @@ public class ChildFragmentTwo extends BaseFragment implements OnClickListener {
 				case AppConfig.REQUEST_SV_SORT_LIST:
 					BaseEntity<GoodsSortEntity> sortEn = JsonUtils.getSortListData(jsonObject);
 					if (sortEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
-						isSortOk = true;
 						al_left.clear();
 						al_left.addAll(sortEn.getLists());
 						if (al_left.size() > 0) {
@@ -391,5 +380,5 @@ public class ChildFragmentTwo extends BaseFragment implements OnClickListener {
 		gv_right.onPullUpRefreshComplete();
 		gv_right.onPullDownRefreshComplete();
 	}
-}
 
+}

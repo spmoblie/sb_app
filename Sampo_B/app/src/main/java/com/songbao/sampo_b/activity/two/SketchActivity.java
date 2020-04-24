@@ -54,7 +54,6 @@ public class SketchActivity extends BaseActivity {
 			@Override
 			public void onClick(View v) {
 				if (ClickUtils.isDoubleClick(v.getId())) return;
-				openDesignerActivity("goodsId");
 			}
 		});
 

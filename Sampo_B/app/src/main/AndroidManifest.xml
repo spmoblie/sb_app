@@ -156,7 +156,11 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.two.GoodsListActivity"
+            android:name=".activity.two.GoodsSortActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.two.PostOrderActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
         <activity

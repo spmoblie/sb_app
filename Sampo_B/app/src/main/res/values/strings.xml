@@ -203,6 +203,7 @@
     <string name="goods_attach_4">三年质保</string>
     <string name="goods_effect">效果展示</string>
     <string name="goods_effect_img">效果图图片</string>
+    <string name="goods_effect_img_hint">请上传效果图图片</string>
     <string name="goods_effect_link">效果图链接</string>
     <string name="goods_effect_link_hint">请粘贴链接地址</string>
     <string name="goods_name">商品名称</string>
@@ -213,24 +214,15 @@
     <string name="goods_price_hint">请输入商品单价</string>
     <string name="goods_remarks">商品备注</string>
     <string name="goods_remarks_hint">请输入商品备注</string>
+    <string name="goods_choice">选择商品</string>
     <string name="goods_edit">编辑商品</string>
     <string name="goods_code">商品编码</string>
     <string name="goods_code_en">长按图片保存到手机相册</string>
     <string name="goods_spec_choice">规格选择</string>
     <string name="goods_spec_choice_en">SPECIFICATIONS CHOICES</string>
-    <string name="goods_good_comment">精彩评价</string>
-    <string name="goods_good_comment_en">GOOD EVALUATION</string>
     <string name="goods_good_detail">商品详情</string>
     <string name="goods_good_detail_en">COMMODITY DETAILS</string>
-    <string name="goods_attr_sku_0">暂时缺货</string>
-    <string name="goods_attr_sku_num">库存：%1$d件</string>
-    <string name="goods_attr_num_1">%1$d件</string>
-    <string name="goods_attr_num_2">%1$s,\t\t%2$d件</string>
-    <string name="goods_attr_selected_1">已选：%1$s</string>
-    <string name="goods_attr_selected_2">%1$s %2$s</string>
-    <string name="goods_attr_selected_3">%1$s %2$s %3$s</string>
-    <string name="goods_cart">购物车</string>
-    <string name="goods_cart_add">加入购物车</string>
+    <string name="goods_go_edit">直接定制</string>
     <string name="goods_go_customize">我要定制</string>
 
     <!-- Order -->
@@ -245,9 +237,6 @@
     <string name="order_repair_return">退换货</string>
     <string name="order_cancelled">已取消</string>
     <string name="order_pay">立即付款</string>
-    <string name="order_price_goods">商品金额</string>
-    <string name="order_price_freight">物流运费</string>
-    <string name="order_price_discount">活动优惠</string>
     <string name="order_price_total">订单总价</string>
     <string name="order_rmb">￥ %1$s</string>
     <string name="order_rmb_add">+￥ %1$s</string>
@@ -285,6 +274,7 @@
     <string name="order_logistics_null">抱歉！暂无物流信息~</string>
     <string name="order_install_call">联系安装</string>
     <string name="order_installed">已安装</string>
+    <string name="order_confirm">确认订单</string>
     <string name="order_confirmed">已确认</string>
     <string name="order_confirm_designs">确认效果图</string>
     <string name="order_confirm_designs_hint">在确认效果图后\n效果图不可修改</string>
@@ -303,6 +293,10 @@
     <string name="order_cancel_confirm">确认取消订单么？</string>
     <string name="order_change">换货</string>
     <string name="order_return">退货</string>
+    <string name="order_goods_add">添加产品</string>
+    <string name="order_remarks">订单备注</string>
+    <string name="order_remarks_hint">请输入订单备注</string>
+    <string name="order_post">提交订单</string>
     <string name="order_post_sale">申请售后</string>
     <string name="order_post_sale_hint">请描述您换货或退货原因</string>
     <string name="order_refund_price">退款金额</string>
@@ -320,7 +314,7 @@
     <string name="order_refund_no">退款编号：\t\t%1$s</string>
     <string name="order_time_apply">申请时间：\t\t%1$s</string>
     <string name="order_revoke_refund">撤销退款</string>
-    <string name="order_goods_num">共%1$d件商品\t实付款</string>
+    <string name="order_goods_num">x%1$d</string>
 
     <!-- Photo page -->
     <string name="photo_select_title">选择相册</string>

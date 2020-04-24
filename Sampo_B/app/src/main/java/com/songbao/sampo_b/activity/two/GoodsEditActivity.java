@@ -19,6 +19,8 @@ import com.songbao.sampo_b.activity.common.photo.PhotoShowActivity;
 import com.songbao.sampo_b.activity.mine.CommentPostActivity;
 import com.songbao.sampo_b.entity.BaseEntity;
 import com.songbao.sampo_b.entity.CommentEntity;
+import com.songbao.sampo_b.entity.GoodsEntity;
+import com.songbao.sampo_b.entity.OCustomizeEntity;
 import com.songbao.sampo_b.utils.ClickUtils;
 import com.songbao.sampo_b.utils.CommonTools;
 import com.songbao.sampo_b.utils.ExceptionUtil;
@@ -89,10 +91,11 @@ public class GoodsEditActivity extends BaseActivity implements OnClickListener {
     TextView tv_confirm;
 
     private RequestOptions showOptions;
-    private CommentEntity data;
-    private int photoNum;
+    private GoodsEntity data;
+    private int photoNum, goodsNum;
+    private double goodsPrice;
     private boolean isPostOk = false;
-    private String orderNo, goodsCode, skuCode, skuComboName, contentStr;
+    private String linkStr, name, remarks;
     private ArrayList<String> al_photos_add = new ArrayList<>();
     private ArrayList<String> al_photos_url = new ArrayList<>();
     private ArrayList<String> al_upload_url = new ArrayList<>();
@@ -103,7 +106,7 @@ public class GoodsEditActivity extends BaseActivity implements OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_goods_edit);
 
-        data = (CommentEntity) getIntent().getSerializableExtra(AppConfig.PAGE_DATA);
+        data = (GoodsEntity) getIntent().getSerializableExtra(AppConfig.PAGE_DATA);
 
         initView();
     }
@@ -126,6 +129,24 @@ public class GoodsEditActivity extends BaseActivity implements OnClickListener {
                 .fallback(R.drawable.icon_photo_add)
                 .error(R.drawable.icon_photo_add);
 
+        goodsNum = 1;
+        if (data != null) {
+            al_photos_url.addAll(data.getImageList());
+            linkStr = data.getEffectUrl();
+            name = data.getName();
+            remarks = data.getRemarks();
+            if (data.getNumber() > 0) {
+                goodsNum = data.getNumber();
+            }
+            goodsPrice = data.getPrice();
+        }
+        et_link.setText(linkStr);
+        et_name.setText(name);
+        et_remarks.setText(remarks);
+        et_number.setText(String.valueOf(goodsNum));
+        if (goodsPrice > 0) {
+            et_price.setText(df.format(goodsPrice));
+        }
         updatePhotoData();
     }
 
@@ -191,15 +212,6 @@ public class GoodsEditActivity extends BaseActivity implements OnClickListener {
         iv_photo.setVisibility(View.VISIBLE);
     }
 
-    private boolean checkData() {
-        // 校验非空
-        if (StringUtil.isNull(contentStr)) {
-            CommonTools.showToast(getString(R.string.comment_content_null), Toast.LENGTH_SHORT);
-            return false;
-        }
-        return true;
-    }
-
     @Override
     public void onClick(View v) {
         if (ClickUtils.isDoubleClick(v.getId())) return;
@@ -259,6 +271,41 @@ public class GoodsEditActivity extends BaseActivity implements OnClickListener {
         }
     }
 
+    /**
+     * 数据格式校验
+     */
+    private boolean checkData() {
+        if (al_photos_url.size() <= 0) {
+            CommonTools.showToast(getString(R.string.goods_effect_img_hint), Toast.LENGTH_SHORT);
+            return false;
+        }
+        linkStr = et_link.getText().toString();
+        if (StringUtil.isNull(linkStr)) {
+            CommonTools.showToast(getString(R.string.goods_effect_link_hint), Toast.LENGTH_SHORT);
+            return false;
+        }
+        name = et_name.getText().toString();
+        if (StringUtil.isNull(name)) {
+            CommonTools.showToast(getString(R.string.goods_name_hint), Toast.LENGTH_SHORT);
+            return false;
+        }
+        String numStr = et_number.getText().toString();
+        if (StringUtil.isNull(numStr) || Integer.valueOf(numStr) <= 0) {
+            CommonTools.showToast(getString(R.string.goods_number_hint), Toast.LENGTH_SHORT);
+            return false;
+        }
+        goodsNum = Integer.valueOf(numStr);
+
+        String numPrice = et_price.getText().toString();
+        if (StringUtil.isNull(numPrice) || Double.valueOf(numPrice) <= 0) {
+            CommonTools.showToast(getString(R.string.goods_price_hint), Toast.LENGTH_SHORT);
+            return false;
+        }
+        goodsPrice = Double.valueOf(numPrice);
+
+        return true;
+    }
+
     @Override
     protected void onResume() {
         LogUtil.i(LogUtil.LOG_TAG, TAG + ": onResume");
@@ -291,12 +338,13 @@ public class GoodsEditActivity extends BaseActivity implements OnClickListener {
     }
 
     private void checkUploadUrl() {
-        if (al_upload_url.size() > 0) {
+        /*if (al_upload_url.size() > 0) {
             String uploadUrl = al_upload_url.remove(0);
             uploadPhoto(uploadUrl);
         } else {
             postData();
-        }
+        }*/
+        postData();
     }
 
     /**
@@ -310,22 +358,28 @@ public class GoodsEditActivity extends BaseActivity implements OnClickListener {
     }
 
     private void postData() {
-        HashMap<String, Object> map = new HashMap<>();
-        map.put("sourceType", AppConfig.DATA_TYPE);
-        map.put("orderNo", orderNo);
-        map.put("goodsCode", goodsCode);
-        if (!StringUtil.isNull(skuCode)) {
-            map.put("skuCode", skuCode);
+        GoodsEntity goodsEn = new GoodsEntity();
+        goodsEn.setImageList(al_upload_url);
+        goodsEn.setPicUrl(al_upload_url.get(0));
+        goodsEn.setEffectUrl(linkStr);
+        goodsEn.setName(name);
+        goodsEn.setNumber(goodsNum);
+        goodsEn.setPrice(goodsPrice);
+        goodsEn.setRemarks(remarks);
+
+        OCustomizeEntity ocEn = AppApplication.spApp.ocCacheEn;
+        if (ocEn != null && ocEn.getGoodsList() != null) {
+            ocEn.getGoodsList().add(goodsEn);
+        } else {
+            ocEn = new OCustomizeEntity();
+            ArrayList<GoodsEntity> goodsList = new ArrayList<>();
+            goodsList.add(goodsEn);
+            ocEn.setGoodsList(goodsList);
         }
-        if (!StringUtil.isNull(skuComboName)) {
-            map.put("skuComboName", skuComboName);
-        }
-        map.put("evaluateContent", contentStr);
-		/*String images = StringUtil.listToSplitStr(al_images_url);
-		if (!StringUtil.isNull(images)) {
-			map.put("evaluateImagesStr", images);
-		}*/
-        //loadSVData(AppConfig.URL_COMMENT_POST, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_COMMENT_POST);
+        AppApplication.spApp.ocCacheEn = ocEn;
+        Intent intent = new Intent(mContext, PostOrderActivity.class);
+        intent.putExtra(AppConfig.PAGE_DATA, ocEn);
+        startActivity(intent);
     }
 
     @Override
