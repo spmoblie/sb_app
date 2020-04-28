@@ -318,6 +318,7 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
                     return;
                 }
                 openGoodsEditActivity(goodsEn);
+                finish();
                 break;
         }
     }

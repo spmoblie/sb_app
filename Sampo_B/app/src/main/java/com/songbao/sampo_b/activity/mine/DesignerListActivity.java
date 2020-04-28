@@ -114,7 +114,6 @@ public class DesignerListActivity extends BaseActivity implements View.OnClickLi
     private void openCustomizeActivity(OCustomizeEntity ocEn, int nodePosition) {
         Intent intent = new Intent(mContext, CustomizeActivity.class);
         intent.putExtra(AppConfig.PAGE_DATA, ocEn);
-        intent.putExtra("nodePosition", nodePosition);
         startActivityForResult(intent, AppConfig.ACTIVITY_CODE_ORDER_UPDATE);
     }
 

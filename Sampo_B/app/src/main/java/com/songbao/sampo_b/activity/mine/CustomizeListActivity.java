@@ -63,10 +63,10 @@ public class CustomizeListActivity extends BaseActivity implements View.OnClickL
     CustomizeAdapter rvAdapter;
 
     public static final int TYPE_1 = 0;  //全部
-    public static final int TYPE_2 = 1;  //待付款
+    public static final int TYPE_2 = 1;  //待审核
     public static final int TYPE_3 = 2;  //生产中
-    public static final int TYPE_4 = 3;  //待收货
-    public static final int TYPE_5 = 4;  //待安装
+    public static final int TYPE_4 = 3;  //已发货
+    public static final int TYPE_5 = 4;  //已完成
 
     private boolean isLoadOk = true; //加载控制
     private int data_total = -1; //数据总量
@@ -113,10 +113,10 @@ public class CustomizeListActivity extends BaseActivity implements View.OnClickL
 
     private void initRadioGroup() {
         rb_1.setText(getString(R.string.order_all));
-        rb_2.setText(getString(R.string.order_wait_pay));
+        rb_2.setText(getString(R.string.order_wait_check));
         rb_3.setText(getString(R.string.order_producing));
         rb_4.setText(getString(R.string.order_wait_receive));
-        rb_5.setText(getString(R.string.order_wait_install));
+        rb_5.setText(getString(R.string.order_completed));
         rb_1.setOnClickListener(this);
         rb_2.setOnClickListener(this);
         rb_3.setOnClickListener(this);
@@ -180,35 +180,20 @@ public class CustomizeListActivity extends BaseActivity implements View.OnClickL
                 selectOrderNo = ocEn.getOrderNo();
                 int status = ocEn.getStatus();
                 switch (type) {
-                    case 1: //按键01
-                        if (status == AppConfig.ORDER_STATUS_401) { //待收货
-                            // 查看物流
-                            openCustomizeActivity(ocEn, 7);
-                        }
-                        break;
-                    case 2: //按键02
+                    case 1: //按键
                         switch (status) {
-                            case AppConfig.ORDER_STATUS_101: //待付款
+                            case AppConfig.ORDER_STATUS_101: //待审核
+                            case AppConfig.ORDER_STATUS_102: //已拒绝
+                            case AppConfig.ORDER_STATUS_201: //待核价
                                 // 取消订单
                                 showConfirmDialog(getString(R.string.order_cancel_confirm), new MyHandler(CustomizeListActivity.this), 101);
                                 break;
-                            case AppConfig.ORDER_STATUS_201: //生产中
-                                // 查看进度
-                                openCustomizeActivity(ocEn, 6);
-                                break;
-                            case AppConfig.ORDER_STATUS_301: //待发货
-                                break;
-                            case AppConfig.ORDER_STATUS_401: //待收货
+                            case AppConfig.ORDER_STATUS_401: //已发货
                                 // 确认收货
-                                openCustomizeActivity(ocEn, 7);
-                                break;
-                            case AppConfig.ORDER_STATUS_501: //已签收
-                            case AppConfig.ORDER_STATUS_701: //待安装
-                                // 确认安装
-                                openCustomizeActivity(ocEn, 8);
+                                openCustomizeActivity(ocEn);
                                 break;
                             case AppConfig.ORDER_STATUS_801: //已完成
-                            case AppConfig.ORDER_STATUS_102: //已取消
+                            case AppConfig.ORDER_STATUS_103: //已取消
                             default:
                                 // 删除订单
                                 showConfirmDialog(getString(R.string.order_delete_confirm), new MyHandler(CustomizeListActivity.this), 102);
@@ -216,7 +201,7 @@ public class CustomizeListActivity extends BaseActivity implements View.OnClickL
                         }
                         break;
                     default:
-                        openCustomizeActivity(ocEn, -1);
+                        openCustomizeActivity(ocEn);
                         break;
                 }
             }
@@ -227,10 +212,9 @@ public class CustomizeListActivity extends BaseActivity implements View.OnClickL
     /**
      * 打开定制订单详情
      */
-    private void openCustomizeActivity(OCustomizeEntity ocEn, int nodePosition) {
+    private void openCustomizeActivity(OCustomizeEntity ocEn) {
         Intent intent = new Intent(mContext, CustomizeActivity.class);
         intent.putExtra(AppConfig.PAGE_DATA, ocEn);
-        intent.putExtra("nodePosition", nodePosition);
         startActivityForResult(intent, AppConfig.ACTIVITY_CODE_ORDER_UPDATE);
     }
 

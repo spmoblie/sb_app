@@ -412,7 +412,6 @@ public class BaseActivity extends FragmentActivity {
         AppManager.getInstance().finishActivity(GoodsActivity.class);
         AppManager.getInstance().finishActivity(GoodsSortActivity.class);
         AppManager.getInstance().finishActivity(SketchActivity.class);
-        AppManager.getInstance().finishActivity(DesignerListActivity.class);
     }
 
     /**

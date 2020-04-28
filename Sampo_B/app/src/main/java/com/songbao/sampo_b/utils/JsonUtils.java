@@ -9,8 +9,6 @@ import com.songbao.sampo_b.entity.GoodsEntity;
 import com.songbao.sampo_b.entity.GoodsSortEntity;
 import com.songbao.sampo_b.entity.MessageEntity;
 import com.songbao.sampo_b.entity.OCustomizeEntity;
-import com.songbao.sampo_b.entity.OLogisticsEntity;
-import com.songbao.sampo_b.entity.OProgressEntity;
 import com.songbao.sampo_b.entity.PaymentEntity;
 import com.songbao.sampo_b.entity.ThemeEntity;
 import com.songbao.sampo_b.entity.UserInfoEntity;
@@ -21,7 +19,6 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 
@@ -303,8 +300,6 @@ public class JsonUtils {
             if (StringUtil.notNull(jsonData, "records")) {
                 JSONArray data = jsonData.getJSONArray("records");
                 OCustomizeEntity childEn;
-                GoodsEntity gdEn;
-                DesignerEntity dgEn;
                 List<OCustomizeEntity> lists = new ArrayList<>();
                 for (int j = 0; j < data.length(); j++) {
                     JSONObject item = data.getJSONObject(j);
@@ -314,18 +309,54 @@ public class JsonUtils {
                     childEn.setOrderNo(item.getString("bookingCode"));
                     childEn.setNodeTime1(item.getString("createTime"));
 
-                    gdEn = new GoodsEntity();
-                    gdEn.setName(item.getString("goodsName"));
-                    gdEn.setSkuCode(item.getString("skuCode"));
-                    gdEn.setGoodsCode(item.getString("goodsCode"));
-                    gdEn.setPicUrl(item.getString("goodsPics"));
-                    childEn.setGdEn(gdEn);
+                    lists.add(childEn);
+                }
+                mainEn.setLists(lists);
+            }
+            if (StringUtil.notNull(jsonData, "records")) {
+                OCustomizeEntity childEn;
+                GoodsEntity gdEn;
+                ArrayList<GoodsEntity> goodsList;
+                ArrayList<OCustomizeEntity> lists = new ArrayList<>();
+                for (int j = 0; j < 7; j++) {
+                    childEn = new OCustomizeEntity();
+                    childEn.setId(j);
+                    switch (j) {
+                        case 0:
+                            childEn.setStatus(101);
+                            break;
+                        case 1:
+                            childEn.setStatus(201);
+                            break;
+                        case 2:
+                            childEn.setStatus(301);
+                            break;
+                        case 3:
+                            childEn.setStatus(401);
+                            break;
+                        case 4:
+                            childEn.setStatus(800);
+                            break;
+                        case 5:
+                            childEn.setStatus(102);
+                            break;
+                        case 6:
+                            childEn.setStatus(103);
+                            break;
+                    }
+                    childEn.setOrderNo("bookingCode");
+                    childEn.setNodeTime1("2020-04-27 14:18:18");
 
-                    dgEn = new DesignerEntity();
-                    dgEn.setId(item.getInt("designerId"));
-                    dgEn.setName(item.getString("designerName"));
-                    dgEn.setPhone(item.getString("designerPhone"));
-                    childEn.setDgEn(dgEn);
+                    goodsList = new ArrayList<>();
+                    for (int k = 0; k < 2; k++) {
+                        gdEn = new GoodsEntity();
+                        gdEn.setName("goodsName");
+                        gdEn.setPicUrl("goodsPics");
+                        gdEn.setNumber(k + 1);
+                        gdEn.setPrice(9000);
+                        goodsList.add(gdEn);
+                    }
+                    childEn.setGoodsList(goodsList);
 
                     lists.add(childEn);
                 }
@@ -344,158 +375,49 @@ public class JsonUtils {
         if (StringUtil.notNull(jsonObject, "data")) {
             JSONObject jsonData = jsonObject.getJSONObject("data");
             OCustomizeEntity ocEn = new OCustomizeEntity();
-            int noteNo = jsonData.getInt("level");
-            ocEn.setNodeNo(noteNo);
-            if (noteNo > 0 && StringUtil.notNull(jsonData, "bookingVO")) {
-                JSONObject note_01 = jsonData.getJSONObject("bookingVO");
-                ocEn.setId(note_01.getInt("id"));
-                ocEn.setOrderNo(note_01.getString("bookingCode"));
-                ocEn.setStatus(note_01.getInt("bookingStatus"));
-                ocEn.setStatusDesc(note_01.getString("bookingStatusDesc"));
-                ocEn.setNodeTime1(note_01.getString("createTime"));
 
-                //商品信息
-                GoodsEntity gdEn = new GoodsEntity();
-                gdEn.setName(note_01.getString("goodsName"));
-                gdEn.setSkuCode(note_01.getString("skuCode"));
-                gdEn.setGoodsCode(note_01.getString("goodsCode"));
-                gdEn.setPicUrl(note_01.getString("goodsPics"));
-                ocEn.setGdEn(gdEn);
+            ocEn.setId(1);
+            ocEn.setStatus(101);
 
-                //设计师
-                DesignerEntity dgEn = new DesignerEntity();
-                dgEn.setId(note_01.getInt("designerId"));
-                dgEn.setName(note_01.getString("designerName"));
-                dgEn.setPhone(note_01.getString("designerPhone"));
-                ocEn.setDgEn(dgEn);
+            GoodsEntity gdEn;
+            ArrayList<GoodsEntity> goodsList = new ArrayList<>();
+            for (int k = 0; k < 2; k++) {
+                gdEn = new GoodsEntity();
+                gdEn.setName("goodsName");
+                gdEn.setPicUrl("goodsPics");
+                gdEn.setNumber(k + 1);
+                gdEn.setPrice(9000);
+                goodsList.add(gdEn);
             }
-            // 上门量尺
-            if (noteNo > 1 && StringUtil.notNull(jsonData, "scaleInfoVO")) {
-                JSONObject note_02 = jsonData.getJSONObject("scaleInfoVO");
-                ocEn.setNodeTime2(note_02.getString("scaleTime"));
-                GoodsEntity gdEn = ocEn.getGdEn();
-                if (gdEn == null) {
-                    gdEn = new GoodsEntity();
-                }
-                if (StringUtil.notNull(note_02, "measurePic")) {
-                    String picStr = note_02.getString("measurePic");
-                    String[] pics = picStr.split(",");
-                    ArrayList<String> picList = new ArrayList<>(pics.length);
-                    Collections.addAll(picList, pics);
-                    ocEn.setSizeImgList(picList);
-                }
-                if (StringUtil.notNull(note_02, "layoutPic")) {
-                    String picStr = note_02.getString("layoutPic");
-                    String[] pics = picStr.split(",");
-                    ArrayList<String> picList = new ArrayList<>(pics.length);
-                    Collections.addAll(picList, pics);
-                    ocEn.setLayoutImgList(picList);
-                }
-                if (StringUtil.notNull(note_02, "productSpec")) {
-                    gdEn.setSize(note_02.getString("productSpec"));
-                }
-                if (StringUtil.notNull(note_02, "productColor")) {
-                    gdEn.setColor(note_02.getString("productColor"));
-                }
-                if (StringUtil.notNull(note_02, "productStyle")) {
-                    gdEn.setStyle(note_02.getString("productStyle"));
-                }
-                if (StringUtil.notNull(note_02, "remark")) {
-                    gdEn.setRemarks(note_02.getString("remark"));
-                }
-                ocEn.setGdEn(gdEn);
-            }
-            // 效果图
-            if (noteNo > 2 && StringUtil.notNull(jsonData, "sketchVO")) {
-                JSONObject note_03 = jsonData.getJSONObject("sketchVO");
-                ocEn.setNodeTime3(note_03.getString("createTime"));
-                if (StringUtil.notNull(note_03, "pics")) {
-                    JSONArray jsonImg = note_03.getJSONArray("pics");
-                    ArrayList<String> imgLists = new ArrayList<>();
-                    for (int i = 0; i < jsonImg.length(); i++) {
-                        JSONObject items = jsonImg.getJSONObject(i);
-                        imgLists.add(items.getString("designPic"));
-                    }
-                    ocEn.setEffectImgList(imgLists);
-                }
-                ocEn.setDesigns(note_03.getBoolean("confirm"));
-            }
-            // 支付信息
-            if (noteNo > 3 && StringUtil.notNull(jsonData, "payment")) {
-                JSONObject note_04 = jsonData.getJSONObject("payment");
-                ocEn.setNodeTime4(note_04.getString("paymentTime"));
-                ocEn.setPrice(note_04.getDouble("orderPrice"));
-                ocEn.setCycle(note_04.getInt("leadtimeSpan"));
-                ocEn.setPayment(note_04.getBoolean("confirm"));
-            }
-            // 收货信息
-            if (noteNo > 4 && StringUtil.notNull(jsonData, "orderReciever")) {
-                JSONObject note_05 = jsonData.getJSONObject("orderReciever");
-                ocEn.setNodeTime5(note_05.getString("recieveTime"));
-                AddressEntity adEn = new AddressEntity();
-                adEn.setId(note_05.getInt("recieverId"));
-                adEn.setName(note_05.getString("recieverName"));
-                adEn.setPhone(note_05.getString("recieverPhone"));
-                adEn.setAddress(note_05.getString("addrDetail"));
-                ocEn.setAdEn(adEn);
-            }
-            // 生产进度
-            if (noteNo > 5 && StringUtil.notNull(jsonData, "tracker")) {
-                JSONArray note_06 = jsonData.getJSONArray("tracker");
-                OProgressEntity opEn;
-                ArrayList<OProgressEntity> opList = new ArrayList<>();
-                for (int i = 0; i < note_06.length(); i++) {
-                    JSONObject item = note_06.getJSONObject(i);
-                    ocEn.setNodeTime6(item.getString("createTime"));
+            ocEn.setGoodsList(goodsList);
 
-                    opEn = new OProgressEntity();
-                    opEn.setId(item.getInt("id"));
-                    opEn.setAddTime(item.getString("createTime"));
-                    if (StringUtil.notNull(item, "trackerDesc")) {
-                        opEn.setContent(item.getString("trackerDesc"));
-                    }
-                    if (StringUtil.notNull(item, "trackerPics")) {
-                        opEn.setType(1);
-                        ArrayList<String> imgList = new ArrayList<>();
-                        imgList.add(item.getString("trackerPics"));
-                        opEn.setImgList(imgList);
-                        //opEn.setImgList(getStringList(item.getString("pics")));
-                    }
-                    opList.add(opEn);
-                }
-                ocEn.setOpList(opList);
-            }
-            // 物流发货
-            if (noteNo > 6 && StringUtil.notNull(jsonData, "deliver")) {
-                JSONObject note_07 = jsonData.getJSONObject("deliver");
-                ocEn.setNodeTime7(note_07.getString("deliverTime"));
-                JSONArray logs = note_07.getJSONArray("logisticsList");
-                OLogisticsEntity olEn;
-                ArrayList<OLogisticsEntity> olList = new ArrayList<>();
-                for (int i = 0; i < logs.length(); i++) {
-                    JSONObject log = logs.getJSONObject(i);
-                    olEn = new OLogisticsEntity();
-                    olEn.setName(log.getString("logisticsName"));
-                    olEn.setNumber(log.getString("logisticsCode"));
-                    olEn.setOrderNo(log.getString("orderCode"));
-                    olList.add(olEn);
-                }
-                ocEn.setOlList(olList);
-                ocEn.setReceipt(note_07.getBoolean("confirm"));
-            }
-            // 产品安装
-            if (noteNo > 6 && StringUtil.notNull(jsonData, "installing")) {
-                JSONObject note_08 = jsonData.getJSONObject("installing");
-                ocEn.setNodeTime8(note_08.getString("installTime"));
-                ocEn.setInstall(note_08.getBoolean("confirm"));
-                ocEn.setInstallName(note_08.getString("installName"));
-                ocEn.setInstallCall(note_08.getString("installPhone"));
-            }
-            // 订单完成
-            if (noteNo > 8 && StringUtil.notNull(jsonData, "finish")) {
-                JSONObject note_09 = jsonData.getJSONObject("finish");
-                ocEn.setNodeTime9(note_09.getString("finishTime"));
-            }
+            ocEn.setPriceOne(18888);
+            ocEn.setPriceTwo(19999);
+            ocEn.setOrderNo("88888888888");
+            ocEn.setTermTime("2020-05-20");
+            ocEn.setNodeTime1("2020-05-20 18:18:18");
+            ocEn.setNodeTime2("2020-05-20 18:18:18");
+            ocEn.setNodeTime3("2020-05-20 18:18:18");
+            //ocEn.setNodeTime4("2020-05-20 18:18:18");
+            //ocEn.setNodeTime5("2020-05-20 18:18:18");
+            ocEn.setOrderRemarks("订单备注内容订单备注内容订单备注内容订单备注内容订单备注内容");
+
+            ocEn.setPriceRemarks("核价备注内容");
+            ArrayList<String> imageList = new ArrayList<>();
+            imageList.add("http://xiaobao.sbwg.cn:9090/app/files/fetch/jvt9mc9vspsp2wufiaq9.png");
+            //imageList.add("http://xiaobao.sbwg.cn:9090/app/files/fetch/jvt9mc9vspsp2wufiaq9.png");
+            //imageList.add("http://xiaobao.sbwg.cn:9090/app/files/fetch/jvt9mc9vspsp2wufiaq9.png");
+            //imageList.add("http://xiaobao.sbwg.cn:9090/app/files/fetch/jvt9mc9vspsp2wufiaq9.png");
+            //imageList.add("http://xiaobao.sbwg.cn:9090/app/files/fetch/jvt9mc9vspsp2wufiaq9.png");
+            ocEn.setImageList(imageList);
+
+            ocEn.setCheckRemarks("审核备注内容");
+            ArrayList<String> filesList = new ArrayList<>();
+            //filesList.add("skdasjfajfljllsfjaldjlkjsdlfjklfjkfjlkfjljdflkfjampo_13566.pdf");
+            filesList.add("sampo_13566.pdf");
+            //filesList.add("skdasjfajfljllsfjaldjlkjsdlfjklfjkfjlkfjljdflkfjampo_13566.pdf");
+            ocEn.setFilesList(filesList);
+
             mainEn.setData(ocEn);
         }
         return mainEn;
@@ -549,6 +471,20 @@ public class JsonUtils {
                     childEn.setName(item.getString("goodsName"));
                     childEn.setAttribute(item.getString("skuComboName"));
                     childEn.setPrice(item.getDouble("price"));
+
+                    // 商品图片集
+                    if (StringUtil.notNull(item, "skuPic")) {
+                        /*JSONArray images = jsonData.getJSONArray("goodsPics");
+                        ArrayList<String> urls = new ArrayList<>();
+                        for (int j = 0; j < images.length(); j++) {
+                            JSONObject pics = images.getJSONObject(i);
+                            urls.add(pics.getString("goodsPic"));
+                        }*/
+                        ArrayList<String> urls = new ArrayList<>();
+                        urls.add(item.getString("skuPic"));
+                        childEn.setImageList(urls);
+                    }
+                    childEn.setEffectUrl("https://yun.kujiale.com/design/3FO4B5NB7E2L/airoaming");
 
                     lists.add(childEn);
                 }

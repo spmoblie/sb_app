@@ -11,37 +11,23 @@ public class OCustomizeEntity extends BaseEntity {
 
 	private int id;
 	private String orderNo; //订单编号
-	private String payType; //支付方式
-	private String nodeTime1; //订单创建时间
-	private String nodeTime2;
-	private String nodeTime3;
-	private String nodeTime4;
-	private String nodeTime5;
-	private String nodeTime6;
-	private String nodeTime7;
-	private String nodeTime8;
-	private String nodeTime9;
+	private String termTime; //预计交期
+	private String nodeTime1; //创建时间
+	private String nodeTime2; //审核时间
+	private String nodeTime3; //核价时间
+	private String nodeTime4; //发货时间
+	private String nodeTime5; //收货时间
 	private String statusDesc; //状态描述
-	private String installName; //安装师傅姓名
-	private String installCall; //安装师傅电话
+	private String orderRemarks; //订单备注
+	private String checkRemarks; //审核备注
+	private String priceRemarks; //核价备注
 	private int status; //订单状态
-	private int nodeNo;  //1:提交预约，2:上门量尺，3:效果图，4:支付信息，5:收货信息，6:生产进度，7:产品发货，8:产品安装，9:订单完成
-	private int cycle; //计划生产周期
-	private double price; //订单报价
-	private boolean isPayment; //是否确认支付
-	private boolean isDesigns; //是否确认图片
-	private boolean isReceipt; //是否确认收货
-	private boolean isInstall; //是否确认安装
-	private AddressEntity adEn; //收货地址
-	private GoodsEntity gdEn; //定制商品信息
-	private DesignerEntity dgEn; //设计师信息
-
-	private ArrayList<GoodsEntity> goodsList; //定制商品集
-	private ArrayList<String> sizeImgList; //尺寸图图片地址集
-	private ArrayList<String> layoutImgList; //布局图图片地址集
-	private ArrayList<String> effectImgList; //效果图图片地址集
-	private ArrayList<OProgressEntity> opList; //生产进度数集
-	private ArrayList<OLogisticsEntity> olList; //物流单号数集
+	private double priceOne; //提交报价
+	private double priceTwo; //修改报价
+	private boolean isReceive; //是否确认收货
+	private ArrayList<String> filesList; //文件备注集
+	private ArrayList<String> imageList; //图片备注集
+	private ArrayList<GoodsEntity> goodsList; //定制商品数集
 
 	public OCustomizeEntity() {
 
@@ -68,12 +54,12 @@ public class OCustomizeEntity extends BaseEntity {
 		this.orderNo = orderNo;
 	}
 
-	public String getPayType() {
-		return payType;
+	public String getTermTime() {
+		return termTime;
 	}
 
-	public void setPayType(String payType) {
-		this.payType = payType;
+	public void setTermTime(String termTime) {
+		this.termTime = termTime;
 	}
 
 	public String getNodeTime1() {
@@ -116,38 +102,6 @@ public class OCustomizeEntity extends BaseEntity {
 		this.nodeTime5 = nodeTime5;
 	}
 
-	public String getNodeTime6() {
-		return nodeTime6;
-	}
-
-	public void setNodeTime6(String nodeTime6) {
-		this.nodeTime6 = nodeTime6;
-	}
-
-	public String getNodeTime7() {
-		return nodeTime7;
-	}
-
-	public void setNodeTime7(String nodeTime7) {
-		this.nodeTime7 = nodeTime7;
-	}
-
-	public String getNodeTime8() {
-		return nodeTime8;
-	}
-
-	public void setNodeTime8(String nodeTime8) {
-		this.nodeTime8 = nodeTime8;
-	}
-
-	public String getNodeTime9() {
-		return nodeTime9;
-	}
-
-	public void setNodeTime9(String nodeTime9) {
-		this.nodeTime9 = nodeTime9;
-	}
-
 	public String getStatusDesc() {
 		return statusDesc;
 	}
@@ -156,28 +110,28 @@ public class OCustomizeEntity extends BaseEntity {
 		this.statusDesc = statusDesc;
 	}
 
-	public String getInstallName() {
-		return installName;
+	public String getOrderRemarks() {
+		return orderRemarks;
 	}
 
-	public void setInstallName(String installName) {
-		this.installName = installName;
+	public void setOrderRemarks(String orderRemarks) {
+		this.orderRemarks = orderRemarks;
 	}
 
-	public String getInstallCall() {
-		return installCall;
+	public String getCheckRemarks() {
+		return checkRemarks;
 	}
 
-	public void setInstallCall(String installCall) {
-		this.installCall = installCall;
+	public void setCheckRemarks(String checkRemarks) {
+		this.checkRemarks = checkRemarks;
 	}
 
-	public int getNodeNo() {
-		return nodeNo;
+	public String getPriceRemarks() {
+		return priceRemarks;
 	}
 
-	public void setNodeNo(int nodeNo) {
-		this.nodeNo = nodeNo;
+	public void setPriceRemarks(String priceRemarks) {
+		this.priceRemarks = priceRemarks;
 	}
 
 	public int getStatus() {
@@ -188,76 +142,44 @@ public class OCustomizeEntity extends BaseEntity {
 		this.status = status;
 	}
 
-	public int getCycle() {
-		return cycle;
+	public double getPriceOne() {
+		return priceOne;
 	}
 
-	public void setCycle(int cycle) {
-		this.cycle = cycle;
+	public void setPriceOne(double priceOne) {
+		this.priceOne = priceOne;
 	}
 
-	public double getPrice() {
-		return price;
+	public double getPriceTwo() {
+		return priceTwo;
 	}
 
-	public void setPrice(double price) {
-		this.price = price;
+	public void setPriceTwo(double priceTwo) {
+		this.priceTwo = priceTwo;
 	}
 
-	public boolean isPayment() {
-		return isPayment;
+	public boolean isReceive() {
+		return isReceive;
 	}
 
-	public void setPayment(boolean payment) {
-		isPayment = payment;
+	public void setReceive(boolean receive) {
+		isReceive = receive;
 	}
 
-	public boolean isDesigns() {
-		return isDesigns;
+	public ArrayList<String> getFilesList() {
+		return filesList;
 	}
 
-	public void setDesigns(boolean designs) {
-		isDesigns = designs;
+	public void setFilesList(ArrayList<String> filesList) {
+		this.filesList = filesList;
 	}
 
-	public boolean isReceipt() {
-		return isReceipt;
+	public ArrayList<String> getImageList() {
+		return imageList;
 	}
 
-	public void setReceipt(boolean receipt) {
-		isReceipt = receipt;
-	}
-
-	public boolean isInstall() {
-		return isInstall;
-	}
-
-	public void setInstall(boolean install) {
-		isInstall = install;
-	}
-
-	public AddressEntity getAdEn() {
-		return adEn;
-	}
-
-	public void setAdEn(AddressEntity adEn) {
-		this.adEn = adEn;
-	}
-
-	public GoodsEntity getGdEn() {
-		return gdEn;
-	}
-
-	public void setGdEn(GoodsEntity gdEn) {
-		this.gdEn = gdEn;
-	}
-
-	public DesignerEntity getDgEn() {
-		return dgEn;
-	}
-
-	public void setDgEn(DesignerEntity dgEn) {
-		this.dgEn = dgEn;
+	public void setImageList(ArrayList<String> imageList) {
+		this.imageList = imageList;
 	}
 
 	public ArrayList<GoodsEntity> getGoodsList() {
@@ -266,45 +188,5 @@ public class OCustomizeEntity extends BaseEntity {
 
 	public void setGoodsList(ArrayList<GoodsEntity> goodsList) {
 		this.goodsList = goodsList;
-	}
-
-	public ArrayList<String> getSizeImgList() {
-		return sizeImgList;
-	}
-
-	public void setSizeImgList(ArrayList<String> sizeImgList) {
-		this.sizeImgList = sizeImgList;
-	}
-
-	public ArrayList<String> getLayoutImgList() {
-		return layoutImgList;
-	}
-
-	public void setLayoutImgList(ArrayList<String> layoutImgList) {
-		this.layoutImgList = layoutImgList;
-	}
-
-	public ArrayList<String> getEffectImgList() {
-		return effectImgList;
-	}
-
-	public void setEffectImgList(ArrayList<String> effectImgList) {
-		this.effectImgList = effectImgList;
-	}
-
-	public ArrayList<OProgressEntity> getOpList() {
-		return opList;
-	}
-
-	public void setOpList(ArrayList<OProgressEntity> opList) {
-		this.opList = opList;
-	}
-
-	public ArrayList<OLogisticsEntity> getOlList() {
-		return olList;
-	}
-
-	public void setOlList(ArrayList<OLogisticsEntity> olList) {
-		this.olList = olList;
 	}
 }

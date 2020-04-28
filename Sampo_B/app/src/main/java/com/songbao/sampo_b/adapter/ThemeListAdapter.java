@@ -104,7 +104,7 @@ public class ThemeListAdapter extends RecyclerView.Adapter<ThemeListAdapter.View
         } else {
             viewHolder.tv_sign.setText("我要报名");
             viewHolder.tv_sign.setBackgroundResource(R.drawable.shape_style_solid_06_08);
-            viewHolder.tv_series.setBackgroundResource(R.drawable.shape_style_empty_09_08);
+            viewHolder.tv_series.setBackgroundResource(R.drawable.shape_style_empty_10_08);
             viewHolder.tv_series.setTextColor(mContext.getResources().getColor(R.color.app_color_blue));
         }
         viewHolder.tv_sign.setOnClickListener(new View.OnClickListener() {

@@ -231,13 +231,12 @@ public class AppConfig {
 	public static final int ERROR_CODE_PHONE_UNREGISTERED = 706;
 
 	// 订单状态码
-	public static final int ORDER_STATUS_101 = 101; //待付款
-	public static final int ORDER_STATUS_102 = 102; //已取消
-	public static final int ORDER_STATUS_201 = 201; //生产中
-	public static final int ORDER_STATUS_301 = 301; //待发货
-	public static final int ORDER_STATUS_302 = 302; //退款中
-	public static final int ORDER_STATUS_303 = 303; //已退款
-	public static final int ORDER_STATUS_401 = 401; //待收货
+	public static final int ORDER_STATUS_101 = 101; //待审核
+	public static final int ORDER_STATUS_102 = 102; //已拒绝
+	public static final int ORDER_STATUS_103 = 103; //已取消
+	public static final int ORDER_STATUS_201 = 201; //待核价
+	public static final int ORDER_STATUS_301 = 301; //生产中
+	public static final int ORDER_STATUS_401 = 401; //已发货
 	public static final int ORDER_STATUS_501 = 501; //已签收
 	public static final int ORDER_STATUS_701 = 701; //待安装
 	public static final int ORDER_STATUS_801 = 800; //已完成
@@ -294,6 +293,8 @@ public class AppConfig {
 	public static final String homeHeadFileName = "home_head";
 	// 首页列表数据文件名
 	public static final String homeListFileName = "home_list";
+	// 订单数据缓存文件名
+	public static final String orderDataFileName = "order_data";
 	// 应用偏好设置名称
 	public static final String APP_SP_NAME = "sp_sampo_b";
 	// 应用缓存路径名称

@@ -181,7 +181,7 @@ public class GoodsSortActivity extends BaseActivity implements OnClickListener {
 			@Override
 			public void setOnClick(Object data, int position, int type) {
 				if (position < 0 || position >= al_right.size()) return;
-				openGoodsActivity(al_right.get(position).getGoodsCode());
+				openGoodsEditActivity(al_right.get(position));
 			}
 		});
 		mGridView.setAdapter(gv_Adapter);

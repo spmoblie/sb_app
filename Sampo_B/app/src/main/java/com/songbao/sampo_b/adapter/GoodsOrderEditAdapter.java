@@ -21,13 +21,13 @@ import java.util.List;
 /**
  * 提交订单商品列表适配器
  */
-public class GoodsOrderAdapter extends AppBaseAdapter<GoodsEntity> {
+public class GoodsOrderEditAdapter extends AppBaseAdapter<GoodsEntity> {
 
 	private int scrollPos = -1;
 	private DecimalFormat df;
 	private LinearLayout.LayoutParams lp;
 
-	public GoodsOrderAdapter(Context context) {
+	public GoodsOrderEditAdapter(Context context) {
 		super(context);
 		df = new DecimalFormat("0.00");
 
@@ -60,7 +60,7 @@ public class GoodsOrderAdapter extends AppBaseAdapter<GoodsEntity> {
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		ViewHolder holder;
 		if (convertView == null) {
-			convertView = View.inflate(context, R.layout.item_list_goods_order, null);
+			convertView = View.inflate(context, R.layout.item_list_goods_order_edit, null);
 
 			holder = new ViewHolder();
 			holder.item_sv_main = convertView.findViewById(R.id.order_goods_item_hsv_main);

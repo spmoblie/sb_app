@@ -13,7 +13,7 @@ public class PhotoEntity extends BaseEntity {
 	private String photoUrl; //相片路径
 	private int photoId; //相片Id
 	private int firstId; //缩略图Id
-	private boolean select; //记录选择的相片
+	private boolean isSelect; //记录相片的选择状态
 	private List<PhotoEntity> bitList = new ArrayList<>(); //打包集合
 
 
@@ -79,12 +79,12 @@ public class PhotoEntity extends BaseEntity {
 
 
 	public boolean isSelect() {
-		return select;
+		return isSelect;
 	}
 
 
-	public void setSelect(boolean select) {
-		this.select = select;
+	public void setSelect(boolean isSelect) {
+		this.isSelect = isSelect;
 	}
 
 

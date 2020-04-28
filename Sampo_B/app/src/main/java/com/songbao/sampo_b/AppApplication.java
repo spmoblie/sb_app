@@ -39,9 +39,7 @@ public class AppApplication extends Application {
 
     String TAG = AppApplication.class.getSimpleName();
 
-    public static AppApplication spApp;
-    public OCustomizeEntity ocCacheEn;
-
+    private static AppApplication spApp;
     private static SharedPreferences shared;
     private static PushManager pushManager;
     private static RequestOptions showOptions, headOptions;
