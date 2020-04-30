@@ -1,6 +1,8 @@
 package com.songbao.sampo_b.activity;
 
 import android.app.Activity;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -807,6 +809,22 @@ public class BaseActivity extends FragmentActivity {
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         if (imm != null) {
             imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+        }
+    }
+
+    /**
+     * 复制文本内容到剪贴板
+     */
+    protected void copyString(String copyStr, String toastStr) {
+        if (!StringUtil.isNull(copyStr)) {
+            ClipboardManager clip = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+            if (clip != null) {
+                clip.setPrimaryClip(ClipData.newPlainText(null, copyStr));
+                if (clip.hasPrimaryClip()){
+                    clip.getPrimaryClip().getItemAt(0).getText();
+                }
+                CommonTools.showToast(toastStr);
+            }
         }
     }
 

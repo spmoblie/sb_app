@@ -25,8 +25,8 @@ public class OCustomizeEntity extends BaseEntity {
 	private double priceOne; //提交报价
 	private double priceTwo; //修改报价
 	private boolean isReceive; //是否确认收货
-	private ArrayList<String> filesList; //文件备注集
 	private ArrayList<String> imageList; //图片备注集
+	private ArrayList<FileEntity> filesList; //文件备注集
 	private ArrayList<GoodsEntity> goodsList; //定制商品数集
 
 	public OCustomizeEntity() {
@@ -166,20 +166,20 @@ public class OCustomizeEntity extends BaseEntity {
 		isReceive = receive;
 	}
 
-	public ArrayList<String> getFilesList() {
-		return filesList;
-	}
-
-	public void setFilesList(ArrayList<String> filesList) {
-		this.filesList = filesList;
-	}
-
 	public ArrayList<String> getImageList() {
 		return imageList;
 	}
 
 	public void setImageList(ArrayList<String> imageList) {
 		this.imageList = imageList;
+	}
+
+	public ArrayList<FileEntity> getFilesList() {
+		return filesList;
+	}
+
+	public void setFilesList(ArrayList<FileEntity> filesList) {
+		this.filesList = filesList;
 	}
 
 	public ArrayList<GoodsEntity> getGoodsList() {

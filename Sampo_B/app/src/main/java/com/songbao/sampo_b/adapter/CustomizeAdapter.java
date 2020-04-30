@@ -72,7 +72,7 @@ public class CustomizeAdapter extends BaseRecyclerAdapter<OCustomizeEntity> {
                 tv_status.setText(context.getString(R.string.order_wait_receive));
                 tv_status.setBackgroundResource(R.drawable.shape_style_solid_11_04);
                 tv_click.setVisibility(View.VISIBLE);
-                tv_click.setText(context.getString(R.string.order_confirm_receipt));
+                tv_click.setText(context.getString(R.string.order_confirm_receive));
                 tv_click.setTextColor(context.getResources().getColor(R.color.app_color_white));
                 tv_click.setBackgroundResource(R.drawable.shape_style_solid_11_08);
                 break;

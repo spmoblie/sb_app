@@ -29,6 +29,7 @@ public class GoodsEntity extends BaseEntity {
 	private ArrayList<String> labelList; //商品标签集
 	private ArrayList<String> imageList; //商品图片集
 	private ArrayList<String> detailList; //详情图片集
+	private ArrayList<FileEntity> filesList; //商品文件集
 
 	@Override
 	public String getEntityId() {
@@ -193,5 +194,13 @@ public class GoodsEntity extends BaseEntity {
 
 	public void setDetailList(ArrayList<String> detailList) {
 		this.detailList = detailList;
+	}
+
+	public ArrayList<FileEntity> getFilesList() {
+		return filesList;
+	}
+
+	public void setFilesList(ArrayList<FileEntity> filesList) {
+		this.filesList = filesList;
 	}
 }

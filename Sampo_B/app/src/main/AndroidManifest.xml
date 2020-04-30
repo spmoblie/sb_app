@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.songbao.sampo_b">
 
+    <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -13,6 +14,7 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" /> <!--7.0必加-->
 
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
@@ -40,10 +42,10 @@
             android:name="org.apache.http.legacy"
             android:required="false" />
 
-        <!-- API23以上调用系统相机需配置 -->
+        <!-- API23以上调用系统应用需配置 -->
         <provider
             android:name="android.support.v4.content.FileProvider"
-            android:authorities="com.songbao.sampo_b.fileprovider"
+            android:authorities="com.songbao.sampo_b.fileProvider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
@@ -122,6 +124,10 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
         <activity
+            android:name=".activity.common.FileActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"/>
+        <activity
             android:name=".activity.common.MyWebViewActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
@@ -194,11 +200,15 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.mine.CustomizeActivity"
+            android:name=".activity.mine.CustomizeGoodsActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.mine.CustomizeListActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.mine.CustomizeOrderActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
         <activity

@@ -6,19 +6,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.songbao.sampo_b.AppApplication;
 import com.songbao.sampo_b.R;
-import com.songbao.sampo_b.entity.GoodsEntity;
+import com.songbao.sampo_b.entity.FileEntity;
 import com.songbao.sampo_b.utils.ClickUtils;
-import com.songbao.sampo_b.widgets.RoundImageView;
-
-import java.text.DecimalFormat;
 
 /**
  * 订单文件备注列表适配器
  */
-public class OrderFilesAdapter extends AppBaseAdapter<String> {
+public class OrderFilesAdapter extends AppBaseAdapter<FileEntity> {
 
 	public OrderFilesAdapter(Context context) {
 		super(context);
@@ -46,16 +41,16 @@ public class OrderFilesAdapter extends AppBaseAdapter<String> {
 			holder = (ViewHolder) convertView.getTag();
 		}
 		// 绑定View
-		final String fileName = mDataList.get(position);
+		final FileEntity data = mDataList.get(position);
 
-		holder.tv_name.setText(fileName);
+		holder.tv_name.setText(data.getName());
 
 		holder.item_main.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				if (ClickUtils.isDoubleClick(v.getId())) return;
 				if (apCallback != null) {
-					apCallback.setOnClick(fileName, position, 0);
+					apCallback.setOnClick(data, position, 0);
 				}
 			}
 		});

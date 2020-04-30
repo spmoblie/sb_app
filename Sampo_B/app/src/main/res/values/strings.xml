@@ -17,6 +17,7 @@
     <string name="copy">复制</string>
     <string name="save">保存</string>
     <string name="save_ok">保存成功</string>
+    <string name="file">文件</string>
     <string name="my_new">新建</string>
     <string name="add">添加</string>
     <string name="add_sign">+</string>
@@ -43,6 +44,7 @@
     <string name="number">数量</string>
     <string name="others">其它</string>
     <string name="clean">清除</string>
+    <string name="download">下载</string>
     <string name="done">完成</string>
     <string name="desc">""</string>
     <string name="dot">・</string>
@@ -204,16 +206,22 @@
     <string name="goods_effect">效果展示</string>
     <string name="goods_effect_img">效果图图片</string>
     <string name="goods_effect_img_hint">请上传效果图图片</string>
+    <string name="goods_effect_file">效果图文件</string>
     <string name="goods_effect_link">效果图链接</string>
     <string name="goods_effect_link_hint">请粘贴链接地址</string>
+    <string name="goods_info">商品信息</string>
     <string name="goods_name">商品名称</string>
     <string name="goods_name_hint">请输入商品名称</string>
+    <string name="goods_name_show">商品名称：</string>
     <string name="goods_number">商品数量</string>
     <string name="goods_number_hint">请输入商品数量</string>
+    <string name="goods_number_show">商品数量：%1$d</string>
     <string name="goods_price">商品单价</string>
     <string name="goods_price_hint">请输入商品单价</string>
+    <string name="goods_price_show">商品单价：￥ %1$s</string>
     <string name="goods_remarks">商品备注</string>
     <string name="goods_remarks_hint">请输入商品备注</string>
+    <string name="goods_remarks_show">商品备注：</string>
     <string name="goods_choice">选择商品</string>
     <string name="goods_edit">编辑商品</string>
     <string name="goods_code">商品编码</string>
@@ -248,8 +256,9 @@
     <string name="order_time_send">物流发货：\t%1$s</string>
     <string name="order_time_receive">确认收货：\t%1$s</string>
     <string name="order_confirm">确认订单</string>
-    <string name="order_confirm_receipt">确认收货</string>
-    <string name="order_confirm_receipt_hint">确认货物已到齐么？</string>
+    <string name="order_confirm_receive">确认收货</string>
+    <string name="order_confirm_receive_hint">确认货物已到齐么？</string>
+    <string name="order_confirm_receive_done">已确认收货</string>
     <string name="order_delete">删除订单</string>
     <string name="order_delete_confirm">确认删除订单么？</string>
     <string name="order_cancel">取消订单</string>
@@ -265,6 +274,9 @@
     <string name="order_post">提交订单</string>
     <string name="order_goods_num">x%1$d</string>
     <string name="order_goods_detail">定制详情</string>
+    <string name="order_price_on">报价审核中</string>
+    <string name="order_check_on">效果图审核中</string>
+    <string name="order_check_no">效果图审核未通过</string>
 
     <!-- Photo page -->
     <string name="photo_select_title">选择相册</string>

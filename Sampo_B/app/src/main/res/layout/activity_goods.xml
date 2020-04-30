@@ -93,6 +93,8 @@
                         android:id="@+id/goods_tv_effect_check"
                         style="@style/common_text_button"
                         android:layout_marginEnd="@dimen/app_margin_screen"
+                        android:paddingTop="@dimen/margin_padding_7"
+                        android:paddingBottom="@dimen/margin_padding_7"
                         android:background="@drawable/shape_style_empty_04_08"
                         android:text="@string/see"
                         android:textColor="@color/app_color_style"
@@ -165,7 +167,6 @@
         android:layout_marginBottom="@dimen/margin_padding_30"
         android:layout_marginEnd="@dimen/app_margin_screen"
         android:layout_marginStart="@dimen/app_margin_screen"
-        android:padding="@dimen/app_margin_screen"
         android:text="@string/goods_go_customize"
         android:textSize="@dimen/app_text_size_title"
         android:textStyle="bold" />

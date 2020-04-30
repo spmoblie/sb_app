@@ -16,7 +16,7 @@
         android:layout_marginEnd="@dimen/margin_padding_10"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/dialog_progress_bar"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/dialog_content"/>
 
@@ -27,9 +27,23 @@
         android:text="@string/loading_downloading"
         android:textSize="@dimen/text_size_16"
         android:textColor="@color/dialog_text_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/dialog_progress"
+        app:layout_constraintBottom_toBottomOf="@+id/dialog_progress"
         app:layout_constraintLeft_toRightOf="@+id/dialog_progress"/>
+
+    <ProgressBar
+        android:id="@+id/dialog_progress_bar"
+        style="@android:style/Widget.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/margin_padding_30"
+        android:layout_marginStart="@dimen/margin_padding_30"
+        android:layout_marginEnd="@dimen/margin_padding_30"
+        android:max="100"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dialog_progress"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
 </android.support.constraint.ConstraintLayout>

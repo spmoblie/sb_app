@@ -88,7 +88,6 @@ public class RetrofitServiceManager {
 
     /**
      * 设置信任证书
-     * @param builder
      */
     public void setCard(OkHttpClient.Builder builder) {
         if (builder == null) return;

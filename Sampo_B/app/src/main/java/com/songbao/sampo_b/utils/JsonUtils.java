@@ -4,6 +4,7 @@ import com.songbao.sampo_b.entity.AddressEntity;
 import com.songbao.sampo_b.entity.BaseEntity;
 import com.songbao.sampo_b.entity.CommentEntity;
 import com.songbao.sampo_b.entity.DesignerEntity;
+import com.songbao.sampo_b.entity.FileEntity;
 import com.songbao.sampo_b.entity.GoodsAttrEntity;
 import com.songbao.sampo_b.entity.GoodsEntity;
 import com.songbao.sampo_b.entity.GoodsSortEntity;
@@ -11,6 +12,7 @@ import com.songbao.sampo_b.entity.MessageEntity;
 import com.songbao.sampo_b.entity.OCustomizeEntity;
 import com.songbao.sampo_b.entity.PaymentEntity;
 import com.songbao.sampo_b.entity.ThemeEntity;
+import com.songbao.sampo_b.entity.UpdateVersionEntity;
 import com.songbao.sampo_b.entity.UserInfoEntity;
 import com.songbao.sampo_b.wxapi.WXPayEntryActivity;
 
@@ -55,6 +57,24 @@ public class JsonUtils {
             urls.add(param.get(i).toString());
         }
         return urls;
+    }
+
+    /**
+     * 检查版本更新
+     */
+    public static BaseEntity<UpdateVersionEntity> checkVersionUpdate(JSONObject jsonObject) throws JSONException {
+        BaseEntity<UpdateVersionEntity> mainEn = getCommonKeyValue(jsonObject);
+
+        if (StringUtil.notNull(jsonObject, "data")) {
+            JSONObject jsonData = jsonObject.getJSONObject("data");
+            UpdateVersionEntity uvEn = new UpdateVersionEntity();
+            uvEn.setDescription(jsonData.getString("description"));
+            uvEn.setVersion(jsonData.getString("verison"));
+            uvEn.setUrl(jsonData.getString("url"));
+            uvEn.setForce(jsonData.getBoolean("forces"));
+            mainEn.setData(uvEn);
+        }
+        return mainEn;
     }
 
     /**
@@ -383,10 +403,33 @@ public class JsonUtils {
             ArrayList<GoodsEntity> goodsList = new ArrayList<>();
             for (int k = 0; k < 2; k++) {
                 gdEn = new GoodsEntity();
-                gdEn.setName("goodsName");
-                gdEn.setPicUrl("goodsPics");
+                // 效果图图片
+                ArrayList<String> imageList = new ArrayList<>();
+                for (int i = 0; i < 9; i++) {
+                    if (i == 0) {
+                        gdEn.setPicUrl("goodsPics");
+                    }
+                    imageList.add("http://xiaobao.sbwg.cn:9090/app/files/fetch/jvt9mc9vspsp2wufiaq9.png");
+                }
+                gdEn.setImageList(imageList);
+                // 效果图文件
+                ArrayList<FileEntity> filesList = new ArrayList<>();
+                FileEntity fileEn = new FileEntity();
+                fileEn.setName("sampo_001.pdf");
+                fileEn.setFileUrl("http://xiaobao.sbwg.cn:9090/app/files/fetch/sampo_001.pdf");
+                filesList.add(fileEn);
+                fileEn = new FileEntity();
+                fileEn.setName("sampo_002.pdf");
+                fileEn.setFileUrl("http://xiaobao.sbwg.cn:9090/app/files/fetch/sampo_002.pdf");
+                filesList.add(fileEn);
+                gdEn.setFilesList(filesList);
+                // 效果图链接
+                gdEn.setEffectUrl("https://yun.kujiale.com/design/3FO4B5NB7E2L/airoaming");
+                // 商品信息
+                gdEn.setName("拉斯科技发的了空间拉萨的房价的思考了房价拉水电费就卡了开始的案例的付款记录");
                 gdEn.setNumber(k + 1);
                 gdEn.setPrice(9000);
+                gdEn.setRemarks("大立科技发的是拉开距离戴假发啥的积分了会计师的案例的会计法拉的是会计法律拉开始的减肥了速度快放假爱丽丝的借款方拉萨的空间");
                 goodsList.add(gdEn);
             }
             ocEn.setGoodsList(goodsList);
@@ -412,10 +455,16 @@ public class JsonUtils {
             ocEn.setImageList(imageList);
 
             ocEn.setCheckRemarks("审核备注内容");
-            ArrayList<String> filesList = new ArrayList<>();
-            //filesList.add("skdasjfajfljllsfjaldjlkjsdlfjklfjkfjlkfjljdflkfjampo_13566.pdf");
-            filesList.add("sampo_13566.pdf");
-            //filesList.add("skdasjfajfljllsfjaldjlkjsdlfjklfjkfjlkfjljdflkfjampo_13566.pdf");
+            ArrayList<FileEntity> filesList = new ArrayList<>();
+            FileEntity fileEn = new FileEntity();
+            fileEn.setName("sampo_001.pdf");
+            fileEn.setFileUrl("http://xiaobao.sbwg.cn:9090/app/files/fetch/sampo_001.pdf");
+            filesList.add(fileEn);
+
+            fileEn = new FileEntity();
+            fileEn.setName("sampo_002.pdf");
+            fileEn.setFileUrl("http://xiaobao.sbwg.cn:9090/app/files/fetch/sampo_002.pdf");
+            filesList.add(fileEn);
             ocEn.setFilesList(filesList);
 
             mainEn.setData(ocEn);

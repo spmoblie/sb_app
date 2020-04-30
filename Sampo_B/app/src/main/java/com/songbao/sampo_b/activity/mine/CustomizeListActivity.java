@@ -213,7 +213,7 @@ public class CustomizeListActivity extends BaseActivity implements View.OnClickL
      * 打开定制订单详情
      */
     private void openCustomizeActivity(OCustomizeEntity ocEn) {
-        Intent intent = new Intent(mContext, CustomizeActivity.class);
+        Intent intent = new Intent(mContext, CustomizeOrderActivity.class);
         intent.putExtra(AppConfig.PAGE_DATA, ocEn);
         startActivityForResult(intent, AppConfig.ACTIVITY_CODE_ORDER_UPDATE);
     }

@@ -1,0 +1,235 @@
+package com.songbao.sampo_b.activity.mine;
+
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.os.Bundle;
+import android.support.constraint.Group;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.HorizontalScrollView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.songbao.sampo_b.AppApplication;
+import com.songbao.sampo_b.AppConfig;
+import com.songbao.sampo_b.R;
+import com.songbao.sampo_b.activity.BaseActivity;
+import com.songbao.sampo_b.activity.common.FileActivity;
+import com.songbao.sampo_b.adapter.AdapterCallback;
+import com.songbao.sampo_b.adapter.OrderFilesAdapter;
+import com.songbao.sampo_b.entity.FileEntity;
+import com.songbao.sampo_b.entity.GoodsEntity;
+import com.songbao.sampo_b.utils.BitmapUtil;
+import com.songbao.sampo_b.utils.CommonTools;
+import com.songbao.sampo_b.utils.LogUtil;
+import com.songbao.sampo_b.utils.QRCodeUtil;
+import com.songbao.sampo_b.utils.StringUtil;
+import com.songbao.sampo_b.widgets.RoundImageView;
+import com.songbao.sampo_b.widgets.ScrollViewListView;
+
+import java.io.File;
+import java.util.ArrayList;
+
+import butterknife.BindView;
+
+
+public class CustomizeGoodsActivity extends BaseActivity implements OnClickListener {
+
+    String TAG = CustomizeGoodsActivity.class.getSimpleName();
+
+    @BindView(R.id.customize_goods_view_sv_image)
+    HorizontalScrollView sv_image;
+
+    @BindView(R.id.customize_goods_ll_sv_main)
+    LinearLayout ll_sv_main;
+
+    @BindView(R.id.customize_goods_view_lv_files)
+    ScrollViewListView lv_files;
+
+    @BindView(R.id.customize_goods_group_files)
+    Group group_files;
+
+    @BindView(R.id.customize_goods_iv_link)
+    ImageView iv_link;
+
+    @BindView(R.id.customize_goods_tv_effect_url)
+    TextView tv_url;
+
+    @BindView(R.id.customize_goods_tv_effect_check)
+    TextView tv_url_check;
+
+    @BindView(R.id.customize_goods_tv_effect_copy)
+    TextView tv_url_copy;
+
+    @BindView(R.id.customize_goods_tv_name_show)
+    TextView tv_name;
+
+    @BindView(R.id.customize_goods_tv_number)
+    TextView tv_number;
+
+    @BindView(R.id.customize_goods_tv_price)
+    TextView tv_price;
+
+    @BindView(R.id.customize_goods_tv_remarks_show)
+    TextView tv_remarks;
+
+    OrderFilesAdapter ap_files;
+    RelativeLayout.LayoutParams goodsImgLP;
+
+    private GoodsEntity goodsEn;
+    private Bitmap qrImage;
+    private String effectUrl;
+    private ArrayList<String> al_image = new ArrayList<>();
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_customize_goods);
+
+        goodsEn = (GoodsEntity) getIntent().getSerializableExtra(AppConfig.PAGE_DATA);
+
+        initView();
+    }
+
+    private void initView() {
+        setTitle(getString(R.string.order_goods_detail));
+
+        int imageSize = (screenWidth - CommonTools.dpToPx(mContext, 64)) / 3;
+        goodsImgLP = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        goodsImgLP.setMargins(0, 0, 10, 0);
+        goodsImgLP.width = imageSize;
+        goodsImgLP.height = imageSize;
+
+        initShowData();
+    }
+
+    private void initShowData() {
+        if (goodsEn != null) {
+            // 效果图图片
+            al_image.clear();
+            al_image.addAll(goodsEn.getImageList());
+            initImageScrollView();
+            // 效果图文件
+            if (goodsEn.getFilesList() != null && goodsEn.getFilesList().size() > 0) {
+                group_files.setVisibility(View.VISIBLE);
+                initFilesListView(goodsEn.getFilesList());
+            } else {
+                group_files.setVisibility(View.GONE);
+            }
+            // 效果图链接
+            effectUrl = goodsEn.getEffectUrl();
+            if (!StringUtil.isNull(effectUrl) && effectUrl.contains("/")) {
+                tv_url.setText(effectUrl);
+                tv_url_copy.setOnClickListener(this);
+                tv_url_check.setOnClickListener(this);
+
+                String[] paths = effectUrl.split("/");
+                final String imgName = "QR_" + paths[paths.length-1] + ".png";
+                int imgSize = AppApplication.screen_width;
+                qrImage = QRCodeUtil.createQRImage(goodsEn.getEffectUrl(), imgSize, imgSize, 1, null);
+                iv_link.setImageBitmap(BitmapUtil.getBitmap(qrImage, 645, 645));
+                iv_link.setOnLongClickListener(new View.OnLongClickListener() {
+                    @Override
+                    public boolean onLongClick(View v) {
+                        File file = BitmapUtil.createPath(imgName, true);
+                        if (file == null) {
+                            showErrorDialog(R.string.photo_show_save_fail);
+                            return false;
+                        }
+                        AppApplication.saveBitmapFile(qrImage, file, 100);
+                        CommonTools.showToast(getString(R.string.photo_show_save_ok));
+                        return false;
+                    }
+                });
+            }
+            // 商品信息
+            tv_name.setText(goodsEn.getName());
+            tv_number.setText(getString(R.string.goods_number_show, goodsEn.getNumber()));
+            tv_price.setText(getString(R.string.goods_price_show, df.format(goodsEn.getPrice())));
+            tv_remarks.setText(goodsEn.getRemarks());
+        }
+    }
+
+    private void initImageScrollView() {
+        ll_sv_main.removeAllViews();
+        int imgCount = al_image.size();
+        for (int i = 0; i < imgCount; i++) {
+            final int position = i;
+            final String imgUrl = al_image.get(i);
+            RoundImageView iv_img = new RoundImageView(mContext);
+            iv_img.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            iv_img.setLayoutParams(goodsImgLP);
+
+            iv_img.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    openViewPagerActivity(al_image, position);
+                }
+            });
+
+            Glide.with(AppApplication.getAppContext())
+                    .load(imgUrl)
+                    .apply(AppApplication.getShowOptions())
+                    .into(iv_img);
+
+            ll_sv_main.addView(iv_img);
+        }
+    }
+
+    private void initFilesListView(final ArrayList<FileEntity> filesList) {
+        if (ap_files == null) {
+            ap_files = new OrderFilesAdapter(mContext);
+            ap_files.addCallback(new AdapterCallback() {
+                @Override
+                public void setOnClick(Object data, int position, int type) {
+                    if (position < 0 || position >= filesList.size()) return;
+                    Intent intent = new Intent(mContext, FileActivity.class);
+                    intent.putExtra(AppConfig.PAGE_DATA, filesList.get(position));
+                    startActivity(intent);
+                }
+            });
+        }
+        ap_files.updateData(filesList);
+        lv_files.setAdapter(ap_files);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.customize_goods_tv_effect_copy:
+                copyString(effectUrl, getString(R.string.share_msg_copy_link_ok));
+                break;
+            case R.id.customize_goods_tv_effect_check:
+                openWebViewActivity(getString(R.string.goods_effect), effectUrl, null);
+                break;
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        LogUtil.i(LogUtil.LOG_TAG, TAG + ": onResume");
+        // 页面开始
+        AppApplication.onPageStart(this, TAG);
+
+        super.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        LogUtil.i(LogUtil.LOG_TAG, TAG + ": onPause");
+        // 页面结束
+        AppApplication.onPageEnd(this, TAG);
+
+        super.onPause();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+}

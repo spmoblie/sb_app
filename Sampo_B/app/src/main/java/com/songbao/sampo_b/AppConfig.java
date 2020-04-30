@@ -29,6 +29,8 @@ public class AppConfig {
 	// 关于我们
 	public final static String ABOUT_US = "https://www.sbwg.cn/";
 
+	// 校验版本
+	public final static String URL_AUTH_VERSION = "/app/index/version";
 	// 校验设备
 	public final static String URL_AUTH_DEVICE = "app/auth/deviceToken";
 	// 提交登录
@@ -101,7 +103,7 @@ public class AppConfig {
 	// 确认支付
 	public final static String URL_BOOKING_PAYMENT = "trade/app/booking/payment";
 	// 确认收货
-	public final static String URL_BOOKING_RECEIPT = "trade/app/booking/received";
+	public final static String URL_BOOKING_RECEIVE = "trade/app/booking/received";
 	// 确认安装
 	public final static String URL_BOOKING_INSTALL = "trade/app/booking/installed";
 
@@ -191,7 +193,7 @@ public class AppConfig {
 	// 确认支付
 	public static final int REQUEST_SV_BOOKING_PAYMENT = 0X3414;
 	// 确认收货
-	public static final int REQUEST_SV_BOOKING_RECEIPT = 0X3415;
+	public static final int REQUEST_SV_BOOKING_RECEIVE = 0X3415;
 	// 确认安装
 	public static final int REQUEST_SV_BOOKING_INSTALL = 0X3416;
 
@@ -244,6 +246,8 @@ public class AppConfig {
 	// 图片宽高比例
 	public static final int IMG_WIDTHS = 16;
 	public static final int IMG_HEIGHT = 9;
+	// Retrofit Url头部标识
+	public static final String URL_TYPE_DOWNLOAD = "download";
 	// 网络请求标识
 	public static final String LOAD_TYPE = "APP";
 	// 加载数据标识
@@ -301,6 +305,8 @@ public class AppConfig {
 	public static final String APP_ROOT_NAME = "Sampo_B";
 	// 内置SD卡路径
 	private static final String SD_PATH = Environment.getExternalStorageDirectory().toString() + "/" + APP_ROOT_NAME + "/";
+	// 应用下载保存路径
+	public static final String SAVE_PATH_DOWNLOAD = SD_PATH + "Download/";
 	// Apk临时缓存路径（应用关闭时清除）
 	public static final String SAVE_PATH_APK_DICE = SD_PATH + "apk/" + APP_ROOT_NAME + "_AD/";
 	// 文本长久保存路径
@@ -316,6 +322,8 @@ public class AppConfig {
 	// 媒体临时缓存路径（应用关闭时清除）
 	public static final String SAVE_PATH_MEDIA_DICE = SD_PATH + "media/" + APP_ROOT_NAME + "_MD/";
 
+	// Apk存储路径
+	public static final String SAVE_APK_PATH = SAVE_PATH_APK_DICE + "/" + APP_ROOT_NAME + "_008.apk";
 	// 用户数据存储路径
 	public static final String SAVE_USER_DATA_PATH = SD_PATH + "user/";
 	// 用户头像存储路径

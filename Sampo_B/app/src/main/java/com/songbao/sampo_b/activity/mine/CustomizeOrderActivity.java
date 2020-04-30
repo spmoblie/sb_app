@@ -1,7 +1,5 @@
 package com.songbao.sampo_b.activity.mine;
 
-import android.content.ClipboardManager;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
@@ -15,20 +13,18 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.songbao.sampo_b.AppApplication;
 import com.songbao.sampo_b.AppConfig;
 import com.songbao.sampo_b.R;
 import com.songbao.sampo_b.activity.BaseActivity;
-import com.songbao.sampo_b.activity.two.PostOrderActivity;
+import com.songbao.sampo_b.activity.common.FileActivity;
 import com.songbao.sampo_b.adapter.AdapterCallback;
-import com.songbao.sampo_b.adapter.GoodsOrderEditAdapter;
 import com.songbao.sampo_b.adapter.GoodsOrderShowAdapter;
 import com.songbao.sampo_b.adapter.OrderFilesAdapter;
-import com.songbao.sampo_b.entity.AddressEntity;
 import com.songbao.sampo_b.entity.BaseEntity;
+import com.songbao.sampo_b.entity.FileEntity;
 import com.songbao.sampo_b.entity.GoodsEntity;
 import com.songbao.sampo_b.entity.OCustomizeEntity;
 import com.songbao.sampo_b.utils.CommonTools;
@@ -37,7 +33,6 @@ import com.songbao.sampo_b.utils.JsonUtils;
 import com.songbao.sampo_b.utils.LogUtil;
 import com.songbao.sampo_b.utils.StringUtil;
 import com.songbao.sampo_b.utils.retrofit.HttpRequests;
-import com.songbao.sampo_b.widgets.ObservableScrollView;
 import com.songbao.sampo_b.widgets.RoundImageView;
 import com.songbao.sampo_b.widgets.ScrollViewListView;
 
@@ -51,68 +46,68 @@ import java.util.HashMap;
 import butterknife.BindView;
 
 
-public class CustomizeActivity extends BaseActivity implements OnClickListener {
+public class CustomizeOrderActivity extends BaseActivity implements OnClickListener {
 
-    String TAG = CustomizeActivity.class.getSimpleName();
+    String TAG = CustomizeOrderActivity.class.getSimpleName();
 
-    @BindView(R.id.customize_tv_status)
-    TextView tv_order_status;
+    @BindView(R.id.customize_order_tv_status)
+    TextView tv_status;
 
-    @BindView(R.id.customize_view_lv_goods)
+    @BindView(R.id.customize_order_view_lv_goods)
     ScrollViewListView lv_goods;
 
-    @BindView(R.id.customize_tv_price_nullify)
+    @BindView(R.id.customize_order_tv_price_nullify)
     TextView tv_nullify;
 
-    @BindView(R.id.customize_tv_price_curr)
+    @BindView(R.id.customize_order_tv_price_curr)
     TextView tv_curr;
 
-    @BindView(R.id.customize_tv_price_show)
+    @BindView(R.id.customize_order_tv_price_show)
     TextView tv_price;
 
-    @BindView(R.id.customize_tv_order_no)
+    @BindView(R.id.customize_order_tv_order_no)
     TextView tv_order_no;
 
-    @BindView(R.id.customize_tv_order_no_copy)
+    @BindView(R.id.customize_order_tv_order_no_copy)
     TextView tv_copy;
 
-    @BindView(R.id.customize_tv_time_term)
+    @BindView(R.id.customize_order_tv_time_term)
     TextView tv_time_term;
 
-    @BindView(R.id.customize_tv_time_create)
+    @BindView(R.id.customize_order_tv_time_create)
     TextView tv_time_create;
 
-    @BindView(R.id.customize_tv_time_check)
+    @BindView(R.id.customize_order_tv_time_check)
     TextView tv_time_check;
 
-    @BindView(R.id.customize_tv_time_price)
+    @BindView(R.id.customize_order_tv_time_price)
     TextView tv_time_price;
 
-    @BindView(R.id.customize_tv_time_send)
+    @BindView(R.id.customize_order_tv_time_send)
     TextView tv_time_send;
 
-    @BindView(R.id.customize_tv_time_receive)
+    @BindView(R.id.customize_order_tv_time_receive)
     TextView tv_time_receive;
 
-    @BindView(R.id.customize_tv_order_remarks_show)
+    @BindView(R.id.customize_order_tv_order_remarks_show)
     TextView tv_order_remarks;
 
-    @BindView(R.id.customize_tv_order_other)
+    @BindView(R.id.customize_order_tv_order_other)
     TextView tv_other;
 
-    @BindView(R.id.customize_tv_order_other_show)
+    @BindView(R.id.customize_order_tv_order_other_show)
     TextView tv_other_show;
 
-    @BindView(R.id.customize_view_lv_files)
+    @BindView(R.id.customize_order_view_lv_files)
     ScrollViewListView lv_files;
 
-    @BindView(R.id.customize_view_sv_image)
+    @BindView(R.id.customize_order_view_sv_image)
     HorizontalScrollView sv_image;
 
-    @BindView(R.id.customize_view_sv_ll_main)
+    @BindView(R.id.customize_order_view_sv_ll_main)
     LinearLayout ll_sv_main;
 
-    @BindView(R.id.customize_tv_click)
+    @BindView(R.id.customize_order_tv_click)
     TextView tv_click;
 
     GoodsOrderShowAdapter ap_goods;
@@ -129,7 +124,7 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_customize);
+        setContentView(R.layout.activity_customize_order);
 
         ocEn = (OCustomizeEntity) getIntent().getSerializableExtra(AppConfig.PAGE_DATA);
 
@@ -162,58 +157,58 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
             switch (status) {
                 case AppConfig.ORDER_STATUS_101: //待审核
                     setRightViewText(getString(R.string.order_cancel));
-                    tv_order_status.setText(getString(R.string.order_wait_check));
-                    tv_order_status.setTextColor(getResources().getColor(R.color.app_color_brown));
-                    tv_order_status.setBackgroundResource(R.drawable.shape_style_empty_08_16);
-                    tv_click.setText("效果图审核中");
+                    tv_status.setText(getString(R.string.order_wait_check));
+                    tv_status.setTextColor(getResources().getColor(R.color.app_color_brown));
+                    tv_status.setBackgroundResource(R.drawable.shape_style_empty_08_16);
+                    tv_click.setText(getString(R.string.order_check_on));
                     tv_click.setBackgroundResource(R.drawable.shape_style_solid_08_08);
                     break;
                 case AppConfig.ORDER_STATUS_201: //待核价
                     setRightViewText(getString(R.string.order_cancel));
-                    tv_order_status.setText(getString(R.string.order_wait_price));
-                    tv_order_status.setTextColor(getResources().getColor(R.color.app_color_green));
-                    tv_order_status.setBackgroundResource(R.drawable.shape_style_empty_09_16);
-                    tv_click.setText("报价审核中");
+                    tv_status.setText(getString(R.string.order_wait_price));
+                    tv_status.setTextColor(getResources().getColor(R.color.app_color_green));
+                    tv_status.setBackgroundResource(R.drawable.shape_style_empty_09_16);
+                    tv_click.setText(getString(R.string.order_price_on));
                     tv_click.setBackgroundResource(R.drawable.shape_style_solid_09_08);
                     break;
                 case AppConfig.ORDER_STATUS_301: //生产中
-                    tv_order_status.setText(getString(R.string.order_producing));
-                    tv_order_status.setTextColor(getResources().getColor(R.color.app_color_style));
-                    tv_order_status.setBackgroundResource(R.drawable.shape_style_empty_04_16);
+                    tv_status.setText(getString(R.string.order_producing));
+                    tv_status.setTextColor(getResources().getColor(R.color.app_color_style));
+                    tv_status.setBackgroundResource(R.drawable.shape_style_empty_04_16);
                     tv_click.setText("生产中-备料");
                     tv_click.setBackgroundResource(R.drawable.shape_style_solid_04_08);
                     break;
                 case AppConfig.ORDER_STATUS_401: //已发货
                     isOnClick = true;
-                    tv_order_status.setText(getString(R.string.order_wait_receive));
-                    tv_order_status.setTextColor(getResources().getColor(R.color.app_color_violet));
-                    tv_order_status.setBackgroundResource(R.drawable.shape_style_empty_11_16);
-                    tv_click.setText("确认收货");
+                    tv_status.setText(getString(R.string.order_wait_receive));
+                    tv_status.setTextColor(getResources().getColor(R.color.app_color_violet));
+                    tv_status.setBackgroundResource(R.drawable.shape_style_empty_11_16);
+                    tv_click.setText(getString(R.string.order_confirm_receive));
                     tv_click.setBackgroundResource(R.drawable.shape_style_solid_11_08);
                     break;
                 case AppConfig.ORDER_STATUS_801: //已完成
                     setRightViewText(getString(R.string.order_delete));
-                    tv_order_status.setText(getString(R.string.order_completed));
-                    tv_order_status.setTextColor(getResources().getColor(R.color.debar_text_color));
-                    tv_order_status.setBackgroundResource(R.drawable.shape_style_empty_03_16);
-                    tv_click.setText("已确认收货");
+                    tv_status.setText(getString(R.string.order_completed));
+                    tv_status.setTextColor(getResources().getColor(R.color.debar_text_color));
+                    tv_status.setBackgroundResource(R.drawable.shape_style_empty_03_16);
+                    tv_click.setText(getString(R.string.order_confirm_receive_done));
                     tv_click.setBackgroundResource(R.drawable.shape_style_solid_03_08);
                     break;
                 case AppConfig.ORDER_STATUS_102: //已拒绝
                     setRightViewText(getString(R.string.order_cancel));
-                    tv_order_status.setText(getString(R.string.order_refused));
-                    tv_order_status.setTextColor(getResources().getColor(R.color.app_color_red_p));
-                    tv_order_status.setBackgroundResource(R.drawable.shape_style_empty_05_16);
-                    tv_click.setText("效果图审核未通过");
+                    tv_status.setText(getString(R.string.order_refused));
+                    tv_status.setTextColor(getResources().getColor(R.color.app_color_red_p));
+                    tv_status.setBackgroundResource(R.drawable.shape_style_empty_05_16);
+                    tv_click.setText(getString(R.string.order_check_no));
                     tv_click.setBackgroundResource(R.drawable.shape_style_solid_05_08);
                     break;
                 case AppConfig.ORDER_STATUS_103: //已取消
                 default:
                     setRightViewText(getString(R.string.order_delete));
-                    tv_order_status.setText(getString(R.string.order_cancelled));
-                    tv_order_status.setTextColor(getResources().getColor(R.color.debar_text_color));
-                    tv_order_status.setBackgroundResource(R.drawable.shape_style_empty_03_16);
-                    tv_click.setText("已取消");
+                    tv_status.setText(getString(R.string.order_cancelled));
+                    tv_status.setTextColor(getResources().getColor(R.color.debar_text_color));
+                    tv_status.setBackgroundResource(R.drawable.shape_style_empty_03_16);
+                    tv_click.setText(getString(R.string.order_cancelled));
                     tv_click.setBackgroundResource(R.drawable.shape_style_solid_03_08);
                     break;
             }
@@ -309,14 +304,7 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
                 @Override
                 public void setOnClick(Object data, int position, int type) {
                     if (position < 0 || position >= al_goods.size()) return;
-                    GoodsEntity goodsEn = al_goods.get(position);
-                    if (goodsEn != null) {
-                        switch (type) {
-                            case 0: //定制详情
-                                CommonTools.showToast("详情" + position);
-                                break;
-                        }
-                    }
+                    openCustomizeGoodsActivity(al_goods.get(position));
                 }
             });
         }
@@ -324,14 +312,16 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
         lv_goods.setAdapter(ap_goods);
     }
 
-    private void initFileListView(ArrayList<String> filesList) {
+    private void initFileListView(final ArrayList<FileEntity> filesList) {
         if (ap_files == null) {
             ap_files = new OrderFilesAdapter(mContext);
             ap_files.addCallback(new AdapterCallback() {
                 @Override
                 public void setOnClick(Object data, int position, int type) {
-                    String fileName = (String) data;
-                    CommonTools.showToast(fileName);
+                    if (position < 0 || position >= filesList.size()) return;
+                    Intent intent = new Intent(mContext, FileActivity.class);
+                    intent.putExtra(AppConfig.PAGE_DATA, filesList.get(position));
+                    startActivity(intent);
                 }
             });
         }
@@ -370,18 +360,25 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
         }
     }
 
+    /**
+     * 打开定制产品详情页
+     */
+    private void openCustomizeGoodsActivity(GoodsEntity goodsEn) {
+        Intent intent = new Intent(mContext, CustomizeGoodsActivity.class);
+        intent.putExtra(AppConfig.PAGE_DATA, goodsEn);
+        startActivity(intent);
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.customize_tv_order_no_copy:
-                ClipboardManager clip = (ClipboardManager)mContext.getSystemService(Context.CLIPBOARD_SERVICE);
-                clip.setText(orderNo);
-                CommonTools.showToast(mContext.getString(R.string.order_order_no_copy));
+            case R.id.customize_order_tv_order_no_copy:
+                copyString(orderNo, getString(R.string.order_order_no_copy));
                 break;
-            case R.id.customize_tv_click:
+            case R.id.customize_order_tv_click:
                 //确认收货
                 if (isOnClick) {
-                    showConfirmDialog(getString(R.string.order_confirm_receipt_hint), new MyHandler(this), 7);
+                    showConfirmDialog(getString(R.string.order_confirm_receive_hint), new MyHandler(this), 7);
                 }
                 break;
         }
@@ -458,11 +455,11 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
     /**
      * 确认收货
      */
-    private void postConfirmReceipt() {
+    private void postConfirmReceive() {
         try {
             JSONObject jsonObj = new JSONObject();
             jsonObj.put("bookingCode", orderNo);
-            postJsonData(AppConfig.URL_BOOKING_RECEIPT, jsonObj, AppConfig.REQUEST_SV_BOOKING_RECEIPT);
+            postJsonData(AppConfig.URL_BOOKING_RECEIVE, jsonObj, AppConfig.REQUEST_SV_BOOKING_RECEIVE);
         } catch (JSONException e) {
             ExceptionUtil.handle(e);
         }
@@ -509,7 +506,7 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
                         handleErrorCode(baseEn);
                     }
                     break;
-                case AppConfig.REQUEST_SV_BOOKING_RECEIPT:
+                case AppConfig.REQUEST_SV_BOOKING_RECEIVE:
                     baseEn = JsonUtils.getBaseErrorData(jsonObject);
                     if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
                         updateCode = AppConfig.ORDER_STATUS_701;
@@ -551,18 +548,18 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
 
     static class MyHandler extends Handler {
 
-        WeakReference<CustomizeActivity> mActivity;
+        WeakReference<CustomizeOrderActivity> mActivity;
 
-        MyHandler(CustomizeActivity activity) {
+        MyHandler(CustomizeOrderActivity activity) {
             mActivity = new WeakReference<>(activity);
         }
 
         @Override
         public void handleMessage(Message msg) {
-            CustomizeActivity theActivity = mActivity.get();
+            CustomizeOrderActivity theActivity = mActivity.get();
             switch (msg.what) {
                 case 7: //确认收货
-                    theActivity.postConfirmReceipt();
+                    theActivity.postConfirmReceive();
                     break;
                 case 101: //取消订单
                     theActivity.postConfirmCancel();
