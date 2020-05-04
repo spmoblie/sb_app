@@ -265,6 +265,7 @@
     <string name="order_cancel_confirm">确认取消订单么？</string>
     <string name="order_goods_add">添加产品</string>
     <string name="order_goods_delete">确定删除这个产品么？</string>
+    <string name="order_goods_null_hint">请添加需要定制的产品数据</string>
     <string name="order_goods_remarks">产品备注</string>
     <string name="order_check_remarks">审核备注</string>
     <string name="order_price_remarks">核价备注</string>
@@ -272,6 +273,7 @@
     <string name="order_remarks_hint">请输入订单备注</string>
     <string name="order_abandon">确定要放弃这个订单？</string>
     <string name="order_post">提交订单</string>
+    <string name="order_post_ok">提交订单成功</string>
     <string name="order_goods_num">x%1$d</string>
     <string name="order_goods_detail">定制详情</string>
     <string name="order_price_on">报价审核中</string>

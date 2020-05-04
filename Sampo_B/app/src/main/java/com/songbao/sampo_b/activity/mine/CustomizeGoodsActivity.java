@@ -21,18 +21,24 @@ import com.songbao.sampo_b.activity.BaseActivity;
 import com.songbao.sampo_b.activity.common.FileActivity;
 import com.songbao.sampo_b.adapter.AdapterCallback;
 import com.songbao.sampo_b.adapter.OrderFilesAdapter;
-import com.songbao.sampo_b.entity.FileEntity;
+import com.songbao.sampo_b.entity.BaseEntity;
 import com.songbao.sampo_b.entity.GoodsEntity;
 import com.songbao.sampo_b.utils.BitmapUtil;
 import com.songbao.sampo_b.utils.CommonTools;
+import com.songbao.sampo_b.utils.ExceptionUtil;
+import com.songbao.sampo_b.utils.JsonUtils;
 import com.songbao.sampo_b.utils.LogUtil;
 import com.songbao.sampo_b.utils.QRCodeUtil;
 import com.songbao.sampo_b.utils.StringUtil;
+import com.songbao.sampo_b.utils.retrofit.HttpRequests;
 import com.songbao.sampo_b.widgets.RoundImageView;
 import com.songbao.sampo_b.widgets.ScrollViewListView;
 
+import org.json.JSONObject;
+
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import butterknife.BindView;
 
@@ -74,8 +80,11 @@ public class CustomizeGoodsActivity extends BaseActivity implements OnClickListe
     @BindView(R.id.customize_goods_tv_price)
     TextView tv_price;
 
-    @BindView(R.id.customize_goods_tv_remarks_show)
+    @BindView(R.id.customize_goods_tv_remarks)
     TextView tv_remarks;
+
+    @BindView(R.id.customize_goods_tv_remarks_show)
+    TextView tv_remarks_show;
 
     OrderFilesAdapter ap_files;
     RelativeLayout.LayoutParams goodsImgLP;
@@ -104,7 +113,9 @@ public class CustomizeGoodsActivity extends BaseActivity implements OnClickListe
         goodsImgLP.width = imageSize;
         goodsImgLP.height = imageSize;
 
-        initShowData();
+        if (goodsEn != null) {
+            loadCustomizeData();
+        }
     }
 
     private void initShowData() {
@@ -114,9 +125,9 @@ public class CustomizeGoodsActivity extends BaseActivity implements OnClickListe
             al_image.addAll(goodsEn.getImageList());
             initImageScrollView();
             // 效果图文件
-            if (goodsEn.getFilesList() != null && goodsEn.getFilesList().size() > 0) {
+            if (goodsEn.getLabelList() != null && goodsEn.getLabelList().size() > 0) {
                 group_files.setVisibility(View.VISIBLE);
-                initFilesListView(goodsEn.getFilesList());
+                initFilesListView(goodsEn.getLabelList());
             } else {
                 group_files.setVisibility(View.GONE);
             }
@@ -150,7 +161,11 @@ public class CustomizeGoodsActivity extends BaseActivity implements OnClickListe
             tv_name.setText(goodsEn.getName());
             tv_number.setText(getString(R.string.goods_number_show, goodsEn.getNumber()));
             tv_price.setText(getString(R.string.goods_price_show, df.format(goodsEn.getPrice())));
-            tv_remarks.setText(goodsEn.getRemarks());
+            if (!StringUtil.isNull(goodsEn.getRemarks())) {
+                tv_remarks.setVisibility(View.VISIBLE);
+                tv_remarks_show.setVisibility(View.VISIBLE);
+                tv_remarks_show.setText(goodsEn.getRemarks());
+            }
         }
     }
 
@@ -180,7 +195,7 @@ public class CustomizeGoodsActivity extends BaseActivity implements OnClickListe
         }
     }
 
-    private void initFilesListView(final ArrayList<FileEntity> filesList) {
+    private void initFilesListView(final ArrayList<String> filesList) {
         if (ap_files == null) {
             ap_files = new OrderFilesAdapter(mContext);
             ap_files.addCallback(new AdapterCallback() {
@@ -188,7 +203,7 @@ public class CustomizeGoodsActivity extends BaseActivity implements OnClickListe
                 public void setOnClick(Object data, int position, int type) {
                     if (position < 0 || position >= filesList.size()) return;
                     Intent intent = new Intent(mContext, FileActivity.class);
-                    intent.putExtra(AppConfig.PAGE_DATA, filesList.get(position));
+                    intent.putExtra("fileUrl", filesList.get(position));
                     startActivity(intent);
                 }
             });
@@ -230,6 +245,44 @@ public class CustomizeGoodsActivity extends BaseActivity implements OnClickListe
     @Override
     protected void onDestroy() {
         super.onDestroy();
+    }
+
+    /**
+     * 加载定制商品详情数据
+     */
+    private void loadCustomizeData() {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("productId", goodsEn.getId());
+        map.put("customCode", goodsEn.getSkuCode());
+        loadSVData(AppConfig.URL_ORDER_GOODS, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_ORDER_GOODS);
+    }
+
+    @Override
+    protected void callbackData(JSONObject jsonObject, int dataType) {
+        super.callbackData(jsonObject, dataType);
+        BaseEntity<GoodsEntity> baseEn;
+        try {
+            switch (dataType) {
+                case AppConfig.REQUEST_SV_ORDER_GOODS:
+                    baseEn = JsonUtils.getCustomizeGoodsData(jsonObject);
+                    if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
+                        goodsEn = baseEn.getData();
+                        initShowData();
+                    } else {
+                        handleErrorCode(baseEn);
+                    }
+                    break;
+            }
+        } catch (Exception e) {
+            loadFailHandle();
+            ExceptionUtil.handle(e);
+        }
+    }
+
+    @Override
+    protected void loadFailHandle() {
+        super.loadFailHandle();
+        handleErrorCode(null);
     }
 
 }

@@ -62,11 +62,11 @@ public class CustomizeListActivity extends BaseActivity implements View.OnClickL
     MyRecyclerView mRecyclerView;
     CustomizeAdapter rvAdapter;
 
-    public static final int TYPE_1 = 0;  //全部
-    public static final int TYPE_2 = 1;  //待审核
-    public static final int TYPE_3 = 2;  //生产中
-    public static final int TYPE_4 = 3;  //已发货
-    public static final int TYPE_5 = 4;  //已完成
+    public static final int TYPE_1 = 1;  //全部
+    public static final int TYPE_2 = 2;  //待审核
+    public static final int TYPE_3 = 3;  //生产中
+    public static final int TYPE_4 = 4;  //已发货
+    public static final int TYPE_5 = 5;  //已完成
 
     private boolean isLoadOk = true; //加载控制
     private int data_total = -1; //数据总量
@@ -183,17 +183,17 @@ public class CustomizeListActivity extends BaseActivity implements View.OnClickL
                     case 1: //按键
                         switch (status) {
                             case AppConfig.ORDER_STATUS_101: //待审核
-                            case AppConfig.ORDER_STATUS_102: //已拒绝
+                            case AppConfig.ORDER_STATUS_104: //已拒绝
                             case AppConfig.ORDER_STATUS_201: //待核价
                                 // 取消订单
                                 showConfirmDialog(getString(R.string.order_cancel_confirm), new MyHandler(CustomizeListActivity.this), 101);
                                 break;
                             case AppConfig.ORDER_STATUS_401: //已发货
                                 // 确认收货
-                                openCustomizeActivity(ocEn);
+                                showConfirmDialog(getString(R.string.order_confirm_receive_hint), new MyHandler(CustomizeListActivity.this), 7);
                                 break;
                             case AppConfig.ORDER_STATUS_801: //已完成
-                            case AppConfig.ORDER_STATUS_103: //已取消
+                            case AppConfig.ORDER_STATUS_102: //已取消
                             default:
                                 // 删除订单
                                 showConfirmDialog(getString(R.string.order_delete_confirm), new MyHandler(CustomizeListActivity.this), 102);
@@ -414,7 +414,7 @@ public class CustomizeListActivity extends BaseActivity implements View.OnClickL
                     al_all_1.get(selectPosition).setStatus(statusCode);
                     al_show.addAll(al_all_1);
                     break;
-                case TYPE_2: //待付款 (触发事件：取消订单、确认支付)
+                case TYPE_2: //待审核 (触发事件：取消订单)
                     al_all_1.clear();
                     am_all_1.clear();
                     al_all_3.clear();
@@ -423,7 +423,6 @@ public class CustomizeListActivity extends BaseActivity implements View.OnClickL
                     al_show.addAll(al_all_2);
                     break;
                 case TYPE_3: //生产中 (触发事件：无)
-                    al_all_3.get(selectPosition).setStatus(statusCode);
                     al_show.addAll(al_all_3);
                     break;
                 case TYPE_4: //待收货 (触发事件：确认收货)
@@ -434,7 +433,7 @@ public class CustomizeListActivity extends BaseActivity implements View.OnClickL
                     al_all_4.remove(selectPosition);
                     al_show.addAll(al_all_4);
                     break;
-                case TYPE_5: //待安装 (触发事件：确认安装)
+                case TYPE_5: //已完成 (触发事件：删除订单)
                     al_all_1.clear();
                     am_all_1.clear();
                     al_all_5.remove(selectPosition);
@@ -534,10 +533,23 @@ public class CustomizeListActivity extends BaseActivity implements View.OnClickL
             page = "1";
         }
         HashMap<String, Object> map = new HashMap<>();
-        map.put("orderStatus", top_type);
+        map.put("customStatus", top_type);
         map.put("current", page);
         map.put("size", AppConfig.LOAD_SIZE);
-        loadSVData(AppConfig.URL_BOOKING_LIST, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_BOOKING_LIST);
+        loadSVData(AppConfig.URL_ORDER_LIST, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_ORDER_LIST);
+    }
+
+    /**
+     * 确认收货
+     */
+    private void postConfirmReceive() {
+        try {
+            JSONObject jsonObj = new JSONObject();
+            jsonObj.put("customCode", selectOrderNo);
+            postJsonData(AppConfig.URL_ORDER_RECEIVE, jsonObj, AppConfig.REQUEST_SV_ORDER_RECEIVE);
+        } catch (JSONException e) {
+            ExceptionUtil.handle(e);
+        }
     }
 
     /**
@@ -546,8 +558,8 @@ public class CustomizeListActivity extends BaseActivity implements View.OnClickL
     private void postConfirmCancel() {
         try {
             JSONObject jsonObj = new JSONObject();
-            jsonObj.put("code", selectOrderNo);
-            postJsonData(AppConfig.URL_BOOKING_CANCEL, jsonObj, AppConfig.REQUEST_SV_BOOKING_CANCEL);
+            jsonObj.put("customCode", selectOrderNo);
+            postJsonData(AppConfig.URL_ORDER_CANCEL, jsonObj, AppConfig.REQUEST_SV_ORDER_CANCEL);
         } catch (JSONException e) {
             ExceptionUtil.handle(e);
         }
@@ -559,8 +571,8 @@ public class CustomizeListActivity extends BaseActivity implements View.OnClickL
     private void postConfirmDelete() {
         try {
             JSONObject jsonObj = new JSONObject();
-            jsonObj.put("code", selectOrderNo);
-            postJsonData(AppConfig.URL_BOOKING_DELETE, jsonObj, AppConfig.REQUEST_SV_BOOKING_DELETE);
+            jsonObj.put("customCode", selectOrderNo);
+            postJsonData(AppConfig.URL_ORDER_DELETE, jsonObj, AppConfig.REQUEST_SV_ORDER_DELETE);
         } catch (JSONException e) {
             ExceptionUtil.handle(e);
         }
@@ -571,7 +583,7 @@ public class CustomizeListActivity extends BaseActivity implements View.OnClickL
         BaseEntity<OCustomizeEntity> baseEn;
         try {
             switch (dataType) {
-                case AppConfig.REQUEST_SV_BOOKING_LIST:
+                case AppConfig.REQUEST_SV_ORDER_LIST:
                     baseEn = JsonUtils.getCustomizeListData(jsonObject);
                     if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
                         int newTotal = baseEn.getDataTotal();
@@ -678,7 +690,15 @@ public class CustomizeListActivity extends BaseActivity implements View.OnClickL
                         handleErrorCode(baseEn);
                     }
                     break;
-                case AppConfig.REQUEST_SV_BOOKING_CANCEL:
+                case AppConfig.REQUEST_SV_ORDER_RECEIVE:
+                    baseEn = JsonUtils.getBaseErrorData(jsonObject);
+                    if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
+                        dataStatusUpdate(AppConfig.ORDER_STATUS_801);
+                    } else {
+                        handleErrorCode(baseEn);
+                    }
+                    break;
+                case AppConfig.REQUEST_SV_ORDER_CANCEL:
                     baseEn = JsonUtils.getCustomizeDetailData(jsonObject);
                     if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
                         dataStatusUpdate(AppConfig.ORDER_STATUS_102);
@@ -686,7 +706,7 @@ public class CustomizeListActivity extends BaseActivity implements View.OnClickL
                         handleErrorCode(baseEn);
                     }
                     break;
-                case AppConfig.REQUEST_SV_BOOKING_DELETE:
+                case AppConfig.REQUEST_SV_ORDER_DELETE:
                     baseEn = JsonUtils.getCustomizeDetailData(jsonObject);
                     if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
                         deleteOrderUpdate();
@@ -743,9 +763,7 @@ public class CustomizeListActivity extends BaseActivity implements View.OnClickL
                         deleteOrderUpdate();
                         break;
                     case AppConfig.ORDER_STATUS_102: //取消订单—>已取消
-                    case AppConfig.ORDER_STATUS_201: //确认支付—>生产中
-                    case AppConfig.ORDER_STATUS_701: //确认收货—>待安装
-                    case AppConfig.ORDER_STATUS_801: //确认安装—>已完成
+                    case AppConfig.ORDER_STATUS_801: //确认收货—>已完成
                         dataStatusUpdate(updateCode);
                         break;
                 }
@@ -766,6 +784,9 @@ public class CustomizeListActivity extends BaseActivity implements View.OnClickL
         public void handleMessage(Message msg) {
             CustomizeListActivity theActivity = mActivity.get();
             switch (msg.what) {
+                case 7: //确认收货
+                    theActivity.postConfirmReceive();
+                    break;
                 case 101: //取消订单
                     theActivity.postConfirmCancel();
                     break;

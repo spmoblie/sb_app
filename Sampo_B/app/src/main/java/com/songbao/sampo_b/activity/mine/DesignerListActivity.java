@@ -177,7 +177,7 @@ public class DesignerListActivity extends BaseActivity implements View.OnClickLi
             JSONObject jsonObj = new JSONObject();
             jsonObj.put("designerId", dgId);
             jsonObj.put("skuCode", skuCode);
-            postJsonData(AppConfig.URL_BOOKING_CREATE, jsonObj, AppConfig.REQUEST_SV_BOOKING_CREATE);
+            //postJsonData(AppConfig.URL_ORDER_CREATE, jsonObj, AppConfig.REQUEST_SV_ORDER_CREATE);
         } catch (JSONException e) {
             ExceptionUtil.handle(e);
         }
@@ -201,7 +201,7 @@ public class DesignerListActivity extends BaseActivity implements View.OnClickLi
                         handleErrorCode(baseEn);
                     }
                     break;
-                case AppConfig.REQUEST_SV_BOOKING_CREATE:
+                case AppConfig.REQUEST_SV_ORDER_CREATE:
                     baseEn = JsonUtils.getCustomizeResult(jsonObject);
                     if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
                         final String orderNo = baseEn.getOthers();

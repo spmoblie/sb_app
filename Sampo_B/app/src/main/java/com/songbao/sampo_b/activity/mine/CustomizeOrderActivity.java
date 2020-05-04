@@ -24,7 +24,6 @@ import com.songbao.sampo_b.adapter.AdapterCallback;
 import com.songbao.sampo_b.adapter.GoodsOrderShowAdapter;
 import com.songbao.sampo_b.adapter.OrderFilesAdapter;
 import com.songbao.sampo_b.entity.BaseEntity;
-import com.songbao.sampo_b.entity.FileEntity;
 import com.songbao.sampo_b.entity.GoodsEntity;
 import com.songbao.sampo_b.entity.OCustomizeEntity;
 import com.songbao.sampo_b.utils.CommonTools;
@@ -194,7 +193,7 @@ public class CustomizeOrderActivity extends BaseActivity implements OnClickListe
                     tv_click.setText(getString(R.string.order_confirm_receive_done));
                     tv_click.setBackgroundResource(R.drawable.shape_style_solid_03_08);
                     break;
-                case AppConfig.ORDER_STATUS_102: //已拒绝
+                case AppConfig.ORDER_STATUS_104: //已拒绝
                     setRightViewText(getString(R.string.order_cancel));
                     tv_status.setText(getString(R.string.order_refused));
                     tv_status.setTextColor(getResources().getColor(R.color.app_color_red_p));
@@ -202,7 +201,7 @@ public class CustomizeOrderActivity extends BaseActivity implements OnClickListe
                     tv_click.setText(getString(R.string.order_check_no));
                     tv_click.setBackgroundResource(R.drawable.shape_style_solid_05_08);
                     break;
-                case AppConfig.ORDER_STATUS_103: //已取消
+                case AppConfig.ORDER_STATUS_102: //已取消
                 default:
                     setRightViewText(getString(R.string.order_delete));
                     tv_status.setText(getString(R.string.order_cancelled));
@@ -221,7 +220,7 @@ public class CustomizeOrderActivity extends BaseActivity implements OnClickListe
             tv_price.setText(df.format(ocEn.getPriceOne()));
             tv_curr.setTextColor(getResources().getColor(R.color.app_color_black));
             tv_price.setTextColor(getResources().getColor(R.color.app_color_black));
-            if (status == AppConfig.ORDER_STATUS_102) { //已拒绝
+            if (status == AppConfig.ORDER_STATUS_104) { //已拒绝
                 // 审核备注
                 if (!StringUtil.isNull(ocEn.getCheckRemarks())) {
                     tv_other.setVisibility(View.VISIBLE);
@@ -312,7 +311,7 @@ public class CustomizeOrderActivity extends BaseActivity implements OnClickListe
         lv_goods.setAdapter(ap_goods);
     }
 
-    private void initFileListView(final ArrayList<FileEntity> filesList) {
+    private void initFileListView(final ArrayList<String> filesList) {
         if (ap_files == null) {
             ap_files = new OrderFilesAdapter(mContext);
             ap_files.addCallback(new AdapterCallback() {
@@ -320,7 +319,7 @@ public class CustomizeOrderActivity extends BaseActivity implements OnClickListe
                 public void setOnClick(Object data, int position, int type) {
                     if (position < 0 || position >= filesList.size()) return;
                     Intent intent = new Intent(mContext, FileActivity.class);
-                    intent.putExtra(AppConfig.PAGE_DATA, filesList.get(position));
+                    intent.putExtra("fileUrl", filesList.get(position));
                     startActivity(intent);
                 }
             });
@@ -388,12 +387,12 @@ public class CustomizeOrderActivity extends BaseActivity implements OnClickListe
     protected void OnListenerRight() {
         switch (status) {
             case AppConfig.ORDER_STATUS_101: //待审核
-            case AppConfig.ORDER_STATUS_102: //已拒绝
+            case AppConfig.ORDER_STATUS_104: //已拒绝
             case AppConfig.ORDER_STATUS_201: //待核价
                 // 取消订单
                 showConfirmDialog(getString(R.string.order_cancel_confirm), new MyHandler(this), 101);
                 break;
-            case AppConfig.ORDER_STATUS_103: //已取消
+            case AppConfig.ORDER_STATUS_102: //已取消
             case AppConfig.ORDER_STATUS_801: //已完成
                 // 删除订单
                 showConfirmDialog(getString(R.string.order_delete_confirm), new MyHandler(this), 102);
@@ -427,9 +426,7 @@ public class CustomizeOrderActivity extends BaseActivity implements OnClickListe
     @Override
     public void finish() {
         if (updateCode == -1
-                || updateCode == AppConfig.ORDER_STATUS_103
-                || updateCode == AppConfig.ORDER_STATUS_201
-                || updateCode == AppConfig.ORDER_STATUS_701
+                || updateCode == AppConfig.ORDER_STATUS_102
                 || updateCode == AppConfig.ORDER_STATUS_801) {
             Intent returnIntent = new Intent();
             returnIntent.putExtra(AppConfig.PAGE_DATA, updateCode);
@@ -443,13 +440,8 @@ public class CustomizeOrderActivity extends BaseActivity implements OnClickListe
      */
     private void loadOrderData() {
         HashMap<String, Object> map = new HashMap<>();
-        map.put("orderStatus", 0);
-        map.put("current", 1);
-        map.put("size", AppConfig.LOAD_SIZE);
-        loadSVData(AppConfig.URL_BOOKING_LIST, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_BOOKING_INFO);
-        /*HashMap<String, Object> map = new HashMap<>();
-        map.put("bookingCode", orderNo);
-        loadSVData(AppConfig.URL_BOOKING_INFO, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_BOOKING_INFO);*/
+        map.put("customCode", orderNo);
+        loadSVData(AppConfig.URL_ORDER_INFO, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_ORDER_INFO);
     }
 
     /**
@@ -458,8 +450,8 @@ public class CustomizeOrderActivity extends BaseActivity implements OnClickListe
     private void postConfirmReceive() {
         try {
             JSONObject jsonObj = new JSONObject();
-            jsonObj.put("bookingCode", orderNo);
-            postJsonData(AppConfig.URL_BOOKING_RECEIVE, jsonObj, AppConfig.REQUEST_SV_BOOKING_RECEIVE);
+            jsonObj.put("customCode", orderNo);
+            postJsonData(AppConfig.URL_ORDER_RECEIVE, jsonObj, AppConfig.REQUEST_SV_ORDER_RECEIVE);
         } catch (JSONException e) {
             ExceptionUtil.handle(e);
         }
@@ -471,8 +463,8 @@ public class CustomizeOrderActivity extends BaseActivity implements OnClickListe
     private void postConfirmCancel() {
         try {
             JSONObject jsonObj = new JSONObject();
-            jsonObj.put("code", orderNo);
-            postJsonData(AppConfig.URL_BOOKING_CANCEL, jsonObj, AppConfig.REQUEST_SV_BOOKING_CANCEL);
+            jsonObj.put("customCode", orderNo);
+            postJsonData(AppConfig.URL_ORDER_CANCEL, jsonObj, AppConfig.REQUEST_SV_ORDER_CANCEL);
         } catch (JSONException e) {
             ExceptionUtil.handle(e);
         }
@@ -484,8 +476,8 @@ public class CustomizeOrderActivity extends BaseActivity implements OnClickListe
     private void postConfirmDelete() {
         try {
             JSONObject jsonObj = new JSONObject();
-            jsonObj.put("code", orderNo);
-            postJsonData(AppConfig.URL_BOOKING_DELETE, jsonObj, AppConfig.REQUEST_SV_BOOKING_DELETE);
+            jsonObj.put("customCode", orderNo);
+            postJsonData(AppConfig.URL_ORDER_DELETE, jsonObj, AppConfig.REQUEST_SV_ORDER_DELETE);
         } catch (JSONException e) {
             ExceptionUtil.handle(e);
         }
@@ -497,7 +489,7 @@ public class CustomizeOrderActivity extends BaseActivity implements OnClickListe
         BaseEntity<OCustomizeEntity> baseEn;
         try {
             switch (dataType) {
-                case AppConfig.REQUEST_SV_BOOKING_INFO:
+                case AppConfig.REQUEST_SV_ORDER_INFO:
                     baseEn = JsonUtils.getCustomizeDetailData(jsonObject);
                     if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
                         ocEn = baseEn.getData();
@@ -506,16 +498,16 @@ public class CustomizeOrderActivity extends BaseActivity implements OnClickListe
                         handleErrorCode(baseEn);
                     }
                     break;
-                case AppConfig.REQUEST_SV_BOOKING_RECEIVE:
+                case AppConfig.REQUEST_SV_ORDER_RECEIVE:
                     baseEn = JsonUtils.getBaseErrorData(jsonObject);
                     if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
-                        updateCode = AppConfig.ORDER_STATUS_701;
+                        updateCode = AppConfig.ORDER_STATUS_801;
                         loadOrderData();
                     } else {
                         handleErrorCode(baseEn);
                     }
                     break;
-                case AppConfig.REQUEST_SV_BOOKING_CANCEL:
+                case AppConfig.REQUEST_SV_ORDER_CANCEL:
                     baseEn = JsonUtils.getBaseErrorData(jsonObject);
                     if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
                         updateCode = AppConfig.ORDER_STATUS_102;
@@ -524,7 +516,7 @@ public class CustomizeOrderActivity extends BaseActivity implements OnClickListe
                         handleErrorCode(baseEn);
                     }
                     break;
-                case AppConfig.REQUEST_SV_BOOKING_DELETE:
+                case AppConfig.REQUEST_SV_ORDER_DELETE:
                     baseEn = JsonUtils.getBaseErrorData(jsonObject);
                     if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
                         updateCode = -1;

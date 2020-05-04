@@ -22,6 +22,7 @@ public class AppConfig {
 	public final static String BASE_URL_1 = APP_HTTP + "xiaobao.sbwg.cn/";
 	// 测试Url
 	public final static String BASE_URL_2 = APP_HTTP + "test.sbwg.cn/";
+	public final static String BASE_URL_3 = APP_HTTP + "172.16.189.198:8803/";
 	// 推广域名
 	public final static String SHARE_URL = BASE_URL_1;
 	// 图片域名
@@ -85,27 +86,20 @@ public class AppConfig {
 	// 默认地址
 	public final static String URL_ADDRESS_DEFAULT = "trade/app/consignee/setConsignee";
 
-	// 订单地址
-	public final static String URL_ORDER_UPDATE = "trade/app/order/update";
-
 	// 提交定制
-	public final static String URL_BOOKING_CREATE = "trade/app/booking/create";
+	public final static String URL_ORDER_CREATE = "omsCustom/app/custom/order/create";
 	// 取消定制
-	public final static String URL_BOOKING_CANCEL = "trade/app/booking/cancel";
+	public final static String URL_ORDER_CANCEL = "omsCustom/app/custom/order/cancel";
 	// 删除定制
-	public final static String URL_BOOKING_DELETE = "trade/app/booking/delete";
+	public final static String URL_ORDER_DELETE = "omsCustom/app/custom/order/delete";
 	// 定制列表
-	public final static String URL_BOOKING_LIST = "trade/app/booking/list";
+	public final static String URL_ORDER_LIST = "omsCustom/app/custom/order/list";
 	// 定制详情
-	public final static String URL_BOOKING_INFO = "trade/app/booking/info";
-	// 确认设计
-	public final static String URL_BOOKING_DESIGNS = "trade/app/booking/designs";
-	// 确认支付
-	public final static String URL_BOOKING_PAYMENT = "trade/app/booking/payment";
+	public final static String URL_ORDER_INFO = "omsCustom/app/custom/order/info";
+	// 定制商品
+	public final static String URL_ORDER_GOODS = "omsCustom/app/custom/product/info";
 	// 确认收货
-	public final static String URL_BOOKING_RECEIVE = "trade/app/booking/received";
-	// 确认安装
-	public final static String URL_BOOKING_INSTALL = "trade/app/booking/installed";
+	public final static String URL_ORDER_RECEIVE = "omsCustom/app/custom/order/recieved";
 
 	/**
 	 ******************************************* URL协议结束 ******************************************
@@ -119,6 +113,8 @@ public class AppConfig {
 	public static final int REQUEST_SV_GET_SESSIONS = 0X0002;
 	// 检测版本
 	public static final int REQUEST_SV_POST_VERSION = 0X0003;
+	// 上传图片
+	public static final int REQUEST_SV_UPLOAD_PHOTO = 0X0004;
 
 	// 提交登录
 	public static final int REQUEST_SV_AUTH_LOGIN = 0X0121;
@@ -141,8 +137,6 @@ public class AppConfig {
 	// 首页列表
 	public static final int REQUEST_SV_HOME_LIST = 0X1002;
 
-	// 上传头像
-	public static final int REQUEST_SV_UPLOAD_HEAD = 0X3001;
 	// 获取资料
 	public static final int REQUEST_SV_USER_GET = 0X3002;
 	// 修改资料
@@ -175,34 +169,20 @@ public class AppConfig {
 	// 默认地址
 	public static final int REQUEST_SV_ADDRESS_DEFAULT = 0X3204;
 
-	// 订单地址
-	public static final int REQUEST_SV_ORDER_UPDATE = 0X3301;
-
 	// 提交定制
-	public static final int REQUEST_SV_BOOKING_CREATE = 0X3402;
+	public static final int REQUEST_SV_ORDER_CREATE = 0X3402;
 	// 取消定制
-	public static final int REQUEST_SV_BOOKING_CANCEL = 0X3403;
+	public static final int REQUEST_SV_ORDER_CANCEL = 0X3403;
 	// 删除定制
-	public static final int REQUEST_SV_BOOKING_DELETE = 0X3404;
+	public static final int REQUEST_SV_ORDER_DELETE = 0X3404;
 	// 定制列表
-	public static final int REQUEST_SV_BOOKING_LIST= 0X3411;
+	public static final int REQUEST_SV_ORDER_LIST= 0X3411;
 	// 定制详情
-	public static final int REQUEST_SV_BOOKING_INFO = 0X3412;
-	// 确认设计
-	public static final int REQUEST_SV_BOOKING_DESIGNS = 0X3413;
-	// 确认支付
-	public static final int REQUEST_SV_BOOKING_PAYMENT = 0X3414;
+	public static final int REQUEST_SV_ORDER_INFO = 0X3412;
+	// 定制商品
+	public static final int REQUEST_SV_ORDER_GOODS = 0X3413;
 	// 确认收货
-	public static final int REQUEST_SV_BOOKING_RECEIVE = 0X3415;
-	// 确认安装
-	public static final int REQUEST_SV_BOOKING_INSTALL = 0X3416;
-
-	// 商品售后
-	public static final int REQUEST_SV_GOODS_SALE = 0X3501;
-	// 退款详情
-	public static final int REQUEST_SV_REFUND_DETAIL = 0X3511;
-	// 评论照片
-	public static final int REQUEST_SV_UPLOAD_COMMENT_PHOTO = 0X3521;
+	public static final int REQUEST_SV_ORDER_RECEIVE = 0X3415;
 
 	/**
 	 ******************************************* RequestCode协议结束 ******************************************
@@ -233,14 +213,12 @@ public class AppConfig {
 	public static final int ERROR_CODE_PHONE_UNREGISTERED = 706;
 
 	// 订单状态码
-	public static final int ORDER_STATUS_101 = 101; //待审核
-	public static final int ORDER_STATUS_102 = 102; //已拒绝
-	public static final int ORDER_STATUS_103 = 103; //已取消
-	public static final int ORDER_STATUS_201 = 201; //待核价
-	public static final int ORDER_STATUS_301 = 301; //生产中
+	public static final int ORDER_STATUS_101 = 3; //待审核
+	public static final int ORDER_STATUS_102 = 102; //已取消
+	public static final int ORDER_STATUS_104 = 104; //已拒绝
+	public static final int ORDER_STATUS_201 = 5; //待核价
+	public static final int ORDER_STATUS_301 = 201; //生产中
 	public static final int ORDER_STATUS_401 = 401; //已发货
-	public static final int ORDER_STATUS_501 = 501; //已签收
-	public static final int ORDER_STATUS_701 = 701; //待安装
 	public static final int ORDER_STATUS_801 = 800; //已完成
 
 	// 图片宽高比例

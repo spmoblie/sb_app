@@ -6,13 +6,12 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.songbao.sampo_b.AppApplication;
-import com.songbao.sampo_b.AppConfig;
 import com.songbao.sampo_b.R;
 import com.songbao.sampo_b.activity.BaseActivity;
 import com.songbao.sampo_b.dialog.DialogManager;
-import com.songbao.sampo_b.entity.FileEntity;
 import com.songbao.sampo_b.utils.FileManager;
 import com.songbao.sampo_b.utils.LogUtil;
+import com.songbao.sampo_b.utils.StringUtil;
 import com.songbao.sampo_b.utils.download.DownloadListener;
 import com.songbao.sampo_b.utils.download.DownloadUtil;
 
@@ -32,7 +31,6 @@ public class FileActivity extends BaseActivity implements View.OnClickListener {
     @BindView(R.id.file_tv_download)
     TextView tv_download;
 
-    private FileEntity fileEn;
     private String fileUrl, filePath;
 
     @Override
@@ -40,7 +38,7 @@ public class FileActivity extends BaseActivity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_file);
 
-        fileEn = (FileEntity) getIntent().getSerializableExtra(AppConfig.PAGE_DATA);
+        fileUrl = getIntent().getStringExtra("fileUrl");
 
         initView();
     }
@@ -50,11 +48,12 @@ public class FileActivity extends BaseActivity implements View.OnClickListener {
 
         tv_download.setOnClickListener(this);
 
-        if (fileEn != null) {
-            tv_name.setText(fileEn.getName());
+        if (!StringUtil.isNull(fileUrl) && fileUrl.contains("/")) {
+            String[] urls = fileUrl.split("/");
+            String fileName = urls[urls.length-1];
+            tv_name.setText(fileName);
 
-            fileUrl = fileEn.getFileUrl();
-            filePath = SAVE_PATH_DOWNLOAD + fileEn.getName();
+            filePath = SAVE_PATH_DOWNLOAD + fileName;
 
             if (FileManager.checkFileExists(filePath)) {
                 tv_download.setText(getString(R.string.see));

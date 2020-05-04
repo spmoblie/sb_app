@@ -84,7 +84,7 @@ public class CustomizeAdapter extends BaseRecyclerAdapter<OCustomizeEntity> {
                 tv_click.setTextColor(context.getResources().getColor(R.color.app_color_gray_5));
                 tv_click.setBackgroundResource(R.drawable.shape_style_empty_02_08);
                 break;
-            case AppConfig.ORDER_STATUS_102: //已拒绝
+            case AppConfig.ORDER_STATUS_104: //已拒绝
                 tv_status.setText(context.getString(R.string.order_refused));
                 tv_status.setBackgroundResource(R.drawable.shape_style_solid_05_04);
                 tv_click.setVisibility(View.VISIBLE);
@@ -92,7 +92,7 @@ public class CustomizeAdapter extends BaseRecyclerAdapter<OCustomizeEntity> {
                 tv_click.setTextColor(context.getResources().getColor(R.color.app_color_gray_5));
                 tv_click.setBackgroundResource(R.drawable.shape_style_empty_02_08);
                 break;
-            case AppConfig.ORDER_STATUS_103: //已取消
+            case AppConfig.ORDER_STATUS_102: //已取消
             default:
                 tv_status.setText(context.getString(R.string.order_cancelled));
                 tv_status.setBackgroundResource(R.drawable.shape_style_solid_03_04);

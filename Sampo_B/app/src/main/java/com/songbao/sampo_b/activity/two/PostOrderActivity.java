@@ -6,7 +6,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.songbao.sampo_b.AppApplication;
 import com.songbao.sampo_b.AppConfig;
@@ -18,15 +20,19 @@ import com.songbao.sampo_b.entity.BaseEntity;
 import com.songbao.sampo_b.entity.GoodsEntity;
 import com.songbao.sampo_b.entity.OCustomizeEntity;
 import com.songbao.sampo_b.utils.CleanDataManager;
+import com.songbao.sampo_b.utils.CommonTools;
 import com.songbao.sampo_b.utils.ExceptionUtil;
 import com.songbao.sampo_b.utils.FileManager;
 import com.songbao.sampo_b.utils.JsonUtils;
 import com.songbao.sampo_b.utils.LogUtil;
+import com.songbao.sampo_b.utils.StringUtil;
 import com.songbao.sampo_b.widgets.ScrollViewListView;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 
@@ -45,12 +51,18 @@ public class PostOrderActivity extends BaseActivity implements View.OnClickListe
     @BindView(R.id.post_order_tv_price_show)
     TextView tv_price_total;
 
+    @BindView(R.id.post_order_et_order_remarks)
+    EditText et_remarks;
+
     @BindView(R.id.post_order_tv_confirm)
     TextView tv_confirm;
 
     GoodsOrderEditAdapter lv_adapter;
 
-    private int mPosition = -1;
+    private int editPos = -1;
+    private int goodsPos, imagePos;
+    private double priceTotal;
+    private String orderRemarks;
     private ArrayList<GoodsEntity> al_goods = new ArrayList<>();
 
     @Override
@@ -86,7 +98,7 @@ public class PostOrderActivity extends BaseActivity implements View.OnClickListe
                 @Override
                 public void setOnClick(Object data, int position, int type) {
                     if (position < 0 || position >= al_goods.size()) return;
-                    mPosition = position;
+                    editPos = position;
                     GoodsEntity goodsEn = al_goods.get(position);
                     if (goodsEn != null) {
                         switch (type) {
@@ -97,7 +109,7 @@ public class PostOrderActivity extends BaseActivity implements View.OnClickListe
                                 showConfirmDialog(getString(R.string.order_goods_delete), getString(R.string.cancel), getString(R.string.confirm), new MyHandler(PostOrderActivity.this), 1);
                                 break;
                             case 6: //滚动
-                                lv_adapter.reset(mPosition);
+                                lv_adapter.reset(editPos);
                                 break;
                         }
                     }
@@ -114,7 +126,7 @@ public class PostOrderActivity extends BaseActivity implements View.OnClickListe
     }
 
     private void updateOrderPrice() {
-        double priceTotal = 0;
+        priceTotal = 0;
         for (GoodsEntity goodsEn : al_goods) {
             priceTotal += goodsEn.getPrice() * goodsEn.getNumber();
         }
@@ -122,7 +134,7 @@ public class PostOrderActivity extends BaseActivity implements View.OnClickListe
     }
 
     private void deleteOrderData() {
-        al_goods.remove(mPosition);
+        al_goods.remove(editPos);
         OCustomizeEntity ocCacheEn = new OCustomizeEntity();
         ocCacheEn.setGoodsList(al_goods);
         FileManager.writeFileSaveObject(AppConfig.orderDataFileName, ocCacheEn, 0);
@@ -136,7 +148,7 @@ public class PostOrderActivity extends BaseActivity implements View.OnClickListe
     protected void openGoodsEditActivity(GoodsEntity goodsEn) {
         Intent intent = new Intent(mContext, GoodsEditActivity.class);
         intent.putExtra("isEdit", true);
-        intent.putExtra("editPos", mPosition);
+        intent.putExtra("editPos", editPos);
         intent.putExtra(AppConfig.PAGE_DATA, goodsEn);
         startActivity(intent);
     }
@@ -148,9 +160,21 @@ public class PostOrderActivity extends BaseActivity implements View.OnClickListe
                 openActivity(GoodsSortActivity.class);
                 break;
             case R.id.post_order_tv_confirm:
-                postOrderData();
+                if (checkData()) {
+                    checkPhotoUrl();
+                }
                 break;
         }
+    }
+
+    private boolean checkData() {
+        orderRemarks = et_remarks.getText().toString();
+        // 校验非空
+        if (al_goods.size() <= 0) {
+            CommonTools.showToast(getString(R.string.order_goods_null_hint));
+            return false;
+        }
+        return true;
     }
 
     @Override
@@ -194,14 +218,70 @@ public class PostOrderActivity extends BaseActivity implements View.OnClickListe
         showConfirmDialog(getString(R.string.order_abandon), getString(R.string.delete_think),getString(R.string.leave_confirm), new MyHandler(this), 4);
     }
 
+    private void checkPhotoUrl() {
+        if (isUpload()) {
+            String photoUrl = al_goods.get(goodsPos).getImageList().get(imagePos);
+            uploadPhoto(photoUrl);
+        } else {
+            postOrderData();
+        }
+    }
+
+    private boolean isUpload() {
+        GoodsEntity goodsEn;
+        String photoUrl = "";
+        for (int i = 0; i < al_goods.size(); i++) {
+            goodsPos = i;
+            goodsEn = al_goods.get(goodsPos);
+            if (goodsEn != null && goodsEn.getImageList() != null) {
+                for (int j = 0; j < goodsEn.getImageList().size(); j++) {
+                    imagePos = j;
+                    photoUrl = goodsEn.getImageList().get(imagePos);
+                    if (!StringUtil.isNull(photoUrl) && !photoUrl.contains("http://")) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * 上传照片
+     */
+    private void uploadPhoto(String photoUrl) {
+        if (!StringUtil.isNull(photoUrl)) {
+            startAnimation();
+            uploadPushFile(new File(photoUrl), 2, AppConfig.REQUEST_SV_UPLOAD_PHOTO);
+        }
+    }
+
     /**
      * 提交订单
      */
     private void postOrderData() {
         try {
             JSONObject jsonObj = new JSONObject();
-            jsonObj.put("consigneeId", "");
-            //postJsonData(AppConfig.URL_ORDER_CREATE, jsonObj, AppConfig.REQUEST_SV_ORDER_CREATE);
+            jsonObj.put("customPrice", priceTotal);
+            jsonObj.put("remark", orderRemarks);
+
+            JSONArray jsonArr = new JSONArray();
+            for (int i = 0; i < al_goods.size(); i++) {
+                GoodsEntity goodsEn = al_goods.get(i);
+                if (goodsEn != null) {
+                    JSONObject goodsJson = new JSONObject();
+                    goodsJson.put("productName", goodsEn.getName());
+                    goodsJson.put("vcrUrl", goodsEn.getEffectUrl());
+                    goodsJson.put("buyNum", goodsEn.getNumber());
+                    goodsJson.put("buyPrice", goodsEn.getPrice());
+                    goodsJson.put("remark", goodsEn.getRemarks());
+                    goodsJson.put("pics", new JSONArray(goodsEn.getImageList()));
+                    jsonArr.put(i, goodsJson);
+                }
+            }
+            jsonObj.put("products", jsonArr);
+
+            postJsonData(AppConfig.URL_ORDER_CREATE, jsonObj, AppConfig.REQUEST_SV_ORDER_CREATE);
         } catch (JSONException e) {
             ExceptionUtil.handle(e);
         }
@@ -209,13 +289,41 @@ public class PostOrderActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     protected void callbackData(JSONObject jsonObject, int dataType) {
-        BaseEntity<OCustomizeEntity> baseEn;
+        BaseEntity baseEn;
         try {
             switch (dataType) {
-                case AppConfig.REQUEST_SV_AUTH_OAUTH:
-                    baseEn = JsonUtils.getPayOrderOn(jsonObject);
+                case AppConfig.REQUEST_SV_UPLOAD_PHOTO:
+                    baseEn = JsonUtils.getUploadResult(jsonObject);
                     if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
-
+                        if (goodsPos >= 0 && goodsPos < al_goods.size()) {
+                            ArrayList<String> imgList = al_goods.get(goodsPos).getImageList();
+                            if (imgList != null) {
+                                ArrayList<String> newList = new ArrayList<>();
+                                for (int i = 0; i < imgList.size(); i++) {
+                                    if (imagePos == i) {
+                                        newList.add(baseEn.getOthers());
+                                    } else {
+                                        newList.add(imgList.get(i));
+                                    }
+                                }
+                                al_goods.get(goodsPos).setImageList(newList);
+                            }
+                        }
+                        checkPhotoUrl();
+                    } else {
+                        handleErrorCode(baseEn);
+                    }
+                    break;
+                case AppConfig.REQUEST_SV_ORDER_CREATE:
+                    baseEn = JsonUtils.getBaseErrorData(jsonObject);
+                    if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
+                        CommonTools.showToast(getString(R.string.order_post_ok));
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                finish();
+                            }
+                        }, 500);
                     } else {
                         handleErrorCode(baseEn);
                     }

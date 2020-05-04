@@ -171,7 +171,7 @@ public class CommentPostActivity extends BaseActivity implements OnClickListener
 		contentStr = et_comment.getText().toString();
 		// 校验非空
 		if (StringUtil.isNull(contentStr)) {
-			CommonTools.showToast(getString(R.string.comment_content_null), Toast.LENGTH_SHORT);
+			CommonTools.showToast(getString(R.string.comment_content_null));
 			return false;
 		}
 		return true;
@@ -259,7 +259,7 @@ public class CommentPostActivity extends BaseActivity implements OnClickListener
 	private void uploadPhoto(String photoUrl) {
 		if (!StringUtil.isNull(photoUrl)) {
 			startAnimation();
-			uploadPushFile(new File(photoUrl), 2, AppConfig.REQUEST_SV_UPLOAD_COMMENT_PHOTO);
+			uploadPushFile(new File(photoUrl), 2, AppConfig.REQUEST_SV_UPLOAD_PHOTO);
 		}
 	}
 
@@ -276,7 +276,7 @@ public class CommentPostActivity extends BaseActivity implements OnClickListener
 		BaseEntity baseEn;
 		try {
 			switch (dataType) {
-				case AppConfig.REQUEST_SV_UPLOAD_COMMENT_PHOTO:
+				case AppConfig.REQUEST_SV_UPLOAD_PHOTO:
 					baseEn = JsonUtils.getUploadResult(jsonObject);
 					if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
 						al_image_url.add(baseEn.getOthers());

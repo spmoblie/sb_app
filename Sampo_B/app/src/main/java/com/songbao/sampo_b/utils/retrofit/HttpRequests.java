@@ -76,6 +76,9 @@ public class HttpRequests extends ObjectLoader {
                             case 4:
                                 observable = observe(httpService.get(head, roots[0], roots[1], roots[2], roots[3], map));
                                 break;
+                            case 5:
+                                observable = observe(httpService.get(head, roots[0], roots[1], roots[2], roots[3], roots[4], map));
+                                break;
                         }
                     }
                     break;
@@ -93,6 +96,9 @@ public class HttpRequests extends ObjectLoader {
                             break;
                         case 4:
                             observable = observe(httpService.post(head, roots[0], roots[1], roots[2], roots[3], map));
+                            break;
+                        case 5:
+                            observable = observe(httpService.post(head, roots[0], roots[1], roots[2], roots[3], roots[4], map));
                             break;
                     }
                     break;
@@ -124,6 +130,9 @@ public class HttpRequests extends ObjectLoader {
                     break;
                 case 4:
                     observable = observe(httpService.postJson(head, roots[0], roots[1], roots[2], roots[3], body));
+                    break;
+                case 5:
+                    observable = observe(httpService.postJson(head, roots[0], roots[1], roots[2], roots[3], roots[4], body));
                     break;
             }
         } catch (Exception e) {
@@ -188,6 +197,9 @@ public class HttpRequests extends ObjectLoader {
         @GET("{root1}/{root2}/{root3}/{path}")
         Observable<ResponseBody> get(@Header("url_head") String head, @Path("root1") String root1, @Path("root2") String root2, @Path("root3") String root3, @Path("path") String path, @QueryMap Map<String, Object> map);
 
+        @GET("{root1}/{root2}/{root3}/{root4}/{path}")
+        Observable<ResponseBody> get(@Header("url_head") String head, @Path("root1") String root1, @Path("root2") String root2, @Path("root3") String root3, @Path("root4") String root4, @Path("path") String path, @QueryMap Map<String, Object> map);
+
         //Post
         @FormUrlEncoded
         @POST("{path}")
@@ -205,6 +217,10 @@ public class HttpRequests extends ObjectLoader {
         @POST("{root1}/{root2}/{root3}/{path}")
         Observable<ResponseBody> post(@Header("url_head") String head, @Path("root1") String root1, @Path("root2") String root2, @Path("root3") String root3, @Path("path") String path, @FieldMap Map<String, Object> map);
 
+        @FormUrlEncoded
+        @POST("{root1}/{root2}/{root3}/{root4}/{path}")
+        Observable<ResponseBody> post(@Header("url_head") String head, @Path("root1") String root1, @Path("root2") String root2, @Path("root3") String root3, @Path("root4") String root4, @Path("path") String path, @FieldMap Map<String, Object> map);
+
         //Post Json
         @POST("{path}")
         @Headers({"Content-Type: application/json;charset=UTF-8"})
@@ -221,6 +237,10 @@ public class HttpRequests extends ObjectLoader {
         @POST("{root1}/{root2}/{root3}/{path}")
         @Headers({"Content-Type: application/json;charset=UTF-8"})
         Observable<ResponseBody> postJson(@Header("url_head") String head, @Path("root1") String root1, @Path("root2") String root2, @Path("root3") String root3, @Path("path") String path, @Body RequestBody body);
+
+        @POST("{root1}/{root2}/{root3}/{root4}/{path}")
+        @Headers({"Content-Type: application/json;charset=UTF-8"})
+        Observable<ResponseBody> postJson(@Header("url_head") String head, @Path("root1") String root1, @Path("root2") String root2, @Path("root3") String root3, @Path("root4") String root4, @Path("path") String path, @Body RequestBody body);
 
         //Upload File
         @Multipart
