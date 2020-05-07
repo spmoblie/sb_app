@@ -176,6 +176,10 @@
 
         <!-- mine -->
         <activity
+            android:name=".activity.mine.AboutActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"/>
+        <activity
             android:name=".activity.mine.AddressActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"/>

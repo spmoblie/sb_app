@@ -26,7 +26,6 @@ import com.songbao.sampo_b.widgets.pullrefresh.PullToRefreshBase;
 import com.songbao.sampo_b.widgets.pullrefresh.PullToRefreshRecyclerView;
 import com.songbao.sampo_b.widgets.recycler.MyRecyclerView;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.ref.WeakReference;
@@ -543,39 +542,27 @@ public class CustomizeListActivity extends BaseActivity implements View.OnClickL
      * 确认收货
      */
     private void postConfirmReceive() {
-        try {
-            JSONObject jsonObj = new JSONObject();
-            jsonObj.put("customCode", selectOrderNo);
-            postJsonData(AppConfig.URL_ORDER_RECEIVE, jsonObj, AppConfig.REQUEST_SV_ORDER_RECEIVE);
-        } catch (JSONException e) {
-            ExceptionUtil.handle(e);
-        }
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("customCode", selectOrderNo);
+        loadSVData(AppConfig.URL_ORDER_RECEIVE, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_ORDER_RECEIVE);
     }
 
     /**
      * 取消订单
      */
     private void postConfirmCancel() {
-        try {
-            JSONObject jsonObj = new JSONObject();
-            jsonObj.put("customCode", selectOrderNo);
-            postJsonData(AppConfig.URL_ORDER_CANCEL, jsonObj, AppConfig.REQUEST_SV_ORDER_CANCEL);
-        } catch (JSONException e) {
-            ExceptionUtil.handle(e);
-        }
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("customCode", selectOrderNo);
+        loadSVData(AppConfig.URL_ORDER_CANCEL, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_ORDER_CANCEL);
     }
 
     /**
      * 删除订单
      */
     private void postConfirmDelete() {
-        try {
-            JSONObject jsonObj = new JSONObject();
-            jsonObj.put("customCode", selectOrderNo);
-            postJsonData(AppConfig.URL_ORDER_DELETE, jsonObj, AppConfig.REQUEST_SV_ORDER_DELETE);
-        } catch (JSONException e) {
-            ExceptionUtil.handle(e);
-        }
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("customCode", selectOrderNo);
+        loadSVData(AppConfig.URL_ORDER_DELETE, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_ORDER_DELETE);
     }
 
     @Override
@@ -699,7 +686,7 @@ public class CustomizeListActivity extends BaseActivity implements View.OnClickL
                     }
                     break;
                 case AppConfig.REQUEST_SV_ORDER_CANCEL:
-                    baseEn = JsonUtils.getCustomizeDetailData(jsonObject);
+                    baseEn = JsonUtils.getBaseErrorData(jsonObject);
                     if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
                         dataStatusUpdate(AppConfig.ORDER_STATUS_102);
                     } else {
@@ -707,7 +694,7 @@ public class CustomizeListActivity extends BaseActivity implements View.OnClickL
                     }
                     break;
                 case AppConfig.REQUEST_SV_ORDER_DELETE:
-                    baseEn = JsonUtils.getCustomizeDetailData(jsonObject);
+                    baseEn = JsonUtils.getBaseErrorData(jsonObject);
                     if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
                         deleteOrderUpdate();
                     } else {

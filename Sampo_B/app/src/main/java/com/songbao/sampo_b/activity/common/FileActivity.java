@@ -54,12 +54,16 @@ public class FileActivity extends BaseActivity implements View.OnClickListener {
             tv_name.setText(fileName);
 
             filePath = SAVE_PATH_DOWNLOAD + fileName;
-
-            if (FileManager.checkFileExists(filePath)) {
-                tv_download.setText(getString(R.string.see));
-            }
         }
+        changeClickText();
+    }
 
+    private void changeClickText() {
+        if (FileManager.checkFileExists(filePath)) {
+            tv_download.setText(getString(R.string.see));
+        } else {
+            tv_download.setText(getString(R.string.download));
+        }
     }
 
     @Override
@@ -120,6 +124,7 @@ public class FileActivity extends BaseActivity implements View.OnClickListener {
 
             @Override
             public void onFinish(File file) {
+                changeClickText();
                 FileManager.openFile(mContext, new File(filePath));
                 if (myDialog != null) {
                     myDialog.dismiss();

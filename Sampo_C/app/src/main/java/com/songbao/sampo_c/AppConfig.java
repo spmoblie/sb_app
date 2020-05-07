@@ -431,9 +431,9 @@ public class AppConfig {
 	// 联系客服网址-吐个槽
 	public static final String SALE_HELP = "https://support.qq.com/product/135418";
 	// 《隐私政策》
-	public static final String PRIVACY_POLICY = "http://test.sbwg.cn/otherH5/SBWGINFO.html?type=1";
+	public static final String PRIVACY_POLICY = "http://xiaobao.sbwg.cn/otherH5/SBWGINFO.html?type=1";
 	// 《用户协议》
-	public static final String USER_AGREEMENT = "http://test.sbwg.cn/otherH5/SBWGINFO.html?type=2";
+	public static final String USER_AGREEMENT = "http://xiaobao.sbwg.cn/otherH5/SBWGINFO.html?type=2";
 
 	// 动态授权-权限集
 	public static final String[] PERMISSIONS = new String[]{

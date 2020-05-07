@@ -5,6 +5,7 @@ import android.graphics.Paint;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.constraint.ConstraintLayout;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -88,8 +89,14 @@ public class CustomizeOrderActivity extends BaseActivity implements OnClickListe
     @BindView(R.id.customize_order_tv_time_receive)
     TextView tv_time_receive;
 
+    @BindView(R.id.customize_order_remarks_main)
+    ConstraintLayout remarks_main;
+
+    @BindView(R.id.customize_order_tv_order_remarks)
+    TextView tv_remarks;
+
     @BindView(R.id.customize_order_tv_order_remarks_show)
-    TextView tv_order_remarks;
+    TextView tv_remarks_show;
 
     @BindView(R.id.customize_order_tv_order_other)
     TextView tv_other;
@@ -143,7 +150,6 @@ public class CustomizeOrderActivity extends BaseActivity implements OnClickListe
         tv_click.setOnClickListener(this);
 
         if (ocEn != null) {
-            status = ocEn.getStatus();
             orderNo = ocEn.getOrderNo();
             loadOrderData();
         }
@@ -152,7 +158,7 @@ public class CustomizeOrderActivity extends BaseActivity implements OnClickListe
     private void initShowData() {
         if (ocEn != null) {
             isOnClick = false;
-            //status = ocEn.getStatus();
+            status = ocEn.getStatus();
             switch (status) {
                 case AppConfig.ORDER_STATUS_101: //待审核
                     setRightViewText(getString(R.string.order_cancel));
@@ -216,6 +222,7 @@ public class CustomizeOrderActivity extends BaseActivity implements OnClickListe
             al_goods.addAll(ocEn.getGoodsList());
             initGoodsListView();
 
+            remarks_main.setVisibility(View.GONE);
             tv_nullify.setVisibility(View.GONE);
             tv_price.setText(df.format(ocEn.getPriceOne()));
             tv_curr.setTextColor(getResources().getColor(R.color.app_color_black));
@@ -223,6 +230,7 @@ public class CustomizeOrderActivity extends BaseActivity implements OnClickListe
             if (status == AppConfig.ORDER_STATUS_104) { //已拒绝
                 // 审核备注
                 if (!StringUtil.isNull(ocEn.getCheckRemarks())) {
+                    showRemarksView();
                     tv_other.setVisibility(View.VISIBLE);
                     tv_other.setText(getString(R.string.order_check_remarks));
                     tv_other.setTextColor(getResources().getColor(R.color.price_text_color));
@@ -232,6 +240,7 @@ public class CustomizeOrderActivity extends BaseActivity implements OnClickListe
                 }
                 // 文件备注
                 if (ocEn.getFilesList() != null && ocEn.getFilesList().size() > 0) {
+                    showRemarksView();
                     lv_files.setVisibility(View.VISIBLE);
                     initFileListView(ocEn.getFilesList());
                 } else {
@@ -239,6 +248,7 @@ public class CustomizeOrderActivity extends BaseActivity implements OnClickListe
                 }
                 // 图片备注
                 if (ocEn.getImageList() != null && ocEn.getImageList().size() > 0) {
+                    showRemarksView();
                     sv_image.setVisibility(View.VISIBLE);
                     initImageScrollView(ll_sv_main, ocEn.getImageList());
                 } else {
@@ -257,12 +267,14 @@ public class CustomizeOrderActivity extends BaseActivity implements OnClickListe
 
                     // 核价备注
                     if (!StringUtil.isNull(ocEn.getPriceRemarks())) {
+                        showRemarksView();
                         tv_other.setVisibility(View.VISIBLE);
                         tv_other_show.setVisibility(View.VISIBLE);
                         tv_other_show.setText(ocEn.getPriceRemarks());
                     }
                     // 图片备注
                     if (ocEn.getImageList() != null && ocEn.getImageList().size() > 0) {
+                        showRemarksView();
                         sv_image.setVisibility(View.VISIBLE);
                         initImageScrollView(ll_sv_main, ocEn.getImageList());
                     } else {
@@ -291,7 +303,18 @@ public class CustomizeOrderActivity extends BaseActivity implements OnClickListe
                 tv_time_receive.setVisibility(View.VISIBLE);
                 tv_time_receive.setText(getString(R.string.order_time_receive, ocEn.getNodeTime5()));
             }
-            tv_order_remarks.setText(ocEn.getOrderRemarks());
+            if (!StringUtil.isNull(ocEn.getOrderRemarks())) {
+                showRemarksView();
+                tv_remarks.setVisibility(View.VISIBLE);
+                tv_remarks_show.setVisibility(View.VISIBLE);
+                tv_remarks_show.setText(ocEn.getOrderRemarks());
+            }
+        }
+    }
+
+    private void showRemarksView() {
+        if (remarks_main.getVisibility() == View.GONE) {
+            remarks_main.setVisibility(View.VISIBLE);
         }
     }
 
@@ -341,6 +364,9 @@ public class CustomizeOrderActivity extends BaseActivity implements OnClickListe
             final String imgUrl = imgList.get(i);
             RoundImageView iv_img = new RoundImageView(mContext);
             iv_img.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            if (i == imgCount - 1) {
+                goodsImgLP.setMargins(0, 0, 0, 0);
+            }
             iv_img.setLayoutParams(goodsImgLP);
 
             iv_img.setOnClickListener(new OnClickListener() {
@@ -444,43 +470,32 @@ public class CustomizeOrderActivity extends BaseActivity implements OnClickListe
         loadSVData(AppConfig.URL_ORDER_INFO, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_ORDER_INFO);
     }
 
+
     /**
      * 确认收货
      */
     private void postConfirmReceive() {
-        try {
-            JSONObject jsonObj = new JSONObject();
-            jsonObj.put("customCode", orderNo);
-            postJsonData(AppConfig.URL_ORDER_RECEIVE, jsonObj, AppConfig.REQUEST_SV_ORDER_RECEIVE);
-        } catch (JSONException e) {
-            ExceptionUtil.handle(e);
-        }
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("customCode", orderNo);
+        loadSVData(AppConfig.URL_ORDER_RECEIVE, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_ORDER_RECEIVE);
     }
 
     /**
      * 取消订单
      */
     private void postConfirmCancel() {
-        try {
-            JSONObject jsonObj = new JSONObject();
-            jsonObj.put("customCode", orderNo);
-            postJsonData(AppConfig.URL_ORDER_CANCEL, jsonObj, AppConfig.REQUEST_SV_ORDER_CANCEL);
-        } catch (JSONException e) {
-            ExceptionUtil.handle(e);
-        }
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("customCode", orderNo);
+        loadSVData(AppConfig.URL_ORDER_CANCEL, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_ORDER_CANCEL);
     }
 
     /**
      * 删除订单
      */
     private void postConfirmDelete() {
-        try {
-            JSONObject jsonObj = new JSONObject();
-            jsonObj.put("customCode", orderNo);
-            postJsonData(AppConfig.URL_ORDER_DELETE, jsonObj, AppConfig.REQUEST_SV_ORDER_DELETE);
-        } catch (JSONException e) {
-            ExceptionUtil.handle(e);
-        }
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("customCode", orderNo);
+        loadSVData(AppConfig.URL_ORDER_DELETE, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_ORDER_DELETE);
     }
 
     @Override

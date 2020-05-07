@@ -177,6 +177,9 @@ public class CustomizeGoodsActivity extends BaseActivity implements OnClickListe
             final String imgUrl = al_image.get(i);
             RoundImageView iv_img = new RoundImageView(mContext);
             iv_img.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            if (i == imgCount - 1) {
+                goodsImgLP.setMargins(0, 0, 0, 0);
+            }
             iv_img.setLayoutParams(goodsImgLP);
 
             iv_img.setOnClickListener(new OnClickListener() {
@@ -219,7 +222,7 @@ public class CustomizeGoodsActivity extends BaseActivity implements OnClickListe
                 copyString(effectUrl, getString(R.string.share_msg_copy_link_ok));
                 break;
             case R.id.customize_goods_tv_effect_check:
-                openWebViewActivity(getString(R.string.goods_effect), effectUrl, null);
+                openWebViewActivity(getString(R.string.goods_effect), effectUrl);
                 break;
         }
     }

@@ -308,7 +308,7 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
         switch (v.getId()) {
             case R.id.goods_tv_effect_check:
                 if (goodsEn != null) {
-                    openWebViewActivity(getString(R.string.goods_effect), goodsEn.getEffectUrl(), null);
+                    openWebViewActivity(getString(R.string.goods_effect), goodsEn.getEffectUrl());
                 }
                 break;
             case R.id.goods_tv_click:

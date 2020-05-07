@@ -118,9 +118,9 @@ public class GoodsEditActivity extends BaseActivity implements OnClickListener {
         tv_confirm.setOnClickListener(this);
 
         showOptions = new RequestOptions()
-                .placeholder(R.drawable.icon_photo_add)
+                .placeholder(R.drawable.icon_default_show)
                 .fallback(R.drawable.icon_photo_add)
-                .error(R.drawable.icon_photo_add);
+                .error(R.drawable.icon_default_show);
 
         goodsNum = 1;
         if (data != null) {
@@ -148,7 +148,7 @@ public class GoodsEditActivity extends BaseActivity implements OnClickListener {
         al_photos_add.addAll(al_photos_url);
         photoNum = al_photos_url.size();
         if (photoNum < 9) {
-            al_photos_add.add("add");
+            al_photos_add.add(null);
         }
         initPhotoView();
     }

@@ -168,11 +168,11 @@
             </android.support.constraint.ConstraintLayout>
 
             <android.support.constraint.ConstraintLayout
+                android:id="@+id/customize_order_remarks_main"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/app_margin_screen"
                 android:background="@drawable/shape_style_solid_01_16"
-                android:paddingTop="@dimen/app_margin_screen"
                 android:paddingBottom="@dimen/app_margin_screen">
 
                 <TextView
@@ -180,7 +180,9 @@
                     style="@style/block_title_text"
                     android:text="@string/order_remarks"
                     android:textSize="@dimen/app_text_size_content"
+                    android:layout_marginTop="@dimen/app_margin_screen"
                     android:layout_marginStart="@dimen/app_margin_screen"
+                    android:visibility="gone"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
@@ -191,6 +193,7 @@
                     android:layout_marginTop="@dimen/margin_padding_10"
                     android:layout_marginStart="@dimen/app_margin_screen"
                     android:layout_marginEnd="@dimen/app_margin_screen"
+                    android:visibility="gone"
                     app:layout_constraintHorizontal_weight="1"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"

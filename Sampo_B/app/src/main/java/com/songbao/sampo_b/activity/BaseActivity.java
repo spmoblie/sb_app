@@ -450,6 +450,15 @@ public class BaseActivity extends FragmentActivity {
      * 跳转至WebView
      * @param title
      * @param url
+     */
+    protected void openWebViewActivity(String title, String url) {
+        openWebViewActivity(title, url, null);
+    }
+
+    /**
+     * 跳转至WebView
+     * @param title
+     * @param url
      * @param shareEn
      */
     protected void openWebViewActivity(String title, String url, ShareEntity shareEn) {

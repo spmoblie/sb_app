@@ -324,7 +324,7 @@ public class JsonUtils {
                 for (int j = 0; j < data.length(); j++) {
                     JSONObject item = data.getJSONObject(j);
                     childEn = new OCustomizeEntity();
-                    childEn.setId(item.getInt("shopId"));
+                    childEn.setId(item.getInt("id"));
                     childEn.setStatus(item.getInt("customStatus"));
                     childEn.setOrderNo(item.getString("customCode"));
                     childEn.setNodeTime1(item.getString("createTime"));
