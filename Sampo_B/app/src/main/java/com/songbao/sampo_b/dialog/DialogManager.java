@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.songbao.sampo_b.AppConfig;
@@ -32,6 +33,7 @@ public class DialogManager {
 
 	private WeakReference<Context> weakContext;
 	private Dialog mDialog;
+	private ProgressBar pBar;
 	private static DialogManager instance;
 
 	private DialogManager(Context context) {
@@ -61,33 +63,41 @@ public class DialogManager {
 			mDialog.dismiss();
 			mDialog = null;
 		}
+		pBar = null;
 	}
 
 	/**
 	 * 弹出下载缓冲对话框
-	 * 
+	 *
+	 * @param length 加载进度
 	 * @param width 对话框宽度
 	 * @param keyListener 物理键盘监听器
 	 */
-	public void showLoadDialog(int width, OnKeyListener keyListener){
-		// 销毁旧对话框
-		dismiss();
-		// 创建新对话框
-		mDialog = new Dialog(weakContext.get(), R.style.MyDialog);
-		mDialog.setCanceledOnTouchOutside(false);
-		if (keyListener != null) {
-			mDialog.setOnKeyListener(keyListener);
+	public void showLoadDialog(int length, int width, OnKeyListener keyListener){
+		if (mDialog != null && mDialog.isShowing() && pBar != null) {
+			pBar.setProgress(length);
+		} else {
+			// 销毁旧对话框
+			dismiss();
+			// 创建新对话框
+			mDialog = new Dialog(weakContext.get(), R.style.MyDialog);
+			mDialog.setCanceledOnTouchOutside(false);
+			if (keyListener != null) {
+				mDialog.setOnKeyListener(keyListener);
+			}
+			mDialog.setContentView(R.layout.dialog_download);
+			// 设置对话框的坐标及宽高
+			Window window = mDialog.getWindow();
+			if (window != null) {
+				LayoutParams lp = window.getAttributes();
+				lp.width = width;
+				window.setAttributes(lp);
+			}
+			pBar = mDialog.findViewById(R.id.dialog_progress_bar);
+			pBar.setProgress(length);
+			// 显示对话框
+			mDialog.show();
 		}
-		mDialog.setContentView(R.layout.dialog_download);
-		// 设置对话框的坐标及宽高
-		Window window = mDialog.getWindow();
-		if (window != null) {
-			LayoutParams lp = window.getAttributes();
-			lp.width = width;
-			window.setAttributes(lp);
-		}
-		// 显示对话框
-		mDialog.show();
 	}
 
 	/**
@@ -164,7 +174,7 @@ public class DialogManager {
 			lp.width = width;
 			window.setAttributes(lp);
 		}
-        // 初始化对话框中的子控件
+		// 初始化对话框中的子控件
 		TextView tv_content = mDialog.findViewById(R.id.dialog_content);
 		tv_content.setText(content);
 		if (!isCenter) { //不居中
@@ -186,7 +196,7 @@ public class DialogManager {
 
 	/**
 	 * 弹出两个按钮的通用对话框
-	 * 
+	 *
 	 * @param title 对话框标题
 	 * @param content 对话框内容
 	 * @param leftStr 对话框左边按钮文本
@@ -210,7 +220,7 @@ public class DialogManager {
 			lp.width = width;
 			window.setAttributes(lp);
 		}
-        // 初始化对话框中的子控件
+		// 初始化对话框中的子控件
 		TextView tv_title = mDialog.findViewById(R.id.dialog_title);
 		if (!StringUtil.isNull(title)) {
 			tv_title.setText(title);
@@ -231,7 +241,7 @@ public class DialogManager {
 				if (handler != null) { //取消
 					handler.sendEmptyMessage(AppConfig.DIALOG_CLICK_NO);
 				}
-				mDialog.dismiss(); 
+				mDialog.dismiss();
 			}
 		});
 		Button right = mDialog.findViewById(R.id.dialog_button_confirm);
@@ -304,7 +314,7 @@ public class DialogManager {
 		// 显示对话框
 		mDialog.show();
 	}
-	
+
 	/**
 	 * 弹出列表形式的对话框
 	 */
@@ -321,7 +331,7 @@ public class DialogManager {
 			lp.width = width;
 			window.setAttributes(lp);
 		}
-        // 初始化对话框中的子控件
+		// 初始化对话框中的子控件
 		TextView tv_title = mDialog.findViewById(R.id.dialog_list_title);
 		tv_title.setText(title);
 		if (!isCenter) { //不居中
@@ -329,7 +339,7 @@ public class DialogManager {
 		}
 		ListView lv = mDialog.findViewById(R.id.dialog_list_lv);
 		lv.setSelector(R.color.app_color_white);
-        ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(weakContext.get(), android.R.layout.simple_list_item_1, items) {
+		ArrayAdapter<CharSequence> adapter = new ArrayAdapter<CharSequence>(weakContext.get(), android.R.layout.simple_list_item_1, items) {
 
 			@Override
 			public @NonNull View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {

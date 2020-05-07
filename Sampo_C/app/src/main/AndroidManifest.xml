@@ -42,7 +42,7 @@
             android:name="org.apache.http.legacy"
             android:required="false" />
 
-        <!-- API23以上调用系统相机需配置 -->
+        <!-- API23以上调用系统应用需配置 -->
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="com.songbao.sampo_c.fileProvider"

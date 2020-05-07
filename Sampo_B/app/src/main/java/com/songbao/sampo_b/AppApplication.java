@@ -15,6 +15,7 @@ import android.util.DisplayMetrics;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.songbao.sampo_b.activity.MainActivity;
+import com.songbao.sampo_b.entity.OCustomizeEntity;
 import com.songbao.sampo_b.utils.BitmapUtil;
 import com.songbao.sampo_b.utils.CommonTools;
 import com.songbao.sampo_b.utils.DeviceUtil;
@@ -38,7 +39,7 @@ public class AppApplication extends Application {
 
     String TAG = AppApplication.class.getSimpleName();
 
-    private static AppApplication spApp = null;
+    private static AppApplication spApp;
     private static SharedPreferences shared;
     private static PushManager pushManager;
     private static RequestOptions showOptions, headOptions;

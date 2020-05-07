@@ -12,6 +12,8 @@ import android.view.animation.ScaleAnimation;
 import com.songbao.sampo_b.utils.ExceptionUtil;
 import com.songbao.sampo_b.utils.LogUtil;
 
+import java.lang.ref.WeakReference;
+
 
 /****
  * 这里你要明白几个方法执行的流程： 首先ImageView是继承自View的子类.
@@ -24,7 +26,7 @@ import com.songbao.sampo_b.utils.LogUtil;
  */
 public class DragImageView extends AppCompatImageView {
 
-	private Activity mActivity;
+	private WeakReference<Activity> mActivity;
 
 	private int screen_W, screen_H;// 可见屏幕的宽高度
 
@@ -91,7 +93,7 @@ public class DragImageView extends AppCompatImageView {
 	}
 
 	public void setMActivity(Activity mActivity) {
-		this.mActivity = mActivity;
+		this.mActivity = new WeakReference<>(mActivity);
 	}
 
 	/** 可见屏幕宽度 **/
@@ -137,8 +139,8 @@ public class DragImageView extends AppCompatImageView {
 			MAX_W = bitmap_W * 5;
 			MAX_H = bitmap_H * 5;
 
-			MIN_W = bitmap_W / 2;
-			MIN_H = bitmap_H / 2;
+			MIN_W = bitmap_W / 5;
+			MIN_H = bitmap_H / 5;
 		}
 	}
 
@@ -494,7 +496,7 @@ public class DragImageView extends AppCompatImageView {
 		@Override
 		protected void onProgressUpdate(final Integer... values) {
 			super.onProgressUpdate(values);
-			mActivity.runOnUiThread(new Runnable() {
+			mActivity.get().runOnUiThread(new Runnable() {
 				@Override
 				public void run() {
 					setFrame(values[0], values[1], values[2], values[3]);

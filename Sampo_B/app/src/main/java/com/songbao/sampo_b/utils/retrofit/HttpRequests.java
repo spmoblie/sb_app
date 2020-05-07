@@ -22,6 +22,8 @@ import retrofit2.http.POST;
 import retrofit2.http.Part;
 import retrofit2.http.Path;
 import retrofit2.http.QueryMap;
+import retrofit2.http.Streaming;
+import retrofit2.http.Url;
 import rx.Observable;
 
 
@@ -113,7 +115,7 @@ public class HttpRequests extends ObjectLoader {
     public Observable<ResponseBody> postJsonData(String head, String paths, JSONObject jsonObj) {
         Observable<ResponseBody> observable = null;
         try {
-            RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"),jsonObj.toString());
+            RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), jsonObj.toString());
             String[] roots = paths.split("/");
             switch (roots.length) {
                 default:
@@ -164,62 +166,99 @@ public class HttpRequests extends ObjectLoader {
         return observable;
     }
 
+    /**
+     * 下载文件
+     */
+    public Observable<ResponseBody> downloadFile(String head, String fileUrl) {
+        Observable<ResponseBody> observable = null;
+        try {
+            observable = observe(httpService.downloadFileUrl(head, fileUrl));
+        } catch (Exception e) {
+            ExceptionUtil.handle(e);
+        }
+        return observable;
+    }
+
     public interface HttpService {
 
+        //Get
         @GET("{path}")
         Observable<ResponseBody> get(@Header("url_head") String head, @Path("path") String path);
+
         @GET("{path}")
         Observable<ResponseBody> get(@Header("url_head") String head, @Path("path") String path, @QueryMap Map<String, Object> map);
+
         @GET("{root}/{path}")
         Observable<ResponseBody> get(@Header("url_head") String head, @Path("root") String root, @Path("path") String path, @QueryMap Map<String, Object> map);
+
         @GET("{root1}/{root2}/{path}")
         Observable<ResponseBody> get(@Header("url_head") String head, @Path("root1") String root1, @Path("root2") String root2, @Path("path") String path, @QueryMap Map<String, Object> map);
+
         @GET("{root1}/{root2}/{root3}/{path}")
         Observable<ResponseBody> get(@Header("url_head") String head, @Path("root1") String root1, @Path("root2") String root2, @Path("root3") String root3, @Path("path") String path, @QueryMap Map<String, Object> map);
+
         @GET("{root1}/{root2}/{root3}/{root4}/{path}")
         Observable<ResponseBody> get(@Header("url_head") String head, @Path("root1") String root1, @Path("root2") String root2, @Path("root3") String root3, @Path("root4") String root4, @Path("path") String path, @QueryMap Map<String, Object> map);
 
+        //Post
         @FormUrlEncoded
         @POST("{path}")
         Observable<ResponseBody> post(@Header("url_head") String head, @Path("path") String path, @FieldMap Map<String, Object> map);
+
         @FormUrlEncoded
         @POST("{root}/{path}")
         Observable<ResponseBody> post(@Header("url_head") String head, @Path("root") String root, @Path("path") String path, @FieldMap Map<String, Object> map);
+
         @FormUrlEncoded
         @POST("{root1}/{root2}/{path}")
         Observable<ResponseBody> post(@Header("url_head") String head, @Path("root1") String root1, @Path("root2") String root2, @Path("path") String path, @FieldMap Map<String, Object> map);
+
         @FormUrlEncoded
         @POST("{root1}/{root2}/{root3}/{path}")
         Observable<ResponseBody> post(@Header("url_head") String head, @Path("root1") String root1, @Path("root2") String root2, @Path("root3") String root3, @Path("path") String path, @FieldMap Map<String, Object> map);
+
         @FormUrlEncoded
         @POST("{root1}/{root2}/{root3}/{root4}/{path}")
         Observable<ResponseBody> post(@Header("url_head") String head, @Path("root1") String root1, @Path("root2") String root2, @Path("root3") String root3, @Path("root4") String root4, @Path("path") String path, @FieldMap Map<String, Object> map);
 
+        //Post Json
         @POST("{path}")
-        @Headers({ "Content-Type: application/json;charset=UTF-8"})
+        @Headers({"Content-Type: application/json;charset=UTF-8"})
         Observable<ResponseBody> postJson(@Header("url_head") String head, @Path("path") String path, @Body RequestBody body);
+
         @POST("{root}/{path}")
-        @Headers({ "Content-Type: application/json;charset=UTF-8"})
+        @Headers({"Content-Type: application/json;charset=UTF-8"})
         Observable<ResponseBody> postJson(@Header("url_head") String head, @Path("root") String root, @Path("path") String path, @Body RequestBody body);
+
         @POST("{root1}/{root2}/{path}")
-        @Headers({ "Content-Type: application/json;charset=UTF-8"})
+        @Headers({"Content-Type: application/json;charset=UTF-8"})
         Observable<ResponseBody> postJson(@Header("url_head") String head, @Path("root1") String root1, @Path("root2") String root2, @Path("path") String path, @Body RequestBody body);
+
         @POST("{root1}/{root2}/{root3}/{path}")
-        @Headers({ "Content-Type: application/json;charset=UTF-8"})
+        @Headers({"Content-Type: application/json;charset=UTF-8"})
         Observable<ResponseBody> postJson(@Header("url_head") String head, @Path("root1") String root1, @Path("root2") String root2, @Path("root3") String root3, @Path("path") String path, @Body RequestBody body);
+
         @POST("{root1}/{root2}/{root3}/{root4}/{path}")
-        @Headers({ "Content-Type: application/json;charset=UTF-8"})
+        @Headers({"Content-Type: application/json;charset=UTF-8"})
         Observable<ResponseBody> postJson(@Header("url_head") String head, @Path("root1") String root1, @Path("root2") String root2, @Path("root3") String root3, @Path("root4") String root4, @Path("path") String path, @Body RequestBody body);
 
+        //Upload File
         @Multipart
         @POST("{path}")
         Observable<ResponseBody> uploadFile(@Header("url_head") String head, @Path("path") String path, @Part List<MultipartBody.Part> partList);
+
         @Multipart
         @POST("{root}/{path}")
         Observable<ResponseBody> uploadFile(@Header("url_head") String head, @Path("root") String root, @Path("path") String path, @Part List<MultipartBody.Part> partList);
+
         @Multipart
         @POST("{root1}/{root2}/{path}")
         Observable<ResponseBody> uploadFile(@Header("url_head") String head, @Path("root1") String root1, @Path("root2") String root2, @Path("path") String path, @Part List<MultipartBody.Part> partList);
+
+        //Download File
+        @Streaming //添加这个注解用来下载大文件
+        @GET()
+        Observable<ResponseBody> downloadFileUrl(@Header("url_head") String head, @Url String fileUrl);
     }
 
 }

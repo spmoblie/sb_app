@@ -7,7 +7,10 @@
     <ImageView
         android:id="@+id/top_base_iv_left"
         style="@style/top_bar_icon"
-        android:contentDescription="@string/desc" />
+        android:contentDescription="@string/desc"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
     <TextView
         android:id="@+id/top_base_tv_title"
@@ -19,10 +22,12 @@
     <Button
         android:id="@+id/top_base_bt_right"
         style="@style/top_bar_icon"
-        android:layout_height="match_parent"
-        android:contentDescription="@string/desc"
         android:visibility="gone"
-        app:layout_constraintRight_toRightOf="parent"/>
+        android:contentDescription="@string/desc"
+        android:layout_marginEnd="@dimen/app_margin_screen"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
     <View
         style="@style/set_line_horizontal_bg"

@@ -25,8 +25,8 @@ import com.songbao.sampo_b.AppConfig;
 import com.songbao.sampo_b.R;
 import com.songbao.sampo_b.activity.BaseActivity;
 import com.songbao.sampo_b.activity.common.SelectListActivity;
-import com.songbao.sampo_b.activity.common.clip.ClipImageCircularActivity;
-import com.songbao.sampo_b.activity.common.clip.ClipPhotoGridActivity;
+import com.songbao.sampo_b.activity.common.photo.ClipImageCircularActivity;
+import com.songbao.sampo_b.activity.common.photo.PhotoAlbumActivity;
 import com.songbao.sampo_b.adapter.SelectListAdapter;
 import com.songbao.sampo_b.entity.BaseEntity;
 import com.songbao.sampo_b.entity.SelectListEntity;
@@ -373,7 +373,7 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
         if (!StringUtil.isNull(clip_head_path)) {
             startAnimation();
             CommonTools.showToast(getString(R.string.photo_upload_img, getString(R.string.mine_head)));
-            uploadPushFile(new File(clip_head_path), 1, AppConfig.REQUEST_SV_UPLOAD_HEAD);
+            uploadPushFile(new File(clip_head_path), 1, AppConfig.REQUEST_SV_UPLOAD_PHOTO);
         } else {
             CommonTools.showToast(getString(R.string.photo_img_url_error, getString(R.string.mine_head)));
         }
@@ -395,7 +395,7 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
         BaseEntity baseEn;
         try {
             switch (dataType) {
-                case AppConfig.REQUEST_SV_UPLOAD_HEAD:
+                case AppConfig.REQUEST_SV_UPLOAD_PHOTO:
                     baseEn = JsonUtils.getUploadResult(jsonObject);
                     if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
                         changeStr = baseEn.getOthers();
@@ -483,7 +483,7 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
      * 本地相册
      */
     private void openPhotoAlbum() {
-        Intent intent = new Intent(mContext, ClipPhotoGridActivity.class);
+        Intent intent = new Intent(mContext, PhotoAlbumActivity.class);
         intent.putExtra("isClip", true);
         startActivity(intent);
     }

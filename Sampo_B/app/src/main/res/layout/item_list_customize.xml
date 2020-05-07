@@ -37,64 +37,15 @@
             android:textSize="@dimen/app_text_size_small"
             app:layout_constraintLeft_toRightOf="@+id/customize_item_tv_time"/>
 
-        <com.songbao.sampo_b.widgets.RoundImageView
-            android:id="@+id/customize_item_iv_show"
-            android:layout_width="@dimen/image_size_other"
-            android:layout_height="@dimen/image_size_other"
-            android:layout_marginTop="@dimen/app_margin_screen"
-            android:scaleType="centerCrop"
-            android:src="@drawable/icon_default_show"
-            app:type="round"
-            app:layout_constraintTop_toBottomOf="@+id/customize_item_tv_time"/>
+        <com.songbao.sampo_b.widgets.ScrollViewListView
+            android:id="@+id/customize_item_lv_goods"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/customize_item_tv_status"/>
 
         <TextView
-            android:id="@+id/customize_item_tv_goods_name"
-            style="@style/goods_name_text"
-            android:layout_marginStart="@dimen/app_margin_screen"
-            android:textStyle="bold"
-            android:textSize="@dimen/app_text_size_content"
-            app:layout_constraintHorizontal_weight="1"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/customize_item_iv_show"
-            app:layout_constraintLeft_toRightOf="@+id/customize_item_iv_show"/>
-
-        <TextView
-            android:id="@+id/customize_item_tv_name"
-            style="@style/list_item_text"
-            android:layout_marginTop="@dimen/app_margin_screen"
-            android:drawableStart="@mipmap/icon_designer"
-            android:drawablePadding="@dimen/margin_padding_5"
-            android:textColor="@color/app_color_gray_5"
-            app:layout_constraintTop_toBottomOf="@+id/customize_item_tv_goods_name"
-            app:layout_constraintLeft_toLeftOf="@+id/customize_item_tv_goods_name"/>
-
-        <TextView
-            android:id="@+id/customize_item_tv_phone"
-            style="@style/list_item_text"
-            android:layout_marginTop="@dimen/margin_padding_5"
-            android:drawableStart="@mipmap/icon_phone"
-            android:drawablePadding="@dimen/margin_padding_5"
-            android:textColor="@color/app_color_gray_5"
-            app:layout_constraintTop_toBottomOf="@+id/customize_item_tv_name"
-            app:layout_constraintLeft_toLeftOf="@+id/customize_item_tv_goods_name"/>
-
-        <TextView
-            android:id="@+id/customize_item_tv_click_01"
+            android:id="@+id/customize_item_tv_click"
             style="@style/common_text_bg_frame"
-            android:layout_marginTop="@dimen/margin_padding_20"
-            android:layout_marginEnd="@dimen/app_margin_screen"
-            android:paddingTop="@dimen/margin_padding_7"
-            android:paddingBottom="@dimen/margin_padding_7"
-            android:paddingLeft="@dimen/margin_padding_18"
-            android:paddingRight="@dimen/margin_padding_18"
-            android:background="@drawable/shape_style_empty_04_08"
-            app:layout_constraintRight_toLeftOf="@+id/customize_item_tv_click_02"
-            app:layout_constraintTop_toBottomOf="@+id/customize_item_iv_show"/>
-
-        <TextView
-            android:id="@+id/customize_item_tv_click_02"
-            style="@style/common_text_bg_frame"
-            android:layout_marginTop="@dimen/margin_padding_20"
             android:paddingTop="@dimen/margin_padding_7"
             android:paddingBottom="@dimen/margin_padding_7"
             android:paddingLeft="@dimen/margin_padding_18"
@@ -102,7 +53,7 @@
             android:background="@drawable/shape_style_solid_04_08"
             android:textColor="@color/app_color_white"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/customize_item_iv_show"/>
+            app:layout_constraintTop_toBottomOf="@+id/customize_item_lv_goods"/>
 
     </android.support.constraint.ConstraintLayout>
 

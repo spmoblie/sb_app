@@ -11,6 +11,7 @@ import com.songbao.sampo_c.AppApplication;
 import com.songbao.sampo_c.R;
 import com.songbao.sampo_c.entity.HouseEntity;
 import com.songbao.sampo_c.entity.StoreEntity;
+import com.songbao.sampo_c.utils.StringUtil;
 
 public class HouseAdapter extends BaseRecyclerAdapter<HouseEntity> {
 
@@ -34,7 +35,7 @@ public class HouseAdapter extends BaseRecyclerAdapter<HouseEntity> {
                 .into(iv_show);
 
         tv_name.setText(data.getName());
-        tv_info.setText(data.getInfo());
+        tv_info.setText(StringUtil.htmlDecode(data.getInfo()));
 
         item_main.setOnClickListener(new View.OnClickListener() {
 

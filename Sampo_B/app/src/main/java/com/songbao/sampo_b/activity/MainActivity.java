@@ -63,7 +63,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener {
     private static Fragment fragment = null;
     private static String current_fragment; //当前要显示的Fragment
     private static final String[] FRAGMENT_CONTAINER = {"fragment_1", "fragment_2", "fragment_3"};
-    private int default_index = 2; //默认显示的Fragment下标索引
+    private int default_index = 1; //默认显示的Fragment下标索引
     private int current_index = -1; //当前显示的Fragment下标索引
     private boolean exit = false;
 

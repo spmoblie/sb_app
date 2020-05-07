@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/order_files_item_main"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:paddingTop="@dimen/app_margin_screen"
+    android:paddingBottom="@dimen/app_margin_screen">
+
+    <TextView
+        android:id="@+id/order_files_item_tv_name"
+        style="@style/list_item_text"
+        android:layout_width="match_parent"
+        android:drawableLeft="@mipmap/icon_file"
+        android:drawableRight="@mipmap/icon_more"
+        android:drawablePadding="@dimen/margin_padding_5"
+        android:gravity="center_vertical"
+        android:textSize="@dimen/app_text_size_content"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+
+</android.support.constraint.ConstraintLayout>
