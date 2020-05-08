@@ -1,6 +1,6 @@
 package com.songbao.sampo_b.entity;
 
-public class UpdateVersionEntity extends BaseEntity {
+public class VersionEntity extends BaseEntity {
 
 	private static final long serialVersionUID = 1L;
 
@@ -10,17 +10,17 @@ public class UpdateVersionEntity extends BaseEntity {
 	private boolean force; //是否强制更新
 
 	
-	public UpdateVersionEntity() {
+	public VersionEntity() {
 		super();
 	}
 
 	
-	public UpdateVersionEntity(int errno, String errmsg) {
+	public VersionEntity(int errno, String errmsg) {
 		super(errno, errmsg);
 	}
 
 	
-	public UpdateVersionEntity(int errno, String errmsg, String version, String url, boolean force) {
+	public VersionEntity(int errno, String errmsg, String version, String url, boolean force) {
 		super(errno, errmsg);
 		this.version = version;
 		this.url = url;
@@ -28,7 +28,7 @@ public class UpdateVersionEntity extends BaseEntity {
 	}
 
 	
-	public UpdateVersionEntity(int errno, String errmsg, String description, String version, String url, boolean force) {
+	public VersionEntity(int errno, String errmsg, String description, String version, String url, boolean force) {
 		super(errno, errmsg);
 		this.description = description;
 		this.version = version;

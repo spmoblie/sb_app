@@ -106,6 +106,7 @@
     <string name="dialog_version_update_force">当前版本低于最低版本！\n需升级后才能正常使用！</string>
     <string name="dialog_error_msg">出错啦！请稍后再试！</string>
     <string name="dialog_error_video_url">视频出错！无法播放！</string>
+    <string name="dialog_error_card_null">检测到SD存储卡失效\n请检查SD存储并重启</string>
 
     <!-- network -->
     <string name="network">网络</string>

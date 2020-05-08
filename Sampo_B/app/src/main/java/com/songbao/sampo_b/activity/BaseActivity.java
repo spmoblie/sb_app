@@ -47,7 +47,6 @@ import com.songbao.sampo_b.activity.common.photo.ClipImageSquareActivity;
 import com.songbao.sampo_b.activity.common.photo.PhotoAlbumActivity;
 import com.songbao.sampo_b.activity.common.photo.PhotoOneActivity;
 import com.songbao.sampo_b.activity.login.LoginAccountActivity;
-import com.songbao.sampo_b.activity.mine.DesignerListActivity;
 import com.songbao.sampo_b.activity.two.GoodsActivity;
 import com.songbao.sampo_b.activity.two.GoodsEditActivity;
 import com.songbao.sampo_b.activity.two.GoodsSortActivity;

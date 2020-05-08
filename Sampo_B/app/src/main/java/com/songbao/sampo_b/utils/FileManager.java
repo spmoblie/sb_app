@@ -49,9 +49,9 @@ public class FileManager {
         try {
             String path;
             if (isSave) {
-                path = AppConfig.SAVE_PATH_TXT_SAVE + fileName;
+                path = AppConfig.PATH_TEXT_STORE + fileName;
             } else {
-                path = AppConfig.SAVE_PATH_TXT_DICE + fileName;
+                path = AppConfig.PATH_TEXT_CACHE + fileName;
             }
             checkFilePath(path);
             fos = new FileOutputStream(path);
@@ -82,9 +82,9 @@ public class FileManager {
         String result = "";
         try {
             if (isSave) {
-                path = AppConfig.SAVE_PATH_TXT_SAVE + fileName;
+                path = AppConfig.PATH_TEXT_STORE + fileName;
             } else {
-                path = AppConfig.SAVE_PATH_TXT_DICE + fileName;
+                path = AppConfig.PATH_TEXT_CACHE + fileName;
             }
             File file = new File(path);
             if (file.exists()) {
@@ -113,9 +113,9 @@ public class FileManager {
      *
      * @param fileName 文件名
      * @param obj      写入对象
-     * @param pathType 0 : AppConfig.SAVE_PATH_TXT_DICE
-     *                 1 : AppConfig.SAVE_PATH_TXT_SAVE
-     *                 2 : AppConfig.SAVE_USER_DATA_PATH
+     * @param pathType 0 : AppConfig.PATH_TEXT_CACHE
+     *                 1 : AppConfig.PATH_TEXT_STORE
+     *                 2 : AppConfig.PATH_USER_DATA
      */
     public static void writeFileSaveObject(String fileName, Object obj, int pathType) {
         if (StringUtil.isNull(fileName) || obj == null) return;
@@ -125,13 +125,13 @@ public class FileManager {
             String path;
             switch (pathType) {
                 case 1:
-                    path = AppConfig.SAVE_PATH_TXT_SAVE + fileName;
+                    path = AppConfig.PATH_TEXT_STORE + fileName;
                     break;
                 case 2:
-                    path = AppConfig.SAVE_USER_DATA_PATH + fileName;
+                    path = AppConfig.PATH_USER_DATA + fileName;
                     break;
                 default:
-                    path = AppConfig.SAVE_PATH_TXT_DICE + fileName;
+                    path = AppConfig.PATH_TEXT_CACHE + fileName;
                     break;
             }
             checkFilePath(path);
@@ -191,9 +191,9 @@ public class FileManager {
      * 读取数据（Object）
      *
      * @param fileName 文件名
-     * @param pathType 0 : AppConfig.SAVE_PATH_TXT_DICE
-     *                 1 : AppConfig.SAVE_PATH_TXT_SAVE
-     *                 2 : AppConfig.SAVE_USER_DATA_PATH
+     * @param pathType 0 : AppConfig.PATH_TEXT_CACHE
+     *                 1 : AppConfig.PATH_TEXT_STORE
+     *                 2 : AppConfig.PATH_USER_DATA
      * @return
      */
     public static Object readFileSaveObject(String fileName, int pathType) {
@@ -204,13 +204,13 @@ public class FileManager {
             String path;
             switch (pathType) {
                 case 1:
-                    path = AppConfig.SAVE_PATH_TXT_SAVE + fileName;
+                    path = AppConfig.PATH_TEXT_STORE + fileName;
                     break;
                 case 2:
-                    path = AppConfig.SAVE_USER_DATA_PATH + fileName;
+                    path = AppConfig.PATH_USER_DATA + fileName;
                     break;
                 default:
-                    path = AppConfig.SAVE_PATH_TXT_DICE + fileName;
+                    path = AppConfig.PATH_TEXT_CACHE + fileName;
                     break;
             }
             File file = new File(path);
@@ -511,8 +511,12 @@ public class FileManager {
             int id = cursor.getInt(cursor
                     .getColumnIndex(MediaStore.MediaColumns._ID));
             Uri baseUri = Uri.parse("content://media/external/images/media");
+            cursor.close();
             return Uri.withAppendedPath(baseUri, "" + id);
         } else {
+            if (cursor != null) {
+                cursor.close();
+            }
             if (imageFile.exists()) {
                 ContentValues values = new ContentValues();
                 values.put(MediaStore.Images.Media.DATA, filePath);
@@ -544,9 +548,9 @@ public class FileManager {
         }
 
         //在MIME和文件类型的匹配表中找到对应的MIME类型。
-        for (int i = 0; i < MIME_MapTable.length; i++) {
-            if (end.equals(MIME_MapTable[i][0])) {
-                type = MIME_MapTable[i][1];
+        for (String[] tab : MIME_MapTable) {
+            if (end.equals(tab[0])) {
+                type = tab[1];
                 break;
             }
         }

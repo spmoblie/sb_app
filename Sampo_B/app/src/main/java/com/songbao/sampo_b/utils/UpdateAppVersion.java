@@ -15,7 +15,7 @@ import com.songbao.sampo_b.dialog.AppVersionDialog;
 import com.songbao.sampo_b.dialog.DialogManager;
 import com.songbao.sampo_b.dialog.LoadDialog;
 import com.songbao.sampo_b.entity.BaseEntity;
-import com.songbao.sampo_b.entity.UpdateVersionEntity;
+import com.songbao.sampo_b.entity.VersionEntity;
 import com.songbao.sampo_b.utils.retrofit.HttpRequests;
 
 import org.json.JSONObject;
@@ -110,7 +110,7 @@ public class UpdateAppVersion {
 					@Override
 					public void onNext(ResponseBody body) {
 						try {
-							BaseEntity<UpdateVersionEntity> baseEn = JsonUtils.checkVersionUpdate(new JSONObject(body.string()));
+							BaseEntity<VersionEntity> baseEn = JsonUtils.checkVersionUpdate(new JSONObject(body.string()));
 							if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
 								handlerVersionAnalyse(baseEn.getData());
 							} else {
@@ -168,7 +168,7 @@ public class UpdateAppVersion {
 	/**
 	 * 版本分析处理
 	 */
-	private void handlerVersionAnalyse(UpdateVersionEntity uvEn) {
+	private void handlerVersionAnalyse(VersionEntity uvEn) {
 		AppVersionDialog appDialog = new AppVersionDialog(weakContext.get(), dm);
 		if (uvEn != null) {
 			String version = uvEn.getVersion();

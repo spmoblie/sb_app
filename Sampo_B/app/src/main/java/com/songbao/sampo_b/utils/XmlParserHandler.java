@@ -31,9 +31,9 @@ public class XmlParserHandler extends DefaultHandler {
 	@Override
 	public void startElement(String uri, String localName, String qName, Attributes attributes) throws SAXException {
 		// 当遇到开始标记的时候，调用这个方法
-		if (qName.equals("Country")) {
+		/*if (qName.equals("Country")) {
 
-		} else
+		} else*/
 		if (qName.equals("district")) {
 			areaEntity = new AreaEntity();
 			areaEntity.setName(attributes.getValue(0));
@@ -47,10 +47,10 @@ public class XmlParserHandler extends DefaultHandler {
 		// 遇到结束标记的时候，会调用这个方法
 		if (qName.equals("district")) {
 			areaList.add(areaEntity);
-        } else
-        if (qName.equals("Country")) {
+        }
+        /*else if (qName.equals("Country")) {
 
-		}
+		}*/
 	}
 	
 	@Override

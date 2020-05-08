@@ -19,6 +19,7 @@ import com.songbao.sampo_b.AppApplication;
 import com.songbao.sampo_b.AppConfig;
 import com.songbao.sampo_b.R;
 import com.songbao.sampo_b.activity.BaseFragment;
+import com.songbao.sampo_b.activity.common.ScanActivity;
 import com.songbao.sampo_b.adapter.AdapterCallback;
 import com.songbao.sampo_b.adapter.GoodsGridAdapter;
 import com.songbao.sampo_b.adapter.SortOneAdapter;
@@ -57,6 +58,9 @@ public class ChildFragmentTwo extends BaseFragment implements OnClickListener {
 
 	@BindView(R.id.fg_two_data_null_main)
 	ConstraintLayout view_null;
+
+	@BindView(R.id.fg_two_iv_edit)
+	ImageView iv_edit;
 
 	@BindView(R.id.fg_two_iv_scan)
 	ImageView iv_scan;
@@ -99,6 +103,7 @@ public class ChildFragmentTwo extends BaseFragment implements OnClickListener {
 	}
 
 	private void initView() {
+		iv_edit.setOnClickListener(this);
 		iv_scan.setOnClickListener(this);
 
 		initRecyclerView();
@@ -222,11 +227,15 @@ public class ChildFragmentTwo extends BaseFragment implements OnClickListener {
 
 	@Override
 	public void onClick(View v) {
+		if (ClickUtils.isDoubleClick(v.getId())) return;
 		switch (v.getId()) {
-			case R.id.fg_two_iv_scan:
-				if (ClickUtils.isDoubleClick(v.getId())) return;
-				//Intent intent = new Intent(mContext, ScanActivity.class);
+			case R.id.fg_two_iv_edit:
 				openGoodsEditActivity();
+				break;
+			case R.id.fg_two_iv_scan:
+				Intent intent = new Intent(mContext, ScanActivity.class);
+				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				startActivity(intent);
 				break;
 		}
 	}

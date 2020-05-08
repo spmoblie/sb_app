@@ -8,7 +8,6 @@ import android.os.Message;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.songbao.sampo_b.AppApplication;
 import com.songbao.sampo_b.AppConfig;
@@ -200,7 +199,7 @@ public class PostOrderActivity extends BaseActivity implements View.OnClickListe
     @Override
     protected void onDestroy() {
         // 清除缓存的订单数据
-        CleanDataManager.cleanCustomCache(AppConfig.SAVE_PATH_TXT_DICE + AppConfig.orderDataFileName);
+        CleanDataManager.cleanCustomCache(AppConfig.PATH_TEXT_CACHE + AppConfig.orderDataFileName);
         super.onDestroy();
     }
 
@@ -229,7 +228,7 @@ public class PostOrderActivity extends BaseActivity implements View.OnClickListe
 
     private boolean isUpload() {
         GoodsEntity goodsEn;
-        String photoUrl = "";
+        String photoUrl;
         for (int i = 0; i < al_goods.size(); i++) {
             goodsPos = i;
             goodsEn = al_goods.get(goodsPos);

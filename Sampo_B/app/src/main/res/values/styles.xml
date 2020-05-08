@@ -1,6 +1,6 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <style name="SampoTheme" parent="AppBaseTheme" />
+    <style name="MyTheme" parent="AppBaseTheme" />
 
     <style name="AppBaseTheme" parent="android:Theme.Light.NoTitleBar">
         <!--<item name="android:fitsSystemWindows">true</item>--><!--沉浸效果-->

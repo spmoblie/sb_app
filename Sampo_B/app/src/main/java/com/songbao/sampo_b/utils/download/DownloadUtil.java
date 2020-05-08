@@ -1,6 +1,7 @@
 package com.songbao.sampo_b.utils.download;
 
 import com.songbao.sampo_b.AppConfig;
+import com.songbao.sampo_b.utils.ExceptionUtil;
 import com.songbao.sampo_b.utils.FileManager;
 import com.songbao.sampo_b.utils.LogUtil;
 import com.songbao.sampo_b.utils.retrofit.HttpRequests;
@@ -77,7 +78,7 @@ public class DownloadUtil {
         }
     }
 
-    private boolean writeResponseBodyToSave(String savePath, ResponseBody body, final DownloadListener downloadListener) {
+    private void writeResponseBodyToSave(String savePath, ResponseBody body, final DownloadListener downloadListener) {
         if (downloadListener != null)
             downloadListener.onStart();
         try {
@@ -109,11 +110,10 @@ public class DownloadUtil {
                 if (downloadListener != null)
                     downloadListener.onFinish(file);
                 outputStream.flush();
-                return true;
             } catch (IOException e) {
                 if (downloadListener != null)
                     downloadListener.onError("" + e.getMessage());
-                return false;
+                ExceptionUtil.handle(e);
             } finally {
                 if (inputStream != null) {
                     inputStream.close();
@@ -123,7 +123,7 @@ public class DownloadUtil {
                 }
             }
         } catch (IOException e) {
-            return false;
+            ExceptionUtil.handle(e);
         }
     }
 }

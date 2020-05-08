@@ -31,7 +31,7 @@ import java.lang.ref.WeakReference;
 public class AppVersionDialog {
 
 	private static final int DIALOG_WIDTH = AppApplication.screen_width * 2 / 3;
-	private static final String APK_PATH = AppConfig.SAVE_APK_PATH;
+	private static final String PATH_APK = AppConfig.PATH_APK_NAME;
 	private Context mContext;
 	private DialogManager dm;
 	private String apkUrl;
@@ -72,7 +72,7 @@ public class AppVersionDialog {
 	 */
 	private void startDownLoadApk(String apkUrl) {
 		showLoadingDialog();
-		DownloadUtil.getInstance().downloadFile(apkUrl, APK_PATH, new DownloadListener() {
+		DownloadUtil.getInstance().downloadFile(apkUrl, PATH_APK, new DownloadListener() {
 			@Override
 			public void onStart() {
 				LogUtil.i(LogUtil.LOG_HTTP, "DownloadListener  onStart");
@@ -88,7 +88,7 @@ public class AppVersionDialog {
 
 			@Override
 			public void onFinish(File file) {
-				startInstallApk(APK_PATH);
+				startInstallApk(PATH_APK);
 				if (dm != null) {
 					dm.dismiss();
 				}

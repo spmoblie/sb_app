@@ -16,11 +16,10 @@ import com.songbao.sampo_c.AppApplication;
 import com.songbao.sampo_c.AppConfig;
 import com.songbao.sampo_c.R;
 import com.songbao.sampo_c.activity.BaseActivity;
-import com.songbao.sampo_c.activity.common.clip.ClipPhotoGridActivity;
+import com.songbao.sampo_c.activity.common.clip.PhotoAlbumActivity;
 import com.songbao.sampo_c.entity.BaseEntity;
 import com.songbao.sampo_c.entity.CommentEntity;
 import com.songbao.sampo_c.entity.GoodsEntity;
-import com.songbao.sampo_c.entity.OCustomizeEntity;
 import com.songbao.sampo_c.utils.CommonTools;
 import com.songbao.sampo_c.utils.ExceptionUtil;
 import com.songbao.sampo_c.utils.JsonUtils;
@@ -29,8 +28,6 @@ import com.songbao.sampo_c.utils.StringUtil;
 import com.songbao.sampo_c.utils.retrofit.HttpRequests;
 import com.songbao.sampo_c.widgets.RoundImageView;
 
-import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.File;
@@ -216,7 +213,7 @@ public class CommentPostActivity extends BaseActivity implements OnClickListener
 				}
 				break;
 			case R.id.comment_post_tv_add_photo:
-				openActivity(ClipPhotoGridActivity.class);
+				openActivity(PhotoAlbumActivity.class);
 				break;
 			case R.id.comment_post_tv_post:
 				if (isPostOk) return;

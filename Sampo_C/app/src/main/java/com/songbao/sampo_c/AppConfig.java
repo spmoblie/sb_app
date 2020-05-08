@@ -1,14 +1,11 @@
 package com.songbao.sampo_c;
 
 import android.Manifest;
-import android.os.Environment;
 
 
 public class AppConfig {
 
-	/**
-	 ******************************************* URL协议开始 ******************************************
-	 */
+//******************************************* URL协议开始 ******************************************
 
 	// 发布控制
 	public static final boolean IS_PUBLISH = false;
@@ -16,18 +13,12 @@ public class AppConfig {
 	public final static String APP_HTTP = "http://";
 	// https协议
 	public final static String APP_HTTPS = "https://";
-	// Base类型
-	public final static String BASE_TYPE = "base_2"; //base_1:发布Url、base_2:测试Url
+	// Base类型(base_1:发布Url、base_2:测试Url)
+	public final static String BASE_TYPE = "base_2";
 	// 发布Url
 	public final static String BASE_URL_1 = APP_HTTP + "xiaobao.sbwg.cn/";
 	// 测试Url
 	public final static String BASE_URL_2 = APP_HTTP + "test.sbwg.cn/";
-	// 图片域名
-	public final static String IMAGE_URL = "file:///android_asset/";
-	// 推广域名
-	public final static String SHARE_URL = BASE_URL_1;
-	// 关于我们
-	public final static String ABOUT_US = "https://www.sbwg.cn/";
 
 	// 校验版本
 	public final static String URL_AUTH_VERSION = "/app/index/version";
@@ -180,13 +171,9 @@ public class AppConfig {
 	// 确认安装
 	public final static String URL_BOOKING_INSTALL = "trade/app/booking/installed";
 
-	/**
-	 ******************************************* URL协议结束 ******************************************
-	 */
+//******************************************* URL协议结束 ******************************************
 
-	/**
-	 ******************************************* RequestCode协议开始 ******************************************
-	 */
+//******************************************* RequestCode开始 ******************************************
 
 	// 动态授权
 	public static final int REQUEST_CORD_PERMISSION = 0X0001;
@@ -351,11 +338,9 @@ public class AppConfig {
 	// 评论照片
 	public static final int REQUEST_SV_UPLOAD_COMMENT_PHOTO = 0X5521;
 
-	/**
-	 ******************************************* RequestCode协议结束 ******************************************
+//******************************************* RequestCode结束 ******************************************
 
-	 ******************************************* 全局常量设置开始 ******************************************
-	 */
+//******************************************* 全局常量配置开始 ******************************************
 
 	// 主页子页面“我的”下标索引值
 	public static final int PAGE_MAIN_MINE = 3;
@@ -471,39 +456,35 @@ public class AppConfig {
 	public static final String homeListFileName = "home_list";
 	// 应用偏好设置名称
 	public static final String APP_SP_NAME = "sp_sampo_c";
-	// 应用缓存路径名称
-	public static final String APP_ROOT_NAME = "Sampo_C";
 	// 内置SD卡路径
-	public static final String SD_PATH = Environment.getExternalStorageDirectory().toString() + "/" + APP_ROOT_NAME + "/";
+	public static final String PATH_SD = AppApplication.getAppContext().getExternalFilesDir(null) + "/";
 	// Apk临时缓存路径（应用关闭时清除）
-	public static final String SAVE_PATH_APK_DICE = SD_PATH + "apk/" + APP_ROOT_NAME + "_AD/";
-	// 文本长久保存路径
-	public static final String SAVE_PATH_TXT_SAVE = SD_PATH + "txt/" + APP_ROOT_NAME + "_TS/";
+	public static final String PATH_APK_CACHE = PATH_SD + "Apk/";
+	// App下载存储路径
+	public static final String PATH_DOWNLOAD = PATH_SD + "Download/";
+	// 文本持久存储路径
+	public static final String PATH_TEXT_STORE = PATH_SD + "text/store/";
 	// 文本临时缓存路径（应用关闭时清除）
-	public static final String SAVE_PATH_TXT_DICE = SD_PATH + "txt/" + APP_ROOT_NAME + "_TD/";
-	// 图片长久保存路径
-	public static final String SAVE_PATH_IMAGE_SAVE = SD_PATH + "image/" + APP_ROOT_NAME + "_IS/";
+	public static final String PATH_TEXT_CACHE = PATH_SD + "text/cache/";
+	// 图片持久存储路径
+	public static final String PATH_IMAGE_STORE = PATH_SD + "image/store/";
 	// 图片临时缓存路径（应用关闭时清除）
-	public static final String SAVE_PATH_IMAGE_DICE = SD_PATH + "image/" + APP_ROOT_NAME + "_ID/";
-	// 媒体长久保存路径
-	public static final String SAVE_PATH_MEDIA_SAVE = SD_PATH + "media/" + APP_ROOT_NAME + "_MS/";
+	public static final String PATH_IMAGE_CACHE = PATH_SD + "image/cache/";
+	// 媒体持久存储路径
+	public static final String PATH_MEDIA_STORE = PATH_SD + "media/store/";
 	// 媒体临时缓存路径（应用关闭时清除）
-	public static final String SAVE_PATH_MEDIA_DICE = SD_PATH + "media/" + APP_ROOT_NAME + "_MD/";
+	public static final String PATH_MEDIA_CACHE = PATH_SD + "media/cache/";
 
-	// Apk存储路径
-	public static final String SAVE_APK_PATH = SAVE_PATH_APK_DICE + "/" + APP_ROOT_NAME + "_008.apk";
+	// Apk临时缓存名称
+	public static final String PATH_APK_NAME = PATH_APK_CACHE + "/" + APP_SP_NAME + ".apk";
 	// 用户数据存储路径
-	public static final String SAVE_USER_DATA_PATH = SD_PATH + "user/";
+	public static final String PATH_USER_DATA = PATH_SD + "user/";
 	// 用户头像存储路径
-	public static final String SAVE_USER_HEAD_PATH = SAVE_PATH_IMAGE_SAVE + "user_head.png";
+	public static final String PATH_USER_HEAD = PATH_IMAGE_STORE + "user_head.png";
 
-	/**
-	 ******************************************* 全局常量设置结束 ******************************************
-	 */
+//******************************************* 全局常量配置结束 ******************************************
 
-	/**
-	 ******************************************* 偏好设置Key协议开始 ******************************************
-	 */
+//******************************************* 偏好设置Key开始 ******************************************
 
 	// 偏好设置Key-记录剪切相片的类型
 	public static final String KEY_CLIP_PHOTO_TYPE = "clip_photo_type";
@@ -581,13 +562,9 @@ public class AppConfig {
 	// 偏好设置Key-记录最近一次更新APP版本的时间
 	public static final String KEY_UPDATE_VERSION_LAST_TIME = "update_version_last_time";
 
-	/**
-	 ******************************************* 偏好设置Key协议结束 ******************************************
-	 */
+//******************************************* 偏好设置Key结束 ******************************************
 
-	/**
-	 ******************************************* Activity协议开始 ******************************************
-	 */
+//******************************************* Activity协议开始 ******************************************
 
 	public static final String PAGE_TYPE = "page_type";
 	public static final String PAGE_DATA = "page_data";
@@ -610,24 +587,16 @@ public class AppConfig {
 	public static final int ACTIVITY_CODE_ORDER_UPDATE = 0X9111;
 	public static final int ACTIVITY_CODE_COMMENT_STATE = 0X9112;
 
-	/**
-	 ******************************************* Activity协议结束 ******************************************
-	 */
+//******************************************* Activity协议结束 ******************************************
 
-	/**
-	 ******************************************* 推送协议开始 ******************************************
-	 */
+//******************************************* 推送协议开始 ******************************************
 
 	// 刷新核销码
 	public static final int PUSH_MSG_TYPE_001 = 8001;
 
-	/**
-	 ******************************************* 推送协议结束 ******************************************
-	 */
+//******************************************* 推送协议结束 ******************************************
 
-	/**
-	 ******************************************* 广播协议开始 ******************************************
-	 */
+//******************************************* 广播协议开始 ******************************************
 
 	public static final String RA_PAGE_MAIN = "receiver_action_main";
 	public static final String RA_PAGE_MAIN_KEY = "receiver_action_main_key";
@@ -635,8 +604,6 @@ public class AppConfig {
 	public static final String RA_PAGE_RESERVE_KEY = "receiver_action_reserve_key";
 	public static final String RA_PAGE_LOGIN = "receiver_action_login";
 
-	/**
-	 ******************************************* 广播协议结束 ******************************************
-	 */
+//******************************************* 广播协议结束 ******************************************
 
 }

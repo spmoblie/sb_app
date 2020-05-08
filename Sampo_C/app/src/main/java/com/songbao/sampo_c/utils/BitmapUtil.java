@@ -277,9 +277,9 @@ public class BitmapUtil {
 		String fileName = a[a.length-1];
 		File file;
 		if (isSave) {
-			file = new File(AppConfig.SAVE_PATH_IMAGE_SAVE, fileName);
+			file = new File(AppConfig.PATH_IMAGE_STORE, fileName);
 		}else {
-			file = new File(AppConfig.SAVE_PATH_IMAGE_DICE, fileName);
+			file = new File(AppConfig.PATH_IMAGE_CACHE, fileName);
 		}
 		file = checkFile(file);
 		return file;

@@ -19,7 +19,7 @@ import java.io.File;
 
 import butterknife.BindView;
 
-import static com.songbao.sampo_b.AppConfig.SAVE_PATH_DOWNLOAD;
+import static com.songbao.sampo_b.AppConfig.PATH_DOWNLOAD;
 
 public class FileActivity extends BaseActivity implements View.OnClickListener {
 
@@ -53,7 +53,7 @@ public class FileActivity extends BaseActivity implements View.OnClickListener {
             String fileName = urls[urls.length-1];
             tv_name.setText(fileName);
 
-            filePath = SAVE_PATH_DOWNLOAD + fileName;
+            filePath = PATH_DOWNLOAD + fileName;
         }
         changeClickText();
     }

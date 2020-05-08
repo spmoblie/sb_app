@@ -36,7 +36,6 @@ import com.songbao.sampo_b.utils.retrofit.HttpRequests;
 import com.songbao.sampo_b.widgets.RoundImageView;
 import com.songbao.sampo_b.widgets.ScrollViewListView;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.ref.WeakReference;

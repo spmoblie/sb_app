@@ -179,11 +179,11 @@ public class AsyncImageLoader {
 			return bitmap;
 		}
 
-		@Override
+		/*@Override
 		public boolean equals(Object o) {
 			ImageLoadTask task = (ImageLoadTask) o;
 			return newPath.equals(task.newPath);
-		}
+		}*/
 	}
 
 	private void callbackImage(Message msg) {

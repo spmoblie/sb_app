@@ -10,7 +10,7 @@ import com.songbao.sampo_b.entity.MessageEntity;
 import com.songbao.sampo_b.entity.OCustomizeEntity;
 import com.songbao.sampo_b.entity.PaymentEntity;
 import com.songbao.sampo_b.entity.ThemeEntity;
-import com.songbao.sampo_b.entity.UpdateVersionEntity;
+import com.songbao.sampo_b.entity.VersionEntity;
 import com.songbao.sampo_b.entity.UserInfoEntity;
 import com.songbao.sampo_b.wxapi.WXPayEntryActivity;
 
@@ -60,12 +60,12 @@ public class JsonUtils {
     /**
      * 检查版本更新
      */
-    public static BaseEntity<UpdateVersionEntity> checkVersionUpdate(JSONObject jsonObject) throws JSONException {
-        BaseEntity<UpdateVersionEntity> mainEn = getCommonKeyValue(jsonObject);
+    public static BaseEntity<VersionEntity> checkVersionUpdate(JSONObject jsonObject) throws JSONException {
+        BaseEntity<VersionEntity> mainEn = getCommonKeyValue(jsonObject);
 
         if (StringUtil.notNull(jsonObject, "data")) {
             JSONObject jsonData = jsonObject.getJSONObject("data");
-            UpdateVersionEntity uvEn = new UpdateVersionEntity();
+            VersionEntity uvEn = new VersionEntity();
             uvEn.setDescription(jsonData.getString("description"));
             uvEn.setVersion(jsonData.getString("verison"));
             uvEn.setUrl(jsonData.getString("url"));

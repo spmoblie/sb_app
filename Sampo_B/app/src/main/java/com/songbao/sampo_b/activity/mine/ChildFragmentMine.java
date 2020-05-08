@@ -110,7 +110,7 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
 
     private void initUserView() {
         if (infoEn != null) {
-            Bitmap headBitmap = BitmapFactory.decodeFile(AppConfig.SAVE_USER_HEAD_PATH);
+            Bitmap headBitmap = BitmapFactory.decodeFile(AppConfig.PATH_USER_HEAD);
             if (headBitmap != null) {
                 iv_user_head.setImageBitmap(headBitmap);
             } else {
@@ -307,7 +307,7 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
                     try {
                         Bitmap headBitmap = ft.get();
                         if (headBitmap != null) {
-                            AppApplication.saveBitmapFile(headBitmap, new File(AppConfig.SAVE_USER_HEAD_PATH), 100);
+                            AppApplication.saveBitmapFile(headBitmap, new File(AppConfig.PATH_USER_HEAD), 100);
                             subscriber.onNext(headBitmap);
                         }
                     } catch (Exception e) {

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class ClipPhotoEntity extends BaseEntity {
+public class PhotoEntity extends BaseEntity {
 	
 	private static final long serialVersionUID = 4438798104656417389L;
 	
@@ -14,15 +14,15 @@ public class ClipPhotoEntity extends BaseEntity {
 	private int photoId; //相片Id
 	private int firstId; //缩略图Id
 	private boolean select; //记录选择的相片
-	private List<ClipPhotoEntity> bitList = new ArrayList<ClipPhotoEntity>(); //打包集合
+	private List<PhotoEntity> bitList = new ArrayList<PhotoEntity>(); //打包集合
 
 
-	public ClipPhotoEntity() {
+	public PhotoEntity() {
 		super();
 	}
 
 
-	public ClipPhotoEntity(int photoId, String photoUrl) {
+	public PhotoEntity(int photoId, String photoUrl) {
 		super();
 		this.photoId = photoId;
 		this.photoUrl = photoUrl;
@@ -88,12 +88,12 @@ public class ClipPhotoEntity extends BaseEntity {
 	}
 
 
-	public List<ClipPhotoEntity> getBitList() {
+	public List<PhotoEntity> getBitList() {
 		return bitList;
 	}
 
 
-	public void setBitList(List<ClipPhotoEntity> bitList) {
+	public void setBitList(List<PhotoEntity> bitList) {
 		this.bitList = bitList;
 	}
 

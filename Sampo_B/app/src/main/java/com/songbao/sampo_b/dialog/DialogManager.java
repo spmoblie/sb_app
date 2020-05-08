@@ -31,10 +31,10 @@ import java.lang.ref.WeakReference;
 
 public class DialogManager {
 
-	private WeakReference<Context> weakContext;
 	private Dialog mDialog;
 	private ProgressBar pBar;
-	private static DialogManager instance;
+	private WeakReference<Context> weakContext;
+	private static WeakReference<DialogManager> weakInstance;
 
 	private DialogManager(Context context) {
 		weakContext = new WeakReference<>(context);
@@ -44,18 +44,21 @@ public class DialogManager {
 	 * 创建此对象请记得在Activity的onPause()中调用clearInstance()销毁对象
 	 */
 	public static DialogManager getInstance(Context context) {
-		if (instance == null) {
+		if (weakInstance == null || weakInstance.get() == null) {
 			synchronized (DialogManager.class) {
-				if (instance == null){
-					instance = new DialogManager(context);
+				if (weakInstance == null || weakInstance.get() == null){
+					weakInstance = new WeakReference<>(new DialogManager(context));
 				}
 			}
 		}
-		return instance;
+		return weakInstance.get();
 	}
 
 	public static void clearInstance(){
-		instance = null;
+		if (weakInstance != null) {
+			weakInstance.clear();
+			weakInstance = null;
+		}
 	}
 
 	public void dismiss(){
