@@ -278,7 +278,7 @@ public class GoodsSortActivity extends BaseActivity implements OnClickListener {
 			page = 1;
 		}
 		HashMap<String, Object> map = new HashMap<>();
-		map.put("sourceType", AppConfig.DATA_TYPE);
+		map.put("sourceType", AppConfig.APP_TYPE);
 		map.put("page", page);
 		map.put("size", AppConfig.LOAD_SIZE);
 		map.put("refCatCode", postSortCode);
@@ -290,7 +290,7 @@ public class GoodsSortActivity extends BaseActivity implements OnClickListener {
 	 */
 	private void loadSortData() {
 		HashMap<String, Object> map = new HashMap<>();
-		map.put("sourceType", AppConfig.DATA_TYPE);
+		map.put("sourceType", AppConfig.APP_TYPE);
 		loadSVData(AppConfig.URL_SORT_LIST, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_SORT_LIST);
 	}
 

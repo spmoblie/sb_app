@@ -820,7 +820,7 @@ public class GoodsListActivity extends BaseActivity implements OnClickListener {
 		map.put("page", page);
 		map.put("size", AppConfig.LOAD_SIZE);
 		map.put("orderByKey", top_type);
-		map.put("sourceType", AppConfig.DATA_TYPE);
+		map.put("sourceType", AppConfig.APP_TYPE);
 		if (sort_type > 0) {
 			map.put("sortByNum", sort_type);
 		}

@@ -400,10 +400,10 @@ public class AppConfig {
 	public static final int IMG_HEIGHT = 9;
 	// Retrofit Url头部标识
 	public static final String URL_TYPE_DOWNLOAD = "download";
-	// 网络请求标识
+	// App网络请求标识
 	public static final String LOAD_TYPE = "APP";
-	// 加载数据标识
-	public static final int DATA_TYPE = 1;
+	// App版本数据标识
+	public static final int APP_TYPE = 1;
 	// 加载数据数量
 	public static final int LOAD_SIZE = 10;
 	// 加载缓冲时间

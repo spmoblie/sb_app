@@ -103,6 +103,7 @@ public class UpdateAppVersion {
 	private void startCheckVersion() {
 		startAnimation();
 		HashMap<String, Object> map = new HashMap<>();
+		map.put("sourceType", AppConfig.APP_TYPE);
 		map.put("version", curVersionName);
 		HttpRequests.getInstance()
 				.loadData(AppConfig.BASE_TYPE, AppConfig.URL_AUTH_VERSION, map, HttpRequests.HTTP_GET)

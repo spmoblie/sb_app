@@ -288,7 +288,7 @@ public class CommentPostActivity extends BaseActivity implements OnClickListener
 
 	private void postData() {
 		HashMap<String, Object> map = new HashMap<>();
-		map.put("sourceType", AppConfig.DATA_TYPE);
+		map.put("sourceType", AppConfig.APP_TYPE);
 		map.put("orderNo", orderNo);
 		map.put("goodsCode", goodsCode);
 		if (!StringUtil.isNull(skuCode)) {
