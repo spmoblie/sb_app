@@ -473,10 +473,11 @@ public class ReserveDetailActivity extends BaseActivity implements View.OnClickL
         if (myReceiver != null) {
             unregisterReceiver(myReceiver);
         }
-        // 清除缓存
-        /*if (myWebView != null) {
-            myWebView.clearCache(true);
-        }*/
+        // 销毁容器
+        if (myWebView != null) {
+            //myWebView.clearCache(true);
+            myWebView.destroy();
+        }
         super.onDestroy();
     }
 

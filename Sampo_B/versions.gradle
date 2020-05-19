@@ -141,8 +141,8 @@ deps.nohttp_ok = "com.yanzhenjie.nohttp:okhttp:$versions.nohttp_ok"
 ext.deps = deps
 
 def build_versions = [:]
-build_versions.min_sdk = 17
-build_versions.target_sdk = 28
+build_versions.min_sdk = 14
+build_versions.target_sdk = 29
 ext.build_versions = build_versions
 
 def app_version = [:]
@@ -150,14 +150,12 @@ app_version.version_code = 1
 app_version.version_name = "1.0.1"
 ext.app_version = app_version
 
-
 def addRepos(RepositoryHandler handler) {
     //handler.mavenLocal()
     handler.google()
     handler.jcenter()
     handler.mavenCentral()
-    //Add the JitPack repository
-    //handler.maven { url "https://jitpack.io" }
+    handler.maven { url "https://jitpack.io" }
     handler.maven { url 'https://maven.google.com/' }
     handler.maven { url 'https://dl.bintray.com/umsdk/release' } //UM
     handler.maven { url "https://dl.bintray.com/thelasterstar/maven/" } //WB

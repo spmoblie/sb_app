@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.songbao.sampo_c.AppApplication;
 import com.songbao.sampo_c.AppConfig;
+import com.songbao.sampo_c.BuildConfig;
 import com.songbao.sampo_c.R;
 import com.songbao.sampo_c.activity.BaseActivity;
 import com.songbao.sampo_c.activity.common.SelectListActivity;
@@ -463,8 +464,8 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
         if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) { //先验证手机是否有sdcard
             try {
                 saveFile = BitmapUtil.createPath("IMG_" + System.currentTimeMillis() + ".jpg", true);
-                //注意：AndroidManifest.xml处的android:authorities必须跟getPackageName() + ".fileProvider"一样
-                Uri uri = FileProvider.getUriForFile(mContext, getPackageName() + ".fileProvider", saveFile);
+                //注意：AndroidManifest.xml处的android:authorities必须保持一致
+                Uri uri = FileProvider.getUriForFile(mContext, BuildConfig.APPLICATION_ID + ".fileProvider", saveFile);
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
                 intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);

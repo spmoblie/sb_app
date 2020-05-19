@@ -1,14 +1,15 @@
 buildscript {
-    apply from: 'versions.gradle'
-    addRepos(repositories)
+    apply from: 'versions.gradle' //引入配置文件
+    addRepos(repositories) //调用添加依赖的方法
     dependencies {
         classpath deps.android_gradle_plugin
     }
 }
 
-allprojects {
+allprojects { //所有的model都添加依赖
     addRepos(repositories)
 }
+
 task clean(type: Delete) {
     delete rootProject.buildDir
 }

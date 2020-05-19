@@ -345,7 +345,7 @@ public class BaseActivity extends FragmentActivity {
      * 设置右边按钮显示文本颜色
      */
     protected void setRightViewTextColor(int colorId) {
-        bt_right.setTextColor(getResources().getColor(colorId));
+        bt_right.setTextColor(ContextCompat.getColor(mContext, colorId));
     }
 
     /**
