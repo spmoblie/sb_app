@@ -361,13 +361,15 @@ public class PostOrderActivity extends BaseActivity implements View.OnClickListe
         @Override
         public void handleMessage(Message msg) {
             PostOrderActivity theActivity = mActivity.get();
-            switch (msg.what) {
-                case 1: //删除
-                    theActivity.deleteOrderData();
-                    break;
-                case 4: //离开
-                    theActivity.finish();
-                    break;
+            if (theActivity != null) {
+                switch (msg.what) {
+                    case 1: //删除
+                        theActivity.deleteOrderData();
+                        break;
+                    case 4: //离开
+                        theActivity.finish();
+                        break;
+                }
             }
         }
     }

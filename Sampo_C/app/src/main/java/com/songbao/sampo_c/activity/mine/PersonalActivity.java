@@ -446,13 +446,15 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
         @Override
         public void handleMessage(Message msg) {
             PersonalActivity theActivity = mActivity.get();
-            switch (msg.what) {
-                case 0: //拍照
-                    theActivity.openCamera();
-                    break;
-                case 1: //本地
-                    theActivity.openPhotoAlbum();
-                    break;
+            if (theActivity != null) {
+                switch (msg.what) {
+                    case 0: //拍照
+                        theActivity.openCamera();
+                        break;
+                    case 1: //本地
+                        theActivity.openPhotoAlbum();
+                        break;
+                }
             }
         }
     }

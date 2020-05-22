@@ -73,6 +73,9 @@ public class AsyncImageLoader {
 
 	public void quit() {
 		isLoop = false;
+		if (handler != null) {
+			handler.removeCallbacksAndMessages(null);
+		}
 		synchronized (workThread) {
 			try {
 				workThread.notify();
@@ -203,8 +206,10 @@ public class AsyncImageLoader {
 
 		@Override
 		public void handleMessage(Message msg) {
-			AsyncImageLoader theClass = mActivity.get();
-			theClass.callbackImage(msg);
+			AsyncImageLoader theActivity = mActivity.get();
+			if (theActivity != null) {
+				theActivity.callbackImage(msg);
+			}
 		}
 	}
 

@@ -210,6 +210,7 @@
     <string name="goods_effect_file">效果图文件</string>
     <string name="goods_effect_link">效果图链接</string>
     <string name="goods_effect_link_hint">请粘贴链接地址</string>
+    <string name="goods_effect_link_null">效果图链接为空</string>
     <string name="goods_info">商品信息</string>
     <string name="goods_name">商品名称</string>
     <string name="goods_name_hint">请输入商品名称</string>

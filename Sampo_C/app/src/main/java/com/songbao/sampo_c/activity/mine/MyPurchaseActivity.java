@@ -842,16 +842,18 @@ public class MyPurchaseActivity extends BaseActivity implements View.OnClickList
         @Override
         public void handleMessage(Message msg) {
             MyPurchaseActivity theActivity = mActivity.get();
-            switch (msg.what) {
-                case 101: //取消订单
-                    theActivity.postCancelOrder();
-                    break;
-                case 102: //删除订单
-                    theActivity.postDeleteOrder();
-                    break;
-                case 103: //确认收货
-                    theActivity.postConfirmReceipt();
-                    break;
+            if (theActivity != null) {
+                switch (msg.what) {
+                    case 101: //取消订单
+                        theActivity.postCancelOrder();
+                        break;
+                    case 102: //删除订单
+                        theActivity.postDeleteOrder();
+                        break;
+                    case 103: //确认收货
+                        theActivity.postConfirmReceipt();
+                        break;
+                }
             }
         }
     }

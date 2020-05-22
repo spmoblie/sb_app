@@ -56,7 +56,8 @@ public class CustomizeAdapter extends BaseRecyclerAdapter<OCustomizeEntity> {
                 tv_click.setTextColor(context.getResources().getColor(R.color.app_color_gray_5));
                 tv_click.setBackgroundResource(R.drawable.shape_style_empty_02_08);
                 break;
-            case AppConfig.ORDER_STATUS_201: //待核价
+            case AppConfig.ORDER_STATUS_201: //待初核
+            case AppConfig.ORDER_STATUS_202: //待复核
                 tv_status.setText(context.getString(R.string.order_wait_price));
                 tv_status.setBackgroundResource(R.drawable.shape_style_solid_09_04);
                 tv_click.setVisibility(View.VISIBLE);

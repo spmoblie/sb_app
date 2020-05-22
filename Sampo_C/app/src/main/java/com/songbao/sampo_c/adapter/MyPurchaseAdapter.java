@@ -13,7 +13,7 @@ import com.songbao.sampo_c.widgets.ScrollViewListView;
 
 import java.text.DecimalFormat;
 
-public class MyPurchaseAdapter extends BaseRecyclerAdapter {
+public class MyPurchaseAdapter extends BaseRecyclerAdapter<OPurchaseEntity> {
 
     private DecimalFormat df;
     private GoodsOrderAdapter lv_adapter;
@@ -38,7 +38,7 @@ public class MyPurchaseAdapter extends BaseRecyclerAdapter {
         TextView tv_click_02 = holder.getView(R.id.my_purchase_item_tv_click_02);
 
         // 绑定View
-        final OPurchaseEntity data = (OPurchaseEntity) mDataList.get(pos);
+        final OPurchaseEntity data = mDataList.get(pos);
 
         if (pos == 0) {
             tv_top.setVisibility(View.VISIBLE);

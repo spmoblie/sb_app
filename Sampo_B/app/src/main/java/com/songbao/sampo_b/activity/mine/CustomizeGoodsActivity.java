@@ -133,13 +133,12 @@ public class CustomizeGoodsActivity extends BaseActivity implements OnClickListe
             }
             // 效果图链接
             effectUrl = goodsEn.getEffectUrl();
-            if (!StringUtil.isNull(effectUrl) && effectUrl.contains("/")) {
+            if (!StringUtil.isNull(effectUrl)) {
                 tv_url.setText(effectUrl);
                 tv_url_copy.setOnClickListener(this);
                 tv_url_check.setOnClickListener(this);
 
-                String[] paths = effectUrl.split("/");
-                final String imgName = "QR_" + paths[paths.length-1] + ".png";
+                final String imgName = "QR_" + System.currentTimeMillis() + ".png";
                 int imgSize = AppApplication.screen_width;
                 qrImage = QRCodeUtil.createQRImage(goodsEn.getEffectUrl(), imgSize, imgSize, 1, null);
                 iv_link.setImageBitmap(BitmapUtil.getBitmap(qrImage, 645, 645));

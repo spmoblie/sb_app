@@ -1,6 +1,5 @@
 package com.songbao.sampo_c.activity.mine;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -14,7 +13,6 @@ import com.songbao.sampo_c.AppApplication;
 import com.songbao.sampo_c.AppConfig;
 import com.songbao.sampo_c.R;
 import com.songbao.sampo_c.activity.BaseActivity;
-import com.songbao.sampo_c.activity.common.MyWebViewActivity;
 import com.songbao.sampo_c.utils.LogUtil;
 import com.songbao.sampo_c.utils.UpdateAppVersion;
 
@@ -80,7 +78,6 @@ public class SettingActivity extends BaseActivity implements OnClickListener {
 
     @Override
     public void onClick(View v) {
-        Intent intent = null;
         switch (v.getId()) {
             case R.id.setting_rl_about_us:
                 openActivity(AboutActivity.class);
@@ -110,9 +107,6 @@ public class SettingActivity extends BaseActivity implements OnClickListener {
                     openLoginActivity();
                 }
                 break;
-        }
-        if (intent != null) {
-            startActivity(intent);
         }
     }
 
@@ -160,18 +154,20 @@ public class SettingActivity extends BaseActivity implements OnClickListener {
         @Override
         public void handleMessage(Message msg) {
             final SettingActivity theActivity = mActivity.get();
-            switch (msg.what) {
-                case AppConfig.DIALOG_CLICK_OK:
-                    AppApplication.AppLogout();
-                    theActivity.startAnimation();
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            theActivity.stopAnimation();
-                            theActivity.finish();
-                        }
-                    }, AppConfig.LOADING_TIME);
-                    break;
+            if (theActivity != null) {
+                switch (msg.what) {
+                    case AppConfig.DIALOG_CLICK_OK:
+                        AppApplication.AppLogout();
+                        theActivity.startAnimation();
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                theActivity.stopAnimation();
+                                theActivity.finish();
+                            }
+                        }, AppConfig.LOADING_TIME);
+                        break;
+                }
             }
         }
     }

@@ -202,7 +202,8 @@ public class AppConfig {
 	public static final int ORDER_STATUS_101 = 3; //待审核
 	public static final int ORDER_STATUS_102 = 102; //已取消
 	public static final int ORDER_STATUS_104 = 104; //已拒绝
-	public static final int ORDER_STATUS_201 = 5; //待核价
+	public static final int ORDER_STATUS_201 = 4; //待初核
+	public static final int ORDER_STATUS_202 = 5; //待复核
 	public static final int ORDER_STATUS_301 = 201; //生产中
 	public static final int ORDER_STATUS_401 = 401; //已发货
 	public static final int ORDER_STATUS_801 = 800; //已完成

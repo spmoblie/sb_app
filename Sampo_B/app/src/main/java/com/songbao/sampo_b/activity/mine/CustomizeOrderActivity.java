@@ -167,7 +167,8 @@ public class CustomizeOrderActivity extends BaseActivity implements OnClickListe
                     tv_click.setText(getString(R.string.order_check_on));
                     tv_click.setBackgroundResource(R.drawable.shape_style_solid_08_08);
                     break;
-                case AppConfig.ORDER_STATUS_201: //待核价
+                case AppConfig.ORDER_STATUS_201: //待初核
+                case AppConfig.ORDER_STATUS_202: //待复核
                     setRightViewText(getString(R.string.order_cancel));
                     tv_status.setText(getString(R.string.order_wait_price));
                     tv_status.setTextColor(getResources().getColor(R.color.app_color_green));
@@ -176,10 +177,11 @@ public class CustomizeOrderActivity extends BaseActivity implements OnClickListe
                     tv_click.setBackgroundResource(R.drawable.shape_style_solid_09_08);
                     break;
                 case AppConfig.ORDER_STATUS_301: //生产中
-                    tv_status.setText(getString(R.string.order_producing));
+                    isOnClick = true;
+                    tv_status.setText(ocEn.getStatusDesc());
                     tv_status.setTextColor(getResources().getColor(R.color.app_color_style));
                     tv_status.setBackgroundResource(R.drawable.shape_style_empty_04_16);
-                    tv_click.setText("生产中-备料");
+                    tv_click.setText(getString(R.string.order_confirm_receive));
                     tv_click.setBackgroundResource(R.drawable.shape_style_solid_04_08);
                     break;
                 case AppConfig.ORDER_STATUS_401: //已发货
@@ -413,7 +415,8 @@ public class CustomizeOrderActivity extends BaseActivity implements OnClickListe
         switch (status) {
             case AppConfig.ORDER_STATUS_101: //待审核
             case AppConfig.ORDER_STATUS_104: //已拒绝
-            case AppConfig.ORDER_STATUS_201: //待核价
+            case AppConfig.ORDER_STATUS_201: //待初核
+            case AppConfig.ORDER_STATUS_202: //待复核
                 // 取消订单
                 showConfirmDialog(getString(R.string.order_cancel_confirm), new MyHandler(this), 101);
                 break;
@@ -563,16 +566,18 @@ public class CustomizeOrderActivity extends BaseActivity implements OnClickListe
         @Override
         public void handleMessage(Message msg) {
             CustomizeOrderActivity theActivity = mActivity.get();
-            switch (msg.what) {
-                case 7: //确认收货
-                    theActivity.postConfirmReceive();
-                    break;
-                case 101: //取消订单
-                    theActivity.postConfirmCancel();
-                    break;
-                case 102: //删除订单
-                    theActivity.postConfirmDelete();
-                    break;
+            if (theActivity != null) {
+                switch (msg.what) {
+                    case 7: //确认收货
+                        theActivity.postConfirmReceive();
+                        break;
+                    case 101: //取消订单
+                        theActivity.postConfirmCancel();
+                        break;
+                    case 102: //删除订单
+                        theActivity.postConfirmDelete();
+                        break;
+                }
             }
         }
     }

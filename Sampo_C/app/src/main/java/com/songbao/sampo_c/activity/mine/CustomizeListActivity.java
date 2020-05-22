@@ -781,13 +781,15 @@ public class CustomizeListActivity extends BaseActivity implements View.OnClickL
         @Override
         public void handleMessage(Message msg) {
             CustomizeListActivity theActivity = mActivity.get();
-            switch (msg.what) {
-                case 101: //取消订单
-                    theActivity.postConfirmCancel();
-                    break;
-                case 102: //删除订单
-                    theActivity.postConfirmDelete();
-                    break;
+            if (theActivity != null) {
+                switch (msg.what) {
+                    case 101: //取消订单
+                        theActivity.postConfirmCancel();
+                        break;
+                    case 102: //删除订单
+                        theActivity.postConfirmDelete();
+                        break;
+                }
             }
         }
     }

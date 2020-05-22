@@ -1035,25 +1035,27 @@ public class CustomizeActivity extends BaseActivity implements OnClickListener {
 		@Override
 		public void handleMessage(Message msg) {
 			CustomizeActivity theActivity = mActivity.get();
-			switch (msg.what) {
-				case 3: //确认效果图
-					theActivity.postConfirmDesigns();
-					break;
-				case 4: //确认支付
-					//theActivity.postConfirmPayment();
-					break;
-				case 7: //确认收货
-					theActivity.postConfirmReceipt();
-					break;
-				case 8: //确认安装
-					theActivity.postConfirmInstall();
-					break;
-				case 101: //取消订单
-					theActivity.postConfirmCancel();
-					break;
-				case 102: //删除订单
-					theActivity.postConfirmDelete();
-					break;
+			if (theActivity != null) {
+				switch (msg.what) {
+					case 3: //确认效果图
+						theActivity.postConfirmDesigns();
+						break;
+					case 4: //确认支付
+						//theActivity.postConfirmPayment();
+						break;
+					case 7: //确认收货
+						theActivity.postConfirmReceipt();
+						break;
+					case 8: //确认安装
+						theActivity.postConfirmInstall();
+						break;
+					case 101: //取消订单
+						theActivity.postConfirmCancel();
+						break;
+					case 102: //删除订单
+						theActivity.postConfirmDelete();
+						break;
+				}
 			}
 		}
 	}

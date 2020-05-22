@@ -365,6 +365,7 @@ public class JsonUtils {
                 JSONObject infoData = jsonData.getJSONObject("customVO");
                 ocEn.setId(infoData.getInt("shopId"));
                 ocEn.setStatus(infoData.getInt("customStatus"));
+                ocEn.setStatusDesc(infoData.getString("customStatusDesc"));
                 ocEn.setPriceOne(infoData.getDouble("customPrice"));
                 double twoPrice1 = infoData.getDouble("pricingPrice");
                 double twoPrice2 = infoData.getDouble("pricedPrice");
@@ -550,7 +551,10 @@ public class JsonUtils {
                 }
                 goodsEn.setImageList(urls);
             }
-            goodsEn.setEffectUrl("https://yun.kujiale.com/design/3FO4B5NB7E2L/airoaming");
+            if (StringUtil.notNull(jsonData, "kjlCode")) {
+                goodsEn.setEffectUrl(jsonData.getString("kjlCode"));
+                //goodsEn.setEffectUrl("https://yun.kujiale.com/design/3FO4B5NB7E2L/airoaming");
+            }
             mainEn.setData(goodsEn);
         }
         return mainEn;

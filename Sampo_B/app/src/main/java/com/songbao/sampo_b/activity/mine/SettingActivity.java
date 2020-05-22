@@ -158,18 +158,20 @@ public class SettingActivity extends BaseActivity implements OnClickListener {
         @Override
         public void handleMessage(Message msg) {
             final SettingActivity theActivity = mActivity.get();
-            switch (msg.what) {
-                case AppConfig.DIALOG_CLICK_OK:
-                    AppApplication.AppLogout();
-                    theActivity.startAnimation();
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            theActivity.stopAnimation();
-                            theActivity.finish();
-                        }
-                    }, AppConfig.LOADING_TIME);
-                    break;
+            if (theActivity != null) {
+                switch (msg.what) {
+                    case AppConfig.DIALOG_CLICK_OK:
+                        AppApplication.AppLogout();
+                        theActivity.startAnimation();
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                theActivity.stopAnimation();
+                                theActivity.finish();
+                            }
+                        }, AppConfig.LOADING_TIME);
+                        break;
+                }
             }
         }
     }

@@ -494,13 +494,15 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
         @Override
         public void handleMessage(Message msg) {
             WXPayEntryActivity theActivity = mActivity.get();
-            switch (msg.what) {
-                case AppConfig.DIALOG_CLICK_NO:
-                    theActivity.finish();
-                    break;
-                case SDK_ZFB_PAY_FLAG: {
-                    theActivity.handlerZFBResult(msg);
-                    break;
+            if (theActivity != null) {
+                switch (msg.what) {
+                    case AppConfig.DIALOG_CLICK_NO:
+                        theActivity.finish();
+                        break;
+                    case SDK_ZFB_PAY_FLAG: {
+                        theActivity.handlerZFBResult(msg);
+                        break;
+                    }
                 }
             }
         }

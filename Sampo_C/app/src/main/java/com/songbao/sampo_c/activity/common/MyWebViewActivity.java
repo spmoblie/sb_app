@@ -269,7 +269,10 @@ public class MyWebViewActivity extends BaseActivity {
 
 		@Override
 		public void handleMessage(Message msg) {
-			mActivity.get().handlerLoadSuccess(msg);
+			MyWebViewActivity theActivity = mActivity.get();
+			if (theActivity != null) {
+				theActivity.handlerLoadSuccess(msg);
+			}
 		}
 	}
 

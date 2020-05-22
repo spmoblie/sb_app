@@ -426,10 +426,12 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
         @Override
         public void handleMessage(Message msg) {
             ChildFragmentMine theActivity = mActivity.get();
-            switch (msg.what) {
-                case 101: //联系客服
-                    theActivity.callPhone(AppConfig.SALE_PHONE);
-                    break;
+            if (theActivity != null) {
+                switch (msg.what) {
+                    case 101: //联系客服
+                        theActivity.callPhone(AppConfig.SALE_PHONE);
+                        break;
+                }
             }
         }
     }

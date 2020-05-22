@@ -252,10 +252,12 @@ public class DesignerListActivity extends BaseActivity implements View.OnClickLi
         @Override
         public void handleMessage(Message msg) {
             DesignerListActivity theActivity = mActivity.get();
-            switch (msg.what) {
-                case AppConfig.DIALOG_CLICK_OK:
-                    theActivity.postCustomizeData();
-                    break;
+            if (theActivity != null) {
+                switch (msg.what) {
+                    case AppConfig.DIALOG_CLICK_OK:
+                        theActivity.postCustomizeData();
+                        break;
+                }
             }
         }
     }

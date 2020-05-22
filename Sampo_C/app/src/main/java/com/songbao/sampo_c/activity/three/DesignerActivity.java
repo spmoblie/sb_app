@@ -253,10 +253,12 @@ public class DesignerActivity extends BaseActivity implements View.OnClickListen
         @Override
         public void handleMessage(Message msg) {
             DesignerActivity theActivity = mActivity.get();
-            switch (msg.what) {
-                case AppConfig.DIALOG_CLICK_OK:
-                    theActivity.postCustomizeData();
-                    break;
+            if (theActivity != null) {
+                switch (msg.what) {
+                    case AppConfig.DIALOG_CLICK_OK:
+                        theActivity.postCustomizeData();
+                        break;
+                }
             }
         }
     }

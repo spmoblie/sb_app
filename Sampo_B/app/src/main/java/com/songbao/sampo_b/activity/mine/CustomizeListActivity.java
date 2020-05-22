@@ -183,7 +183,8 @@ public class CustomizeListActivity extends BaseActivity implements View.OnClickL
                         switch (status) {
                             case AppConfig.ORDER_STATUS_101: //待审核
                             case AppConfig.ORDER_STATUS_104: //已拒绝
-                            case AppConfig.ORDER_STATUS_201: //待核价
+                            case AppConfig.ORDER_STATUS_201: //待初核
+                            case AppConfig.ORDER_STATUS_202: //待复核
                                 // 取消订单
                                 showConfirmDialog(getString(R.string.order_cancel_confirm), new MyHandler(CustomizeListActivity.this), 101);
                                 break;
@@ -421,7 +422,12 @@ public class CustomizeListActivity extends BaseActivity implements View.OnClickL
                     al_all_2.remove(selectPosition);
                     al_show.addAll(al_all_2);
                     break;
-                case TYPE_3: //生产中 (触发事件：无)
+                case TYPE_3: //生产中 (触发事件：确认收货)
+                    al_all_1.clear();
+                    am_all_1.clear();
+                    al_all_5.clear();
+                    am_all_5.clear();
+                    al_all_3.remove(selectPosition);
                     al_show.addAll(al_all_3);
                     break;
                 case TYPE_4: //待收货 (触发事件：确认收货)
@@ -770,16 +776,18 @@ public class CustomizeListActivity extends BaseActivity implements View.OnClickL
         @Override
         public void handleMessage(Message msg) {
             CustomizeListActivity theActivity = mActivity.get();
-            switch (msg.what) {
-                case 7: //确认收货
-                    theActivity.postConfirmReceive();
-                    break;
-                case 101: //取消订单
-                    theActivity.postConfirmCancel();
-                    break;
-                case 102: //删除订单
-                    theActivity.postConfirmDelete();
-                    break;
+            if (theActivity != null) {
+                switch (msg.what) {
+                    case 7: //确认收货
+                        theActivity.postConfirmReceive();
+                        break;
+                    case 101: //取消订单
+                        theActivity.postConfirmCancel();
+                        break;
+                    case 102: //删除订单
+                        theActivity.postConfirmDelete();
+                        break;
+                }
             }
         }
     }
