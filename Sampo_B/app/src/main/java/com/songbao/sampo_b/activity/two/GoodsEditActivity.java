@@ -2,6 +2,8 @@ package com.songbao.sampo_b.activity.two;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.EditText;
@@ -25,6 +27,7 @@ import com.songbao.sampo_b.utils.FileManager;
 import com.songbao.sampo_b.utils.LogUtil;
 import com.songbao.sampo_b.utils.StringUtil;
 import com.songbao.sampo_b.widgets.RoundImageView;
+import com.songbao.sampo_b.widgets.ScrollViewEditText;
 
 import java.util.ArrayList;
 
@@ -75,7 +78,7 @@ public class GoodsEditActivity extends BaseActivity implements OnClickListener {
     EditText et_price;
 
     @BindView(R.id.goods_edit_et_goods_remarks)
-    EditText et_remarks;
+    ScrollViewEditText et_remarks;
 
     @BindView(R.id.goods_edit_tv_goods_remarks_byte)
     TextView tv_remarks_byte;
@@ -136,6 +139,24 @@ public class GoodsEditActivity extends BaseActivity implements OnClickListener {
         et_link.setText(linkStr);
         et_name.setText(name);
         et_remarks.setText(remarks);
+        et_remarks.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                tv_remarks_byte.setText(getString(R.string.viewpager_indicator, s.length(), 200));
+            }
+        });
+        tv_remarks_byte.setText(getString(R.string.viewpager_indicator, et_remarks.getText().length(), 200));
+
         et_number.setText(String.valueOf(goodsNum));
         if (goodsPrice > 0) {
             et_price.setText(df.format(goodsPrice));

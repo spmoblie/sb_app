@@ -29,8 +29,10 @@
         android:label="@string/app_name"
         android:theme="@style/MyTheme"
         android:usesCleartextTraffic="true"
-        tools:targetApi="23" >
-        <!-- usesCleartextTraffic="true" 解决安卓9.0不支持明文通讯(Http)而导致网络加载异常及图片不显示的问题 -->
+        tools:targetApi="23"
+        android:requestLegacyExternalStorage ="true" >
+        <!-- 解决安卓9.0系统出现 CLEARTEXT communication to XX not permitted by network security policy -->
+        <!-- 解决当target=29时,加载系统相册不显示的问题，谷歌临时允许使用老版本的权限来解决储存分区问题 -->
         <activity
             android:name=".activity.SplashActivity"
             android:screenOrientation="portrait">

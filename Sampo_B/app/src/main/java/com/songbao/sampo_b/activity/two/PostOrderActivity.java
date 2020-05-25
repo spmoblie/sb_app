@@ -5,8 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import com.songbao.sampo_b.AppApplication;
@@ -25,6 +26,7 @@ import com.songbao.sampo_b.utils.FileManager;
 import com.songbao.sampo_b.utils.JsonUtils;
 import com.songbao.sampo_b.utils.LogUtil;
 import com.songbao.sampo_b.utils.StringUtil;
+import com.songbao.sampo_b.widgets.ScrollViewEditText;
 import com.songbao.sampo_b.widgets.ScrollViewListView;
 
 import org.json.JSONArray;
@@ -51,7 +53,10 @@ public class PostOrderActivity extends BaseActivity implements View.OnClickListe
     TextView tv_price_total;
 
     @BindView(R.id.post_order_et_order_remarks)
-    EditText et_remarks;
+    ScrollViewEditText et_remarks;
+
+    @BindView(R.id.post_order_tv_order_remarks_byte)
+    TextView tv_remarks_byte;
 
     @BindView(R.id.post_order_tv_confirm)
     TextView tv_confirm;
@@ -77,6 +82,24 @@ public class PostOrderActivity extends BaseActivity implements View.OnClickListe
 
         tv_goods_add.setOnClickListener(this);
         tv_confirm.setOnClickListener(this);
+
+        et_remarks.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                tv_remarks_byte.setText(getString(R.string.viewpager_indicator, s.length(), 500));
+            }
+        });
+        tv_remarks_byte.setText(getString(R.string.viewpager_indicator, 0, 500));
     }
 
     private void initShowData() {

@@ -202,13 +202,15 @@
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/goods_edit_et_goods_price"/>
 
-                <EditText
+                <com.songbao.sampo_b.widgets.ScrollViewEditText
                     android:id="@+id/goods_edit_et_goods_remarks"
                     style="@style/goods_edit_text"
                     android:layout_height="128dp"
                     android:gravity="top"
                     android:singleLine="false"
+                    android:maxLength="200"
                     android:hint="@string/goods_remarks_hint"
+                    android:paddingBottom="@dimen/margin_padding_27"
                     app:layout_constraintHorizontal_weight="1"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
