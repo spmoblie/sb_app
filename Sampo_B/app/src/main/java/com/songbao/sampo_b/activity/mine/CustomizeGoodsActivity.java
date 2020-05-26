@@ -2,6 +2,7 @@ package com.songbao.sampo_b.activity.mine;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.constraint.Group;
 import android.view.View;
@@ -71,14 +72,20 @@ public class CustomizeGoodsActivity extends BaseActivity implements OnClickListe
     @BindView(R.id.customize_goods_tv_effect_copy)
     TextView tv_url_copy;
 
+    @BindView(R.id.customize_goods_group_url)
+    Group group_url;
+
     @BindView(R.id.customize_goods_tv_name_show)
     TextView tv_name;
 
     @BindView(R.id.customize_goods_tv_number)
     TextView tv_number;
 
-    @BindView(R.id.customize_goods_tv_price)
-    TextView tv_price;
+    @BindView(R.id.customize_goods_tv_price_one)
+    TextView tv_price_one;
+
+    @BindView(R.id.customize_goods_tv_price_two)
+    TextView tv_price_two;
 
     @BindView(R.id.customize_goods_tv_remarks)
     TextView tv_remarks;
@@ -133,7 +140,8 @@ public class CustomizeGoodsActivity extends BaseActivity implements OnClickListe
             }
             // 效果图链接
             effectUrl = goodsEn.getEffectUrl();
-            if (!StringUtil.isNull(effectUrl)) {
+            if (!StringUtil.isNull(effectUrl) && (effectUrl.contains("http://") || effectUrl.contains("https://"))) {
+                group_url.setVisibility(View.VISIBLE);
                 tv_url.setText(effectUrl);
                 tv_url_copy.setOnClickListener(this);
                 tv_url_check.setOnClickListener(this);
@@ -155,11 +163,18 @@ public class CustomizeGoodsActivity extends BaseActivity implements OnClickListe
                         return false;
                     }
                 });
+            } else {
+                group_url.setVisibility(View.GONE);
             }
             // 商品信息
             tv_name.setText(goodsEn.getName());
             tv_number.setText(getString(R.string.goods_number_show, goodsEn.getNumber()));
-            tv_price.setText(getString(R.string.goods_price_show, df.format(goodsEn.getPrice())));
+            tv_price_one.setText(getString(R.string.order_rmb, df.format(goodsEn.getOnePrice())));
+            if (goodsEn.getTwoPrice() > 0) {
+                tv_price_one.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG);
+                tv_price_one.setTextColor(getResources().getColor(R.color.debar_text_color));
+                tv_price_two.setText(getString(R.string.order_rmb, df.format(goodsEn.getTwoPrice())));
+            }
             if (!StringUtil.isNull(goodsEn.getRemarks())) {
                 tv_remarks.setVisibility(View.VISIBLE);
                 tv_remarks_show.setVisibility(View.VISIBLE);

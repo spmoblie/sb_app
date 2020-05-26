@@ -23,7 +23,8 @@ public class GoodsEntity extends BaseEntity {
 	private int number; //商品数量
 	private int saleStatus; //0:未售后/1:退款中/2:已退款/3:换货中/4:已换货
 	private int commentStatus; //0:未评价/1:已评价/2:已追评
-	private double price; //销售价格
+	private double onePrice; //申报价格
+	private double twoPrice; //审核价格
 	private GoodsAttrEntity attrEn; //已选属性值
 	private GoodsSaleEntity saleEn; //商品售后信息
 	private ArrayList<String> labelList; //商品标签集
@@ -147,12 +148,20 @@ public class GoodsEntity extends BaseEntity {
 		this.commentStatus = commentStatus;
 	}
 
-	public double getPrice() {
-		return price;
+	public double getOnePrice() {
+		return onePrice;
 	}
 
-	public void setPrice(double price) {
-		this.price = price;
+	public void setOnePrice(double onePrice) {
+		this.onePrice = onePrice;
+	}
+
+	public double getTwoPrice() {
+		return twoPrice;
+	}
+
+	public void setTwoPrice(double twoPrice) {
+		this.twoPrice = twoPrice;
 	}
 
 	public GoodsAttrEntity getAttrEn() {

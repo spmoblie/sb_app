@@ -30,7 +30,7 @@
         app:layout_constraintTop_toTopOf="@+id/order_goods_item_iv_show" />
 
     <TextView
-        android:id="@+id/order_goods_item_tv_price"
+        android:id="@+id/order_goods_item_tv_price_one"
         style="@style/list_item_text"
         android:textStyle="bold"
         android:textColor="@color/app_color_gray_5"
@@ -40,11 +40,21 @@
         app:layout_constraintLeft_toRightOf="@+id/order_goods_item_iv_show" />
 
     <TextView
+        android:id="@+id/order_goods_item_tv_price_two"
+        style="@style/list_item_text"
+        android:textStyle="bold"
+        android:textColor="@color/app_color_red_p"
+        android:textSize="@dimen/app_text_size_label"
+        android:layout_marginStart="@dimen/margin_padding_5"
+        app:layout_constraintBottom_toBottomOf="@+id/order_goods_item_iv_show"
+        app:layout_constraintLeft_toRightOf="@+id/order_goods_item_tv_price_one" />
+
+    <TextView
         android:id="@+id/order_goods_item_tv_number"
         style="@style/list_item_text"
         android:textColor="@color/app_color_gray_5"
         android:textSize="@dimen/app_text_size_small"
-        app:layout_constraintBottom_toBottomOf="@+id/order_goods_item_tv_price"
+        app:layout_constraintBottom_toBottomOf="@+id/order_goods_item_tv_price_one"
         app:layout_constraintRight_toRightOf="parent" />
 
     <TextView

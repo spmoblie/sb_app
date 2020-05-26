@@ -338,7 +338,8 @@ public class JsonUtils {
                         gdEn.setName(goodsObj.getString("productName"));
                         gdEn.setPicUrl(goodsObj.getString("productPic"));
                         gdEn.setNumber(goodsObj.getInt("buyNum"));
-                        gdEn.setPrice(goodsObj.getDouble("buyPrice"));
+                        gdEn.setOnePrice(goodsObj.getDouble("buyPrice"));
+                        gdEn.setTwoPrice(goodsObj.getDouble("buyPrice"));
                         goodsList.add(gdEn);
                     }
                     childEn.setGoodsList(goodsList);
@@ -400,7 +401,8 @@ public class JsonUtils {
                     // 商品信息
                     gdEn.setName(goodsObj.getString("productName"));
                     gdEn.setNumber(goodsObj.getInt("buyNum"));
-                    gdEn.setPrice(goodsObj.getDouble("buyPrice"));
+                    gdEn.setOnePrice(goodsObj.getDouble("buyPrice"));
+                    gdEn.setTwoPrice(goodsObj.getDouble("buyPrice"));
                     goodsList.add(gdEn);
                 }
                 ocEn.setGoodsList(goodsList);
@@ -452,7 +454,8 @@ public class JsonUtils {
             // 商品信息
             gdEn.setName(jsonData.getString("productName"));
             gdEn.setNumber(jsonData.getInt("buyNum"));
-            gdEn.setPrice(jsonData.getDouble("buyPrice"));
+            gdEn.setOnePrice(jsonData.getDouble("buyPrice"));
+            gdEn.setTwoPrice(jsonData.getDouble("buyPrice"));
             gdEn.setRemarks(jsonData.getString("remark"));
             mainEn.setData(gdEn);
         }
@@ -506,7 +509,7 @@ public class JsonUtils {
                     childEn.setPicUrl(item.getString("skuPic"));
                     childEn.setName(item.getString("goodsName"));
                     childEn.setAttribute(item.getString("skuComboName"));
-                    childEn.setPrice(item.getDouble("price"));
+                    childEn.setOnePrice(item.getDouble("price"));
 
                     // 商品图片集
                     if (StringUtil.notNull(item, "skuPic")) {
@@ -520,7 +523,6 @@ public class JsonUtils {
                         urls.add(item.getString("skuPic"));
                         childEn.setImageList(urls);
                     }
-                    childEn.setEffectUrl("https://yun.kujiale.com/design/3FO4B5NB7E2L/airoaming");
 
                     lists.add(childEn);
                 }

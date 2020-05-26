@@ -127,6 +127,17 @@
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/goods_edit_iv_photo_07"/>
 
+                <TextView
+                    android:id="@+id/goods_edit_tv_link_null"
+                    style="@style/block_title_text"
+                    android:textStyle="normal"
+                    android:text="@string/goods_effect_link_null"
+                    android:textSize="@dimen/app_text_size_content"
+                    android:drawableEnd="@drawable/selector_checkbox_large"
+                    android:drawablePadding="@dimen/margin_padding_5"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/goods_edit_tv_effect_link"/>
+
                 <EditText
                     android:id="@+id/goods_edit_et_effect_link"
                     style="@style/goods_edit_text"

@@ -150,7 +150,7 @@ public class PostOrderActivity extends BaseActivity implements View.OnClickListe
     private void updateOrderPrice() {
         priceTotal = 0;
         for (GoodsEntity goodsEn : al_goods) {
-            priceTotal += goodsEn.getPrice() * goodsEn.getNumber();
+            priceTotal += goodsEn.getOnePrice() * goodsEn.getNumber();
         }
         tv_price_total.setText(df.format(priceTotal));
     }
@@ -295,7 +295,7 @@ public class PostOrderActivity extends BaseActivity implements View.OnClickListe
                     goodsJson.put("productName", goodsEn.getName());
                     goodsJson.put("vcrUrl", goodsEn.getEffectUrl());
                     goodsJson.put("buyNum", goodsEn.getNumber());
-                    goodsJson.put("buyPrice", goodsEn.getPrice());
+                    goodsJson.put("buyPrice", goodsEn.getOnePrice());
                     goodsJson.put("remark", goodsEn.getRemarks());
                     goodsJson.put("pics", new JSONArray(goodsEn.getImageList()));
                     jsonArr.put(i, goodsJson);

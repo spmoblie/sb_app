@@ -319,8 +319,6 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
             case R.id.goods_tv_effect_check:
                 if (goodsEn != null && !StringUtil.isNull(goodsEn.getEffectUrl())) {
                     openWebViewActivity(getString(R.string.goods_effect), goodsEn.getEffectUrl());
-                } else {
-                    CommonTools.showToast(getString(R.string.goods_effect_link_null));
                 }
                 break;
             case R.id.goods_tv_click:

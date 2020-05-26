@@ -161,6 +161,13 @@
                 android:textColor="@color/app_color_gray_9"
                 app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/customize_goods_tv_effect_url" />
+
+            <android.support.constraint.Group
+                android:id="@+id/customize_goods_group_url"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:visibility="visible"
+                app:constraint_referenced_ids="customize_goods_tv_link,customize_goods_tv_link_en,customize_goods_tv_link_sign,customize_goods_iv_link,customize_goods_tv_effect_url,customize_goods_tv_effect_check,customize_goods_tv_effect_copy" />
         </android.support.constraint.ConstraintLayout>
 
         <android.support.constraint.ConstraintLayout
@@ -221,16 +228,27 @@
                 app:layout_constraintTop_toBottomOf="@+id/customize_goods_tv_name_show" />
 
             <TextView
-                android:id="@+id/customize_goods_tv_price"
+                android:id="@+id/customize_goods_tv_price_name"
                 style="@style/order_text"
-                android:layout_width="0dp"
-                android:layout_marginEnd="@dimen/app_margin_screen"
+                android:text="@string/goods_price_show"
                 android:layout_marginStart="@dimen/app_margin_screen"
                 android:layout_marginTop="@dimen/margin_padding_10"
-                app:layout_constraintHorizontal_weight="1"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/customize_goods_tv_number" />
+
+            <TextView
+                android:id="@+id/customize_goods_tv_price_one"
+                style="@style/order_text"
+                app:layout_constraintLeft_toRightOf="@+id/customize_goods_tv_price_name"
+                app:layout_constraintTop_toTopOf="@+id/customize_goods_tv_price_name" />
+
+            <TextView
+                android:id="@+id/customize_goods_tv_price_two"
+                style="@style/order_text"
+                android:textColor="@color/app_color_red_p"
+                android:layout_marginStart="@dimen/margin_padding_5"
+                app:layout_constraintLeft_toRightOf="@+id/customize_goods_tv_price_one"
+                app:layout_constraintTop_toTopOf="@+id/customize_goods_tv_price_one" />
 
             <TextView
                 android:id="@+id/customize_goods_tv_remarks"
@@ -240,7 +258,7 @@
                 android:layout_marginTop="@dimen/margin_padding_10"
                 android:visibility="gone"
                 app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/customize_goods_tv_price" />
+                app:layout_constraintTop_toBottomOf="@+id/customize_goods_tv_price_one" />
 
             <TextView
                 android:id="@+id/customize_goods_tv_remarks_show"

@@ -106,7 +106,7 @@ public class GoodsOrderEditAdapter extends AppBaseAdapter<GoodsEntity> {
 					.into(holder.iv_show);
 
 			holder.tv_name.setText(data.getName());
-			holder.tv_price.setText(df.format(data.getPrice()));
+			holder.tv_price.setText(df.format(data.getOnePrice()));
 			holder.tv_number.setText(context.getString(R.string.order_goods_num, data.getNumber()));
 		}
 

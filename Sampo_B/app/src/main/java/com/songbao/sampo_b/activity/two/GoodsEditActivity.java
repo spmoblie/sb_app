@@ -65,6 +65,9 @@ public class GoodsEditActivity extends BaseActivity implements OnClickListener {
     @BindView(R.id.goods_edit_iv_photo_09)
     RoundImageView iv_photo_09;
 
+    @BindView(R.id.goods_edit_tv_link_null)
+    TextView tv_link_null;
+
     @BindView(R.id.goods_edit_et_effect_link)
     EditText et_link;
 
@@ -90,7 +93,7 @@ public class GoodsEditActivity extends BaseActivity implements OnClickListener {
     private GoodsEntity data;
     private int editPos, photoNum, goodsNum;
     private double goodsPrice;
-    private boolean isEdit;
+    private boolean isEdit, isNull;
     private String linkStr, name, remarks;
     private ArrayList<String> al_photos_add = new ArrayList<>();
     private ArrayList<String> al_photos_url = new ArrayList<>();
@@ -118,6 +121,7 @@ public class GoodsEditActivity extends BaseActivity implements OnClickListener {
         iv_photo_07.setOnClickListener(this);
         iv_photo_08.setOnClickListener(this);
         iv_photo_09.setOnClickListener(this);
+        tv_link_null.setOnClickListener(this);
         tv_confirm.setOnClickListener(this);
 
         showOptions = new RequestOptions()
@@ -134,7 +138,7 @@ public class GoodsEditActivity extends BaseActivity implements OnClickListener {
             if (data.getNumber() > 0) {
                 goodsNum = data.getNumber();
             }
-            goodsPrice = data.getPrice();
+            goodsPrice = data.getOnePrice();
         }
         et_link.setText(linkStr);
         et_name.setText(name);
@@ -152,16 +156,24 @@ public class GoodsEditActivity extends BaseActivity implements OnClickListener {
 
             @Override
             public void afterTextChanged(Editable s) {
-                tv_remarks_byte.setText(getString(R.string.viewpager_indicator, s.length(), 200));
+                updateTextBytes(s.length());
             }
         });
-        tv_remarks_byte.setText(getString(R.string.viewpager_indicator, et_remarks.getText().length(), 200));
+        if (StringUtil.isNull(remarks)) {
+            updateTextBytes(0);
+        } else {
+            updateTextBytes(remarks.length());
+        }
 
         et_number.setText(String.valueOf(goodsNum));
         if (goodsPrice > 0) {
             et_price.setText(df.format(goodsPrice));
         }
         updatePhotoData();
+    }
+
+    private void updateTextBytes(int lengths) {
+        tv_remarks_byte.setText(getString(R.string.viewpager_indicator, lengths, 200));
     }
 
     private void updatePhotoData() {
@@ -257,6 +269,15 @@ public class GoodsEditActivity extends BaseActivity implements OnClickListener {
             case R.id.goods_edit_iv_photo_09:
                 handlePhotoClick(8);
                 break;
+            case R.id.goods_edit_tv_link_null:
+                isNull = !isNull;
+                tv_link_null.setSelected(isNull);
+                if (isNull) {
+                    et_link.setVisibility(View.GONE);
+                } else {
+                    et_link.setVisibility(View.VISIBLE);
+                }
+                break;
             case R.id.goods_edit_tv_confirm:
                 if (checkData()) {
                     postData();
@@ -290,7 +311,7 @@ public class GoodsEditActivity extends BaseActivity implements OnClickListener {
             return false;
         }
         linkStr = et_link.getText().toString();
-        if (StringUtil.isNull(linkStr)) {
+        if (!isNull && StringUtil.isNull(linkStr)) {
             CommonTools.showToast(getString(R.string.goods_effect_link_hint), Toast.LENGTH_SHORT);
             return false;
         }
@@ -348,7 +369,7 @@ public class GoodsEditActivity extends BaseActivity implements OnClickListener {
         goodsEn.setEffectUrl(linkStr);
         goodsEn.setName(name);
         goodsEn.setNumber(goodsNum);
-        goodsEn.setPrice(goodsPrice);
+        goodsEn.setOnePrice(goodsPrice);
         goodsEn.setRemarks(remarks);
 
         OCustomizeEntity ocEn = (OCustomizeEntity) FileManager.readFileSaveObject(AppConfig.orderDataFileName, 0);
@@ -359,7 +380,7 @@ public class GoodsEditActivity extends BaseActivity implements OnClickListener {
                 ocEn.getGoodsList().get(editPos).setEffectUrl(linkStr);
                 ocEn.getGoodsList().get(editPos).setName(name);
                 ocEn.getGoodsList().get(editPos).setNumber(goodsNum);
-                ocEn.getGoodsList().get(editPos).setPrice(goodsPrice);
+                ocEn.getGoodsList().get(editPos).setOnePrice(goodsPrice);
                 ocEn.getGoodsList().get(editPos).setRemarks(remarks);
             } else {
                 ocEn.getGoodsList().add(goodsEn);

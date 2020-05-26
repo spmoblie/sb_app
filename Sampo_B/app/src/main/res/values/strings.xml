@@ -209,8 +209,8 @@
     <string name="goods_effect_img_hint">请上传效果图图片</string>
     <string name="goods_effect_file">效果图文件</string>
     <string name="goods_effect_link">效果图链接</string>
+    <string name="goods_effect_link_null">无图</string>
     <string name="goods_effect_link_hint">请粘贴链接地址</string>
-    <string name="goods_effect_link_null">效果图链接为空</string>
     <string name="goods_info">商品信息</string>
     <string name="goods_name">商品名称</string>
     <string name="goods_name_hint">请输入商品名称</string>
@@ -220,7 +220,7 @@
     <string name="goods_number_show">商品数量：%1$d</string>
     <string name="goods_price">商品单价</string>
     <string name="goods_price_hint">请输入商品单价</string>
-    <string name="goods_price_show">商品单价：￥ %1$s</string>
+    <string name="goods_price_show">商品单价：</string>
     <string name="goods_remarks">商品备注</string>
     <string name="goods_remarks_hint">请输入商品备注</string>
     <string name="goods_remarks_show">商品备注：</string>

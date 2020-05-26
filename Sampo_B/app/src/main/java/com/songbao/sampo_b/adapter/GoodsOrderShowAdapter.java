@@ -1,6 +1,7 @@
 package com.songbao.sampo_b.adapter;
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.support.constraint.ConstraintLayout;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,7 +36,7 @@ public class GoodsOrderShowAdapter extends AppBaseAdapter<GoodsEntity> {
 	static class ViewHolder {
 		ConstraintLayout item_main;
 		RoundImageView iv_show;
-		TextView tv_name, tv_price, tv_number, tv_detail;
+		TextView tv_name, tv_price_one, tv_price_two, tv_number, tv_detail;
 	}
 
 	/**
@@ -51,7 +52,8 @@ public class GoodsOrderShowAdapter extends AppBaseAdapter<GoodsEntity> {
 			holder.item_main = convertView.findViewById(R.id.order_goods_item_main);
 			holder.iv_show = convertView.findViewById(R.id.order_goods_item_iv_show);
 			holder.tv_name = convertView.findViewById(R.id.order_goods_item_tv_goods_name);
-			holder.tv_price = convertView.findViewById(R.id.order_goods_item_tv_price);
+			holder.tv_price_one = convertView.findViewById(R.id.order_goods_item_tv_price_one);
+			holder.tv_price_two = convertView.findViewById(R.id.order_goods_item_tv_price_two);
 			holder.tv_number = convertView.findViewById(R.id.order_goods_item_tv_number);
 			holder.tv_detail = convertView.findViewById(R.id.order_goods_item_tv_detail);
 			convertView.setTag(holder);
@@ -68,7 +70,15 @@ public class GoodsOrderShowAdapter extends AppBaseAdapter<GoodsEntity> {
 					.into(holder.iv_show);
 
 			holder.tv_name.setText(data.getName());
-			holder.tv_price.setText(context.getString(R.string.order_rmb, df.format(data.getPrice())));
+			holder.tv_price_one.setText(context.getString(R.string.order_rmb, df.format(data.getOnePrice())));
+			if (data.getTwoPrice() > 0) {
+				holder.tv_price_one.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG);
+				holder.tv_price_one.setTextColor(context.getResources().getColor(R.color.debar_text_color));
+				holder.tv_price_two.setText(context.getString(R.string.order_rmb, df.format(data.getTwoPrice())));
+			} else {
+				holder.tv_price_one.setTextColor(context.getResources().getColor(R.color.app_color_gray_5));
+				holder.tv_price_two.setText("");
+			}
 			holder.tv_number.setText(context.getString(R.string.order_goods_num, data.getNumber()));
 		}
 
