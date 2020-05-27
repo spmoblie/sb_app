@@ -17,14 +17,17 @@
         android:id="@+id/login_account_tv_account"
         style="@style/block_title_text"
         android:text="@string/login_account"
-        android:layout_marginTop="@dimen/margin_padding_40"
         android:layout_marginStart="@dimen/margin_padding_30"
+        app:layout_constraintVertical_bias="0.43"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/login_account_iv_logo"/>
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
     <EditText
         android:id="@+id/login_account_et_account"
         style="@style/login_edit"
+        android:imeOptions="actionNext"
+        android:singleLine="true"
         android:hint="@string/login_account_input"
         android:drawableStart="@mipmap/icon_login_account"
         android:drawablePadding="@dimen/margin_padding_10"

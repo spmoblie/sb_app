@@ -217,6 +217,7 @@
                     android:id="@+id/goods_edit_et_goods_remarks"
                     style="@style/goods_edit_text"
                     android:layout_height="128dp"
+                    android:imeOptions="actionDone"
                     android:gravity="top"
                     android:singleLine="false"
                     android:maxLength="200"

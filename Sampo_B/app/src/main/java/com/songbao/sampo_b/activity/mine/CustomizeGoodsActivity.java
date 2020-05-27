@@ -127,21 +127,20 @@ public class CustomizeGoodsActivity extends BaseActivity implements OnClickListe
 
     private void initShowData() {
         if (goodsEn != null) {
-            // 效果图图片
+            // 产品图片
             al_image.clear();
             al_image.addAll(goodsEn.getImageList());
             initImageScrollView();
-            // 效果图文件
+            // 产品文件
             if (goodsEn.getLabelList() != null && goodsEn.getLabelList().size() > 0) {
-                group_files.setVisibility(View.VISIBLE);
                 initFilesListView(goodsEn.getLabelList());
+                group_files.setVisibility(View.VISIBLE);
             } else {
                 group_files.setVisibility(View.GONE);
             }
-            // 效果图链接
+            // 产品链接
             effectUrl = goodsEn.getEffectUrl();
             if (!StringUtil.isNull(effectUrl) && (effectUrl.contains("http://") || effectUrl.contains("https://"))) {
-                group_url.setVisibility(View.VISIBLE);
                 tv_url.setText(effectUrl);
                 tv_url_copy.setOnClickListener(this);
                 tv_url_check.setOnClickListener(this);
@@ -163,10 +162,11 @@ public class CustomizeGoodsActivity extends BaseActivity implements OnClickListe
                         return false;
                     }
                 });
+                group_url.setVisibility(View.VISIBLE);
             } else {
                 group_url.setVisibility(View.GONE);
             }
-            // 商品信息
+            // 产品信息
             tv_name.setText(goodsEn.getName());
             tv_number.setText(getString(R.string.goods_number_show, goodsEn.getNumber()));
             tv_price_one.setText(getString(R.string.order_rmb, df.format(goodsEn.getOnePrice())));

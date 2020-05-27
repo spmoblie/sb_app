@@ -339,7 +339,7 @@ public class JsonUtils {
                         gdEn.setPicUrl(goodsObj.getString("productPic"));
                         gdEn.setNumber(goodsObj.getInt("buyNum"));
                         gdEn.setOnePrice(goodsObj.getDouble("buyPrice"));
-                        gdEn.setTwoPrice(goodsObj.getDouble("buyPrice"));
+                        gdEn.setTwoPrice(goodsObj.getDouble("buyModifyPrice"));
                         goodsList.add(gdEn);
                     }
                     childEn.setGoodsList(goodsList);
@@ -402,7 +402,7 @@ public class JsonUtils {
                     gdEn.setName(goodsObj.getString("productName"));
                     gdEn.setNumber(goodsObj.getInt("buyNum"));
                     gdEn.setOnePrice(goodsObj.getDouble("buyPrice"));
-                    gdEn.setTwoPrice(goodsObj.getDouble("buyPrice"));
+                    gdEn.setTwoPrice(goodsObj.getDouble("buyModifyPrice"));
                     goodsList.add(gdEn);
                 }
                 ocEn.setGoodsList(goodsList);
@@ -455,7 +455,7 @@ public class JsonUtils {
             gdEn.setName(jsonData.getString("productName"));
             gdEn.setNumber(jsonData.getInt("buyNum"));
             gdEn.setOnePrice(jsonData.getDouble("buyPrice"));
-            gdEn.setTwoPrice(jsonData.getDouble("buyPrice"));
+            gdEn.setTwoPrice(jsonData.getDouble("buyModifyPrice"));
             gdEn.setRemarks(jsonData.getString("remark"));
             mainEn.setData(gdEn);
         }

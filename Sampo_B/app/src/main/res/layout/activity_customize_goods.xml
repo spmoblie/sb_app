@@ -166,7 +166,7 @@
                 android:id="@+id/customize_goods_group_url"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:visibility="visible"
+                android:visibility="gone"
                 app:constraint_referenced_ids="customize_goods_tv_link,customize_goods_tv_link_en,customize_goods_tv_link_sign,customize_goods_iv_link,customize_goods_tv_effect_url,customize_goods_tv_effect_check,customize_goods_tv_effect_copy" />
         </android.support.constraint.ConstraintLayout>
 

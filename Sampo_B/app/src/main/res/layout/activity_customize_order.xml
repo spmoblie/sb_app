@@ -105,7 +105,7 @@
                 <TextView
                     android:id="@+id/customize_order_tv_order_no_copy"
                     style="@style/order_text"
-                    android:layout_marginStart="@dimen/margin_padding_30"
+                    android:layout_marginStart="@dimen/margin_padding_20"
                     android:paddingEnd="@dimen/margin_padding_10"
                     android:paddingStart="@dimen/margin_padding_10"
                     android:text="@string/copy"
