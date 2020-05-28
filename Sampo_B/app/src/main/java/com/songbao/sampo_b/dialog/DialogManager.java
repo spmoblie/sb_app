@@ -332,6 +332,9 @@ public class DialogManager {
 		if (window != null) {
 			LayoutParams lp = window.getAttributes();
 			lp.width = width;
+			if (items != null && items.length > 3) {
+				lp.height = width * 3 / 2;
+			}
 			window.setAttributes(lp);
 		}
 		// 初始化对话框中的子控件

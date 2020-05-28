@@ -211,6 +211,14 @@ public class UserManager {
 		mUserMoney = userMoney;
 	}
 
+	public String getStoreStr(){
+		return sp.getString(AppConfig.KEY_STORE_DATA, "");
+	}
+
+	public void saveStoreStr(String storeStr){
+		editor.putString(AppConfig.KEY_STORE_DATA, storeStr).commit();
+	}
+
 	public String getPostPhotoUrl(){
 		return sp.getString(AppConfig.KEY_POST_PHOTO_URL, "");
 	}
@@ -389,6 +397,7 @@ public class UserManager {
 			saveUserGender(infoEn.getGenderCode());
 			saveUserBirthday(infoEn.getBirthday());
 			saveUserArea(infoEn.getUserArea());
+			saveStoreStr(infoEn.getStoreStr());
 
 			if (StringUtil.isNull(infoEn.getMoney())) {
 				saveUserMoney("0.00");

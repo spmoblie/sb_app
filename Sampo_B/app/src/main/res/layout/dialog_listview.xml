@@ -23,6 +23,7 @@
         android:id="@+id/dialog_list_lv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:scrollbars="none"
         android:divider="@color/ui_bg_color_div_min_01"
         android:dividerHeight="@dimen/margin_padding_05" />
 

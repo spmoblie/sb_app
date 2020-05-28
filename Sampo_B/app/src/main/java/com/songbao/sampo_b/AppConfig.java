@@ -134,7 +134,7 @@ public class AppConfig {
 
 	// 我的消息
 	public static final int REQUEST_SV_USER_MESSAGE = 0X3101;
-	// 定制设计
+	// 驻店设计
 	public static final int REQUEST_SV_USER_DESIGNER = 0X3111;
 
 	// 分类列表
@@ -331,6 +331,8 @@ public class AppConfig {
 	public static final String KEY_USER_MONEY = "user_money";
 	// 偏好设置Key-记录用户上传相片地址
 	public static final String KEY_POST_PHOTO_URL = "post_photo_url";
+	// 偏好设置Key-记录用户门店数据
+	public static final String KEY_STORE_DATA = "store_data";
 	// 偏好设置Key-记录用户新消息数量
 	public static final String KEY_USER_MSG_NUM = "user_msg_num";
 	// 偏好设置Key-记录用户登录授权码

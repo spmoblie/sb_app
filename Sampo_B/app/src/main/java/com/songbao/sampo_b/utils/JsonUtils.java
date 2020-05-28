@@ -199,6 +199,20 @@ public class JsonUtils {
                 userInfo.setBirthday(data.getString("birthdayValue"));
                 userInfo.setUserArea(data.getString("address"));
                 userInfo.setUserIntro(data.getString("signature"));
+
+                if (StringUtil.notNull(data, "storeList")) {
+                    JSONArray nameArr = data.getJSONArray("storeList");
+                    StringBuilder sb_name = new StringBuilder();
+                    for (int i = 0; i < nameArr.length(); i++) {
+                        JSONObject nameObj = nameArr.getJSONObject(i);
+                        sb_name.append(nameObj.getString("storeName"));
+                        sb_name.append("_");
+                    }
+                    if (sb_name.toString().contains("_")) {
+                        sb_name.deleteCharAt(sb_name.length() - 1);
+                    }
+                    userInfo.setStoreStr(sb_name.toString());
+                }
             }
         }
         mainEn.setData(userInfo);

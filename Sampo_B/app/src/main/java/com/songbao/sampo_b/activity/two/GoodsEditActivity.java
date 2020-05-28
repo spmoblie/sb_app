@@ -366,7 +366,10 @@ public class GoodsEditActivity extends BaseActivity implements OnClickListener {
         GoodsEntity goodsEn = new GoodsEntity();
         goodsEn.setImageList(al_photos_url);
         goodsEn.setPicUrl(al_photos_url.get(0));
-        goodsEn.setEffectUrl(linkStr);
+        goodsEn.setPicture(isNull);
+        if (!isNull) {
+            goodsEn.setEffectUrl(linkStr);
+        }
         goodsEn.setName(name);
         goodsEn.setNumber(goodsNum);
         goodsEn.setOnePrice(goodsPrice);
@@ -377,7 +380,10 @@ public class GoodsEditActivity extends BaseActivity implements OnClickListener {
             if (isEdit && editPos >=0 && editPos < ocEn.getGoodsList().size()) {
                 ocEn.getGoodsList().get(editPos).setImageList(al_photos_url);
                 ocEn.getGoodsList().get(editPos).setPicUrl(al_photos_url.get(0));
-                ocEn.getGoodsList().get(editPos).setEffectUrl(linkStr);
+                ocEn.getGoodsList().get(editPos).setPicture(isNull);
+                if (!isNull) {
+                    ocEn.getGoodsList().get(editPos).setEffectUrl(linkStr);
+                }
                 ocEn.getGoodsList().get(editPos).setName(name);
                 ocEn.getGoodsList().get(editPos).setNumber(goodsNum);
                 ocEn.getGoodsList().get(editPos).setOnePrice(goodsPrice);

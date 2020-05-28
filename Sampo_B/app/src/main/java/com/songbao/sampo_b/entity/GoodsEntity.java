@@ -25,6 +25,7 @@ public class GoodsEntity extends BaseEntity {
 	private int commentStatus; //0:未评价/1:已评价/2:已追评
 	private double onePrice; //申报价格
 	private double twoPrice; //审核价格
+	private boolean isPicture; //是否无图
 	private GoodsAttrEntity attrEn; //已选属性值
 	private GoodsSaleEntity saleEn; //商品售后信息
 	private ArrayList<String> labelList; //商品标签集
@@ -162,6 +163,14 @@ public class GoodsEntity extends BaseEntity {
 
 	public void setTwoPrice(double twoPrice) {
 		this.twoPrice = twoPrice;
+	}
+
+	public boolean isPicture() {
+		return isPicture;
+	}
+
+	public void setPicture(boolean picture) {
+		isPicture = picture;
 	}
 
 	public GoodsAttrEntity getAttrEn() {

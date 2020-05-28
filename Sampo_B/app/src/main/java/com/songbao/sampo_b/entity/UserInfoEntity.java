@@ -15,6 +15,7 @@ public class UserInfoEntity extends BaseEntity {
 	private String userArea; //用户地区
 	private String userEmail; //用户邮箱
 	private String userPhone; //用户手机
+	private String storeStr; //门店数据
 	private String money; //账户余额
 	private String coupon; //优惠券
 	private String appToken; //登录授权码
@@ -113,6 +114,14 @@ public class UserInfoEntity extends BaseEntity {
 
 	public void setUserPhone(String userPhone) {
 		this.userPhone = userPhone;
+	}
+
+	public String getStoreStr() {
+		return storeStr;
+	}
+
+	public void setStoreStr(String storeStr) {
+		this.storeStr = storeStr;
 	}
 
 	public String getMoney() {
