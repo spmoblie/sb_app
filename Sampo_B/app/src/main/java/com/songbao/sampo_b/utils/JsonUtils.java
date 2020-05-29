@@ -390,6 +390,11 @@ public class JsonUtils {
                     ocEn.setPriceTwo(twoPrice1);
                 }
                 ocEn.setOrderNo(infoData.getString("customCode"));
+                ocEn.setCustomerName(infoData.getString("clientName"));
+                ocEn.setCustomerPhone(infoData.getString("clientPhone"));
+                ocEn.setBuildName(infoData.getString("propertyName"));
+                ocEn.setDealStore(infoData.getString("dealShop"));
+                ocEn.setHopeTime(infoData.getString("expectedSpan"));
                 ocEn.setTermTime(infoData.getString("preDeliveryDate"));
                 ocEn.setNodeTime1(infoData.getString("createTime"));
                 ocEn.setNodeTime2(infoData.getString("verifyTime"));

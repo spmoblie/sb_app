@@ -89,7 +89,7 @@ public class PostOrderActivity extends BaseActivity implements View.OnClickListe
     private int editPos = -1;
     private int goodsPos, imagePos;
     private double priceTotal;
-    private String customerName, phoneStr, buildName, storeName, hopeDate, orderRemarks;
+    private String nameStr, phoneStr, buildName, storeName, hopeDate, orderRemarks;
     private ArrayList<GoodsEntity> al_goods = new ArrayList<>();
 
     @Override
@@ -349,8 +349,8 @@ public class PostOrderActivity extends BaseActivity implements View.OnClickListe
             return false;
         }
         // 客户名称非空
-        customerName = et_customer_name.getText().toString();
-        if (StringUtil.isNull(customerName)) {
+        nameStr = et_customer_name.getText().toString();
+        if (StringUtil.isNull(nameStr)) {
             CommonTools.showToast(getString(R.string.order_customer_name_hint));
             return false;
         }
@@ -482,6 +482,11 @@ public class PostOrderActivity extends BaseActivity implements View.OnClickListe
         try {
             JSONObject jsonObj = new JSONObject();
             jsonObj.put("customPrice", priceTotal);
+            jsonObj.put("clientName", nameStr);
+            jsonObj.put("clientPhone", phoneStr);
+            jsonObj.put("propertyName", buildName);
+            jsonObj.put("dealShop", storeName);
+            jsonObj.put("expectedSpan", hopeDate);
             jsonObj.put("remark", orderRemarks);
 
             JSONArray jsonArr = new JSONArray();
@@ -490,7 +495,7 @@ public class PostOrderActivity extends BaseActivity implements View.OnClickListe
                 if (goodsEn != null) {
                     JSONObject goodsJson = new JSONObject();
                     goodsJson.put("productName", goodsEn.getName());
-                    goodsJson.put("isPicture", goodsEn.isPicture());
+                    goodsJson.put("isIsPicture", goodsEn.isPicture());
                     goodsJson.put("vcrUrl", goodsEn.getEffectUrl());
                     goodsJson.put("buyNum", goodsEn.getNumber());
                     goodsJson.put("buyPrice", goodsEn.getOnePrice());

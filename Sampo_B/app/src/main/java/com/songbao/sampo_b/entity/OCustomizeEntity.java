@@ -11,6 +11,11 @@ public class OCustomizeEntity extends BaseEntity {
 
 	private int id;
 	private String orderNo; //订单编号
+	private String customerName; //客户姓名
+	private String customerPhone; //客户电话
+	private String buildName; //楼盘名称
+	private String dealStore; //成交门店
+	private String hopeTime; //期望交期
 	private String termTime; //预计交期
 	private String nodeTime1; //创建时间
 	private String nodeTime2; //审核时间
@@ -52,6 +57,46 @@ public class OCustomizeEntity extends BaseEntity {
 
 	public void setOrderNo(String orderNo) {
 		this.orderNo = orderNo;
+	}
+
+	public String getCustomerName() {
+		return customerName;
+	}
+
+	public void setCustomerName(String customerName) {
+		this.customerName = customerName;
+	}
+
+	public String getCustomerPhone() {
+		return customerPhone;
+	}
+
+	public void setCustomerPhone(String customerPhone) {
+		this.customerPhone = customerPhone;
+	}
+
+	public String getBuildName() {
+		return buildName;
+	}
+
+	public void setBuildName(String buildName) {
+		this.buildName = buildName;
+	}
+
+	public String getDealStore() {
+		return dealStore;
+	}
+
+	public void setDealStore(String dealStore) {
+		this.dealStore = dealStore;
+	}
+
+	public String getHopeTime() {
+		return hopeTime;
+	}
+
+	public void setHopeTime(String hopeTime) {
+		this.hopeTime = hopeTime;
 	}
 
 	public String getTermTime() {

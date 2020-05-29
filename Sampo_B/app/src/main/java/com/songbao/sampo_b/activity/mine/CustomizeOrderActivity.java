@@ -64,11 +64,26 @@ public class CustomizeOrderActivity extends BaseActivity implements OnClickListe
     @BindView(R.id.customize_order_tv_price_show)
     TextView tv_price;
 
+    @BindView(R.id.customize_order_tv_customer_name)
+    TextView tv_customer_name;
+
+    @BindView(R.id.customize_order_tv_customer_phone)
+    TextView tv_customer_phone;
+
+    @BindView(R.id.customize_order_tv_build_name)
+    TextView tv_build_name;
+
+    @BindView(R.id.customize_order_tv_deal_store)
+    TextView tv_deal_store;
+
     @BindView(R.id.customize_order_tv_order_no)
     TextView tv_order_no;
 
     @BindView(R.id.customize_order_tv_order_no_copy)
     TextView tv_copy;
+
+    @BindView(R.id.customize_order_tv_time_hope)
+    TextView tv_time_hope;
 
     @BindView(R.id.customize_order_tv_time_term)
     TextView tv_time_term;
@@ -286,6 +301,11 @@ public class CustomizeOrderActivity extends BaseActivity implements OnClickListe
             }
 
             tv_order_no.setText(getString(R.string.order_order_no, ocEn.getOrderNo()));
+            tv_customer_name.setText(getString(R.string.order_customer_name_show, ocEn.getCustomerName()));
+            tv_customer_phone.setText(getString(R.string.order_customer_phone_show, ocEn.getCustomerPhone()));
+            tv_build_name.setText(getString(R.string.order_build_name_show, ocEn.getBuildName()));
+            tv_deal_store.setText(getString(R.string.order_deal_store_show, ocEn.getDealStore()));
+            tv_time_hope.setText(getString(R.string.order_hope_date_show, ocEn.getHopeTime()));
             tv_time_term.setText(getString(R.string.order_time_term, ocEn.getTermTime()));
             tv_time_create.setText(getString(R.string.order_time_create, ocEn.getNodeTime1()));
             if (!StringUtil.isNull(ocEn.getNodeTime2())) {
