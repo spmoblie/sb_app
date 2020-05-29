@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/order_goods_item_main"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/shape_style_solid_01_16"
+    android:paddingTop="@dimen/app_margin_screen"
+    android:paddingBottom="@dimen/app_margin_screen">
+
+    <com.songbao.sampo_b.widgets.RoundImageView
+        android:id="@+id/order_goods_item_iv_show"
+        android:layout_width="@dimen/image_size_goods"
+        android:layout_height="@dimen/image_size_goods"
+        android:scaleType="centerCrop"
+        android:src="@drawable/icon_default_show"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:type="round" />
+
+    <TextView
+        android:id="@+id/order_goods_item_tv_goods_name"
+        style="@style/goods_name_text"
+        android:layout_marginEnd="@dimen/app_margin_screen"
+        android:lines="2"
+        android:textSize="@dimen/app_text_size_content"
+        app:layout_constraintHorizontal_weight="1"
+        app:layout_constraintLeft_toRightOf="@+id/order_goods_item_iv_show"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/order_goods_item_iv_show" />
+
+    <TextView
+        android:id="@+id/order_goods_item_tv_price_one"
+        style="@style/list_item_text"
+        android:textStyle="bold"
+        android:textColor="@color/app_color_gray_5"
+        android:textSize="@dimen/app_text_size_label"
+        android:layout_marginStart="@dimen/margin_padding_10"
+        app:layout_constraintBottom_toBottomOf="@+id/order_goods_item_iv_show"
+        app:layout_constraintLeft_toRightOf="@+id/order_goods_item_iv_show" />
+
+    <TextView
+        android:id="@+id/order_goods_item_tv_price_two"
+        style="@style/list_item_text"
+        android:textStyle="bold"
+        android:textColor="@color/app_color_red_p"
+        android:textSize="@dimen/app_text_size_label"
+        android:layout_marginStart="@dimen/margin_padding_5"
+        app:layout_constraintBottom_toBottomOf="@+id/order_goods_item_iv_show"
+        app:layout_constraintLeft_toRightOf="@+id/order_goods_item_tv_price_one" />
+
+    <TextView
+        android:id="@+id/order_goods_item_tv_number"
+        style="@style/list_item_text"
+        android:textColor="@color/app_color_gray_5"
+        android:textSize="@dimen/app_text_size_small"
+        app:layout_constraintBottom_toBottomOf="@+id/order_goods_item_tv_price_one"
+        app:layout_constraintRight_toRightOf="parent" />
+
+    <TextView
+        android:id="@+id/order_goods_item_tv_detail"
+        style="@style/list_item_text"
+        android:text="@string/order_goods_detail"
+        android:textColor="@color/tv_color_status"
+        android:textSize="@dimen/app_text_size_label"
+        android:paddingStart="@dimen/app_margin_screen"
+        android:paddingTop="@dimen/app_margin_screen"
+        app:layout_constraintTop_toBottomOf="@+id/order_goods_item_iv_show"
+        app:layout_constraintRight_toRightOf="parent"
+        android:visibility="gone" />
+
+</android.support.constraint.ConstraintLayout>

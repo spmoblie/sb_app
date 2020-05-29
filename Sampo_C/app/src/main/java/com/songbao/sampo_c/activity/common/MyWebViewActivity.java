@@ -235,9 +235,10 @@ public class MyWebViewActivity extends BaseActivity {
 
 	@Override
 	protected void onDestroy() {
-		//清除缓存
+		// 销毁容器
 		if (myWebView != null) {
 			myWebView.clearCache(true);
+			myWebView.destroy();
 		}
 		super.onDestroy();
 	}
@@ -268,7 +269,10 @@ public class MyWebViewActivity extends BaseActivity {
 
 		@Override
 		public void handleMessage(Message msg) {
-			mActivity.get().handlerLoadSuccess(msg);
+			MyWebViewActivity theActivity = mActivity.get();
+			if (theActivity != null) {
+				theActivity.handlerLoadSuccess(msg);
+			}
 		}
 	}
 

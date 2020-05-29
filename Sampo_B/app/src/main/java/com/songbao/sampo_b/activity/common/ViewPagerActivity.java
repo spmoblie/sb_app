@@ -289,10 +289,13 @@ public class ViewPagerActivity extends BaseActivity {
 
 		@Override
 		public void handleMessage(Message msg) {
-			switch (msg.what) {
-				case AppConfig.DIALOG_CLICK_OK:
-					mActivity.get().finish();
-					break;
+			ViewPagerActivity theActivity = mActivity.get();
+			if (theActivity != null) {
+				switch (msg.what) {
+					case AppConfig.DIALOG_CLICK_OK:
+						theActivity.finish();
+						break;
+				}
 			}
 		}
 	}

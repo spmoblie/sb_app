@@ -1,7 +1,6 @@
 package com.songbao.sampo_b.activity.home;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -23,7 +22,6 @@ import com.songbao.sampo_b.AppApplication;
 import com.songbao.sampo_b.AppConfig;
 import com.songbao.sampo_b.R;
 import com.songbao.sampo_b.activity.BaseFragment;
-import com.songbao.sampo_b.activity.common.MyWebViewActivity;
 import com.songbao.sampo_b.adapter.AdapterCallback;
 import com.songbao.sampo_b.adapter.ThemeListAdapter;
 import com.songbao.sampo_b.entity.BaseEntity;
@@ -411,11 +409,7 @@ public class ChildFragmentHome extends BaseFragment implements OnClickListener {
         shareEn.setImageUrl(data.getPicUrl());
         shareEn.setUrl(data.getLinkUrl());
         // 跳转至WebView
-        Intent intent = new Intent(getActivity(), MyWebViewActivity.class);
-        intent.putExtra(AppConfig.PAGE_DATA, shareEn);
-        intent.putExtra("title", data.getTitle());
-        intent.putExtra("lodUrl", data.getLinkUrl());
-        startActivity(intent);
+        openWebViewActivity(data.getTitle(), data.getLinkUrl(), shareEn);
     }
 
     @Override

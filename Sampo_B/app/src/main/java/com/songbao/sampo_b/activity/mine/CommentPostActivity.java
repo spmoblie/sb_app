@@ -7,14 +7,13 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.songbao.sampo_b.AppApplication;
 import com.songbao.sampo_b.AppConfig;
 import com.songbao.sampo_b.R;
 import com.songbao.sampo_b.activity.BaseActivity;
-import com.songbao.sampo_b.activity.common.clip.ClipPhotoGridActivity;
+import com.songbao.sampo_b.activity.common.photo.PhotoAlbumActivity;
 import com.songbao.sampo_b.entity.BaseEntity;
 import com.songbao.sampo_b.entity.CommentEntity;
 import com.songbao.sampo_b.entity.GoodsEntity;
@@ -171,7 +170,7 @@ public class CommentPostActivity extends BaseActivity implements OnClickListener
 		contentStr = et_comment.getText().toString();
 		// 校验非空
 		if (StringUtil.isNull(contentStr)) {
-			CommonTools.showToast(getString(R.string.comment_content_null), Toast.LENGTH_SHORT);
+			CommonTools.showToast(getString(R.string.comment_content_null));
 			return false;
 		}
 		return true;
@@ -202,7 +201,7 @@ public class CommentPostActivity extends BaseActivity implements OnClickListener
 			}
 			break;
 		case R.id.comment_post_tv_add_photo:
-			openActivity(ClipPhotoGridActivity.class);
+			openActivity(PhotoAlbumActivity.class);
 			break;
 		case R.id.comment_post_tv_post:
 			if (checkData()) {
@@ -259,7 +258,7 @@ public class CommentPostActivity extends BaseActivity implements OnClickListener
 	private void uploadPhoto(String photoUrl) {
 		if (!StringUtil.isNull(photoUrl)) {
 			startAnimation();
-			uploadPushFile(new File(photoUrl), 2, AppConfig.REQUEST_SV_UPLOAD_COMMENT_PHOTO);
+			uploadPushFile(new File(photoUrl), 2, AppConfig.REQUEST_SV_UPLOAD_PHOTO);
 		}
 	}
 
@@ -276,7 +275,7 @@ public class CommentPostActivity extends BaseActivity implements OnClickListener
 		BaseEntity baseEn;
 		try {
 			switch (dataType) {
-				case AppConfig.REQUEST_SV_UPLOAD_COMMENT_PHOTO:
+				case AppConfig.REQUEST_SV_UPLOAD_PHOTO:
 					baseEn = JsonUtils.getUploadResult(jsonObject);
 					if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
 						al_image_url.add(baseEn.getOthers());

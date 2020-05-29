@@ -528,7 +528,10 @@ public class SignUpActivity extends BaseActivity implements View.OnClickListener
 
         @Override
         public void handleMessage(Message msg) {
-            mActivity.get().handleSelectAge(msg);
+            SignUpActivity theActivity = mActivity.get();
+            if (theActivity != null) {
+                theActivity.handleSelectAge(msg);
+            }
         }
     }
 

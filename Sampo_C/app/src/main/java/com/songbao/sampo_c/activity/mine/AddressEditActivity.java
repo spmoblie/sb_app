@@ -523,10 +523,12 @@ public class AddressEditActivity extends BaseActivity implements OnClickListener
         @Override
         public void handleMessage(Message msg) {
             AddressEditActivity theActivity = mActivity.get();
-            switch (msg.what) {
-                case AppConfig.DIALOG_CLICK_OK:
-                    theActivity.postDeleteAddress();
-                    break;
+            if (theActivity != null) {
+                switch (msg.what) {
+                    case AppConfig.DIALOG_CLICK_OK:
+                        theActivity.postDeleteAddress();
+                        break;
+                }
             }
         }
     }

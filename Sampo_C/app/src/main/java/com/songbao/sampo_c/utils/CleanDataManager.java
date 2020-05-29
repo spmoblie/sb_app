@@ -110,10 +110,10 @@ public class CleanDataManager {
      * @param context
      */
     public static void cleanAppTemporaryData(Context context){
-    	cleanCustomCache(AppConfig.SAVE_PATH_APK_DICE);
-    	cleanCustomCache(AppConfig.SAVE_PATH_TXT_DICE);
-        cleanCustomCache(AppConfig.SAVE_PATH_IMAGE_DICE);
-        cleanCustomCache(AppConfig.SAVE_PATH_MEDIA_DICE);
+    	cleanCustomCache(AppConfig.PATH_APK_CACHE);
+    	cleanCustomCache(AppConfig.PATH_TEXT_CACHE);
+        cleanCustomCache(AppConfig.PATH_IMAGE_CACHE);
+        cleanCustomCache(AppConfig.PATH_MEDIA_CACHE);
     }
   
     /** 

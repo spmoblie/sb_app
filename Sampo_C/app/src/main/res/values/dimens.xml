@@ -133,7 +133,7 @@
     <dimen name="image_size_other">@dimen/margin_padding_120</dimen>
 
     <!-- photo -->
-    <dimen name="photo_grid_tick_size">@dimen/margin_padding_24</dimen>
+    <dimen name="photo_grid_tick_size">@dimen/margin_padding_30</dimen>
     <dimen name="photo_grid_item_padding">@dimen/margin_padding_15</dimen>
     <dimen name="photo_grid_item_spacing">@dimen/margin_padding_5</dimen>
 

@@ -19,28 +19,19 @@ import com.songbao.sampo_c.AppManager;
 import com.songbao.sampo_c.BuildConfig;
 import com.songbao.sampo_c.R;
 import com.songbao.sampo_c.utils.CommonTools;
-import com.songbao.sampo_c.utils.download.DownloadListener;
-import com.songbao.sampo_c.utils.FileManager;
 import com.songbao.sampo_c.utils.LogUtil;
 import com.songbao.sampo_c.utils.StringUtil;
+import com.songbao.sampo_c.utils.download.DownloadListener;
 import com.songbao.sampo_c.utils.download.DownloadUtil;
-import com.songbao.sampo_c.utils.retrofit.HttpRequests;
 
 import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.lang.ref.WeakReference;
-
-import okhttp3.ResponseBody;
-import rx.Observer;
 
 
 public class AppVersionDialog {
 
     private static final int DIALOG_WIDTH = AppApplication.screen_width * 2 / 3;
-    private static final String APK_PATH = AppConfig.SAVE_APK_PATH;
+    private static final String APK_PATH = AppConfig.PATH_APK_NAME;
     private Context mContext;
     private DialogManager dm;
     private String apkUrl;

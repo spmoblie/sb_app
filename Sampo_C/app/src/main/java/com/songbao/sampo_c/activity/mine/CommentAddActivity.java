@@ -216,7 +216,7 @@ public class CommentAddActivity extends BaseActivity implements OnClickListener 
 	 */
 	private void loadServerData() {
 		HashMap<String, Object> map = new HashMap<>();
-		map.put("sourceType", AppConfig.DATA_TYPE);
+		map.put("sourceType", AppConfig.APP_TYPE);
 		map.put("orderNo", orderNo);
 		if (!StringUtil.isNull(skuCode)) {
 			map.put("skuCode", skuCode);

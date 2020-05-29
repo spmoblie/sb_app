@@ -22,11 +22,12 @@ import android.widget.Toast;
 
 import com.songbao.sampo_b.AppApplication;
 import com.songbao.sampo_b.AppConfig;
+import com.songbao.sampo_b.BuildConfig;
 import com.songbao.sampo_b.R;
 import com.songbao.sampo_b.activity.BaseActivity;
 import com.songbao.sampo_b.activity.common.SelectListActivity;
-import com.songbao.sampo_b.activity.common.clip.ClipImageCircularActivity;
-import com.songbao.sampo_b.activity.common.clip.ClipPhotoGridActivity;
+import com.songbao.sampo_b.activity.common.photo.ClipImageCircularActivity;
+import com.songbao.sampo_b.activity.common.photo.PhotoAlbumActivity;
 import com.songbao.sampo_b.adapter.SelectListAdapter;
 import com.songbao.sampo_b.entity.BaseEntity;
 import com.songbao.sampo_b.entity.SelectListEntity;
@@ -134,7 +135,7 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
         tv_area.setText(areaStr);
         tv_intro.setText(introStr);
         // 头像
-        Bitmap headBitmap = BitmapFactory.decodeFile(AppConfig.SAVE_USER_HEAD_PATH);
+        Bitmap headBitmap = BitmapFactory.decodeFile(AppConfig.PATH_USER_HEAD);
         if (headBitmap != null) {
             iv_head.setImageBitmap(headBitmap);
         } else {
@@ -212,6 +213,7 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
             month = c.get(Calendar.MONTH);
             day = c.get(Calendar.DAY_OF_MONTH);
         }
+        // TODO: 2020/5/19 看情况改成自定义样式
         new DatePickerDialog(this, DatePickerDialog.THEME_HOLO_LIGHT, new OnDateSetListener() {
 
             @Override
@@ -373,7 +375,7 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
         if (!StringUtil.isNull(clip_head_path)) {
             startAnimation();
             CommonTools.showToast(getString(R.string.photo_upload_img, getString(R.string.mine_head)));
-            uploadPushFile(new File(clip_head_path), 1, AppConfig.REQUEST_SV_UPLOAD_HEAD);
+            uploadPushFile(new File(clip_head_path), 1, AppConfig.REQUEST_SV_UPLOAD_PHOTO);
         } else {
             CommonTools.showToast(getString(R.string.photo_img_url_error, getString(R.string.mine_head)));
         }
@@ -395,7 +397,7 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
         BaseEntity baseEn;
         try {
             switch (dataType) {
-                case AppConfig.REQUEST_SV_UPLOAD_HEAD:
+                case AppConfig.REQUEST_SV_UPLOAD_PHOTO:
                     baseEn = JsonUtils.getUploadResult(jsonObject);
                     if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
                         changeStr = baseEn.getOthers();
@@ -412,7 +414,7 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
                         if (userKey.equals("avatar")) {
                             // 替换头像
                             Bitmap clipBitmap = BitmapFactory.decodeFile(clip_head_path);
-                            AppApplication.saveBitmapFile(clipBitmap, new File(AppConfig.SAVE_USER_HEAD_PATH), 100);
+                            AppApplication.saveBitmapFile(clipBitmap, new File(AppConfig.PATH_USER_HEAD), 100);
                             // 刷新头像
                             setView();
                             CommonTools.showToast(getString(R.string.photo_upload_img_ok, getString(R.string.mine_head)), Toast.LENGTH_SHORT);
@@ -445,13 +447,15 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
         @Override
         public void handleMessage(Message msg) {
             PersonalActivity theActivity = mActivity.get();
-            switch (msg.what) {
-                case 0: //拍照
-                    theActivity.openCamera();
-                    break;
-                case 1: //本地
-                    theActivity.openPhotoAlbum();
-                    break;
+            if (theActivity != null) {
+                switch (msg.what) {
+                    case 0: //拍照
+                        theActivity.openCamera();
+                        break;
+                    case 1: //本地
+                        theActivity.openPhotoAlbum();
+                        break;
+                }
             }
         }
     }
@@ -460,12 +464,11 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
      * 开启拍照
      */
     private void openCamera() {
-        String status = Environment.getExternalStorageState();
-        if (status.equals(Environment.MEDIA_MOUNTED)) { //先验证手机是否有sdcard
+        if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) { //先验证手机是否有sdcard
             try {
                 saveFile = BitmapUtil.createPath("IMG_" + System.currentTimeMillis() + ".jpg", true);
-                //注意：AndroidManifest.xml处的android:authorities必须跟getPackageName() + ".fileprovider"一样
-                Uri uri = FileProvider.getUriForFile(mContext, getPackageName() + ".fileprovider", saveFile);
+                //注意：AndroidManifest.xml处的android:authorities必须保持一致
+                Uri uri = FileProvider.getUriForFile(mContext, BuildConfig.APPLICATION_ID + ".fileProvider", saveFile);
                 Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
                 intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
@@ -483,7 +486,7 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
      * 本地相册
      */
     private void openPhotoAlbum() {
-        Intent intent = new Intent(mContext, ClipPhotoGridActivity.class);
+        Intent intent = new Intent(mContext, PhotoAlbumActivity.class);
         intent.putExtra("isClip", true);
         startActivity(intent);
     }

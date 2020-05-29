@@ -211,6 +211,14 @@ public class UserManager {
 		mUserMoney = userMoney;
 	}
 
+	public String getStoreStr(){
+		return sp.getString(AppConfig.KEY_STORE_DATA, "");
+	}
+
+	public void saveStoreStr(String storeStr){
+		editor.putString(AppConfig.KEY_STORE_DATA, storeStr).commit();
+	}
+
 	public String getPostPhotoUrl(){
 		return sp.getString(AppConfig.KEY_POST_PHOTO_URL, "");
 	}
@@ -369,9 +377,9 @@ public class UserManager {
 		saveUserArea("");
 		saveUserMoney("0.00");
 		// 清除用户缓存头像
-		CleanDataManager.cleanCustomCache(AppConfig.SAVE_USER_HEAD_PATH);
+		CleanDataManager.cleanCustomCache(AppConfig.PATH_USER_HEAD);
 		// 清除用户缓存数据
-		CleanDataManager.cleanCustomCache(AppConfig.SAVE_USER_DATA_PATH);
+		CleanDataManager.cleanCustomCache(AppConfig.PATH_USER_DATA);
 	}
 
 	/**
@@ -389,6 +397,7 @@ public class UserManager {
 			saveUserGender(infoEn.getGenderCode());
 			saveUserBirthday(infoEn.getBirthday());
 			saveUserArea(infoEn.getUserArea());
+			saveStoreStr(infoEn.getStoreStr());
 
 			if (StringUtil.isNull(infoEn.getMoney())) {
 				saveUserMoney("0.00");

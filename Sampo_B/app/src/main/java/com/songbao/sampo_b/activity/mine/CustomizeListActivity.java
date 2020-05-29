@@ -26,7 +26,6 @@ import com.songbao.sampo_b.widgets.pullrefresh.PullToRefreshBase;
 import com.songbao.sampo_b.widgets.pullrefresh.PullToRefreshRecyclerView;
 import com.songbao.sampo_b.widgets.recycler.MyRecyclerView;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.ref.WeakReference;
@@ -62,11 +61,11 @@ public class CustomizeListActivity extends BaseActivity implements View.OnClickL
     MyRecyclerView mRecyclerView;
     CustomizeAdapter rvAdapter;
 
-    public static final int TYPE_1 = 0;  //全部
-    public static final int TYPE_2 = 1;  //待付款
-    public static final int TYPE_3 = 2;  //生产中
-    public static final int TYPE_4 = 3;  //待收货
-    public static final int TYPE_5 = 4;  //待安装
+    public static final int TYPE_1 = 1;  //全部
+    public static final int TYPE_2 = 2;  //待审核
+    public static final int TYPE_3 = 3;  //生产中
+    public static final int TYPE_4 = 4;  //已发货
+    public static final int TYPE_5 = 5;  //已完成
 
     private boolean isLoadOk = true; //加载控制
     private int data_total = -1; //数据总量
@@ -113,10 +112,10 @@ public class CustomizeListActivity extends BaseActivity implements View.OnClickL
 
     private void initRadioGroup() {
         rb_1.setText(getString(R.string.order_all));
-        rb_2.setText(getString(R.string.order_wait_pay));
+        rb_2.setText(getString(R.string.order_wait_check));
         rb_3.setText(getString(R.string.order_producing));
         rb_4.setText(getString(R.string.order_wait_receive));
-        rb_5.setText(getString(R.string.order_wait_install));
+        rb_5.setText(getString(R.string.order_completed));
         rb_1.setOnClickListener(this);
         rb_2.setOnClickListener(this);
         rb_3.setOnClickListener(this);
@@ -180,32 +179,18 @@ public class CustomizeListActivity extends BaseActivity implements View.OnClickL
                 selectOrderNo = ocEn.getOrderNo();
                 int status = ocEn.getStatus();
                 switch (type) {
-                    case 1: //按键01
-                        if (status == AppConfig.ORDER_STATUS_401) { //待收货
-                            // 查看物流
-                            openCustomizeActivity(ocEn, 7);
-                        }
-                        break;
-                    case 2: //按键02
+                    case 1: //按键
                         switch (status) {
-                            case AppConfig.ORDER_STATUS_101: //待付款
+                            case AppConfig.ORDER_STATUS_101: //待审核
+                            case AppConfig.ORDER_STATUS_104: //已拒绝
+                            case AppConfig.ORDER_STATUS_201: //待初核
+                            case AppConfig.ORDER_STATUS_202: //待复核
                                 // 取消订单
                                 showConfirmDialog(getString(R.string.order_cancel_confirm), new MyHandler(CustomizeListActivity.this), 101);
                                 break;
-                            case AppConfig.ORDER_STATUS_201: //生产中
-                                // 查看进度
-                                openCustomizeActivity(ocEn, 6);
-                                break;
-                            case AppConfig.ORDER_STATUS_301: //待发货
-                                break;
-                            case AppConfig.ORDER_STATUS_401: //待收货
+                            case AppConfig.ORDER_STATUS_401: //已发货
                                 // 确认收货
-                                openCustomizeActivity(ocEn, 7);
-                                break;
-                            case AppConfig.ORDER_STATUS_501: //已签收
-                            case AppConfig.ORDER_STATUS_701: //待安装
-                                // 确认安装
-                                openCustomizeActivity(ocEn, 8);
+                                showConfirmDialog(getString(R.string.order_confirm_receive_hint), new MyHandler(CustomizeListActivity.this), 7);
                                 break;
                             case AppConfig.ORDER_STATUS_801: //已完成
                             case AppConfig.ORDER_STATUS_102: //已取消
@@ -216,7 +201,7 @@ public class CustomizeListActivity extends BaseActivity implements View.OnClickL
                         }
                         break;
                     default:
-                        openCustomizeActivity(ocEn, -1);
+                        openCustomizeActivity(ocEn);
                         break;
                 }
             }
@@ -227,10 +212,9 @@ public class CustomizeListActivity extends BaseActivity implements View.OnClickL
     /**
      * 打开定制订单详情
      */
-    private void openCustomizeActivity(OCustomizeEntity ocEn, int nodePosition) {
-        Intent intent = new Intent(mContext, CustomizeActivity.class);
+    private void openCustomizeActivity(OCustomizeEntity ocEn) {
+        Intent intent = new Intent(mContext, CustomizeOrderActivity.class);
         intent.putExtra(AppConfig.PAGE_DATA, ocEn);
-        intent.putExtra("nodePosition", nodePosition);
         startActivityForResult(intent, AppConfig.ACTIVITY_CODE_ORDER_UPDATE);
     }
 
@@ -430,7 +414,7 @@ public class CustomizeListActivity extends BaseActivity implements View.OnClickL
                     al_all_1.get(selectPosition).setStatus(statusCode);
                     al_show.addAll(al_all_1);
                     break;
-                case TYPE_2: //待付款 (触发事件：取消订单、确认支付)
+                case TYPE_2: //待审核 (触发事件：取消订单)
                     al_all_1.clear();
                     am_all_1.clear();
                     al_all_3.clear();
@@ -438,8 +422,12 @@ public class CustomizeListActivity extends BaseActivity implements View.OnClickL
                     al_all_2.remove(selectPosition);
                     al_show.addAll(al_all_2);
                     break;
-                case TYPE_3: //生产中 (触发事件：无)
-                    al_all_3.get(selectPosition).setStatus(statusCode);
+                case TYPE_3: //生产中 (触发事件：确认收货)
+                    al_all_1.clear();
+                    am_all_1.clear();
+                    al_all_5.clear();
+                    am_all_5.clear();
+                    al_all_3.remove(selectPosition);
                     al_show.addAll(al_all_3);
                     break;
                 case TYPE_4: //待收货 (触发事件：确认收货)
@@ -450,7 +438,7 @@ public class CustomizeListActivity extends BaseActivity implements View.OnClickL
                     al_all_4.remove(selectPosition);
                     al_show.addAll(al_all_4);
                     break;
-                case TYPE_5: //待安装 (触发事件：确认安装)
+                case TYPE_5: //已完成 (触发事件：删除订单)
                     al_all_1.clear();
                     am_all_1.clear();
                     al_all_5.remove(selectPosition);
@@ -550,36 +538,37 @@ public class CustomizeListActivity extends BaseActivity implements View.OnClickL
             page = "1";
         }
         HashMap<String, Object> map = new HashMap<>();
-        map.put("orderStatus", top_type);
+        map.put("customStatus", top_type);
         map.put("current", page);
         map.put("size", AppConfig.LOAD_SIZE);
-        loadSVData(AppConfig.URL_BOOKING_LIST, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_BOOKING_LIST);
+        loadSVData(AppConfig.URL_ORDER_LIST, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_ORDER_LIST);
+    }
+
+    /**
+     * 确认收货
+     */
+    private void postConfirmReceive() {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("customCode", selectOrderNo);
+        loadSVData(AppConfig.URL_ORDER_RECEIVE, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_ORDER_RECEIVE);
     }
 
     /**
      * 取消订单
      */
     private void postConfirmCancel() {
-        try {
-            JSONObject jsonObj = new JSONObject();
-            jsonObj.put("code", selectOrderNo);
-            postJsonData(AppConfig.URL_BOOKING_CANCEL, jsonObj, AppConfig.REQUEST_SV_BOOKING_CANCEL);
-        } catch (JSONException e) {
-            ExceptionUtil.handle(e);
-        }
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("customCode", selectOrderNo);
+        loadSVData(AppConfig.URL_ORDER_CANCEL, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_ORDER_CANCEL);
     }
 
     /**
      * 删除订单
      */
     private void postConfirmDelete() {
-        try {
-            JSONObject jsonObj = new JSONObject();
-            jsonObj.put("code", selectOrderNo);
-            postJsonData(AppConfig.URL_BOOKING_DELETE, jsonObj, AppConfig.REQUEST_SV_BOOKING_DELETE);
-        } catch (JSONException e) {
-            ExceptionUtil.handle(e);
-        }
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("customCode", selectOrderNo);
+        loadSVData(AppConfig.URL_ORDER_DELETE, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_ORDER_DELETE);
     }
 
     @Override
@@ -587,7 +576,7 @@ public class CustomizeListActivity extends BaseActivity implements View.OnClickL
         BaseEntity<OCustomizeEntity> baseEn;
         try {
             switch (dataType) {
-                case AppConfig.REQUEST_SV_BOOKING_LIST:
+                case AppConfig.REQUEST_SV_ORDER_LIST:
                     baseEn = JsonUtils.getCustomizeListData(jsonObject);
                     if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
                         int newTotal = baseEn.getDataTotal();
@@ -694,16 +683,24 @@ public class CustomizeListActivity extends BaseActivity implements View.OnClickL
                         handleErrorCode(baseEn);
                     }
                     break;
-                case AppConfig.REQUEST_SV_BOOKING_CANCEL:
-                    baseEn = JsonUtils.getCustomizeDetailData(jsonObject);
+                case AppConfig.REQUEST_SV_ORDER_RECEIVE:
+                    baseEn = JsonUtils.getBaseErrorData(jsonObject);
+                    if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
+                        dataStatusUpdate(AppConfig.ORDER_STATUS_801);
+                    } else {
+                        handleErrorCode(baseEn);
+                    }
+                    break;
+                case AppConfig.REQUEST_SV_ORDER_CANCEL:
+                    baseEn = JsonUtils.getBaseErrorData(jsonObject);
                     if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
                         dataStatusUpdate(AppConfig.ORDER_STATUS_102);
                     } else {
                         handleErrorCode(baseEn);
                     }
                     break;
-                case AppConfig.REQUEST_SV_BOOKING_DELETE:
-                    baseEn = JsonUtils.getCustomizeDetailData(jsonObject);
+                case AppConfig.REQUEST_SV_ORDER_DELETE:
+                    baseEn = JsonUtils.getBaseErrorData(jsonObject);
                     if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
                         deleteOrderUpdate();
                     } else {
@@ -759,9 +756,7 @@ public class CustomizeListActivity extends BaseActivity implements View.OnClickL
                         deleteOrderUpdate();
                         break;
                     case AppConfig.ORDER_STATUS_102: //取消订单—>已取消
-                    case AppConfig.ORDER_STATUS_201: //确认支付—>生产中
-                    case AppConfig.ORDER_STATUS_701: //确认收货—>待安装
-                    case AppConfig.ORDER_STATUS_801: //确认安装—>已完成
+                    case AppConfig.ORDER_STATUS_801: //确认收货—>已完成
                         dataStatusUpdate(updateCode);
                         break;
                 }
@@ -781,13 +776,18 @@ public class CustomizeListActivity extends BaseActivity implements View.OnClickL
         @Override
         public void handleMessage(Message msg) {
             CustomizeListActivity theActivity = mActivity.get();
-            switch (msg.what) {
-                case 101: //取消订单
-                    theActivity.postConfirmCancel();
-                    break;
-                case 102: //删除订单
-                    theActivity.postConfirmDelete();
-                    break;
+            if (theActivity != null) {
+                switch (msg.what) {
+                    case 7: //确认收货
+                        theActivity.postConfirmReceive();
+                        break;
+                    case 101: //取消订单
+                        theActivity.postConfirmCancel();
+                        break;
+                    case 102: //删除订单
+                        theActivity.postConfirmDelete();
+                        break;
+                }
             }
         }
     }

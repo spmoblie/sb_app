@@ -24,7 +24,6 @@ import com.songbao.sampo_c.entity.BaseEntity;
 import com.songbao.sampo_c.entity.CommentEntity;
 import com.songbao.sampo_c.entity.GoodsEntity;
 import com.songbao.sampo_c.entity.OPurchaseEntity;
-import com.songbao.sampo_c.entity.ThemeEntity;
 import com.songbao.sampo_c.utils.CommonTools;
 import com.songbao.sampo_c.utils.ExceptionUtil;
 import com.songbao.sampo_c.utils.JsonUtils;
@@ -610,19 +609,21 @@ public class PurchaseActivity extends BaseActivity implements View.OnClickListen
         @Override
         public void handleMessage(Message msg) {
             PurchaseActivity theActivity = mActivity.get();
-            switch (msg.what) {
-                case 101: //取消订单
-                    theActivity.postCancelOrder();
-                    break;
-                case 102: //删除订单
-                    theActivity.postDeleteOrder();
-                    break;
-                case 103: //确认收货
-                    theActivity.postConfirmReceipt();
-                    break;
-                case 104: //申请售后
-                    theActivity.callPhone(AppConfig.SALE_PHONE);
-                    break;
+            if (theActivity != null) {
+                switch (msg.what) {
+                    case 101: //取消订单
+                        theActivity.postCancelOrder();
+                        break;
+                    case 102: //删除订单
+                        theActivity.postDeleteOrder();
+                        break;
+                    case 103: //确认收货
+                        theActivity.postConfirmReceipt();
+                        break;
+                    case 104: //申请售后
+                        theActivity.callPhone(AppConfig.SALE_PHONE);
+                        break;
+                }
             }
         }
     }

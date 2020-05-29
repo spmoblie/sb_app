@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.songbao.sampo_b">
 
+    <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -13,6 +15,7 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" /> <!--7.0以上必加-->
 
     <uses-feature android:name="android.hardware.camera" />
     <uses-feature android:name="android.hardware.camera.autofocus" />
@@ -20,11 +23,16 @@
 
     <application
         android:name=".AppApplication"
-        android:allowBackup="true"
+        android:allowBackup="false"
+        tools:replace="android:allowBackup"
         android:icon="@mipmap/ic_launcher_my"
         android:label="@string/app_name"
-        android:theme="@style/SampoTheme"
-        android:networkSecurityConfig="@xml/network_security_config">
+        android:theme="@style/MyTheme"
+        android:usesCleartextTraffic="true"
+        tools:targetApi="23"
+        android:requestLegacyExternalStorage ="true" >
+        <!-- 解决安卓9.0系统出现 CLEARTEXT communication to XX not permitted by network security policy -->
+        <!-- 解决当target=29时,加载系统相册不显示的问题，谷歌临时允许使用老版本的权限来解决储存分区问题 -->
         <activity
             android:name=".activity.SplashActivity"
             android:screenOrientation="portrait">
@@ -40,10 +48,10 @@
             android:name="org.apache.http.legacy"
             android:required="false" />
 
-        <!-- API23以上调用系统相机需配置 -->
+        <!-- API23以上调用系统应用需配置 -->
         <provider
             android:name="android.support.v4.content.FileProvider"
-            android:authorities="com.songbao.sampo_b.fileprovider"
+            android:authorities="${applicationId}.fileProvider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
@@ -98,19 +106,31 @@
 
         <!-- common -->
         <activity
-            android:name=".activity.common.clip.ClipImageCircularActivity"
+            android:name=".activity.common.photo.ClipImageCircularActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.common.clip.ClipImageSquareActivity"
+            android:name=".activity.common.photo.ClipImageSquareActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.common.clip.ClipPhotoGridActivity"
+            android:name=".activity.common.photo.PhotoAlbumActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.common.clip.ClipPhotoOneActivity"
+            android:name=".activity.common.photo.PhotoAllActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.common.photo.PhotoOneActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.common.photo.PhotoShowActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.common.FileActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
         <activity
@@ -144,8 +164,16 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.two.GoodsListActivity"
+            android:name=".activity.two.GoodsEditActivity"
             android:launchMode="singleTop"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.two.GoodsSortActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.two.PostOrderActivity"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.two.SketchActivity"
@@ -153,6 +181,10 @@
             android:screenOrientation="portrait"/>
 
         <!-- mine -->
+        <activity
+            android:name=".activity.mine.AboutActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.mine.AddressActivity"
             android:launchMode="singleTop"
@@ -178,11 +210,15 @@
             android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
         <activity
-            android:name=".activity.mine.CustomizeActivity"
+            android:name=".activity.mine.CustomizeGoodsActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.mine.CustomizeListActivity"
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.mine.CustomizeOrderActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
         <activity
@@ -203,14 +239,6 @@
             android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.mine.PersonalActivity"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name=".activity.mine.PostSaleActivity"
-            android:launchMode="singleTop"
-            android:screenOrientation="portrait"/>
-        <activity
-            android:name=".activity.mine.RefundActivity"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"/>
         <activity

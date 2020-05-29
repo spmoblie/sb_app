@@ -38,7 +38,7 @@ public class AppApplication extends Application {
 
     String TAG = AppApplication.class.getSimpleName();
 
-    private static AppApplication spApp = null;
+    private static AppApplication spApp;
     private static SharedPreferences shared;
     private static PushManager pushManager;
     private static RequestOptions showOptions, headOptions;
@@ -172,7 +172,7 @@ public class AppApplication extends Application {
 				SortDBService.getInstance(spApp).deleteAll(); //清空数据库
 				clearGlideCache(); //清除图片缓存
 				CleanDataManager.cleanAppTemporaryData(spApp); //清除临时缓存
-				CleanDataManager.cleanCustomCache(AppConfig.SAVE_PATH_MEDIA_DICE); //清除视频缓存
+				CleanDataManager.cleanCustomCache(AppConfig.PATH_MEDIA_CACHE); //清除视频缓存
             }
         }).start();*/
         updateUserData(true);
@@ -218,7 +218,7 @@ public class AppApplication extends Application {
         }
         try {
             BitmapUtil.save(bm, file, compress);
-            if (file.getAbsolutePath().contains(AppConfig.SAVE_PATH_IMAGE_SAVE)) {
+            if (file.getAbsolutePath().contains(AppConfig.PATH_IMAGE_STORE)) {
                 updatePhoto(file); //需要保存的图片通知更新相册
             }
         } catch (IOException e) {

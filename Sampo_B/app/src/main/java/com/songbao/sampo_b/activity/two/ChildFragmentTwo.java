@@ -59,6 +59,9 @@ public class ChildFragmentTwo extends BaseFragment implements OnClickListener {
 	@BindView(R.id.fg_two_data_null_main)
 	ConstraintLayout view_null;
 
+	@BindView(R.id.fg_two_iv_edit)
+	ImageView iv_edit;
+
 	@BindView(R.id.fg_two_iv_scan)
 	ImageView iv_scan;
 
@@ -100,6 +103,7 @@ public class ChildFragmentTwo extends BaseFragment implements OnClickListener {
 	}
 
 	private void initView() {
+		iv_edit.setOnClickListener(this);
 		iv_scan.setOnClickListener(this);
 
 		initRecyclerView();
@@ -223,9 +227,12 @@ public class ChildFragmentTwo extends BaseFragment implements OnClickListener {
 
 	@Override
 	public void onClick(View v) {
+		if (ClickUtils.isDoubleClick(v.getId())) return;
 		switch (v.getId()) {
+			case R.id.fg_two_iv_edit:
+				openGoodsEditActivity();
+				break;
 			case R.id.fg_two_iv_scan:
-				if (ClickUtils.isDoubleClick(v.getId())) return;
 				Intent intent = new Intent(mContext, ScanActivity.class);
 				intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 				startActivity(intent);
@@ -310,7 +317,7 @@ public class ChildFragmentTwo extends BaseFragment implements OnClickListener {
 			page = 1;
 		}
 		HashMap<String, Object> map = new HashMap<>();
-		map.put("sourceType", AppConfig.DATA_TYPE);
+		map.put("sourceType", AppConfig.APP_TYPE);
 		map.put("page", page);
 		map.put("size", AppConfig.LOAD_SIZE);
 		map.put("refCatCode", postSortCode);
@@ -322,7 +329,7 @@ public class ChildFragmentTwo extends BaseFragment implements OnClickListener {
 	 */
 	private void loadSortData() {
 		HashMap<String, Object> map = new HashMap<>();
-		map.put("sourceType", AppConfig.DATA_TYPE);
+		map.put("sourceType", AppConfig.APP_TYPE);
 		loadSVData(AppConfig.URL_SORT_LIST, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_SORT_LIST);
 	}
 

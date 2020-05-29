@@ -19,7 +19,6 @@ import com.songbao.sampo_c.R;
 import com.songbao.sampo_c.activity.BaseActivity;
 import com.songbao.sampo_c.activity.mine.MyPurchaseActivity;
 import com.songbao.sampo_c.entity.BaseEntity;
-import com.songbao.sampo_c.entity.OCustomizeEntity;
 import com.songbao.sampo_c.entity.PayResult;
 import com.songbao.sampo_c.entity.PaymentEntity;
 import com.songbao.sampo_c.utils.CommonTools;
@@ -503,13 +502,15 @@ public class WXPayEntryActivity extends BaseActivity implements IWXAPIEventHandl
         @Override
         public void handleMessage(Message msg) {
             WXPayEntryActivity theActivity = mActivity.get();
-            switch (msg.what) {
-                case AppConfig.DIALOG_CLICK_NO:
-                    theActivity.handlerPayCancel();
-                    break;
-                case SDK_ZFB_PAY_FLAG: {
-                    theActivity.handlerZFBResult(msg);
-                    break;
+            if (theActivity != null) {
+                switch (msg.what) {
+                    case AppConfig.DIALOG_CLICK_NO:
+                        theActivity.handlerPayCancel();
+                        break;
+                    case SDK_ZFB_PAY_FLAG: {
+                        theActivity.handlerZFBResult(msg);
+                        break;
+                    }
                 }
             }
         }

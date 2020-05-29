@@ -14,7 +14,6 @@ import com.songbao.sampo_b.AppApplication;
 import com.songbao.sampo_b.AppConfig;
 import com.songbao.sampo_b.R;
 import com.songbao.sampo_b.activity.BaseActivity;
-import com.songbao.sampo_b.activity.common.MyWebViewActivity;
 import com.songbao.sampo_b.utils.LogUtil;
 import com.songbao.sampo_b.utils.UpdateAppVersion;
 
@@ -89,9 +88,7 @@ public class SettingActivity extends BaseActivity implements OnClickListener {
         Intent intent = null;
         switch (v.getId()) {
             case R.id.setting_rl_about_us:
-                intent = new Intent(mContext, MyWebViewActivity.class);
-                intent.putExtra("title", getString(R.string.setting_about_us));
-                intent.putExtra("lodUrl", AppConfig.ABOUT_US);
+                openActivity(AboutActivity.class);
                 break;
             case R.id.setting_rl_feedback:
                 intent = new Intent(mContext, FeedBackActivity.class);
@@ -161,18 +158,20 @@ public class SettingActivity extends BaseActivity implements OnClickListener {
         @Override
         public void handleMessage(Message msg) {
             final SettingActivity theActivity = mActivity.get();
-            switch (msg.what) {
-                case AppConfig.DIALOG_CLICK_OK:
-                    AppApplication.AppLogout();
-                    theActivity.startAnimation();
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            theActivity.stopAnimation();
-                            theActivity.finish();
-                        }
-                    }, AppConfig.LOADING_TIME);
-                    break;
+            if (theActivity != null) {
+                switch (msg.what) {
+                    case AppConfig.DIALOG_CLICK_OK:
+                        AppApplication.AppLogout();
+                        theActivity.startAnimation();
+                        new Handler().postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                theActivity.stopAnimation();
+                                theActivity.finish();
+                            }
+                        }, AppConfig.LOADING_TIME);
+                        break;
+                }
             }
         }
     }

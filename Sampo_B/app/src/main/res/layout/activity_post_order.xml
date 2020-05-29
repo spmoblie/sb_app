@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/post_order_view_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/ui_color_app_bg_02"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:id="@+id/post_order_view_sv"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:fillViewport="true"
+        android:scrollbars="none"
+        android:background="@color/ui_color_app_bg_02">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingStart="@dimen/app_margin_screen"
+            android:paddingEnd="@dimen/app_margin_screen"
+            android:paddingTop="@dimen/app_margin_screen"
+            android:orientation="vertical" >
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="@dimen/margin_padding_20"
+                android:background="@drawable/shape_style_solid_01_16">
+
+                <com.songbao.sampo_b.widgets.ScrollViewListView
+                    android:id="@+id/post_order_view_lv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+
+                <TextView
+                    android:id="@+id/post_order_tv_goods_add"
+                    style="@style/order_text_button"
+                    android:text="@string/order_goods_add"
+                    android:textColor="@color/app_color_white"
+                    android:background="@drawable/shape_style_solid_07_08"
+                    android:layout_marginTop="@dimen/margin_padding_20"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/post_order_view_lv"
+                    app:layout_constraintWidth_percent="0.3" />
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/app_margin_screen"
+                android:layout_marginTop="@dimen/app_margin_screen"
+                android:background="@drawable/shape_style_solid_01_16">
+
+                <TextView
+                    android:id="@+id/post_order_tv_price"
+                    style="@style/block_title_text"
+                    android:text="@string/order_price_total"
+                    android:textSize="@dimen/app_text_size_content"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+
+                <TextView
+                    android:id="@+id/post_order_tv_price_curr"
+                    style="@style/common_text_price_curr"
+                    android:textColor="@color/app_color_black"
+                    app:layout_constraintRight_toLeftOf="@+id/post_order_tv_price_show"
+                    app:layout_constraintBottom_toBottomOf="@+id/post_order_tv_price_show"
+                    app:layout_constraintBaseline_toBaselineOf="@+id/post_order_tv_price_show" />
+
+                <TextView
+                    android:id="@+id/post_order_tv_price_show"
+                    style="@style/common_text_price"
+                    android:textSize="@dimen/text_size_22"
+                    android:textColor="@color/app_color_black"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"/>
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/app_margin_screen"
+                android:layout_marginTop="@dimen/app_margin_screen"
+                android:background="@drawable/shape_style_solid_01_16">
+
+                <TextView
+                    android:id="@+id/post_order_tv_customer_name"
+                    style="@style/block_title_text"
+                    android:text="@string/order_customer_name"
+                    android:textSize="@dimen/app_text_size_content"
+                    android:paddingTop="@dimen/margin_padding_11"
+                    android:paddingBottom="@dimen/margin_padding_11"
+                    app:layout_constraintLeft_toLeftOf="parent"/>
+
+                <EditText
+                    android:id="@+id/post_order_et_customer_name"
+                    style="@style/goods_edit_text"
+                    android:hint="@string/order_customer_name_hint"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginStart="@dimen/margin_padding_10"
+                    app:layout_constraintHorizontal_weight="1"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintLeft_toRightOf="@+id/post_order_tv_customer_name"
+                    app:layout_constraintTop_toTopOf="@+id/post_order_tv_customer_name"/>
+
+                <TextView
+                    android:id="@+id/post_order_tv_customer_phone"
+                    style="@style/block_title_text"
+                    android:text="@string/order_customer_phone"
+                    android:textSize="@dimen/app_text_size_content"
+                    android:layout_marginTop="@dimen/margin_padding_20"
+                    android:paddingTop="@dimen/margin_padding_11"
+                    android:paddingBottom="@dimen/margin_padding_11"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/post_order_tv_customer_name"/>
+
+                <EditText
+                    android:id="@+id/post_order_et_customer_phone"
+                    style="@style/goods_edit_text"
+                    android:inputType="phone"
+                    android:maxLength="13"
+                    android:hint="@string/order_customer_phone_hint"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginStart="@dimen/margin_padding_10"
+                    app:layout_constraintHorizontal_weight="1"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintLeft_toRightOf="@+id/post_order_tv_customer_phone"
+                    app:layout_constraintTop_toTopOf="@+id/post_order_tv_customer_phone"/>
+
+                <TextView
+                    android:id="@+id/post_order_tv_build_name"
+                    style="@style/block_title_text"
+                    android:text="@string/order_build_name"
+                    android:textSize="@dimen/app_text_size_content"
+                    android:layout_marginTop="@dimen/margin_padding_20"
+                    android:paddingTop="@dimen/margin_padding_11"
+                    android:paddingBottom="@dimen/margin_padding_11"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/post_order_tv_customer_phone"/>
+
+                <EditText
+                    android:id="@+id/post_order_et_build_name"
+                    style="@style/goods_edit_text"
+                    android:hint="@string/order_build_name_hint"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginStart="@dimen/margin_padding_10"
+                    app:layout_constraintHorizontal_weight="1"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintLeft_toRightOf="@+id/post_order_tv_build_name"
+                    app:layout_constraintTop_toTopOf="@+id/post_order_tv_build_name"/>
+
+                <TextView
+                    android:id="@+id/post_order_tv_deal_store"
+                    style="@style/block_title_text"
+                    android:text="@string/order_deal_store"
+                    android:textSize="@dimen/app_text_size_content"
+                    android:layout_marginTop="@dimen/margin_padding_20"
+                    android:paddingTop="@dimen/margin_padding_11"
+                    android:paddingBottom="@dimen/margin_padding_11"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/post_order_tv_build_name"/>
+
+                <TextView
+                    android:id="@+id/post_order_et_deal_store"
+                    style="@style/goods_edit_text"
+                    android:hint="@string/order_deal_store_hint"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginStart="@dimen/margin_padding_10"
+                    app:layout_constraintHorizontal_weight="1"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintLeft_toRightOf="@+id/post_order_tv_deal_store"
+                    app:layout_constraintTop_toTopOf="@+id/post_order_tv_deal_store"/>
+
+                <TextView
+                    android:id="@+id/post_order_tv_hope_date"
+                    style="@style/block_title_text"
+                    android:text="@string/order_hope_date"
+                    android:textSize="@dimen/app_text_size_content"
+                    android:layout_marginTop="@dimen/margin_padding_20"
+                    android:paddingTop="@dimen/margin_padding_11"
+                    android:paddingBottom="@dimen/margin_padding_11"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/post_order_tv_deal_store"/>
+
+                <TextView
+                    android:id="@+id/post_order_et_hope_date"
+                    style="@style/goods_edit_text"
+                    android:hint="@string/order_hope_date_hint"
+                    android:layout_marginTop="0dp"
+                    android:layout_marginStart="@dimen/margin_padding_10"
+                    app:layout_constraintHorizontal_weight="1"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintLeft_toRightOf="@+id/post_order_tv_hope_date"
+                    app:layout_constraintTop_toTopOf="@+id/post_order_tv_hope_date"/>
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/app_margin_screen"
+                android:layout_marginTop="@dimen/app_margin_screen"
+                android:background="@drawable/shape_style_solid_01_16">
+
+                <TextView
+                    android:id="@+id/post_order_tv_order_remarks"
+                    style="@style/block_title_text"
+                    android:text="@string/order_remarks"
+                    android:textSize="@dimen/app_text_size_content"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"/>
+
+                <com.songbao.sampo_b.widgets.ScrollViewEditText
+                    android:id="@+id/post_order_et_order_remarks"
+                    style="@style/goods_edit_text"
+                    android:layout_height="180dp"
+                    android:gravity="top"
+                    android:singleLine="false"
+                    android:maxLength="500"
+                    android:hint="@string/order_remarks_hint"
+                    android:paddingBottom="@dimen/margin_padding_27"
+                    app:layout_constraintHorizontal_weight="1"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/post_order_tv_order_remarks" />
+
+                <TextView
+                    android:id="@+id/post_order_tv_order_remarks_byte"
+                    style="@style/goods_text"
+                    android:textSize="@dimen/app_text_size_small"
+                    android:layout_margin="@dimen/margin_padding_10"
+                    app:layout_constraintRight_toRightOf="@+id/post_order_et_order_remarks"
+                    app:layout_constraintBottom_toBottomOf="@+id/post_order_et_order_remarks"/>
+            </android.support.constraint.ConstraintLayout>
+        </LinearLayout>
+    </ScrollView>
+
+    <TextView
+        android:id="@+id/post_order_tv_confirm"
+        style="@style/common_text_button"
+        android:layout_width="match_parent"
+        android:layout_margin="@dimen/app_margin_screen"
+        android:text="@string/order_post"
+        android:textStyle="bold"
+        android:textSize="@dimen/app_text_size_title" />
+
+</LinearLayout>

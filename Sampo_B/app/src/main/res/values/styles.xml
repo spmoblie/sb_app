@@ -1,6 +1,6 @@
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <style name="SampoTheme" parent="AppBaseTheme" />
+    <style name="MyTheme" parent="AppBaseTheme" />
 
     <style name="AppBaseTheme" parent="android:Theme.Light.NoTitleBar">
         <!--<item name="android:fitsSystemWindows">true</item>--><!--沉浸效果-->
@@ -82,8 +82,8 @@
     <style name="top_bar_icon">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:paddingTop">@dimen/margin_padding_10</item>
-        <item name="android:paddingBottom">@dimen/margin_padding_10</item>
+        <item name="android:paddingTop">@dimen/margin_padding_8</item>
+        <item name="android:paddingBottom">@dimen/margin_padding_8</item>
         <item name="android:paddingLeft">@dimen/app_margin_screen</item>
         <item name="android:paddingRight">@dimen/app_margin_screen</item>
         <item name="android:background">@color/ui_bg_color_percent_10</item>
@@ -228,6 +228,32 @@
         <item name="android:background">@drawable/shape_style_app_status</item>
     </style>
 
+    <!-- 商品效果图图片编辑样式 -->
+    <style name="goods_photo_edit">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:layout_marginStart">@dimen/margin_padding_6</item>
+        <item name="android:scaleType">centerCrop</item>
+        <item name="android:src">@drawable/icon_default_show</item>
+    </style>
+
+    <!-- 商品编辑EditText样式 -->
+    <style name="goods_edit_text">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingTop">@dimen/margin_padding_12</item>
+        <item name="android:paddingBottom">@dimen/margin_padding_12</item>
+        <item name="android:paddingStart">@dimen/margin_padding_10</item>
+        <item name="android:paddingEnd">@dimen/margin_padding_10</item>
+        <item name="android:layout_marginTop">@dimen/margin_padding_10</item>
+        <item name="android:background">@drawable/shape_style_app_input</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:textSize">@dimen/app_text_size_label</item>
+        <item name="android:textColor">@color/input_text_color</item>
+        <item name="android:textColorHint">@color/input_hint_color</item>
+    </style>
+
     <!-- 订单页面TextView样式 -->
     <style name="order_text">
         <item name="android:layout_width">wrap_content</item>
@@ -297,8 +323,8 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:paddingTop">@dimen/margin_padding_9</item>
         <item name="android:paddingBottom">@dimen/margin_padding_9</item>
-        <item name="android:paddingLeft">@dimen/app_margin_screen</item>
-        <item name="android:paddingRight">@dimen/app_margin_screen</item>
+        <item name="android:paddingStart">@dimen/app_margin_screen</item>
+        <item name="android:paddingEnd">@dimen/app_margin_screen</item>
         <item name="android:background">@drawable/shape_style_app_input</item>
         <item name="android:ellipsize">end</item>
         <item name="android:singleLine">true</item>
@@ -456,10 +482,10 @@
         <item name="android:gravity">center</item>
         <item name="android:textColor">@color/tv_color_button</item>
         <item name="android:textSize">@dimen/app_text_size_button</item>
-        <item name="android:paddingLeft">@dimen/margin_padding_30</item>
-        <item name="android:paddingTop">@dimen/margin_padding_10</item>
-        <item name="android:paddingRight">@dimen/margin_padding_30</item>
-        <item name="android:paddingBottom">@dimen/margin_padding_10</item>
+        <item name="android:paddingStart">@dimen/app_margin_screen</item>
+        <item name="android:paddingEnd">@dimen/app_margin_screen</item>
+        <item name="android:paddingTop">@dimen/app_margin_screen</item>
+        <item name="android:paddingBottom">@dimen/app_margin_screen</item>
         <item name="android:background">@drawable/shape_style_solid_04_08</item>
     </style>
 

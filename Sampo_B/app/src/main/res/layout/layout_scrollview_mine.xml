@@ -114,7 +114,8 @@
             android:id="@+id/fg_mine_address_main"
             style="@style/setting_lay_item"
             android:padding="@dimen/app_margin_screen"
-            android:background="@drawable/selector_item_change_1">
+            android:background="@drawable/selector_item_change_1"
+            android:visibility="gone">
 
             <TextView
                 style="@style/setting_lay_text_title"
@@ -135,7 +136,8 @@
             android:id="@+id/fg_mine_designer_main"
             style="@style/setting_lay_item"
             android:padding="@dimen/app_margin_screen"
-            android:background="@drawable/selector_item_change_1">
+            android:background="@drawable/selector_item_change_1"
+            android:visibility="gone">
 
             <TextView
                 style="@style/setting_lay_text_title"

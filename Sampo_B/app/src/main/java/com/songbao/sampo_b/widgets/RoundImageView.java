@@ -10,7 +10,6 @@ import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.Shader;
 import android.graphics.drawable.Drawable;
-import android.os.Build;
 import android.support.v7.widget.AppCompatImageView;
 import android.util.AttributeSet;
 import android.util.TypedValue;
@@ -95,16 +94,15 @@ public class RoundImageView extends AppCompatImageView {
             final int saveCount = canvas.getSaveCount();
             canvas.save();
 
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
-                if (getCropToPadding()) {
-                    final int scrollX = getScrollX();
-                    final int scrollY = getScrollY();
-                    canvas.clipRect(scrollX + getPaddingLeft(), scrollY + getPaddingTop(),
-                            scrollX + getRight() - getLeft() - getPaddingRight(),
-                            scrollY + getBottom() - getTop() - getPaddingBottom());
-                }
+            if (getCropToPadding()) {
+                final int scrollX = getScrollX();
+                final int scrollY = getScrollY();
+                canvas.clipRect(scrollX + getPaddingLeft(), scrollY + getPaddingTop(),
+                        scrollX + getRight() - getLeft() - getPaddingRight(),
+                        scrollY + getBottom() - getTop() - getPaddingBottom());
             }
             canvas.translate(getPaddingLeft(), getPaddingTop());
+            // TODO: 2020/5/19 Warning未处理 
             if (currMode == MODE_CIRCLE) {//当为圆形模式的时候
                 BitmapShader bitmapShader = new BitmapShader(drawable2Bitmap(mDrawable), Shader.TileMode.CLAMP, Shader.TileMode.CLAMP);
                 mPaint.setShader(bitmapShader);

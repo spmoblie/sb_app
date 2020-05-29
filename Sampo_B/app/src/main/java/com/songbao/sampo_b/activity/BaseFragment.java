@@ -15,8 +15,10 @@ import com.songbao.sampo_b.AppConfig;
 import com.songbao.sampo_b.activity.common.MyWebViewActivity;
 import com.songbao.sampo_b.activity.login.LoginAccountActivity;
 import com.songbao.sampo_b.activity.two.GoodsActivity;
+import com.songbao.sampo_b.activity.two.GoodsEditActivity;
 import com.songbao.sampo_b.dialog.LoadDialog;
 import com.songbao.sampo_b.entity.BaseEntity;
+import com.songbao.sampo_b.entity.ShareEntity;
 import com.songbao.sampo_b.utils.CommonTools;
 import com.songbao.sampo_b.utils.ExceptionUtil;
 import com.songbao.sampo_b.utils.LogUtil;
@@ -103,14 +105,25 @@ public class BaseFragment extends Fragment {
 	}
 
 	/**
+	 * 打开商品编辑页
+	 */
+	protected void openGoodsEditActivity() {
+		startActivity(new Intent(getActivity(), GoodsEditActivity.class));
+	}
+
+	/**
 	 * 跳转至WebView
 	 * @param title
 	 * @param url
+	 * @param shareEn
 	 */
-	protected void openWebViewActivity(String title, String url) {
+	protected void openWebViewActivity(String title, String url, ShareEntity shareEn) {
 		Intent intent = new Intent(getActivity(), MyWebViewActivity.class);
 		intent.putExtra("title", title);
 		intent.putExtra("lodUrl", url);
+		if (shareEn != null) {
+			intent.putExtra(AppConfig.PAGE_DATA, shareEn);
+		}
 		startActivity(intent);
 	}
 

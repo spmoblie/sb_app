@@ -396,9 +396,9 @@ public class UserManager {
 		saveUserMoney("0.00");
 		saveUserCartNum(0);
 		// 清除缓存的头像
-		CleanDataManager.cleanCustomCache(AppConfig.SAVE_USER_HEAD_PATH);
+		CleanDataManager.cleanCustomCache(AppConfig.PATH_USER_HEAD);
 		// 清除缓存的数据
-		CleanDataManager.cleanCustomCache(AppConfig.SAVE_USER_DATA_PATH);
+		CleanDataManager.cleanCustomCache(AppConfig.PATH_USER_DATA);
 	}
 
 	/**

@@ -137,9 +137,10 @@ public class SketchActivity extends BaseActivity {
 
 	@Override
 	protected void onDestroy() {
-		//清除缓存
+		// 销毁容器
 		if (myWebView != null) {
 			myWebView.clearCache(true);
+			myWebView.destroy();
 		}
 		super.onDestroy();
 	}

@@ -269,7 +269,7 @@ public class ChildFragmentTwo extends BaseFragment implements OnClickListener {
 	 */
 	private void loadSortData() {
 		HashMap<String, Object> map = new HashMap<>();
-		map.put("sourceType", AppConfig.DATA_TYPE);
+		map.put("sourceType", AppConfig.APP_TYPE);
 		loadSVData(AppConfig.URL_SORT_LIST, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_SORT_LIST);
 	}
 
@@ -280,7 +280,7 @@ public class ChildFragmentTwo extends BaseFragment implements OnClickListener {
 		if (!isLoadOk) return;
 		isLoadOk = false;
 		HashMap<String, Object> map = new HashMap<>();
-		map.put("sourceType", AppConfig.DATA_TYPE);
+		map.put("sourceType", AppConfig.APP_TYPE);
 		map.put("refCatCode", postSortCode);
 		loadSVData(AppConfig.URL_SORT_GOODS, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_SORT_GOODS);
 	}

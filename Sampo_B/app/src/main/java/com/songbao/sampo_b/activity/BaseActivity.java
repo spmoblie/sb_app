@@ -1,6 +1,8 @@
 package com.songbao.sampo_b.activity;
 
 import android.app.Activity;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -38,19 +40,21 @@ import com.songbao.sampo_b.AppApplication;
 import com.songbao.sampo_b.AppConfig;
 import com.songbao.sampo_b.AppManager;
 import com.songbao.sampo_b.R;
+import com.songbao.sampo_b.activity.common.MyWebViewActivity;
 import com.songbao.sampo_b.activity.common.ViewPagerActivity;
-import com.songbao.sampo_b.activity.common.clip.ClipImageCircularActivity;
-import com.songbao.sampo_b.activity.common.clip.ClipImageSquareActivity;
-import com.songbao.sampo_b.activity.common.clip.ClipPhotoGridActivity;
-import com.songbao.sampo_b.activity.common.clip.ClipPhotoOneActivity;
+import com.songbao.sampo_b.activity.common.photo.ClipImageCircularActivity;
+import com.songbao.sampo_b.activity.common.photo.ClipImageSquareActivity;
+import com.songbao.sampo_b.activity.common.photo.PhotoAlbumActivity;
+import com.songbao.sampo_b.activity.common.photo.PhotoOneActivity;
 import com.songbao.sampo_b.activity.login.LoginAccountActivity;
-import com.songbao.sampo_b.activity.mine.DesignerListActivity;
 import com.songbao.sampo_b.activity.two.GoodsActivity;
-import com.songbao.sampo_b.activity.two.GoodsListActivity;
+import com.songbao.sampo_b.activity.two.GoodsEditActivity;
+import com.songbao.sampo_b.activity.two.GoodsSortActivity;
 import com.songbao.sampo_b.activity.two.SketchActivity;
 import com.songbao.sampo_b.dialog.DialogManager;
 import com.songbao.sampo_b.dialog.LoadDialog;
 import com.songbao.sampo_b.entity.BaseEntity;
+import com.songbao.sampo_b.entity.GoodsEntity;
 import com.songbao.sampo_b.entity.ShareEntity;
 import com.songbao.sampo_b.utils.CommonTools;
 import com.songbao.sampo_b.utils.ExceptionUtil;
@@ -338,6 +342,13 @@ public class BaseActivity extends FragmentActivity {
     }
 
     /**
+     * 设置右边按钮显示文本颜色
+     */
+    protected void setRightViewTextColor(int colorId) {
+        bt_right.setTextColor(ContextCompat.getColor(mContext, colorId));
+    }
+
+    /**
      * 设置右边按钮背景图片资源Id
      */
     protected void setRightViewBackground(int drawableId) {
@@ -381,8 +392,8 @@ public class BaseActivity extends FragmentActivity {
      * 关闭相册相关Activity
      */
     protected void closePhotoActivity() {
-        AppManager.getInstance().finishActivity(ClipPhotoGridActivity.class);
-        AppManager.getInstance().finishActivity(ClipPhotoOneActivity.class);
+        AppManager.getInstance().finishActivity(PhotoAlbumActivity.class);
+        AppManager.getInstance().finishActivity(PhotoOneActivity.class);
         AppManager.getInstance().finishActivity(ClipImageSquareActivity.class);
         AppManager.getInstance().finishActivity(ClipImageCircularActivity.class);
     }
@@ -400,9 +411,8 @@ public class BaseActivity extends FragmentActivity {
      */
     protected void closeCustomizeActivity() {
         AppManager.getInstance().finishActivity(GoodsActivity.class);
-        AppManager.getInstance().finishActivity(GoodsListActivity.class);
+        AppManager.getInstance().finishActivity(GoodsSortActivity.class);
         AppManager.getInstance().finishActivity(SketchActivity.class);
-        AppManager.getInstance().finishActivity(DesignerListActivity.class);
     }
 
     /**
@@ -425,11 +435,38 @@ public class BaseActivity extends FragmentActivity {
     }
 
     /**
-     * 打开设计师列表页
+     * 打开商品编辑页
      */
-    protected void openDesignerActivity(String skuCode) {
-        Intent intent = new Intent(mContext, DesignerListActivity.class);
-        intent.putExtra("skuCode", skuCode);
+    protected void openGoodsEditActivity(GoodsEntity goodsEn) {
+        Intent intent = new Intent(mContext, GoodsEditActivity.class);
+        if (goodsEn != null) {
+            intent.putExtra(AppConfig.PAGE_DATA, goodsEn);
+        }
+        startActivity(intent);
+    }
+
+    /**
+     * 跳转至WebView
+     * @param title
+     * @param url
+     */
+    protected void openWebViewActivity(String title, String url) {
+        openWebViewActivity(title, url, null);
+    }
+
+    /**
+     * 跳转至WebView
+     * @param title
+     * @param url
+     * @param shareEn
+     */
+    protected void openWebViewActivity(String title, String url, ShareEntity shareEn) {
+        Intent intent = new Intent(mContext, MyWebViewActivity.class);
+        intent.putExtra("title", title);
+        intent.putExtra("lodUrl", url);
+        if (shareEn != null) {
+            intent.putExtra(AppConfig.PAGE_DATA, shareEn);
+        }
         startActivity(intent);
     }
 
@@ -780,6 +817,22 @@ public class BaseActivity extends FragmentActivity {
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         if (imm != null) {
             imm.toggleSoftInput(0, InputMethodManager.HIDE_NOT_ALWAYS);
+        }
+    }
+
+    /**
+     * 复制文本内容到剪贴板
+     */
+    protected void copyString(String copyStr, String toastStr) {
+        if (!StringUtil.isNull(copyStr)) {
+            ClipboardManager clip = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+            if (clip != null) {
+                clip.setPrimaryClip(ClipData.newPlainText(null, copyStr));
+                if (clip.hasPrimaryClip()){
+                    clip.getPrimaryClip().getItemAt(0).getText();
+                }
+                CommonTools.showToast(toastStr);
+            }
         }
     }
 

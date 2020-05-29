@@ -3,6 +3,7 @@ package com.songbao.sampo_b.activity.two;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.constraint.Group;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.view.View;
@@ -26,6 +27,7 @@ import com.songbao.sampo_b.utils.ExceptionUtil;
 import com.songbao.sampo_b.utils.JsonUtils;
 import com.songbao.sampo_b.utils.LogUtil;
 import com.songbao.sampo_b.utils.QRCodeUtil;
+import com.songbao.sampo_b.utils.StringUtil;
 import com.songbao.sampo_b.utils.retrofit.HttpRequests;
 import com.songbao.sampo_b.widgets.ObservableScrollView;
 import com.songbao.sampo_b.widgets.ViewPagerScroller;
@@ -54,6 +56,15 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
 
     @BindView(R.id.goods_tv_goods_name)
     TextView tv_name;
+
+    @BindView(R.id.goods_tv_effect_url)
+    TextView tv_url;
+
+    @BindView(R.id.goods_tv_effect_check)
+    TextView tv_check;
+
+    @BindView(R.id.goods_group_url)
+    Group group_url;
 
     @BindView(R.id.goods_iv_code)
     ImageView iv_code;
@@ -90,6 +101,7 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
     private void initView() {
         setTitle(getString(R.string.goods_good_detail));
 
+        tv_check.setOnClickListener(this);
         tv_click.setOnClickListener(this);
 
         // 动态调整宽高
@@ -103,6 +115,12 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
     private void initShowView() {
         if (goodsEn != null) {
             tv_name.setText(goodsEn.getName());
+
+            //商品展示
+            if (!StringUtil.isNull(goodsEn.getEffectUrl())) {
+                tv_url.setText(goodsEn.getEffectUrl());
+                group_url.setVisibility(View.VISIBLE);
+            }
 
             //商品编码
             final String imgName = "QR_" + goodsCode + ".png";
@@ -298,13 +316,19 @@ public class GoodsActivity extends BaseActivity implements OnClickListener {
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            case R.id.goods_tv_effect_check:
+                if (goodsEn != null && !StringUtil.isNull(goodsEn.getEffectUrl())) {
+                    openWebViewActivity(getString(R.string.goods_effect), goodsEn.getEffectUrl());
+                }
+                break;
             case R.id.goods_tv_click:
                 if (ClickUtils.isDoubleClick(v.getId())) return;
                 if (goodsEn == null) {
                     dataErrorHandle();
                     return;
                 }
-                openDesignerActivity(goodsCode);
+                openGoodsEditActivity(goodsEn);
+                finish();
                 break;
         }
     }

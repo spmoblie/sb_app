@@ -19,10 +19,13 @@ public class GoodsEntity extends BaseEntity {
 	private String color; //产品颜色
 	private String style; //产品款式
 	private String remarks; //产品备注
+	private String effectUrl; //3D效果Url
 	private int number; //商品数量
 	private int saleStatus; //0:未售后/1:退款中/2:已退款/3:换货中/4:已换货
 	private int commentStatus; //0:未评价/1:已评价/2:已追评
-	private double price; //销售价格
+	private double onePrice; //申报价格
+	private double twoPrice; //审核价格
+	private boolean isPicture; //是否无图
 	private GoodsAttrEntity attrEn; //已选属性值
 	private GoodsSaleEntity saleEn; //商品售后信息
 	private ArrayList<String> labelList; //商品标签集
@@ -114,6 +117,14 @@ public class GoodsEntity extends BaseEntity {
 		this.remarks = remarks;
 	}
 
+	public String getEffectUrl() {
+		return effectUrl;
+	}
+
+	public void setEffectUrl(String effectUrl) {
+		this.effectUrl = effectUrl;
+	}
+
 	public int getNumber() {
 		return number;
 	}
@@ -138,12 +149,28 @@ public class GoodsEntity extends BaseEntity {
 		this.commentStatus = commentStatus;
 	}
 
-	public double getPrice() {
-		return price;
+	public double getOnePrice() {
+		return onePrice;
 	}
 
-	public void setPrice(double price) {
-		this.price = price;
+	public void setOnePrice(double onePrice) {
+		this.onePrice = onePrice;
+	}
+
+	public double getTwoPrice() {
+		return twoPrice;
+	}
+
+	public void setTwoPrice(double twoPrice) {
+		this.twoPrice = twoPrice;
+	}
+
+	public boolean isPicture() {
+		return isPicture;
+	}
+
+	public void setPicture(boolean picture) {
+		isPicture = picture;
 	}
 
 	public GoodsAttrEntity getAttrEn() {

@@ -1,14 +1,11 @@
 package com.songbao.sampo_c;
 
 import android.Manifest;
-import android.os.Environment;
 
 
 public class AppConfig {
 
-	/**
-	 ******************************************* URL协议开始 ******************************************
-	 */
+//******************************************* URL协议开始 ******************************************
 
 	// 发布控制
 	public static final boolean IS_PUBLISH = false;
@@ -16,18 +13,12 @@ public class AppConfig {
 	public final static String APP_HTTP = "http://";
 	// https协议
 	public final static String APP_HTTPS = "https://";
-	// Base类型
-	public final static String BASE_TYPE = "base_2"; //base_1:发布Url、base_2:测试Url
+	// Base类型(base_1:发布Url、base_2:测试Url)
+	public final static String BASE_TYPE = "base_2";
 	// 发布Url
 	public final static String BASE_URL_1 = APP_HTTP + "xiaobao.sbwg.cn/";
 	// 测试Url
 	public final static String BASE_URL_2 = APP_HTTP + "test.sbwg.cn/";
-	// 图片域名
-	public final static String IMAGE_URL = "file:///android_asset/";
-	// 推广域名
-	public final static String SHARE_URL = BASE_URL_1;
-	// 关于我们
-	public final static String ABOUT_US = "https://www.sbwg.cn/";
 
 	// 校验版本
 	public final static String URL_AUTH_VERSION = "/app/index/version";
@@ -107,6 +98,9 @@ public class AppConfig {
 	// 购物结算
 	public final static String URL_CART_CHECKED = "trade/app/cart/resetchecked";
 
+	// 全屋案例
+	public final static String URL_HOUSE_LIST = "app/rendering/list";
+
 	// 获取资料
 	public final static String URL_USER_GET = "app/user/get";
 	// 修改资料
@@ -177,13 +171,9 @@ public class AppConfig {
 	// 确认安装
 	public final static String URL_BOOKING_INSTALL = "trade/app/booking/installed";
 
-	/**
-	 ******************************************* URL协议结束 ******************************************
-	 */
+//******************************************* URL协议结束 ******************************************
 
-	/**
-	 ******************************************* RequestCode协议开始 ******************************************
-	 */
+//******************************************* RequestCode开始 ******************************************
 
 	// 动态授权
 	public static final int REQUEST_CORD_PERMISSION = 0X0001;
@@ -267,89 +257,90 @@ public class AppConfig {
 	// 购物结算
 	public static final int REQUEST_SV_CART_CHECKED = 0X2027;
 
+	// 全屋案例
+	public static final int REQUEST_SV_HOUSE_LIST = 0X3001;
+
 	// 上传头像
-	public static final int REQUEST_SV_UPLOAD_HEAD = 0X3001;
+	public static final int REQUEST_SV_UPLOAD_HEAD = 0X5001;
 	// 获取资料
-	public static final int REQUEST_SV_USER_GET = 0X3002;
+	public static final int REQUEST_SV_USER_GET = 0X5002;
 	// 修改资料
-	public static final int REQUEST_SV_USER_SAVE = 0X3003;
+	public static final int REQUEST_SV_USER_SAVE = 0X5003;
 	// 动态数据
-	public static final int REQUEST_SV_USER_DYNAMIC = 0X3004;
+	public static final int REQUEST_SV_USER_DYNAMIC = 0X5004;
 
 	// 我的消息
-	public static final int REQUEST_SV_USER_MESSAGE = 0X3101;
+	public static final int REQUEST_SV_USER_MESSAGE = 0X5101;
 	// 我的评价
-	public static final int REQUEST_SV_USER_COMMENT = 0X3111;
+	public static final int REQUEST_SV_USER_COMMENT = 0X5111;
 	// 我的门票
-	public static final int REQUEST_SV_USER_TICKETS = 0X3121;
+	public static final int REQUEST_SV_USER_TICKETS = 0X5121;
 	// 我的活动
-	public static final int REQUEST_SV_USER_ACTIVITY = 0X3131;
+	public static final int REQUEST_SV_USER_ACTIVITY = 0X5131;
 	// 我的预约
-	public static final int REQUEST_SV_USER_RESERVATION = 0X3141;
+	public static final int REQUEST_SV_USER_RESERVATION = 0X5141;
 	// 我的定制
-	public static final int REQUEST_SV_USER_CUSTOMIZE = 0X3151;
+	public static final int REQUEST_SV_USER_CUSTOMIZE = 0X5151;
 	// 门店设计
-	public static final int REQUEST_SV_USER_DESIGNER = 0X3161;
+	public static final int REQUEST_SV_USER_DESIGNER = 0X5161;
 	// 门店列表
-	public static final int REQUEST_SV_STORE_LIST = 0X3171;
+	public static final int REQUEST_SV_STORE_LIST = 0X5171;
 
 	// 我的地址
-	public static final int REQUEST_SV_ADDRESS_LIST = 0X3201;
+	public static final int REQUEST_SV_ADDRESS_LIST = 0X5201;
 	// 修改地址
-	public static final int REQUEST_SV_ADDRESS_EDIT = 0X3202;
+	public static final int REQUEST_SV_ADDRESS_EDIT = 0X5202;
 	// 删除地址
-	public static final int REQUEST_SV_ADDRESS_DELETE = 0X3203;
+	public static final int REQUEST_SV_ADDRESS_DELETE = 0X5203;
 	// 默认地址
-	public static final int REQUEST_SV_ADDRESS_DEFAULT = 0X3204;
+	public static final int REQUEST_SV_ADDRESS_DEFAULT = 0X5204;
 
 	// 订单地址
-	public static final int REQUEST_SV_ORDER_UPDATE = 0X3301;
+	public static final int REQUEST_SV_ORDER_UPDATE = 0X5301;
 	// 填写订单
-	public static final int REQUEST_SV_ORDER_FILL = 0X3302;
+	public static final int REQUEST_SV_ORDER_FILL = 0X5302;
 	// 提交订单
-	public static final int REQUEST_SV_ORDER_CREATE = 0X3303;
+	public static final int REQUEST_SV_ORDER_CREATE = 0X5303;
 	// 订单列表
-	public static final int REQUEST_SV_ORDER_LIST = 0X3304;
+	public static final int REQUEST_SV_ORDER_LIST = 0X5304;
 	// 订单详情
-	public static final int REQUEST_SV_ORDER_INFO = 0X3305;
+	public static final int REQUEST_SV_ORDER_INFO = 0X5305;
 	// 取消订单
-	public static final int REQUEST_SV_ORDER_CANCEL = 0X3306;
+	public static final int REQUEST_SV_ORDER_CANCEL = 0X5306;
 	// 删除订单
-	public static final int REQUEST_SV_ORDER_DELETE = 0X3307;
+	public static final int REQUEST_SV_ORDER_DELETE = 0X5307;
 	// 确认订单
-	public static final int REQUEST_SV_ORDER_CONFIRM  = 0X3308;
+	public static final int REQUEST_SV_ORDER_CONFIRM  = 0X5308;
 
 	// 提交定制
-	public static final int REQUEST_SV_BOOKING_CREATE = 0X3402;
+	public static final int REQUEST_SV_BOOKING_CREATE = 0X5402;
 	// 取消定制
-	public static final int REQUEST_SV_BOOKING_CANCEL = 0X3403;
+	public static final int REQUEST_SV_BOOKING_CANCEL = 0X5403;
 	// 删除定制
-	public static final int REQUEST_SV_BOOKING_DELETE = 0X3404;
+	public static final int REQUEST_SV_BOOKING_DELETE = 0X5404;
 	// 定制列表
-	public static final int REQUEST_SV_BOOKING_LIST= 0X3411;
+	public static final int REQUEST_SV_BOOKING_LIST= 0X5411;
 	// 定制详情
-	public static final int REQUEST_SV_BOOKING_INFO = 0X3412;
+	public static final int REQUEST_SV_BOOKING_INFO = 0X5412;
 	// 确认设计
-	public static final int REQUEST_SV_BOOKING_DESIGNS = 0X3413;
+	public static final int REQUEST_SV_BOOKING_DESIGNS = 0X5413;
 	// 确认支付
-	public static final int REQUEST_SV_BOOKING_PAYMENT = 0X3414;
+	public static final int REQUEST_SV_BOOKING_PAYMENT = 0X5414;
 	// 确认收货
-	public static final int REQUEST_SV_BOOKING_RECEIPT = 0X3415;
+	public static final int REQUEST_SV_BOOKING_RECEIPT = 0X5415;
 	// 确认安装
-	public static final int REQUEST_SV_BOOKING_INSTALL = 0X3416;
+	public static final int REQUEST_SV_BOOKING_INSTALL = 0X5416;
 
 	// 商品售后
-	public static final int REQUEST_SV_GOODS_SALE = 0X3501;
+	public static final int REQUEST_SV_GOODS_SALE = 0X5501;
 	// 退款详情
-	public static final int REQUEST_SV_REFUND_DETAIL = 0X3511;
+	public static final int REQUEST_SV_REFUND_DETAIL = 0X5511;
 	// 评论照片
-	public static final int REQUEST_SV_UPLOAD_COMMENT_PHOTO = 0X3521;
+	public static final int REQUEST_SV_UPLOAD_COMMENT_PHOTO = 0X5521;
 
-	/**
-	 ******************************************* RequestCode协议结束 ******************************************
+//******************************************* RequestCode结束 ******************************************
 
-	 ******************************************* 全局常量设置开始 ******************************************
-	 */
+//******************************************* 全局常量配置开始 ******************************************
 
 	// 主页子页面“我的”下标索引值
 	public static final int PAGE_MAIN_MINE = 3;
@@ -409,10 +400,10 @@ public class AppConfig {
 	public static final int IMG_HEIGHT = 9;
 	// Retrofit Url头部标识
 	public static final String URL_TYPE_DOWNLOAD = "download";
-	// 网络请求标识
+	// App网络请求标识
 	public static final String LOAD_TYPE = "APP";
-	// 加载数据标识
-	public static final int DATA_TYPE = 1;
+	// App版本数据标识
+	public static final int APP_TYPE = 1;
 	// 加载数据数量
 	public static final int LOAD_SIZE = 10;
 	// 加载缓冲时间
@@ -424,6 +415,10 @@ public class AppConfig {
 	public static final String SALE_PHONE = "4008806558";
 	// 联系客服网址-吐个槽
 	public static final String SALE_HELP = "https://support.qq.com/product/135418";
+	// 《隐私政策》
+	public static final String PRIVACY_POLICY = "http://xiaobao.sbwg.cn/otherH5/SBWGINFO.html?type=1";
+	// 《用户协议》
+	public static final String USER_AGREEMENT = "http://xiaobao.sbwg.cn/otherH5/SBWGINFO.html?type=2";
 
 	// 动态授权-权限集
 	public static final String[] PERMISSIONS = new String[]{
@@ -461,39 +456,35 @@ public class AppConfig {
 	public static final String homeListFileName = "home_list";
 	// 应用偏好设置名称
 	public static final String APP_SP_NAME = "sp_sampo_c";
-	// 应用缓存路径名称
-	public static final String APP_ROOT_NAME = "Sampo_C";
 	// 内置SD卡路径
-	public static final String SD_PATH = Environment.getExternalStorageDirectory().toString() + "/" + APP_ROOT_NAME + "/";
+	public static final String PATH_SD = AppApplication.getAppContext().getExternalFilesDir(null) + "/";
 	// Apk临时缓存路径（应用关闭时清除）
-	public static final String SAVE_PATH_APK_DICE = SD_PATH + "apk/" + APP_ROOT_NAME + "_AD/";
-	// 文本长久保存路径
-	public static final String SAVE_PATH_TXT_SAVE = SD_PATH + "txt/" + APP_ROOT_NAME + "_TS/";
+	public static final String PATH_APK_CACHE = PATH_SD + "Apk/";
+	// App下载存储路径
+	public static final String PATH_DOWNLOAD = PATH_SD + "Download/";
+	// 文本持久存储路径
+	public static final String PATH_TEXT_STORE = PATH_SD + "text/store/";
 	// 文本临时缓存路径（应用关闭时清除）
-	public static final String SAVE_PATH_TXT_DICE = SD_PATH + "txt/" + APP_ROOT_NAME + "_TD/";
-	// 图片长久保存路径
-	public static final String SAVE_PATH_IMAGE_SAVE = SD_PATH + "image/" + APP_ROOT_NAME + "_IS/";
+	public static final String PATH_TEXT_CACHE = PATH_SD + "text/cache/";
+	// 图片持久存储路径
+	public static final String PATH_IMAGE_STORE = PATH_SD + "image/store/";
 	// 图片临时缓存路径（应用关闭时清除）
-	public static final String SAVE_PATH_IMAGE_DICE = SD_PATH + "image/" + APP_ROOT_NAME + "_ID/";
-	// 媒体长久保存路径
-	public static final String SAVE_PATH_MEDIA_SAVE = SD_PATH + "media/" + APP_ROOT_NAME + "_MS/";
+	public static final String PATH_IMAGE_CACHE = PATH_SD + "image/cache/";
+	// 媒体持久存储路径
+	public static final String PATH_MEDIA_STORE = PATH_SD + "media/store/";
 	// 媒体临时缓存路径（应用关闭时清除）
-	public static final String SAVE_PATH_MEDIA_DICE = SD_PATH + "media/" + APP_ROOT_NAME + "_MD/";
+	public static final String PATH_MEDIA_CACHE = PATH_SD + "media/cache/";
 
-	// Apk存储路径
-	public static final String SAVE_APK_PATH = SAVE_PATH_APK_DICE + "/" + APP_ROOT_NAME + "_008.apk";
+	// Apk临时缓存名称
+	public static final String PATH_APK_NAME = PATH_APK_CACHE + "/" + APP_SP_NAME + ".apk";
 	// 用户数据存储路径
-	public static final String SAVE_USER_DATA_PATH = SD_PATH + "user/";
+	public static final String PATH_USER_DATA = PATH_SD + "user/";
 	// 用户头像存储路径
-	public static final String SAVE_USER_HEAD_PATH = SAVE_PATH_IMAGE_SAVE + "user_head.png";
+	public static final String PATH_USER_HEAD = PATH_IMAGE_STORE + "user_head.png";
 
-	/**
-	 ******************************************* 全局常量设置结束 ******************************************
-	 */
+//******************************************* 全局常量配置结束 ******************************************
 
-	/**
-	 ******************************************* 偏好设置Key协议开始 ******************************************
-	 */
+//******************************************* 偏好设置Key开始 ******************************************
 
 	// 偏好设置Key-记录剪切相片的类型
 	public static final String KEY_CLIP_PHOTO_TYPE = "clip_photo_type";
@@ -571,13 +562,9 @@ public class AppConfig {
 	// 偏好设置Key-记录最近一次更新APP版本的时间
 	public static final String KEY_UPDATE_VERSION_LAST_TIME = "update_version_last_time";
 
-	/**
-	 ******************************************* 偏好设置Key协议结束 ******************************************
-	 */
+//******************************************* 偏好设置Key结束 ******************************************
 
-	/**
-	 ******************************************* Activity协议开始 ******************************************
-	 */
+//******************************************* Activity协议开始 ******************************************
 
 	public static final String PAGE_TYPE = "page_type";
 	public static final String PAGE_DATA = "page_data";
@@ -600,24 +587,16 @@ public class AppConfig {
 	public static final int ACTIVITY_CODE_ORDER_UPDATE = 0X9111;
 	public static final int ACTIVITY_CODE_COMMENT_STATE = 0X9112;
 
-	/**
-	 ******************************************* Activity协议结束 ******************************************
-	 */
+//******************************************* Activity协议结束 ******************************************
 
-	/**
-	 ******************************************* 推送协议开始 ******************************************
-	 */
+//******************************************* 推送协议开始 ******************************************
 
 	// 刷新核销码
 	public static final int PUSH_MSG_TYPE_001 = 8001;
 
-	/**
-	 ******************************************* 推送协议结束 ******************************************
-	 */
+//******************************************* 推送协议结束 ******************************************
 
-	/**
-	 ******************************************* 广播协议开始 ******************************************
-	 */
+//******************************************* 广播协议开始 ******************************************
 
 	public static final String RA_PAGE_MAIN = "receiver_action_main";
 	public static final String RA_PAGE_MAIN_KEY = "receiver_action_main_key";
@@ -625,8 +604,6 @@ public class AppConfig {
 	public static final String RA_PAGE_RESERVE_KEY = "receiver_action_reserve_key";
 	public static final String RA_PAGE_LOGIN = "receiver_action_login";
 
-	/**
-	 ******************************************* 广播协议结束 ******************************************
-	 */
+//******************************************* 广播协议结束 ******************************************
 
 }

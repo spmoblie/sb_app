@@ -1,23 +1,16 @@
 package com.songbao.sampo_c.activity.mine;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.songbao.sampo_c.AppApplication;
 import com.songbao.sampo_c.AppConfig;
 import com.songbao.sampo_c.R;
 import com.songbao.sampo_c.activity.BaseActivity;
-import com.songbao.sampo_c.utils.CommonTools;
 import com.songbao.sampo_c.utils.LogUtil;
-import com.songbao.sampo_c.utils.StringUtil;
-import com.songbao.sampo_c.utils.TimeUtil;
 
 import java.util.Calendar;
 
@@ -64,10 +57,10 @@ public class AboutActivity extends BaseActivity implements OnClickListener {
 	public void onClick(View v) {
 		switch (v.getId()) {
 			case R.id.about_rl_user_agreement:
-				openWebViewActivity(getString(R.string.setting_user_agreement), AppConfig.SALE_HELP);
+				openWebViewActivity(getString(R.string.setting_user_agreement), AppConfig.USER_AGREEMENT);
 				break;
 			case R.id.about_rl_privacy_policy:
-				openWebViewActivity(getString(R.string.setting_privacy_policy), AppConfig.SALE_HELP);
+				openWebViewActivity(getString(R.string.setting_privacy_policy), AppConfig.PRIVACY_POLICY);
 				break;
 		}
 	}

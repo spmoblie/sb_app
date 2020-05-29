@@ -49,8 +49,8 @@ import com.songbao.sampo_c.activity.common.MyWebViewActivity;
 import com.songbao.sampo_c.activity.common.ViewPagerActivity;
 import com.songbao.sampo_c.activity.common.clip.ClipImageCircularActivity;
 import com.songbao.sampo_c.activity.common.clip.ClipImageSquareActivity;
-import com.songbao.sampo_c.activity.common.clip.ClipPhotoGridActivity;
-import com.songbao.sampo_c.activity.common.clip.ClipPhotoOneActivity;
+import com.songbao.sampo_c.activity.common.clip.PhotoAlbumActivity;
+import com.songbao.sampo_c.activity.common.clip.PhotoOneActivity;
 import com.songbao.sampo_c.activity.login.LoginActivity;
 import com.songbao.sampo_c.activity.login.LoginPhoneActivity;
 import com.songbao.sampo_c.activity.login.RegisterActivity;
@@ -422,8 +422,8 @@ public class BaseActivity extends FragmentActivity {
      * 关闭相册相关Activity
      */
     protected void closePhotoActivity() {
-        AppManager.getInstance().finishActivity(ClipPhotoGridActivity.class);
-        AppManager.getInstance().finishActivity(ClipPhotoOneActivity.class);
+        AppManager.getInstance().finishActivity(PhotoAlbumActivity.class);
+        AppManager.getInstance().finishActivity(PhotoOneActivity.class);
         AppManager.getInstance().finishActivity(ClipImageSquareActivity.class);
         AppManager.getInstance().finishActivity(ClipImageCircularActivity.class);
     }
