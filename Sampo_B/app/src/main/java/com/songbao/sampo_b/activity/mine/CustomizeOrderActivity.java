@@ -272,7 +272,7 @@ public class CustomizeOrderActivity extends BaseActivity implements OnClickListe
                     sv_image.setVisibility(View.GONE);
                 }
             } else {
-                if (ocEn.getPriceTwo() > 0) { //核价修改价格
+                if (ocEn.getPriceTwo() > 0 && ocEn.getPriceTwo() != ocEn.getPriceOne()) { //核价修改价格
                     tv_nullify.setText(getString(R.string.order_rmb, df.format(ocEn.getPriceOne())));
                     tv_nullify.setVisibility(View.VISIBLE);
                     tv_nullify.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG );
