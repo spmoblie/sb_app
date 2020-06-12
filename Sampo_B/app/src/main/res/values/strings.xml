@@ -2,7 +2,7 @@
 <resources>
 
     <!-- testing version -->
-    <string name="app_name">松小堡-门店</string>
+    <string name="app_name">松小堡门店版</string>
 
     <!-- General -->
     <string name="confirm">确定</string>

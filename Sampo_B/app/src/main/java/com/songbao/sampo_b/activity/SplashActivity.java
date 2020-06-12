@@ -28,6 +28,9 @@ public class SplashActivity extends BaseActivity {
         // 隐藏父类组件
         setHeadVisibility(View.GONE);
 
+        // 默认进入首页
+        AppApplication.jumpToHomePage(1);
+
         // 初始化推送服务状态(开启或关闭)
         //AppApplication.onPushDefaultStatus();
     }
