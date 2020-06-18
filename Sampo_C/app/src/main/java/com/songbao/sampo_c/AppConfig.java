@@ -1,6 +1,7 @@
 package com.songbao.sampo_c;
 
 import android.Manifest;
+import android.os.Environment;
 
 
 public class AppConfig {
@@ -457,6 +458,8 @@ public class AppConfig {
 	// 应用偏好设置名称
 	public static final String APP_SP_NAME = "sp_sampo_c";
 	// 内置SD卡路径
+	public static final String PATH_ED = Environment.getExternalStorageDirectory().getPath() + "/Sampo_C/";
+	// 外置SD卡路径
 	public static final String PATH_SD = AppApplication.getAppContext().getExternalFilesDir(null) + "/";
 	// Apk临时缓存路径（应用关闭时清除）
 	public static final String PATH_APK_CACHE = PATH_SD + "Apk/";
@@ -467,9 +470,9 @@ public class AppConfig {
 	// 文本临时缓存路径（应用关闭时清除）
 	public static final String PATH_TEXT_CACHE = PATH_SD + "text/cache/";
 	// 图片持久存储路径
-	public static final String PATH_IMAGE_STORE = PATH_SD + "image/store/";
+	public static final String PATH_IMAGE_STORE = PATH_ED + "image/store/";
 	// 图片临时缓存路径（应用关闭时清除）
-	public static final String PATH_IMAGE_CACHE = PATH_SD + "image/cache/";
+	public static final String PATH_IMAGE_CACHE = PATH_ED + "image/cache/";
 	// 媒体持久存储路径
 	public static final String PATH_MEDIA_STORE = PATH_SD + "media/store/";
 	// 媒体临时缓存路径（应用关闭时清除）

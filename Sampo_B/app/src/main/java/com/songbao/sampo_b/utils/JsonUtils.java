@@ -530,6 +530,9 @@ public class JsonUtils {
                     childEn.setAttribute(item.getString("skuComboName"));
                     childEn.setOnePrice(item.getDouble("price"));
 
+                    if (StringUtil.notNull(item, "kjlCode")) {
+                        childEn.setEffectUrl(item.getString("kjlCode"));
+                    }
                     // 商品图片集
                     if (StringUtil.notNull(item, "skuPic")) {
                         /*JSONArray images = jsonData.getJSONArray("goodsPics");
@@ -574,7 +577,6 @@ public class JsonUtils {
             }
             if (StringUtil.notNull(jsonData, "kjlCode")) {
                 goodsEn.setEffectUrl(jsonData.getString("kjlCode"));
-                //goodsEn.setEffectUrl("https://yun.kujiale.com/design/3FO4B5NB7E2L/airoaming");
             }
             mainEn.setData(goodsEn);
         }

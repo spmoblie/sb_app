@@ -132,7 +132,11 @@ public class GoodsEditActivity extends BaseActivity implements OnClickListener {
         goodsNum = 1;
         if (data != null) {
             al_photos_url.addAll(data.getImageList());
+
             linkStr = data.getEffectUrl();
+            isNull = data.isPicture();
+            updateLinkStatus();
+
             name = data.getName();
             remarks = data.getRemarks();
             if (data.getNumber() > 0) {
@@ -271,18 +275,25 @@ public class GoodsEditActivity extends BaseActivity implements OnClickListener {
                 break;
             case R.id.goods_edit_tv_link_null:
                 isNull = !isNull;
-                tv_link_null.setSelected(isNull);
-                if (isNull) {
-                    et_link.setVisibility(View.GONE);
-                } else {
-                    et_link.setVisibility(View.VISIBLE);
-                }
+                updateLinkStatus();
                 break;
             case R.id.goods_edit_tv_confirm:
                 if (checkData()) {
                     postData();
                 }
                 break;
+        }
+    }
+
+    /**
+     * 刷新产品链接状态
+     */
+    private void updateLinkStatus() {
+        tv_link_null.setSelected(isNull);
+        if (isNull) {
+            et_link.setVisibility(View.GONE);
+        } else {
+            et_link.setVisibility(View.VISIBLE);
         }
     }
 
