@@ -323,6 +323,9 @@ public class PostOrderActivity extends BaseActivity implements View.OnClickListe
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 // 修改本地生日
+                // 158 9977 1986
+                // 198 7918 1983
+                // 131 2898 8869
                 String yearStr = year + "-";
                 String monthStr;
                 if (monthOfYear < 9) {
