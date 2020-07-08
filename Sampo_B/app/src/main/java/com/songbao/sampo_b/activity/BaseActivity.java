@@ -24,7 +24,6 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -63,7 +62,6 @@ import com.songbao.sampo_b.utils.MyCountDownTimer;
 import com.songbao.sampo_b.utils.StringUtil;
 import com.songbao.sampo_b.utils.UserManager;
 import com.songbao.sampo_b.utils.retrofit.HttpRequests;
-import com.songbao.sampo_b.widgets.share.ShareView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -95,7 +93,6 @@ public class BaseActivity extends FragmentActivity {
     protected DialogManager myDialog;
     protected UserManager userManager;
     protected DecimalFormat df;
-    protected Boolean isInitShare = false;
     protected Boolean isTimeFinish = true;
     protected int screenWidth, screenHeight, statusHeight, dialogWidth;
 
@@ -106,7 +103,6 @@ public class BaseActivity extends FragmentActivity {
     private ViewFlipper mLayoutBase;
     private MyCountDownTimer myTimer;
 
-    private ShareView mShareView;
     private Animation inAnim, outAnim;
 
     @Override
@@ -133,16 +129,6 @@ public class BaseActivity extends FragmentActivity {
 
         findViewById();
         initView();
-
-        if (isInitShare) {
-            try { //初始化ShareView
-                View view = getLayoutInflater().inflate(R.layout.popup_view_share, (ViewGroup) findViewById(R.id.base_fl_main));
-                mShareView = new ShareView(mContext, this, view, null);
-                mShareView.showShareLayer(false);
-            } catch (Exception e) {
-                ExceptionUtil.handle(e);
-            }
-        }
     }
 
     private void findViewById() {
@@ -225,32 +211,6 @@ public class BaseActivity extends FragmentActivity {
         overridePendingTransition(R.anim.anim_no_anim, R.anim.out_to_right);
     }
 
-    @Override
-    public void onBackPressed() {
-        if (mShareView != null && mShareView.isShowing()) {
-            mShareView.showShareLayer(false);
-        } else {
-            super.onBackPressed();
-        }
-        super.onBackPressed();
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (mShareView != null) {
-            mShareView.onActivityResult(requestCode, resultCode, data);
-        }
-        super.onActivityResult(requestCode, resultCode, data);
-    }
-
-    @Override
-    protected void onNewIntent(Intent intent) {
-        if (mShareView != null) {
-            mShareView.onNewIntent(intent);
-        }
-        super.onNewIntent(intent);
-    }
-
     /**
      * 设置头部是否可见
      */
@@ -305,11 +265,7 @@ public class BaseActivity extends FragmentActivity {
      * 左键键监听执行方法，让子类重写该方法
      */
     protected void OnListenerLeft() {
-        if (mShareView != null && mShareView.isShowing()) {
-            mShareView.showShareLayer(false);
-        } else {
-            finish();
-        }
+        finish();
     }
 
     /**
@@ -742,28 +698,6 @@ public class BaseActivity extends FragmentActivity {
             myDialog = DialogManager.getInstance(mContext);
         }
         myDialog.showListItemDialog(content, items, width, isCenter, handler);
-    }
-
-    /**
-     * 显示分享View
-     */
-    protected void showShareView(ShareEntity shareEn) {
-        if (mShareView != null && shareEn != null) {
-            if (mShareView.getShareEntity() == null) {
-                mShareView.setShareEntity(shareEn);
-            }
-            if (mShareView.isShowing()) {
-                mShareView.showShareLayer(false);
-            } else {
-                /*if (!UserManager.getInstance().checkIsLogin()) {
-                    openLoginActivity();
-					return;
-				}*/
-                mShareView.showShareLayer(true);
-            }
-        } else {
-            showShareError();
-        }
     }
 
     /**

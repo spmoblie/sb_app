@@ -2,6 +2,7 @@ package com.songbao.sampo_b.activity.mine;
 
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.support.v4.util.ArrayMap;
 import android.support.v7.widget.LinearLayoutManager;
 import android.view.View;
@@ -23,8 +24,10 @@ import com.songbao.sampo_b.widgets.pullrefresh.PullToRefreshBase;
 import com.songbao.sampo_b.widgets.pullrefresh.PullToRefreshRecyclerView;
 import com.songbao.sampo_b.widgets.recycler.MyRecyclerView;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -42,10 +45,12 @@ public class MessageActivity extends BaseActivity {
 	MessageAdapter rvAdapter;
 	MyRecyclerView mRecyclerView;
 
+	private String postId; //事件消息Id
 	private int data_total = 0; //数据总量
 	private int load_page = 1; //加载页数
 	private int load_type = 1; //加载类型(0:下拉刷新/1:翻页加载)
 	private int newNum = 0; //新消息数量
+	private int postPos = 0; //事件消息索引
 	private boolean isLoadOk = true; //加载控制
 	private ArrayList<MessageEntity> al_show = new ArrayList<>();
 	private ArrayMap<String, Boolean> am_show = new ArrayMap<>();
@@ -120,11 +125,23 @@ public class MessageActivity extends BaseActivity {
 			@Override
 			public void setOnClick(Object data, int position, int type) {
 				if (position < 0 || position >= al_show.size()) return;
-				MessageEntity msgEn = al_show.get(position);
-				if (msgEn != null && !msgEn.isRead()) {
-					postReadMessage(msgEn.getId());
-					al_show.get(position).setRead(true);
-					updateListData();
+				postPos = position;
+				MessageEntity msgEn = al_show.get(postPos);
+				switch (type) {
+					case 0: //已读
+						if (msgEn != null && !msgEn.isRead()) {
+							postId = msgEn.getId();
+							al_show.get(postPos).setRead(true);
+							postReadMessage();
+							updateListData();
+						}
+						break;
+					case 1: //删除
+						if (msgEn != null) {
+							postId = msgEn.getId();
+							showConfirmDialog(getString(R.string.mine_message_delete), new MyHandler(MessageActivity.this), 101);
+						}
+						break;
 				}
 			}
 		});
@@ -180,15 +197,6 @@ public class MessageActivity extends BaseActivity {
 	}
 
 	/**
-	 * 提交读消息事件
-	 */
-	private void postReadMessage(String id) {
-		HashMap<String, Object> map = new HashMap<>();
-		map.put("id", id);
-		loadSVData(AppConfig.URL_USER_MESSAGE_STATUS, map, HttpRequests.HTTP_POST, 0);
-	}
-
-	/**
 	 * 加载数据
 	 */
 	private void loadServerData() {
@@ -199,9 +207,35 @@ public class MessageActivity extends BaseActivity {
 			page = 1;
 		}
 		HashMap<String, Object> map = new HashMap<>();
-		map.put("page", page);
+		map.put("current", page);
 		map.put("size", AppConfig.LOAD_SIZE);
-		loadSVData(AppConfig.URL_USER_MESSAGE, map, HttpRequests.HTTP_POST, AppConfig.REQUEST_SV_USER_MESSAGE);
+		loadSVData(AppConfig.URL_USER_MESSAGE, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_USER_MESSAGE);
+	}
+
+	/**
+	 * 提交消息删除
+	 */
+	private void postDeleteMessage() {
+		try {
+			JSONObject jsonObj = new JSONObject();
+			jsonObj.put("id", postId);
+			postJsonData(AppConfig.URL_USER_MESSAGE_DELETE, jsonObj, AppConfig.REQUEST_SV_USER_MESSAGE_DELETE);
+		} catch (JSONException e) {
+			ExceptionUtil.handle(e);
+		}
+	}
+
+	/**
+	 * 提交消息已读
+	 */
+	private void postReadMessage() {
+		try {
+			JSONObject jsonObj = new JSONObject();
+			jsonObj.put("id", postId);
+			postJsonData(AppConfig.URL_USER_MESSAGE_STATUS, jsonObj, AppConfig.REQUEST_SV_USER_MESSAGE_STATUS);
+		} catch (JSONException e) {
+			ExceptionUtil.handle(e);
+		}
 	}
 
 	@Override
@@ -212,12 +246,16 @@ public class MessageActivity extends BaseActivity {
 				case AppConfig.REQUEST_SV_USER_MESSAGE:
 					baseEn = JsonUtils.getMessageData(jsonObject);
 					if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
+						int oldTotal = data_total;
 						data_total = baseEn.getDataTotal();
 						List<MessageEntity> lists = filterData(baseEn.getLists(), am_show);
 						if (lists != null && lists.size() > 0) {
 							if (load_type == 0) {
 								//下拉
 								LogUtil.i(LogUtil.LOG_HTTP, TAG + " 刷新数据 —> size = " + lists.size());
+								if (data_total > oldTotal) {
+									newNum = data_total - oldTotal;
+								}
 								lists.addAll(al_show);
 								al_show.clear();
 							}else {
@@ -228,6 +266,20 @@ public class MessageActivity extends BaseActivity {
 							al_show.addAll(lists);
 						}
 						updateListData();
+					} else if (baseEn.getErrNo() == AppConfig.ERROR_CODE_TIMEOUT) {
+						handleTimeOut();
+						finish();
+					} else {
+						handleErrorCode(baseEn);
+					}
+					break;
+				case AppConfig.REQUEST_SV_USER_MESSAGE_DELETE:
+					baseEn = JsonUtils.getBaseErrorData(jsonObject);
+					if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
+						if (postPos >= 0 && postPos < al_show.size()) {
+							al_show.remove(postPos);
+							updateListData();
+						}
 					} else if (baseEn.getErrNo() == AppConfig.ERROR_CODE_TIMEOUT) {
 						handleTimeOut();
 						finish();
@@ -254,6 +306,27 @@ public class MessageActivity extends BaseActivity {
 		isLoadOk = true;
 		refresh_rv.onPullUpRefreshComplete();
 		refresh_rv.onPullDownRefreshComplete();
+	}
+
+	static class MyHandler extends Handler {
+
+		WeakReference<MessageActivity> mActivity;
+
+		MyHandler(MessageActivity activity) {
+			mActivity = new WeakReference<>(activity);
+		}
+
+		@Override
+		public void handleMessage(Message msg) {
+			MessageActivity theActivity = mActivity.get();
+			if (theActivity != null) {
+				switch (msg.what) {
+					case 101: //消息删除
+						theActivity.postDeleteMessage();
+						break;
+				}
+			}
+		}
 	}
 
 }

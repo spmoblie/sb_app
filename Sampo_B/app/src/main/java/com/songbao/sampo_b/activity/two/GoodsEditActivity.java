@@ -18,7 +18,6 @@ import com.songbao.sampo_b.R;
 import com.songbao.sampo_b.activity.BaseActivity;
 import com.songbao.sampo_b.activity.common.photo.PhotoAllActivity;
 import com.songbao.sampo_b.activity.common.photo.PhotoShowActivity;
-import com.songbao.sampo_b.activity.mine.CommentPostActivity;
 import com.songbao.sampo_b.entity.GoodsEntity;
 import com.songbao.sampo_b.entity.OCustomizeEntity;
 import com.songbao.sampo_b.utils.ClickUtils;
@@ -36,7 +35,7 @@ import butterknife.BindView;
 
 public class GoodsEditActivity extends BaseActivity implements OnClickListener {
 
-    String TAG = CommentPostActivity.class.getSimpleName();
+    String TAG = GoodsEditActivity.class.getSimpleName();
 
     @BindView(R.id.goods_edit_iv_photo_01)
     RoundImageView iv_photo_01;

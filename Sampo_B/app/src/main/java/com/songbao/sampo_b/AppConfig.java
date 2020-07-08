@@ -62,9 +62,11 @@ public class AppConfig {
 	// 动态数据
 	public final static String URL_USER_DYNAMIC = "app/user/dynamic";
 	// 我的消息
-	public final static String URL_USER_MESSAGE = "app/user/message";
-	// 消息状态
-	public final static String URL_USER_MESSAGE_STATUS = "app/user/message/updateStatus";
+	public final static String URL_USER_MESSAGE = "omsCustom/app/MQMessage/msg/getMsgList";
+	// 消息删除
+	public final static String URL_USER_MESSAGE_DELETE = "omsCustom/app/MQMessage/msg/deleteMsg";
+	// 消息已读
+	public final static String URL_USER_MESSAGE_STATUS = "omsCustom/app/MQMessage/msg/updateMsgInfo";
 	// 驻店设计
 	public final static String URL_USER_DESIGNER = "app/user/designer/getList";
 
@@ -135,6 +137,10 @@ public class AppConfig {
 
 	// 我的消息
 	public static final int REQUEST_SV_USER_MESSAGE = 0X3101;
+	// 消息删除
+	public static final int REQUEST_SV_USER_MESSAGE_DELETE = 0X3102;
+	// 消息已读
+	public static final int REQUEST_SV_USER_MESSAGE_STATUS = 0X3103;
 	// 驻店设计
 	public static final int REQUEST_SV_USER_DESIGNER = 0X3111;
 
@@ -342,14 +348,6 @@ public class AppConfig {
 	public static final String KEY_X_APP_TOKEN = "x_app_token";
 	// 偏好设置Key-记录用户登录设备号
 	public static final String KEY_DEVICE_TOKEN = "device_token";
-	// 偏好设置Key-记录用户的微信授权码
-	public static final String KEY_WX_ACCESS_TOKEN = "wx_access_token";
-	// 偏好设置Key-记录用户的微信校验码
-	public static final String KEY_WX_REFRESH_TOKEN = "wx_refresh_token";
-	// 偏好设置Key-记录用户的微信登录ID
-	public static final String KEY_WX_OPEN_ID = "wx_open_id";
-	// 偏好设置Key-记录用户的微信身份ID
-	public static final String KEY_WX_UNION_ID = "wx_union_id";
 	// 偏好设置Key-记录同步远程服务器数据的日期
 	public static final String KEY_LOAD_SV_DATA_DAY = "load_sv_data_day";
 	// 偏好设置Key-记录刷新用户资料

@@ -399,13 +399,6 @@
         <item name="android:visibility">gone</item>
     </style>
 
-    <!-- Star评分控件样式 -->
-    <style name="common_star_bar" parent="@android:style/Widget.RatingBar">
-        <item name="android:progressDrawable">@drawable/layer_star_bar</item>
-        <item name="android:minHeight">@dimen/margin_padding_25</item>
-        <item name="android:maxHeight">@dimen/margin_padding_25</item>
-    </style>
-
     <!-- Top RadioGroup样式 -->
     <style name="common_top_bar_radio_group">
         <item name="android:layout_width">0dp</item>

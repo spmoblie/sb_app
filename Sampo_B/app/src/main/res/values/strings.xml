@@ -147,6 +147,7 @@
     <string name="mine_setting">设置中心</string>
     <string name="mine_message">消息中心</string>
     <string name="mine_message_history">以下为历史消息</string>
+    <string name="mine_message_delete">确认删除此消息？</string>
     <string name="mine_sign_num">%1$d人已报名</string>
     <string name="mine_info">我的资料</string>
     <string name="mine_head">头像</string>

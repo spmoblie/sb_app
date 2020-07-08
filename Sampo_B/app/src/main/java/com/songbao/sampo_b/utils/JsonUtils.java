@@ -8,11 +8,9 @@ import com.songbao.sampo_b.entity.GoodsEntity;
 import com.songbao.sampo_b.entity.GoodsSortEntity;
 import com.songbao.sampo_b.entity.MessageEntity;
 import com.songbao.sampo_b.entity.OCustomizeEntity;
-import com.songbao.sampo_b.entity.PaymentEntity;
 import com.songbao.sampo_b.entity.ThemeEntity;
-import com.songbao.sampo_b.entity.VersionEntity;
 import com.songbao.sampo_b.entity.UserInfoEntity;
-import com.songbao.sampo_b.wxapi.WXPayEntryActivity;
+import com.songbao.sampo_b.entity.VersionEntity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -144,45 +142,6 @@ public class JsonUtils {
     }
 
     /**
-     * 解析获取支付订单号
-     */
-    public static BaseEntity getPayOrderOn(JSONObject jsonObject) throws JSONException {
-        BaseEntity mainEn = getCommonKeyValue(jsonObject);
-
-        if (StringUtil.notNull(jsonObject, "data")) {
-            mainEn.setOthers(jsonObject.getString("data"));
-        }
-        return mainEn;
-    }
-
-    /**
-     * 解析获取支付信息
-     */
-    public static BaseEntity<PaymentEntity> getPayInfo(JSONObject jsonObject, int payType) throws JSONException {
-        BaseEntity<PaymentEntity> mainEn = getCommonKeyValue(jsonObject);
-
-        if (StringUtil.notNull(jsonObject, "data")) {
-            PaymentEntity payEn = new PaymentEntity();
-            switch (payType) {
-                case WXPayEntryActivity.PAY_WX: //微信支付
-                    JSONObject data = jsonObject.getJSONObject("data");
-                    payEn.setPrepayid(data.getString("prepayId"));
-                    payEn.setNoncestr(data.getString("nonceStr"));
-                    payEn.setTimestamp(data.getString("timeStamp"));
-                    payEn.setSign(data.getString("sign"));
-                    break;
-                case WXPayEntryActivity.PAY_ZFB: //支付宝支付
-                case WXPayEntryActivity.PAY_UNION: //银联支付
-                    payEn.setContent(jsonObject.getString("data"));
-                    break;
-            }
-            mainEn.setData(payEn);
-        }
-
-        return mainEn;
-    }
-
-    /**
      * 解析用户资料数据
      */
     public static BaseEntity<UserInfoEntity> getUserInfo(JSONObject jsonObject) throws JSONException {
@@ -258,19 +217,19 @@ public class JsonUtils {
             if (StringUtil.notNull(jsonData, "total")) {
                 mainEn.setDataTotal(jsonData.getInt("total"));
             }
-            if (StringUtil.notNull(jsonData, "dataList")) {
-                JSONArray data = jsonData.getJSONArray("dataList");
+            if (StringUtil.notNull(jsonData, "records")) {
+                JSONArray data = jsonData.getJSONArray("records");
                 MessageEntity childEn;
                 List<MessageEntity> lists = new ArrayList<>();
                 for (int j = 0; j < data.length(); j++) {
                     JSONObject item = data.getJSONObject(j);
                     childEn = new MessageEntity();
                     childEn.setId(item.getString("id"));
-                    childEn.setTitle(item.getString("title"));
-                    childEn.setContent(item.getString("text"));
-                    childEn.setAddTime(item.getString("addTime"));
+                    childEn.setTitle(item.getString("msgTitle"));
+                    childEn.setContent(item.getString("msgTopic"));
+                    childEn.setAddTime(item.getString("createTime"));
 
-                    if (item.getInt("status") == 4) {
+                    if (item.getInt("msgStatus") == 1) {
                         childEn.setRead(true);
                     }
                     lists.add(childEn);

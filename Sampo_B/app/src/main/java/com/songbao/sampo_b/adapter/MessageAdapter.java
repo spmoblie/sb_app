@@ -62,11 +62,11 @@ public class MessageAdapter extends BaseRecyclerAdapter<MessageEntity> {
         }
 
         // 历史消息提示
-        if (newNum > 0 && pos == newNum) {
+        /*if (newNum > 0 && pos == newNum) {
             item_history.setVisibility(View.VISIBLE);
         } else {
             item_history.setVisibility(View.GONE);
-        }
+        }*/
 
         item_main.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,6 +74,15 @@ public class MessageAdapter extends BaseRecyclerAdapter<MessageEntity> {
                 if (apCallback != null) {
                     apCallback.setOnClick(data, pos, 0);
                 }
+            }
+        });
+        item_main.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                if (apCallback != null) {
+                    apCallback.setOnClick(data, pos, 1);
+                }
+                return false;
             }
         });
     }
