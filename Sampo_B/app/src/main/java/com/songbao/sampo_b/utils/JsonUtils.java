@@ -2,7 +2,6 @@ package com.songbao.sampo_b.utils;
 
 import com.songbao.sampo_b.entity.AddressEntity;
 import com.songbao.sampo_b.entity.BaseEntity;
-import com.songbao.sampo_b.entity.CommentEntity;
 import com.songbao.sampo_b.entity.DesignerEntity;
 import com.songbao.sampo_b.entity.GoodsEntity;
 import com.songbao.sampo_b.entity.GoodsSortEntity;
@@ -566,57 +565,6 @@ public class JsonUtils {
             mainEn.setLists(lists);
         }
         return mainEn;
-    }
-
-    /**
-     * 解析商品评价数据
-     */
-    public static BaseEntity<CommentEntity> getCommentGoodsListData(JSONObject jsonObject) throws JSONException {
-        BaseEntity<CommentEntity> mainEn = getCommonKeyValue(jsonObject);
-
-        if (StringUtil.notNull(jsonObject, "data")) {
-            JSONObject jsonData = jsonObject.getJSONObject("data");
-            if (StringUtil.notNull(jsonData, "list")) {
-                JSONArray data = jsonData.getJSONArray("list");
-                CommentEntity childEn;
-                List<CommentEntity> lists = new ArrayList<>();
-                for (int i = 0; i < data.length(); i++) {
-                    JSONObject item = data.getJSONObject(i);
-                    childEn = new CommentEntity();
-                    childEn.setNumber(jsonData.getInt("total"));
-                    childEn.setGoodStar(jsonData.getInt("goodsRate"));
-
-                    childEn.setId(item.getInt("id"));
-                    childEn.setNick(item.getString("customerName"));
-                    childEn.setHeadUrl(item.getString("customerName"));
-                    childEn.setGoodsAttr(item.getString("skuComboName"));
-                    childEn.setAddTime(item.getString("evaluateTime"));
-                    childEn.setContent(item.getString("evaluateContent"));
-                    childEn.setStarNum((float) item.getInt("levels"));
-                    childEn.setImg(item.getBoolean("isImg"));
-
-                    if (childEn.isImg()) { //有图
-                        childEn.setImgList(getStringList(item.getString("evaluateImages")));
-                    }
-                    if (StringUtil.notNull(item, "content")) {
-                        childEn.setAddContent(item.getString("content"));
-                    }
-                    if (StringUtil.notNull(item, "days")) {
-                        childEn.setAddDay(item.getInt("days"));
-                    }
-                    lists.add(childEn);
-                }
-                mainEn.setLists(lists);
-            }
-        }
-        return mainEn;
-    }
-
-    /**
-     * 解析我的评价数据
-     */
-    public static BaseEntity<CommentEntity> getCommentOrderListData(JSONObject jsonObject) throws JSONException {
-        return getCommonKeyValue(jsonObject);
     }
 
 }

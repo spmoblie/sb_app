@@ -173,20 +173,6 @@
     <string name="designer_subscribe_ok">下单成功</string>
     <string name="designer_subscribe_tips">确认选择%1$s么?</string>
 
-    <!-- comment -->
-    <string name="comment_mine">我的评价</string>
-    <string name="comment_want">我要评价</string>
-    <string name="comment_add">追加评价</string>
-    <string name="comment_add_hint">追加一下你的使用体验吧~</string>
-    <string name="comment_add_day">"购买%1$d天后追加评论"</string>
-    <string name="comment_all">全部</string>
-    <string name="comment_new">最新</string>
-    <string name="comment_img">有图</string>
-    <string name="comment_star">整体评价</string>
-    <string name="comment_ok">评论已发布</string>
-    <string name="comment_content_null">评价内容不能为空</string>
-    <string name="comment_content_hint">说说它的优点和美中不足的地方吧~</string>
-
     <!-- Goods -->
     <string name="goods_num">x%1$d</string>
     <string name="goods_price_min">最低价格</string>
@@ -393,31 +379,6 @@
     <string name="share_msg_copy_link_ok">链接已复制</string>
     <string name="share_msg_entity_error">分享参数出错，请重新加载页面。</string>
 
-    <!-- Pay -->
-    <string name="pay_title">在线支付</string>
-    <string name="pay_rmb">￥%1$s</string>
-    <string name="pay_ok">已支付</string>
-    <string name="pay_now">立即付款</string>
-    <string name="pay_line">在线支付</string>
-    <string name="pay_amount">支付金额</string>
-    <string name="pay_type">支付方式</string>
-    <string name="pay_confirm">确认支付</string>
-    <string name="pay_wx">微信支付</string>
-    <string name="pay_wx_hint">微信在线支付</string>
-    <string name="pay_zfb">支付宝</string>
-    <string name="pay_zfb_hint">支付宝便捷支付</string>
-    <string name="pay_union">银联支付</string>
-    <string name="pay_union_hint">银联安全支付</string>
-    <string name="pay_abandon">确定放弃支付么?</string>
-    <string name="pay_select_null">请选择一种支付方式</string>
-    <string name="pay_continue">继续支付</string>
-    <string name="pay_success">支付成功</string>
-    <string name="pay_fail">支付失败</string>
-    <string name="pay_cancel">支付取消</string>
-    <string name="pay_info_error">获取支付信息异常，\n联系客服确认信息。</string>
-    <string name="pay_result_ok">您已完成支付，\n请勿重复支付。</string>
-    <string name="pay_result_error">获取支付结果异常，\n联系客服确认结果。</string>
-
     <!-- Address -->
     <string name="address_title">收货地址</string>
     <string name="address_add">新增收货地址</string>
@@ -458,14 +419,6 @@
     <string name="filter">筛选</string>
     <string name="filter_stroke">划</string>
     <string name="filter_stroke_more">划以上</string>
-
-    <string-array name="array_gender">
-        <item >0岁-2岁</item>
-        <item >2岁-4岁</item>
-        <item >4岁-7岁</item>
-        <item >7岁-12岁</item>
-        <item >12岁-18岁</item>
-    </string-array>
 
     <string-array name="array_photo_choose">
         <item>@string/photo_shoot_upload</item>

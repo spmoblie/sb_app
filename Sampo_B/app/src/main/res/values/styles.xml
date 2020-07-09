@@ -387,14 +387,12 @@
 
     <!-- 通用红点数字提醒TextView样式 -->
     <style name="common_warn_red_text_number">
-        <item name="android:layout_width">@dimen/app_margin_screen</item>
-        <item name="android:layout_height">@dimen/app_margin_screen</item>
+        <item name="android:layout_width">@dimen/margin_padding_16</item>
+        <item name="android:layout_height">@dimen/margin_padding_16</item>
         <item name="android:background">@drawable/shape_style_app_warns</item>
-        <item name="android:layout_gravity">center_horizontal</item>
-        <item name="android:layout_marginStart">@dimen/margin_padding_10</item>
         <item name="android:gravity">center</item>
         <item name="android:text">@string/number_0</item>
-        <item name="android:textSize">@dimen/app_text_size_minis</item>
+        <item name="android:textSize">@dimen/text_size_09</item>
         <item name="android:textColor">@color/app_color_white</item>
         <item name="android:visibility">gone</item>
     </style>

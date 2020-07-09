@@ -30,11 +30,6 @@ public class AppConfig {
 	// 提交注销
 	public final static String URL_AUTH_LOGOUT = "app/auth/logout";
 
-	// 支付参数
-	public final static String URL_PAY_PARAMETER = "app/payment/paymentType";
-	// 支付结果
-	public final static String URL_PAY_CHECK_RESULT = "app/payment/callback";
-
 	// 上传接口
 	public final static String URL_UPLOAD_PUSH = "app/upload/push";
 
@@ -109,19 +104,6 @@ public class AppConfig {
 
 	// 提交登录
 	public static final int REQUEST_SV_AUTH_LOGIN = 0X0121;
-	// 授权登录
-	public static final int REQUEST_SV_AUTH_OAUTH = 0X0131;
-	// 微信授权
-	public static final int REQUEST_SV_AUTH_WX_TOKEN = 0X0132;
-	// 微信资料
-	public static final int REQUEST_SV_AUTH_WX_USER = 0X0133;
-	// 微博资料
-	public static final int REQUEST_SV_AUTH_WB_USER = 0X0134;
-
-	// 支付参数
-	public static final int REQUEST_SV_PAY_PARAMETER = 0X0201;
-	// 支付结果
-	public static final int REQUEST_SV_PAY_CHECK_RESULT = 0X0202;
 
 	// 首頁头部
 	public static final int REQUEST_SV_HOME_HEAD = 0X1001;
@@ -371,13 +353,11 @@ public class AppConfig {
 
 	public static final String PAGE_TYPE = "page_type";
 	public static final String PAGE_DATA = "page_data";
-	public static final String ACTIVITY_KEY_PAY_RESULT = "pay_result";
 	public static final String ACTIVITY_KEY_PHOTO_PATH = "photo_path";
 	public static final String ACTIVITY_KEY_USER_INFO = "user_info";
 	public static final String ACTIVITY_KEY_SELECT_LIST = "select_list";
 
 	public static final int ACTIVITY_CODE_VIA_CAMERA = 0X9001;
-	public static final int ACTIVITY_CODE_PAY_DATA = 0X9002;
 	public static final int ACTIVITY_CODE_USER_NICK = 0X9011;
 	public static final int ACTIVITY_CODE_USER_GENDER = 0X9012;
 	public static final int ACTIVITY_CODE_USER_AREA = 0X9013;

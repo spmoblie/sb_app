@@ -91,7 +91,7 @@ public class ChildFragmentTwo extends BaseFragment implements OnClickListener {
 	 */
 	@Override
 	public View onCreateView(@Nullable LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View view = View.inflate(getActivity(), R.layout.fragment_layout_sampo, null);
+		View view = View.inflate(getActivity(), R.layout.fragment_layout_two, null);
 		//Butter Knife初始化
 		ButterKnife.bind(this, view);
 

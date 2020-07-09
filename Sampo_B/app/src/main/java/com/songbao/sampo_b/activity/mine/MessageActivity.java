@@ -134,6 +134,7 @@ public class MessageActivity extends BaseActivity {
 							al_show.get(postPos).setRead(true);
 							postReadMessage();
 							updateListData();
+							AppApplication.updateMineData(true); //刷新红点数
 						}
 						break;
 					case 1: //删除
@@ -279,6 +280,7 @@ public class MessageActivity extends BaseActivity {
 						if (postPos >= 0 && postPos < al_show.size()) {
 							al_show.remove(postPos);
 							updateListData();
+							AppApplication.updateMineData(true); //刷新红点数
 						}
 					} else if (baseEn.getErrNo() == AppConfig.ERROR_CODE_TIMEOUT) {
 						handleTimeOut();

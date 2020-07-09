@@ -125,7 +125,7 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
             } else {
                 tv_message_num.setVisibility(View.GONE);
             }
-            if (newNum > 99) {
+            if (newNum > 999) {
                 tv_message_num.setText("⋅⋅⋅");
             } else {
                 tv_message_num.setText(String.valueOf(newNum));

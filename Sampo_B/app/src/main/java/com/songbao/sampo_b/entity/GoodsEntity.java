@@ -21,13 +21,9 @@ public class GoodsEntity extends BaseEntity {
 	private String remarks; //产品备注
 	private String effectUrl; //3D效果Url
 	private int number; //商品数量
-	private int saleStatus; //0:未售后/1:退款中/2:已退款/3:换货中/4:已换货
-	private int commentStatus; //0:未评价/1:已评价/2:已追评
 	private double onePrice; //申报价格
 	private double twoPrice; //审核价格
 	private boolean isPicture; //是否无图
-	private GoodsAttrEntity attrEn; //已选属性值
-	private GoodsSaleEntity saleEn; //商品售后信息
 	private ArrayList<String> labelList; //商品标签集
 	private ArrayList<String> imageList; //商品图片集
 	private ArrayList<String> detailList; //详情图片集
@@ -133,22 +129,6 @@ public class GoodsEntity extends BaseEntity {
 		this.number = number;
 	}
 
-	public int getSaleStatus() {
-		return saleStatus;
-	}
-
-	public void setSaleStatus(int saleStatus) {
-		this.saleStatus = saleStatus;
-	}
-
-	public int getCommentStatus() {
-		return commentStatus;
-	}
-
-	public void setCommentStatus(int commentStatus) {
-		this.commentStatus = commentStatus;
-	}
-
 	public double getOnePrice() {
 		return onePrice;
 	}
@@ -171,22 +151,6 @@ public class GoodsEntity extends BaseEntity {
 
 	public void setPicture(boolean picture) {
 		isPicture = picture;
-	}
-
-	public GoodsAttrEntity getAttrEn() {
-		return attrEn;
-	}
-
-	public void setAttrEn(GoodsAttrEntity attrEn) {
-		this.attrEn = attrEn;
-	}
-
-	public GoodsSaleEntity getSaleEn() {
-		return saleEn;
-	}
-
-	public void setSaleEn(GoodsSaleEntity saleEn) {
-		this.saleEn = saleEn;
 	}
 
 	public ArrayList<String> getLabelList() {
