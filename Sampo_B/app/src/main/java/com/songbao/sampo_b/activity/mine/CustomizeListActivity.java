@@ -538,6 +538,7 @@ public class CustomizeListActivity extends BaseActivity implements View.OnClickL
             page = "1";
         }
         HashMap<String, Object> map = new HashMap<>();
+        map.put("roleId", userManager.getUserRoleIds());
         map.put("customStatus", top_type);
         map.put("current", page);
         map.put("size", AppConfig.LOAD_SIZE);

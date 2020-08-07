@@ -169,11 +169,11 @@ public class CustomizeGoodsActivity extends BaseActivity implements OnClickListe
             // 产品信息
             tv_name.setText(goodsEn.getName());
             tv_number.setText(getString(R.string.goods_number_show, goodsEn.getNumber()));
-            tv_price_one.setText(getString(R.string.order_rmb, df.format(goodsEn.getOnePrice())));
-            if (goodsEn.getTwoPrice() > 0) {
+            tv_price_one.setText(getString(R.string.order_rmb, df.format(goodsEn.getCostPrice())));
+            if (goodsEn.getCostPricing() > 0 && goodsEn.getCostPricing() != goodsEn.getCostPrice()) {
                 tv_price_one.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG);
                 tv_price_one.setTextColor(getResources().getColor(R.color.debar_text_color));
-                tv_price_two.setText(getString(R.string.order_rmb, df.format(goodsEn.getTwoPrice())));
+                tv_price_two.setText(getString(R.string.order_rmb, df.format(goodsEn.getCostPricing())));
             }
             if (!StringUtil.isNull(goodsEn.getRemarks())) {
                 tv_remarks.setVisibility(View.VISIBLE);
@@ -269,6 +269,7 @@ public class CustomizeGoodsActivity extends BaseActivity implements OnClickListe
      */
     private void loadCustomizeData() {
         HashMap<String, Object> map = new HashMap<>();
+        map.put("roleId", userManager.getUserRoleIds());
         map.put("productId", goodsEn.getId());
         map.put("customCode", goodsEn.getSkuCode());
         loadSVData(AppConfig.URL_ORDER_GOODS, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_ORDER_GOODS);

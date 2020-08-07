@@ -194,15 +194,26 @@
                     app:layout_constraintTop_toBottomOf="@+id/goods_edit_et_goods_number"/>
 
                 <EditText
-                    android:id="@+id/goods_edit_et_goods_price"
+                    android:id="@+id/goods_edit_et_price_cost"
                     style="@style/goods_edit_text"
                     android:inputType="number"
                     android:digits=".0123456789"
-                    android:hint="@string/goods_price_hint"
+                    android:hint="@string/goods_price_cost_hint"
                     app:layout_constraintHorizontal_weight="1"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/goods_edit_tv_goods_price" />
+
+                <EditText
+                    android:id="@+id/goods_edit_et_price_sale"
+                    style="@style/goods_edit_text"
+                    android:inputType="number"
+                    android:digits=".0123456789"
+                    android:hint="@string/goods_price_sale_hint"
+                    app:layout_constraintHorizontal_weight="1"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/goods_edit_et_price_cost" />
 
                 <TextView
                     android:id="@+id/goods_edit_tv_goods_remarks"
@@ -211,7 +222,7 @@
                     android:textSize="@dimen/app_text_size_content"
                     android:layout_marginTop="@dimen/margin_padding_20"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/goods_edit_et_goods_price"/>
+                    app:layout_constraintTop_toBottomOf="@+id/goods_edit_et_price_sale"/>
 
                 <com.songbao.sampo_b.widgets.ScrollViewEditText
                     android:id="@+id/goods_edit_et_goods_remarks"

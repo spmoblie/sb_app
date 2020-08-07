@@ -88,7 +88,7 @@ public class PostOrderActivity extends BaseActivity implements View.OnClickListe
     private CharSequence[] storeItems;
     private int editPos = -1;
     private int goodsPos, imagePos;
-    private double priceTotal;
+    private double costPriceTotal, salePriceTotal;
     private String nameStr, phoneStr, buildName, storeName, hopeDate, orderRemarks;
     private ArrayList<GoodsEntity> al_goods = new ArrayList<>();
 
@@ -194,7 +194,7 @@ public class PostOrderActivity extends BaseActivity implements View.OnClickListe
 
     private void initListView() {
         if (lv_adapter == null) {
-            lv_adapter = new GoodsOrderEditAdapter(mContext);
+            lv_adapter = new GoodsOrderEditAdapter(mContext, isHideCostPrice);
             lv_adapter.addCallback(new AdapterCallback() {
                 @Override
                 public void setOnClick(Object data, int position, int type) {
@@ -227,11 +227,17 @@ public class PostOrderActivity extends BaseActivity implements View.OnClickListe
     }
 
     private void updateOrderPrice() {
-        priceTotal = 0;
+        costPriceTotal = 0;
+        salePriceTotal = 0;
         for (GoodsEntity goodsEn : al_goods) {
-            priceTotal += goodsEn.getOnePrice() * goodsEn.getNumber();
+            costPriceTotal += goodsEn.getCostPrice() * goodsEn.getNumber();
+            salePriceTotal += goodsEn.getSalePrice() * goodsEn.getNumber();
         }
-        tv_price_total.setText(df.format(priceTotal));
+        if (isHideCostPrice) {
+            tv_price_total.setText(df.format(salePriceTotal));
+        } else {
+            tv_price_total.setText(df.format(costPriceTotal));
+        }
     }
 
     private void deleteOrderData() {
@@ -484,7 +490,8 @@ public class PostOrderActivity extends BaseActivity implements View.OnClickListe
     private void postOrderData() {
         try {
             JSONObject jsonObj = new JSONObject();
-            jsonObj.put("customPrice", priceTotal);
+            jsonObj.put("coefficient", ratios);
+            jsonObj.put("customPrice", costPriceTotal);
             jsonObj.put("clientName", nameStr);
             jsonObj.put("clientPhone", phoneStr);
             jsonObj.put("propertyName", buildName);
@@ -501,7 +508,8 @@ public class PostOrderActivity extends BaseActivity implements View.OnClickListe
                     goodsJson.put("isIsPicture", goodsEn.isPicture());
                     goodsJson.put("vcrUrl", goodsEn.getEffectUrl());
                     goodsJson.put("buyNum", goodsEn.getNumber());
-                    goodsJson.put("buyPrice", goodsEn.getOnePrice());
+                    goodsJson.put("buyPrice", goodsEn.getCostPrice());
+                    goodsJson.put("productSellingPrice", goodsEn.getSalePrice());
                     goodsJson.put("remark", goodsEn.getRemarks());
                     goodsJson.put("pics", new JSONArray(goodsEn.getImageList()));
                     jsonArr.put(i, goodsJson);

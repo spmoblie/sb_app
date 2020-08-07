@@ -488,6 +488,7 @@ public class CustomizeOrderActivity extends BaseActivity implements OnClickListe
      */
     private void loadOrderData() {
         HashMap<String, Object> map = new HashMap<>();
+        map.put("roleId", userManager.getUserRoleIds());
         map.put("customCode", orderNo);
         loadSVData(AppConfig.URL_ORDER_INFO, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_ORDER_INFO);
     }

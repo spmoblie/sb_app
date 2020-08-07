@@ -320,6 +320,10 @@ public class AppConfig {
 	public static final String KEY_USER_PHONE = "user_phone";
 	// 偏好设置Key-记录用户账户余额
 	public static final String KEY_USER_MONEY = "user_money";
+	// 偏好设置Key-记录用户角色代码
+	public static final String KEY_USER_ROLES = "user_roles";
+	// 偏好设置Key-记录用户销售系数
+	public static final String KEY_USER_RATIO = "user_ratio";
 	// 偏好设置Key-记录用户上传相片地址
 	public static final String KEY_POST_PHOTO_URL = "post_photo_url";
 	// 偏好设置Key-记录用户门店数据

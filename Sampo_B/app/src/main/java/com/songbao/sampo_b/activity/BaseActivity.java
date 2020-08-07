@@ -93,7 +93,9 @@ public class BaseActivity extends FragmentActivity {
     protected DialogManager myDialog;
     protected UserManager userManager;
     protected DecimalFormat df;
-    protected Boolean isTimeFinish = true;
+    protected boolean isTimeFinish = true;
+    protected boolean isHideCostPrice = false;
+    protected double ratios;
     protected int screenWidth, screenHeight, statusHeight, dialogWidth;
 
     private ConstraintLayout top_main;
@@ -123,6 +125,8 @@ public class BaseActivity extends FragmentActivity {
         statusHeight = AppApplication.status_height;
         dialogWidth = screenWidth * 2 / 3;
         df = new DecimalFormat("0.00");
+        ratios = userManager.getUserRatios(); //经销商销售系数
+        isHideCostPrice = userManager.getUserRoleIds() == 7; //门店设计师角色登录
 
         // 推送服务统计应用启动数据
         AppApplication.onPushAppStartData();

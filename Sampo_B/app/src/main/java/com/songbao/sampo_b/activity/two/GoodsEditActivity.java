@@ -76,8 +76,11 @@ public class GoodsEditActivity extends BaseActivity implements OnClickListener {
     @BindView(R.id.goods_edit_et_goods_number)
     EditText et_number;
 
-    @BindView(R.id.goods_edit_et_goods_price)
-    EditText et_price;
+    @BindView(R.id.goods_edit_et_price_cost)
+    EditText et_price_cost;
+
+    @BindView(R.id.goods_edit_et_price_sale)
+    EditText et_price_sale;
 
     @BindView(R.id.goods_edit_et_goods_remarks)
     ScrollViewEditText et_remarks;
@@ -91,8 +94,8 @@ public class GoodsEditActivity extends BaseActivity implements OnClickListener {
     private RequestOptions showOptions;
     private GoodsEntity data;
     private int editPos, photoNum, goodsNum;
-    private double goodsPrice;
-    private boolean isEdit, isNull;
+    private double costPrice, salePrice;
+    private boolean isEdit, isNull, isSale, isCost;
     private String linkStr, name, remarks;
     private ArrayList<String> al_photos_add = new ArrayList<>();
     private ArrayList<String> al_photos_url = new ArrayList<>();
@@ -123,6 +126,10 @@ public class GoodsEditActivity extends BaseActivity implements OnClickListener {
         tv_link_null.setOnClickListener(this);
         tv_confirm.setOnClickListener(this);
 
+        if (isHideCostPrice) { //隐藏成本单价
+            et_price_cost.setVisibility(View.GONE);
+        }
+
         showOptions = new RequestOptions()
                 .placeholder(R.drawable.icon_default_show)
                 .fallback(R.drawable.icon_photo_add)
@@ -141,10 +148,76 @@ public class GoodsEditActivity extends BaseActivity implements OnClickListener {
             if (data.getNumber() > 0) {
                 goodsNum = data.getNumber();
             }
-            goodsPrice = data.getOnePrice();
+            costPrice = data.getCostPrice();
+            salePrice = data.getSalePrice();
         }
         et_link.setText(linkStr);
         et_name.setText(name);
+        et_number.setText(String.valueOf(goodsNum));
+
+        if (costPrice > 0) {
+            et_price_cost.setText(df.format(costPrice));
+        }
+        if (salePrice > 0) {
+            et_price_sale.setText(df.format(salePrice));
+        }
+        et_price_cost.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                isCost = true;
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (isCost && !isSale) {
+                    if (StringUtil.isNull(s.toString())) {
+                        costPrice = 0;
+                        salePrice = 0;
+                        et_price_sale.setText("");
+                    } else {
+                        costPrice = Double.valueOf(s.toString());
+                        salePrice = costPrice * ratios;
+                        et_price_sale.setText(df.format(salePrice));
+                    }
+                }
+                isSale = false;
+            }
+        });
+        et_price_sale.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                isSale = true;
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (isSale && !isCost) {
+                    if (StringUtil.isNull(s.toString())) {
+                        salePrice = 0;
+                        costPrice = 0;
+                        et_price_cost.setText("");
+                    } else {
+                        salePrice = Double.valueOf(s.toString());
+                        costPrice = salePrice / ratios;
+                        et_price_cost.setText(df.format(costPrice));
+                    }
+                }
+                isCost = false;
+            }
+        });
+
+        updatePhotoData();
+
         et_remarks.setText(remarks);
         et_remarks.addTextChangedListener(new TextWatcher() {
             @Override
@@ -167,12 +240,6 @@ public class GoodsEditActivity extends BaseActivity implements OnClickListener {
         } else {
             updateTextBytes(remarks.length());
         }
-
-        et_number.setText(String.valueOf(goodsNum));
-        if (goodsPrice > 0) {
-            et_price.setText(df.format(goodsPrice));
-        }
-        updatePhotoData();
     }
 
     private void updateTextBytes(int lengths) {
@@ -337,12 +404,21 @@ public class GoodsEditActivity extends BaseActivity implements OnClickListener {
         }
         goodsNum = Integer.valueOf(numStr);
 
-        String numPrice = et_price.getText().toString();
-        if (StringUtil.isNull(numPrice) || Double.valueOf(numPrice) <= 0) {
-            CommonTools.showToast(getString(R.string.goods_price_hint), Toast.LENGTH_SHORT);
-            return false;
+        if (isHideCostPrice) {
+            if (salePrice <= 0 || costPrice <= 0) {
+                CommonTools.showToast(getString(R.string.goods_price_sale_hint), Toast.LENGTH_SHORT);
+                return false;
+            }
+        } else {
+            if (costPrice <= 0) {
+                CommonTools.showToast(getString(R.string.goods_price_cost_hint), Toast.LENGTH_SHORT);
+                return false;
+            }
+            if (salePrice <= 0) {
+                CommonTools.showToast(getString(R.string.goods_price_sale_hint), Toast.LENGTH_SHORT);
+                return false;
+            }
         }
-        goodsPrice = Double.valueOf(numPrice);
 
         remarks = et_remarks.getText().toString();
 
@@ -382,7 +458,8 @@ public class GoodsEditActivity extends BaseActivity implements OnClickListener {
         }
         goodsEn.setName(name);
         goodsEn.setNumber(goodsNum);
-        goodsEn.setOnePrice(goodsPrice);
+        goodsEn.setCostPrice(costPrice);
+        goodsEn.setSalePrice(salePrice);
         goodsEn.setRemarks(remarks);
 
         OCustomizeEntity ocEn = (OCustomizeEntity) FileManager.readFileSaveObject(AppConfig.orderDataFileName, 0);
@@ -396,7 +473,8 @@ public class GoodsEditActivity extends BaseActivity implements OnClickListener {
                 }
                 ocEn.getGoodsList().get(editPos).setName(name);
                 ocEn.getGoodsList().get(editPos).setNumber(goodsNum);
-                ocEn.getGoodsList().get(editPos).setOnePrice(goodsPrice);
+                ocEn.getGoodsList().get(editPos).setCostPrice(costPrice);
+                ocEn.getGoodsList().get(editPos).setSalePrice(salePrice);
                 ocEn.getGoodsList().get(editPos).setRemarks(remarks);
             } else {
                 ocEn.getGoodsList().add(goodsEn);

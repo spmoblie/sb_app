@@ -157,6 +157,7 @@ public class JsonUtils {
                 userInfo.setBirthday(data.getString("birthdayValue"));
                 userInfo.setUserArea(data.getString("address"));
                 userInfo.setUserIntro(data.getString("signature"));
+                userInfo.setRoleIds(data.getInt("roleIds"));
 
                 if (StringUtil.notNull(data, "storeList")) {
                     JSONArray nameArr = data.getJSONArray("storeList");
@@ -196,12 +197,17 @@ public class JsonUtils {
     public static BaseEntity<UserInfoEntity> getUserDynamic(JSONObject jsonObject) throws JSONException {
         BaseEntity<UserInfoEntity> mainEn = getCommonKeyValue(jsonObject);
 
+        UserInfoEntity userInfo = new UserInfoEntity();
         if (StringUtil.notNull(jsonObject, "data")) {
             JSONObject jsonData = jsonObject.getJSONObject("data");
             if (StringUtil.notNull(jsonData, "messageCount")) {
-                mainEn.setDataTotal(jsonData.getInt("messageCount"));
+                userInfo.setMessageNum(jsonData.getInt("messageCount"));
+            }
+            if (StringUtil.notNull(jsonData, "saleRatio")) {
+                userInfo.setRatios(jsonData.getLong("saleRatio"));
             }
         }
+        mainEn.setData(userInfo);
         return mainEn;
     }
 
@@ -310,8 +316,8 @@ public class JsonUtils {
                         gdEn.setName(goodsObj.getString("productName"));
                         gdEn.setPicUrl(goodsObj.getString("productPic"));
                         gdEn.setNumber(goodsObj.getInt("buyNum"));
-                        gdEn.setOnePrice(goodsObj.getDouble("buyPrice"));
-                        gdEn.setTwoPrice(goodsObj.getDouble("buyModifyPrice"));
+                        gdEn.setCostPrice(goodsObj.getDouble("buyPrice"));
+                        gdEn.setCostPricing(goodsObj.getDouble("buyModifyPrice"));
                         goodsList.add(gdEn);
                     }
                     childEn.setGoodsList(goodsList);
@@ -378,8 +384,8 @@ public class JsonUtils {
                     // 商品信息
                     gdEn.setName(goodsObj.getString("productName"));
                     gdEn.setNumber(goodsObj.getInt("buyNum"));
-                    gdEn.setOnePrice(goodsObj.getDouble("buyPrice"));
-                    gdEn.setTwoPrice(goodsObj.getDouble("buyModifyPrice"));
+                    gdEn.setCostPrice(goodsObj.getDouble("buyPrice"));
+                    gdEn.setCostPricing(goodsObj.getDouble("buyModifyPrice"));
                     goodsList.add(gdEn);
                 }
                 ocEn.setGoodsList(goodsList);
@@ -431,8 +437,8 @@ public class JsonUtils {
             // 商品信息
             gdEn.setName(jsonData.getString("productName"));
             gdEn.setNumber(jsonData.getInt("buyNum"));
-            gdEn.setOnePrice(jsonData.getDouble("buyPrice"));
-            gdEn.setTwoPrice(jsonData.getDouble("buyModifyPrice"));
+            gdEn.setCostPrice(jsonData.getDouble("buyPrice"));
+            gdEn.setCostPricing(jsonData.getDouble("buyModifyPrice"));
             gdEn.setRemarks(jsonData.getString("remark"));
             mainEn.setData(gdEn);
         }
@@ -486,7 +492,7 @@ public class JsonUtils {
                     childEn.setPicUrl(item.getString("skuPic"));
                     childEn.setName(item.getString("goodsName"));
                     childEn.setAttribute(item.getString("skuComboName"));
-                    childEn.setOnePrice(item.getDouble("price"));
+                    childEn.setCostPrice(item.getDouble("price"));
 
                     if (StringUtil.notNull(item, "kjlCode")) {
                         childEn.setEffectUrl(item.getString("kjlCode"));

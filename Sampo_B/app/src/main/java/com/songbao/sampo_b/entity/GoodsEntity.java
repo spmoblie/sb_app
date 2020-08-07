@@ -21,8 +21,9 @@ public class GoodsEntity extends BaseEntity {
 	private String remarks; //产品备注
 	private String effectUrl; //3D效果Url
 	private int number; //商品数量
-	private double onePrice; //申报价格
-	private double twoPrice; //审核价格
+	private double salePrice; //销售单价
+	private double costPrice; //成本单价
+	private double costPricing; //成本审核定价
 	private boolean isPicture; //是否无图
 	private ArrayList<String> labelList; //商品标签集
 	private ArrayList<String> imageList; //商品图片集
@@ -129,20 +130,28 @@ public class GoodsEntity extends BaseEntity {
 		this.number = number;
 	}
 
-	public double getOnePrice() {
-		return onePrice;
+	public double getSalePrice() {
+		return salePrice;
 	}
 
-	public void setOnePrice(double onePrice) {
-		this.onePrice = onePrice;
+	public void setSalePrice(double salePrice) {
+		this.salePrice = salePrice;
 	}
 
-	public double getTwoPrice() {
-		return twoPrice;
+	public double getCostPrice() {
+		return costPrice;
 	}
 
-	public void setTwoPrice(double twoPrice) {
-		this.twoPrice = twoPrice;
+	public void setCostPrice(double costPrice) {
+		this.costPrice = costPrice;
+	}
+
+	public double getCostPricing() {
+		return costPricing;
+	}
+
+	public void setCostPricing(double costPricing) {
+		this.costPricing = costPricing;
 	}
 
 	public boolean isPicture() {

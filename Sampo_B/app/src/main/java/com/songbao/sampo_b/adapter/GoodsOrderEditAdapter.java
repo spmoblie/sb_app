@@ -24,11 +24,13 @@ import java.util.List;
 public class GoodsOrderEditAdapter extends AppBaseAdapter<GoodsEntity> {
 
 	private int scrollPos = -1;
+	private boolean isHideCostPrice = false;
 	private DecimalFormat df;
 	private LinearLayout.LayoutParams lp;
 
-	public GoodsOrderEditAdapter(Context context) {
+	public GoodsOrderEditAdapter(Context context, boolean isHideCostPrice) {
 		super(context);
+		this.isHideCostPrice = isHideCostPrice;
 		df = new DecimalFormat("0.00");
 
 		lp = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -106,8 +108,12 @@ public class GoodsOrderEditAdapter extends AppBaseAdapter<GoodsEntity> {
 					.into(holder.iv_show);
 
 			holder.tv_name.setText(data.getName());
-			holder.tv_price.setText(df.format(data.getOnePrice()));
 			holder.tv_number.setText(context.getString(R.string.order_goods_num, data.getNumber()));
+			if (isHideCostPrice) {
+				holder.tv_price.setText(df.format(data.getSalePrice()));
+			} else {
+				holder.tv_price.setText(df.format(data.getCostPrice()));
+			}
 		}
 
 		holder.tv_edit.setOnClickListener(new View.OnClickListener() {

@@ -192,7 +192,8 @@
     <string name="goods_number_hint">请输入产品数量</string>
     <string name="goods_number_show">产品数量：%1$d</string>
     <string name="goods_price">产品单价</string>
-    <string name="goods_price_hint">请输入产品单价</string>
+    <string name="goods_price_cost_hint">请输入成本单价</string>
+    <string name="goods_price_sale_hint">请输入销售单价</string>
     <string name="goods_price_show">产品单价：</string>
     <string name="goods_remarks">产品备注</string>
     <string name="goods_remarks_hint">请输入产品备注</string>

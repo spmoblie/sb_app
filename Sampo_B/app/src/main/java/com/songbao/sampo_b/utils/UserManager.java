@@ -209,6 +209,31 @@ public class UserManager {
 		mUserMoney = userMoney;
 	}
 
+	public int getUserRoleIds(){
+		return sp.getInt(AppConfig.KEY_USER_ROLES, 0);
+	}
+
+	public void saveUserRoleIds(int roleIds){
+		editor.putInt(AppConfig.KEY_USER_ROLES, roleIds).commit();
+	}
+
+	public double getUserRatios(){
+		double ratio = 1;
+		long saveRatio = sp.getLong(AppConfig.KEY_USER_RATIO, 1);
+		if (saveRatio <= 0) {
+			ratio = 1;
+		} else if (saveRatio >= 10) {
+			ratio = (double) saveRatio / 100;
+		} else {
+			ratio = (double) saveRatio;
+		}
+		return ratio;
+	}
+
+	public void saveUserRatios(long ratio){
+		editor.putLong(AppConfig.KEY_USER_RATIO, ratio).commit();
+	}
+
 	public String getStoreStr(){
 		return sp.getString(AppConfig.KEY_STORE_DATA, "");
 	}
@@ -289,6 +314,7 @@ public class UserManager {
 	 */
 	private void updateAllDataStatus() {
 		AppApplication.updateUserData(true);
+		AppApplication.updateMineData(true);
 	}
 
 	/**
@@ -322,6 +348,9 @@ public class UserManager {
 		saveUserBirthday("");
 		saveUserArea("");
 		saveUserMoney("0.00");
+		saveUserMsgNum(0);
+		saveUserRoleIds(0);
+		saveUserRatios(100);
 		// 清除用户缓存头像
 		CleanDataManager.cleanCustomCache(AppConfig.PATH_USER_HEAD);
 		// 清除用户缓存数据
@@ -343,6 +372,7 @@ public class UserManager {
 			saveUserGender(infoEn.getGenderCode());
 			saveUserBirthday(infoEn.getBirthday());
 			saveUserArea(infoEn.getUserArea());
+			saveUserRoleIds(infoEn.getRoleIds());
 			saveStoreStr(infoEn.getStoreStr());
 
 			if (StringUtil.isNull(infoEn.getMoney())) {

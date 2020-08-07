@@ -53,7 +53,7 @@ public class GoodsListAdapter extends BaseRecyclerAdapter<GoodsEntity> {
 
         tv_name.setText(data.getName());
         tv_attr.setText(data.getAttribute());
-        tv_price.setText(df.format(data.getOnePrice()));
+        tv_price.setText(df.format(data.getCostPrice()));
 
         item_main.setOnClickListener(new View.OnClickListener() {
 
