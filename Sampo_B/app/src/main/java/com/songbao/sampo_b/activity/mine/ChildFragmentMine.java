@@ -28,6 +28,7 @@ import com.songbao.sampo_b.utils.ClickUtils;
 import com.songbao.sampo_b.utils.ExceptionUtil;
 import com.songbao.sampo_b.utils.JsonUtils;
 import com.songbao.sampo_b.utils.LogUtil;
+import com.songbao.sampo_b.utils.StringUtil;
 import com.songbao.sampo_b.utils.UserManager;
 import com.songbao.sampo_b.utils.retrofit.HttpRequests;
 import com.songbao.sampo_b.widgets.RoundImageView;
@@ -296,7 +297,7 @@ public class ChildFragmentMine extends BaseFragment implements OnClickListener {
      * 下载用户头像
      */
     private void loadUserHead() {
-        if (infoEn != null) {
+        if (infoEn != null && !StringUtil.isNull(infoEn.getUserHead())) {
             Observable.create(new Observable.OnSubscribe<Bitmap>() {
                 @Override
                 public void call(Subscriber<? super Bitmap> subscriber) {

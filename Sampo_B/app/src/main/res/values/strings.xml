@@ -181,6 +181,7 @@
     <string name="goods_effect_img">产品图片</string>
     <string name="goods_effect_img_hint">请上传产品图片</string>
     <string name="goods_effect_file">产品文件</string>
+    <string name="goods_effect_file_add">上传文件</string>
     <string name="goods_effect_link">产品链接</string>
     <string name="goods_effect_link_null">无图</string>
     <string name="goods_effect_link_hint">请粘贴链接地址</string>

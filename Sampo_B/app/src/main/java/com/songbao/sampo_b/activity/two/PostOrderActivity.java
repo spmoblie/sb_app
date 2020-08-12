@@ -87,8 +87,9 @@ public class PostOrderActivity extends BaseActivity implements View.OnClickListe
 
     private CharSequence[] storeItems;
     private int editPos = -1;
-    private int goodsPos, imagePos;
-    private double costPriceTotal, salePriceTotal;
+    private int goodsPos, imagePos, filesPos;
+    private double costPriceTotal;
+    private boolean isPhoto = true;
     private String nameStr, phoneStr, buildName, storeName, hopeDate, orderRemarks;
     private ArrayList<GoodsEntity> al_goods = new ArrayList<>();
 
@@ -109,12 +110,16 @@ public class PostOrderActivity extends BaseActivity implements View.OnClickListe
         tv_confirm.setOnClickListener(this);
 
         String storeStr = userManager.getStoreStr();
-        if (!StringUtil.isNull(storeStr) && storeStr.contains("_")) {
-            storeItems = storeStr.split("_");
-            if (storeItems.length > 0) {
-                storeName = storeItems[0].toString();
-                tv_deal_store.setText(storeName);
+        if (!StringUtil.isNull(storeStr)) {
+            if (storeStr.contains("_")) {
+                storeItems = storeStr.split("_");
+                if (storeItems.length > 0) {
+                    storeName = storeItems[0].toString();
+                }
+            } else {
+                storeName = storeStr;
             }
+            tv_deal_store.setText(storeName);
         }
 
         et_customer_phone.addTextChangedListener(new TextWatcher() {
@@ -227,8 +232,8 @@ public class PostOrderActivity extends BaseActivity implements View.OnClickListe
     }
 
     private void updateOrderPrice() {
+        double salePriceTotal = 0;
         costPriceTotal = 0;
-        salePriceTotal = 0;
         for (GoodsEntity goodsEn : al_goods) {
             costPriceTotal += goodsEn.getCostPrice() * goodsEn.getNumber();
             salePriceTotal += goodsEn.getSalePrice() * goodsEn.getNumber();
@@ -269,7 +274,7 @@ public class PostOrderActivity extends BaseActivity implements View.OnClickListe
             case R.id.post_order_et_deal_store:
                 if (storeItems != null && storeItems.length > 0) {
                     selectStore();
-                } else {
+                } else if (StringUtil.isNull(storeName)) {
                     loadStoreData();
                 }
                 break;
@@ -278,7 +283,7 @@ public class PostOrderActivity extends BaseActivity implements View.OnClickListe
                 break;
             case R.id.post_order_tv_confirm:
                 if (checkData()) {
-                    checkPhotoUrl();
+                    checkUploadUrl();
                 }
                 break;
         }
@@ -432,16 +437,21 @@ public class PostOrderActivity extends BaseActivity implements View.OnClickListe
         showConfirmDialog(getString(R.string.order_abandon), getString(R.string.delete_think),getString(R.string.leave_confirm), new MyHandler(this), 1004);
     }
 
-    private void checkPhotoUrl() {
-        if (isUpload()) {
+    private void checkUploadUrl() {
+        if (isPhoto && isUploadPhoto()) { //检查需要上传的图片
             String photoUrl = al_goods.get(goodsPos).getImageList().get(imagePos);
-            uploadPhoto(photoUrl);
-        } else {
+            uploadFiles(photoUrl);
+        } else if (isUploadFiles()) { //检查需要上传的文件
+            isPhoto = false;
+            String filesUrl = al_goods.get(goodsPos).getFilesList().get(filesPos);
+            uploadFiles(filesUrl);
+        } else { //提交订单数据
+            isPhoto = true;
             postOrderData();
         }
     }
 
-    private boolean isUpload() {
+    private boolean isUploadPhoto() {
         GoodsEntity goodsEn;
         String photoUrl;
         for (int i = 0; i < al_goods.size(); i++) {
@@ -460,13 +470,36 @@ public class PostOrderActivity extends BaseActivity implements View.OnClickListe
         return false;
     }
 
+    private boolean isUploadFiles() {
+        GoodsEntity goodsEn;
+        String filesUrl;
+        for (int i = 0; i < al_goods.size(); i++) {
+            goodsPos = i;
+            goodsEn = al_goods.get(goodsPos);
+            if (goodsEn != null && goodsEn.getFilesList() != null) {
+                for (int j = 0; j < goodsEn.getFilesList().size(); j++) {
+                    filesPos = j;
+                    filesUrl = goodsEn.getFilesList().get(filesPos);
+                    if (!StringUtil.isNull(filesUrl) && !filesUrl.contains("http://")) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
     /**
-     * 上传照片
+     * 上传照片、文件
      */
-    private void uploadPhoto(String photoUrl) {
-        if (!StringUtil.isNull(photoUrl)) {
+    private void uploadFiles(String fileUrl) {
+        if (!StringUtil.isNull(fileUrl)) {
             startAnimation();
-            uploadPushFile(new File(photoUrl), 2, AppConfig.REQUEST_SV_UPLOAD_PHOTO);
+            int fileType = 2;
+            if (!isPhoto) {
+                fileType = 3;
+            }
+            uploadPushFile(new File(fileUrl), fileType, AppConfig.REQUEST_SV_UPLOAD_PHOTO);
         }
     }
 
@@ -512,6 +545,7 @@ public class PostOrderActivity extends BaseActivity implements View.OnClickListe
                     goodsJson.put("productSellingPrice", goodsEn.getSalePrice());
                     goodsJson.put("remark", goodsEn.getRemarks());
                     goodsJson.put("pics", new JSONArray(goodsEn.getImageList()));
+                    goodsJson.put("files", new JSONArray(goodsEn.getFilesList()));
                     jsonArr.put(i, goodsJson);
                 }
             }
@@ -532,20 +566,36 @@ public class PostOrderActivity extends BaseActivity implements View.OnClickListe
                     baseEn = JsonUtils.getUploadResult(jsonObject);
                     if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
                         if (goodsPos >= 0 && goodsPos < al_goods.size()) {
-                            ArrayList<String> imgList = al_goods.get(goodsPos).getImageList();
-                            if (imgList != null) {
-                                ArrayList<String> newList = new ArrayList<>();
-                                for (int i = 0; i < imgList.size(); i++) {
-                                    if (imagePos == i) {
-                                        newList.add(baseEn.getOthers());
-                                    } else {
-                                        newList.add(imgList.get(i));
+                            ArrayList<String> imgList;
+                            if (isPhoto) {
+                                imgList = al_goods.get(goodsPos).getImageList();
+                                if (imgList != null) {
+                                    ArrayList<String> newList = new ArrayList<>();
+                                    for (int i = 0; i < imgList.size(); i++) {
+                                        if (imagePos == i) {
+                                            newList.add(baseEn.getOthers());
+                                        } else {
+                                            newList.add(imgList.get(i));
+                                        }
                                     }
+                                    al_goods.get(goodsPos).setImageList(newList);
                                 }
-                                al_goods.get(goodsPos).setImageList(newList);
+                            } else {
+                                imgList = al_goods.get(goodsPos).getFilesList();
+                                if (imgList != null) {
+                                    ArrayList<String> newList = new ArrayList<>();
+                                    for (int i = 0; i < imgList.size(); i++) {
+                                        if (filesPos == i) {
+                                            newList.add(baseEn.getOthers());
+                                        } else {
+                                            newList.add(imgList.get(i));
+                                        }
+                                    }
+                                    al_goods.get(goodsPos).setFilesList(newList);
+                                }
                             }
                         }
-                        checkPhotoUrl();
+                        checkUploadUrl();
                     } else {
                         handleErrorCode(baseEn);
                     }
@@ -555,9 +605,16 @@ public class PostOrderActivity extends BaseActivity implements View.OnClickListe
                     if (userEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
                         userManager.saveUserInfo(userEn.getData());
                         String storeStr = userManager.getStoreStr();
-                        if (!StringUtil.isNull(storeStr) && storeStr.contains("_")) {
-                            storeItems = storeStr.split("_");
-                            selectStore();
+                        if (!StringUtil.isNull(storeStr)) {
+                            if (storeStr.contains("_")) {
+                                storeItems = storeStr.split("_");
+                                selectStore();
+                            } else {
+                                storeName = storeStr;
+                                if (tv_deal_store != null) {
+                                    tv_deal_store.setText(storeName);
+                                }
+                            }
                         } else {
                             CommonTools.showToast(getString(R.string.order_deal_store_null));
                         }

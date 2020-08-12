@@ -1,6 +1,7 @@
 package com.songbao.sampo_b.activity;
 
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -441,6 +442,23 @@ public class BaseActivity extends FragmentActivity {
         intent.putExtra(ViewPagerActivity.EXTRA_IMAGE_URLS, urlLists);
         intent.putExtra(ViewPagerActivity.EXTRA_IMAGE_INDEX, position);
         startActivity(intent);
+    }
+
+    /**
+     * 打开系统文件管理器
+     */
+    protected void openSystemFile(){
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("*/*");
+        intent.addCategory(Intent.CATEGORY_DEFAULT);
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE,true);//打开多个文件
+        try{
+            startActivityForResult(Intent.createChooser(intent,"请选择文件"),1);
+        }catch (ActivityNotFoundException e){
+            ExceptionUtil.handle(e);
+            CommonTools.showToast("请安装文件管理器");
+        }
     }
 
     /**

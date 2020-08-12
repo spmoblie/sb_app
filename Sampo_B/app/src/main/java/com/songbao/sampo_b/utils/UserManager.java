@@ -205,7 +205,7 @@ public class UserManager {
 	}
 
 	public void saveUserMoney(String userMoney){
-		editor.putString(AppConfig.KEY_USER_MONEY, userMoney).commit();
+		editor.putString(AppConfig.KEY_USER_MONEY, userMoney).apply();
 		mUserMoney = userMoney;
 	}
 
@@ -214,7 +214,7 @@ public class UserManager {
 	}
 
 	public void saveUserRoleIds(int roleIds){
-		editor.putInt(AppConfig.KEY_USER_ROLES, roleIds).commit();
+		editor.putInt(AppConfig.KEY_USER_ROLES, roleIds).apply();
 	}
 
 	public double getUserRatios(){
@@ -231,7 +231,7 @@ public class UserManager {
 	}
 
 	public void saveUserRatios(long ratio){
-		editor.putLong(AppConfig.KEY_USER_RATIO, ratio).commit();
+		editor.putLong(AppConfig.KEY_USER_RATIO, ratio).apply();
 	}
 
 	public String getStoreStr(){
@@ -239,7 +239,7 @@ public class UserManager {
 	}
 
 	public void saveStoreStr(String storeStr){
-		editor.putString(AppConfig.KEY_STORE_DATA, storeStr).commit();
+		editor.putString(AppConfig.KEY_STORE_DATA, storeStr).apply();
 	}
 
 	public String getPostPhotoUrl(){
@@ -247,7 +247,7 @@ public class UserManager {
 	}
 
 	public void savePostPhotoUrl(String photoUrl){
-		editor.putString(AppConfig.KEY_POST_PHOTO_URL, photoUrl).commit();
+		editor.putString(AppConfig.KEY_POST_PHOTO_URL, photoUrl).apply();
 	}
 
 	public int getUserMsgNum(){
@@ -255,7 +255,7 @@ public class UserManager {
 	}
 
 	public void saveUserMsgNum(int num){
-		editor.putInt(AppConfig.KEY_USER_MSG_NUM, num).commit();
+		editor.putInt(AppConfig.KEY_USER_MSG_NUM, num).apply();
 	}
 
 	public String getXAppToken(){

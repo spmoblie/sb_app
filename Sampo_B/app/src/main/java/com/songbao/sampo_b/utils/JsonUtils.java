@@ -431,7 +431,7 @@ public class JsonUtils {
             // 效果图图片
             gdEn.setImageList(getStringList(jsonData.getString("pics")));
             // 效果图文件
-            gdEn.setLabelList(getStringList(jsonData.getString("files")));
+            gdEn.setFilesList(getStringList(jsonData.getString("files")));
             // 效果图链接
             gdEn.setEffectUrl(jsonData.getString("vcrUrl"));
             // 商品信息

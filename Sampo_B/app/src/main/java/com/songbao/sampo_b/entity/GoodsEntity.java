@@ -25,7 +25,7 @@ public class GoodsEntity extends BaseEntity {
 	private double costPrice; //成本单价
 	private double costPricing; //成本审核定价
 	private boolean isPicture; //是否无图
-	private ArrayList<String> labelList; //商品标签集
+	private ArrayList<String> filesList; //商品文件集
 	private ArrayList<String> imageList; //商品图片集
 	private ArrayList<String> detailList; //详情图片集
 
@@ -162,12 +162,12 @@ public class GoodsEntity extends BaseEntity {
 		isPicture = picture;
 	}
 
-	public ArrayList<String> getLabelList() {
-		return labelList;
+	public ArrayList<String> getFilesList() {
+		return filesList;
 	}
 
-	public void setLabelList(ArrayList<String> labelList) {
-		this.labelList = labelList;
+	public void setFilesList(ArrayList<String> filesList) {
+		this.filesList = filesList;
 	}
 
 	public ArrayList<String> getImageList() {

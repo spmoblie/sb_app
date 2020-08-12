@@ -119,13 +119,42 @@
                     app:layout_constraintLeft_toRightOf="@+id/goods_edit_iv_photo_08"/>
 
                 <TextView
+                    android:id="@+id/goods_edit_tv_effect_file"
+                    style="@style/block_title_text"
+                    android:text="@string/goods_effect_file"
+                    android:textSize="@dimen/app_text_size_content"
+                    android:layout_marginTop="@dimen/margin_padding_20"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/goods_edit_iv_photo_07"/>
+
+                <com.songbao.sampo_b.widgets.ScrollViewListView
+                    android:id="@+id/goods_edit_lv_file"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/app_margin_screen"
+                    android:layout_marginTop="@dimen/app_margin_screen"
+                    app:layout_constraintTop_toBottomOf="@+id/goods_edit_tv_effect_file" />
+
+                <TextView
+                    android:id="@+id/goods_edit_tv_file_add"
+                    style="@style/order_text_button"
+                    android:text="@string/goods_effect_file_add"
+                    android:textColor="@color/app_color_white"
+                    android:background="@drawable/shape_style_solid_07_08"
+                    android:layout_marginTop="@dimen/margin_padding_20"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/goods_edit_lv_file"
+                    app:layout_constraintWidth_percent="0.3" />
+
+                <TextView
                     android:id="@+id/goods_edit_tv_effect_link"
                     style="@style/block_title_text"
                     android:text="@string/goods_effect_link"
                     android:textSize="@dimen/app_text_size_content"
                     android:layout_marginTop="@dimen/margin_padding_20"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/goods_edit_iv_photo_07"/>
+                    app:layout_constraintTop_toBottomOf="@+id/goods_edit_tv_file_add"/>
 
                 <TextView
                     android:id="@+id/goods_edit_tv_link_null"

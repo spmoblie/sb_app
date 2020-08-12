@@ -132,8 +132,8 @@ public class CustomizeGoodsActivity extends BaseActivity implements OnClickListe
             al_image.addAll(goodsEn.getImageList());
             initImageScrollView();
             // 产品文件
-            if (goodsEn.getLabelList() != null && goodsEn.getLabelList().size() > 0) {
-                initFilesListView(goodsEn.getLabelList());
+            if (goodsEn.getFilesList() != null && goodsEn.getFilesList().size() > 0) {
+                initFilesListView(goodsEn.getFilesList());
                 group_files.setVisibility(View.VISIBLE);
             } else {
                 group_files.setVisibility(View.GONE);

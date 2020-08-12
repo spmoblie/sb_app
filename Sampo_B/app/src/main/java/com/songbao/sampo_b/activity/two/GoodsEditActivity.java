@@ -1,6 +1,7 @@
 package com.songbao.sampo_b.activity.two;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -18,6 +19,8 @@ import com.songbao.sampo_b.R;
 import com.songbao.sampo_b.activity.BaseActivity;
 import com.songbao.sampo_b.activity.common.photo.PhotoAllActivity;
 import com.songbao.sampo_b.activity.common.photo.PhotoShowActivity;
+import com.songbao.sampo_b.adapter.AdapterCallback;
+import com.songbao.sampo_b.adapter.OrderFilesAdapter;
 import com.songbao.sampo_b.entity.GoodsEntity;
 import com.songbao.sampo_b.entity.OCustomizeEntity;
 import com.songbao.sampo_b.utils.ClickUtils;
@@ -27,6 +30,7 @@ import com.songbao.sampo_b.utils.LogUtil;
 import com.songbao.sampo_b.utils.StringUtil;
 import com.songbao.sampo_b.widgets.RoundImageView;
 import com.songbao.sampo_b.widgets.ScrollViewEditText;
+import com.songbao.sampo_b.widgets.ScrollViewListView;
 
 import java.util.ArrayList;
 
@@ -64,6 +68,12 @@ public class GoodsEditActivity extends BaseActivity implements OnClickListener {
     @BindView(R.id.goods_edit_iv_photo_09)
     RoundImageView iv_photo_09;
 
+    @BindView(R.id.goods_edit_lv_file)
+    ScrollViewListView lv_files;
+
+    @BindView(R.id.goods_edit_tv_file_add)
+    TextView tv_file_add;
+
     @BindView(R.id.goods_edit_tv_link_null)
     TextView tv_link_null;
 
@@ -91,6 +101,7 @@ public class GoodsEditActivity extends BaseActivity implements OnClickListener {
     @BindView(R.id.goods_edit_tv_confirm)
     TextView tv_confirm;
 
+    private OrderFilesAdapter ap_files;
     private RequestOptions showOptions;
     private GoodsEntity data;
     private int editPos, photoNum, goodsNum;
@@ -99,6 +110,7 @@ public class GoodsEditActivity extends BaseActivity implements OnClickListener {
     private String linkStr, name, remarks;
     private ArrayList<String> al_photos_add = new ArrayList<>();
     private ArrayList<String> al_photos_url = new ArrayList<>();
+    private ArrayList<String> al_files_url = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,6 +135,7 @@ public class GoodsEditActivity extends BaseActivity implements OnClickListener {
         iv_photo_07.setOnClickListener(this);
         iv_photo_08.setOnClickListener(this);
         iv_photo_09.setOnClickListener(this);
+        tv_file_add.setOnClickListener(this);
         tv_link_null.setOnClickListener(this);
         tv_confirm.setOnClickListener(this);
 
@@ -137,7 +150,12 @@ public class GoodsEditActivity extends BaseActivity implements OnClickListener {
 
         goodsNum = 1;
         if (data != null) {
-            al_photos_url.addAll(data.getImageList());
+            if (data.getImageList() != null) {
+                al_photos_url.addAll(data.getImageList());
+            }
+            if (data.getFilesList() != null) {
+                al_files_url.addAll(data.getFilesList());
+            }
 
             linkStr = data.getEffectUrl();
             isNull = data.isPicture();
@@ -217,6 +235,7 @@ public class GoodsEditActivity extends BaseActivity implements OnClickListener {
         });
 
         updatePhotoData();
+        initFilesListView();
 
         et_remarks.setText(remarks);
         et_remarks.addTextChangedListener(new TextWatcher() {
@@ -308,6 +327,22 @@ public class GoodsEditActivity extends BaseActivity implements OnClickListener {
         iv_photo.setVisibility(View.VISIBLE);
     }
 
+    private void initFilesListView() {
+        if (ap_files == null) {
+            ap_files = new OrderFilesAdapter(mContext);
+            ap_files.addCallback(new AdapterCallback() {
+                @Override
+                public void setOnClick(Object data, int position, int type) {
+                    if (position < 0 || position >= al_files_url.size()) return;
+                    al_files_url.remove(position);
+                    initFilesListView();
+                }
+            });
+        }
+        ap_files.updateData(al_files_url);
+        lv_files.setAdapter(ap_files);
+    }
+
     @Override
     public void onClick(View v) {
         if (ClickUtils.isDoubleClick(v.getId())) return;
@@ -338,6 +373,9 @@ public class GoodsEditActivity extends BaseActivity implements OnClickListener {
                 break;
             case R.id.goods_edit_iv_photo_09:
                 handlePhotoClick(8);
+                break;
+            case R.id.goods_edit_tv_file_add:
+                openSystemFile();
                 break;
             case R.id.goods_edit_tv_link_null:
                 isNull = !isNull;
@@ -371,7 +409,7 @@ public class GoodsEditActivity extends BaseActivity implements OnClickListener {
             Intent intent = new Intent(mContext, PhotoAllActivity.class);
             intent.putExtra("totalNum", 9 - photoNum);
             startActivityForResult(intent, AppConfig.ACTIVITY_CODE_PHOTO_SELECT);
-        } else { //删除相片
+        } else { //查看相片
             Intent intent = new Intent(mContext, PhotoShowActivity.class);
             intent.putExtra(PhotoShowActivity.EXTRA_IMAGE_URLS, al_photos_url);
             intent.putExtra(PhotoShowActivity.EXTRA_IMAGE_INDEX, position);
@@ -450,6 +488,7 @@ public class GoodsEditActivity extends BaseActivity implements OnClickListener {
 
     private void postData() {
         GoodsEntity goodsEn = new GoodsEntity();
+        goodsEn.setFilesList(al_files_url);
         goodsEn.setImageList(al_photos_url);
         goodsEn.setPicUrl(al_photos_url.get(0));
         goodsEn.setPicture(isNull);
@@ -465,6 +504,7 @@ public class GoodsEditActivity extends BaseActivity implements OnClickListener {
         OCustomizeEntity ocEn = (OCustomizeEntity) FileManager.readFileSaveObject(AppConfig.orderDataFileName, 0);
         if (ocEn != null && ocEn.getGoodsList() != null) {
             if (isEdit && editPos >=0 && editPos < ocEn.getGoodsList().size()) {
+                ocEn.getGoodsList().get(editPos).setFilesList(al_files_url);
                 ocEn.getGoodsList().get(editPos).setImageList(al_photos_url);
                 ocEn.getGoodsList().get(editPos).setPicUrl(al_photos_url.get(0));
                 ocEn.getGoodsList().get(editPos).setPicture(isNull);
@@ -506,7 +546,35 @@ public class GoodsEditActivity extends BaseActivity implements OnClickListener {
                     al_photos_url.addAll(pathList);
                     updatePhotoData();
                 }
+            }else if (requestCode == 1) { //从系统文件管理器选择文件
+                if(data.getClipData() != null) { //选择多个文件
+                    int count = data.getClipData().getItemCount();
+                    LogUtil.i(TAG,"url count ："+ count);
+                    int currentItem = 0;
+                    while(currentItem < count) {
+                        Uri fileUri = data.getClipData().getItemAt(currentItem).getUri();
+                        String filePath = FileManager.getPathFromUri(mContext, fileUri);
+                        if (filePath.contains(".dwg") || filePath.contains(".pdf")) {
+                            al_files_url.add(filePath);
+                        } else {
+                            CommonTools.showToast("请上传.dwg或.pdf格式文件");
+                        }
+                        LogUtil.i(TAG,"url "+ filePath);
+                        currentItem = currentItem + 1;
+                    }
+                    initFilesListView();
+                } else if(data.getData() != null) { //选择一个文件
+                    String filePath = FileManager.getPathFromUri(mContext, data.getData());
+                    if (filePath.contains(".dwg") || filePath.contains(".pdf")) {
+                        al_files_url.add(filePath);
+                    } else {
+                        CommonTools.showToast("请上传.dwg或.pdf格式文件");
+                    }
+                    LogUtil.i(TAG,"Single image path ---- " + filePath);
+                    initFilesListView();
+                }
             }
+
         }
         super.onActivityResult(requestCode, resultCode, data);
     }
