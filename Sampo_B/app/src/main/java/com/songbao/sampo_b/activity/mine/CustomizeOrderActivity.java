@@ -21,6 +21,7 @@ import com.songbao.sampo_b.AppConfig;
 import com.songbao.sampo_b.R;
 import com.songbao.sampo_b.activity.BaseActivity;
 import com.songbao.sampo_b.activity.common.FileActivity;
+import com.songbao.sampo_b.activity.two.PostOrderActivity;
 import com.songbao.sampo_b.adapter.AdapterCallback;
 import com.songbao.sampo_b.adapter.GoodsOrderShowAdapter;
 import com.songbao.sampo_b.adapter.OrderFilesAdapter;
@@ -29,6 +30,7 @@ import com.songbao.sampo_b.entity.GoodsEntity;
 import com.songbao.sampo_b.entity.OCustomizeEntity;
 import com.songbao.sampo_b.utils.CommonTools;
 import com.songbao.sampo_b.utils.ExceptionUtil;
+import com.songbao.sampo_b.utils.FileManager;
 import com.songbao.sampo_b.utils.JsonUtils;
 import com.songbao.sampo_b.utils.LogUtil;
 import com.songbao.sampo_b.utils.StringUtil;
@@ -212,16 +214,16 @@ public class CustomizeOrderActivity extends BaseActivity implements OnClickListe
                     tv_status.setText(getString(R.string.order_completed));
                     tv_status.setTextColor(getResources().getColor(R.color.debar_text_color));
                     tv_status.setBackgroundResource(R.drawable.shape_style_empty_03_16);
-                    tv_click.setText(getString(R.string.order_confirm_receive_done));
-                    tv_click.setBackgroundResource(R.drawable.shape_style_solid_03_08);
+                    tv_click.setText(getString(R.string.order_re_order));
+                    tv_click.setBackgroundResource(R.drawable.shape_style_solid_07_08);
                     break;
                 case AppConfig.ORDER_STATUS_104: //已拒绝
                     setRightViewText(getString(R.string.order_cancel));
                     tv_status.setText(getString(R.string.order_refused));
                     tv_status.setTextColor(getResources().getColor(R.color.app_color_red_p));
                     tv_status.setBackgroundResource(R.drawable.shape_style_empty_05_16);
-                    tv_click.setText(getString(R.string.order_check_no));
-                    tv_click.setBackgroundResource(R.drawable.shape_style_solid_05_08);
+                    tv_click.setText(getString(R.string.order_re_order));
+                    tv_click.setBackgroundResource(R.drawable.shape_style_solid_07_08);
                     break;
                 case AppConfig.ORDER_STATUS_102: //已取消
                 default:
@@ -229,8 +231,8 @@ public class CustomizeOrderActivity extends BaseActivity implements OnClickListe
                     tv_status.setText(getString(R.string.order_cancelled));
                     tv_status.setTextColor(getResources().getColor(R.color.debar_text_color));
                     tv_status.setBackgroundResource(R.drawable.shape_style_empty_03_16);
-                    tv_click.setText(getString(R.string.order_cancelled));
-                    tv_click.setBackgroundResource(R.drawable.shape_style_solid_03_08);
+                    tv_click.setText(getString(R.string.order_re_order));
+                    tv_click.setBackgroundResource(R.drawable.shape_style_solid_07_08);
                     break;
             }
 
@@ -357,14 +359,16 @@ public class CustomizeOrderActivity extends BaseActivity implements OnClickListe
 
     private void initFileListView(final ArrayList<String> filesList) {
         if (ap_files == null) {
-            ap_files = new OrderFilesAdapter(mContext);
+            ap_files = new OrderFilesAdapter(mContext, false);
             ap_files.addCallback(new AdapterCallback() {
                 @Override
                 public void setOnClick(Object data, int position, int type) {
                     if (position < 0 || position >= filesList.size()) return;
-                    Intent intent = new Intent(mContext, FileActivity.class);
-                    intent.putExtra("fileUrl", filesList.get(position));
-                    startActivity(intent);
+                    if (type == 0) {
+                        Intent intent = new Intent(mContext, FileActivity.class);
+                        intent.putExtra("fileUrl", filesList.get(position));
+                        startActivity(intent);
+                    }
                 }
             });
         }
@@ -415,6 +419,43 @@ public class CustomizeOrderActivity extends BaseActivity implements OnClickListe
         startActivity(intent);
     }
 
+    /**
+     * 重新下单
+     */
+    private void reOrder() {
+        if (ocEn == null || al_goods == null) return;
+
+        OCustomizeEntity newOcEn = new OCustomizeEntity();
+        ArrayList<GoodsEntity> goodsList = new ArrayList<>();
+        for (int i = 0; i < al_goods.size(); i++) {
+            GoodsEntity goodsEn = new GoodsEntity();
+            goodsEn.setFilesList(al_goods.get(i).getFilesList());
+            goodsEn.setImageList(al_goods.get(i).getImageList());
+            goodsEn.setPicUrl(al_goods.get(i).getPicUrl());
+            goodsEn.setPicture(al_goods.get(i).isPicture());
+            if (!goodsEn.isPicture()) {
+                goodsEn.setEffectUrl(al_goods.get(i).getEffectUrl());
+            }
+            goodsEn.setName(al_goods.get(i).getName());
+            goodsEn.setNumber(al_goods.get(i).getNumber());
+            goodsEn.setCostPrice(al_goods.get(i).getCostPrice());
+            goodsEn.setSalePrice(al_goods.get(i).getSalePrice());
+            goodsEn.setRemarks(al_goods.get(i).getRemarks());
+            goodsList.add(goodsEn);
+        }
+        newOcEn.setGoodsList(goodsList);
+        newOcEn.setCustomerName(ocEn.getCustomerName());
+        newOcEn.setCustomerPhone(ocEn.getCustomerPhone());
+        newOcEn.setBuildName(ocEn.getBuildName());
+        newOcEn.setDealStore(ocEn.getDealStore());
+        newOcEn.setHopeTime(ocEn.getHopeTime());
+        newOcEn.setOrderRemarks(ocEn.getOrderRemarks());
+
+        FileManager.writeFileSaveObject(AppConfig.orderDataFileName, newOcEn, 0);
+        openActivity(PostOrderActivity.class);
+        closeOrderActivity(); //关闭已打开的页面
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -422,9 +463,19 @@ public class CustomizeOrderActivity extends BaseActivity implements OnClickListe
                 copyString(orderNo, getString(R.string.order_order_no_copy));
                 break;
             case R.id.customize_order_tv_click:
-                //确认收货
-                if (isOnClick) {
-                    showConfirmDialog(getString(R.string.order_confirm_receive_hint), new MyHandler(this), 7);
+                switch (status) {
+                    case AppConfig.ORDER_STATUS_401: //已发货
+                        //确认收货
+                        if (isOnClick) {
+                            showConfirmDialog(getString(R.string.order_confirm_receive_hint), new MyHandler(this), 7);
+                        }
+                        break;
+                    case AppConfig.ORDER_STATUS_104: //已拒绝
+                    case AppConfig.ORDER_STATUS_102: //已取消
+                    case AppConfig.ORDER_STATUS_801: //已完成
+                        // 重新下单
+                        reOrder();
+                        break;
                 }
                 break;
         }

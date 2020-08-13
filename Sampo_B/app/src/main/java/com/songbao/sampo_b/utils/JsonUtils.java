@@ -379,13 +379,19 @@ public class JsonUtils {
                     gdEn.setSkuCode(goodsObj.getString("customCode"));
                     // 效果图主图
                     gdEn.setPicUrl(goodsObj.getString("productPic"));
+                    // 效果图图片
+                    gdEn.setImageList(getStringList(goodsObj.getString("pics")));
+                    // 效果图文件
+                    gdEn.setFilesList(getStringList(goodsObj.getString("files")));
                     // 效果图链接
                     gdEn.setEffectUrl(goodsObj.getString("vcrUrl"));
                     // 商品信息
                     gdEn.setName(goodsObj.getString("productName"));
                     gdEn.setNumber(goodsObj.getInt("buyNum"));
                     gdEn.setCostPrice(goodsObj.getDouble("buyPrice"));
+                    gdEn.setSalePrice(goodsObj.getDouble("productSellingPrice"));
                     gdEn.setCostPricing(goodsObj.getDouble("buyModifyPrice"));
+                    gdEn.setRemarks(goodsObj.getString("remark"));
                     goodsList.add(gdEn);
                 }
                 ocEn.setGoodsList(goodsList);
@@ -438,6 +444,7 @@ public class JsonUtils {
             gdEn.setName(jsonData.getString("productName"));
             gdEn.setNumber(jsonData.getInt("buyNum"));
             gdEn.setCostPrice(jsonData.getDouble("buyPrice"));
+            gdEn.setSalePrice(jsonData.getDouble("productSellingPrice"));
             gdEn.setCostPricing(jsonData.getDouble("buyModifyPrice"));
             gdEn.setRemarks(jsonData.getString("remark"));
             mainEn.setData(gdEn);

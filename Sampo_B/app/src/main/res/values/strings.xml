@@ -266,6 +266,7 @@
     <string name="order_remarks">订单备注</string>
     <string name="order_remarks_hint">请输入订单备注</string>
     <string name="order_abandon">确定要放弃这个订单？</string>
+    <string name="order_re_order">重新下单</string>
     <string name="order_post">提交订单</string>
     <string name="order_post_ok">提交订单成功</string>
     <string name="order_goods_num">x%1$d</string>

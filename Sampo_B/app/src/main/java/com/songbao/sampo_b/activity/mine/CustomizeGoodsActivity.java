@@ -120,9 +120,10 @@ public class CustomizeGoodsActivity extends BaseActivity implements OnClickListe
         goodsImgLP.width = imageSize;
         goodsImgLP.height = imageSize;
 
-        if (goodsEn != null) {
+        /*if (goodsEn != null) {
             loadCustomizeData();
-        }
+        }*/
+        initShowData();
     }
 
     private void initShowData() {
@@ -214,14 +215,16 @@ public class CustomizeGoodsActivity extends BaseActivity implements OnClickListe
 
     private void initFilesListView(final ArrayList<String> filesList) {
         if (ap_files == null) {
-            ap_files = new OrderFilesAdapter(mContext);
+            ap_files = new OrderFilesAdapter(mContext, false);
             ap_files.addCallback(new AdapterCallback() {
                 @Override
                 public void setOnClick(Object data, int position, int type) {
                     if (position < 0 || position >= filesList.size()) return;
-                    Intent intent = new Intent(mContext, FileActivity.class);
-                    intent.putExtra("fileUrl", filesList.get(position));
-                    startActivity(intent);
+                    if (type == 0) {
+                        Intent intent = new Intent(mContext, FileActivity.class);
+                        intent.putExtra("fileUrl", filesList.get(position));
+                        startActivity(intent);
+                    }
                 }
             });
         }

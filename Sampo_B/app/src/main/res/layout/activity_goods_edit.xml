@@ -131,7 +131,6 @@
                     android:id="@+id/goods_edit_lv_file"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="@dimen/app_margin_screen"
                     android:layout_marginTop="@dimen/app_margin_screen"
                     app:layout_constraintTop_toBottomOf="@+id/goods_edit_tv_effect_file" />
 

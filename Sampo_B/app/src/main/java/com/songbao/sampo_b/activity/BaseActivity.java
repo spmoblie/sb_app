@@ -47,6 +47,9 @@ import com.songbao.sampo_b.activity.common.photo.ClipImageSquareActivity;
 import com.songbao.sampo_b.activity.common.photo.PhotoAlbumActivity;
 import com.songbao.sampo_b.activity.common.photo.PhotoOneActivity;
 import com.songbao.sampo_b.activity.login.LoginAccountActivity;
+import com.songbao.sampo_b.activity.mine.CustomizeGoodsActivity;
+import com.songbao.sampo_b.activity.mine.CustomizeListActivity;
+import com.songbao.sampo_b.activity.mine.CustomizeOrderActivity;
 import com.songbao.sampo_b.activity.two.GoodsActivity;
 import com.songbao.sampo_b.activity.two.GoodsEditActivity;
 import com.songbao.sampo_b.activity.two.GoodsSortActivity;
@@ -368,12 +371,27 @@ public class BaseActivity extends FragmentActivity {
     }
 
     /**
-     * 关闭订制相关Activity
+     * 关闭订制产品相关Activity
      */
     protected void closeCustomizeActivity() {
-        AppManager.getInstance().finishActivity(GoodsActivity.class);
-        AppManager.getInstance().finishActivity(GoodsSortActivity.class);
+        // 关闭效果图展示页面
         AppManager.getInstance().finishActivity(SketchActivity.class);
+        // 关闭产品详情页面
+        AppManager.getInstance().finishActivity(GoodsActivity.class);
+        // 关闭产品分类页面
+        AppManager.getInstance().finishActivity(GoodsSortActivity.class);
+    }
+
+    /**
+     * 关闭查看订单相关Activity
+     */
+    protected void closeOrderActivity() {
+        // 关闭订单产品页面
+        AppManager.getInstance().finishActivity(CustomizeGoodsActivity.class);
+        // 关闭订单详情页面
+        AppManager.getInstance().finishActivity(CustomizeOrderActivity.class);
+        // 关闭订单列表页面
+        AppManager.getInstance().finishActivity(CustomizeListActivity.class);
     }
 
     /**

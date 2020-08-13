@@ -190,8 +190,16 @@ public class PostOrderActivity extends BaseActivity implements View.OnClickListe
         al_goods.clear();
 
         OCustomizeEntity ocEn = (OCustomizeEntity) FileManager.readFileSaveObject(AppConfig.orderDataFileName, 0);
-        if (ocEn != null && ocEn.getGoodsList() != null) {
-            al_goods.addAll(ocEn.getGoodsList());
+        if (ocEn != null) {
+            if (ocEn.getGoodsList() != null) {
+                al_goods.addAll(ocEn.getGoodsList());
+            }
+            nameStr = ocEn.getCustomerName();
+            phoneStr = ocEn.getCustomerPhone();
+            buildName = ocEn.getBuildName();
+            storeName = ocEn.getDealStore();
+            hopeDate = ocEn.getHopeTime();
+            orderRemarks = ocEn.getOrderRemarks();
         }
 
         updateOrderData();
@@ -229,6 +237,7 @@ public class PostOrderActivity extends BaseActivity implements View.OnClickListe
     private void updateOrderData() {
         initListView();
         updateOrderPrice();
+        updateOrderOther();
     }
 
     private void updateOrderPrice() {
@@ -242,6 +251,27 @@ public class PostOrderActivity extends BaseActivity implements View.OnClickListe
             tv_price_total.setText(df.format(salePriceTotal));
         } else {
             tv_price_total.setText(df.format(costPriceTotal));
+        }
+    }
+
+    private void updateOrderOther() {
+        if (!StringUtil.isNull(nameStr)) {
+            et_customer_name.setText(nameStr);
+        }
+        if (!StringUtil.isNull(phoneStr)) {
+            et_customer_phone.setText(phoneStr);
+        }
+        if (!StringUtil.isNull(buildName)) {
+            et_build_name.setText(buildName);
+        }
+        if (!StringUtil.isNull(storeName)) {
+            tv_deal_store.setText(storeName);
+        }
+        if (!StringUtil.isNull(hopeDate)) {
+            tv_hope_date.setText(hopeDate);
+        }
+        if (!StringUtil.isNull(orderRemarks)) {
+            et_remarks.setText(orderRemarks);
         }
     }
 

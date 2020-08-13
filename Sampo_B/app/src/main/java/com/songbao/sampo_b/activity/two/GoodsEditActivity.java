@@ -329,13 +329,15 @@ public class GoodsEditActivity extends BaseActivity implements OnClickListener {
 
     private void initFilesListView() {
         if (ap_files == null) {
-            ap_files = new OrderFilesAdapter(mContext);
+            ap_files = new OrderFilesAdapter(mContext, true);
             ap_files.addCallback(new AdapterCallback() {
                 @Override
                 public void setOnClick(Object data, int position, int type) {
                     if (position < 0 || position >= al_files_url.size()) return;
-                    al_files_url.remove(position);
-                    initFilesListView();
+                    if (type == 1) {
+                        al_files_url.remove(position);
+                        initFilesListView();
+                    }
                 }
             });
         }
