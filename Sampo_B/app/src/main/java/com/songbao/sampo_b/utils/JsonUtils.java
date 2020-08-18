@@ -3,6 +3,7 @@ package com.songbao.sampo_b.utils;
 import com.songbao.sampo_b.entity.AddressEntity;
 import com.songbao.sampo_b.entity.BaseEntity;
 import com.songbao.sampo_b.entity.DesignerEntity;
+import com.songbao.sampo_b.entity.FileEntity;
 import com.songbao.sampo_b.entity.GoodsEntity;
 import com.songbao.sampo_b.entity.GoodsSortEntity;
 import com.songbao.sampo_b.entity.MessageEntity;
@@ -181,13 +182,16 @@ public class JsonUtils {
     /**
      * 解析上传图片结果
      */
-    public static BaseEntity getUploadResult(JSONObject jsonObject) throws JSONException {
-        BaseEntity mainEn = getCommonKeyValue(jsonObject);
+    public static BaseEntity<FileEntity> getUploadResult(JSONObject jsonObject) throws JSONException {
+        BaseEntity<FileEntity> mainEn = getCommonKeyValue(jsonObject);
 
+        FileEntity fileEn = new FileEntity();
         if (StringUtil.notNull(jsonObject, "data")) {
             JSONObject jsonData = jsonObject.getJSONObject("data");
-            mainEn.setOthers(jsonData.getString("url"));
+            fileEn.setFileUrl(jsonData.getString("content"));
+            fileEn.setFileName(jsonData.getString("fileName"));
         }
+        mainEn.setData(fileEn);
         return mainEn;
     }
 
@@ -382,7 +386,19 @@ public class JsonUtils {
                     // 效果图图片
                     gdEn.setImageList(getStringList(goodsObj.getString("pics")));
                     // 效果图文件
-                    gdEn.setFilesList(getStringList(goodsObj.getString("files")));
+                    if (StringUtil.notNull(goodsObj, "filesBack")) {
+                        JSONArray files = goodsObj.getJSONArray("filesBack");
+                        ArrayList<FileEntity> fileEns = new ArrayList<>();
+                        FileEntity fileEn;
+                        for (int i = 0; i < files.length(); i++) {
+                            JSONObject item = files.getJSONObject(i);
+                            fileEn = new FileEntity();
+                            fileEn.setFileUrl(item.getString("content"));
+                            fileEn.setFileName(item.getString("fileName"));
+                            fileEns.add(fileEn);
+                        }
+                        gdEn.setFilesList(fileEns);
+                    }
                     // 效果图链接
                     gdEn.setEffectUrl(goodsObj.getString("vcrUrl"));
                     // 商品信息
@@ -405,8 +421,18 @@ public class JsonUtils {
                 if (StringUtil.notNull(verifyObj, "resultPics")) {
                     ocEn.setImageList(getStringList(verifyObj.getString("resultPics")));
                 }
-                if (StringUtil.notNull(verifyObj, "resultFiles")) {
-                    ocEn.setFilesList(getStringList(verifyObj.getString("resultFiles")));
+                if (StringUtil.notNull(verifyObj, "filesBack")) {
+                    JSONArray files = verifyObj.getJSONArray("filesBack");
+                    ArrayList<FileEntity> fileEns = new ArrayList<>();
+                    FileEntity fileEn;
+                    for (int i = 0; i < files.length(); i++) {
+                        JSONObject item = files.getJSONObject(i);
+                        fileEn = new FileEntity();
+                        fileEn.setFileUrl(item.getString("content"));
+                        fileEn.setFileName(item.getString("fileName"));
+                        fileEns.add(fileEn);
+                    }
+                    ocEn.setFilesList(fileEns);
                 }
             }
 
@@ -437,7 +463,19 @@ public class JsonUtils {
             // 效果图图片
             gdEn.setImageList(getStringList(jsonData.getString("pics")));
             // 效果图文件
-            gdEn.setFilesList(getStringList(jsonData.getString("files")));
+            if (StringUtil.notNull(jsonData, "filesBack")) {
+                JSONArray files = jsonData.getJSONArray("filesBack");
+                ArrayList<FileEntity> fileEns = new ArrayList<>();
+                FileEntity fileEn;
+                for (int i = 0; i < files.length(); i++) {
+                    JSONObject item = files.getJSONObject(i);
+                    fileEn = new FileEntity();
+                    fileEn.setFileUrl(item.getString("content"));
+                    fileEn.setFileName(item.getString("fileName"));
+                    fileEns.add(fileEn);
+                }
+                gdEn.setFilesList(fileEns);
+            }
             // 效果图链接
             gdEn.setEffectUrl(jsonData.getString("vcrUrl"));
             // 商品信息

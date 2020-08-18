@@ -26,6 +26,7 @@ import com.songbao.sampo_b.adapter.AdapterCallback;
 import com.songbao.sampo_b.adapter.GoodsOrderShowAdapter;
 import com.songbao.sampo_b.adapter.OrderFilesAdapter;
 import com.songbao.sampo_b.entity.BaseEntity;
+import com.songbao.sampo_b.entity.FileEntity;
 import com.songbao.sampo_b.entity.GoodsEntity;
 import com.songbao.sampo_b.entity.OCustomizeEntity;
 import com.songbao.sampo_b.utils.CommonTools;
@@ -357,7 +358,7 @@ public class CustomizeOrderActivity extends BaseActivity implements OnClickListe
         lv_goods.setAdapter(ap_goods);
     }
 
-    private void initFileListView(final ArrayList<String> filesList) {
+    private void initFileListView(final ArrayList<FileEntity> filesList) {
         if (ap_files == null) {
             ap_files = new OrderFilesAdapter(mContext, false);
             ap_files.addCallback(new AdapterCallback() {
@@ -366,7 +367,7 @@ public class CustomizeOrderActivity extends BaseActivity implements OnClickListe
                     if (position < 0 || position >= filesList.size()) return;
                     if (type == 0) {
                         Intent intent = new Intent(mContext, FileActivity.class);
-                        intent.putExtra("fileUrl", filesList.get(position));
+                        intent.putExtra(AppConfig.PAGE_DATA, filesList.get(position));
                         startActivity(intent);
                     }
                 }

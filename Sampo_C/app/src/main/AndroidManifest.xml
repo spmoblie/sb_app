@@ -87,15 +87,15 @@
             android:value="2045436852" />
         <meta-data
             android:name="WEIBO_CHANNEL"
-            android:value="SongBao" /> <!-- 渠道标识 -->
+            android:value="SampoC" /> <!-- 渠道标识 -->
 
         <!-- UM -->
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="5da43f66570df31535000db7"/>
+            android:value=""/>
         <meta-data
             android:name="UMENG_CHANNEL"
-            android:value="SongBao"/> <!-- 渠道标识 -->
+            android:value="SampoC"/> <!-- 渠道标识 -->
 
         <!-- Activity -->
         <activity

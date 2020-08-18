@@ -21,6 +21,7 @@ import com.songbao.sampo_b.activity.common.photo.PhotoAllActivity;
 import com.songbao.sampo_b.activity.common.photo.PhotoShowActivity;
 import com.songbao.sampo_b.adapter.AdapterCallback;
 import com.songbao.sampo_b.adapter.OrderFilesAdapter;
+import com.songbao.sampo_b.entity.FileEntity;
 import com.songbao.sampo_b.entity.GoodsEntity;
 import com.songbao.sampo_b.entity.OCustomizeEntity;
 import com.songbao.sampo_b.utils.ClickUtils;
@@ -110,7 +111,7 @@ public class GoodsEditActivity extends BaseActivity implements OnClickListener {
     private String linkStr, name, remarks;
     private ArrayList<String> al_photos_add = new ArrayList<>();
     private ArrayList<String> al_photos_url = new ArrayList<>();
-    private ArrayList<String> al_files_url = new ArrayList<>();
+    private ArrayList<FileEntity> al_files = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -154,7 +155,7 @@ public class GoodsEditActivity extends BaseActivity implements OnClickListener {
                 al_photos_url.addAll(data.getImageList());
             }
             if (data.getFilesList() != null) {
-                al_files_url.addAll(data.getFilesList());
+                al_files.addAll(data.getFilesList());
             }
 
             linkStr = data.getEffectUrl();
@@ -333,15 +334,15 @@ public class GoodsEditActivity extends BaseActivity implements OnClickListener {
             ap_files.addCallback(new AdapterCallback() {
                 @Override
                 public void setOnClick(Object data, int position, int type) {
-                    if (position < 0 || position >= al_files_url.size()) return;
+                    if (position < 0 || position >= al_files.size()) return;
                     if (type == 1) {
-                        al_files_url.remove(position);
+                        al_files.remove(position);
                         initFilesListView();
                     }
                 }
             });
         }
-        ap_files.updateData(al_files_url);
+        ap_files.updateData(al_files);
         lv_files.setAdapter(ap_files);
     }
 
@@ -490,7 +491,7 @@ public class GoodsEditActivity extends BaseActivity implements OnClickListener {
 
     private void postData() {
         GoodsEntity goodsEn = new GoodsEntity();
-        goodsEn.setFilesList(al_files_url);
+        goodsEn.setFilesList(al_files);
         goodsEn.setImageList(al_photos_url);
         goodsEn.setPicUrl(al_photos_url.get(0));
         goodsEn.setPicture(isNull);
@@ -506,7 +507,7 @@ public class GoodsEditActivity extends BaseActivity implements OnClickListener {
         OCustomizeEntity ocEn = (OCustomizeEntity) FileManager.readFileSaveObject(AppConfig.orderDataFileName, 0);
         if (ocEn != null && ocEn.getGoodsList() != null) {
             if (isEdit && editPos >=0 && editPos < ocEn.getGoodsList().size()) {
-                ocEn.getGoodsList().get(editPos).setFilesList(al_files_url);
+                ocEn.getGoodsList().get(editPos).setFilesList(al_files);
                 ocEn.getGoodsList().get(editPos).setImageList(al_photos_url);
                 ocEn.getGoodsList().get(editPos).setPicUrl(al_photos_url.get(0));
                 ocEn.getGoodsList().get(editPos).setPicture(isNull);
@@ -549,6 +550,7 @@ public class GoodsEditActivity extends BaseActivity implements OnClickListener {
                     updatePhotoData();
                 }
             }else if (requestCode == 1) { //从系统文件管理器选择文件
+                FileEntity fileEn;
                 if(data.getClipData() != null) { //选择多个文件
                     int count = data.getClipData().getItemCount();
                     LogUtil.i(TAG,"url count ："+ count);
@@ -557,7 +559,13 @@ public class GoodsEditActivity extends BaseActivity implements OnClickListener {
                         Uri fileUri = data.getClipData().getItemAt(currentItem).getUri();
                         String filePath = FileManager.getPathFromUri(mContext, fileUri);
                         if (filePath.contains(".dwg") || filePath.contains(".pdf")) {
-                            al_files_url.add(filePath);
+                            fileEn = new FileEntity();
+                            fileEn.setFileUrl(filePath);
+                            if (filePath.contains("/")) {
+                                String[] names = filePath.split("/");
+                                fileEn.setFileName(names[names.length-1]);
+                            }
+                            al_files.add(fileEn);
                         } else {
                             CommonTools.showToast("请上传.dwg或.pdf格式文件");
                         }
@@ -568,7 +576,13 @@ public class GoodsEditActivity extends BaseActivity implements OnClickListener {
                 } else if(data.getData() != null) { //选择一个文件
                     String filePath = FileManager.getPathFromUri(mContext, data.getData());
                     if (filePath.contains(".dwg") || filePath.contains(".pdf")) {
-                        al_files_url.add(filePath);
+                        fileEn = new FileEntity();
+                        fileEn.setFileUrl(filePath);
+                        if (filePath.contains("/")) {
+                            String[] names = filePath.split("/");
+                            fileEn.setFileName(names[names.length-1]);
+                        }
+                        al_files.add(fileEn);
                     } else {
                         CommonTools.showToast("请上传.dwg或.pdf格式文件");
                     }

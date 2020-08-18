@@ -8,13 +8,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.songbao.sampo_b.R;
+import com.songbao.sampo_b.entity.FileEntity;
 import com.songbao.sampo_b.utils.ClickUtils;
-import com.songbao.sampo_b.utils.StringUtil;
 
 /**
  * 订单文件备注列表适配器
  */
-public class OrderFilesAdapter extends AppBaseAdapter<String> {
+public class OrderFilesAdapter extends AppBaseAdapter<FileEntity> {
 
 	private boolean isDelete;
 
@@ -47,11 +47,10 @@ public class OrderFilesAdapter extends AppBaseAdapter<String> {
 			holder = (ViewHolder) convertView.getTag();
 		}
 		// 绑定View
-		final String fileUrl = mDataList.get(position);
+		final FileEntity fileEn = mDataList.get(position);
 
-		if (!StringUtil.isNull(fileUrl) && fileUrl.contains("/")) {
-			String[] urls = fileUrl.split("/");
-			holder.tv_name.setText(urls[urls.length - 1]);
+		if (fileEn != null) {
+			holder.tv_name.setText(fileEn.getFileName());
 		}
 
 		if (isDelete) {
@@ -66,9 +65,9 @@ public class OrderFilesAdapter extends AppBaseAdapter<String> {
 				if (ClickUtils.isDoubleClick(v.getId())) return;
 				if (apCallback != null) {
 					if (isDelete) {
-						apCallback.setOnClick(fileUrl, position, 1);
+						apCallback.setOnClick(fileEn, position, 1);
 					} else {
-						apCallback.setOnClick(fileUrl, position, 0);
+						apCallback.setOnClick(fileEn, position, 0);
 					}
 				}
 			}
@@ -79,7 +78,7 @@ public class OrderFilesAdapter extends AppBaseAdapter<String> {
 			public void onClick(View v) {
 				if (ClickUtils.isDoubleClick(v.getId())) return;
 				if (apCallback != null) {
-					apCallback.setOnClick(fileUrl, position, 0);
+					apCallback.setOnClick(fileEn, position, 0);
 				}
 			}
 		});

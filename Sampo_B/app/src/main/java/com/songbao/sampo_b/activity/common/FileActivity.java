@@ -6,9 +6,12 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.songbao.sampo_b.AppApplication;
+import com.songbao.sampo_b.AppConfig;
 import com.songbao.sampo_b.R;
 import com.songbao.sampo_b.activity.BaseActivity;
 import com.songbao.sampo_b.dialog.DialogManager;
+import com.songbao.sampo_b.entity.FileEntity;
+import com.songbao.sampo_b.utils.CommonTools;
 import com.songbao.sampo_b.utils.FileManager;
 import com.songbao.sampo_b.utils.LogUtil;
 import com.songbao.sampo_b.utils.StringUtil;
@@ -31,6 +34,7 @@ public class FileActivity extends BaseActivity implements View.OnClickListener {
     @BindView(R.id.file_tv_download)
     TextView tv_download;
 
+    private FileEntity fileEn;
     private String fileUrl, filePath;
 
     @Override
@@ -38,7 +42,7 @@ public class FileActivity extends BaseActivity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_file);
 
-        fileUrl = getIntent().getStringExtra("fileUrl");
+        fileEn = (FileEntity) getIntent().getSerializableExtra(AppConfig.PAGE_DATA);
 
         initView();
     }
@@ -48,11 +52,14 @@ public class FileActivity extends BaseActivity implements View.OnClickListener {
 
         tv_download.setOnClickListener(this);
 
-        if (!StringUtil.isNull(fileUrl) && fileUrl.contains("/")) {
-            String[] urls = fileUrl.split("/");
-            String fileName = urls[urls.length-1];
+        if (fileEn != null) {
+            fileUrl = fileEn.getFileUrl();
+            String fileName = fileEn.getFileName();
+            if (StringUtil.isNull(fileName) && !StringUtil.isNull(fileUrl) && fileUrl.contains("/")) {
+                String[] names = fileUrl.split("/");
+                fileName = names[names.length-1];
+            }
             tv_name.setText(fileName);
-
             filePath = PATH_DOWNLOAD + fileName;
         }
         changeClickText();
@@ -70,6 +77,10 @@ public class FileActivity extends BaseActivity implements View.OnClickListener {
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.file_tv_download:
+                if (StringUtil.isNull(fileUrl) || !fileUrl.contains("/")) {
+                    CommonTools.showToast("文件路径存在错误");
+                    return;
+                }
                 if (FileManager.checkFileExists(filePath)) {
                     FileManager.openFile(mContext, new File(filePath));
                 } else {
