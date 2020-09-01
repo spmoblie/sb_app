@@ -304,6 +304,7 @@
     <string name="setting_question">联系客服</string>
     <string name="setting_version">检查更新</string>
     <string name="setting_version_show">当前版本：V%1$s</string>
+    <string name="setting_user_agreement_reminder">隐私政策</string>
     <string name="setting_user_agreement">用户协议</string>
     <string name="setting_privacy_policy">隐私政策</string>
     <string name="setting_copyright">Copyright ©2019-%1$d 松堡王国版权所有</string>

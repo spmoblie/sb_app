@@ -9,13 +9,13 @@ public class AppConfig {
 //******************************************* URL协议开始 ******************************************
 
 	// 发布控制
-	public static final boolean IS_PUBLISH = false;
+	public static final boolean IS_PUBLISH = true;
 	// http协议
 	public final static String APP_HTTP = "http://";
 	// https协议
 	public final static String APP_HTTPS = "https://";
 	// Base类型(base_1:发布Url、base_2:测试Url)
-	public final static String BASE_TYPE = "base_2";
+	public final static String BASE_TYPE = "base_1";
 	// 发布Url
 	public final static String BASE_URL_1 = APP_HTTP + "xiaobao.sbwg.cn/";
 	// 测试Url
@@ -324,6 +324,8 @@ public class AppConfig {
 	public static final String KEY_USER_ROLES = "user_roles";
 	// 偏好设置Key-记录用户销售系数
 	public static final String KEY_USER_RATIO = "user_ratio";
+	// 偏好设置Key-记录用户同意协议
+	public static final String KEY_USER_AGREE = "user_agree";
 	// 偏好设置Key-记录用户上传相片地址
 	public static final String KEY_POST_PHOTO_URL = "post_photo_url";
 	// 偏好设置Key-记录用户门店数据

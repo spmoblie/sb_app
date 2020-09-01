@@ -234,6 +234,14 @@ public class UserManager {
 		editor.putLong(AppConfig.KEY_USER_RATIO, ratio).apply();
 	}
 
+	public boolean isUserAgree(){
+		return sp.getBoolean(AppConfig.KEY_USER_AGREE, false);
+	}
+
+	public void setUserAgree(boolean isAgree){
+		editor.putBoolean(AppConfig.KEY_USER_AGREE, isAgree).apply();
+	}
+
 	public String getStoreStr(){
 		return sp.getString(AppConfig.KEY_STORE_DATA, "");
 	}

@@ -7,6 +7,8 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.text.SpannableString;
+import android.text.method.LinkMovementMethod;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -265,6 +267,74 @@ public class DialogManager {
 	}
 
 	/**
+	 * 弹出用户同意对话框
+	 *
+	 * @param title 对话框标题
+	 * @param spannableStr 超链接文本内容
+	 * @param leftStr 对话框左边按钮文本
+	 * @param rightStr 对话框右边按钮文本
+	 * @param width 对话框宽度
+	 */
+	public void showUserAgreeDialog(String title, SpannableString spannableStr, String leftStr,
+									String rightStr, int width, final Handler handler, final int handlerCode){
+		// 销毁旧对话框
+		dismiss();
+		// 创建新对话框
+		mDialog =  new Dialog(weakContext.get(), R.style.MyDialog);
+		mDialog.setCanceledOnTouchOutside(false);
+		mDialog.setContentView(R.layout.dialog_btn_two);
+		// 设置对话框的坐标及宽高
+		Window window = mDialog.getWindow();
+		if (window != null) {
+			LayoutParams lp = window.getAttributes();
+			lp.width = width;
+			window.setAttributes(lp);
+		}
+		// 初始化对话框中的子控件
+		TextView tv_title = mDialog.findViewById(R.id.dialog_title);
+		if (!StringUtil.isNull(title)) {
+			tv_title.setText(title);
+			tv_title.setVisibility(View.VISIBLE);
+		}
+		TextView tv_content = mDialog.findViewById(R.id.dialog_content);
+		tv_content.setMaxLines(10);
+		tv_content.setTextSize(13);
+		tv_content.setText(spannableStr);
+		tv_content.setGravity(Gravity.START | Gravity.CENTER_VERTICAL);
+		//设置超链接可点击
+		tv_content.setMovementMethod(LinkMovementMethod.getInstance());
+
+		Button left = mDialog.findViewById(R.id.dialog_button_cancel);
+		if (!StringUtil.isNull(leftStr)) {
+			left.setText(leftStr);
+		}
+		left.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (handler != null) { //拒绝
+					handler.sendEmptyMessage(AppConfig.DIALOG_CLICK_NO);
+				}
+				mDialog.dismiss();
+			}
+		});
+		Button right = mDialog.findViewById(R.id.dialog_button_confirm);
+		if (!StringUtil.isNull(rightStr)) {
+			right.setText(rightStr);
+		}
+		right.setOnClickListener(new OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (handler != null) { //同意
+					handler.sendEmptyMessage(handlerCode);
+				}
+				mDialog.dismiss();
+			}
+		});
+		// 显示对话框
+		mDialog.show();
+	}
+
+	/**
 	 * 弹出带输入框的对话框
 	 */
 	public void showEditDialog(String title, int width, int inputType, boolean isVanish, final Handler handler){
@@ -322,6 +392,7 @@ public class DialogManager {
 	 * 弹出列表形式的对话框
 	 */
 	public void showListItemDialog(String title, CharSequence[] items, int width, final boolean isCenter, final Handler handler){
+		if (items == null) return;
 		// 销毁旧对话框
 		dismiss();
 		// 创建新对话框
@@ -332,7 +403,7 @@ public class DialogManager {
 		if (window != null) {
 			LayoutParams lp = window.getAttributes();
 			lp.width = width;
-			if (items != null && items.length > 3) {
+			if (items.length > 3) {
 				lp.height = width * 3 / 2;
 			}
 			window.setAttributes(lp);

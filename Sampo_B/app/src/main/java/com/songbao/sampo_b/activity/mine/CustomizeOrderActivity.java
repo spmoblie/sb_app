@@ -623,6 +623,7 @@ public class CustomizeOrderActivity extends BaseActivity implements OnClickListe
     }
 
     @Override
+
     protected void loadFailHandle() {
         super.loadFailHandle();
         handleErrorCode(null);

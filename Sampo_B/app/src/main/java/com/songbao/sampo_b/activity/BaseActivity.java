@@ -21,6 +21,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.util.ArrayMap;
 import android.text.InputType;
+import android.text.SpannableString;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -702,6 +703,18 @@ public class BaseActivity extends FragmentActivity {
             myDialog = DialogManager.getInstance(mContext);
         }
         myDialog.showTwoBtnDialog(title, content, leftBtnStr, rightBtnStr, width, isCenter, isVanish, handler, handlerCode);
+    }
+
+    /**
+     * 弹出用户同意对话框
+     */
+    protected void showUserAgreeDialog(String title, SpannableString spannableStr, String leftBtnStr, String rightBtnStr, Handler handler, int handlerCode) {
+        leftBtnStr = (leftBtnStr == null) ? getString(R.string.cancel) : leftBtnStr;
+        rightBtnStr = (rightBtnStr == null) ? getString(R.string.confirm) : rightBtnStr;
+        if (myDialog == null) {
+            myDialog = DialogManager.getInstance(mContext);
+        }
+        myDialog.showUserAgreeDialog(title, spannableStr, leftBtnStr, rightBtnStr, dialogWidth, handler, handlerCode);
     }
 
     /**
