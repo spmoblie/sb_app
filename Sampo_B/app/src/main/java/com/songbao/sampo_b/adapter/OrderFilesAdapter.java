@@ -4,24 +4,29 @@ import android.content.Context;
 import android.support.constraint.ConstraintLayout;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.songbao.sampo_b.R;
+import com.songbao.sampo_b.entity.FileEntity;
 import com.songbao.sampo_b.utils.ClickUtils;
-import com.songbao.sampo_b.utils.StringUtil;
 
 /**
  * 订单文件备注列表适配器
  */
-public class OrderFilesAdapter extends AppBaseAdapter<String> {
+public class OrderFilesAdapter extends AppBaseAdapter<FileEntity> {
 
-	public OrderFilesAdapter(Context context) {
+	private boolean isDelete;
+
+	public OrderFilesAdapter(Context context, boolean isDelete) {
 		super(context);
+		this.isDelete = isDelete;
 	}
 
 	static class ViewHolder {
 		ConstraintLayout item_main;
 		TextView tv_name;
+		ImageView iv_icon;
 	}
 
 	/**
@@ -36,24 +41,44 @@ public class OrderFilesAdapter extends AppBaseAdapter<String> {
 			holder = new ViewHolder();
 			holder.item_main = convertView.findViewById(R.id.order_files_item_main);
 			holder.tv_name = convertView.findViewById(R.id.order_files_item_tv_name);
+			holder.iv_icon = convertView.findViewById(R.id.order_files_item_iv_icon);
 			convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
 		// 绑定View
-		final String fileUrl = mDataList.get(position);
+		final FileEntity fileEn = mDataList.get(position);
 
-		if (!StringUtil.isNull(fileUrl) && fileUrl.contains("/")) {
-			String[] urls = fileUrl.split("/");
-			holder.tv_name.setText(urls[urls.length - 1]);
+		if (fileEn != null) {
+			holder.tv_name.setText(fileEn.getFileName());
 		}
+
+		if (isDelete) {
+			holder.iv_icon.setImageResource(R.mipmap.icon_close);
+		} else {
+			holder.iv_icon.setImageResource(R.mipmap.icon_more);
+		}
+
+		holder.iv_icon.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (ClickUtils.isDoubleClick(v.getId())) return;
+				if (apCallback != null) {
+					if (isDelete) {
+						apCallback.setOnClick(fileEn, position, 1);
+					} else {
+						apCallback.setOnClick(fileEn, position, 0);
+					}
+				}
+			}
+		});
 
 		holder.item_main.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				if (ClickUtils.isDoubleClick(v.getId())) return;
 				if (apCallback != null) {
-					apCallback.setOnClick(fileUrl, position, 0);
+					apCallback.setOnClick(fileEn, position, 0);
 				}
 			}
 		});

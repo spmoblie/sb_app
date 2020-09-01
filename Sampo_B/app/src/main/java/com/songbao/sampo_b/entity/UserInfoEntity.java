@@ -21,8 +21,10 @@ public class UserInfoEntity extends BaseEntity {
 	private String appToken; //登录授权码
 	private String genderStr; //用户性别
 	private int genderCode; //性别代码(0:保密/1:男/2:女)
+	private int messageNum; //我的信息数量
+	private int roleIds; //角色代码(7:门店设计师/8:工厂设计师/9:经销商/14:门店跟单)
+	private long ratios; //经销商销售系数(默认值为1)
 
-	
 	public UserInfoEntity() {
 		super();
 	}
@@ -164,4 +166,27 @@ public class UserInfoEntity extends BaseEntity {
 		this.genderCode = genderCode;
 	}
 
+	public int getMessageNum() {
+		return messageNum;
+	}
+
+	public void setMessageNum(int messageNum) {
+		this.messageNum = messageNum;
+	}
+
+	public int getRoleIds() {
+		return roleIds;
+	}
+
+	public void setRoleIds(int roleIds) {
+		this.roleIds = roleIds;
+	}
+
+	public long getRatios() {
+		return ratios;
+	}
+
+	public void setRatios(long ratios) {
+		this.ratios = ratios;
+	}
 }

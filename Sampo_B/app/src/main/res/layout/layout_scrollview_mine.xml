@@ -35,8 +35,8 @@
         <TextView
             android:id="@+id/fg_mine_tv_message_num"
             style="@style/common_warn_red_text_number"
-            android:layout_marginTop="@dimen/margin_padding_8"
-            android:layout_marginEnd="@dimen/margin_padding_8"
+            android:layout_marginTop="@dimen/margin_padding_6"
+            android:layout_marginEnd="@dimen/margin_padding_6"
             app:layout_constraintTop_toTopOf="@+id/fg_mine_iv_message"
             app:layout_constraintRight_toRightOf="@+id/fg_mine_iv_message"/>
 

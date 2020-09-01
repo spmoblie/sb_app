@@ -30,6 +30,7 @@ import com.songbao.sampo_b.activity.common.photo.ClipImageCircularActivity;
 import com.songbao.sampo_b.activity.common.photo.PhotoAlbumActivity;
 import com.songbao.sampo_b.adapter.SelectListAdapter;
 import com.songbao.sampo_b.entity.BaseEntity;
+import com.songbao.sampo_b.entity.FileEntity;
 import com.songbao.sampo_b.entity.SelectListEntity;
 import com.songbao.sampo_b.entity.UserInfoEntity;
 import com.songbao.sampo_b.utils.BitmapUtil;
@@ -394,13 +395,13 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
 
     @Override
     protected void callbackData(JSONObject jsonObject, int dataType) {
-        BaseEntity baseEn;
+        BaseEntity<FileEntity> baseEn;
         try {
             switch (dataType) {
                 case AppConfig.REQUEST_SV_UPLOAD_PHOTO:
                     baseEn = JsonUtils.getUploadResult(jsonObject);
                     if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
-                        changeStr = baseEn.getOthers();
+                        changeStr = baseEn.getData().getFileUrl();
                         userKey = "avatar";
                         saveUserInfo();
                     } else {
@@ -408,7 +409,7 @@ public class PersonalActivity extends BaseActivity implements OnClickListener {
                     }
                     break;
                 case AppConfig.REQUEST_SV_USER_SAVE:
-                    baseEn = JsonUtils.getUploadResult(jsonObject);
+                    baseEn = JsonUtils.getBaseErrorData(jsonObject);
                     if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
                         AppApplication.updateUserData(true);
                         if (userKey.equals("avatar")) {

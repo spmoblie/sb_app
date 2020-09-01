@@ -1,6 +1,7 @@
 package com.songbao.sampo_b.activity.two;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -18,7 +19,9 @@ import com.songbao.sampo_b.R;
 import com.songbao.sampo_b.activity.BaseActivity;
 import com.songbao.sampo_b.activity.common.photo.PhotoAllActivity;
 import com.songbao.sampo_b.activity.common.photo.PhotoShowActivity;
-import com.songbao.sampo_b.activity.mine.CommentPostActivity;
+import com.songbao.sampo_b.adapter.AdapterCallback;
+import com.songbao.sampo_b.adapter.OrderFilesAdapter;
+import com.songbao.sampo_b.entity.FileEntity;
 import com.songbao.sampo_b.entity.GoodsEntity;
 import com.songbao.sampo_b.entity.OCustomizeEntity;
 import com.songbao.sampo_b.utils.ClickUtils;
@@ -28,6 +31,7 @@ import com.songbao.sampo_b.utils.LogUtil;
 import com.songbao.sampo_b.utils.StringUtil;
 import com.songbao.sampo_b.widgets.RoundImageView;
 import com.songbao.sampo_b.widgets.ScrollViewEditText;
+import com.songbao.sampo_b.widgets.ScrollViewListView;
 
 import java.util.ArrayList;
 
@@ -36,7 +40,7 @@ import butterknife.BindView;
 
 public class GoodsEditActivity extends BaseActivity implements OnClickListener {
 
-    String TAG = CommentPostActivity.class.getSimpleName();
+    String TAG = GoodsEditActivity.class.getSimpleName();
 
     @BindView(R.id.goods_edit_iv_photo_01)
     RoundImageView iv_photo_01;
@@ -65,6 +69,12 @@ public class GoodsEditActivity extends BaseActivity implements OnClickListener {
     @BindView(R.id.goods_edit_iv_photo_09)
     RoundImageView iv_photo_09;
 
+    @BindView(R.id.goods_edit_lv_file)
+    ScrollViewListView lv_files;
+
+    @BindView(R.id.goods_edit_tv_file_add)
+    TextView tv_file_add;
+
     @BindView(R.id.goods_edit_tv_link_null)
     TextView tv_link_null;
 
@@ -77,8 +87,11 @@ public class GoodsEditActivity extends BaseActivity implements OnClickListener {
     @BindView(R.id.goods_edit_et_goods_number)
     EditText et_number;
 
-    @BindView(R.id.goods_edit_et_goods_price)
-    EditText et_price;
+    @BindView(R.id.goods_edit_et_price_cost)
+    EditText et_price_cost;
+
+    @BindView(R.id.goods_edit_et_price_sale)
+    EditText et_price_sale;
 
     @BindView(R.id.goods_edit_et_goods_remarks)
     ScrollViewEditText et_remarks;
@@ -89,14 +102,16 @@ public class GoodsEditActivity extends BaseActivity implements OnClickListener {
     @BindView(R.id.goods_edit_tv_confirm)
     TextView tv_confirm;
 
+    private OrderFilesAdapter ap_files;
     private RequestOptions showOptions;
     private GoodsEntity data;
     private int editPos, photoNum, goodsNum;
-    private double goodsPrice;
-    private boolean isEdit, isNull;
+    private double costPrice, salePrice;
+    private boolean isEdit, isNull, isSale, isCost;
     private String linkStr, name, remarks;
     private ArrayList<String> al_photos_add = new ArrayList<>();
     private ArrayList<String> al_photos_url = new ArrayList<>();
+    private ArrayList<FileEntity> al_files = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,8 +136,13 @@ public class GoodsEditActivity extends BaseActivity implements OnClickListener {
         iv_photo_07.setOnClickListener(this);
         iv_photo_08.setOnClickListener(this);
         iv_photo_09.setOnClickListener(this);
+        tv_file_add.setOnClickListener(this);
         tv_link_null.setOnClickListener(this);
         tv_confirm.setOnClickListener(this);
+
+        if (isHideCostPrice) { //隐藏成本单价
+            et_price_cost.setVisibility(View.GONE);
+        }
 
         showOptions = new RequestOptions()
                 .placeholder(R.drawable.icon_default_show)
@@ -131,17 +151,93 @@ public class GoodsEditActivity extends BaseActivity implements OnClickListener {
 
         goodsNum = 1;
         if (data != null) {
-            al_photos_url.addAll(data.getImageList());
+            if (data.getImageList() != null) {
+                al_photos_url.addAll(data.getImageList());
+            }
+            if (data.getFilesList() != null) {
+                al_files.addAll(data.getFilesList());
+            }
+
             linkStr = data.getEffectUrl();
+            isNull = data.isPicture();
+            updateLinkStatus();
+
             name = data.getName();
             remarks = data.getRemarks();
             if (data.getNumber() > 0) {
                 goodsNum = data.getNumber();
             }
-            goodsPrice = data.getOnePrice();
+            costPrice = data.getCostPrice();
+            salePrice = data.getSalePrice();
         }
         et_link.setText(linkStr);
         et_name.setText(name);
+        et_number.setText(String.valueOf(goodsNum));
+
+        if (costPrice > 0) {
+            et_price_cost.setText(df.format(costPrice));
+        }
+        if (salePrice > 0) {
+            et_price_sale.setText(df.format(salePrice));
+        }
+        et_price_cost.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                isCost = true;
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (isCost && !isSale) {
+                    if (StringUtil.isNull(s.toString())) {
+                        costPrice = 0;
+                        salePrice = 0;
+                        et_price_sale.setText("");
+                    } else {
+                        costPrice = Double.valueOf(s.toString());
+                        salePrice = costPrice * ratios;
+                        et_price_sale.setText(df.format(salePrice));
+                    }
+                }
+                isSale = false;
+            }
+        });
+        et_price_sale.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                isSale = true;
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (isSale && !isCost) {
+                    if (StringUtil.isNull(s.toString())) {
+                        salePrice = 0;
+                        costPrice = 0;
+                        et_price_cost.setText("");
+                    } else {
+                        salePrice = Double.valueOf(s.toString());
+                        costPrice = salePrice / ratios;
+                        et_price_cost.setText(df.format(costPrice));
+                    }
+                }
+                isCost = false;
+            }
+        });
+
+        updatePhotoData();
+        initFilesListView();
+
         et_remarks.setText(remarks);
         et_remarks.addTextChangedListener(new TextWatcher() {
             @Override
@@ -164,12 +260,6 @@ public class GoodsEditActivity extends BaseActivity implements OnClickListener {
         } else {
             updateTextBytes(remarks.length());
         }
-
-        et_number.setText(String.valueOf(goodsNum));
-        if (goodsPrice > 0) {
-            et_price.setText(df.format(goodsPrice));
-        }
-        updatePhotoData();
     }
 
     private void updateTextBytes(int lengths) {
@@ -238,6 +328,24 @@ public class GoodsEditActivity extends BaseActivity implements OnClickListener {
         iv_photo.setVisibility(View.VISIBLE);
     }
 
+    private void initFilesListView() {
+        if (ap_files == null) {
+            ap_files = new OrderFilesAdapter(mContext, true);
+            ap_files.addCallback(new AdapterCallback() {
+                @Override
+                public void setOnClick(Object data, int position, int type) {
+                    if (position < 0 || position >= al_files.size()) return;
+                    if (type == 1) {
+                        al_files.remove(position);
+                        initFilesListView();
+                    }
+                }
+            });
+        }
+        ap_files.updateData(al_files);
+        lv_files.setAdapter(ap_files);
+    }
+
     @Override
     public void onClick(View v) {
         if (ClickUtils.isDoubleClick(v.getId())) return;
@@ -269,20 +377,30 @@ public class GoodsEditActivity extends BaseActivity implements OnClickListener {
             case R.id.goods_edit_iv_photo_09:
                 handlePhotoClick(8);
                 break;
+            case R.id.goods_edit_tv_file_add:
+                openSystemFile();
+                break;
             case R.id.goods_edit_tv_link_null:
                 isNull = !isNull;
-                tv_link_null.setSelected(isNull);
-                if (isNull) {
-                    et_link.setVisibility(View.GONE);
-                } else {
-                    et_link.setVisibility(View.VISIBLE);
-                }
+                updateLinkStatus();
                 break;
             case R.id.goods_edit_tv_confirm:
                 if (checkData()) {
                     postData();
                 }
                 break;
+        }
+    }
+
+    /**
+     * 刷新产品链接状态
+     */
+    private void updateLinkStatus() {
+        tv_link_null.setSelected(isNull);
+        if (isNull) {
+            et_link.setVisibility(View.GONE);
+        } else {
+            et_link.setVisibility(View.VISIBLE);
         }
     }
 
@@ -294,7 +412,7 @@ public class GoodsEditActivity extends BaseActivity implements OnClickListener {
             Intent intent = new Intent(mContext, PhotoAllActivity.class);
             intent.putExtra("totalNum", 9 - photoNum);
             startActivityForResult(intent, AppConfig.ACTIVITY_CODE_PHOTO_SELECT);
-        } else { //删除相片
+        } else { //查看相片
             Intent intent = new Intent(mContext, PhotoShowActivity.class);
             intent.putExtra(PhotoShowActivity.EXTRA_IMAGE_URLS, al_photos_url);
             intent.putExtra(PhotoShowActivity.EXTRA_IMAGE_INDEX, position);
@@ -327,12 +445,21 @@ public class GoodsEditActivity extends BaseActivity implements OnClickListener {
         }
         goodsNum = Integer.valueOf(numStr);
 
-        String numPrice = et_price.getText().toString();
-        if (StringUtil.isNull(numPrice) || Double.valueOf(numPrice) <= 0) {
-            CommonTools.showToast(getString(R.string.goods_price_hint), Toast.LENGTH_SHORT);
-            return false;
+        if (isHideCostPrice) {
+            if (salePrice <= 0 || costPrice <= 0) {
+                CommonTools.showToast(getString(R.string.goods_price_sale_hint), Toast.LENGTH_SHORT);
+                return false;
+            }
+        } else {
+            if (costPrice <= 0) {
+                CommonTools.showToast(getString(R.string.goods_price_cost_hint), Toast.LENGTH_SHORT);
+                return false;
+            }
+            if (salePrice <= 0) {
+                CommonTools.showToast(getString(R.string.goods_price_sale_hint), Toast.LENGTH_SHORT);
+                return false;
+            }
         }
-        goodsPrice = Double.valueOf(numPrice);
 
         remarks = et_remarks.getText().toString();
 
@@ -364,6 +491,7 @@ public class GoodsEditActivity extends BaseActivity implements OnClickListener {
 
     private void postData() {
         GoodsEntity goodsEn = new GoodsEntity();
+        goodsEn.setFilesList(al_files);
         goodsEn.setImageList(al_photos_url);
         goodsEn.setPicUrl(al_photos_url.get(0));
         goodsEn.setPicture(isNull);
@@ -372,12 +500,14 @@ public class GoodsEditActivity extends BaseActivity implements OnClickListener {
         }
         goodsEn.setName(name);
         goodsEn.setNumber(goodsNum);
-        goodsEn.setOnePrice(goodsPrice);
+        goodsEn.setCostPrice(costPrice);
+        goodsEn.setSalePrice(salePrice);
         goodsEn.setRemarks(remarks);
 
         OCustomizeEntity ocEn = (OCustomizeEntity) FileManager.readFileSaveObject(AppConfig.orderDataFileName, 0);
         if (ocEn != null && ocEn.getGoodsList() != null) {
             if (isEdit && editPos >=0 && editPos < ocEn.getGoodsList().size()) {
+                ocEn.getGoodsList().get(editPos).setFilesList(al_files);
                 ocEn.getGoodsList().get(editPos).setImageList(al_photos_url);
                 ocEn.getGoodsList().get(editPos).setPicUrl(al_photos_url.get(0));
                 ocEn.getGoodsList().get(editPos).setPicture(isNull);
@@ -386,7 +516,8 @@ public class GoodsEditActivity extends BaseActivity implements OnClickListener {
                 }
                 ocEn.getGoodsList().get(editPos).setName(name);
                 ocEn.getGoodsList().get(editPos).setNumber(goodsNum);
-                ocEn.getGoodsList().get(editPos).setOnePrice(goodsPrice);
+                ocEn.getGoodsList().get(editPos).setCostPrice(costPrice);
+                ocEn.getGoodsList().get(editPos).setSalePrice(salePrice);
                 ocEn.getGoodsList().get(editPos).setRemarks(remarks);
             } else {
                 ocEn.getGoodsList().add(goodsEn);
@@ -418,7 +549,48 @@ public class GoodsEditActivity extends BaseActivity implements OnClickListener {
                     al_photos_url.addAll(pathList);
                     updatePhotoData();
                 }
+            }else if (requestCode == 1) { //从系统文件管理器选择文件
+                FileEntity fileEn;
+                if(data.getClipData() != null) { //选择多个文件
+                    int count = data.getClipData().getItemCount();
+                    LogUtil.i(TAG,"url count ："+ count);
+                    int currentItem = 0;
+                    while(currentItem < count) {
+                        Uri fileUri = data.getClipData().getItemAt(currentItem).getUri();
+                        String filePath = FileManager.getPathFromUri(mContext, fileUri);
+                        if (filePath.contains(".dwg") || filePath.contains(".pdf")) {
+                            fileEn = new FileEntity();
+                            fileEn.setFileUrl(filePath);
+                            if (filePath.contains("/")) {
+                                String[] names = filePath.split("/");
+                                fileEn.setFileName(names[names.length-1]);
+                            }
+                            al_files.add(fileEn);
+                        } else {
+                            CommonTools.showToast("请上传.dwg或.pdf格式文件");
+                        }
+                        LogUtil.i(TAG,"url "+ filePath);
+                        currentItem = currentItem + 1;
+                    }
+                    initFilesListView();
+                } else if(data.getData() != null) { //选择一个文件
+                    String filePath = FileManager.getPathFromUri(mContext, data.getData());
+                    if (filePath.contains(".dwg") || filePath.contains(".pdf")) {
+                        fileEn = new FileEntity();
+                        fileEn.setFileUrl(filePath);
+                        if (filePath.contains("/")) {
+                            String[] names = filePath.split("/");
+                            fileEn.setFileName(names[names.length-1]);
+                        }
+                        al_files.add(fileEn);
+                    } else {
+                        CommonTools.showToast("请上传.dwg或.pdf格式文件");
+                    }
+                    LogUtil.i(TAG,"Single image path ---- " + filePath);
+                    initFilesListView();
+                }
             }
+
         }
         super.onActivityResult(requestCode, resultCode, data);
     }

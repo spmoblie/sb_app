@@ -2,17 +2,15 @@ package com.songbao.sampo_b.utils;
 
 import com.songbao.sampo_b.entity.AddressEntity;
 import com.songbao.sampo_b.entity.BaseEntity;
-import com.songbao.sampo_b.entity.CommentEntity;
 import com.songbao.sampo_b.entity.DesignerEntity;
+import com.songbao.sampo_b.entity.FileEntity;
 import com.songbao.sampo_b.entity.GoodsEntity;
 import com.songbao.sampo_b.entity.GoodsSortEntity;
 import com.songbao.sampo_b.entity.MessageEntity;
 import com.songbao.sampo_b.entity.OCustomizeEntity;
-import com.songbao.sampo_b.entity.PaymentEntity;
 import com.songbao.sampo_b.entity.ThemeEntity;
-import com.songbao.sampo_b.entity.VersionEntity;
 import com.songbao.sampo_b.entity.UserInfoEntity;
-import com.songbao.sampo_b.wxapi.WXPayEntryActivity;
+import com.songbao.sampo_b.entity.VersionEntity;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -144,45 +142,6 @@ public class JsonUtils {
     }
 
     /**
-     * 解析获取支付订单号
-     */
-    public static BaseEntity getPayOrderOn(JSONObject jsonObject) throws JSONException {
-        BaseEntity mainEn = getCommonKeyValue(jsonObject);
-
-        if (StringUtil.notNull(jsonObject, "data")) {
-            mainEn.setOthers(jsonObject.getString("data"));
-        }
-        return mainEn;
-    }
-
-    /**
-     * 解析获取支付信息
-     */
-    public static BaseEntity<PaymentEntity> getPayInfo(JSONObject jsonObject, int payType) throws JSONException {
-        BaseEntity<PaymentEntity> mainEn = getCommonKeyValue(jsonObject);
-
-        if (StringUtil.notNull(jsonObject, "data")) {
-            PaymentEntity payEn = new PaymentEntity();
-            switch (payType) {
-                case WXPayEntryActivity.PAY_WX: //微信支付
-                    JSONObject data = jsonObject.getJSONObject("data");
-                    payEn.setPrepayid(data.getString("prepayId"));
-                    payEn.setNoncestr(data.getString("nonceStr"));
-                    payEn.setTimestamp(data.getString("timeStamp"));
-                    payEn.setSign(data.getString("sign"));
-                    break;
-                case WXPayEntryActivity.PAY_ZFB: //支付宝支付
-                case WXPayEntryActivity.PAY_UNION: //银联支付
-                    payEn.setContent(jsonObject.getString("data"));
-                    break;
-            }
-            mainEn.setData(payEn);
-        }
-
-        return mainEn;
-    }
-
-    /**
      * 解析用户资料数据
      */
     public static BaseEntity<UserInfoEntity> getUserInfo(JSONObject jsonObject) throws JSONException {
@@ -199,6 +158,7 @@ public class JsonUtils {
                 userInfo.setBirthday(data.getString("birthdayValue"));
                 userInfo.setUserArea(data.getString("address"));
                 userInfo.setUserIntro(data.getString("signature"));
+                userInfo.setRoleIds(data.getInt("roleIds"));
 
                 if (StringUtil.notNull(data, "storeList")) {
                     JSONArray nameArr = data.getJSONArray("storeList");
@@ -222,13 +182,16 @@ public class JsonUtils {
     /**
      * 解析上传图片结果
      */
-    public static BaseEntity getUploadResult(JSONObject jsonObject) throws JSONException {
-        BaseEntity mainEn = getCommonKeyValue(jsonObject);
+    public static BaseEntity<FileEntity> getUploadResult(JSONObject jsonObject) throws JSONException {
+        BaseEntity<FileEntity> mainEn = getCommonKeyValue(jsonObject);
 
+        FileEntity fileEn = new FileEntity();
         if (StringUtil.notNull(jsonObject, "data")) {
             JSONObject jsonData = jsonObject.getJSONObject("data");
-            mainEn.setOthers(jsonData.getString("url"));
+            fileEn.setFileUrl(jsonData.getString("content"));
+            fileEn.setFileName(jsonData.getString("fileName"));
         }
+        mainEn.setData(fileEn);
         return mainEn;
     }
 
@@ -238,12 +201,17 @@ public class JsonUtils {
     public static BaseEntity<UserInfoEntity> getUserDynamic(JSONObject jsonObject) throws JSONException {
         BaseEntity<UserInfoEntity> mainEn = getCommonKeyValue(jsonObject);
 
+        UserInfoEntity userInfo = new UserInfoEntity();
         if (StringUtil.notNull(jsonObject, "data")) {
             JSONObject jsonData = jsonObject.getJSONObject("data");
             if (StringUtil.notNull(jsonData, "messageCount")) {
-                mainEn.setDataTotal(jsonData.getInt("messageCount"));
+                userInfo.setMessageNum(jsonData.getInt("messageCount"));
+            }
+            if (StringUtil.notNull(jsonData, "saleRatio")) {
+                userInfo.setRatios(jsonData.getLong("saleRatio"));
             }
         }
+        mainEn.setData(userInfo);
         return mainEn;
     }
 
@@ -258,19 +226,19 @@ public class JsonUtils {
             if (StringUtil.notNull(jsonData, "total")) {
                 mainEn.setDataTotal(jsonData.getInt("total"));
             }
-            if (StringUtil.notNull(jsonData, "dataList")) {
-                JSONArray data = jsonData.getJSONArray("dataList");
+            if (StringUtil.notNull(jsonData, "records")) {
+                JSONArray data = jsonData.getJSONArray("records");
                 MessageEntity childEn;
                 List<MessageEntity> lists = new ArrayList<>();
                 for (int j = 0; j < data.length(); j++) {
                     JSONObject item = data.getJSONObject(j);
                     childEn = new MessageEntity();
                     childEn.setId(item.getString("id"));
-                    childEn.setTitle(item.getString("title"));
-                    childEn.setContent(item.getString("text"));
-                    childEn.setAddTime(item.getString("addTime"));
+                    childEn.setTitle(item.getString("msgTitle"));
+                    childEn.setContent(item.getString("msgTopic"));
+                    childEn.setAddTime(item.getString("createTime"));
 
-                    if (item.getInt("status") == 4) {
+                    if (item.getInt("msgStatus") == 1) {
                         childEn.setRead(true);
                     }
                     lists.add(childEn);
@@ -352,8 +320,8 @@ public class JsonUtils {
                         gdEn.setName(goodsObj.getString("productName"));
                         gdEn.setPicUrl(goodsObj.getString("productPic"));
                         gdEn.setNumber(goodsObj.getInt("buyNum"));
-                        gdEn.setOnePrice(goodsObj.getDouble("buyPrice"));
-                        gdEn.setTwoPrice(goodsObj.getDouble("buyModifyPrice"));
+                        gdEn.setCostPrice(goodsObj.getDouble("buyPrice"));
+                        gdEn.setCostPricing(goodsObj.getDouble("buyModifyPrice"));
                         goodsList.add(gdEn);
                     }
                     childEn.setGoodsList(goodsList);
@@ -415,13 +383,31 @@ public class JsonUtils {
                     gdEn.setSkuCode(goodsObj.getString("customCode"));
                     // 效果图主图
                     gdEn.setPicUrl(goodsObj.getString("productPic"));
+                    // 效果图图片
+                    gdEn.setImageList(getStringList(goodsObj.getString("pics")));
+                    // 效果图文件
+                    if (StringUtil.notNull(goodsObj, "filesBack")) {
+                        JSONArray files = goodsObj.getJSONArray("filesBack");
+                        ArrayList<FileEntity> fileEns = new ArrayList<>();
+                        FileEntity fileEn;
+                        for (int i = 0; i < files.length(); i++) {
+                            JSONObject item = files.getJSONObject(i);
+                            fileEn = new FileEntity();
+                            fileEn.setFileUrl(item.getString("content"));
+                            fileEn.setFileName(item.getString("fileName"));
+                            fileEns.add(fileEn);
+                        }
+                        gdEn.setFilesList(fileEns);
+                    }
                     // 效果图链接
                     gdEn.setEffectUrl(goodsObj.getString("vcrUrl"));
                     // 商品信息
                     gdEn.setName(goodsObj.getString("productName"));
                     gdEn.setNumber(goodsObj.getInt("buyNum"));
-                    gdEn.setOnePrice(goodsObj.getDouble("buyPrice"));
-                    gdEn.setTwoPrice(goodsObj.getDouble("buyModifyPrice"));
+                    gdEn.setCostPrice(goodsObj.getDouble("buyPrice"));
+                    gdEn.setSalePrice(goodsObj.getDouble("productSellingPrice"));
+                    gdEn.setCostPricing(goodsObj.getDouble("buyModifyPrice"));
+                    gdEn.setRemarks(goodsObj.getString("remark"));
                     goodsList.add(gdEn);
                 }
                 ocEn.setGoodsList(goodsList);
@@ -435,8 +421,18 @@ public class JsonUtils {
                 if (StringUtil.notNull(verifyObj, "resultPics")) {
                     ocEn.setImageList(getStringList(verifyObj.getString("resultPics")));
                 }
-                if (StringUtil.notNull(verifyObj, "resultFiles")) {
-                    ocEn.setFilesList(getStringList(verifyObj.getString("resultFiles")));
+                if (StringUtil.notNull(verifyObj, "filesBack")) {
+                    JSONArray files = verifyObj.getJSONArray("filesBack");
+                    ArrayList<FileEntity> fileEns = new ArrayList<>();
+                    FileEntity fileEn;
+                    for (int i = 0; i < files.length(); i++) {
+                        JSONObject item = files.getJSONObject(i);
+                        fileEn = new FileEntity();
+                        fileEn.setFileUrl(item.getString("content"));
+                        fileEn.setFileName(item.getString("fileName"));
+                        fileEns.add(fileEn);
+                    }
+                    ocEn.setFilesList(fileEns);
                 }
             }
 
@@ -467,14 +463,27 @@ public class JsonUtils {
             // 效果图图片
             gdEn.setImageList(getStringList(jsonData.getString("pics")));
             // 效果图文件
-            gdEn.setLabelList(getStringList(jsonData.getString("files")));
+            if (StringUtil.notNull(jsonData, "filesBack")) {
+                JSONArray files = jsonData.getJSONArray("filesBack");
+                ArrayList<FileEntity> fileEns = new ArrayList<>();
+                FileEntity fileEn;
+                for (int i = 0; i < files.length(); i++) {
+                    JSONObject item = files.getJSONObject(i);
+                    fileEn = new FileEntity();
+                    fileEn.setFileUrl(item.getString("content"));
+                    fileEn.setFileName(item.getString("fileName"));
+                    fileEns.add(fileEn);
+                }
+                gdEn.setFilesList(fileEns);
+            }
             // 效果图链接
             gdEn.setEffectUrl(jsonData.getString("vcrUrl"));
             // 商品信息
             gdEn.setName(jsonData.getString("productName"));
             gdEn.setNumber(jsonData.getInt("buyNum"));
-            gdEn.setOnePrice(jsonData.getDouble("buyPrice"));
-            gdEn.setTwoPrice(jsonData.getDouble("buyModifyPrice"));
+            gdEn.setCostPrice(jsonData.getDouble("buyPrice"));
+            gdEn.setSalePrice(jsonData.getDouble("productSellingPrice"));
+            gdEn.setCostPricing(jsonData.getDouble("buyModifyPrice"));
             gdEn.setRemarks(jsonData.getString("remark"));
             mainEn.setData(gdEn);
         }
@@ -528,8 +537,11 @@ public class JsonUtils {
                     childEn.setPicUrl(item.getString("skuPic"));
                     childEn.setName(item.getString("goodsName"));
                     childEn.setAttribute(item.getString("skuComboName"));
-                    childEn.setOnePrice(item.getDouble("price"));
+                    childEn.setCostPrice(item.getDouble("price"));
 
+                    if (StringUtil.notNull(item, "kjlCode")) {
+                        childEn.setEffectUrl(item.getString("kjlCode"));
+                    }
                     // 商品图片集
                     if (StringUtil.notNull(item, "skuPic")) {
                         /*JSONArray images = jsonData.getJSONArray("goodsPics");
@@ -574,7 +586,6 @@ public class JsonUtils {
             }
             if (StringUtil.notNull(jsonData, "kjlCode")) {
                 goodsEn.setEffectUrl(jsonData.getString("kjlCode"));
-                //goodsEn.setEffectUrl("https://yun.kujiale.com/design/3FO4B5NB7E2L/airoaming");
             }
             mainEn.setData(goodsEn);
         }
@@ -605,57 +616,6 @@ public class JsonUtils {
             mainEn.setLists(lists);
         }
         return mainEn;
-    }
-
-    /**
-     * 解析商品评价数据
-     */
-    public static BaseEntity<CommentEntity> getCommentGoodsListData(JSONObject jsonObject) throws JSONException {
-        BaseEntity<CommentEntity> mainEn = getCommonKeyValue(jsonObject);
-
-        if (StringUtil.notNull(jsonObject, "data")) {
-            JSONObject jsonData = jsonObject.getJSONObject("data");
-            if (StringUtil.notNull(jsonData, "list")) {
-                JSONArray data = jsonData.getJSONArray("list");
-                CommentEntity childEn;
-                List<CommentEntity> lists = new ArrayList<>();
-                for (int i = 0; i < data.length(); i++) {
-                    JSONObject item = data.getJSONObject(i);
-                    childEn = new CommentEntity();
-                    childEn.setNumber(jsonData.getInt("total"));
-                    childEn.setGoodStar(jsonData.getInt("goodsRate"));
-
-                    childEn.setId(item.getInt("id"));
-                    childEn.setNick(item.getString("customerName"));
-                    childEn.setHeadUrl(item.getString("customerName"));
-                    childEn.setGoodsAttr(item.getString("skuComboName"));
-                    childEn.setAddTime(item.getString("evaluateTime"));
-                    childEn.setContent(item.getString("evaluateContent"));
-                    childEn.setStarNum((float) item.getInt("levels"));
-                    childEn.setImg(item.getBoolean("isImg"));
-
-                    if (childEn.isImg()) { //有图
-                        childEn.setImgList(getStringList(item.getString("evaluateImages")));
-                    }
-                    if (StringUtil.notNull(item, "content")) {
-                        childEn.setAddContent(item.getString("content"));
-                    }
-                    if (StringUtil.notNull(item, "days")) {
-                        childEn.setAddDay(item.getInt("days"));
-                    }
-                    lists.add(childEn);
-                }
-                mainEn.setLists(lists);
-            }
-        }
-        return mainEn;
-    }
-
-    /**
-     * 解析我的评价数据
-     */
-    public static BaseEntity<CommentEntity> getCommentOrderListData(JSONObject jsonObject) throws JSONException {
-        return getCommonKeyValue(jsonObject);
     }
 
 }

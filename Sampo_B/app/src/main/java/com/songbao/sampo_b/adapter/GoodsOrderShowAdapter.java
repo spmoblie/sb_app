@@ -70,11 +70,11 @@ public class GoodsOrderShowAdapter extends AppBaseAdapter<GoodsEntity> {
 					.into(holder.iv_show);
 
 			holder.tv_name.setText(data.getName());
-			holder.tv_price_one.setText(context.getString(R.string.order_rmb, df.format(data.getOnePrice())));
-			if (data.getTwoPrice() > 0) {
+			holder.tv_price_one.setText(context.getString(R.string.order_rmb, df.format(data.getCostPrice())));
+			if (data.getCostPricing() > 0 && data.getCostPricing() != data.getCostPrice()) {
 				holder.tv_price_one.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG);
 				holder.tv_price_one.setTextColor(context.getResources().getColor(R.color.debar_text_color));
-				holder.tv_price_two.setText(context.getString(R.string.order_rmb, df.format(data.getTwoPrice())));
+				holder.tv_price_two.setText(context.getString(R.string.order_rmb, df.format(data.getCostPricing())));
 			} else {
 				holder.tv_price_one.setTextColor(context.getResources().getColor(R.color.app_color_gray_5));
 				holder.tv_price_two.setText("");

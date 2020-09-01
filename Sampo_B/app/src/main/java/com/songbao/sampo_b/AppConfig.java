@@ -1,6 +1,7 @@
 package com.songbao.sampo_b;
 
 import android.Manifest;
+import android.os.Environment;
 
 
 public class AppConfig {
@@ -8,13 +9,13 @@ public class AppConfig {
 //******************************************* URL协议开始 ******************************************
 
 	// 发布控制
-	public static final boolean IS_PUBLISH = false;
+	public static final boolean IS_PUBLISH = true;
 	// http协议
 	public final static String APP_HTTP = "http://";
 	// https协议
 	public final static String APP_HTTPS = "https://";
 	// Base类型(base_1:发布Url、base_2:测试Url)
-	public final static String BASE_TYPE = "base_2";
+	public final static String BASE_TYPE = "base_1";
 	// 发布Url
 	public final static String BASE_URL_1 = APP_HTTP + "xiaobao.sbwg.cn/";
 	// 测试Url
@@ -28,11 +29,6 @@ public class AppConfig {
 	public final static String URL_AUTH_LOGIN = "app/auth/login";
 	// 提交注销
 	public final static String URL_AUTH_LOGOUT = "app/auth/logout";
-
-	// 支付参数
-	public final static String URL_PAY_PARAMETER = "app/payment/paymentType";
-	// 支付结果
-	public final static String URL_PAY_CHECK_RESULT = "app/payment/callback";
 
 	// 上传接口
 	public final static String URL_UPLOAD_PUSH = "app/upload/push";
@@ -61,9 +57,11 @@ public class AppConfig {
 	// 动态数据
 	public final static String URL_USER_DYNAMIC = "app/user/dynamic";
 	// 我的消息
-	public final static String URL_USER_MESSAGE = "app/user/message";
-	// 消息状态
-	public final static String URL_USER_MESSAGE_STATUS = "app/user/message/updateStatus";
+	public final static String URL_USER_MESSAGE = "omsCustom/app/MQMessage/msg/getMsgList";
+	// 消息删除
+	public final static String URL_USER_MESSAGE_DELETE = "omsCustom/app/MQMessage/msg/deleteMsg";
+	// 消息已读
+	public final static String URL_USER_MESSAGE_STATUS = "omsCustom/app/MQMessage/msg/updateMsgInfo";
 	// 驻店设计
 	public final static String URL_USER_DESIGNER = "app/user/designer/getList";
 
@@ -106,19 +104,6 @@ public class AppConfig {
 
 	// 提交登录
 	public static final int REQUEST_SV_AUTH_LOGIN = 0X0121;
-	// 授权登录
-	public static final int REQUEST_SV_AUTH_OAUTH = 0X0131;
-	// 微信授权
-	public static final int REQUEST_SV_AUTH_WX_TOKEN = 0X0132;
-	// 微信资料
-	public static final int REQUEST_SV_AUTH_WX_USER = 0X0133;
-	// 微博资料
-	public static final int REQUEST_SV_AUTH_WB_USER = 0X0134;
-
-	// 支付参数
-	public static final int REQUEST_SV_PAY_PARAMETER = 0X0201;
-	// 支付结果
-	public static final int REQUEST_SV_PAY_CHECK_RESULT = 0X0202;
 
 	// 首頁头部
 	public static final int REQUEST_SV_HOME_HEAD = 0X1001;
@@ -134,6 +119,10 @@ public class AppConfig {
 
 	// 我的消息
 	public static final int REQUEST_SV_USER_MESSAGE = 0X3101;
+	// 消息删除
+	public static final int REQUEST_SV_USER_MESSAGE_DELETE = 0X3102;
+	// 消息已读
+	public static final int REQUEST_SV_USER_MESSAGE_STATUS = 0X3103;
 	// 驻店设计
 	public static final int REQUEST_SV_USER_DESIGNER = 0X3111;
 
@@ -267,6 +256,8 @@ public class AppConfig {
 	// 应用偏好设置名称
 	public static final String APP_SP_NAME = "sp_sampo_b";
 	// 内置SD卡路径
+	public static final String PATH_ED = Environment.getExternalStorageDirectory().getPath() + "/Sampo_B/";
+	// 外置SD卡路径
 	public static final String PATH_SD = AppApplication.getAppContext().getExternalFilesDir(null) + "/";
 	// Apk临时缓存路径（应用关闭时清除）
 	public static final String PATH_APK_CACHE = PATH_SD + "Apk/";
@@ -277,9 +268,9 @@ public class AppConfig {
 	// 文本临时缓存路径（应用关闭时清除）
 	public static final String PATH_TEXT_CACHE = PATH_SD + "text/cache/";
 	// 图片持久存储路径
-	public static final String PATH_IMAGE_STORE = PATH_SD + "image/store/";
+	public static final String PATH_IMAGE_STORE = PATH_ED + "image/store/";
 	// 图片临时缓存路径（应用关闭时清除）
-	public static final String PATH_IMAGE_CACHE = PATH_SD + "image/cache/";
+	public static final String PATH_IMAGE_CACHE = PATH_ED + "image/cache/";
 	// 媒体持久存储路径
 	public static final String PATH_MEDIA_STORE = PATH_SD + "media/store/";
 	// 媒体临时缓存路径（应用关闭时清除）
@@ -329,6 +320,12 @@ public class AppConfig {
 	public static final String KEY_USER_PHONE = "user_phone";
 	// 偏好设置Key-记录用户账户余额
 	public static final String KEY_USER_MONEY = "user_money";
+	// 偏好设置Key-记录用户角色代码
+	public static final String KEY_USER_ROLES = "user_roles";
+	// 偏好设置Key-记录用户销售系数
+	public static final String KEY_USER_RATIO = "user_ratio";
+	// 偏好设置Key-记录用户同意协议
+	public static final String KEY_USER_AGREE = "user_agree";
 	// 偏好设置Key-记录用户上传相片地址
 	public static final String KEY_POST_PHOTO_URL = "post_photo_url";
 	// 偏好设置Key-记录用户门店数据
@@ -339,14 +336,6 @@ public class AppConfig {
 	public static final String KEY_X_APP_TOKEN = "x_app_token";
 	// 偏好设置Key-记录用户登录设备号
 	public static final String KEY_DEVICE_TOKEN = "device_token";
-	// 偏好设置Key-记录用户的微信授权码
-	public static final String KEY_WX_ACCESS_TOKEN = "wx_access_token";
-	// 偏好设置Key-记录用户的微信校验码
-	public static final String KEY_WX_REFRESH_TOKEN = "wx_refresh_token";
-	// 偏好设置Key-记录用户的微信登录ID
-	public static final String KEY_WX_OPEN_ID = "wx_open_id";
-	// 偏好设置Key-记录用户的微信身份ID
-	public static final String KEY_WX_UNION_ID = "wx_union_id";
 	// 偏好设置Key-记录同步远程服务器数据的日期
 	public static final String KEY_LOAD_SV_DATA_DAY = "load_sv_data_day";
 	// 偏好设置Key-记录刷新用户资料
@@ -370,13 +359,11 @@ public class AppConfig {
 
 	public static final String PAGE_TYPE = "page_type";
 	public static final String PAGE_DATA = "page_data";
-	public static final String ACTIVITY_KEY_PAY_RESULT = "pay_result";
 	public static final String ACTIVITY_KEY_PHOTO_PATH = "photo_path";
 	public static final String ACTIVITY_KEY_USER_INFO = "user_info";
 	public static final String ACTIVITY_KEY_SELECT_LIST = "select_list";
 
 	public static final int ACTIVITY_CODE_VIA_CAMERA = 0X9001;
-	public static final int ACTIVITY_CODE_PAY_DATA = 0X9002;
 	public static final int ACTIVITY_CODE_USER_NICK = 0X9011;
 	public static final int ACTIVITY_CODE_USER_GENDER = 0X9012;
 	public static final int ACTIVITY_CODE_USER_AREA = 0X9013;

@@ -21,16 +21,13 @@ public class GoodsEntity extends BaseEntity {
 	private String remarks; //产品备注
 	private String effectUrl; //3D效果Url
 	private int number; //商品数量
-	private int saleStatus; //0:未售后/1:退款中/2:已退款/3:换货中/4:已换货
-	private int commentStatus; //0:未评价/1:已评价/2:已追评
-	private double onePrice; //申报价格
-	private double twoPrice; //审核价格
+	private double salePrice; //销售单价
+	private double costPrice; //成本单价
+	private double costPricing; //成本审核定价
 	private boolean isPicture; //是否无图
-	private GoodsAttrEntity attrEn; //已选属性值
-	private GoodsSaleEntity saleEn; //商品售后信息
-	private ArrayList<String> labelList; //商品标签集
 	private ArrayList<String> imageList; //商品图片集
 	private ArrayList<String> detailList; //详情图片集
+	private ArrayList<FileEntity> filesList; //商品文件对象集
 
 	@Override
 	public String getEntityId() {
@@ -133,36 +130,28 @@ public class GoodsEntity extends BaseEntity {
 		this.number = number;
 	}
 
-	public int getSaleStatus() {
-		return saleStatus;
+	public double getSalePrice() {
+		return salePrice;
 	}
 
-	public void setSaleStatus(int saleStatus) {
-		this.saleStatus = saleStatus;
+	public void setSalePrice(double salePrice) {
+		this.salePrice = salePrice;
 	}
 
-	public int getCommentStatus() {
-		return commentStatus;
+	public double getCostPrice() {
+		return costPrice;
 	}
 
-	public void setCommentStatus(int commentStatus) {
-		this.commentStatus = commentStatus;
+	public void setCostPrice(double costPrice) {
+		this.costPrice = costPrice;
 	}
 
-	public double getOnePrice() {
-		return onePrice;
+	public double getCostPricing() {
+		return costPricing;
 	}
 
-	public void setOnePrice(double onePrice) {
-		this.onePrice = onePrice;
-	}
-
-	public double getTwoPrice() {
-		return twoPrice;
-	}
-
-	public void setTwoPrice(double twoPrice) {
-		this.twoPrice = twoPrice;
+	public void setCostPricing(double costPricing) {
+		this.costPricing = costPricing;
 	}
 
 	public boolean isPicture() {
@@ -171,30 +160,6 @@ public class GoodsEntity extends BaseEntity {
 
 	public void setPicture(boolean picture) {
 		isPicture = picture;
-	}
-
-	public GoodsAttrEntity getAttrEn() {
-		return attrEn;
-	}
-
-	public void setAttrEn(GoodsAttrEntity attrEn) {
-		this.attrEn = attrEn;
-	}
-
-	public GoodsSaleEntity getSaleEn() {
-		return saleEn;
-	}
-
-	public void setSaleEn(GoodsSaleEntity saleEn) {
-		this.saleEn = saleEn;
-	}
-
-	public ArrayList<String> getLabelList() {
-		return labelList;
-	}
-
-	public void setLabelList(ArrayList<String> labelList) {
-		this.labelList = labelList;
 	}
 
 	public ArrayList<String> getImageList() {
@@ -211,5 +176,13 @@ public class GoodsEntity extends BaseEntity {
 
 	public void setDetailList(ArrayList<String> detailList) {
 		this.detailList = detailList;
+	}
+
+	public ArrayList<FileEntity> getFilesList() {
+		return filesList;
+	}
+
+	public void setFilesList(ArrayList<FileEntity> filesList) {
+		this.filesList = filesList;
 	}
 }

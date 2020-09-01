@@ -23,6 +23,7 @@ import com.songbao.sampo_b.activity.common.FileActivity;
 import com.songbao.sampo_b.adapter.AdapterCallback;
 import com.songbao.sampo_b.adapter.OrderFilesAdapter;
 import com.songbao.sampo_b.entity.BaseEntity;
+import com.songbao.sampo_b.entity.FileEntity;
 import com.songbao.sampo_b.entity.GoodsEntity;
 import com.songbao.sampo_b.utils.BitmapUtil;
 import com.songbao.sampo_b.utils.CommonTools;
@@ -120,9 +121,10 @@ public class CustomizeGoodsActivity extends BaseActivity implements OnClickListe
         goodsImgLP.width = imageSize;
         goodsImgLP.height = imageSize;
 
-        if (goodsEn != null) {
+        /*if (goodsEn != null) {
             loadCustomizeData();
-        }
+        }*/
+        initShowData();
     }
 
     private void initShowData() {
@@ -132,8 +134,8 @@ public class CustomizeGoodsActivity extends BaseActivity implements OnClickListe
             al_image.addAll(goodsEn.getImageList());
             initImageScrollView();
             // 产品文件
-            if (goodsEn.getLabelList() != null && goodsEn.getLabelList().size() > 0) {
-                initFilesListView(goodsEn.getLabelList());
+            if (goodsEn.getFilesList() != null && goodsEn.getFilesList().size() > 0) {
+                initFilesListView(goodsEn.getFilesList());
                 group_files.setVisibility(View.VISIBLE);
             } else {
                 group_files.setVisibility(View.GONE);
@@ -169,11 +171,11 @@ public class CustomizeGoodsActivity extends BaseActivity implements OnClickListe
             // 产品信息
             tv_name.setText(goodsEn.getName());
             tv_number.setText(getString(R.string.goods_number_show, goodsEn.getNumber()));
-            tv_price_one.setText(getString(R.string.order_rmb, df.format(goodsEn.getOnePrice())));
-            if (goodsEn.getTwoPrice() > 0) {
+            tv_price_one.setText(getString(R.string.order_rmb, df.format(goodsEn.getCostPrice())));
+            if (goodsEn.getCostPricing() > 0 && goodsEn.getCostPricing() != goodsEn.getCostPrice()) {
                 tv_price_one.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG | Paint.ANTI_ALIAS_FLAG);
                 tv_price_one.setTextColor(getResources().getColor(R.color.debar_text_color));
-                tv_price_two.setText(getString(R.string.order_rmb, df.format(goodsEn.getTwoPrice())));
+                tv_price_two.setText(getString(R.string.order_rmb, df.format(goodsEn.getCostPricing())));
             }
             if (!StringUtil.isNull(goodsEn.getRemarks())) {
                 tv_remarks.setVisibility(View.VISIBLE);
@@ -212,16 +214,18 @@ public class CustomizeGoodsActivity extends BaseActivity implements OnClickListe
         }
     }
 
-    private void initFilesListView(final ArrayList<String> filesList) {
+    private void initFilesListView(final ArrayList<FileEntity> filesList) {
         if (ap_files == null) {
-            ap_files = new OrderFilesAdapter(mContext);
+            ap_files = new OrderFilesAdapter(mContext, false);
             ap_files.addCallback(new AdapterCallback() {
                 @Override
                 public void setOnClick(Object data, int position, int type) {
                     if (position < 0 || position >= filesList.size()) return;
-                    Intent intent = new Intent(mContext, FileActivity.class);
-                    intent.putExtra("fileUrl", filesList.get(position));
-                    startActivity(intent);
+                    if (type == 0) {
+                        Intent intent = new Intent(mContext, FileActivity.class);
+                        intent.putExtra(AppConfig.PAGE_DATA, filesList.get(position));
+                        startActivity(intent);
+                    }
                 }
             });
         }
@@ -269,6 +273,7 @@ public class CustomizeGoodsActivity extends BaseActivity implements OnClickListe
      */
     private void loadCustomizeData() {
         HashMap<String, Object> map = new HashMap<>();
+        map.put("roleId", userManager.getUserRoleIds());
         map.put("productId", goodsEn.getId());
         map.put("customCode", goodsEn.getSkuCode());
         loadSVData(AppConfig.URL_ORDER_GOODS, map, HttpRequests.HTTP_GET, AppConfig.REQUEST_SV_ORDER_GOODS);

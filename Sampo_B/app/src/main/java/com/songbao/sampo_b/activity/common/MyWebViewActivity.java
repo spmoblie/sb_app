@@ -66,7 +66,7 @@ public class MyWebViewActivity extends BaseActivity {
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		isInitShare = true;
+		//isInitShare = true;
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_my_webview);
 
@@ -193,7 +193,7 @@ public class MyWebViewActivity extends BaseActivity {
 	@Override
 	public void OnListenerRight() {
 		super.OnListenerRight();
-		showShareView(shareEn);
+		//showShareView(shareEn);
 	}
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {

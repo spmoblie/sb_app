@@ -20,6 +20,7 @@ import com.songbao.sampo_b.activity.BaseActivity;
 import com.songbao.sampo_b.adapter.AdapterCallback;
 import com.songbao.sampo_b.adapter.GoodsOrderEditAdapter;
 import com.songbao.sampo_b.entity.BaseEntity;
+import com.songbao.sampo_b.entity.FileEntity;
 import com.songbao.sampo_b.entity.GoodsEntity;
 import com.songbao.sampo_b.entity.OCustomizeEntity;
 import com.songbao.sampo_b.entity.UserInfoEntity;
@@ -87,8 +88,9 @@ public class PostOrderActivity extends BaseActivity implements View.OnClickListe
 
     private CharSequence[] storeItems;
     private int editPos = -1;
-    private int goodsPos, imagePos;
-    private double priceTotal;
+    private int goodsPos, imagePos, filesPos;
+    private double costPriceTotal;
+    private boolean isPhoto = true;
     private String nameStr, phoneStr, buildName, storeName, hopeDate, orderRemarks;
     private ArrayList<GoodsEntity> al_goods = new ArrayList<>();
 
@@ -109,12 +111,16 @@ public class PostOrderActivity extends BaseActivity implements View.OnClickListe
         tv_confirm.setOnClickListener(this);
 
         String storeStr = userManager.getStoreStr();
-        if (!StringUtil.isNull(storeStr) && storeStr.contains("_")) {
-            storeItems = storeStr.split("_");
-            if (storeItems.length > 0) {
-                storeName = storeItems[0].toString();
-                tv_deal_store.setText(storeName);
+        if (!StringUtil.isNull(storeStr)) {
+            if (storeStr.contains("_")) {
+                storeItems = storeStr.split("_");
+                if (storeItems.length > 0) {
+                    storeName = storeItems[0].toString();
+                }
+            } else {
+                storeName = storeStr;
             }
+            tv_deal_store.setText(storeName);
         }
 
         et_customer_phone.addTextChangedListener(new TextWatcher() {
@@ -185,8 +191,28 @@ public class PostOrderActivity extends BaseActivity implements View.OnClickListe
         al_goods.clear();
 
         OCustomizeEntity ocEn = (OCustomizeEntity) FileManager.readFileSaveObject(AppConfig.orderDataFileName, 0);
-        if (ocEn != null && ocEn.getGoodsList() != null) {
-            al_goods.addAll(ocEn.getGoodsList());
+        if (ocEn != null) {
+            if (ocEn.getGoodsList() != null) {
+                al_goods.addAll(ocEn.getGoodsList());
+            }
+            if (!StringUtil.isNull(ocEn.getCustomerName())) {
+                nameStr = ocEn.getCustomerName();
+            }
+            if (!StringUtil.isNull(ocEn.getCustomerPhone())) {
+                phoneStr = ocEn.getCustomerPhone();
+            }
+            if (!StringUtil.isNull(ocEn.getBuildName())) {
+                buildName = ocEn.getBuildName();
+            }
+            if (!StringUtil.isNull(ocEn.getDealStore())) {
+                storeName = ocEn.getDealStore();
+            }
+            if (!StringUtil.isNull(ocEn.getHopeTime())) {
+                hopeDate = ocEn.getHopeTime();
+            }
+            if (!StringUtil.isNull(ocEn.getOrderRemarks())) {
+                orderRemarks = ocEn.getOrderRemarks();
+            }
         }
 
         updateOrderData();
@@ -194,7 +220,7 @@ public class PostOrderActivity extends BaseActivity implements View.OnClickListe
 
     private void initListView() {
         if (lv_adapter == null) {
-            lv_adapter = new GoodsOrderEditAdapter(mContext);
+            lv_adapter = new GoodsOrderEditAdapter(mContext, isHideCostPrice);
             lv_adapter.addCallback(new AdapterCallback() {
                 @Override
                 public void setOnClick(Object data, int position, int type) {
@@ -224,14 +250,42 @@ public class PostOrderActivity extends BaseActivity implements View.OnClickListe
     private void updateOrderData() {
         initListView();
         updateOrderPrice();
+        updateOrderOther();
     }
 
     private void updateOrderPrice() {
-        priceTotal = 0;
+        double salePriceTotal = 0;
+        costPriceTotal = 0;
         for (GoodsEntity goodsEn : al_goods) {
-            priceTotal += goodsEn.getOnePrice() * goodsEn.getNumber();
+            costPriceTotal += goodsEn.getCostPrice() * goodsEn.getNumber();
+            salePriceTotal += goodsEn.getSalePrice() * goodsEn.getNumber();
         }
-        tv_price_total.setText(df.format(priceTotal));
+        if (isHideCostPrice) {
+            tv_price_total.setText(df.format(salePriceTotal));
+        } else {
+            tv_price_total.setText(df.format(costPriceTotal));
+        }
+    }
+
+    private void updateOrderOther() {
+        if (!StringUtil.isNull(nameStr)) {
+            et_customer_name.setText(nameStr);
+        }
+        if (!StringUtil.isNull(phoneStr)) {
+            et_customer_phone.setText(phoneStr);
+        }
+        if (!StringUtil.isNull(buildName)) {
+            et_build_name.setText(buildName);
+        }
+        if (!StringUtil.isNull(storeName)) {
+            tv_deal_store.setText(storeName);
+        }
+        if (!StringUtil.isNull(hopeDate)) {
+            tv_hope_date.setText(hopeDate);
+        }
+        if (!StringUtil.isNull(orderRemarks)) {
+            et_remarks.setText(orderRemarks);
+        }
     }
 
     private void deleteOrderData() {
@@ -263,7 +317,7 @@ public class PostOrderActivity extends BaseActivity implements View.OnClickListe
             case R.id.post_order_et_deal_store:
                 if (storeItems != null && storeItems.length > 0) {
                     selectStore();
-                } else {
+                } else if (StringUtil.isNull(storeName)) {
                     loadStoreData();
                 }
                 break;
@@ -272,7 +326,7 @@ public class PostOrderActivity extends BaseActivity implements View.OnClickListe
                 break;
             case R.id.post_order_tv_confirm:
                 if (checkData()) {
-                    checkPhotoUrl();
+                    checkUploadUrl();
                 }
                 break;
         }
@@ -323,6 +377,9 @@ public class PostOrderActivity extends BaseActivity implements View.OnClickListe
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
                 // 修改本地生日
+                // 158 9977 1986
+                // 198 7918 1983
+                // 131 2898 8869
                 String yearStr = year + "-";
                 String monthStr;
                 if (monthOfYear < 9) {
@@ -423,16 +480,21 @@ public class PostOrderActivity extends BaseActivity implements View.OnClickListe
         showConfirmDialog(getString(R.string.order_abandon), getString(R.string.delete_think),getString(R.string.leave_confirm), new MyHandler(this), 1004);
     }
 
-    private void checkPhotoUrl() {
-        if (isUpload()) {
+    private void checkUploadUrl() {
+        if (isPhoto && isUploadPhoto()) { //检查需要上传的图片
             String photoUrl = al_goods.get(goodsPos).getImageList().get(imagePos);
-            uploadPhoto(photoUrl);
-        } else {
+            uploadFiles(photoUrl);
+        } else if (isUploadFiles()) { //检查需要上传的文件
+            isPhoto = false;
+            String filesUrl = al_goods.get(goodsPos).getFilesList().get(filesPos).getFileUrl();
+            uploadFiles(filesUrl);
+        } else { //提交订单数据
+            isPhoto = true;
             postOrderData();
         }
     }
 
-    private boolean isUpload() {
+    private boolean isUploadPhoto() {
         GoodsEntity goodsEn;
         String photoUrl;
         for (int i = 0; i < al_goods.size(); i++) {
@@ -451,13 +513,36 @@ public class PostOrderActivity extends BaseActivity implements View.OnClickListe
         return false;
     }
 
+    private boolean isUploadFiles() {
+        GoodsEntity goodsEn;
+        String filesUrl;
+        for (int i = 0; i < al_goods.size(); i++) {
+            goodsPos = i;
+            goodsEn = al_goods.get(goodsPos);
+            if (goodsEn != null && goodsEn.getFilesList() != null) {
+                for (int j = 0; j < goodsEn.getFilesList().size(); j++) {
+                    filesPos = j;
+                    filesUrl = goodsEn.getFilesList().get(filesPos).getFileUrl();
+                    if (!StringUtil.isNull(filesUrl) && !filesUrl.contains("http://")) {
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
+
     /**
-     * 上传照片
+     * 上传照片、文件
      */
-    private void uploadPhoto(String photoUrl) {
-        if (!StringUtil.isNull(photoUrl)) {
+    private void uploadFiles(String fileUrl) {
+        if (!StringUtil.isNull(fileUrl)) {
             startAnimation();
-            uploadPushFile(new File(photoUrl), 2, AppConfig.REQUEST_SV_UPLOAD_PHOTO);
+            int fileType = 2;
+            if (!isPhoto) {
+                fileType = 3;
+            }
+            uploadPushFile(new File(fileUrl), fileType, AppConfig.REQUEST_SV_UPLOAD_PHOTO);
         }
     }
 
@@ -481,7 +566,8 @@ public class PostOrderActivity extends BaseActivity implements View.OnClickListe
     private void postOrderData() {
         try {
             JSONObject jsonObj = new JSONObject();
-            jsonObj.put("customPrice", priceTotal);
+            jsonObj.put("coefficient", ratios);
+            jsonObj.put("customPrice", costPriceTotal);
             jsonObj.put("clientName", nameStr);
             jsonObj.put("clientPhone", phoneStr);
             jsonObj.put("propertyName", buildName);
@@ -490,6 +576,9 @@ public class PostOrderActivity extends BaseActivity implements View.OnClickListe
             jsonObj.put("remark", orderRemarks);
 
             JSONArray jsonArr = new JSONArray();
+            JSONArray imageArr, filesArr;
+            String imageUrl;
+            FileEntity fileEn;
             for (int i = 0; i < al_goods.size(); i++) {
                 GoodsEntity goodsEn = al_goods.get(i);
                 if (goodsEn != null) {
@@ -498,9 +587,33 @@ public class PostOrderActivity extends BaseActivity implements View.OnClickListe
                     goodsJson.put("isIsPicture", goodsEn.isPicture());
                     goodsJson.put("vcrUrl", goodsEn.getEffectUrl());
                     goodsJson.put("buyNum", goodsEn.getNumber());
-                    goodsJson.put("buyPrice", goodsEn.getOnePrice());
+                    goodsJson.put("buyPrice", goodsEn.getCostPrice());
+                    goodsJson.put("productSellingPrice", goodsEn.getSalePrice());
                     goodsJson.put("remark", goodsEn.getRemarks());
-                    goodsJson.put("pics", new JSONArray(goodsEn.getImageList()));
+                    // 封装图片JSON参数
+                    imageArr = new JSONArray();
+                    for (int j = 0; j < goodsEn.getImageList().size(); j++) {
+                        JSONObject imageJson = new JSONObject();
+                        imageUrl = goodsEn.getImageList().get(j);
+                        imageJson.put("content", imageUrl);
+                        if (imageUrl.contains("/")) {
+                            String[] names = imageUrl.split("/");
+                            imageJson.put("fileName", names[names.length-1]);
+                        }
+                        imageArr.put(j, imageJson);
+                    }
+                    goodsJson.put("picsBack", imageArr);
+                    // 封装文件JSON参数
+                    filesArr = new JSONArray();
+                    for (int j = 0; j < goodsEn.getFilesList().size(); j++) {
+                        JSONObject filesJson = new JSONObject();
+                        fileEn = goodsEn.getFilesList().get(j);
+                        filesJson.put("content", fileEn.getFileUrl());
+                        filesJson.put("fileName", fileEn.getFileName());
+                        filesArr.put(j, filesJson);
+                    }
+                    goodsJson.put("filesBack", filesArr);
+
                     jsonArr.put(i, goodsJson);
                 }
             }
@@ -514,27 +627,42 @@ public class PostOrderActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     protected void callbackData(JSONObject jsonObject, int dataType) {
-        BaseEntity baseEn;
+        BaseEntity<FileEntity> baseEn;
         try {
             switch (dataType) {
                 case AppConfig.REQUEST_SV_UPLOAD_PHOTO:
                     baseEn = JsonUtils.getUploadResult(jsonObject);
                     if (baseEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
                         if (goodsPos >= 0 && goodsPos < al_goods.size()) {
-                            ArrayList<String> imgList = al_goods.get(goodsPos).getImageList();
-                            if (imgList != null) {
-                                ArrayList<String> newList = new ArrayList<>();
-                                for (int i = 0; i < imgList.size(); i++) {
-                                    if (imagePos == i) {
-                                        newList.add(baseEn.getOthers());
-                                    } else {
-                                        newList.add(imgList.get(i));
+                            if (isPhoto) {
+                                ArrayList<String> imgList = al_goods.get(goodsPos).getImageList();
+                                if (imgList != null) {
+                                    ArrayList<String> newList = new ArrayList<>();
+                                    for (int i = 0; i < imgList.size(); i++) {
+                                        if (imagePos == i) {
+                                            newList.add(baseEn.getData().getFileUrl());
+                                        } else {
+                                            newList.add(imgList.get(i));
+                                        }
                                     }
+                                    al_goods.get(goodsPos).setImageList(newList);
                                 }
-                                al_goods.get(goodsPos).setImageList(newList);
+                            } else {
+                                ArrayList<FileEntity> fileList = al_goods.get(goodsPos).getFilesList();
+                                if (fileList != null) {
+                                    ArrayList<FileEntity> newList = new ArrayList<>();
+                                    for (int i = 0; i < fileList.size(); i++) {
+                                        if (filesPos == i) {
+                                            newList.add(baseEn.getData());
+                                        } else {
+                                            newList.add(fileList.get(i));
+                                        }
+                                    }
+                                    al_goods.get(goodsPos).setFilesList(newList);
+                                }
                             }
                         }
-                        checkPhotoUrl();
+                        checkUploadUrl();
                     } else {
                         handleErrorCode(baseEn);
                     }
@@ -544,9 +672,16 @@ public class PostOrderActivity extends BaseActivity implements View.OnClickListe
                     if (userEn.getErrNo() == AppConfig.ERROR_CODE_SUCCESS) {
                         userManager.saveUserInfo(userEn.getData());
                         String storeStr = userManager.getStoreStr();
-                        if (!StringUtil.isNull(storeStr) && storeStr.contains("_")) {
-                            storeItems = storeStr.split("_");
-                            selectStore();
+                        if (!StringUtil.isNull(storeStr)) {
+                            if (storeStr.contains("_")) {
+                                storeItems = storeStr.split("_");
+                                selectStore();
+                            } else {
+                                storeName = storeStr;
+                                if (tv_deal_store != null) {
+                                    tv_deal_store.setText(storeName);
+                                }
+                            }
                         } else {
                             CommonTools.showToast(getString(R.string.order_deal_store_null));
                         }

@@ -7,8 +7,6 @@ import android.content.SharedPreferences.Editor;
 import com.songbao.sampo_b.AppApplication;
 import com.songbao.sampo_b.AppConfig;
 import com.songbao.sampo_b.entity.UserInfoEntity;
-import com.songbao.sampo_b.entity.WXEntity;
-import com.songbao.sampo_b.widgets.share.weibo.AccessTokenKeeper;
 
 
 public class UserManager {
@@ -207,8 +205,41 @@ public class UserManager {
 	}
 
 	public void saveUserMoney(String userMoney){
-		editor.putString(AppConfig.KEY_USER_MONEY, userMoney).commit();
+		editor.putString(AppConfig.KEY_USER_MONEY, userMoney).apply();
 		mUserMoney = userMoney;
+	}
+
+	public int getUserRoleIds(){
+		return sp.getInt(AppConfig.KEY_USER_ROLES, 0);
+	}
+
+	public void saveUserRoleIds(int roleIds){
+		editor.putInt(AppConfig.KEY_USER_ROLES, roleIds).apply();
+	}
+
+	public double getUserRatios(){
+		double ratio = 1;
+		long saveRatio = sp.getLong(AppConfig.KEY_USER_RATIO, 1);
+		if (saveRatio <= 0) {
+			ratio = 1;
+		} else if (saveRatio >= 10) {
+			ratio = (double) saveRatio / 100;
+		} else {
+			ratio = (double) saveRatio;
+		}
+		return ratio;
+	}
+
+	public void saveUserRatios(long ratio){
+		editor.putLong(AppConfig.KEY_USER_RATIO, ratio).apply();
+	}
+
+	public boolean isUserAgree(){
+		return sp.getBoolean(AppConfig.KEY_USER_AGREE, false);
+	}
+
+	public void setUserAgree(boolean isAgree){
+		editor.putBoolean(AppConfig.KEY_USER_AGREE, isAgree).apply();
 	}
 
 	public String getStoreStr(){
@@ -216,7 +247,7 @@ public class UserManager {
 	}
 
 	public void saveStoreStr(String storeStr){
-		editor.putString(AppConfig.KEY_STORE_DATA, storeStr).commit();
+		editor.putString(AppConfig.KEY_STORE_DATA, storeStr).apply();
 	}
 
 	public String getPostPhotoUrl(){
@@ -224,7 +255,7 @@ public class UserManager {
 	}
 
 	public void savePostPhotoUrl(String photoUrl){
-		editor.putString(AppConfig.KEY_POST_PHOTO_URL, photoUrl).commit();
+		editor.putString(AppConfig.KEY_POST_PHOTO_URL, photoUrl).apply();
 	}
 
 	public int getUserMsgNum(){
@@ -232,7 +263,7 @@ public class UserManager {
 	}
 
 	public void saveUserMsgNum(int num){
-		editor.putInt(AppConfig.KEY_USER_MSG_NUM, num).commit();
+		editor.putInt(AppConfig.KEY_USER_MSG_NUM, num).apply();
 	}
 
 	public String getXAppToken(){
@@ -257,54 +288,6 @@ public class UserManager {
 	public void saveDeviceToken(String devToken){
 		editor.putString(AppConfig.KEY_DEVICE_TOKEN, devToken).apply();
 		deviceToken = devToken;
-	}
-
-	public String getWXAccessToken(){
-		if(StringUtil.isNull(wxAccessToken)){
-			wxAccessToken = sp.getString(AppConfig.KEY_WX_ACCESS_TOKEN, "");
-		}
-		return wxAccessToken;
-	}
-
-	public void saveWXAccessToken(String access_token){
-		editor.putString(AppConfig.KEY_WX_ACCESS_TOKEN, access_token).apply();
-		wxAccessToken = access_token;
-	}
-
-	public String getWXOpenId(){
-		if(StringUtil.isNull(wxOpenId)){
-			wxOpenId = sp.getString(AppConfig.KEY_WX_OPEN_ID, "");
-		}
-		return wxOpenId;
-	}
-
-	public void saveWXOpenId(String openId){
-		editor.putString(AppConfig.KEY_WX_OPEN_ID, openId).apply();
-		wxOpenId = openId;
-	}
-
-	public String getWXUnionId(){
-		if(StringUtil.isNull(wxUnionId)){
-			wxUnionId = sp.getString(AppConfig.KEY_WX_UNION_ID, "");
-		}
-		return wxUnionId;
-	}
-
-	public void saveWXUnionId(String unionId){
-		editor.putString(AppConfig.KEY_WX_UNION_ID, unionId).apply();
-		wxUnionId = unionId;
-	}
-
-	public String getWXRefreshToken(){
-		if(StringUtil.isNull(wxRefreshToken)){
-			wxRefreshToken = sp.getString(AppConfig.KEY_WX_REFRESH_TOKEN, "");
-		}
-		return wxRefreshToken;
-	}
-
-	public void saveWXRefreshToken(String refreshToken){
-		editor.putString(AppConfig.KEY_WX_REFRESH_TOKEN, refreshToken).apply();
-		wxRefreshToken = refreshToken;
 	}
 
 	/**
@@ -339,6 +322,7 @@ public class UserManager {
 	 */
 	private void updateAllDataStatus() {
 		AppApplication.updateUserData(true);
+		AppApplication.updateMineData(true);
 	}
 
 	/**
@@ -347,10 +331,6 @@ public class UserManager {
 	public void clearUserLoginInfo(Context ctx){
 		// 解绑推送服务的用户信息
 		AppApplication.onPushRegister(false);
-		// 清空微信授权信息
-		clearWechatUserInfo();
-		// 清空微博授权信息
-		AccessTokenKeeper.clear(ctx);
 		// 清空缓存的用户信息
 		clearUserLoginInfo();
 		// 刷新所有状态数据
@@ -376,6 +356,9 @@ public class UserManager {
 		saveUserBirthday("");
 		saveUserArea("");
 		saveUserMoney("0.00");
+		saveUserMsgNum(0);
+		saveUserRoleIds(0);
+		saveUserRatios(100);
 		// 清除用户缓存头像
 		CleanDataManager.cleanCustomCache(AppConfig.PATH_USER_HEAD);
 		// 清除用户缓存数据
@@ -397,6 +380,7 @@ public class UserManager {
 			saveUserGender(infoEn.getGenderCode());
 			saveUserBirthday(infoEn.getBirthday());
 			saveUserArea(infoEn.getUserArea());
+			saveUserRoleIds(infoEn.getRoleIds());
 			saveStoreStr(infoEn.getStoreStr());
 
 			if (StringUtil.isNull(infoEn.getMoney())) {
@@ -405,28 +389,6 @@ public class UserManager {
 				saveUserMoney(infoEn.getMoney());
 			}
 		}
-	}
-
-	/**
-	 * 保存微信授权信息
-	 */
-	public void saveWechatUserInfo(WXEntity wxEn) {
-		if (wxEn != null) {
-			saveWXAccessToken(wxEn.getAccess_token());
-			saveWXOpenId(wxEn.getOpenid());
-			saveWXUnionId(wxEn.getUnionid());
-			saveWXRefreshToken(wxEn.getRefresh_token());
-		}
-	}
-
-	/**
-	 * 清除微信授权信息
-	 */
-	private void clearWechatUserInfo() {
-		saveWXAccessToken("");
-		saveWXOpenId("");
-		saveWXUnionId("");
-		saveWXRefreshToken("");
 	}
 
 }

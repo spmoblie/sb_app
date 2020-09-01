@@ -1,6 +1,7 @@
 package com.songbao.sampo_b.activity;
 
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
@@ -20,11 +21,11 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.content.res.ResourcesCompat;
 import android.support.v4.util.ArrayMap;
 import android.text.InputType;
+import android.text.SpannableString;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -47,6 +48,9 @@ import com.songbao.sampo_b.activity.common.photo.ClipImageSquareActivity;
 import com.songbao.sampo_b.activity.common.photo.PhotoAlbumActivity;
 import com.songbao.sampo_b.activity.common.photo.PhotoOneActivity;
 import com.songbao.sampo_b.activity.login.LoginAccountActivity;
+import com.songbao.sampo_b.activity.mine.CustomizeGoodsActivity;
+import com.songbao.sampo_b.activity.mine.CustomizeListActivity;
+import com.songbao.sampo_b.activity.mine.CustomizeOrderActivity;
 import com.songbao.sampo_b.activity.two.GoodsActivity;
 import com.songbao.sampo_b.activity.two.GoodsEditActivity;
 import com.songbao.sampo_b.activity.two.GoodsSortActivity;
@@ -63,7 +67,6 @@ import com.songbao.sampo_b.utils.MyCountDownTimer;
 import com.songbao.sampo_b.utils.StringUtil;
 import com.songbao.sampo_b.utils.UserManager;
 import com.songbao.sampo_b.utils.retrofit.HttpRequests;
-import com.songbao.sampo_b.widgets.share.ShareView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -95,8 +98,9 @@ public class BaseActivity extends FragmentActivity {
     protected DialogManager myDialog;
     protected UserManager userManager;
     protected DecimalFormat df;
-    protected Boolean isInitShare = false;
-    protected Boolean isTimeFinish = true;
+    protected boolean isTimeFinish = true;
+    protected boolean isHideCostPrice = false;
+    protected double ratios;
     protected int screenWidth, screenHeight, statusHeight, dialogWidth;
 
     private ConstraintLayout top_main;
@@ -106,7 +110,6 @@ public class BaseActivity extends FragmentActivity {
     private ViewFlipper mLayoutBase;
     private MyCountDownTimer myTimer;
 
-    private ShareView mShareView;
     private Animation inAnim, outAnim;
 
     @Override
@@ -127,22 +130,14 @@ public class BaseActivity extends FragmentActivity {
         statusHeight = AppApplication.status_height;
         dialogWidth = screenWidth * 2 / 3;
         df = new DecimalFormat("0.00");
+        ratios = userManager.getUserRatios(); //经销商销售系数
+        isHideCostPrice = userManager.getUserRoleIds() == 7; //门店设计师角色登录
 
         // 推送服务统计应用启动数据
         AppApplication.onPushAppStartData();
 
         findViewById();
         initView();
-
-        if (isInitShare) {
-            try { //初始化ShareView
-                View view = getLayoutInflater().inflate(R.layout.popup_view_share, (ViewGroup) findViewById(R.id.base_fl_main));
-                mShareView = new ShareView(mContext, this, view, null);
-                mShareView.showShareLayer(false);
-            } catch (Exception e) {
-                ExceptionUtil.handle(e);
-            }
-        }
     }
 
     private void findViewById() {
@@ -225,32 +220,6 @@ public class BaseActivity extends FragmentActivity {
         overridePendingTransition(R.anim.anim_no_anim, R.anim.out_to_right);
     }
 
-    @Override
-    public void onBackPressed() {
-        if (mShareView != null && mShareView.isShowing()) {
-            mShareView.showShareLayer(false);
-        } else {
-            super.onBackPressed();
-        }
-        super.onBackPressed();
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (mShareView != null) {
-            mShareView.onActivityResult(requestCode, resultCode, data);
-        }
-        super.onActivityResult(requestCode, resultCode, data);
-    }
-
-    @Override
-    protected void onNewIntent(Intent intent) {
-        if (mShareView != null) {
-            mShareView.onNewIntent(intent);
-        }
-        super.onNewIntent(intent);
-    }
-
     /**
      * 设置头部是否可见
      */
@@ -305,11 +274,7 @@ public class BaseActivity extends FragmentActivity {
      * 左键键监听执行方法，让子类重写该方法
      */
     protected void OnListenerLeft() {
-        if (mShareView != null && mShareView.isShowing()) {
-            mShareView.showShareLayer(false);
-        } else {
-            finish();
-        }
+        finish();
     }
 
     /**
@@ -407,12 +372,27 @@ public class BaseActivity extends FragmentActivity {
     }
 
     /**
-     * 关闭订制相关Activity
+     * 关闭订制产品相关Activity
      */
     protected void closeCustomizeActivity() {
-        AppManager.getInstance().finishActivity(GoodsActivity.class);
-        AppManager.getInstance().finishActivity(GoodsSortActivity.class);
+        // 关闭效果图展示页面
         AppManager.getInstance().finishActivity(SketchActivity.class);
+        // 关闭产品详情页面
+        AppManager.getInstance().finishActivity(GoodsActivity.class);
+        // 关闭产品分类页面
+        AppManager.getInstance().finishActivity(GoodsSortActivity.class);
+    }
+
+    /**
+     * 关闭查看订单相关Activity
+     */
+    protected void closeOrderActivity() {
+        // 关闭订单产品页面
+        AppManager.getInstance().finishActivity(CustomizeGoodsActivity.class);
+        // 关闭订单详情页面
+        AppManager.getInstance().finishActivity(CustomizeOrderActivity.class);
+        // 关闭订单列表页面
+        AppManager.getInstance().finishActivity(CustomizeListActivity.class);
     }
 
     /**
@@ -481,6 +461,23 @@ public class BaseActivity extends FragmentActivity {
         intent.putExtra(ViewPagerActivity.EXTRA_IMAGE_URLS, urlLists);
         intent.putExtra(ViewPagerActivity.EXTRA_IMAGE_INDEX, position);
         startActivity(intent);
+    }
+
+    /**
+     * 打开系统文件管理器
+     */
+    protected void openSystemFile(){
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("*/*");
+        intent.addCategory(Intent.CATEGORY_DEFAULT);
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE,true);//打开多个文件
+        try{
+            startActivityForResult(Intent.createChooser(intent,"请选择文件"),1);
+        }catch (ActivityNotFoundException e){
+            ExceptionUtil.handle(e);
+            CommonTools.showToast("请安装文件管理器");
+        }
     }
 
     /**
@@ -709,6 +706,18 @@ public class BaseActivity extends FragmentActivity {
     }
 
     /**
+     * 弹出用户同意对话框
+     */
+    protected void showUserAgreeDialog(String title, SpannableString spannableStr, String leftBtnStr, String rightBtnStr, Handler handler, int handlerCode) {
+        leftBtnStr = (leftBtnStr == null) ? getString(R.string.cancel) : leftBtnStr;
+        rightBtnStr = (rightBtnStr == null) ? getString(R.string.confirm) : rightBtnStr;
+        if (myDialog == null) {
+            myDialog = DialogManager.getInstance(mContext);
+        }
+        myDialog.showUserAgreeDialog(title, spannableStr, leftBtnStr, rightBtnStr, dialogWidth, handler, handlerCode);
+    }
+
+    /**
      * 可输入的对话框
      */
     protected void showEditDialog(String title, int inputType, Handler handler) {
@@ -742,28 +751,6 @@ public class BaseActivity extends FragmentActivity {
             myDialog = DialogManager.getInstance(mContext);
         }
         myDialog.showListItemDialog(content, items, width, isCenter, handler);
-    }
-
-    /**
-     * 显示分享View
-     */
-    protected void showShareView(ShareEntity shareEn) {
-        if (mShareView != null && shareEn != null) {
-            if (mShareView.getShareEntity() == null) {
-                mShareView.setShareEntity(shareEn);
-            }
-            if (mShareView.isShowing()) {
-                mShareView.showShareLayer(false);
-            } else {
-                /*if (!UserManager.getInstance().checkIsLogin()) {
-                    openLoginActivity();
-					return;
-				}*/
-                mShareView.showShareLayer(true);
-            }
-        } else {
-            showShareError();
-        }
     }
 
     /**

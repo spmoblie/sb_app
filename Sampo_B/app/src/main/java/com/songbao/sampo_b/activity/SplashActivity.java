@@ -1,8 +1,14 @@
 package com.songbao.sampo_b.activity;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.SpannableString;
+import android.text.Spanned;
+import android.text.style.ClickableSpan;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.UnderlineSpan;
 import android.view.View;
 
 import com.songbao.sampo_b.AppApplication;
@@ -28,6 +34,9 @@ public class SplashActivity extends BaseActivity {
         // 隐藏父类组件
         setHeadVisibility(View.GONE);
 
+        // 默认进入首页
+        AppApplication.jumpToHomePage(1);
+
         // 初始化推送服务状态(开启或关闭)
         //AppApplication.onPushDefaultStatus();
     }
@@ -39,15 +48,59 @@ public class SplashActivity extends BaseActivity {
         AppApplication.onPageStart(this, TAG);
         // 检查授权
         if (checkPermission()) {
-            // 检测SD存储卡
-            if (AppApplication.getAppContext().getExternalFilesDir(null) != null) {
-                goHomeActivity();
-            } else {
-                showErrorDialog(getString(R.string.dialog_error_card_null), false, new MyHandler(this));
-            }
+            checkPermissionPass();
         }
 
         super.onResume();
+    }
+
+    private void checkPermissionPass() {
+        // 检测SD存储卡
+        if (AppApplication.getAppContext().getExternalFilesDir(null) != null) {
+            if (userManager.isUserAgree()) {
+                goHomeActivity();
+            } else {
+                showUserAgreeDialog("用户协议与隐私政策", getClickableSpan(), "拒绝", "同意", new MyHandler(this), 6969);
+            }
+        } else {
+            showErrorDialog(getString(R.string.dialog_error_card_null), false, new MyHandler(this));
+        }
+    }
+
+    /**
+     * 获取可点击的SpannableString
+     * @return
+     */
+    private SpannableString getClickableSpan() {
+        SpannableString spannableString = new SpannableString("请您务必审慎阅读《用户协议》和《隐私政策》了解详细信息，如您同意，请点击“同意”开始接受我们的服务。");
+
+        //设置下划线文字
+        spannableString.setSpan(new UnderlineSpan(), 8, 14, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        //设置文字的单击事件
+        spannableString.setSpan(new ClickableSpan() {
+
+            @Override
+            public void onClick(View widget) {
+                openWebViewActivity(getString(R.string.setting_user_agreement), AppConfig.USER_AGREEMENT);
+            }
+        }, 8, 14, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        //设置文字的前景色
+        spannableString.setSpan(new ForegroundColorSpan(Color.BLUE), 8, 14, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        //设置下划线文字
+        spannableString.setSpan(new UnderlineSpan(), 15, 21, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        //设置文字的单击事件
+        spannableString.setSpan(new ClickableSpan() {
+
+            @Override
+            public void onClick(View widget) {
+                openWebViewActivity(getString(R.string.setting_privacy_policy), AppConfig.PRIVACY_POLICY);
+            }
+        }, 15, 21, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        //设置文字的前景色
+        spannableString.setSpan(new ForegroundColorSpan(Color.BLUE), 15, 21, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+        return spannableString;
     }
 
     /**
@@ -59,6 +112,7 @@ public class SplashActivity extends BaseActivity {
             @Override
             public void run() {
                 AppApplication.status_height = DeviceUtil.getStatusBarHeight(SplashActivity.this);
+                userManager.setUserAgree(true);
 
                 openActivity(MainActivity.class);
                 finish();
@@ -85,8 +139,8 @@ public class SplashActivity extends BaseActivity {
     @Override
     protected void permissionsResultCallback(boolean result) {
         if (result) {
-            // 延迟跳转页面
-            goHomeActivity();
+            // 已授权
+            checkPermissionPass();
         } else {
             finish();
         }
@@ -105,6 +159,10 @@ public class SplashActivity extends BaseActivity {
             SplashActivity theActivity = mActivity.get();
             if (theActivity != null) {
                 switch (msg.what) {
+                    case 6969:
+                        theActivity.goHomeActivity();
+                        break;
+                    case AppConfig.DIALOG_CLICK_NO:
                     case AppConfig.DIALOG_CLICK_OK:
                         theActivity.finish();
                         break;

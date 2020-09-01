@@ -2,7 +2,7 @@
 <resources>
 
     <!-- testing version -->
-    <string name="app_name">松小堡-门店</string>
+    <string name="app_name">松小堡门店版</string>
 
     <!-- General -->
     <string name="confirm">确定</string>
@@ -147,6 +147,7 @@
     <string name="mine_setting">设置中心</string>
     <string name="mine_message">消息中心</string>
     <string name="mine_message_history">以下为历史消息</string>
+    <string name="mine_message_delete">确认删除此消息？</string>
     <string name="mine_sign_num">%1$d人已报名</string>
     <string name="mine_info">我的资料</string>
     <string name="mine_head">头像</string>
@@ -172,20 +173,6 @@
     <string name="designer_subscribe_ok">下单成功</string>
     <string name="designer_subscribe_tips">确认选择%1$s么?</string>
 
-    <!-- comment -->
-    <string name="comment_mine">我的评价</string>
-    <string name="comment_want">我要评价</string>
-    <string name="comment_add">追加评价</string>
-    <string name="comment_add_hint">追加一下你的使用体验吧~</string>
-    <string name="comment_add_day">"购买%1$d天后追加评论"</string>
-    <string name="comment_all">全部</string>
-    <string name="comment_new">最新</string>
-    <string name="comment_img">有图</string>
-    <string name="comment_star">整体评价</string>
-    <string name="comment_ok">评论已发布</string>
-    <string name="comment_content_null">评价内容不能为空</string>
-    <string name="comment_content_hint">说说它的优点和美中不足的地方吧~</string>
-
     <!-- Goods -->
     <string name="goods_num">x%1$d</string>
     <string name="goods_price_min">最低价格</string>
@@ -194,6 +181,7 @@
     <string name="goods_effect_img">产品图片</string>
     <string name="goods_effect_img_hint">请上传产品图片</string>
     <string name="goods_effect_file">产品文件</string>
+    <string name="goods_effect_file_add">上传文件</string>
     <string name="goods_effect_link">产品链接</string>
     <string name="goods_effect_link_null">无图</string>
     <string name="goods_effect_link_hint">请粘贴链接地址</string>
@@ -205,7 +193,8 @@
     <string name="goods_number_hint">请输入产品数量</string>
     <string name="goods_number_show">产品数量：%1$d</string>
     <string name="goods_price">产品单价</string>
-    <string name="goods_price_hint">请输入产品单价</string>
+    <string name="goods_price_cost_hint">请输入成本单价</string>
+    <string name="goods_price_sale_hint">请输入销售单价</string>
     <string name="goods_price_show">产品单价：</string>
     <string name="goods_remarks">产品备注</string>
     <string name="goods_remarks_hint">请输入产品备注</string>
@@ -277,6 +266,7 @@
     <string name="order_remarks">订单备注</string>
     <string name="order_remarks_hint">请输入订单备注</string>
     <string name="order_abandon">确定要放弃这个订单？</string>
+    <string name="order_re_order">重新下单</string>
     <string name="order_post">提交订单</string>
     <string name="order_post_ok">提交订单成功</string>
     <string name="order_goods_num">x%1$d</string>
@@ -314,6 +304,7 @@
     <string name="setting_question">联系客服</string>
     <string name="setting_version">检查更新</string>
     <string name="setting_version_show">当前版本：V%1$s</string>
+    <string name="setting_user_agreement_reminder">隐私政策</string>
     <string name="setting_user_agreement">用户协议</string>
     <string name="setting_privacy_policy">隐私政策</string>
     <string name="setting_copyright">Copyright ©2019-%1$d 松堡王国版权所有</string>
@@ -392,31 +383,6 @@
     <string name="share_msg_copy_link_ok">链接已复制</string>
     <string name="share_msg_entity_error">分享参数出错，请重新加载页面。</string>
 
-    <!-- Pay -->
-    <string name="pay_title">在线支付</string>
-    <string name="pay_rmb">￥%1$s</string>
-    <string name="pay_ok">已支付</string>
-    <string name="pay_now">立即付款</string>
-    <string name="pay_line">在线支付</string>
-    <string name="pay_amount">支付金额</string>
-    <string name="pay_type">支付方式</string>
-    <string name="pay_confirm">确认支付</string>
-    <string name="pay_wx">微信支付</string>
-    <string name="pay_wx_hint">微信在线支付</string>
-    <string name="pay_zfb">支付宝</string>
-    <string name="pay_zfb_hint">支付宝便捷支付</string>
-    <string name="pay_union">银联支付</string>
-    <string name="pay_union_hint">银联安全支付</string>
-    <string name="pay_abandon">确定放弃支付么?</string>
-    <string name="pay_select_null">请选择一种支付方式</string>
-    <string name="pay_continue">继续支付</string>
-    <string name="pay_success">支付成功</string>
-    <string name="pay_fail">支付失败</string>
-    <string name="pay_cancel">支付取消</string>
-    <string name="pay_info_error">获取支付信息异常，\n联系客服确认信息。</string>
-    <string name="pay_result_ok">您已完成支付，\n请勿重复支付。</string>
-    <string name="pay_result_error">获取支付结果异常，\n联系客服确认结果。</string>
-
     <!-- Address -->
     <string name="address_title">收货地址</string>
     <string name="address_add">新增收货地址</string>
@@ -457,14 +423,6 @@
     <string name="filter">筛选</string>
     <string name="filter_stroke">划</string>
     <string name="filter_stroke_more">划以上</string>
-
-    <string-array name="array_gender">
-        <item >0岁-2岁</item>
-        <item >2岁-4岁</item>
-        <item >4岁-7岁</item>
-        <item >7岁-12岁</item>
-        <item >12岁-18岁</item>
-    </string-array>
 
     <string-array name="array_photo_choose">
         <item>@string/photo_shoot_upload</item>
