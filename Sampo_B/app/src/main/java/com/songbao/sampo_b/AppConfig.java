@@ -17,9 +17,9 @@ public class AppConfig {
 	// Base类型(base_1:发布Url、base_2:测试Url)
 	public final static String BASE_TYPE = "base_1";
 	// 发布Url
-	public final static String BASE_URL_1 = APP_HTTP + "xiaobao.sbwg.cn/";
+	public final static String BASE_URL_1 = APP_HTTPS + "xiaobao.sbwg.cn/";
 	// 测试Url
-	public final static String BASE_URL_2 = APP_HTTP + "test.sbwg.cn/";
+	public final static String BASE_URL_2 = APP_HTTPS + "test.sbwg.cn/";
 
 	// 校验版本
 	public final static String URL_AUTH_VERSION = "/app/index/version";
